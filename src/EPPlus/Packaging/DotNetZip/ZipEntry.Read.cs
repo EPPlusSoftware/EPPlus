@@ -124,7 +124,8 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                 ze._UncompressedSize = (uint)(block[i++] + block[i++] * 256 + block[i++] * 256 * 256 + block[i++] * 256 * 256 * 256);
 
                 if ((uint)ze._CompressedSize == 0xFFFFFFFF ||
-                    (uint)ze._UncompressedSize == 0xFFFFFFFF)
+                    (uint)ze._UncompressedSize == 0xFFFFFFFF ||
+                    ze.VersionNeeded==45)
 
                     ze._InputUsesZip64 = true;
             }
@@ -193,7 +194,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                     if (ze._container.ZipFile != null)
                         ze._container.ZipFile.OnReadBytes(ze);
 
-                    long d = Ionic.Zip.SharedUtilities.FindSignature(ze.ArchiveStream, ZipConstants.ZipEntryDataDescriptorSignature);
+                    long d = SharedUtilities.FindSignature(ze.ArchiveStream, ZipConstants.ZipEntryDataDescriptorSignature);
                     if (d == -1) return false;
 
                     // total size of data read (through all loops of this).

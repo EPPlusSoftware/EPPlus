@@ -310,41 +310,42 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         {
             long startingPosition = stream.Position;
 
-            int BATCH_SIZE = 65536; //  8192;
+            int BATCH_SIZE = 65536;
             byte[] targetBytes = new byte[4];
             targetBytes[0] = (byte)(SignatureToFind >> 24);
             targetBytes[1] = (byte)((SignatureToFind & 0x00FF0000) >> 16);
             targetBytes[2] = (byte)((SignatureToFind & 0x0000FF00) >> 8);
             targetBytes[3] = (byte)(SignatureToFind & 0x000000FF);
             byte[] batch = new byte[BATCH_SIZE];
-            int n = 0;
             bool success = false;
             do
             {
-                n = stream.Read(batch, 0, batch.Length);
+                int n = stream.Read(batch, 0, batch.Length);
                 if (n != 0)
                 {
                     for (int i = 0; i < n; i++)
                     {
                         if (batch[i] == targetBytes[3])
                         {
-                            long curPosition = stream.Position;
-                            stream.Seek(i - n, System.IO.SeekOrigin.Current);
-                            // workitem 10178
-                            Workaround_Ladybug318918(stream);
-
-                            // workitem 7711
-                            int sig = ReadSignature(stream);
-
-                            success = (sig == SignatureToFind);
-                            if (!success)
+                            if (i >= BATCH_SIZE - 4)
                             {
-                                stream.Seek(curPosition, System.IO.SeekOrigin.Begin);
+                                stream.Seek(stream.Position - 4, System.IO.SeekOrigin.Begin);
                                 // workitem 10178
                                 Workaround_Ladybug318918(stream);
+                                break;
+                            }
+                            else if (batch[i + 1] == targetBytes[2] && batch[i + 2] == targetBytes[1] && batch[i + 3] == targetBytes[0])
+                            {
+                                stream.Seek(i - n + 4, System.IO.SeekOrigin.Current);
+                                Workaround_Ladybug318918(stream);
+                                success = true;
+                                break;
                             }
                             else
-                                break; // out of for loop
+                            {
+                                continue;
+                            }
+
                         }
                     }
                 }

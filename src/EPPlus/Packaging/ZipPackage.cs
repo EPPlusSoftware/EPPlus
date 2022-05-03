@@ -84,6 +84,7 @@ namespace OfficeOpenXml.Packaging
                                 AddContentTypes(Encoding.UTF8.GetString(b));
                                 hasContentTypeXml = true;
                             }
+
                             else if (e.FileName.Equals($"_rels{_dirSeparator}.rels", StringComparison.OrdinalIgnoreCase))
                             {
                                 ReadRelation(Encoding.UTF8.GetString(b), "");
