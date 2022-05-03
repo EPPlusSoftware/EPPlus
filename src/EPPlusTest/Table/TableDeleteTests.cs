@@ -302,54 +302,6 @@ namespace EPPlusTest.Table
         {
             var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
-            for(var x = 1; x < 6; x++)
-            {
-                sheet.Cells[2, x].Value = $"Column{x}";
-            }
-            sheet.Cells["A3"].Value = 1;
-            sheet.Cells["A4"].Value = 2;
-            var table = sheet.Tables.Add(sheet.Cells["A2:E4"], tableName);
-            table.ShowHeader = showHeader;
-            return package;
-        }
-
-        [TestMethod]
-        public void RemoveRowFromTableWithHiddenHeader_Should_Succeed()
-        {
-            using (var xlsx = CreateTablePackage(false, "Sheet1", "myTable"))
-            {
-                var ws = xlsx.Workbook.Worksheets["Sheet1"];
-                var table = ws.Tables["myTable"];
-                Assert.AreEqual(3, table.Range.Rows);
-                Assert.AreEqual(2, ws.Cells["A4"].Value);
-                table.DeleteRow(1, 1);
-                Assert.IsNull(ws.Cells["A4"].Value);
-                Assert.AreEqual(2, table.Range.Rows);
-            }
-        }
-
-        [TestMethod]
-        public void RemoveRowFromTableWithVisibleHeader_Should_Succeed()
-        {
-            using(var xlsx = CreateTablePackage(true, "Sheet1", "myTable"))
-            {
-                var ws = xlsx.Workbook.Worksheets["Sheet1"];
-                var table = ws.Tables["myTable"];
-                Assert.AreEqual(3, table.Range.Rows);
-                Assert.AreEqual(2, ws.Cells["A4"].Value);
-                table.DeleteRow(1, 1);
-                Assert.IsNull(ws.Cells["A4"].Value);
-                Assert.AreEqual(2, table.Range.Rows);
-            }
-        }
-        #endregion
-
-        #region Delete (ShowHeader)
-
-        private ExcelPackage CreateTablePackage(bool showHeader, string sheetName, string tableName)
-        {
-            var package = new ExcelPackage();
-            var sheet = package.Workbook.Worksheets.Add("Sheet1");
             for (var x = 1; x < 6; x++)
             {
                 sheet.Cells[2, x].Value = $"Column{x}";
