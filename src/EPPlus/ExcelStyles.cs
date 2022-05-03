@@ -1141,11 +1141,20 @@ namespace OfficeOpenXml
             XmlNode cellXfsNode = GetNode(CellXfsPath);
             cellXfsNode.RemoveAll();
             int xfsCount = 0;
-            if (NamedStyles.Count > 0 && normalIx >= 0)
+            if (CellStyleXfs.Count > 0)
             {
-                NamedStyles[normalIx].newID = 0;
-                AddNamedStyle(0, styleXfsNode, cellXfsNode, NamedStyles[normalIx]);
-                cellXfsNode.AppendChild(CellStyleXfs[NamedStyles[normalIx].StyleXfId].CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain)));
+                if (normalIx >= 0)
+                {
+                    NamedStyles[normalIx].newID = 0;
+                    AddNamedStyle(0, styleXfsNode, cellXfsNode, NamedStyles[normalIx]);
+                    cellXfsNode.AppendChild(CellStyleXfs[NamedStyles[normalIx].StyleXfId].CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain)));
+                }
+                else
+                {
+                    styleXfsNode.AppendChild(CellStyleXfs[0].CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain), true));
+                    CellStyleXfs[0].newID = 0;
+                    cellXfsNode.AppendChild(CellStyleXfs[0].CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain)));
+                }
                 xfsCount++;
             }
             foreach (ExcelNamedStyleXml style in NamedStyles)
