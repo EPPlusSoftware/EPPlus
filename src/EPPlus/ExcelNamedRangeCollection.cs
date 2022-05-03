@@ -58,7 +58,7 @@ namespace OfficeOpenXml
             return AddName(Name, Range, allowRelativeAddress);
         }
 
-        // <summary>
+        /// <summary>
         /// Adds a new named range
         /// </summary>
         /// <param name="Name">The name</param>

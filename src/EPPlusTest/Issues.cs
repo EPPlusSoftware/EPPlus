@@ -3218,6 +3218,15 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void i609()
+        {
+            using (var p = OpenTemplatePackage("i609.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
 
     }
 }
