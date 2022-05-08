@@ -79,7 +79,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Math
             return CreateResult(retVal, DataType.Decimal);
         }
 
-        private IEnumerable<string> GetCriteria(FunctionArgument criteriaArg)
+        internal static IEnumerable<string> GetCriteria(FunctionArgument criteriaArg)
         {
             var criteria = new List<string>();
             if (criteriaArg.IsEnumerableOfFuncArgs)

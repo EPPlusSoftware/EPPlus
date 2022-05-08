@@ -12,6 +12,8 @@
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
         {
         }
 
+        private readonly ExpressionEvaluator _evaluator = new ExpressionEvaluator();
+
         public override CompileResult Compile(IEnumerable<Expression> children)
         {
             var args = new List<FunctionArgument>();
@@ -35,6 +39,28 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
                 lastExp.IgnoreCircularReference = true;
                 var currentAdr = Context.Scopes.Current.Address;
                 var sumRangeAdr = new ExcelAddress(lastExp.ExpressionString);
+                var sumRangeWs = string.IsNullOrEmpty(sumRangeAdr.WorkSheetName) ? currentAdr.Worksheet : sumRangeAdr.WorkSheetName;
+                if(currentAdr.Worksheet == sumRangeWs && sumRangeAdr.Collide(new ExcelAddress(currentAdr.Address)) != ExcelAddressBase.eAddressCollition.No)
+                {
+                    var candidateArg = children.ElementAt(1)?.Children.FirstOrDefault()?.Compile().Result;
+                    if(children.ElementAt(0).HasChildren)
+                    {
+                        var functionRowIndex = (currentAdr.FromRow - sumRangeAdr._fromRow);
+                        var functionColIndex = (currentAdr.FromCol - sumRangeAdr._fromCol);
+                        var firstRangeResult = children.ElementAt(0).Children.First().Compile().Result as IRangeInfo;
+                        if(firstRangeResult != null)
+                        {
+                            var candidateRowIndex = firstRangeResult.Address._fromRow + functionRowIndex;
+                            var candidateColIndex = firstRangeResult.Address._fromCol + functionColIndex;
+                            var candidateValue = firstRangeResult.GetValue(candidateRowIndex, candidateColIndex);
+                            if(_evaluator.Evaluate(candidateArg, candidateValue.ToString()))
+                            {
+                                throw new CircularReferenceException("Circular reference detected in " + currentAdr.Address);
+                            }
+                        }
+                        
+                    }
+                }
                 // todo: check circular ref for the actual cell where the SumIf formula resides (currentAdr).
             }
             foreach (var child in children)

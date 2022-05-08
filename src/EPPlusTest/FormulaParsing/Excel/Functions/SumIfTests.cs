@@ -33,7 +33,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 sheet1.Cells["E1"].Value = "SUMMABLE";
                 sheet1.Cells["G1"].Value = "SUMMABLE";
 
-                pck.Workbook.Calculate();
+                pck.Workbook.Calculate(x => x.AllowCircularReferences = true);
 
                 Assert.AreEqual(15, sheet1.Cells["A2"].GetValue<double>(), double.Epsilon);
             }
