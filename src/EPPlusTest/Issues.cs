@@ -3230,5 +3230,31 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void HeaderFooterWithInitWhiteSpace()
+        {
+            using (var p = OpenPackage("i631.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.HeaderFooter.EvenFooter.RightAlignedText = "  Row1\r\nRow 2 ";
+                ws.HeaderFooter.OddFooter.RightAlignedText = "\r\nRow1\r\nRow 2\r\n";
+                ws.HeaderFooter.EvenHeader.LeftAlignedText = "\tRow1\r\nRow 2";
+                ws.HeaderFooter.OddHeader.LeftAlignedText = " Row1\r\nRow 2";
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void CopyDxfs()
+        {
+            using (var p = OpenTemplatePackage("Input Sheet.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                using (var p2 = OpenPackage("CopyDxfs.xlsx", true))
+                {
+                    p2.Workbook.Worksheets.Add("Sheet1", ws);
+                    SaveAndCleanup(p2);
+                }
+            }
+        }
     }
 }
