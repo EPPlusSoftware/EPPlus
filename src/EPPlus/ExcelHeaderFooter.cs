@@ -468,12 +468,12 @@ namespace OfficeOpenXml
         internal void Save()
 		{
 			if (_oddHeader != null)
-			{
-                SetXmlNodeString("d:oddHeader", GetText(OddHeader));
+			{                
+                SetXmlNodeStringPreserveWhiteSpace("d:oddHeader", GetText(OddHeader));
 			}
 			if (_oddFooter != null)
 			{
-                SetXmlNodeString("d:oddFooter", GetText(OddFooter));
+                SetXmlNodeStringPreserveWhiteSpace("d:oddFooter", GetText(OddFooter));
 			}
 
 			// only set evenHeader and evenFooter 
@@ -481,11 +481,11 @@ namespace OfficeOpenXml
 			{
 				if (_evenHeader != null)
 				{
-                    SetXmlNodeString("d:evenHeader", GetText(EvenHeader));
+                    SetXmlNodeStringPreserveWhiteSpace("d:evenHeader", GetText(EvenHeader));
 				}
 				if (_evenFooter != null)
 				{
-                    SetXmlNodeString("d:evenFooter", GetText(EvenFooter));
+                    SetXmlNodeStringPreserveWhiteSpace("d:evenFooter", GetText(EvenFooter));
 				}
 			}
 
@@ -494,11 +494,11 @@ namespace OfficeOpenXml
 			{
 				if (_firstHeader != null)
 				{
-                    SetXmlNodeString("d:firstHeader", GetText(FirstHeader));
+                    SetXmlNodeStringPreserveWhiteSpace("d:firstHeader", GetText(FirstHeader));
 				}
 				if (_firstFooter != null)
 				{
-                    SetXmlNodeString("d:firstFooter", GetText(FirstFooter));
+                    SetXmlNodeStringPreserveWhiteSpace("d:firstFooter", GetText(FirstFooter));
 				}
 			}
 		}

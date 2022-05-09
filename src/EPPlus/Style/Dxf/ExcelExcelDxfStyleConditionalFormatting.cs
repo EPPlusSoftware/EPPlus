@@ -64,8 +64,8 @@ namespace OfficeOpenXml.Style.Dxf
         }
         internal override void CreateNodes(XmlHelper helper, string path)
         {
-            if (NumberFormat.HasValue) NumberFormat.CreateNodes(helper, "d:numFmt");
             if (Font.HasValue) Font.CreateNodes(helper, "d:font");
+            if (NumberFormat.HasValue) NumberFormat.CreateNodes(helper, "d:numFmt");
             base.CreateNodes(helper, path);
         }
         internal override void SetStyle()

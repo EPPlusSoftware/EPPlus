@@ -781,6 +781,27 @@ namespace OfficeOpenXml
                 SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture));
             }
         }
+        readonly char[] _whiteSpaces = new char[] { '\t', '\n', '\r', ' ' };
+        internal void SetXmlNodeStringPreserveWhiteSpace(string path, string value, bool removeIfBlank=false, bool insertFirst=false)
+        {
+            SetXmlNodeString(TopNode, path, value, removeIfBlank, insertFirst);
+            if (value!=null &&  value.Length>0)
+            {
+                if(_whiteSpaces.Contains(value[0]) ||
+                   _whiteSpaces.Contains(value[value.Length - 1]))
+                {
+                    var workNode = GetNode(path);
+                    if(workNode.NodeType==XmlNodeType.Attribute)
+                    {
+                        workNode=workNode.ParentNode;
+                    }
+                    if(workNode.NodeType == XmlNodeType.Element)
+                    {
+                        ((XmlElement)workNode).SetAttribute("xml:space", "preserve");
+                    }
+                }
+            }
+        }
 
         internal void SetXmlNodeString(string path, string value)
         {
