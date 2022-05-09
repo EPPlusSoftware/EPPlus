@@ -1001,7 +1001,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                 var imageRel = ThemeOverridePart.CreateRelationship(uri, TargetMode.Internal, themeRel.RelationshipType);
                 SetRelIdInThemeDoc(ThemeOverrideXml, themeRel.Id, imageRel.Id);
                 var stream = partToCopy.GetStream();
-                var b = stream.GetBuffer();
+                var b = ((MemoryStream)stream).GetBuffer();
                 toPart.GetStream().Write(b, 0, b.Length);
             }
 

@@ -1201,8 +1201,20 @@ namespace OfficeOpenXml
             // First Columns, rows, cells, mergecells, hyperlinks and pagebreakes are loaded from a xmlstream to optimize speed...
             bool doAdjust = _package.DoAdjustDrawings;
             _package.DoAdjustDrawings = false;
-            Stream stream = packPart.GetStream();
-
+            bool isZipStream;
+            WorksheetZipStream stream;
+            if (packPart.Entry?.UncompressedSize>int.MaxValue)
+            {
+                MoveEntry(packPart.Package._zip, packPart.Entry);
+                stream = new WorksheetZipStream(packPart.Package._zip, true, packPart.Entry.UncompressedSize);
+                isZipStream = true;
+            }
+            else
+            {
+                stream = new WorksheetZipStream(packPart.GetStream(),true);
+                isZipStream = false;
+            }
+            string startXml, endXml;
 #if Core
             var xr = XmlReader.Create(stream,new XmlReaderSettings() 
             { 
@@ -1217,20 +1229,41 @@ namespace OfficeOpenXml
             xr.DtdProcessing = DtdProcessing.Prohibit;
 #endif
             xr.WhitespaceHandling = WhitespaceHandling.None;
-#endif
+#endif            
             LoadColumns(xr);    //columnXml
+            startXml = stream.GetBufferAsString(false);
             long start = stream.Position;
             LoadCells(xr);
             var nextElementLength = GetAttributeLength(xr);
-            long end = stream.Position - nextElementLength;
+            stream.SetWriteToBuffer();
+            long end;
+            if (isZipStream)
+            {
+                end=packPart.Entry.ArchiveStream.Position;
+            }
+            else
+            {
+                end = stream.Position - nextElementLength;
+            }
             LoadMergeCells(xr);
             LoadHyperLinks(xr);
             LoadRowPageBreakes(xr);
             LoadColPageBreakes(xr);
-            //...then the rest of the Xml is extracted and loaded into the WorksheetXml document.
-            stream.Seek(0, SeekOrigin.Begin);
             Encoding encoding;
-            xml = GetWorkSheetXml(stream, start, end, out encoding);
+            if(isZipStream)
+            {
+
+                stream.ReadToEnd();
+                endXml = stream.GetBufferAsString(false);
+                xml = GetWorkSheetXmlFromZipStream(startXml, endXml);
+                encoding = Encoding.UTF8;
+            }
+            else
+            {
+                //...then the rest of the Xml is extracted and loaded into the WorksheetXml document.
+                stream.Seek(0, SeekOrigin.Begin);
+                xml = GetWorkSheetXml(stream, start, end, out encoding);
+            }
 
             // now release stream buffer (already converted whole Xml into XmlDocument Object and String)
             stream.Dispose();
@@ -1245,6 +1278,18 @@ namespace OfficeOpenXml
             _package.DoAdjustDrawings = doAdjust;
             ClearNodes();
         }
+
+        private void MoveEntry(ZipInputStream zip, ZipEntry entry)
+        {
+            zip.Position = 0;
+            ZipEntry e;
+            do
+            {
+                e = zip.GetNextEntry();
+            }
+            while (e.FileDataPosition != entry.FileDataPosition);
+        }
+
         /// <summary>
         /// Get the lenth of the attributes
         /// Conditional formatting attributes can be extremly long som get length of the attributes to finetune position.
@@ -1418,6 +1463,27 @@ namespace OfficeOpenXml
                 encoding = sr.CurrentEncoding;
                 return xml;
             }
+        }
+        private string GetWorkSheetXmlFromZipStream(string startXml, string endXml)
+        {
+            string xml;
+            var startMatch = Regex.Match(startXml.ToString(), string.Format("(<[^>]*{0}[^>]*>)", "sheetData"));
+            if (startMatch.Success)
+            {
+                xml=startXml.Substring(0, startMatch.Index);
+                var tag = GetSheetDataTag(startMatch.Value);
+                var endMatch = Regex.Match(endXml.ToString(), string.Format("(<[^>]*{0}[^>]*>)", "sheetData"));
+                if (endMatch.Success)
+                {
+                    xml += $"<{tag}/>" + endXml.Substring(endMatch.Index + endMatch.Length);
+                }
+                else
+                {
+                    xml += $"<{tag}/>" + startXml.Substring(startMatch.Index + startMatch.Length);
+                }
+                return xml;
+            }
+            throw new InvalidDataException("Invalid Sheet Xml. sheetData element missing.");
         }
 
         private string GetSheetDataTag(string s)

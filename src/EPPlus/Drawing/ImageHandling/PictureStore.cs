@@ -235,7 +235,7 @@ namespace OfficeOpenXml.Drawing
             var extension = Path.GetExtension(container.UriPic.OriginalString);
             contentType = GetContentType(extension);
             pictureType = GetPictureType(extension);
-            return part.GetStream().ToArray();
+            return ((MemoryStream)part.GetStream()).ToArray();
         }
         internal static ePictureType GetPictureType(Uri uri)
         {

@@ -37,10 +37,8 @@ namespace OfficeOpenXml.Encryption
             if (CompoundDocument.IsCompoundDocument(fi))
             {
                 CompoundDocument doc = new CompoundDocument(fi);
-
-                MemoryStream ret = null;
-                ret = GetStreamFromPackage(doc, encryption);
-                return ret;
+                
+                return GetStreamFromPackage(doc, encryption);
             }
             else
             {

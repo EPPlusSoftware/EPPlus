@@ -542,10 +542,10 @@ namespace OfficeOpenXml
                         throw;
                     }
                 }
-                finally
-                {
-                    ms.Dispose();
-				}
+    //            finally
+    //            {
+    //                ms.Dispose();
+				//}
             }
             else
             {

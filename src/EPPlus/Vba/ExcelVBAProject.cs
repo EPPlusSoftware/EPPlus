@@ -606,7 +606,7 @@ namespace OfficeOpenXml.VBA
                     var rel = _wb.Part.CreateRelationship(Uri, Packaging.TargetMode.Internal, schemaRelVba);
                 }                
                 var st = Part.GetStream(FileMode.Create);
-                doc.Save(st);
+                doc.Save((MemoryStream)st);
                 st.Flush();
                 //Save the digital signture
                 Signature.Save(this);

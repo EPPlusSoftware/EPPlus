@@ -52,7 +52,7 @@ namespace OfficeOpenXml.Packaging
             _contentTypes.Add("xml", new ContentType(ExcelPackage.schemaXmlExtension, true, "xml"));
             _contentTypes.Add("rels", new ContentType(ExcelPackage.schemaRelsExtension, true, "rels"));
         }
-
+        internal ZipInputStream _zip;
         internal ZipPackage(Stream stream)
         {
             bool hasContentTypeXml = false;
@@ -63,10 +63,11 @@ namespace OfficeOpenXml.Packaging
             else
             {
                 var rels = new Dictionary<string, string>();
-                stream.Seek(0, SeekOrigin.Begin);                
-                using (ZipInputStream zip = new ZipInputStream(stream))
-                {
-                    var e = zip.GetNextEntry();
+                stream.Seek(0, SeekOrigin.Begin);
+                //using (ZipInputStream zip = new ZipInputStream(stream))
+                //{
+                    _zip = new ZipInputStream(stream);
+                    var e = _zip.GetNextEntry();
                     if (e == null)
                     {
                         throw (new InvalidDataException("The file is not a valid Package file. If the file is encrypted, please supply the password in the constructor."));
@@ -77,34 +78,26 @@ namespace OfficeOpenXml.Packaging
                         GetDirSeparator(e);
                         if (e.UncompressedSize > 0)
                         {
-                            var b = new byte[e.UncompressedSize];
-                            var size = zip.Read(b, 0, (int)e.UncompressedSize);
                             if (e.FileName.Equals("[content_types].xml", StringComparison.OrdinalIgnoreCase))
                             {
-                                AddContentTypes(Encoding.UTF8.GetString(b));
+                                AddContentTypes(Encoding.UTF8.GetString(GetZipEntryAsByteArray(_zip, e)));
                                 hasContentTypeXml = true;
                             }
 
                             else if (e.FileName.Equals($"_rels{_dirSeparator}.rels", StringComparison.OrdinalIgnoreCase))
                             {
-                                ReadRelation(Encoding.UTF8.GetString(b), "");
+                                ReadRelation(Encoding.UTF8.GetString(GetZipEntryAsByteArray(_zip, e)), "");
+                            }
+                            else if (e.FileName.EndsWith(".rels", StringComparison.OrdinalIgnoreCase))
+                            {
+                                rels.Add(GetUriKey(e.FileName), Encoding.UTF8.GetString(GetZipEntryAsByteArray(_zip, e)));
                             }
                             else
                             {
-                                if (e.FileName.EndsWith(".rels", StringComparison.OrdinalIgnoreCase))
-                                {
-                                    rels.Add(GetUriKey(e.FileName), Encoding.UTF8.GetString(b));
-                                }
-                                else
-                                {
-                                    var part = new ZipPackagePart(this, e);
-                                    part.Stream = RecyclableMemory.GetStream();
-                                    part.Stream.Write(b, 0, b.Length);
-                                    Parts.Add(GetUriKey(e.FileName), part);
-                                }
-                            }
+                                ExtractEntryToPart(_zip, e);
+                            }                            
                         }
-                        e = zip.GetNextEntry();
+                        e = _zip.GetNextEntry();
                     }
                     if (_dirSeparator == '0') _dirSeparator = '/';
                     foreach (var p in Parts)
@@ -133,10 +126,43 @@ namespace OfficeOpenXml.Packaging
                     {
                         throw (new InvalidDataException("The file is not a valid Package file. If the file is encrypted, please supply the password in the constructor."));
                     }
-                    zip.Close();
-                    zip.Dispose();
+                    //zip.Close();
+                    //zip.Dispose();
+                //}
+            }
+        }
+
+        private static byte[] GetZipEntryAsByteArray(ZipInputStream zip, ZipEntry e)
+        {
+            var b = new byte[e.UncompressedSize];
+            var size = zip.Read(b, 0, (int)e.UncompressedSize);
+            return b;
+        }
+
+        private void ExtractEntryToPart(ZipInputStream zip, ZipEntry e)
+        {
+
+            var part = new ZipPackagePart(this, e);
+
+            var rest = e.UncompressedSize;
+            if (rest > int.MaxValue)
+            {
+                part.Stream = null; //Over 2GB, we use the zip stream directly instead.
+            }
+            else
+            {
+                const int BATCH_SIZE = 0x100000;
+                part.Stream = new MemoryStream();
+                while (rest > 0)
+                {
+                    var bufferSize = rest > BATCH_SIZE ? BATCH_SIZE : (int)rest;
+                    var b = new byte[bufferSize];
+                    var size = zip.Read(b, 0, bufferSize);
+                    part.Stream.Write(b, 0, size);
+                    rest -= size;
                 }
             }
+            Parts.Add(GetUriKey(e.FileName), part);
         }
 
         private void GetDirSeparator(ZipEntry e)
@@ -207,7 +233,7 @@ namespace OfficeOpenXml.Packaging
             var destPart = CreatePart(partUri, sourcePart.ContentType);
             var destStream = destPart.GetStream(FileMode.Create, FileAccess.Write);
             var sourceStream = sourcePart.GetStream();
-            var b = sourceStream.GetBuffer();
+            var b = ((MemoryStream)sourceStream).GetBuffer();
             destStream.Write(b, 0, b.Length);
             destStream.Flush();
             return destPart;
@@ -349,6 +375,7 @@ namespace OfficeOpenXml.Packaging
             {
                 part.Dispose();
             }
+            _zip.Dispose();
         }
 
         CompressionLevel _compression = CompressionLevel.Default;

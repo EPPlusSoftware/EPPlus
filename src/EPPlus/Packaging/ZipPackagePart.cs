@@ -41,8 +41,8 @@ namespace OfficeOpenXml.Packaging
         internal ZipPackage Package { get; set; }
         internal ZipEntry Entry { get; set; }
         internal CompressionLevel CompressionLevel;
-        MemoryStream _stream = null;
-        internal MemoryStream Stream
+        Stream _stream = null;
+        internal Stream Stream
         {
             get
             {
@@ -68,15 +68,15 @@ namespace OfficeOpenXml.Packaging
             return rel;
         }
 
-        internal MemoryStream GetStream()
+        internal Stream GetStream()
         {
             return GetStream(FileMode.OpenOrCreate, FileAccess.ReadWrite);
         }
-        internal MemoryStream GetStream(FileMode fileMode)
+        internal Stream GetStream(FileMode fileMode)
         {
             return GetStream(FileMode.Create, FileAccess.ReadWrite);
         }
-        internal MemoryStream GetStream(FileMode fileMode, FileAccess fileAccess)
+        internal Stream GetStream(FileMode fileMode, FileAccess fileAccess)
         {
             if (_stream == null || fileMode == FileMode.CreateNew || fileMode == FileMode.Create)
             {
@@ -84,7 +84,7 @@ namespace OfficeOpenXml.Packaging
             }
             else
             {
-                _stream.Seek(0, SeekOrigin.Begin);                
+                _stream.Seek(0, SeekOrigin.Begin);
             }
             return _stream;
         }
@@ -126,7 +126,7 @@ namespace OfficeOpenXml.Packaging
             byte[] b;
             if (SaveHandler == null)
             {
-                b = GetStream().ToArray();
+                b = ((MemoryStream)GetStream()).ToArray();
                 if (b.Length == 0)   //Make sure the file isn't empty. DotNetZip streams does not seems to handle zero sized files.
                 {
                     return;

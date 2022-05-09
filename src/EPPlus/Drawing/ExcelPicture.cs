@@ -61,7 +61,7 @@ namespace OfficeOpenXml.Drawing
                     return;
                 }
 
-                byte[] iby = Part.GetStream().ToArray();
+                byte[] iby = ((MemoryStream)Part.GetStream()).ToArray();
                 Image = new ExcelImage(this);
                 Image.SetImage(iby, PictureStore.GetPictureType(extension));
 

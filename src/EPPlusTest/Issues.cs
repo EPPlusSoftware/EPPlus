@@ -3230,5 +3230,28 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void i637()
+        {
+            using (var p = OpenPackage("i637.xlsx",true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.View.FreezePanes(2, 1);
+
+                SaveAndCleanup(p);
+            }
+        }
+        //[TestMethod]
+        //public void LargeFile()
+        //{
+        //    char a = (char)14;
+        //    string Password = "MacroMill" + a + "!3";
+        //    using (var p = new ExcelPackage(_testInputPathOptional + "Macromill.Quick-CROSS.xlsx", Password))
+        //    {
+        //        var ws = p.Workbook.Worksheets[0];
+        //        p.Encryption.IsEncrypted = false;
+        //        SaveWorkbook("Macromill.Quick-CROSS-Saved.xlsx", p);
+        //    }
+        //}
     }
 }

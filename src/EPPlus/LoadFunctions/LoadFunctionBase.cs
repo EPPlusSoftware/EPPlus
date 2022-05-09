@@ -82,10 +82,10 @@ namespace OfficeOpenXml.LoadFunctions
             var nCols = GetNumberOfColumns();
             var values = new object[nRows, nCols];
 
-            if(Range.Worksheet._values.Capacity < values.Length)
-            {
-                Range.Worksheet._values.Capacity = values.Length;
-            }
+            //if(Range.Worksheet._values.Capacity < values.Length)
+            //{
+            //    Range.Worksheet._values.Capacity = values.Length;
+            //}
 
             LoadInternal(values, out Dictionary<int, FormulaCell> formulaCells, out Dictionary<int, string> columnFormats);
             var ws = Range.Worksheet;

@@ -738,25 +738,19 @@ namespace OfficeOpenXml
             if (Row > 0 && Column == 0)
             {
                 PaneSettings.ActivePanePosition = ePanePosition.BottomLeft;
-                //paneNode.SetAttribute("activePane", "bottomLeft");
                 XmlElement sel = TopNode.OwnerDocument.CreateElement("selection", ExcelPackage.schemaMain);
                 sel.SetAttribute("pane", "bottomLeft");
                 if (activeCell != "") sel.SetAttribute("activeCell", activeCell);
                 if (sqRef != "") sel.SetAttribute("sqref", sqRef);
-                var cell = ExcelCellBase.GetAddress(Row + 1, 1);
-                sel.SetAttribute("topLeftCell", cell);
                 TopNode.InsertAfter(sel, afterNode);
             }
             else if (Column > 0 && Row == 0)
             {
                 PaneSettings.ActivePanePosition = ePanePosition.TopRight;
-                //paneNode.SetAttribute("activePane", "topRight");
                 XmlElement sel = TopNode.OwnerDocument.CreateElement("selection", ExcelPackage.schemaMain);
                 sel.SetAttribute("pane", "topRight");
                 if (activeCell != "") sel.SetAttribute("activeCell", activeCell);
                 if (sqRef != "") sel.SetAttribute("sqref", sqRef);
-                string cell = ExcelCellBase.GetAddress(1, Column + 1);
-                sel.SetAttribute("topLeftCell", cell);
                 TopNode.InsertAfter(sel, afterNode);
             }
             else

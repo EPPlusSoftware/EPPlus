@@ -63,42 +63,48 @@ namespace OfficeOpenXml.Core.CellStore
         }
         internal void SetValue_Value(int Row, int Column, object value)
         {
-            int i = GetPointer(Row, Column);
-            if (i >= 0)
+            var c = GetColumnIndex(Column);
+            if(c != null)
             {
-                _values[i]=new ExcelValue { _value = value,  _styleId = _values[i]._styleId };
+                int i = c.GetPointer(Row);
+                if (i >= 0)
+                {
+                    c._values[i] = new ExcelValue { _value = value, _styleId = c._values[i]._styleId };
+                    return;
+                }
             }
-            else
-            {
-                var v = new ExcelValue { _value = value };
-                SetValue(Row, Column, v);
-            }
+            var v = new ExcelValue { _value = value };
+            SetValue(Row, Column, v);
         }
         internal void SetValue_Style(int Row, int Column, int styleId)
         {
-            int i = GetPointer(Row, Column);
-            if (i >= 0)
+            var c = GetColumnIndex(Column);
+            if (c != null)
             {
-                _values[i] = new ExcelValue { _styleId = styleId, _value = _values[i]._value };
+                int i = c.GetPointer(Row);
+                if (i >= 0)
+                {
+                    c._values[i] = new ExcelValue { _styleId = styleId, _value = c._values[i]._value };
+                    return;
+                }
             }
-            else
-            {
-                var v = new ExcelValue { _styleId = styleId };
-                SetValue(Row, Column, v);
-            }
+            var v = new ExcelValue { _styleId = styleId };
+            SetValue(Row, Column, v);
         }
         internal void SetValue(int Row, int Column, object value, int styleId)
         {
-            int i = GetPointer(Row, Column);
-            if (i >= 0)
+            var c = GetColumnIndex(Column);
+            if (c != null)
             {
-                _values[i] = new ExcelValue { _value = value, _styleId = styleId };
+                int i = c.GetPointer(Row);
+                if (i >= 0)
+                {
+                    c._values[i] = new ExcelValue { _value = value, _styleId = styleId };
+                    return;
+                }
             }
-            else
-            {
-                var v = new ExcelValue { _value = value, _styleId = styleId};
-                SetValue(Row, Column, v);
-            }
+            var v = new ExcelValue { _value = value, _styleId = styleId};
+            SetValue(Row, Column, v);
         }
     }
 }

@@ -145,7 +145,7 @@ namespace OfficeOpenXml.Drawing.Theme
                         var uri = UriHelper.ResolvePartUri(_theme.ThemeUri, rel.TargetUri);
                         var part = _wb._package.ZipPackage.CreatePart(uri, partToCopy.ContentType);
                         var stream = part.GetStream();
-                        var b = partToCopy.GetStream().ToArray();
+                        var b = ((MemoryStream)partToCopy.GetStream()).ToArray();
                         stream.Write(b, 0, b.Length);
                         stream.Flush();
                         _theme.Part.CreateRelationship(uri, TargetMode.Internal, rel.RelationshipType);

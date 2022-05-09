@@ -15,7 +15,7 @@ using OfficeOpenXml.Drawing.Interfaces;
 using System.Xml;
 using System.Globalization;
 using System.Drawing;
-
+using System.IO;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
@@ -125,7 +125,7 @@ namespace OfficeOpenXml.Drawing.Vml
                     if (pck.PartExists(ImageUri))
                     {
                         var part = pck.GetPart(ImageUri);
-                        _image.SetImage(part.GetStream().ToArray(), PictureStore.GetPictureType(ImageUri));
+                        _image.SetImage(((MemoryStream)part.GetStream()).ToArray(), PictureStore.GetPictureType(ImageUri));
                     }
                     else
                     {
