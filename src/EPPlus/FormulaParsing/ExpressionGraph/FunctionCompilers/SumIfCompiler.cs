@@ -55,6 +55,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
                             var candidateValue = firstRangeResult.GetValue(candidateRowIndex, candidateColIndex);
                             if(_evaluator.Evaluate(candidateArg, candidateValue.ToString()))
                             {
+                                if(Context.Configuration.AllowCircularReferences)
+                                {
+                                    return CompileResult.ZeroDecimal;
+                                }
                                 throw new CircularReferenceException("Circular reference detected in " + currentAdr.Address);
                             }
                         }
