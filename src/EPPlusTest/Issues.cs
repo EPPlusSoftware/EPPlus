@@ -3227,6 +3227,34 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void i638()
+        {
+            using (var p1 = OpenTemplatePackage("green.xlsx"))
+            {
+                var ws = p1.Workbook.Worksheets[0];
+                using (var p2 = OpenTemplatePackage("red.xlsx"))
+                {
+                    p2.Workbook.Worksheets.Add("Green", ws);
+                    SaveAndCleanup(p2);
+                }
+            }
+        }
+        [TestMethod]
+        public void i639()
+        {
+            using (var p = OpenPackage("FormattedHyperLink.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = 3000;
+                ws.Cells["A1"].Style.Numberformat.Format="#,##0.00";
+                ws.Cells["A1"].SetHyperlink(ws.Cells["A2"], "A2");
+                ws.Cells["A1"].Value = 3000;
+                ws.Cells["A1"].Style.Numberformat.Format = "#,##0.00";
+
+                SaveAndCleanup(p);
+            }
+        }
 
     }
 }

@@ -918,24 +918,25 @@ namespace OfficeOpenXml
                     _zipPackage.Close();
                     if (Stream is MemoryStream)
                     {
-                        var fi = new FileStream(File.FullName, FileMode.Create);
-                        //EncryptPackage
-                        if (Encryption.IsEncrypted)
+                        using (var fi = new FileStream(File.FullName, FileMode.Create))
                         {
-                            byte[] file = ((MemoryStream)Stream).ToArray();
-                            EncryptedPackageHandler eph = new EncryptedPackageHandler();
-
-                            using (var ms = eph.EncryptPackage(file, Encryption))
+                            //EncryptPackage
+                            if (Encryption.IsEncrypted)
                             {
-                                fi.Write(ms.ToArray(), 0, (int)ms.Length);
+                                byte[] file = ((MemoryStream)Stream).ToArray();
+                                EncryptedPackageHandler eph = new EncryptedPackageHandler();
+
+                                using (var ms = eph.EncryptPackage(file, Encryption))
+                                {
+                                    fi.Write(ms.ToArray(), 0, (int)ms.Length);
+                                }
                             }
-                        }   
-                        else
-                        {                            
-                            fi.Write(((MemoryStream)Stream).ToArray(), 0, (int)Stream.Length);
+                            else
+                            {
+                                fi.Write(((MemoryStream)Stream).ToArray(), 0, (int)Stream.Length);
+                            }
+                            fi.Close();
                         }
-                        fi.Close();
-                        fi.Dispose();
                     }
                     else
                     {

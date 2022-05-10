@@ -28,7 +28,7 @@ namespace OfficeOpenXml
         public ExcelHyperLink(string uriString) :
             base(uriString)
         {
-            OriginalUri = (Uri)this;
+            OriginalUri = this;
         }
 #if !Core
         /// <summary>
@@ -51,7 +51,7 @@ namespace OfficeOpenXml
         public ExcelHyperLink(string uriString, UriKind uriKind) :
             base(uriString, uriKind)
         {
-            OriginalUri = (Uri)this;
+            OriginalUri = this;
         }
         /// <summary>
         /// Sheet internal reference
@@ -64,6 +64,7 @@ namespace OfficeOpenXml
             _referenceAddress = referenceAddress;
             _display = display;
         }
+
         string _referenceAddress = null;
         /// <summary>
         /// The Excel address for internal links.

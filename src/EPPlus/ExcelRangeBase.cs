@@ -307,9 +307,20 @@ namespace OfficeOpenXml
             {
                 range._worksheet._hyperLinks.SetValue(row, col, (Uri)value);
 
-                if (value is ExcelHyperLink)
-                {
-                    range._worksheet.SetValueInner(row, col, ((ExcelHyperLink)value).Display);
+                if (value is ExcelHyperLink hl)
+                {                    
+                    if (string.IsNullOrEmpty(hl.Display))
+                    {
+                        var v = range._worksheet.GetValueInner(row, col);
+                        if(v == null)
+                        {
+                            range._worksheet.SetValueInner(row, col, hl.ReferenceAddress);
+                        }
+                    }
+                    else
+                    {
+                        range._worksheet.SetValueInner(row, col, hl.Display);
+                    }
                 }
                 else
                 {
@@ -322,8 +333,8 @@ namespace OfficeOpenXml
             }
             else
             {
-                range._worksheet._hyperLinks.SetValue(row, col, (Uri)null);
-                range._worksheet.SetValueInner(row, col, (Uri)null);
+                range._worksheet._hyperLinks.SetValue(row, col, null);
+                range._worksheet.SetValueInner(row, col, null);
             }
         }
         private static void Set_IsRichText(ExcelRangeBase range, object value, int row, int col)
@@ -1222,8 +1233,24 @@ namespace OfficeOpenXml
         /// Sets the Hyperlink property to an url within the workbook.
         /// </summary>
         /// <param name="range">A reference within the same workbook</param>
-        /// <param name="display">The displayed text in the cell</param>f
+        /// <param name="display">The displayed text in the cell. If display is null or empty, the address of the range will be set.</param>f
         public void SetHyperlink(ExcelRange range, string display)
+        {
+            if (string.IsNullOrEmpty(display))
+            {
+                display = range.Address;
+            }
+            SetHyperlinkLocal(range, display);
+        }
+        /// <summary>
+        /// Sets the Hyperlink property to an url within the workbook. The hyperlink will display the value of the cell.
+        /// </summary>
+        /// <param name="range">A reference within the same workbook</param>
+        public void SetHyperlink(ExcelRange range)
+        {
+            SetHyperlinkLocal(range, null);
+        }
+        private void SetHyperlinkLocal(ExcelRange range, string display)
         {
             if (range == null)
             {
@@ -1232,10 +1259,6 @@ namespace OfficeOpenXml
             if (range.Worksheet.Workbook != Worksheet.Workbook)
             {
                 throw (new ArgumentException("The range must be within this package.", nameof(range)));
-            }
-            if (string.IsNullOrEmpty(display))
-            {
-                display = range.Address;
             }
             if (string.IsNullOrEmpty(range.WorkSheetName) || range.WorkSheetName.Equals(WorkSheetName ?? "", StringComparison.OrdinalIgnoreCase))
             {
@@ -1246,7 +1269,6 @@ namespace OfficeOpenXml
                 Hyperlink = new ExcelHyperLink(range.FullAddress, display);
             }
         }
-
         /// <summary>
         /// If the cells in the range are merged.
         /// </summary>
