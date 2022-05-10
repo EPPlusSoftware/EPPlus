@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using IndexFunc = OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Index;
@@ -31,6 +32,8 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
             Require.That(context).Named("context").IsNotNull();
             _context = context;
             _specialCompilers.Add(typeof(If), new IfFunctionCompiler(repository.GetFunction("if"), context));
+            _specialCompilers.Add(typeof(SumIf), new SumIfCompiler(repository.GetFunction("sumif"), context));
+            _specialCompilers.Add(typeof(CountIfs), new CountIfsCompiler(repository.GetFunction("countifs"), context));
             _specialCompilers.Add(typeof(IfError), new IfErrorFunctionCompiler(repository.GetFunction("iferror"), context));
             _specialCompilers.Add(typeof(IfNa), new IfNaFunctionCompiler(repository.GetFunction("ifna"), context));
             _specialCompilers.Add(typeof(Row), new IgnoreCircularRefLookupCompiler(repository.GetFunction("row"), context));
