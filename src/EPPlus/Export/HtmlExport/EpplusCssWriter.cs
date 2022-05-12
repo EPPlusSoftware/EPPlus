@@ -289,7 +289,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var rXfs = styles.CellXfs[rightStyleId];
             if (HasStyle(xfs) || bXfs.BorderId > 0 || rXfs.BorderId > 0)
             {
-                if (IsAddedToCache(xfs, out int id) == false || _addedToCss.Contains(id) == false)
+                if (IsAddedToCache(xfs, out int id, bottomStyleId, rightStyleId) == false || _addedToCss.Contains(id) == false)
                 {
                     _addedToCss.Add(id);
                     WriteClass($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
@@ -312,9 +312,10 @@ namespace OfficeOpenXml.Export.HtmlExport
             }
         }
 
-        private bool IsAddedToCache(ExcelXfs xfs, out int id)
+        private bool IsAddedToCache(ExcelXfs xfs, out int id, int bottomStyleId = -1, int rightStyleId = -1)
         {
             var key = GetStyleKey(xfs);
+            if (bottomStyleId > -1) key += bottomStyleId + "|" + rightStyleId;
             if (_styleCache.ContainsKey(key))
             {
                 id = _styleCache[key];

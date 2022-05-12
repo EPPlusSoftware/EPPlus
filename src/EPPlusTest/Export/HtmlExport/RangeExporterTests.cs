@@ -519,6 +519,33 @@ namespace EPPlusTest.Export.HtmlExport
 
             }
         }
+        [TestMethod]
+        public void ExportRangeIssue()
+        {
+            using (var package = OpenTemplatePackage("componentsource.xlsx"))
+            {
+                var sheet1 = package.Workbook.Worksheets[0];
+                var sheet2 = package.Workbook.Worksheets[1];
+                var sheet3 = package.Workbook.Worksheets[2];
+
+                var exporter = package.Workbook.CreateHtmlExporter(sheet1.Cells["B1:E115"], sheet2.Cells["B1:E147"], sheet3.Cells["B1:E105"]);
+                exporter.Settings.HyperlinkTarget = "_blank";
+                var html1 = exporter.GetHtmlString(0, x =>
+                {
+                    x.TableId = "americas-toll-free";
+                });
+                var html2 = exporter.GetHtmlString(1, x =>
+                {
+                    x.TableId = "emea-toll-free";
+                });
+                var html3 = exporter.GetHtmlString(2, x =>
+                {
+                    x.TableId = "asia-toll-free";
+                });
+                var css = exporter.GetCssString();
+                File.WriteAllText("c:\\temp\\html.html",$"<html><head><style type=\"text/css\">{css}</style></head><body>{html1}</body></html>");
+            }
+        }
 
         private static void SaveRangeFile(ExcelPackage package, string ws, string address, int headerRows=1)
         {

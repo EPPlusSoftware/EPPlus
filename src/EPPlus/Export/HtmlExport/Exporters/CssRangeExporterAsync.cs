@@ -100,14 +100,19 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                             }
                             var fromRow = address._fromRow < range._fromRow ? range._fromRow : address._fromRow;
                             var fromCol = address._fromCol < range._fromCol ? range._fromCol : address._fromCol;
+
                             if (fromRow != ce.Row || fromCol != ce.Column) //Only add the style for the top-left cell in the merged range.
                                 continue;
+
                             var mAdr = new ExcelAddressBase(ma);
                             var bottomStyleId = range.Worksheet._values.GetValue(mAdr._toRow, mAdr._fromCol)._styleId;
                             var rightStyleId = range.Worksheet._values.GetValue(mAdr._fromRow, mAdr._toCol)._styleId;
                             await styleWriter.AddToCssAsync(styles, ce.Value._styleId, bottomStyleId, rightStyleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
                         }
-                        await styleWriter.AddToCssAsync(styles, ce.Value._styleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
+                        else
+                        {
+                            await styleWriter.AddToCssAsync(styles, ce.Value._styleId, Settings.StyleClassPrefix, Settings.CellStyleClassName);
+                        }
                     }
                 }
                 if (Settings.TableStyle == eHtmlRangeTableInclude.Include)

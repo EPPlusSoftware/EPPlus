@@ -108,7 +108,18 @@ namespace OfficeOpenXml.Export.HtmlExport
                     AddAttribute("class", cls);
                 return;
             }
+
             string key = GetStyleKey(xfs);
+
+            var ma = cell.Worksheet.MergedCells[cell._fromRow, cell._fromCol];
+            if (ma != null)
+            {
+                var address = new ExcelAddressBase(ma);
+                var bottomStyleId = cell.Worksheet._values.GetValue(address._toRow, address._fromCol)._styleId;
+                var rightStyleId = cell.Worksheet._values.GetValue(address._fromRow, address._toCol)._styleId;
+                key += bottomStyleId + "|" + rightStyleId;
+            }
+
             int id;
             if (_styleCache.ContainsKey(key))
             {

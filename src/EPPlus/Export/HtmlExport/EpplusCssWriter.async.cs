@@ -207,7 +207,7 @@ namespace OfficeOpenXml.Export.HtmlExport
             var rXfs = styles.CellXfs[rightStyleId];
             if (HasStyle(xfs) || bXfs.BorderId > 0 || rXfs.BorderId > 0)
             {
-                if (IsAddedToCache(xfs, out int id) == false || _addedToCss.Contains(id) == false)
+                if (IsAddedToCache(xfs, out int id, bottomStyleId, rightStyleId) == false || _addedToCss.Contains(id) == false)
                 {
                     _addedToCss.Add(id);
                     await WriteClassAsync($".{styleClassPrefix}{cellStyleClassName}{id}{{", _settings.Minify);
