@@ -74,8 +74,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 
         private static bool CanDoNumericOperation(CompileResult l, CompileResult r)
         {
-            return (l.IsNumeric || l.IsNumericString || l.IsDateString || l.Result is ExcelDataProvider.IRangeInfo) &&
-                (r.IsNumeric || r.IsNumericString || r.IsDateString || r.Result is ExcelDataProvider.IRangeInfo);
+            return (l.IsNumeric || l.IsNumericString || l.IsPercentageString || l.IsDateString || l.Result is ExcelDataProvider.IRangeInfo) &&
+                (r.IsNumeric || r.IsNumericString || r.IsPercentageString || r.IsDateString || r.Result is ExcelDataProvider.IRangeInfo);
         }
 
         private static IOperator _plus;

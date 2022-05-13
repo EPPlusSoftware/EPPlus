@@ -46,6 +46,28 @@ namespace OfficeOpenXml.Utils
             var t = candidate.GetType();
             return (t == typeof(double) || t == typeof(decimal) || t == typeof(long));
         }
+
+        internal static bool IsPercentageString(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return false;
+            s = s.Trim();
+            if (s.Trim().EndsWith("%"))
+            {
+                var tmp = s;
+                int n = 0;
+                while (tmp.Length > 0 && tmp.Last() == '%')
+                {
+                    tmp = tmp.Substring(0, tmp.Length - 1);
+                    n++;
+                    if (n > 1)
+                    {
+                        return false;
+                    }
+                }
+                return double.TryParse(tmp, out double n2);
+            }
+            return false;
+        }
         /// <summary>
         /// Tries to parse a double from the specified <paramref name="candidateString"/> which is expected to be a string value.
         /// </summary>
@@ -62,6 +84,28 @@ namespace OfficeOpenXml.Utils
             numericValue = 0;
 			return false;
 		}
+
+        internal static bool TryParsePercentageString(string s, out double numericValue, CultureInfo cultureInfo = null)
+        {
+            numericValue = 0;
+            if (string.IsNullOrEmpty(s)) return false;
+            s = s.Trim();
+            if (s.Trim().EndsWith("%"))
+            {
+                var tmp = s;
+                while (tmp.Length > 0 && tmp.Last() == '%')
+                {
+                    tmp = tmp.Substring(0, tmp.Length - 1);
+                }
+                if(TryParseNumericString(tmp, out numericValue, cultureInfo))
+                {
+                    numericValue /= 100d;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         /// <summary>
         /// Tries to parse a boolean value from the specificed <paramref name="candidateString"/>.
         /// </summary>

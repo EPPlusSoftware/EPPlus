@@ -33,18 +33,28 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing;
 using FakeItEasy;
-
+using OfficeOpenXml;
 
 namespace EPPlusTest.FormulaParsing.IntegrationTests
 {
     [TestClass]
     public class BasicCalcTests : FormulaParserTestBase
     {
+        private ExcelPackage _package;
+
         [TestInitialize]
         public void Setup()
         {
-            var excelDataProvider = A.Fake<ExcelDataProvider>();
+            //var excelDataProvider = A.Fake<ExcelDataProvider>();
+            _package = new ExcelPackage();
+            var excelDataProvider = new EpplusExcelDataProvider(_package);
             _parser = new FormulaParser(excelDataProvider);
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _package.Dispose();
         }
 
         [TestMethod]
@@ -199,6 +209,25 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests
         {
             var result = _parser.Parse("-(1+2)");
             Assert.AreEqual(-3d, result);
+        }
+
+        [TestMethod]
+        public void ShouldHandlePercentStrings()
+        {
+            using(var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("test");
+
+                sheet.Cells["A1"].Value = "1%";
+                sheet.Cells["B1"].Formula = "A1 * 5";
+                sheet.Calculate();
+                Assert.AreEqual(0.05d, sheet.Cells["B1"].Value);
+
+                sheet.Cells["A1"].Value = "1%%";
+                sheet.Cells["B1"].Formula = "A1 * 5";
+                sheet.Calculate();
+                Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["B1"].Value);
+            }
         }
     }
 }
