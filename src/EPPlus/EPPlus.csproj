@@ -18,6 +18,7 @@
     <Copyright>EPPlus Software AB</Copyright>
     <PackageReleaseNotes>
 		EPPlus 6.0.4
+
 		IMPORTANT NOTICE!
 		From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
 		EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.

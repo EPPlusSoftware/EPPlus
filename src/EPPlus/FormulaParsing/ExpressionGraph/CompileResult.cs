@@ -119,6 +119,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
 					{
 						_resultNumeric = Result == null ? 0 : Convert.ToDouble(Result);
 					}
+                    else if(IsPercentageString && ConvertUtil.TryParsePercentageString(Result.ToString(), out double v))
+                    {
+                        _resultNumeric = v;
+                    }
 					else if (Result is DateTime)
 					{
                         _resultNumeric = ((DateTime)Result).ToOADate();
@@ -175,6 +179,20 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph
                 }
                 return false;
             }
+        }
+
+        public bool IsPercentageString
+        {
+            get
+            {
+                if (DataType == DataType.String)
+                {
+                    var s = Result as string;
+                    return ConvertUtil.IsPercentageString(s);
+                }
+                return false;
+            }
+            
         }
 
 		public bool IsDateString
