@@ -266,7 +266,7 @@ namespace OfficeOpenXml.Table
                 return _tbl;
             }
         }
-        private void SetTableFormula()
+        internal void SetTableFormula()
         {
             int fromRow = _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow;
             int toRow = _tbl.ShowTotal ? _tbl.Address._toRow - 1 : _tbl.Address._toRow;

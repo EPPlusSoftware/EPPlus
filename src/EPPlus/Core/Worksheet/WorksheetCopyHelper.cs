@@ -35,107 +35,125 @@ namespace OfficeOpenXml.Core.Worksheet
     {
         internal static ExcelWorksheet Copy(ExcelWorksheets worksheets, string name, ExcelWorksheet copy)
         {
-                int sheetID;
-                Uri uriWorksheet;
-                if (copy is ExcelChartsheet)
-                {
-                    throw (new ArgumentException("Cannot copy a chartsheet"));
-                }
-                if (worksheets.GetByName(name) != null)
-                {
-                    throw (new InvalidOperationException(ExcelWorksheets.ERR_DUP_WORKSHEET));
-                }
-                var pck = worksheets._pck;
-                var nsm = worksheets.NameSpaceManager;
-                worksheets.GetSheetURI(ref name, out sheetID, out uriWorksheet, false);
+            int sheetID;
+            Uri uriWorksheet;
+            if (copy is ExcelChartsheet)
+            {
+                throw (new ArgumentException("Cannot copy a chartsheet"));
+            }
+            if (worksheets.GetByName(name) != null)
+            {
+                throw (new InvalidOperationException(ExcelWorksheets.ERR_DUP_WORKSHEET));
+            }
+            var pck = worksheets._pck;
+            var nsm = worksheets.NameSpaceManager;
+            worksheets.GetSheetURI(ref name, out sheetID, out uriWorksheet, false);
 
-                //Create a copy of the worksheet XML
-                ZipPackagePart worksheetPart = pck.ZipPackage.CreatePart(uriWorksheet, ExcelWorksheets.WORKSHEET_CONTENTTYPE, pck.Compression);
-                StreamWriter streamWorksheet = new StreamWriter(worksheetPart.GetStream(FileMode.Create, FileAccess.Write));
+            //Create a copy of the worksheet XML
+            ZipPackagePart worksheetPart = pck.ZipPackage.CreatePart(uriWorksheet, ExcelWorksheets.WORKSHEET_CONTENTTYPE, pck.Compression);
+            StreamWriter streamWorksheet = new StreamWriter(worksheetPart.GetStream(FileMode.Create, FileAccess.Write));
 
-                XmlDocument worksheetXml = new XmlDocument();
-                worksheetXml.LoadXml(copy.WorksheetXml.OuterXml);
-                worksheetXml.Save(streamWorksheet);
-                pck.ZipPackage.Flush();
+            XmlDocument worksheetXml = new XmlDocument();
+            worksheetXml.LoadXml(copy.WorksheetXml.OuterXml);
+            worksheetXml.Save(streamWorksheet);
+            pck.ZipPackage.Flush();
 
-                //Create a relation to the workbook
-                string relID = worksheets.CreateWorkbookRel(name, sheetID, uriWorksheet, false, null);
+            //Create a relation to the workbook
+            string relID = worksheets.CreateWorkbookRel(name, sheetID, uriWorksheet, false, null);
 
-                ExcelWorksheet added = new ExcelWorksheet(nsm, pck, relID, uriWorksheet, name, sheetID, worksheets.Count + pck._worksheetAdd, eWorkSheetHidden.Visible);
+            ExcelWorksheet added = new ExcelWorksheet(nsm, pck, relID, uriWorksheet, name, sheetID, worksheets.Count + pck._worksheetAdd, eWorkSheetHidden.Visible);
 
-                //Copy comments
-                if (copy.ThreadedComments.Count > 0)
-                {
-                    CopyThreadedComments(copy, added);
-                }
-                else if(copy.Comments.Count > 0)
-                {
-                    CopyComment(copy, added);
-                }
-                else if (copy.VmlDrawings.Count > 0)    //Vml drawings are copied as part of the comments. 
-                {
-                    CopyVmlDrawing(copy, added);
-                }
+            //Copy comments
+            if (copy.ThreadedComments.Count > 0)
+            {
+                CopyThreadedComments(copy, added);
+            }
+            else if (copy.Comments.Count > 0)
+            {
+                CopyComment(copy, added);
+            }
+            else if (copy.VmlDrawings.Count > 0)    //Vml drawings are copied as part of the comments. 
+            {
+                CopyVmlDrawing(copy, added);
+            }
 
-                //Copy HeaderFooter
-                CopyHeaderFooterPictures(copy, added);
-                
-                //Copy all relationships 
-                if (copy.HasDrawingRelationship)
-                {
-                    CopySlicers(copy, added);
-                    CopyDrawing(pck, nsm, copy, added);
-                }
-                if (copy.Tables.Count > 0)
-                {
-                    CopyTable(copy, added);
-                }
-                if (copy.PivotTables.Count > 0)
-                {
-                    CopyPivotTable(copy, added);
-                }
-                if (copy.Names.Count > 0)
-                {
-                    CopySheetNames(copy, added);
-                }
+            //Copy HeaderFooter
+            CopyHeaderFooterPictures(copy, added);
 
-                //Copy all cells and styles if the worksheet is from another workbook.
-                CloneCellsAndStyles(copy, added);
+            //Copy all relationships 
+            if (copy.HasDrawingRelationship)
+            {
+                CopySlicers(copy, added);
+                CopyDrawing(pck, nsm, copy, added);
+            }
+            if (copy.Tables.Count > 0)
+            {
+                CopyTable(copy, added);
+            }
 
-                //Copy the VBA code
-                if (pck.Workbook.VbaProject != null && copy.CodeModule != null)
-                {
-                    var wsName = pck.Workbook.VbaProject.GetModuleNameFromWorksheet(added);
-                    pck.Workbook.VbaProject.Modules.Add(
-                        new ExcelVBAModule(added.CodeNameChange) 
-                        {   
-                            Name = wsName, 
-                            Code = copy.CodeModule.Code, 
-                            Attributes = pck.Workbook.VbaProject.GetDocumentAttributes(name, "0{00020820-0000-0000-C000-000000000046}"), 
-                            Type = eModuleType.Document, 
-                            HelpContext = 0 
-                        });
-                    
-                    added.CodeModuleName = wsName;
-                }
-                
-                worksheets._worksheets.Add(worksheets.Count, added);
+            if (copy.PivotTables.Count > 0)
+            {
+                CopyPivotTable(copy, added);
+            }
+            if (copy.Names.Count > 0)
+            {
+                CopySheetNames(copy, added);
+            }
 
-                //Remove any relation to printersettings.
-                XmlNode pageSetup = added.WorksheetXml.SelectSingleNode("//d:pageSetup", nsm);
-                if (pageSetup != null)
-                {
-                    XmlAttribute attr = (XmlAttribute)pageSetup.Attributes.GetNamedItem("id", ExcelPackage.schemaRelationships);
-                    if (attr != null)
+            //Copy all cells and styles if the worksheet is from another workbook.
+            CloneCellsAndStyles(copy, added);
+
+            //Copy the VBA code
+            if (pck.Workbook.VbaProject != null && copy.CodeModule != null)
+            {
+                var wsName = pck.Workbook.VbaProject.GetModuleNameFromWorksheet(added);
+                pck.Workbook.VbaProject.Modules.Add(
+                    new ExcelVBAModule(added.CodeNameChange)
                     {
-                        relID = attr.Value;
-                        // first delete the attribute from the XML
-                        pageSetup.Attributes.Remove(attr);
+                        Name = wsName,
+                        Code = copy.CodeModule.Code,
+                        Attributes = pck.Workbook.VbaProject.GetDocumentAttributes(name, "0{00020820-0000-0000-C000-000000000046}"),
+                        Type = eModuleType.Document,
+                        HelpContext = 0
+                    });
+
+                added.CodeModuleName = wsName;
+            }
+
+            SetTableFunction(added);
+
+            worksheets._worksheets.Add(worksheets.Count, added);
+
+            //Remove any relation to printersettings.
+            XmlNode pageSetup = added.WorksheetXml.SelectSingleNode("//d:pageSetup", nsm);
+            if (pageSetup != null)
+            {
+                XmlAttribute attr = (XmlAttribute)pageSetup.Attributes.GetNamedItem("id", ExcelPackage.schemaRelationships);
+                if (attr != null)
+                {
+                    relID = attr.Value;
+                    // first delete the attribute from the XML
+                    pageSetup.Attributes.Remove(attr);
+                }
+            }
+
+            return added;
+        }
+
+        private static void SetTableFunction(ExcelWorksheet added)
+        {
+            foreach (var t in added.Tables)
+            {
+                foreach (var c in t.Columns)
+                {
+                    if (c.TotalsRowFunction != Table.RowFunctions.None)
+                    {
+                        t.WorkSheet.SetTableTotalFunction(t, c);
                     }
                 }
-
-                return added;
+            }
         }
+
         private static void CloneCellsAndStyles(ExcelWorksheet Copy, ExcelWorksheet added)
         {
             bool sameWorkbook = (Copy.Workbook == added.Workbook);

@@ -400,5 +400,3 @@ namespace EPPlusTest.Style
         }
     }
 }
-
-    

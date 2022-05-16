@@ -754,49 +754,51 @@ namespace OfficeOpenXml.Style.XmlAccess
             {
                 XfId = int.MinValue;
             }
+
             var doSetXfId = (!isCellStyleXsf && XfId > int.MinValue && _styles.CellStyleXfs.Count > 0 && _styles.CellStyleXfs[XfId].newID >= 0);
             if (_numFmtId >= 0)
             {
                 SetXmlNodeString("@numFmtId", _numFmtId.ToString());
-                if(doSetXfId) SetXmlNodeString("@applyNumberFormat", "1");
+                if(_numFmtId > 0) SetXmlNodeString("@applyNumberFormat", "1");
             }
             if (FontId >= 0)
             {
                 SetXmlNodeString("@fontId", _styles.Fonts[FontId].newID.ToString());
-                if (doSetXfId) SetXmlNodeString("@applyFont", "1");
+                if(FontId > 0) SetXmlNodeString("@applyFont", "1");
             }
             if (FillId >= 0)
             {
                 SetXmlNodeString("@fillId", _styles.Fills[FillId].newID.ToString());
-                if (doSetXfId) SetXmlNodeString("@applyFill", "1");
+                if(FillId > 0) SetXmlNodeString("@applyFill", "1");
             }
             if (BorderId >= 0)
             {
                 SetXmlNodeString("@borderId", _styles.Borders[BorderId].newID.ToString());
-                if (doSetXfId) SetXmlNodeString("@applyBorder", "1");
+                if(BorderId > 0) SetXmlNodeString("@applyBorder", "1");
             }
-            if(HorizontalAlignment != ExcelHorizontalAlignment.General) this.SetXmlNodeString(horizontalAlignPath, SetAlignString(HorizontalAlignment));
+            if(HorizontalAlignment != ExcelHorizontalAlignment.General) SetXmlNodeString(horizontalAlignPath, SetAlignString(HorizontalAlignment));
             if (doSetXfId)
             {
                 SetXmlNodeString("@xfId", _styles.CellStyleXfs[XfId].newID.ToString());
             }
-            if (VerticalAlignment != ExcelVerticalAlignment.Bottom) this.SetXmlNodeString(verticalAlignPath, SetAlignString(VerticalAlignment));
-            if(WrapText) this.SetXmlNodeString(wrapTextPath, "1");
-            if(_readingOrder!=ExcelReadingOrder.ContextDependent) this.SetXmlNodeString(readingOrderPath, ((int)_readingOrder).ToString());
-            if (ShrinkToFit) this.SetXmlNodeString(shrinkToFitPath, "1");
-            if (_indent > 0) SetXmlNodeString(indentPath, _indent.ToString());
-            if (_textRotation > 0) this.SetXmlNodeString(textRotationPath, _textRotation.ToString());
-            if (!Locked) this.SetXmlNodeString(lockedPath, "0");
-            if (Hidden) this.SetXmlNodeString(hiddenPath, "1");
-            if (QuotePrefix) this.SetXmlNodeString(quotePrefixPath, "1");
-            if(JustifyLastLine) this.SetXmlNodeString(justifyLastLine, "1");
 
-            if ((Locked || Hidden) && doSetXfId)
+            if(VerticalAlignment != ExcelVerticalAlignment.Bottom) SetXmlNodeString(verticalAlignPath, SetAlignString(VerticalAlignment));
+            if(WrapText) SetXmlNodeString(wrapTextPath, "1");
+            if(_readingOrder!=ExcelReadingOrder.ContextDependent) SetXmlNodeString(readingOrderPath, ((int)_readingOrder).ToString());
+            if(ShrinkToFit) SetXmlNodeString(shrinkToFitPath, "1");
+            if(_indent > 0) SetXmlNodeString(indentPath, _indent.ToString());
+            if(_textRotation > 0) SetXmlNodeString(textRotationPath, _textRotation.ToString());
+            if(!Locked) SetXmlNodeString(lockedPath, "0");
+            if(Hidden) SetXmlNodeString(hiddenPath, "1");
+            if(QuotePrefix) SetXmlNodeString(quotePrefixPath, "1");
+            if(JustifyLastLine) SetXmlNodeString(justifyLastLine, "1");
+
+            if ((Locked == false || Hidden == false))
             {
                 SetXmlNodeString("@applyProtection", "1");
             }
 
-            if ((HorizontalAlignment != ExcelHorizontalAlignment.General || VerticalAlignment != ExcelVerticalAlignment.Bottom) && doSetXfId)
+            if ((HorizontalAlignment != ExcelHorizontalAlignment.General || VerticalAlignment != ExcelVerticalAlignment.Bottom))
             {
                 SetXmlNodeString("@applyAlignment", "1");
             }

@@ -2837,14 +2837,25 @@ namespace OfficeOpenXml
                         string n=col.Name.ToLowerInvariant();
                         if (tbl.ShowHeader)
                         {
-                            n = tbl.WorkSheet.GetValue<string>(tbl.Address._fromRow,
-                                tbl.Address._fromCol + col.Position);
+                            var v = tbl.WorkSheet.GetValue(tbl.Address._fromRow, colNum);
+
+                            if (v is string s)
+                            {
+                                n = s;
+                            }
+                            else
+                            {
+                                //Column headers must be a string. Set the value to the string value of the number.
+                                n = tbl.WorkSheet.Cells[tbl.Address._fromRow, tbl.Address._fromCol + col.Position].Text;
+                                SetValueInner(tbl.Address._fromRow, colNum, n); 
+                            }
+
                             if (string.IsNullOrEmpty(n))
                             {
                                 n = col.Name.ToLowerInvariant();
                                 SetValueInner(tbl.Address._fromRow, colNum, ConvertUtil.ExcelDecodeString(col.Name));
                             }
-                            else if(col.Name != n)
+                            else if (col.Name != n)
                             {
                                 col.Name = n;
                                 SetValueInner(tbl.Address._fromRow, colNum, ConvertUtil.ExcelDecodeString(col.Name));

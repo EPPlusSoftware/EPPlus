@@ -1157,6 +1157,7 @@ namespace OfficeOpenXml
                 }
                 xfsCount++;
             }
+
             foreach (ExcelNamedStyleXml style in NamedStyles)
             {
                 if (style.BuildInId != 0)

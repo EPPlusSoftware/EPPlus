@@ -146,7 +146,6 @@ namespace EPPlusTest
                 ExcelColumn column = sheet.Column(3); // fails with exception
             }
         }
-
         [TestMethod]
         public void Issue15123()
         {
