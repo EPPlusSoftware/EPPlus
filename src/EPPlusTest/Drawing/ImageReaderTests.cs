@@ -21,8 +21,9 @@ namespace EPPlusTest.Drawing
 		{
 			InitBase();
 			_pck = OpenPackage("ImageReader.xlsx", true);
-		}
-		[ClassCleanup]
+            _pck.Settings.ImageSettings.PrimaryImageHandler = new OfficeOpenXml.Drawing.GenericImageHandler();
+        }
+        [ClassCleanup]
 		public static void Cleanup()
 		{
             var dirName = _pck.File.DirectoryName;
@@ -216,6 +217,7 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void AddJpgImages()
         {
+            
             AddFilesToWorksheet("Jpg", ePictureType.Jpg);
         }
         [TestMethod]

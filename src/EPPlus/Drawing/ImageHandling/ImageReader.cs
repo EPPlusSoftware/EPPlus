@@ -219,12 +219,8 @@ namespace OfficeOpenXml.Drawing
                                 var unit = br.ReadByte();
                                 xDensity = (int)GetInt16BigEndian(br);
                                 yDensity = (int)GetInt16BigEndian(br);
-                                if (unit == 0)
-                                {
-                                    horizontalResolution *= xDensity / 100;
-                                    verticalResolution *= yDensity / 100;
-                                }
-                                else if (unit == 1)
+                                
+                                if (unit == 1)
                                 {
                                     horizontalResolution = xDensity;
                                     verticalResolution = yDensity;
@@ -235,7 +231,7 @@ namespace OfficeOpenXml.Drawing
                                     verticalResolution = yDensity * CM_TO_INCH;
                                 }
 
-                                ms.Position = length + 4;
+                                ms.Position += 2;
                                 break;
                             case 0xFFE1:
                                 var pos = ms.Position;
