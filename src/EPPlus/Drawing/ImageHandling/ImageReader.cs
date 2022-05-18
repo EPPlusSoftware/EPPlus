@@ -231,7 +231,7 @@ namespace OfficeOpenXml.Drawing
                                     verticalResolution = yDensity * CM_TO_INCH;
                                 }
 
-                                ms.Position += 2;
+                                ms.Position += length-14;
                                 break;
                             case 0xFFE1:
                                 var pos = ms.Position;
