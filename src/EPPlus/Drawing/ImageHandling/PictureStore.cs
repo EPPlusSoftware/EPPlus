@@ -75,7 +75,10 @@ namespace OfficeOpenXml.Drawing
                     {
                         var extension = GetExtension(uri);
                         contentType = GetContentType(extension);
-                        pictureType = GetPictureType(extension);
+                        if (pictureType == null)
+                        {
+                            pictureType = GetPictureType(extension);
+                        }
                         if (_pck.ZipPackage.PartExists(uri))
                         {
                             if(_images.Values.Any(x=>x.Uri.OriginalString==uri.OriginalString))

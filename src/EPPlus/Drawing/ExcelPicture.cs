@@ -63,7 +63,40 @@ namespace OfficeOpenXml.Drawing
 
                 byte[] iby = ((MemoryStream)Part.GetStream()).ToArray();
                 Image = new ExcelImage(this);
-                Image.SetImage(iby, PictureStore.GetPictureType(extension));
+                if (iby.Length > 2 && iby[0] == 0x42 && iby[1] == 0x4d)
+                {
+                    ContentType = "image/bmp";
+                    Image.SetImage(iby, ePictureType.Bmp);
+                }
+                else if (iby.Length > 4 && (
+                    (iby[0] == 0xff && iby[1] == 0xd8 && iby[2] == 0xff && iby[3] == 0xe0) ||   // jpeg image
+                    (iby[0] == 0xff && iby[1] == 0xd8 && iby[2] == 0xff && iby[3] == 0xe2) ||   // Cannon EOS jpeg
+                    (iby[0] == 0xff && iby[1] == 0xd8 && iby[2] == 0xff && iby[3] == 0xe3) ||   // Samsung D500 jpeg
+                    (iby[0] == 0xff && iby[1] == 0xd8 && iby[2] == 0xff && iby[3] == 0xe8)))    // Still Picture Interchange
+                {
+                    ContentType = "image/jpeg";
+                    Image.SetImage(iby, ePictureType.Jpg);
+                }
+                else if (iby.Length > 4 && iby[0] == 0x47 && iby[1] == 0x49 && iby[2] == 0x46 && iby[3] == 0x38)
+                {
+                    ContentType = "image/gif";
+                    Image.SetImage(iby, ePictureType.Gif);
+                }
+                else if (iby.Length > 4 && iby[0] == 0xd7 && iby[1] == 0xcd && iby[2] == 0xc6 && iby[3] == 0x9a)
+                {
+                    ContentType = "image/x-wmf";
+                    Image.SetImage(iby, ePictureType.Wmf);
+                }
+                else if (iby.Length > 4 && iby[0] == 0x89 && iby[1] == 0x50 && iby[2] == 0x4e && iby[3] == 0x47 &&
+                                      iby[4] == 0x0d && iby[5] == 0x0a && iby[6] == 0x1a && iby[7] == 0x0a)
+                {
+                    ContentType = "image/png";
+                    Image.SetImage(iby, ePictureType.Png);
+                }
+                else
+                {
+                    Image.SetImage(iby, PictureStore.GetPictureType(extension));
+                }
 
                 var ii = _drawings._package.PictureStore.LoadImage(iby, container.UriPic, Part);
                 container.ImageHash = ii.Hash;
