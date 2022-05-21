@@ -25,7 +25,7 @@ namespace OfficeOpenXml.Style
     /// </summary>
     public sealed class ExcelColor :  StyleBase, IColor
     {
-        internal static readonly string[] indexedColors =
+        internal static string[] indexedColors =
         {
                 "#FF000000", // 0
                 "#FFFFFFFF",
