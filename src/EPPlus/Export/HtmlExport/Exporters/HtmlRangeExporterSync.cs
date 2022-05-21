@@ -334,8 +334,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     {
                         image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }
-                    AddImage(writer, Settings, image, cell.Value);
                     writer.RenderBeginTag(HtmlElements.TableHeader);
+                    AddImage(writer, Settings, image, cell.Value);
 
                     if (headerRows > 0 || table != null)
                     {

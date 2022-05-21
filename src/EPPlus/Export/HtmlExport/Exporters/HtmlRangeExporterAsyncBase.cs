@@ -166,8 +166,8 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters
                     {
                         image = GetImage(cell.Worksheet.PositionId, cell._fromRow, cell._fromCol);
                     }
-                    await AddImageAsync(writer, Settings, image, cell.Value);
                     await writer.RenderBeginTagAsync(HtmlElements.TableHeader);
+                    await AddImageAsync(writer, Settings, image, cell.Value);
 
                     if (headerRows > 0 || table != null)
                     {
