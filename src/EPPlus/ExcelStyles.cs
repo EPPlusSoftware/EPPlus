@@ -35,6 +35,7 @@ namespace OfficeOpenXml
     /// </summary>
     public sealed class ExcelStyles : XmlHelper
     {
+        const string ColorsPath = "d:colors/d:indexedColors/d:rgbColor";
         const string NumberFormatsPath = "d:numFmts";
         const string FontsPath = "d:fonts";
         const string FillsPath = "d:fills";
@@ -66,6 +67,17 @@ namespace OfficeOpenXml
         /// </summary>
         private void LoadFromDocument()
         {
+            //colors
+            XmlNodeList colorNodes = GetNodes(ColorsPath);
+            if (colorNodes != null && colorNodes.Count > 0)
+            {
+                int index = 0;
+                foreach (XmlNode node in colorNodes)
+                {
+                    ExcelColor.indexedColors[index++] = "#" + node.Attributes["rgb"].InnerText;
+                }
+            }
+
             //NumberFormats
             ExcelNumberFormatXml.AddBuildIn(NameSpaceManager, NumberFormats);
             XmlNode numNode = GetNode(NumberFormatsPath);
