@@ -25,6 +25,18 @@ namespace OfficeOpenXml.Drawing
             base (ns,node)
         {
             _setWidthCallback = setWidthCallback;
+            Load();
+        }
+
+        private void Load()
+        {
+            _height = GetXmlNodeLong(colOffPath);
+            _width = GetXmlNodeLong(rowOffPath);
+        }
+        public void UpdateXml()
+        {
+            SetXmlNodeString(colOffPath, _height.ToString());
+            SetXmlNodeString(rowOffPath, _width.ToString());
         }
         const string colOffPath = "@cy";
         long _height=long.MinValue;
@@ -39,20 +51,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                if (_height == long.MinValue)
-                {
-                    _height=GetXmlNodeLong(colOffPath);
-                }
                 return _height;
             }
             set
             {
-                if(value != Height)
-                {
-                    _height = value;
-                    SetXmlNodeString(colOffPath, value.ToString());
-                    if (_setWidthCallback != null) _setWidthCallback();
-                }
+                _height = value;
+                if (_setWidthCallback != null) _setWidthCallback();
             }
         }
         const string rowOffPath = "@cx";
@@ -68,20 +72,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                if (_width == long.MinValue)
-                {
-                    _width = GetXmlNodeLong(rowOffPath);
-                }
                 return _width;                
             }
             set
             {
-                if (value != Width)
-                {
-                    _width = value;
-                    SetXmlNodeString(rowOffPath, value.ToString());
-                    if (_setWidthCallback != null) _setWidthCallback();
-                }
+                _width = value;
+                if (_setWidthCallback != null) _setWidthCallback();
             }
         }
     }
