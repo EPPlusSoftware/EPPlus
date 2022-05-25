@@ -170,7 +170,7 @@ namespace OfficeOpenXml.Core.Worksheet
                             drawing.From.Row += rows;
                         }
 
-                        if (drawing.EditAs == eEditAs.TwoCell)
+                        if (drawing.CellAnchor == eEditAs.TwoCell)
                         {
                             if (drawing.To.Row >= rowFrom-1)
                             {
@@ -180,14 +180,17 @@ namespace OfficeOpenXml.Core.Worksheet
                     }
                     else if (drawing.To != null && drawing.To.Row >= rowFrom-1)
                     {
-                        if (drawing.To.Row+rows < rowFrom-1)
+                        if (drawing.EditAs == eEditAs.TwoCell)
                         {
-                            drawing.To.Row = rowFrom-1;
-                            drawing.To.RowOff = 0;
-                        }
-                        else
-                        {
-                            drawing.To.Row += rows;
+                            if (drawing.To.Row + rows < rowFrom - 1)
+                            {
+                                drawing.To.Row = rowFrom - 1;
+                                drawing.To.RowOff = 0;
+                            }
+                            else
+                            {
+                                drawing.To.Row += rows;
+                            }
                         }
                     }
                     if (drawing.From.Row < 0) drawing.From.Row = 0;
