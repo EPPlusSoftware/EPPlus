@@ -1264,6 +1264,12 @@ namespace OfficeOpenXml.Drawing
                 SetPixelHeight(_height);
                 SetPixelWidth(_width);
             }
+            
+            From?.UpdateXml();
+            To?.UpdateXml();
+            Size?.UpdateXml();
+            Position?.UpdateXml();
+
             _drawings.Worksheet.Workbook._package.DoAdjustDrawings = true;
         }
         internal XmlElement CreateShapeNode()

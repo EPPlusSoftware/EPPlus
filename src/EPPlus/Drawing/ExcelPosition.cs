@@ -29,8 +29,10 @@ namespace OfficeOpenXml.Drawing
             _node = node;
             _ns = ns;
             _setWidthCallback = setWidthCallback;
+            Load();
         }
         const string colPath = "xdr:col";
+        int _column, _row, _columnOff, _rowOff;        
         /// <summary>
         /// The column
         /// </summary>
@@ -38,11 +40,11 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeInt(colPath);
+                return _column;
             }
             set
             {
-                SetXmlNodeString(colPath, value.ToString());
+                _column = value;
                 _setWidthCallback?.Invoke();
             }
         }
@@ -54,11 +56,11 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeInt(rowPath);
+                return _row;
             }
             set
             {
-                SetXmlNodeString(rowPath, value.ToString());
+                _row = value;
                 _setWidthCallback?.Invoke();
             }
         }
@@ -74,11 +76,11 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeInt(colOffPath);
+                return _columnOff;
             }
             set
             {
-                SetXmlNodeString(colOffPath, value.ToString());
+                _columnOff = value;
                 _setWidthCallback?.Invoke();
             }
         }
@@ -94,13 +96,27 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeInt(rowOffPath);
+                return _rowOff;
             }
             set
             {
-                SetXmlNodeString(rowOffPath, value.ToString());
+                _rowOff = value;
                 _setWidthCallback?.Invoke();
             }
+        }
+        public void Load()
+        {            
+            _column = GetXmlNodeInt(colPath);
+            _columnOff = GetXmlNodeInt(colOffPath);
+            _row = GetXmlNodeInt(rowPath);
+            _rowOff = GetXmlNodeInt(rowOffPath);
+        }
+        public void UpdateXml()
+        {
+            SetXmlNodeString(colPath, _column.ToString());
+            SetXmlNodeString(rowPath, _row.ToString());
+            SetXmlNodeString(colOffPath, _columnOff.ToString());
+            SetXmlNodeString(rowOffPath, _rowOff.ToString());
         }
     }
 }

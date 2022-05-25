@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing
@@ -25,7 +26,20 @@ namespace OfficeOpenXml.Drawing
             base(ns, node)
         {
             _setWidthCallback = setWidthCallback;
+            Load();
         }
+
+        private void Load()
+        {
+            _x = GetXmlNodeInt(xPath);
+            _y = GetXmlNodeInt(yPath);
+        }
+        public void UpdateXml()
+        {
+            SetXmlNodeString(xPath, _x.ToString());
+            SetXmlNodeString(yPath, _y.ToString());
+        }
+        int _x, _y;
         const string xPath = "@x";
         /// <summary>
         /// X coordinate in EMU
@@ -39,11 +53,11 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeInt(xPath);
+                return _x;
             }
             set
             {
-                SetXmlNodeString(xPath, value.ToString());
+                _x = value;
                 if(_setWidthCallback != null) _setWidthCallback();
             }
         }
@@ -60,11 +74,11 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeInt(yPath);
+                return _y;
             }
             set
             {
-                SetXmlNodeString(yPath, value.ToString());
+                _y = value;
                 if (_setWidthCallback != null) _setWidthCallback();
             }
         }
