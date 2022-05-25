@@ -3255,6 +3255,19 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void i654()
+        {
+            using (var p = OpenTemplatePackage("i654.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                for (int i = 0; i < 10; i++)
+                {
+                    ws.InsertRow(5, 1);
+                }
+                SaveWorkbook("i654-saved.xlsx", p);
+            }
+        }
 
     }
 }
