@@ -868,7 +868,7 @@ namespace OfficeOpenXml.Drawing
                 fromColumnOff = From.ColumnOff;
             }
             double pixOff = pixels - (double)(decimal.Truncate(((256 * ws.GetColumnWidth(fromColumn + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw) - fromColumnOff / EMU_PER_PIXEL);
-            prevRowOff = fromColumnOff / EMU_PER_PIXEL + pixels;
+            prevRowOff = (double)fromColumnOff / EMU_PER_PIXEL + pixels;
             col = fromColumn + 2;
             while (pixOff >= 0)
             {
