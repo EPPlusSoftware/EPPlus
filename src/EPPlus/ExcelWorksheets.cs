@@ -577,13 +577,14 @@ namespace OfficeOpenXml
             }
             return null;
         }
-        internal ExcelWorksheet GetByName(string Name)
+        internal ExcelWorksheet GetByName(string name)
         {
-            if (string.IsNullOrEmpty(Name)) return null;
+            name = ValidateFixSheetName(name);
+            if (string.IsNullOrEmpty(name)) return null;
             ExcelWorksheet ws = null;
             foreach (ExcelWorksheet worksheet in _worksheets)
             {
-                if (worksheet.Name.Equals(Name, StringComparison.OrdinalIgnoreCase))
+                if (worksheet.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
                     ws = worksheet;
             }
             return (ws);
