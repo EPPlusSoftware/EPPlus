@@ -179,7 +179,16 @@ namespace EPPlusTest
 			Assert.AreEqual("NEW8", workbook.Worksheets.First().Name);
 			Assert.AreEqual("NEW1", workbook.Worksheets[1].Name);
 		}
-		private static void CompareOrderOfWorksheetsAfterSaving(ExcelPackage editedPackage)
+        [TestMethod]
+        public void GetOrAddWorksheets()
+        {
+			if (workbook.Worksheets["[NEW2]"] == null)
+                workbook.Worksheets.Add("[NEW2]");
+
+            if (workbook.Worksheets["[NEW2]"] == null)
+                workbook.Worksheets.Add("[NEW2]");
+        }
+        private static void CompareOrderOfWorksheetsAfterSaving(ExcelPackage editedPackage)
 		{
 			var packageStream = new MemoryStream();
 			editedPackage.SaveAs(packageStream);
