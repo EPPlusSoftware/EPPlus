@@ -514,7 +514,7 @@ namespace OfficeOpenXml.Core.Worksheet
             if (Copy._vmlDrawings.Part == null) return;
             foreach (var r in Copy._vmlDrawings.Part.GetRelationships())
             {
-                var newRel = added._vmlDrawings.Part.CreateRelationship(r.TargetUri, r.TargetMode, r.RelationshipType);
+                var newRel = added.VmlDrawings.Part.CreateRelationship(r.TargetUri, r.TargetMode, r.RelationshipType);
                 if (newRel.Id != r.Id) //Make sure the id's are the same.
                 {
                     newRel.Id = r.Id;

@@ -3285,7 +3285,15 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-
+        [TestMethod]
+        public void I659()
+        {
+            using (var p = OpenTemplatePackage("I659-2.xlsx"))
+            {
+                p.Workbook.Worksheets.Copy("Table1", "Table1 copy");
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
 
