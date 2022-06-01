@@ -248,6 +248,7 @@ namespace OfficeOpenXml.Core.Worksheet
                         uriChart = XmlHelper.GetNewUri(pck.ZipPackage, "/xl/charts/chart{0}.xml");
                         chartPart = pck.ZipPackage.CreatePart(uriChart, ContentTypes.contentTypeChart, pck.Compression);
                     }
+
                     StreamWriter streamChart = new StreamWriter(chartPart.GetStream(FileMode.Create, FileAccess.Write));
                     streamChart.Write(xml);
                     streamChart.Flush();
@@ -328,7 +329,27 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     CopyBlipFillDrawing(added, partDraw, drawXml, draw, shp.Fill, uriDraw);
                 }
+                if(draw.HypRel != null)
+                {
+                    ZipPackageRelationship rel;
+                    if (string.IsNullOrEmpty(draw.HypRel.Target))
+                    {
+                        rel = partDraw.CreateRelationship(draw.HypRel.TargetUri.OriginalString, draw.HypRel.TargetMode, draw.HypRel.RelationshipType);
+                    }
+                    else
+                    {
+                        rel = partDraw.CreateRelationship(draw.HypRel.Target, draw.HypRel.TargetMode, draw.HypRel.RelationshipType);
+                    }
+                    
+                    XmlNode relAtt =
+                        drawXml.SelectSingleNode(
+                                $"//{draw._nvPrPath}[@name='{draw.Name}']/a:hlinkClick/@r:id", copy.Drawings.NameSpaceManager);
 
+                    if (relAtt != null)
+                    {
+                        relAtt.Value = rel.Id;
+                    }
+                }
             }
 
             //rewrite the drawing xml with the new relID's

@@ -3288,9 +3288,10 @@ namespace EPPlusTest
         [TestMethod]
         public void I659()
         {
-            using (var p = OpenTemplatePackage("I659-2.xlsx"))
+            using (var p = OpenTemplatePackage("I659-1.xlsx"))
             {
-                p.Workbook.Worksheets.Copy("Table1", "Table1 copy");
+                //p.Workbook.Worksheets.Copy("Table1", "Table1 copy");
+                p.Workbook.Worksheets.Add("Table1 copy", p.Workbook.Worksheets[0]);
                 SaveAndCleanup(p);
             }
         }
