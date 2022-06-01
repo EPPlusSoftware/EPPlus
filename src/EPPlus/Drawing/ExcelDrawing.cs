@@ -107,21 +107,24 @@ namespace OfficeOpenXml.Drawing
                         {
                             if (!string.IsNullOrEmpty(HypRel.Target))
                             {
-                                Hyperlink = new ExcelHyperLink(HypRel.Target.Substring(1), "");
+                                _hyperLink = new ExcelHyperLink(HypRel.Target.Substring(1), "");
                             }
                         }
                         else
                         {
                             if (HypRel.TargetUri.IsAbsoluteUri)
                             {
-                                Hyperlink = new ExcelHyperLink(HypRel.TargetUri.AbsoluteUri);
+                                _hyperLink = new ExcelHyperLink(HypRel.TargetUri.AbsoluteUri);
                             }
                             else
                             {
-                                Hyperlink = new ExcelHyperLink(HypRel.TargetUri.OriginalString, UriKind.Relative);
+                                _hyperLink = new ExcelHyperLink(HypRel.TargetUri.OriginalString, UriKind.Relative);
                             }
                         }
-                        ((ExcelHyperLink)Hyperlink).ToolTip = GetXmlNodeString(_hyperLinkPath + "/@tooltip");
+                        if (Hyperlink is ExcelHyperLink ehl)
+                        {
+                            ehl.ToolTip = GetXmlNodeString(_hyperLinkPath + "/@tooltip");
+                        }
                     }
                 }
                 else
