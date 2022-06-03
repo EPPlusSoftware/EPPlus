@@ -2,7 +2,7 @@
  [![Download EPPlus from nuget](https://img.shields.io/nuget/dt/epplus?label=Nuget%20downloads)](https://www.nuget.org/packages/EPPlus/)
 [![Build status](https://ci.appveyor.com/api/projects/status/6jdk5tjxxvx99d5i?svg=true)](https://ci.appveyor.com/project/EPPlusSoftware/epplus)
 
-# EPPlus 6 Beta
+# EPPlus 6
 
 ## Announcement: new license model from version 5
 EPPlus has from this new major version changed license from LGPL to [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
