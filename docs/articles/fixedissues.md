@@ -1,5 +1,15 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.8.11
+### Fixed issues
+* VBA code modules with LF only as EOL, causes code module to load incorrectly.
+* INDIRECT function did not always set the correct data type when returning a single cell.
+* Clearing ranges with threaded comments caused an exception.
+* Copying drawings with hyperlinks failed.
+* Improves insert/delete performance when working with drawings.
+* Insert row caused images to change size in some cases when having two anchored drawings.
+* Improved handling of percentage values in strings in formula calculation.
+
 ## Version 5.8.10
 ### Fixed issues
 * Hyperlinks in cells added with 'Display=null' will now use the formatted cell value as text for in workbook links.
