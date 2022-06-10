@@ -2194,7 +2194,10 @@ namespace OfficeOpenXml
             var cse = new CellStoreEnumerator<int>(_worksheet._commentsStore, Range._fromRow, Range._fromCol, Range._toRow, Range._toCol);
             while (cse.Next())
             {
-                deleted.Add(cse.Value);
+                if (_worksheet._threadedCommentsStore.Exists(cse.Row, cse.Column) == false) //Threaded comments keep a comment for backward compatibility that needs to be keept.
+                {
+                    deleted.Add(cse.Value);
+                }
             }
             foreach (var i in deleted)
             {
