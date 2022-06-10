@@ -239,7 +239,11 @@ namespace OfficeOpenXml.ThreadedComments
             if (threadedComment == c)
             {
                 var address = threadedComment.CellAddress;
-                _worksheet.Comments.Remove(_worksheet.Comments[address]); //Remove the underlaying comment.
+                var comment = _worksheet.Comments[address];
+                if (comment != null) //Check if the underlaying comment exists.
+                {
+                    _worksheet.Comments.Remove(comment); //If so, Remove it.
+                }
                 var nodes = threadedComment.Comments.Select(x => x.TopNode);
                 foreach(var node in nodes)
                 {
