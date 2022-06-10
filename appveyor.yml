@@ -1,4 +1,4 @@
-version: 6.0.4.{build}
+version: 6.0.5.{build}
 branches:
   only:
   - develop
@@ -7,16 +7,16 @@ image: Visual Studio 2022
 platform: Any CPU
 init:
 - ps: >-
-    Update-AppveyorBuild -Version "6.0.4.$env:appveyor_build_number-$(Get-Date -format yyyyMMdd)-$env:appveyor_repo_branch"
+    Update-AppveyorBuild -Version "6.0.5.$env:appveyor_build_number-$(Get-Date -format yyyyMMdd)-$env:appveyor_repo_branch"
 
-    Write-Host "6.0.4.$env:appveyor_build_number-$(Get-Date -format yyyyMMdd)-$env:appveyor_repo_branch"
+    Write-Host "6.0.5.$env:appveyor_build_number-$(Get-Date -format yyyyMMdd)-$env:appveyor_repo_branch"
 
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
   version: '{version}'
-  assembly_version: 6.0.4.{build}
-  file_version: 6.0.4.{build}
+  assembly_version: 6.0.5.{build}
+  file_version: 6.0.5.{build}
 nuget:
   project_feed: true
 before_build:

@@ -1,4 +1,18 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.0.5
+### Fixed issues
+* VBA code modules with LF only as EOL, causes code module to load incorrectly.
+* INDIRECT function did not always set the correct data type when returning a single cell.
+* Clearing ranges with threaded comments caused an exception.
+* Copying drawings with hyperlinks failed.
+* Improves insert/delete performance when working with drawings.
+* Insert row caused images to change size in some cases when having two anchored drawings.
+* Improved handling of percentage values in strings in formula calculation.
+* Custom index colors are now loaded from the styles.xml, thanks to Raboud.
+* Fix to get the app0 header length correct for internal jpg reader for the internal image reader.
+* Images in the header row was not correctly rendered in the HTML export for ranges.
+* Upgraded .NET 4.5.2 to 4.6.2, as 4.5.2 has reached End of Support
+
 ## Version 6.0.4
 ### Fixed issues
 * Improved handling of circular references for SUMIF and COUNTIF
