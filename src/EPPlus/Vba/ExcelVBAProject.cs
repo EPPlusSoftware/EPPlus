@@ -161,6 +161,16 @@ namespace OfficeOpenXml.VBA
                 while(pos+9<code.Length && code.Substring(pos,9)=="Attribute")
                 {
                     int linePos=code.IndexOf("\r\n",pos, StringComparison.OrdinalIgnoreCase);
+                    int crlfSize;
+                    if (linePos<0)
+                    {
+                        linePos = code.IndexOf("\n", pos, StringComparison.OrdinalIgnoreCase);
+                        crlfSize = 1;
+                    }
+                    else
+                    {
+                        crlfSize = 2;
+                    }
                     string[] lineSplit;
                     if(linePos>0)
                     {
@@ -182,7 +192,7 @@ namespace OfficeOpenXml.VBA
                         };
                         modul.Attributes._list.Add(attr);
                     }
-                    pos = linePos + 2;
+                    pos = linePos + crlfSize;
                 }
                 modul.Code=code.Substring(pos);
             }
