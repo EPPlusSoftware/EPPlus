@@ -157,34 +157,44 @@ namespace OfficeOpenXml.VBA
                 var stream = Document.Storage.SubStorage["VBA"].DataStreams[modul.streamName];
                 var byCode = VBACompression.DecompressPart(stream, (int)modul.ModuleOffset);
                 string code = Encoding.GetEncoding(CodePage).GetString(byCode);
-                int pos=0;
-                while(pos+9<code.Length && code.Substring(pos,9)=="Attribute")
+                int pos = 0;
+                while (pos + 9 < code.Length && code.Substring(pos, 9) == "Attribute")
                 {
-                    int linePos=code.IndexOf("\r\n",pos, StringComparison.OrdinalIgnoreCase);
+                    int linePos = code.IndexOf("\r\n", pos, StringComparison.OrdinalIgnoreCase);
+                    int crlfSize;
+                    if (linePos < 0)
+                    {
+                        linePos = code.IndexOf("\n", pos, StringComparison.OrdinalIgnoreCase);
+                        crlfSize = 1;
+                    }
+                    else
+                    {
+                        crlfSize = 2;
+                    }
                     string[] lineSplit;
-                    if(linePos>0)
+                    if (linePos > 0)
                     {
                         lineSplit = code.Substring(pos + 9, linePos - pos - 9).Split('=');
                     }
                     else
                     {
-                        lineSplit=code.Substring(pos+9).Split(new char[]{'='},1);
+                        lineSplit = code.Substring(pos + 9).Split(new char[] { '=' }, 1);
                     }
                     if (lineSplit.Length > 1)
                     {
                         lineSplit[1] = lineSplit[1].Trim();
-                        var attr = 
+                        var attr =
                             new ExcelVbaModuleAttribute()
-                        {
-                            Name = lineSplit[0].Trim(),
-                            DataType = lineSplit[1].StartsWith("\"", StringComparison.OrdinalIgnoreCase) ? eAttributeDataType.String : eAttributeDataType.NonString,
-                            Value = lineSplit[1].StartsWith("\"", StringComparison.OrdinalIgnoreCase) ? lineSplit[1].Substring(1, lineSplit[1].Length - 2) : lineSplit[1]
-                        };
+                            {
+                                Name = lineSplit[0].Trim(),
+                                DataType = lineSplit[1].StartsWith("\"", StringComparison.OrdinalIgnoreCase) ? eAttributeDataType.String : eAttributeDataType.NonString,
+                                Value = lineSplit[1].StartsWith("\"", StringComparison.OrdinalIgnoreCase) ? lineSplit[1].Substring(1, lineSplit[1].Length - 2) : lineSplit[1]
+                            };
                         modul.Attributes._list.Add(attr);
                     }
-                    pos = linePos + 2;
+                    pos = linePos + crlfSize;
                 }
-                modul.Code=code.Substring(pos);
+                modul.Code = code.Substring(pos);
             }
         }
 
