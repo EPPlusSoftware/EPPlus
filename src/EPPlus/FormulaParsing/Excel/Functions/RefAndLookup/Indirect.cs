@@ -57,6 +57,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 return CompileResult.Empty;
             }
+            else if(!result.IsMulti)
+            {
+                var cell = result.FirstOrDefault();
+                var val = cell != null ? cell.Value : null;
+                if (val == null) return CompileResult.Empty;
+                return new CompileResultFactory().Create(val);
+            }
             return new CompileResult(result, DataType.Enumerable);
         }
     }
