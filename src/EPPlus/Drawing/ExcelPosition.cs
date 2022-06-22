@@ -114,8 +114,8 @@ namespace OfficeOpenXml.Drawing
         public void UpdateXml()
         {
             SetXmlNodeString(colPath, _column.ToString());
-            SetXmlNodeString(rowPath, _row.ToString());
             SetXmlNodeString(colOffPath, _columnOff.ToString());
+            SetXmlNodeString(rowPath, _row.ToString());
             SetXmlNodeString(rowOffPath, _rowOff.ToString());
         }
     }

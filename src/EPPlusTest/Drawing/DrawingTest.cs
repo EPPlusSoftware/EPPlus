@@ -1142,5 +1142,12 @@ namespace EPPlusTest
             Assert.AreEqual("Calibri", shape.RichText[0].ComplexFont);
             Assert.AreEqual(8, shape.RichText[0].Size);
         }
+        [TestMethod]
+        public void PictureChangeCellAnchor()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PictureChangeCellAnchore");
+            var pic = ws.Drawings.AddPicture("Pic1", Resources.Test1);
+            pic.ChangeCellAnchor(eEditAs.TwoCell);
+        }
     }
 }
