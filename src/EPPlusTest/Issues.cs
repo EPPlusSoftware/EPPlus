@@ -3321,5 +3321,24 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void I673()
+        {
+            using (var p = OpenTemplatePackage("I673.xlsm"))
+            {
+                p.Workbook.Worksheets.Copy(p.Workbook.Worksheets.First().Name, "copied sheet");
+                SaveAndCleanup(p);
+            }
+
+        }
+        [TestMethod]
+        public void SaveDefinedName()
+        {
+            using (var p = OpenTemplatePackage("SaveIssueName.xlsm"))
+            {
+                SaveAndCleanup(p);
+            }
+
+        }
     }
 }
