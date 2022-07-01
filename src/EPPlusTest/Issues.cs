@@ -3340,5 +3340,16 @@ namespace EPPlusTest
             }
 
         }
+        [TestMethod]
+        public void I676()
+        {
+            using (var p=OpenTemplatePackage("i676.xlsm"))
+            {
+                var ws = p.Workbook.Worksheets["4"];
+                ws.Cells["P10"].Value = 10;
+                p.Workbook.VbaProject.Remove();
+                SaveWorkbook("i676.xlsx",p);
+            }
+        }
     }
 }
