@@ -321,38 +321,21 @@ namespace OfficeOpenXml
 					}
 
 					var addressType = ExcelAddressBase.IsValid(fullAddress);
-					ExcelRangeBase range;
 					ExcelNamedRange namedRange;
 
-                    if (addressType == ExcelAddressBase.AddressType.Invalid || addressType == ExcelAddressBase.AddressType.InternalName || addressType == ExcelAddressBase.AddressType.ExternalName || addressType == ExcelAddressBase.AddressType.Formula || addressType == ExcelAddressBase.AddressType.ExternalAddress)    //A value or a formula
+					if (addressType == ExcelAddressBase.AddressType.Invalid || addressType == ExcelAddressBase.AddressType.InternalName || addressType == ExcelAddressBase.AddressType.ExternalName || addressType == ExcelAddressBase.AddressType.Formula || addressType == ExcelAddressBase.AddressType.ExternalAddress)    //A value or a formula
 					{
-						range = new ExcelRangeBase(this, nameWorksheet, elem.GetAttribute("name"), true);
-						if (nameWorksheet == null)
-						{
-							namedRange = _names.AddName(elem.GetAttribute("name"), range);
-						}
-						else
-						{
-							namedRange = nameWorksheet.Names.AddName(elem.GetAttribute("name"), range);
-						}
-
-						if (Utils.ConvertUtil._invariantCompareInfo.IsPrefix(fullAddress, "\"")) //String value
-						{
-							namedRange.NameValue = fullAddress.Substring(1, fullAddress.Length - 2);
-						}
-						else if (double.TryParse(fullAddress, NumberStyles.Number, CultureInfo.InvariantCulture, out double value))
-						{
-							namedRange.NameValue = value;
-						}
-						else
-						{
-							namedRange.NameFormula = fullAddress;
-						}
+						namedRange = AddFormulaOrValueName(elem, fullAddress, nameWorksheet);
 					}
 					else
 					{
 						ExcelAddress addr = new ExcelAddress(fullAddress, _package, null);
-						if (localSheetID > -1)
+
+						if (addr._fromRow <= 0 && fullAddress.IndexOf("#REF!", StringComparison.OrdinalIgnoreCase) < 0) // Address is not valid, add as a formula instead
+						{
+							namedRange = AddFormulaOrValueName(elem, fullAddress, nameWorksheet);
+						}
+						else if (localSheetID > -1)
 						{
 							if (string.IsNullOrEmpty(addr._ws))
 							{
@@ -368,12 +351,12 @@ namespace OfficeOpenXml
 						else
 						{
 							var ws = Worksheets[addr._ws];
-							if(ws==null)
-                            {
+							if (ws == null)
+							{
 								namedRange = _names.AddFormula(elem.GetAttribute("name"), fullAddress);
 							}
 							else
-                            {
+							{
 								var addressRange = CreateRangeForName(ws, fullAddress, out bool allowRelativeAddress);
 								namedRange = _names.AddName(elem.GetAttribute("name"), addressRange, allowRelativeAddress);
 							}
@@ -384,7 +367,34 @@ namespace OfficeOpenXml
 				}
 			}
 		}
+		private ExcelNamedRange AddFormulaOrValueName(XmlElement elem, string fullAddress, ExcelWorksheet nameWorksheet)
+		{
+			ExcelNamedRange namedRange;
+			var range = new ExcelRangeBase(this, nameWorksheet, elem.GetAttribute("name"), true);
+			if (nameWorksheet == null)
+			{
+				namedRange = _names.AddName(elem.GetAttribute("name"), range);
+			}
+			else
+			{
+				namedRange = nameWorksheet.Names.AddName(elem.GetAttribute("name"), range);
+			}
 
+			if (Utils.ConvertUtil._invariantCompareInfo.IsPrefix(fullAddress, "\"")) //String value
+			{
+				namedRange.NameValue = fullAddress.Substring(1, fullAddress.Length - 2);
+			}
+			else if (double.TryParse(fullAddress, NumberStyles.Number, CultureInfo.InvariantCulture, out double value))
+			{
+				namedRange.NameValue = value;
+			}
+			else
+			{
+				namedRange.NameFormula = fullAddress;
+			}
+
+			return namedRange;
+		}
 		private ExcelRangeBase CreateRangeForName(ExcelWorksheet worksheet, string fullAddress, out bool allowRelativeAddress)
         {
 			var iR = false;

@@ -3318,6 +3318,26 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void SaveDefinedName()
+        {
+            using (var p = OpenTemplatePackage("SaveIssueName.xlsm"))
+            {
+                SaveAndCleanup(p);
+            }
+
+        }
+        [TestMethod]
+        public void I676()
+        {
+            using (var p = OpenTemplatePackage("i676.xlsm"))
+            {
+                var ws = p.Workbook.Worksheets["4"];
+                ws.Cells["P10"].Value = 10;
+                p.Workbook.VbaProject.Remove();
+                SaveWorkbook("i676.xlsx", p);
+            }
+        }
     }
 }
 

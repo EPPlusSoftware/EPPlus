@@ -15,7 +15,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
-
+using OfficeOpenXml.Utils.Extensions;
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>
@@ -90,7 +90,7 @@ namespace OfficeOpenXml.Drawing
             var width = d.GetPixelWidth();
             var top = d.GetPixelTop();
             var left = d.GetPixelLeft();
-            var node = d.TopNode.ChildNodes[2];
+            var node = d.TopNode.GetChildAtPosition(2);
             XmlElement xFrmNode = d.GetFrmxNode(node);
             if (xFrmNode.ChildNodes.Count == 0)
             {
@@ -157,8 +157,8 @@ namespace OfficeOpenXml.Drawing
         private XmlNode CreateAnchorNode(XmlNode drawingNode)
         {
             var topNode = _parent.TopNode.CloneNode(false);
-            topNode.AppendChild(_parent.TopNode.ChildNodes[0].CloneNode(true));
-            topNode.AppendChild(_parent.TopNode.ChildNodes[1].CloneNode(true));
+            topNode.AppendChild(_parent.TopNode.GetChildAtPosition(0).CloneNode(true));
+            topNode.AppendChild(_parent.TopNode.GetChildAtPosition(1).CloneNode(true));
             topNode.AppendChild(drawingNode);
             var ix = 3;
             while(ix< _parent.TopNode.ChildNodes.Count)
