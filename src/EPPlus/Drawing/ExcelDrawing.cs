@@ -222,7 +222,7 @@ namespace OfficeOpenXml.Drawing
         {
             if(node.LocalName == "AlternateContent")
             {
-                node = node.ChildNodes[0].ChildNodes[0];
+                node = node.GetChildAtPosition(0).GetChildAtPosition(0);
             }
             if (node.LocalName == "grpSp")
             {
@@ -550,7 +550,7 @@ namespace OfficeOpenXml.Drawing
         internal static ExcelDrawing GetDrawing(ExcelDrawings drawings, XmlNode node)
         {
             if (node.ChildNodes.Count < 3) return null; //Invalid formatted anchor node, ignore
-            XmlElement drawNode = (XmlElement)node.ChildNodes[2];
+            XmlElement drawNode = (XmlElement)node.GetChildAtPosition(2);
             return GetDrawingFromNode(drawings, node, drawNode);
         }
 
@@ -1287,7 +1287,7 @@ namespace OfficeOpenXml.Drawing
         {
             XmlElement clientDataNode = TopNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings);
             clientDataNode.SetAttribute("fPrintsWithSheet", "0");
-            TopNode.ChildNodes[2].ChildNodes[0].ChildNodes[0].AppendChild(clientDataNode);
+            TopNode.GetChildAtPosition(2).GetChildAtPosition(0).GetChildAtPosition(0).AppendChild(clientDataNode);
             TopNode.AppendChild(clientDataNode);
             return clientDataNode;
         }
