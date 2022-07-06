@@ -67,6 +67,15 @@ namespace OfficeOpenXml.Table.PivotTable
         public ExcelPivotAreaReferenceItems Items { get; }
         internal override void UpdateXml()
         {
+            //Remove reference, so they can be re-written 
+            if (TopNode.LocalName == "reference")
+            {
+                while (TopNode.ChildNodes.Count > 0)
+                {
+                    TopNode.RemoveChild(TopNode.ChildNodes[0]);
+                }
+            }
+
             if (FieldIndex >= 0 && FieldIndex < _pt.Fields.Count)
             {
                 var items = Field.Items;

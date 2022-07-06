@@ -3351,5 +3351,14 @@ namespace EPPlusTest
                 SaveWorkbook("i676.xlsx",p);
             }
         }
+        [TestMethod]
+        public void s350()
+        {
+            using (var p = OpenTemplatePackage("s350.xlsm"))
+            {
+                SaveWorkbook("s350.xlsm", p);
+            }
+        }
+
     }
 }
