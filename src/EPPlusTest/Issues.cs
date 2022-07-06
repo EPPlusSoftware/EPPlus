@@ -3359,6 +3359,128 @@ namespace EPPlusTest
                 SaveWorkbook("s350.xlsm", p);
             }
         }
+        [TestMethod]
+        public void s351()
+        {
+            using (var p = OpenPackage("s351.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("sheet1");
+                var grpBox = ws.Drawings.AddGroupBoxControl("GB_Deliverables");
+
+                int optionBoxWidth = 300;
+                int optionBoxHeight = 27;
+
+                int OptionBoxRowOffsetPixels = 10;
+
+                grpBox.SetPosition(Row: 25, RowOffsetPixels: 4, Column: 2, ColumnOffsetPixels: 1);
+                grpBox.SetSize(optionBoxWidth * 3, optionBoxHeight * 5);
+                grpBox.Text = "";
+
+                var r1c1 = ws.Drawings.AddCheckBoxControl("General_Technimark_Submission");
+                r1c1.Text = "General Technimark Submission";
+                r1c1.SetPosition(25, OptionBoxRowOffsetPixels, 2, 5);
+                r1c1.SetSize(optionBoxWidth, optionBoxHeight);
+                //Still need to Create function to set cell to true/false based on IDArray[] values
+                ws.Cells["J26"].Value = true;
+                r1c1.LinkedCell = ws.Cells["J26"];
+
+                var r1c2 = ws.Drawings.AddCheckBoxControl("Project_Schedule");
+                r1c2.Text = "Project Schedule";
+                r1c2.SetPosition(25, OptionBoxRowOffsetPixels, 3, 5);
+                r1c2.SetSize(optionBoxWidth, optionBoxHeight);
+                r1c2.LinkedCell = ws.Cells["K26"];
+
+                var r1c3 = ws.Drawings.AddCheckBoxControl("Customer_Company_Questionnaire");
+                r1c3.Text = "Customer Company Questionnaire";
+                r1c3.SetPosition(25, OptionBoxRowOffsetPixels, 4, 5);
+                r1c3.SetSize(optionBoxWidth, optionBoxHeight);
+                r1c3.LinkedCell = ws.Cells["L26"];
+                //*********************************************************
+                var r2c1 = ws.Drawings.AddCheckBoxControl("Customer_Provided_Bid_Sheets");
+                r2c1.Text = "Customer Provided Bid Sheets";
+                r2c1.SetPosition(26, OptionBoxRowOffsetPixels, 2, 5);
+                r2c1.SetSize(optionBoxWidth, optionBoxHeight);
+                r2c1.LinkedCell = ws.Cells["J27"];
+
+                var r2c2 = ws.Drawings.AddCheckBoxControl("PowerPoint_Presentation");
+                r2c2.Text = "PowerPoint Presentation";
+                r2c2.SetPosition(26, OptionBoxRowOffsetPixels, 3, 5);
+                r2c2.SetSize(optionBoxWidth, optionBoxHeight);
+                r2c2.LinkedCell = ws.Cells["K27"];
+
+                var r2c3 = ws.Drawings.AddCheckBoxControl("Comprehensive_Tooling_Automation_Quotes");
+                r2c3.Text = "Comprehensive Tooling/Automation Quotes";
+                r2c3.SetPosition(26, OptionBoxRowOffsetPixels, 4, 5);
+                r2c3.SetSize(optionBoxWidth, optionBoxHeight);
+                r2c3.LinkedCell = ws.Cells["L27"];
+                //*********************************************************
+                var r3c1 = ws.Drawings.AddCheckBoxControl("Validation_Quote");
+                r3c1.Text = "Validation Quote";
+                r3c1.SetPosition(27, OptionBoxRowOffsetPixels, 2, 5);
+                r3c1.SetSize(optionBoxWidth, optionBoxHeight);
+                r3c1.LinkedCell = ws.Cells["J28"];
+
+                var r3c2 = ws.Drawings.AddCheckBoxControl("Process_Flow_Diagrams");
+                r3c2.Text = "Process Flow Diagrams";
+                r3c2.SetPosition(27, OptionBoxRowOffsetPixels, 3, 5);
+                r3c2.SetSize(optionBoxWidth, optionBoxHeight);
+                r3c2.LinkedCell = ws.Cells["K28"];
+
+                var r3c3 = ws.Drawings.AddCheckBoxControl("DFM_DesignForManufacturability");
+                r3c3.Text = "DFM - Design For Manufacturability";
+                r3c3.SetPosition(27, OptionBoxRowOffsetPixels, 4, 5);
+                r3c3.SetSize(optionBoxWidth, optionBoxHeight);
+                r3c3.LinkedCell = ws.Cells["L28"];
+                //*********************************************************
+                var r4c1 = ws.Drawings.AddCheckBoxControl("Plant_Layout");
+                r4c1.Text = "Plant Layout";
+                r4c1.SetPosition(28, OptionBoxRowOffsetPixels, 2, 5);
+                r4c1.SetSize(optionBoxWidth, optionBoxHeight);
+                r4c1.LinkedCell = ws.Cells["J29"];
+
+                var r4c2 = ws.Drawings.AddCheckBoxControl("Moldflow");
+                r4c2.Text = "Moldflow";
+                r4c2.SetPosition(28, OptionBoxRowOffsetPixels, 3, 5);
+                r4c2.SetSize(optionBoxWidth, optionBoxHeight);
+                r4c2.LinkedCell = ws.Cells["K29"];
+
+                var r4c3 = ws.Drawings.AddCheckBoxControl("Development_Prototype_Proposal");
+                r4c3.Text = "Development/Prototype Proposal";
+                r4c3.SetPosition(28, OptionBoxRowOffsetPixels, 4, 5);
+                r4c3.SetSize(optionBoxWidth, optionBoxHeight);
+                r4c3.LinkedCell = ws.Cells["L29"];
+                //*********************************************************
+                var r5c1 = ws.Drawings.AddCheckBoxControl("Amortization_Schedule");
+                r5c1.Text = "Amortization Schedule";
+                r5c1.SetPosition(29, OptionBoxRowOffsetPixels, 2, 5);
+                r5c1.SetSize(optionBoxWidth, optionBoxHeight);
+                r5c1.LinkedCell = ws.Cells["J30"];
+
+                var r5c2 = ws.Drawings.AddCheckBoxControl("Risk_Assessment");
+                r5c2.Text = "Risk Assessment";
+                r5c2.SetPosition(29, OptionBoxRowOffsetPixels, 3, 5);
+                r5c2.SetSize(optionBoxWidth, optionBoxHeight);
+                r5c2.LinkedCell = ws.Cells["K30"];
+
+                var r5c3 = ws.Drawings.AddCheckBoxControl("Total_CostOfOwnershipAnalysis");
+                r5c3.Text = "Total Cost of Ownership Analysis";
+                r5c3.SetPosition(29, OptionBoxRowOffsetPixels, 4, 5);
+                r5c3.SetSize(optionBoxWidth, optionBoxHeight);
+                r5c3.LinkedCell = ws.Cells["L30"];
+                //*********************************************************
+                var r6c1 = ws.Drawings.AddCheckBoxControl("Organization Chart");
+                r6c1.Text = "Organization Chart";
+                r6c1.SetPosition(30, OptionBoxRowOffsetPixels, 2, 5);
+                r6c1.SetSize(optionBoxWidth, optionBoxHeight);
+                r6c1.LinkedCell = ws.Cells["J31"];
+                //*********************************************************
+                var grp = grpBox.Group(r1c1, r1c2, r1c3, r2c1, r2c2, r2c3, r3c1, r3c2, r3c3, r4c1, r4c2, r4c3, r5c1, r5c2, r5c3, r6c1);
+
+                ws.Row(32).Height = 30;  //Add extra space between Strategy section
+                SaveAndCleanup(p);
+            }
+
+        }
 
     }
 }

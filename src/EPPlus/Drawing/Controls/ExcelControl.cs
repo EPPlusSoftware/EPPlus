@@ -691,6 +691,9 @@ namespace OfficeOpenXml.Drawing.Controls
                 _control.MoveWithCells = EditAs != eEditAs.Absolute;
                 _control.SizeWithCells = EditAs == eEditAs.TwoCell;
             }
+            _control.From.UpdateXml();
+            _control.To.UpdateXml();
+
             _vml.Anchor = GetVmlAnchorValue();
         }
 
