@@ -308,6 +308,17 @@ namespace EPPlusTest.Drawing.Control
             r3.SetSize(100, 25);
             r3.FirstButton = true;
 
+            r3.UpdateXml();
+            Assert.AreEqual(r3.From.Row, r3._control.From.Row);
+            Assert.AreEqual(r3.From.RowOff, r3._control.From.RowOff);
+            Assert.AreEqual(r3.From.Column, r3._control.From.Column);
+            Assert.AreEqual(r3.From.ColumnOff, r3._control.From.ColumnOff);
+
+            Assert.AreEqual(r3.To.Row, r3._control.To.Row);
+            Assert.AreEqual(r3.To.RowOff, r3._control.To.RowOff);
+            Assert.AreEqual(r3.To.Column, r3._control.To.Column);
+            Assert.AreEqual(r3.To.ColumnOff, r3._control.To.ColumnOff);
+
             ctrl.Group(r1, r2, r3);
 
             _codeModule.Code += "Sub GroupBox_Click()\r\n  MsgBox \"Clicked GroupBox!!\"\r\nEnd Sub\r\n";
