@@ -101,11 +101,20 @@ namespace OfficeOpenXml.Table.PivotTable
 
         internal override void UpdateXml()
         {
-            if(_dataFields.Count==0)
+            //Remove reference, so they can be re-written 
+            if (TopNode.LocalName == "reference")
+            {
+                while (TopNode.ChildNodes.Count > 0)
+                {
+                    TopNode.RemoveChild(TopNode.ChildNodes[0]);
+                }
+            }
+
+            if (_dataFields.Count==0 && FieldIndex>=0)
             {
                 if(TopNode.LocalName == "reference")
                 {
-                    TopNode.ParentNode.RemoveChild(TopNode);
+                    TopNode.ParentNode.ParentNode.RemoveChild(TopNode.ParentNode);
                 }
                 return;
             }

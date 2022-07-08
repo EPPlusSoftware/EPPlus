@@ -207,18 +207,28 @@ namespace OfficeOpenXml.Drawing.Controls
                 SetXmlNodeString("d:controlPr/@linkedCell", value);
             }
         }
+        ExcelPosition _from = null;
         public ExcelPosition From
         {
             get
             {
-                return new ExcelPosition(NameSpaceManager, GetNode("d:controlPr/d:anchor/d:from"), null);
+                if(_from==null)
+                {
+                    _from = new ExcelPosition(NameSpaceManager, GetNode("d:controlPr/d:anchor/d:from"), null);
+                }
+                return _from;
             }
         }
+        ExcelPosition _to=null;
         public ExcelPosition To
         {
             get
             {
-                return new ExcelPosition(NameSpaceManager, GetNode("d:controlPr/d:anchor/d:to"), null);
+                if (_to == null)
+                {
+                    _to=new ExcelPosition(NameSpaceManager, GetNode("d:controlPr/d:anchor/d:to"), null);
+                }
+                return _to;
             }
         }
         public bool MoveWithCells 

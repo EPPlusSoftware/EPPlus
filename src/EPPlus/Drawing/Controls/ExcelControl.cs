@@ -47,7 +47,7 @@ namespace OfficeOpenXml.Drawing.Controls
             ControlPropertiesUri = ctrlPropPart.Uri;
             _ctrlProp = XmlHelperFactory.Create(NameSpaceManager, ctrlPropXml.DocumentElement);
         }
-        protected ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, string name, ExcelGroupShape parent = null) : 
+        internal ExcelControl(ExcelDrawings drawings, XmlNode drawingNode, string name, ExcelGroupShape parent = null) : 
             base(drawings, drawingNode, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             var ws = drawings.Worksheet;
@@ -503,7 +503,7 @@ namespace OfficeOpenXml.Drawing.Controls
                 }
             }
         }
-        protected void SetLinkedCellValue(int value)
+        internal void SetLinkedCellValue(int value)
         {
             if (LinkedCell != null)
             {
@@ -521,7 +521,7 @@ namespace OfficeOpenXml.Drawing.Controls
         }
         
         #region Shared Properties
-        internal protected ExcelAddressBase FmlaLink
+        internal ExcelAddressBase FmlaLink
         {
             get
             {
@@ -584,7 +584,7 @@ namespace OfficeOpenXml.Drawing.Controls
                 }
             }
         }
-        internal protected ExcelAddressBase LinkedGroup
+        internal ExcelAddressBase LinkedGroup
         {
             get
             {
@@ -683,7 +683,7 @@ namespace OfficeOpenXml.Drawing.Controls
                 _control.To.RowOff = rowOff;
 
                 _control.To.Column = col - 2;
-                _control.To.ColumnOff = (int)(pixOff * EMU_PER_PIXEL);
+                _control.To.ColumnOff = (int)pixOff * EMU_PER_PIXEL;
             }
 
             if (_parent == null)
@@ -691,6 +691,9 @@ namespace OfficeOpenXml.Drawing.Controls
                 _control.MoveWithCells = EditAs != eEditAs.Absolute;
                 _control.SizeWithCells = EditAs == eEditAs.TwoCell;
             }
+            _control.From.UpdateXml();
+            _control.To.UpdateXml();
+
             _vml.Anchor = GetVmlAnchorValue();
         }
 
