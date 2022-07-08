@@ -1,4 +1,13 @@
 ﻿# Features / Fixed issues - EPPlus 6
+
+## Version 6.0.6
+### Fixed issues
+* Fixed an error in Positioning and sizing of form controls intruduced in 5.8.12.
+* Pivot table styles in template workbooks sometimes corrupts the new workbook.
+* Spaces were not preserved in rich text in drawing objects.
+* Defined names referencing external reference sometimes loaded incorrectly.
+* Drawing.ChangeCellAnchor causes a corrupt package in some cases
+
 ## Version 6.0.5
 ### Fixed issues
 * VBA code modules with LF only as EOL, causes code module to load incorrectly.
