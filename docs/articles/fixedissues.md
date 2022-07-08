@@ -1,5 +1,13 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.8.12
+### Fixed issues
+* Fixed an error in Positioning and sizing of form controls intruduced in 5.8.11.
+* Pivot table styles in template workbooks sometimes corrupts the new workbook.
+* Spaces were not preserved in rich text in drawing objects.
+* Defined names referencing external reference sometimes loaded incorrectly.
+
+
 ## Version 5.8.11
 ### Fixed issues
 * VBA code modules with LF only as EOL, causes code module to load incorrectly.
