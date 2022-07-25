@@ -262,7 +262,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                if (formula[0] == '=') value = formula.Substring(1, formula.Length - 1); // remove any starting equalsign.
+                if (formula[0] == '=') formula = formula.Substring(1, formula.Length - 1); // remove any starting equalsign.
                 range._worksheet._formulas.SetValue(row, col, formula);
                 range._worksheet.SetValueInner(row, col, null);
             }
@@ -886,8 +886,9 @@ namespace OfficeOpenXml
                     if (value == null || value.Trim() == "")
                     {
                         Value = null;
+                        return;
                     }
-                    else if (_fromRow == _toRow && _fromCol == _toCol)
+                    if (_fromRow == _toRow && _fromCol == _toCol)
                     {
                         Set_Formula(this, value, _fromRow, _fromCol);
                     }
@@ -906,6 +907,7 @@ namespace OfficeOpenXml
                             }
                         }
                     }
+                    ClearTableFormulas();
                 }
             }
         }
@@ -1014,6 +1016,7 @@ namespace OfficeOpenXml
                             }
                         }
                     }
+                    ClearTableFormulas();
                 }
             }
         }
@@ -1696,6 +1699,43 @@ namespace OfficeOpenXml
             while (formulaCells.Next())
             {
                 formulaCells.Value = null;
+            }
+            ClearTableFormulas();
+        }
+
+        private void ClearTableFormulas()
+        {
+            //Clear any calculated formulas in tables.
+            foreach (var table in Worksheet.Tables)
+            {
+                if (table.Address.Collide(this) != eAddressCollition.No)
+                {
+                    foreach (var col in table.Columns)
+                    {
+                        if (string.IsNullOrEmpty(col.CalculatedColumnFormula) == false)
+                        {
+                            var adr = table.Address;
+                            int fromRow = table.ShowHeader ? adr._fromRow + 1 : adr._fromRow;
+                            int toRow = table.ShowTotal ? adr._toRow - 1 : adr._toRow;
+                            int colNum = adr._fromCol + col.Position;
+                            var formulaCells = new CellStoreEnumerator<object>(this.Worksheet._formulas, fromRow, colNum, toRow, colNum);
+                            bool hasValue = false;
+                            while (formulaCells.Next())
+                            {
+                                if (formulaCells.Value != null && 
+                                    formulaCells.Value.ToString().Equals(col.CalculatedColumnFormula, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    hasValue = true;
+                                    break;
+                                }
+                            }
+                            if (hasValue == false)
+                            {
+                                col.RemoveFormulaNode();
+                            }
+                        }
+                    }
+                }
             }
         }
 

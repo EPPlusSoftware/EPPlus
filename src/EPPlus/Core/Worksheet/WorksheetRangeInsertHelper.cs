@@ -470,7 +470,13 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (string.IsNullOrEmpty(col.CalculatedColumnFormula) == false)
                     {
-                        col.CalculatedColumnFormula=ExcelCellBase.UpdateFormulaReferences(col.CalculatedColumnFormula, range, effectedAddress, shift, ws.Name, ws.Name);
+                        var cf=ExcelCellBase.UpdateFormulaReferences(col.CalculatedColumnFormula, range, effectedAddress, shift, ws.Name, ws.Name);
+                        col.SetFormula(cf);
+                        var address = tbl.Address.Intersect(range);
+                        if (address != null)
+                        {
+                            col.SetFormulaCells(address._fromRow, address._toRow, tbl.Address._fromCol + col.Position);
+                        }
                     }
                 }
             }

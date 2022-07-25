@@ -66,7 +66,7 @@ namespace OfficeOpenXml.Drawing.Controls
         /// <summary>
         /// Richtext collection. Used to format specific parts of the text
         /// </summary>
-        internal ExcelParagraphCollection RichText
+        public ExcelParagraphCollection RichText
         {
             get
             {
@@ -96,7 +96,7 @@ namespace OfficeOpenXml.Drawing.Controls
         /// <summary>
         /// Access to text body properties.
         /// </summary>
-        internal ExcelTextBody TextBody
+        public ExcelTextBody TextBody
         {
             get
             {

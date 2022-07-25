@@ -189,7 +189,7 @@ namespace OfficeOpenXml.Table
                 }
             }
         }
-  		const string CALCULATEDCOLUMNFORMULA_PATH = "d:calculatedColumnFormula";
+  		internal const string CALCULATEDCOLUMNFORMULA_PATH = "d:calculatedColumnFormula";
 
         ExcelTableSlicer _slicer = null;
         /// <summary>
@@ -250,12 +250,28 @@ namespace OfficeOpenXml.Table
  			}
  			set
  			{
- 				if (value.StartsWith("=")) value = value.Substring(1, value.Length - 1);
- 				SetXmlNodeString(CALCULATEDCOLUMNFORMULA_PATH, value);
+                if (string.IsNullOrEmpty(value))
+                {
+                    RemoveFormulaNode();
+                    SetTableFormula(true);
+                }
+                else
+                {
+                    if (value.StartsWith("=")) value = value.Substring(1, value.Length - 1);
+                    SetFormula(value);
+                    SetTableFormula(false);
+                }
+            }
+        }
+        internal void SetFormula(string formula)
+        {
+            SetXmlNodeString(CALCULATEDCOLUMNFORMULA_PATH, formula);
+        }
+        internal void RemoveFormulaNode()
+        {
+            DeleteNode(CALCULATEDCOLUMNFORMULA_PATH);
+        }
 
-                SetTableFormula();
- 			}
- 		}
         /// <summary>
         /// The <see cref="ExcelTable"/> containing the table column
         /// </summary>
@@ -266,12 +282,19 @@ namespace OfficeOpenXml.Table
                 return _tbl;
             }
         }
-        internal void SetTableFormula()
+        internal void SetTableFormula(bool clear)
         {
             int fromRow = _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow;
             int toRow = _tbl.ShowTotal ? _tbl.Address._toRow - 1 : _tbl.Address._toRow;
             var colNum = _tbl.Address._fromCol + Position;
-            SetFormulaCells(fromRow, toRow, colNum);
+            if(clear)
+            {
+                _tbl.WorkSheet.Cells[fromRow, colNum, toRow, colNum].Clear();
+            }
+            else
+            {
+                SetFormulaCells(fromRow, toRow, colNum);
+            }
         }
 
         internal void SetFormulaCells(int fromRow, int toRow, int colNum)

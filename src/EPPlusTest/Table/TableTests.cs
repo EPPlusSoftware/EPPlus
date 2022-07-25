@@ -510,6 +510,148 @@ namespace EPPlusTest.Table
                 Assert.AreEqual("Table3[[#This Row],[Column1]]", p.Workbook.Names["TableRef"].Formula);
             }
         }
+        [TestMethod]
+        public void CalculatedColumnFormula_SetToEmptyString()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                // Set up a worksheet containing a table
+                var wks = pck.Workbook.Worksheets.Add("Sheet1");
+                wks.Cells["A1"].Value = "Col1";
+                wks.Cells["B1"].Value = "Col2";
+                wks.Cells["C1"].Value = "Col3";
+                wks.Cells["A2"].Value = 1;
+                wks.Cells["B2"].Value = 2;
+                var table1 = wks.Tables.Add(wks.Cells["A1:C2"], "Table1");
+                var formula = "Table1[[#This Row],[Col1]]+Table1[[#This Row],[Col2]]";
+                table1.Columns[2].CalculatedColumnFormula = formula;
 
+                // Check the calculated column formula
+                Assert.AreEqual(formula, wks.Cells["C2"].Formula);
+                Assert.AreEqual(formula, table1.Columns["Col3"].CalculatedColumnFormula);
+
+                // Remove the calculated column formula from the table
+                table1.Columns["Col3"].CalculatedColumnFormula = null;
+
+                // Check the formula has been removed from the table
+                Assert.IsTrue(string.IsNullOrEmpty(wks.Cells["C2"].Formula));
+                Assert.IsTrue(string.IsNullOrEmpty(table1.Columns["Col3"].CalculatedColumnFormula));
+
+                pck.SaveAs(@"C:\epplusTest\Testoutput\CalculatedColumnFormula_SetToEmptyString.xlsx");
+
+                // NOW OPEN THE FILE IN EXCEL - IS IT CORRUPT?
+                Assert.Inconclusive();
+            }
+        }
+
+        [TestMethod]
+        public void CalculatedColumnFormula_RemoveFormulas()
+        {
+            using (var p = OpenPackage("CalculatedColumnFormulaRemove1.xlsx", true))
+            {
+                // Set up a worksheet containing a table
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = "Col1";
+                ws.Cells["B1"].Value = "Col2";
+                ws.Cells["C1"].Value = "Col3";
+                ws.Cells["A2"].Value = 1;
+                ws.Cells["B2"].Value = 2;
+                var table1 = ws.Tables.Add(ws.Cells["A1:C2"], "Table1");
+                var formula = "Table1[[#This Row],[Col1]]+Table1[[#This Row],[Col2]]";
+                table1.Columns[2].CalculatedColumnFormula = formula;
+
+                // Check the calculated column formula
+                Assert.AreEqual(formula, ws.Cells["C2"].Formula);
+                Assert.AreEqual(formula, table1.Columns["Col3"].CalculatedColumnFormula);
+
+                // Remove all formulas from the table
+                table1.Range.ClearFormulas();
+                table1.Range.ClearFormulaValues();
+
+                // Check the calculated column formula is no longer there
+                Assert.IsTrue(string.IsNullOrEmpty(table1.Columns["Col3"].CalculatedColumnFormula));
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void CalculatedColumnFormula_RemoveFormulas_AddRow()
+        {
+            using (var p = OpenPackage("CalculatedColumnFormulaRemove2.xlsx", true))
+            {
+                // Set up a worksheet containing a table
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = "Col1";
+                ws.Cells["B1"].Value = "Col2";
+                ws.Cells["C1"].Value = "Col3";
+                ws.Cells["A2"].Value = 1;
+                ws.Cells["B2"].Value = 2;
+                var table1 = ws.Tables.Add(ws.Cells["A1:C2"], "Table1");
+                var formula = "Table1[[#This Row],[Col1]]+Table1[[#This Row],[Col2]]";
+                table1.Columns[2].CalculatedColumnFormula = formula;
+
+                // Check the calculated column formula
+                Assert.AreEqual(formula, ws.Cells["C2"].Formula);
+                Assert.AreEqual(formula, table1.Columns["Col3"].CalculatedColumnFormula);
+
+                // Remove all formulas from the table
+                table1.Range.ClearFormulas();
+                table1.Range.ClearFormulaValues();
+                Assert.IsTrue(string.IsNullOrEmpty(ws.Cells["C2"].Formula));
+
+                // Add a row to the table
+                table1.InsertRow(1);
+
+                // Check the formula has not been reinserted
+                Assert.IsTrue(string.IsNullOrEmpty(ws.Cells["C2"].Formula));
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void CalculatedColumnFormula_OneCellDifferent_AddRow()
+        {
+            using (var p = OpenPackage("CalculatedColumnFormulaRemove3.xlsx", true))
+            {
+                // Set up a worksheet containing a table
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = "Col1";
+                ws.Cells["B1"].Value = "Col2";
+                ws.Cells["C1"].Value = "Col3";
+                ws.Cells["A2"].Value = 1;
+                ws.Cells["B2"].Value = 2;
+                ws.Cells["A3"].Value = 3;
+                ws.Cells["B3"].Value = 4;
+                ws.Cells["A4"].Value = 5;
+                ws.Cells["B4"].Value = 6;
+                var table1 = ws.Tables.Add(ws.Cells["A1:C4"], "Table1");
+                var formula = "Table1[[#This Row],[Col1]]+Table1[[#This Row],[Col2]]";
+                table1.Columns[2].CalculatedColumnFormula = formula;
+
+                // Check the calculated column formula has been added to each cell
+                Assert.AreEqual(formula, ws.Cells["C2"].Formula);
+                Assert.AreEqual(formula, ws.Cells["C3"].Formula);
+                Assert.AreEqual(formula, ws.Cells["C4"].Formula);
+                Assert.AreEqual(formula, table1.Columns["Col3"].CalculatedColumnFormula);
+
+                // Remove the calculated column formula from one row and use a different formula instead
+                ws.Cells["C3"].ClearFormulas();
+                ws.Cells["C3"].ClearFormulaValues();
+                var differentFormula = "Table1[[#This Row],[Col1]]";
+                ws.Cells["C3"].Formula = differentFormula;
+                Assert.AreEqual(differentFormula, ws.Cells["C3"].Formula);
+
+                // Add a new row to the bottom of the table
+                table1.AddRow();
+
+                // Check that the new row has the formula
+                Assert.AreEqual(formula, ws.Cells["C5"].Formula);
+                Assert.AreEqual(formula, table1.Columns["Col3"].CalculatedColumnFormula);
+
+                // Check the cell where we used a different formula hasn't changed
+                Assert.AreEqual(differentFormula, ws.Cells["C3"].Formula);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
