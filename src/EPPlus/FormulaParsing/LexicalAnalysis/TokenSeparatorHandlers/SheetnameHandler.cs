@@ -56,14 +56,29 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenSeparatorHandlers
             }
 
             if (tokenSeparator.TokenTypeIsSet(TokenType.WorksheetName))
-            {
+            {                
                 if (context.LastToken != null && context.LastToken.Value.TokenTypeIsSet(TokenType.WorksheetName))
                 {
-                    context.AddToken(!context.CurrentTokenHasValue
-                        ? new Token(string.Empty, TokenType.WorksheetNameContent)
-                        : new Token(context.CurrentToken, TokenType.WorksheetNameContent));
-                }                
-                if(context.CurrentToken.StartsWith("[") &&
+                    if (context.CurrentToken.StartsWith("!") && context.CurrentToken.EndsWith(":"))
+                    {                        
+                        context.AddToken(new Token(context.CurrentToken.Substring(0,context.CurrentToken.Length-1), TokenType.ExcelAddress));
+                        context.AddToken(new Token(":", TokenType.Colon));
+                        context.NewToken();
+                    }
+                    else
+                    {
+                        context.AddToken(!context.CurrentTokenHasValue
+                            ? new Token(string.Empty, TokenType.WorksheetNameContent)
+                            : new Token(context.CurrentToken, TokenType.WorksheetNameContent));
+                    }
+                }
+                else if(context.CurrentToken.EndsWith(":"))
+                {
+                    context.AddToken(new Token(context.CurrentToken.Substring(0, context.CurrentToken.Length - 1), TokenType.ExcelAddress));
+                    context.AddToken(new Token(":", TokenType.Colon));
+                    context.NewToken();
+                }
+                if (context.CurrentToken.StartsWith("[") &&
                    context.CurrentToken.EndsWith("]"))
                 {
                     context.AddToken(new Token(context.CurrentToken + "'", TokenType.WorksheetName)); //Append current token, as this can be an external reference index e.g [1]

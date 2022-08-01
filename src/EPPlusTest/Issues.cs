@@ -3481,6 +3481,43 @@ namespace EPPlusTest
             }
 
         }
+        [TestMethod]
+        public void i681()
+        {
+            using (var p = OpenTemplatePackage("i681.xlsx"))
+            {
+                p.Workbook.Calculate();
+
+                var ws = p.Workbook.Worksheets[1];
+                Assert.AreEqual(400D, ws.Cells["B118"].Value);
+            }            
+        }
+        [TestMethod]
+        public void SumWithDoubleWorksheetRefs()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var wsA = p.Workbook.Worksheets.Add("a");
+                var wsB = p.Workbook.Worksheets.Add("b");
+                wsA.Cells["A1"].Value = 1;
+                wsA.Cells["A2"].Value = 2;
+                wsA.Cells["A3"].Value = 3;
+                wsB.Cells["A4"].Formula = "sum(a!a1:'a'!A3)";
+
+                wsB.Calculate();
+                Assert.AreEqual(6D, wsB.GetValue(4, 1));
+            }
+        }
+        [TestMethod]
+        public void AddressWithDoubleWorksheetRefs()
+        {
+            var a=new ExcelAddressBase("a!a1:'a'!A3");
+
+            Assert.AreEqual(1, a._fromRow);
+            Assert.AreEqual(3, a._toRow);
+            Assert.AreEqual(1, a._fromCol);
+            Assert.AreEqual(1, a._toCol);
+        }
 
     }
 }

@@ -397,5 +397,15 @@ namespace EPPlusTest.Core.Range
             var a2 = a1.AddRow(1, 1).AddColumn(1,1);
             Assert.AreEqual("'d''étude'!B2", a2.Address);
         }
+        [TestMethod]
+        public void ValidateAddressWithDoubleWorksheetReferences()
+        {
+            ExcelAddressBase a1 = new ExcelAddressBase("'a'!a1:'a'!A3");
+
+            Assert.AreEqual(1, a1._fromRow);
+            Assert.AreEqual(1, a1._fromCol);
+            Assert.AreEqual(3, a1._toRow);
+            Assert.AreEqual(1, a1._toCol);
+        }
     }
 }

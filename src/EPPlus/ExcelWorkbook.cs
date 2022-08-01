@@ -356,7 +356,7 @@ namespace OfficeOpenXml
 							var ws = Worksheets[addr._ws];
 							if(ws==null)
                             {
-								namedRange = _names.AddFormula(elem.GetAttribute("name"), fullAddress);
+								namedRange = _names.AddFormula(elem.GetAttribute("name"), fullAddress);								
 							}
 							else
                             {
@@ -396,7 +396,7 @@ namespace OfficeOpenXml
             {
                 namedRange.NameFormula = fullAddress;
             }
-
+			
 			return namedRange;
         }
 

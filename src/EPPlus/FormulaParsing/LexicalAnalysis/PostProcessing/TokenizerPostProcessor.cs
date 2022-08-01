@@ -43,30 +43,53 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
         /// </summary>
         public void Process()
         {
+            var hasColon = false;
             while (_navigator.HasNext())
             {
                 var token = _navigator.CurrentToken;
-                if(token.TokenTypeIsSet(TokenType.Unrecognized))
+                if (token.TokenTypeIsSet(TokenType.Unrecognized))
                 {
                     HandleUnrecognizedToken();
                 }
-                else if(token.TokenTypeIsSet(TokenType.Colon))
+                else if (token.TokenTypeIsSet(TokenType.Colon))
                 {
                     HandleColon();
+                    hasColon = true;
                 }
-                else if(token.TokenTypeIsSet(TokenType.WorksheetName))
+                else if (token.TokenTypeIsSet(TokenType.WorksheetName))
                 {
                     HandleWorksheetNameToken();
                 }
-                else if(token.TokenTypeIsSet(TokenType.Operator) || token.TokenTypeIsSet(TokenType.Negator))
+                else if (token.TokenTypeIsSet(TokenType.Operator) || token.TokenTypeIsSet(TokenType.Negator))
                 {
                     if (token.Value == "+" || token.Value == "-")
                         HandleNegators();
                 }
                 _navigator.MoveNext();
             }
-        }
 
+            if (hasColon)
+            {
+                _navigator.MoveIndex(-_navigator.Index);
+                while (_navigator.HasNext())
+                {
+                    var token = _navigator.CurrentToken;
+                    if (token.TokenTypeIsSet(TokenType.Colon) && _context.Result.Count > _navigator.Index + 1)
+                    {
+                        if (_navigator.PreviousToken != null && _navigator.PreviousToken.Value.TokenTypeIsSet(TokenType.ExcelAddress) &&
+                           _navigator.NextToken.TokenTypeIsSet(TokenType.ExcelAddress))
+                        {
+                            var newToken= _navigator.PreviousToken.Value.Value+":"+ _navigator.NextToken.Value;
+                            _context.Result[_navigator.Index-1] = new Token(newToken, TokenType.ExcelAddress);
+                            _context.RemoveAt(_navigator.Index);
+                            _context.RemoveAt(_navigator.Index);
+                            _navigator.MoveIndex(-1);
+                        }
+                    }
+                    _navigator.MoveNext();
+                }
+            }
+        }
         private void ChangeTokenTypeOnCurrentToken(TokenType tokenType)
         {
             _context.ChangeTokenType(tokenType, _navigator.Index);

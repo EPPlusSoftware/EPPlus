@@ -707,8 +707,9 @@ namespace OfficeOpenXml
             var brackPos=new Stack<int>();
             var bracketParts=new List<string>();
             string first="", second="";
-            bool isText=false, hasSheet=false;
-            _addresses = null;
+            bool isText=false, hasSheet=false, hasColon=false;
+            string ws="";
+            _addresses = null;            
             try
             {
                 if (fullAddress == "#REF!")
@@ -726,9 +727,9 @@ namespace OfficeOpenXml
                     var c = fullAddress[i];
                     if (c == '\'')
                     {
-                        if (isText && i + 1 < fullAddress.Length && fullAddress[i] == '\'')
+                        if (isText && i + 1 < fullAddress.Length && fullAddress[i + 1] == '\'')
                         {
-                            if (hasSheet)
+                            if (hasColon)
                             {
                                 second += c;
                             }
@@ -766,6 +767,10 @@ namespace OfficeOpenXml
                                 }
                             }
                         }
+                        else if (c == ':' && !isText)
+                        {
+                            hasColon = true;
+                        }
                         else if (c == '[' && !isText)
                         {
                             brackPos.Push(i);
@@ -779,16 +784,51 @@ namespace OfficeOpenXml
                             {
                                 second = Regex.Replace(second, $"{first}$", string.Empty);
                             }
+                            if (string.IsNullOrEmpty(ws))
+                            {                                
+                                if (second == "")
+                                {
+                                    ws = first;
+                                    first = "";
+                                }
+                                else
+                                {
+                                    ws = second;
+                                    second = "";
+                                }
+                            }
+                            else if(string.IsNullOrEmpty(second)==false)
+                            {
+                                if(!ws.Equals(second,StringComparison.OrdinalIgnoreCase))
+                                {
+                                    _fromRow = _toRow = _fromCol = _toCol = -1;
+                                    return true;
+                                }
+                                second = "";
+                            }
                             hasSheet = true;
                         }
                         else if (c == ',' && !isText)
                         {
                             if(_addresses==null) _addresses = new List<ExcelAddress>();
+                            if(string.IsNullOrEmpty(ws))
+                            {
+                                first = string.IsNullOrEmpty(second) ? first : first + ":" + second;
+                                second = "";
+                            }
+                            else
+                            {
+                                second = string.IsNullOrEmpty(second) ? first : first + ":" + second;
+                                first = ws;
+                            }
                             SetAddress(ref first, ref second, ref hasSheet);
+                            ws = "";
+                            hasSheet = false;
+                            hasColon = false;
                         }
                         else
                         {
-                            if (hasSheet)
+                            if (hasColon)
                             {
                                 second += c;
                             }
@@ -801,6 +841,17 @@ namespace OfficeOpenXml
                 }
                 if (Table == null)
                 {
+                    if (string.IsNullOrEmpty(ws))
+                    {
+                        first = string.IsNullOrEmpty(second) ? first : first + ":" + second;
+                        second = "";
+                    }
+                    else
+                    {
+                        second = string.IsNullOrEmpty(second) ? first : first + ":" + second;
+                        first = ws;
+                    }
+
                     SetAddress(ref first, ref second, ref hasSheet);
                 }
                 return true;
