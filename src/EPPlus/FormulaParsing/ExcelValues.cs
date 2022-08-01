@@ -143,12 +143,12 @@ namespace OfficeOpenXml
             }
         }
 
-        internal static ExcelErrorValue Create(eErrorType errorType)
+        public static ExcelErrorValue Create(eErrorType errorType)
         {
             return new ExcelErrorValue(errorType);
         }
 
-        internal static ExcelErrorValue Parse(string val)
+        public static ExcelErrorValue Parse(string val)
         {
             if (Values.StringIsErrorValue(val))
             {

@@ -3518,6 +3518,21 @@ namespace EPPlusTest
             Assert.AreEqual(1, a._fromCol);
             Assert.AreEqual(1, a._toCol);
         }
+        [TestMethod]
+        public void IsError_CellReference_StringLiteral()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet1 = pck.Workbook.Worksheets.Add("Sheet1");
+                sheet1.Cells["B2"].Value = ExcelErrorValue.Create(eErrorType.Value);
+                sheet1.Cells["C3"].Formula = "ISERROR(B2)";
 
+                sheet1.Calculate();
+
+                Assert.IsTrue(sheet1.Cells["B2"].Value is ExcelErrorValue);
+                Assert.IsTrue(sheet1.Cells["C3"].Value is bool);
+                Assert.IsTrue((bool)sheet1.Cells["C3"].Value);
+            }
+        }
     }
 }

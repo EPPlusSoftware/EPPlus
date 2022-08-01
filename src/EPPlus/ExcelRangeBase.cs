@@ -699,7 +699,14 @@ namespace OfficeOpenXml
                 }
             }
         }
-
+        /// <summary>
+        /// Sets the range to an Error value
+        /// </summary>
+        /// <param name="errorType">The type of error</param>
+        public void SetErrorValue(eErrorType errorType)
+        {
+            Value = ExcelErrorValue.Create(errorType);
+        }
         private object GetValueArray()
         {
             ExcelAddressBase addr;
