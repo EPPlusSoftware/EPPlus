@@ -66,6 +66,10 @@ namespace OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
             {
                 boolVal = (bool)v;
             }
+            else if(v is ExcelErrorValue eev)
+            {
+                return new CompileResult(eev.Type);
+            }
             else if (!Utils.ConvertUtil.TryParseBooleanString(v as string, out boolVal))
             {
                 if (Utils.ConvertUtil.IsNumericOrDate(v))
