@@ -13,8 +13,6 @@ This is explained in more detail [here](https://www.epplussoftware.com/Home/Lgpl
 
 Commercial licenses, which includes support, can be purchased at (https://www.epplussoftware.com/).
 
-The source code of EPPlus has moved to a [new github repository](https://github.com/EPPlusSoftware/EPPlus)
-
 ## LicenseContext parameter must be set
 With the license change EPPlus has a new parameter that needs to be configured. If the LicenseContext is not set, EPPlus will throw a LicenseException (only in debug mode).
 
