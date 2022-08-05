@@ -1206,22 +1206,27 @@ namespace OfficeOpenXml.Drawing
         {
             if (_drawings.Worksheet.Workbook._package.DoAdjustDrawings == false) return;
             _drawings.Worksheet.Workbook._package.DoAdjustDrawings = false;
-            if (EditAs==eEditAs.Absolute)
+            if (EditAs == eEditAs.Absolute)
             {
                 SetPixelLeft(_left);
                 SetPixelTop(_top);
             }
-            if(EditAs == eEditAs.Absolute || EditAs == eEditAs.OneCell)
+            if (EditAs == eEditAs.Absolute || EditAs == eEditAs.OneCell)
             {
                 SetPixelHeight(_height);
                 SetPixelWidth(_width);
             }
+            _drawings.Worksheet.Workbook._package.DoAdjustDrawings = true;
+        }
+
+        internal void UpdatePositionAndSizeXml()
+        {
             From?.UpdateXml();
             To?.UpdateXml();
             Size?.UpdateXml();
-            Position?.UpdateXml(); 
-            _drawings.Worksheet.Workbook._package.DoAdjustDrawings = true;
+            Position?.UpdateXml();
         }
+
         internal protected XmlElement CreateShapeNode()
         {
             XmlElement shapeNode = TopNode.OwnerDocument.CreateElement("xdr", "sp", ExcelPackage.schemaSheetDrawings);
