@@ -1268,13 +1268,17 @@ namespace OfficeOpenXml.Drawing
                 SetPixelWidth(_width);
             }
             
+            _drawings.Worksheet.Workbook._package.DoAdjustDrawings = true;
+        }
+        internal void UpdatePositionAndSizeXml()
+        {
             From?.UpdateXml();
             To?.UpdateXml();
             Size?.UpdateXml();
             Position?.UpdateXml();
-
-            _drawings.Worksheet.Workbook._package.DoAdjustDrawings = true;
         }
+
+
         internal XmlElement CreateShapeNode()
         {
             XmlElement shapeNode = TopNode.OwnerDocument.CreateElement("xdr", "sp", ExcelPackage.schemaSheetDrawings);

@@ -2591,6 +2591,7 @@ namespace OfficeOpenXml
                     foreach (ExcelDrawing d in Drawings)
                     {
                         d.AdjustPositionAndSize();
+                        d.UpdatePositionAndSizeXml();
                         HandleSaveForIndividualDrawings(d);
                     }
                     Packaging.ZipPackagePart partPack = Drawings.Part;
