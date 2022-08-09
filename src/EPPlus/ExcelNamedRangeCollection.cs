@@ -145,11 +145,11 @@ namespace OfficeOpenXml
             foreach(var namedRange in namedRanges)
             {
                 var address = new ExcelAddressBase(namedRange.Address);
-                if (rows > 0 && address._toCol<=upperLimit && address._fromCol>=lowerLimint)
+                if (rows > 0 && address._toCol<=upperLimit && address._fromCol>=lowerLimint && !(address._fromRow == 1 && address._toRow == ExcelPackage.MaxRows))
                 {
                     address = address.AddRow(rowFrom, rows);
                 }
-                if(cols > 0 && colFrom > 0 && address._toRow <= upperLimit && address._fromRow >= lowerLimint)
+                if(cols > 0 && colFrom > 0 && address._toRow <= upperLimit && address._fromRow >= lowerLimint && !(address._fromCol == 1 && address._toCol == ExcelPackage.MaxColumns))
                 {
                     address = address.AddColumn(colFrom, cols);
                 }
