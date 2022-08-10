@@ -145,13 +145,13 @@ namespace OfficeOpenXml
             foreach(var namedRange in namedRanges)
             {
                 var address = new ExcelAddressBase(namedRange.Address);
-                if (rows > 0 && address._toCol<=upperLimit && address._fromCol>=lowerLimint)
+                if (rows > 0 && address._toCol<=upperLimit && address._fromCol>=lowerLimint && address.Rows < ExcelPackage.MaxRows)
                 {
-                    address = address.AddRow(rowFrom, rows);
+                    address = address.AddRow(rowFrom, rows, false);
                 }
-                if(cols > 0 && colFrom > 0 && address._toRow <= upperLimit && address._fromRow >= lowerLimint)
+                if(cols > 0 && colFrom > 0 && address._toRow <= upperLimit && address._fromRow >= lowerLimint && address.Columns < ExcelPackage.MaxColumns)
                 {
-                    address = address.AddColumn(colFrom, cols);
+                    address = address.AddColumn(colFrom, cols, false,false);
                 }
                 namedRange.Address = address.Address;
             }
@@ -168,11 +168,11 @@ namespace OfficeOpenXml
                 var address = new ExcelAddressBase(namedRange.Address);
                 if (rows > 0 && address._toCol <= upperLimit && address._fromCol >= lowerLimint)
                 {
-                    address = namedRange.DeleteRow(rowFrom, rows);
+                    address = namedRange.DeleteRow(rowFrom, rows,false,false);
                 }
                 if (cols > 0 && colFrom > 0 && address._toRow <= upperLimit && address._fromRow >= lowerLimint)
                 {
-                    address = namedRange.DeleteColumn(colFrom, cols);
+                    address = namedRange.DeleteColumn(colFrom, cols,false,false);
                 }
 
                 if (address == null)
