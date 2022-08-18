@@ -3594,6 +3594,15 @@ namespace EPPlusTest
                 sheet1.DeleteColumn(1, 1);
 
                 Assert.AreEqual("Sheet1!$7:$7",pck.Workbook.Names["RowRange"].Address);
+             }
+        }
+        [TestMethod]
+        public void s330()
+        {
+            using (var p = OpenTemplatePackage("s330.xlsm"))
+            {
+                p.Workbook.VbaProject.Signature.Certificate = null;
+                SaveAndCleanup(p);
             }
         }
 

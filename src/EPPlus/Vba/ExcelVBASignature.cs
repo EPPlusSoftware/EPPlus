@@ -28,6 +28,8 @@ namespace OfficeOpenXml.VBA
     public class ExcelVbaSignature
     {
         const string schemaRelVbaSignature = "http://schemas.microsoft.com/office/2006/relationships/vbaProjectSignature";
+        const string schemaRelVbaSignatureAgile = "http://schemas.microsoft.com/office/2014/relationships/vbaProjectSignatureAgile";
+        const string schemaRelVbaSignatureV3 = "http://schemas.microsoft.com/office/2020/07/relationships/vbaProjectSignatureV3";
         Packaging.ZipPackagePart _vbaPart = null;
         internal ExcelVbaSignature(Packaging.ZipPackagePart vbaPart)
         {
@@ -43,54 +45,75 @@ namespace OfficeOpenXml.VBA
                 Uri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
                 Part = _vbaPart.Package.GetPart(Uri);
 
-                var stream = Part.GetStream();
-                BinaryReader br = new BinaryReader(stream);
-                uint cbSignature = br.ReadUInt32();        
-                uint signatureOffset = br.ReadUInt32();     //44 ??
-                uint cbSigningCertStore = br.ReadUInt32();  
-                uint certStoreOffset = br.ReadUInt32();     
-                uint cbProjectName = br.ReadUInt32();       
-                uint projectNameOffset = br.ReadUInt32();   
-                uint fTimestamp = br.ReadUInt32();
-                uint cbTimestampUrl = br.ReadUInt32();
-                uint timestampUrlOffset = br.ReadUInt32();  
-                byte[] signature = br.ReadBytes((int)cbSignature);
-                uint version = br.ReadUInt32();
-                uint fileType = br.ReadUInt32();
-
-                uint id = br.ReadUInt32();
-                while (id != 0)
-                {
-                    uint encodingType = br.ReadUInt32();
-                    uint length = br.ReadUInt32();
-                    if (length > 0)
-                    {
-                        byte[] value = br.ReadBytes((int)length);
-                        switch (id)
-                        {
-                            //Add property values here...
-                            case 0x20:
-                                Certificate = new X509Certificate2(value);
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    id = br.ReadUInt32();
-                }
-                uint endel1 = br.ReadUInt32();  //0
-                uint endel2 = br.ReadUInt32();  //0
-                ushort rgchProjectNameBuffer = br.ReadUInt16();
-                ushort rgchTimestampBuffer = br.ReadUInt16();
-                Verifier = new SignedCms();
-                Verifier.Decode(signature);
+                ReadSignature();
             }
-            else
+            
+            rel = _vbaPart.GetRelationshipsByType(schemaRelVbaSignatureAgile).FirstOrDefault();
+            if (rel != null)
+            {
+                UriAgile = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+                PartAgile = _vbaPart.Package.GetPart(UriAgile);
+            }
+
+            rel = _vbaPart.GetRelationshipsByType(schemaRelVbaSignatureV3).FirstOrDefault();
+            if (rel != null)
+            {
+                UriV3 = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+                PartV3 = _vbaPart.Package.GetPart(UriV3);
+            }
+
+            if(rel==null)
             {
                 Certificate = null;
                 Verifier = null;
             }
         }
+
+        private void ReadSignature()
+        {
+            var stream = Part.GetStream();
+            BinaryReader br = new BinaryReader(stream);
+            uint cbSignature = br.ReadUInt32();
+            uint signatureOffset = br.ReadUInt32();     //44 ??
+            uint cbSigningCertStore = br.ReadUInt32();
+            uint certStoreOffset = br.ReadUInt32();
+            uint cbProjectName = br.ReadUInt32();
+            uint projectNameOffset = br.ReadUInt32();
+            uint fTimestamp = br.ReadUInt32();
+            uint cbTimestampUrl = br.ReadUInt32();
+            uint timestampUrlOffset = br.ReadUInt32();
+            byte[] signature = br.ReadBytes((int)cbSignature);
+            uint version = br.ReadUInt32();
+            uint fileType = br.ReadUInt32();
+
+            uint id = br.ReadUInt32();
+            while (id != 0)
+            {
+                uint encodingType = br.ReadUInt32();
+                uint length = br.ReadUInt32();
+                if (length > 0)
+                {
+                    byte[] value = br.ReadBytes((int)length);
+                    switch (id)
+                    {
+                        //Add property values here...
+                        case 0x20:
+                            Certificate = new X509Certificate2(value);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                id = br.ReadUInt32();
+            }
+            uint endel1 = br.ReadUInt32();  //0
+            uint endel2 = br.ReadUInt32();  //0
+            ushort rgchProjectNameBuffer = br.ReadUInt16();
+            ushort rgchTimestampBuffer = br.ReadUInt16();
+            Verifier = new SignedCms();
+            Verifier.Decode(signature);
+        }
+
         //Create Oid from a bytearray
         //private string ReadHash(byte[] content)
         //{
@@ -127,12 +150,19 @@ namespace OfficeOpenXml.VBA
 
         private void DeletePart()
         {
-            if (Part == null) return;
-            foreach (var r in Part.GetRelationships())
+            DeletePartAndRelations(Part);
+            DeletePartAndRelations(PartAgile);
+            DeletePartAndRelations(PartV3);
+        }
+
+        private void DeletePartAndRelations(ZipPackagePart part)
+        {
+            if (part == null) return;
+            foreach (var r in part.GetRelationships())
             {
-                Part.DeleteRelationship(r.Id);
+                part.DeleteRelationship(r.Id);
             }
-            Part.Package.DeletePart(Part.Uri);
+            part.Package.DeletePart(part.Uri);
         }
 
         internal void Save(ExcelVbaProject proj)
@@ -376,6 +406,10 @@ namespace OfficeOpenXml.VBA
         public SignedCms Verifier { get; internal set; }
         internal CompoundDocument Signature { get; set; }
         internal Packaging.ZipPackagePart Part { get; set; }
+        internal Packaging.ZipPackagePart PartAgile { get; set; }
+        internal Packaging.ZipPackagePart PartV3 { get; set; }
         internal Uri Uri { get; private set; }
+        internal Uri UriAgile { get; private set; }
+        internal Uri UriV3 { get; private set; }
     }
 }

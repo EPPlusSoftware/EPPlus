@@ -2077,7 +2077,7 @@ namespace OfficeOpenXml
             }
         }
 
-#region Worksheet Public Methods
+    #region Worksheet Public Methods
 
         ///// <summary>
         ///// Provides access to an individual cell within the worksheet.
