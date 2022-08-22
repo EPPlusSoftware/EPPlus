@@ -27,6 +27,7 @@ using System.Text;
 using OfficeOpenXml.Packaging;
 using System.Diagnostics;
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.Configuration;
 #if (Core)
 using Microsoft.Extensions.Configuration;
 #endif
@@ -232,8 +233,8 @@ namespace OfficeOpenXml
         /// </summary>
         public const int MaxRows = 1048576;
         internal readonly List<Action> BeforeSave=new List<Action>();
-        // indicates whether exceptions thrown under initalization (reading config-files, env-variables, etc) should be suppressed or rethrown.
-        private bool _suppressInitExceptions = false;
+        private static ExcelPackageConfiguration _configuration = new ExcelPackageConfiguration();
+        internal static ExcelPackageConfiguration GlobalConfiguration => _configuration;
         private List<ExcelInitializationError> _initErrors = new List<ExcelInitializationError>();
         #endregion
         #region ExcelPackage Constructors
@@ -436,12 +437,10 @@ namespace OfficeOpenXml
 #if (Core)
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  //Add Support for codepage 1252
 
-            var  isWorksheets1Based = ExcelConfigurationReader.GetJsonConfigValue("EPPlus:ExcelPackage:Compatibility:IsWorksheets1Based", _suppressInitExceptions, _initErrors);
-            var sharePivotTableCacheForSameRange = ExcelConfigurationReader.GetJsonConfigValue("EPPlus:ExcelPackage:Compatibility:SharePivotTableCacheForSameRange", _suppressInitExceptions, _initErrors);
+            var  isWorksheets1Based = ExcelConfigurationReader.GetJsonConfigValue("EPPlus:ExcelPackage:Compatibility:IsWorksheets1Based", _configuration, _initErrors);
             
 #else
             var isWorksheets1Based = ConfigurationManager.AppSettings["EPPlus:ExcelPackage.Compatibility.IsWorksheets1Based"];
-            var sharePivotTableCacheForSameRange = ConfigurationManager.AppSettings["EPPlus:ExcelPackage.Compatibility.SharePivotTableCacheForSameRange"];
 #endif
             if (isWorksheets1Based != null)
             {
@@ -629,7 +628,7 @@ namespace OfficeOpenXml
                 _licenseSet = _licenseType != null;
             }
         }
-        internal static bool IsLicenseSet(bool supressInitExceptions, List<ExcelInitializationError> initErrors)
+        internal static bool IsLicenseSet(List<ExcelInitializationError> initErrors)
         {
             if(_licenseSet==true)
             {
@@ -642,16 +641,16 @@ namespace OfficeOpenXml
                     _licenseSet = true;
                     return true;
                 }
-                var v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlusLicenseContext",EnvironmentVariableTarget.User, supressInitExceptions, initErrors);
+                var v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlusLicenseContext",EnvironmentVariableTarget.User, _configuration, initErrors);
                 if(string.IsNullOrEmpty(v))
                 {
-                    v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlusLicenseContext", EnvironmentVariableTarget.Process, supressInitExceptions, initErrors);
+                    v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlusLicenseContext", EnvironmentVariableTarget.Process, _configuration, initErrors);
                 }
                 bool inEnvironment;
                 if (string.IsNullOrEmpty(v))
                 {
 #if (Core)
-                    v = ExcelConfigurationReader.GetJsonConfigValue("EPPlus:ExcelPackage:LicenseContext", supressInitExceptions, initErrors);
+                    v = ExcelConfigurationReader.GetJsonConfigValue("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
 
 #else
                     v = ConfigurationManager.AppSettings["EPPlus:ExcelPackage.LicenseContext"];
@@ -702,7 +701,7 @@ namespace OfficeOpenXml
                 CheckNotDisposed();
                 if (_workbook == null)
                 {
-                    if(IsLicenseSet(_suppressInitExceptions, _initErrors)==false)
+                    if(IsLicenseSet(_initErrors)==false)
                     {
                         throw (new LicenseException("Please set the ExcelPackage.LicenseContext property. See https://epplussoftware.com/developers/licenseexception"));
                     }
@@ -719,21 +718,23 @@ namespace OfficeOpenXml
 		}
 
         /// <summary>
-        /// If set to true errors/exceptions that occurs during initialization of the ExcelPackage class will
-        /// be suppressed and logged in <see cref="ExcelPackage.InitializationErrors"/>.
-        /// 
-        /// If set to false these Exceptions will be rethrown.
-        /// 
-        /// Default value of this property is false.
+        /// Global configuration for the ExcelPackage class
         /// </summary>
-        public bool SuppressInitializationExceptions
+        /// <param name="configHandler"></param>
+        public static void Configure(Action<ExcelPackageConfiguration> configHandler)
         {
-            get { return _suppressInitExceptions; }
-            set { _suppressInitExceptions = value; }
+            configHandler(_configuration);
+        }
+
+        internal static void Configure(ExcelPackageConfiguration config)
+        {
+            _configuration.SuppressInitializationExceptions = config.SuppressInitializationExceptions;
+            _configuration.JsonConfigFileName = config.JsonConfigFileName;
+            _configuration.BasePath = config.BasePath;
         }
 
         /// <summary>
-        /// Errors that has been logged during initialization of the ExcelPackage class, see the <see cref="ExcelPackage.SuppressInitializationExceptions"/> property.
+        /// Errors that has been logged during initialization of the ExcelPackage class.
         /// </summary>
         public IEnumerable<ExcelInitializationError> InitializationErrors
         {

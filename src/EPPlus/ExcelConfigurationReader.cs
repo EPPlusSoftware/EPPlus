@@ -13,6 +13,7 @@
 #if (Core)
 using Microsoft.Extensions.Configuration;
 #endif
+using OfficeOpenXml.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,15 +25,16 @@ namespace OfficeOpenXml
     internal static class ExcelConfigurationReader
     {
         /// <summary>
-        /// Reads an environment variable from the o/s. If an error occors it will rethrow the <see cref="Exception"/> unless <paramref name="supressInitExceptions"/> is set to true.
+        /// Reads an environment variable from the o/s. If an error occors it will rethrow the <see cref="Exception"/> unless SuppressInitializationExceptions of the <paramref name="config"/> is set to true.
         /// </summary>
         /// <param name="key">The key of the requested variable</param>
         /// <param name="target">The <see cref="EnvironmentVariableTarget"/></param>
-        /// <param name="supressInitExceptions">If true any Exception will be supressed and logged.</param>
+        /// <param name="config">Configuration of the package</param>
         /// <param name="initErrors">A list of logged <see cref="ExcelInitializationError"/> objects.</param>
         /// <returns>The value of the environment variable</returns>
-        internal static string GetEnvironmentVariable(string key, EnvironmentVariableTarget target, bool supressInitExceptions, List<ExcelInitializationError> initErrors)
+        internal static string GetEnvironmentVariable(string key, EnvironmentVariableTarget target, ExcelPackageConfiguration config, List<ExcelInitializationError> initErrors)
         {
+            var supressInitExceptions = config.SuppressInitializationExceptions;
             try
             {
                 return Environment.GetEnvironmentVariable(key, target);
@@ -54,21 +56,25 @@ namespace OfficeOpenXml
         }
 
 #if (Core)
-        internal static string GetJsonConfigValue(string key, bool supressInitExceptions, List<ExcelInitializationError> initErrors)
+        internal static string GetJsonConfigValue(string key, ExcelPackageConfiguration config, List<ExcelInitializationError> initErrors)
         {
+            var supressInitExceptions = config.SuppressInitializationExceptions;
+            var basePath = config.BasePath;
+            var configFileName = config.JsonConfigFileName;
             var configRoot = default(IConfigurationRoot);
             try
             {
+                
                 var build = new ConfigurationBuilder()
-                       .SetBasePath(Directory.GetCurrentDirectory())
-                       .AddJsonFile("appsettings.json", true, false);
+                       .SetBasePath(basePath)
+                       .AddJsonFile(configFileName, true, false);
                 configRoot = build.Build();
             }
             catch (Exception ex)
             {
                 if (supressInitExceptions)
                 {
-                    var errorMessage = "Could not load configuration file \"appsettings.json\"";
+                    var errorMessage = $"Could not load configuration file \"{configFileName}\"";
                     var error = new ExcelInitializationError(errorMessage, ex);
                     initErrors.Add(error);
                 }
