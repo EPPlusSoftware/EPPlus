@@ -3605,6 +3605,26 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void i694()
+        {
+            using (var p = OpenPackage("i694.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("test");
+
+                for (var colNum = 1; colNum <= 5; colNum++)
+                {
+                    ws.Cells[1, colNum].Value = $"Column_{colNum}";
+                    ws.Column(colNum).OutlineLevel = 1;
+                    ws.Column(colNum).Collapsed = true;
+                    ws.Column(colNum).Hidden = true;
+
+                }
+
+                SaveAndCleanup(p);
+            }
+        }
 
     }
 }

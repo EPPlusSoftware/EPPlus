@@ -1197,7 +1197,7 @@ namespace OfficeOpenXml
                 }
                 xfix++;
             }
-            (cellXfsNode as XmlElement).SetAttribute("count", count.ToString());
+            (cellXfsNode as XmlElement).SetAttribute("count", xfsCount.ToString());
 
         }
 
