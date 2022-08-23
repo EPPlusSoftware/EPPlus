@@ -59,7 +59,7 @@ namespace OfficeOpenXml
         internal static string GetJsonConfigValue(string key, ExcelPackageConfiguration config, List<ExcelInitializationError> initErrors)
         {
             var supressInitExceptions = config.SuppressInitializationExceptions;
-            var basePath = config.BasePath;
+            var basePath = config.JsonConfigBasePath;
             var configFileName = config.JsonConfigFileName;
             var configRoot = default(IConfigurationRoot);
             try

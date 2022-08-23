@@ -730,7 +730,7 @@ namespace OfficeOpenXml
         {
             _configuration.SuppressInitializationExceptions = config.SuppressInitializationExceptions;
             _configuration.JsonConfigFileName = config.JsonConfigFileName;
-            _configuration.BasePath = config.BasePath;
+            _configuration.JsonConfigBasePath = config.JsonConfigBasePath;
         }
 
         /// <summary>

@@ -34,7 +34,7 @@ namespace OfficeOpenXml.FormulaParsing
             AllowCircularReferences = false;
             PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.DotNet;
 #if (Core)
-            var basePath = ExcelPackage.GlobalConfiguration.BasePath;
+            var basePath = ExcelPackage.GlobalConfiguration.JsonConfigBasePath;
             var configFileName = ExcelPackage.GlobalConfiguration.JsonConfigFileName;
             var build = new ConfigurationBuilder()
                 .SetBasePath(basePath)

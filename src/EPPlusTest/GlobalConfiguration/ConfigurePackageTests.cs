@@ -25,7 +25,7 @@ namespace EPPlusTest.GlobalConfiguration
                     ExcelPackage.Configure(x => { 
                         x.SuppressInitializationExceptions = true;
                         x.JsonConfigFileName = "asdf";
-                        x.BasePath = "JKLÖ";
+                        x.JsonConfigBasePath = "JKLÖ";
                     });
                     using(var package = new ExcelPackage())
                     {
@@ -49,7 +49,7 @@ namespace EPPlusTest.GlobalConfiguration
                 ExcelPackage.Configure(x => { 
                     x.SuppressInitializationExceptions = false;
                     x.JsonConfigFileName = "asdf";
-                    x.BasePath = "JKLÖ";
+                    x.JsonConfigBasePath = "JKLÖ";
                 });
                 try
                 {

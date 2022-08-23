@@ -36,15 +36,15 @@ namespace OfficeOpenXml.Configuration
             get; set;
         }
 
-        private string _basePath = Directory.GetCurrentDirectory();
+        private string _jsonConfigBasePath = Directory.GetCurrentDirectory();
         /// <summary>
         /// Path of the directory where the json configuration file is located.
         /// Default value is the path returned from <see cref="System.IO.Directory.GetCurrentDirectory"/>
         /// </summary>
-        public string BasePath
+        public string JsonConfigBasePath
         {
-            get { return _basePath; }
-            set { _basePath = value; }
+            get { return _jsonConfigBasePath; }
+            set { _jsonConfigBasePath = value; }
         }
 
         private string _jsonConfigFileName = "appsettings.json";
@@ -68,7 +68,7 @@ namespace OfficeOpenXml.Configuration
 
         internal void CopyFrom(ExcelPackageConfiguration other)
         {
-            _basePath = other.BasePath;
+            _jsonConfigBasePath = other.JsonConfigBasePath;
             _jsonConfigFileName = other.JsonConfigFileName;
             SuppressInitializationExceptions = other.SuppressInitializationExceptions;
         }
