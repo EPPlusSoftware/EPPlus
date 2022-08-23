@@ -105,7 +105,7 @@ namespace OfficeOpenXml
             //if (ignoreAttribute == null) return;
             foreach (XmlAttribute a in fromElement.Attributes)
             {
-                if (ignoreAttribute==null || !ignoreAttribute.Contains(a.Name))
+                if (ignoreAttribute==null || !ignoreAttribute.Contains(a.LocalName))
                 {
                     if(string.IsNullOrEmpty(a.NamespaceURI))
                     {
