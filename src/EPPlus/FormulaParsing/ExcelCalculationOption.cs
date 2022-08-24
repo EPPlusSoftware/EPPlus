@@ -26,14 +26,19 @@ namespace OfficeOpenXml.FormulaParsing
     /// </summary>
     public class ExcelCalculationOption
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ExcelCalculationOption()
         {
             AllowCircularReferences = false;
             PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.DotNet;
 #if (Core)
+            var basePath = ExcelPackage.GlobalConfiguration.JsonConfigBasePath;
+            var configFileName = ExcelPackage.GlobalConfiguration.JsonConfigFileName;
             var build = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, false);
+                .SetBasePath(basePath)
+                .AddJsonFile(configFileName, true, false);
             var c = build.Build();
 
             var configValue = c["EPPlus:ExcelPackage:AllowCircularReferences"];
