@@ -21,7 +21,6 @@ using OfficeOpenXml.Packaging.Ionic.Zlib;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Encryption;
 using OfficeOpenXml.Utils.CompundDocument;
-using System.Configuration;
 using OfficeOpenXml.Compatibility;
 using System.Text;
 using OfficeOpenXml.Packaging;
@@ -438,9 +437,9 @@ namespace OfficeOpenXml
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  //Add Support for codepage 1252
 
             var  isWorksheets1Based = ExcelConfigurationReader.GetJsonConfigValue("EPPlus:ExcelPackage:Compatibility:IsWorksheets1Based", _configuration, _initErrors);
-            
+
 #else
-            var isWorksheets1Based = ConfigurationManager.AppSettings["EPPlus:ExcelPackage.Compatibility.IsWorksheets1Based"];
+            var isWorksheets1Based = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage.Compatibility.IsWorksheets1Based", _configuration, _initErrors);
 #endif
             if (isWorksheets1Based != null)
             {
@@ -653,7 +652,7 @@ namespace OfficeOpenXml
                     v = ExcelConfigurationReader.GetJsonConfigValue("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
 
 #else
-                    v = ConfigurationManager.AppSettings["EPPlus:ExcelPackage.LicenseContext"];
+                    v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
 #endif
                     inEnvironment = false;
                 }
@@ -724,13 +723,6 @@ namespace OfficeOpenXml
         public static void Configure(Action<ExcelPackageConfiguration> configHandler)
         {
             configHandler(_configuration);
-        }
-
-        internal static void Configure(ExcelPackageConfiguration config)
-        {
-            _configuration.SuppressInitializationExceptions = config.SuppressInitializationExceptions;
-            _configuration.JsonConfigFileName = config.JsonConfigFileName;
-            _configuration.JsonConfigBasePath = config.JsonConfigBasePath;
         }
 
         /// <summary>

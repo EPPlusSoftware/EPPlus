@@ -12,6 +12,8 @@
  *************************************************************************************************/
 #if (Core)
 using Microsoft.Extensions.Configuration;
+#else
+using System.Configuration;
 #endif
 using OfficeOpenXml.Configuration;
 using System;
@@ -103,6 +105,28 @@ namespace OfficeOpenXml
                 }
             }
             return null;
+        }
+#endif
+
+#if (!Core)
+        internal static string GetValueFromAppSettings(string key, ExcelPackageConfiguration config, List<ExcelInitializationError> initErrors)
+        {
+            var supressInitExceptions = config.SuppressInitializationExceptions;
+            try
+            {
+                return ConfigurationManager.AppSettings[key];
+            }
+            catch(Exception ex)
+            {
+                if (supressInitExceptions)
+                {
+                    var errorMessage = $"Could read key \"{key}\" from ConfigurationManager.AppSettings";
+                    var error = new ExcelInitializationError(errorMessage, ex);
+                    initErrors.Add(error);
+                    return null;
+                }
+                throw;
+            }
         }
 #endif
     }
