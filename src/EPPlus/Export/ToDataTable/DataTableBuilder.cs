@@ -68,6 +68,10 @@ namespace OfficeOpenXml.Export.ToDataTable
                     if (name == null) throw new InvalidOperationException(string.Format("First row contains an empty cell at index {0}", col - _range.Start.Column));
                     name = GetColumnName(name);
                 }
+                else
+                {
+                    row--;
+                }
                 if(columnNames.Contains(name))
                 {
                     throw new InvalidOperationException($"Duplicate column name : {name}");

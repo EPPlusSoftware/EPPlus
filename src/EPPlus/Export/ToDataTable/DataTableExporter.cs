@@ -112,15 +112,16 @@ namespace OfficeOpenXml.Export.ToDataTable
 
         private void Validate()
         {
-            if (_options.SkipNumberOfRowsStart < 0 || _options.SkipNumberOfRowsStart >= _range.End.Row)
+            var startRow = _options.FirstRowIsColumnNames ? _range.Start.Row + 1 : _range.Start.Row;
+            if (_options.SkipNumberOfRowsStart < 0 || _options.SkipNumberOfRowsStart > (_range.End.Row - startRow))
             {
                 throw new IndexOutOfRangeException("SkipNumberOfRowsStart was out of range: " + _options.SkipNumberOfRowsStart);
             }
-            if (_options.SkipNumberOfRowsEnd < 0 || _options.SkipNumberOfRowsEnd >= _range.End.Row - _range.Start.Row)
+            if (_options.SkipNumberOfRowsEnd < 0 || _options.SkipNumberOfRowsEnd > (_range.End.Row - startRow))
             {
                 throw new IndexOutOfRangeException("SkipNumberOfRowsEnd was out of range: " + _options.SkipNumberOfRowsEnd);
             }
-            if((_options.SkipNumberOfRowsEnd + _options.SkipNumberOfRowsStart) > _range.End.Row - _range.Start.Row)
+            if((_options.SkipNumberOfRowsEnd + _options.SkipNumberOfRowsStart) > (_range.End.Row - startRow))
             {
                 throw new ArgumentException("Total number of skipped rows was larger than number of rows in range");
             }
