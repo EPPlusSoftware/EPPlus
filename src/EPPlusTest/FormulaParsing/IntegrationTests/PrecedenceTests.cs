@@ -33,6 +33,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing;
 using FakeItEasy;
+using OfficeOpenXml;
 
 namespace EPPlusTest.FormulaParsing.IntegrationTests
 {
@@ -43,8 +44,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests
         [TestInitialize]
         public void Setup()
         {
-            var excelDataProvider = A.Fake<ExcelDataProvider>();
-            _parser = new FormulaParser(excelDataProvider);
+            _excelPackage = new ExcelPackage();
+            _parser = new FormulaParser(_excelPackage);
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _excelPackage.Dispose();
         }
 
         [TestMethod]

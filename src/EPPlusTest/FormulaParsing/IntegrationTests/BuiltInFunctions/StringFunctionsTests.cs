@@ -33,26 +33,38 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing;
 using FakeItEasy;
+using OfficeOpenXml;
 
 namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
 {
     [TestClass]
     public class StringFunctionsTests : FormulaParserTestBase
     {
-        private ExcelDataProvider _provider;
         [TestInitialize]
         public void Setup()
         {
-            _provider = A.Fake<ExcelDataProvider>();
-            _parser = new FormulaParser(_provider);
+            _excelPackage = new ExcelPackage();
+            _parser = new FormulaParser(_excelPackage);
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _excelPackage.Dispose();
         }
 
         [TestMethod]
         public void TextShouldConcatenateWithNextExpression()
         {
-            A.CallTo(() =>_provider.GetFormat(23.5, "$0.00")).Returns("$23.50");
-            var result = _parser.Parse("TEXT(23.5,\"$0.00\") & \" per hour\"");
+            var package = new ExcelPackage();
+            var provider = A.Fake<ExcelDataProvider>();
+            A.CallTo(() => provider.GetFormat(23.5, "$0.00")).Returns("$23.50");
+            A.CallTo(() => provider.GetWorkbookNameValues()).Returns(new ExcelNamedRangeCollection(package.Workbook));
+            var parser = new FormulaParser(provider);
+
+            var result = parser.Parse("TEXT(23.5,\"$0.00\") & \" per hour\"");
             Assert.AreEqual("$23.50 per hour", result);
+            package.Dispose();
         }
 
         [TestMethod]

@@ -30,6 +30,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
 
 namespace EPPlusTest.FormulaParsing.IntegrationTests
@@ -37,5 +38,6 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests
     public abstract class FormulaParserTestBase
     {
         protected FormulaParser _parser;
+        protected ExcelPackage _excelPackage;
     }
 }
