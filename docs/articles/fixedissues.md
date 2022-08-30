@@ -1,5 +1,20 @@
 ﻿# Features / Fixed issues - EPPlus 6
 
+## Version 6.0.7
+### Minor features
+* New static method Configure on ExcelPackage to configure location of config files and error handling. See  [This link...](https://github.com/EPPlusSoftware/EPPlus/wiki/Configuration)
+### Fixed issues
+* Copying comments sometimes did not change the name in the vml drawing causing OOXML validation to complain on duplicate drawings.
+* The count attribute on 'xsf' node in Styles.xml was not correctly set.
+* Setting drawing coordinates did not update the xml on save if ExcelPackage.DoAdjustDrawings was set to false.
+* IF function now handle errors correctly.
+* Added method ExcelRangeBase.SetErrorValue to set a cell to an error value. Added static methods ExcelErrorValue.Create and ExcelErrorValue.Parse.
+* Referencing a worksheet to a cell address after a colon (for example 'sheet1'!a1:'sheet1'!A3) did not work correctly in the formula calculation.
+* Added RichText and TextBody properties to ExcelControlWithText.
+* Removing / Clearing or inserting into a table with a Calculated Column Formula sometimes caused a corrupt workbook or an Exception. 
+* Removing VBA signtures did not remove the newer types of signatures, Agile and V3.
+* ExcelRangeBase.ToDataTable could not export a range with no column names and a single row.
+
 ## Version 6.0.6
 ### Fixed issues
 * Fixed an error in Positioning and sizing of form controls intruduced in 5.8.12.
