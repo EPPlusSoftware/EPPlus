@@ -21,12 +21,12 @@ using OfficeOpenXml.Packaging.Ionic.Zlib;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Encryption;
 using OfficeOpenXml.Utils.CompundDocument;
-using System.Configuration;
 using OfficeOpenXml.Compatibility;
 using System.Text;
 using OfficeOpenXml.Packaging;
 using System.Diagnostics;
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.Configuration;
 #if (Core)
 using Microsoft.Extensions.Configuration;
 #endif
@@ -232,6 +232,9 @@ namespace OfficeOpenXml
         /// </summary>
         public const int MaxRows = 1048576;
         internal readonly List<Action> BeforeSave=new List<Action>();
+        private static ExcelPackageConfiguration _configuration = new ExcelPackageConfiguration();
+        internal static ExcelPackageConfiguration GlobalConfiguration => _configuration;
+        private List<ExcelInitializationError> _initErrors = new List<ExcelInitializationError>();
         #endregion
         #region ExcelPackage Constructors
         /// <summary>
@@ -433,16 +436,10 @@ namespace OfficeOpenXml
 #if (Core)
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);  //Add Support for codepage 1252
 
-            var build = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true,false);            
-            var c = build.Build();
+            var  isWorksheets1Based = ExcelConfigurationReader.GetJsonConfigValue("EPPlus:ExcelPackage:Compatibility:IsWorksheets1Based", _configuration, _initErrors);
 
-            var isWorksheets1Based = c["EPPlus:ExcelPackage:Compatibility:IsWorksheets1Based"];
-            var sharePivotTableCacheForSameRange = c["EPPlus:ExcelPackage:Compatibility:SharePivotTableCacheForSameRange"];
 #else
-            var isWorksheets1Based = ConfigurationManager.AppSettings["EPPlus:ExcelPackage.Compatibility.IsWorksheets1Based"];
-            var sharePivotTableCacheForSameRange = ConfigurationManager.AppSettings["EPPlus:ExcelPackage.Compatibility.SharePivotTableCacheForSameRange"];
+            var isWorksheets1Based = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage.Compatibility.IsWorksheets1Based", _configuration, _initErrors);
 #endif
             if (isWorksheets1Based != null)
             {
@@ -452,6 +449,7 @@ namespace OfficeOpenXml
                 }
             }
         }
+
         /// <summary>
         /// Create a new file from a template
         /// </summary>
@@ -629,7 +627,7 @@ namespace OfficeOpenXml
                 _licenseSet = _licenseType != null;
             }
         }
-        internal static bool IsLicenseSet()
+        internal static bool IsLicenseSet(List<ExcelInitializationError> initErrors)
         {
             if(_licenseSet==true)
             {
@@ -642,24 +640,23 @@ namespace OfficeOpenXml
                     _licenseSet = true;
                     return true;
                 }
-                var v = Environment.GetEnvironmentVariable("EPPlusLicenseContext",EnvironmentVariableTarget.User);
+                var v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlusLicenseContext",EnvironmentVariableTarget.User, _configuration, initErrors);
                 if(string.IsNullOrEmpty(v))
                 {
-                    v = Environment.GetEnvironmentVariable("EPPlusLicenseContext", EnvironmentVariableTarget.Process);
+                    v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlusLicenseContext", EnvironmentVariableTarget.Process, _configuration, initErrors);
                 }
                 bool inEnvironment;
                 if (string.IsNullOrEmpty(v))
                 {
 #if (Core)
-                    var build = new ConfigurationBuilder()
-                        .SetBasePath(Directory.GetCurrentDirectory())
-                        .AddJsonFile("appsettings.json", true, false);
-                    var c = build.Build();
-
-                    v = c["EPPlus:ExcelPackage:LicenseContext"];
+                    v = ExcelConfigurationReader.GetJsonConfigValue("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
 
 #else
-                    v = ConfigurationManager.AppSettings["EPPlus:ExcelPackage.LicenseContext"];
+                    v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
+                    if(string.IsNullOrEmpty(v))
+                    {
+                        v = v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage.LicenseContext", _configuration, initErrors);
+                    }
 #endif
                     inEnvironment = false;
                 }
@@ -707,7 +704,7 @@ namespace OfficeOpenXml
                 CheckNotDisposed();
                 if (_workbook == null)
                 {
-                    if(IsLicenseSet()==false)
+                    if(IsLicenseSet(_initErrors)==false)
                     {
                         throw (new LicenseException("Please set the ExcelPackage.LicenseContext property. See https://epplussoftware.com/developers/licenseexception"));
                     }
@@ -722,6 +719,26 @@ namespace OfficeOpenXml
                 return (_workbook);
 			}
 		}
+
+        /// <summary>
+        /// Global configuration for the ExcelPackage class
+        /// </summary>
+        /// <param name="configHandler"></param>
+        public static void Configure(Action<ExcelPackageConfiguration> configHandler)
+        {
+            configHandler(_configuration);
+        }
+
+        /// <summary>
+        /// Errors that has been logged during initialization of the ExcelPackage class.
+        /// </summary>
+        public IEnumerable<ExcelInitializationError> InitializationErrors
+        {
+            get
+            {
+                return _initErrors;
+            }
+        }
         /// <summary>
         /// Automaticlly adjust drawing size when column width/row height are adjusted, depending on the drawings editBy property.
         /// Default True

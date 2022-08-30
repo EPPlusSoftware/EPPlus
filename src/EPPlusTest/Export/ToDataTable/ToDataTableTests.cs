@@ -33,6 +33,21 @@ namespace EPPlusTest.Export.ToDataTable
         }
 
         [TestMethod]
+        public void ToDataTableShouldReturnDataTable_WithOneRow()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["B1"].Value = "John Doe";
+                var dt = sheet.Cells["A1:B1"].ToDataTable(x => x.FirstRowIsColumnNames = false);
+                Assert.AreEqual(1, dt.Rows.Count);
+                Assert.AreEqual(1, dt.Rows[0][0]);
+                Assert.AreEqual("John Doe", dt.Rows[0][1]);
+            }
+        }
+
+        [TestMethod]
         public void ToDataTableShouldReturnDataTable_WithOneMapping()
         {
             using (var package = new ExcelPackage())

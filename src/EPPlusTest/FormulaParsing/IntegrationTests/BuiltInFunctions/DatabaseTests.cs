@@ -35,6 +35,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
     [TestClass]
     public class DatabaseTests
     {
+
         [TestMethod]
         public void DgetShouldReturnCorrectResult()
         {

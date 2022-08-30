@@ -47,8 +47,14 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions
         [TestInitialize]
         public void Setup()
         {
-            var excelDataProvider = A.Fake<ExcelDataProvider>();
-            _parser = new FormulaParser(excelDataProvider);
+            _excelPackage = new ExcelPackage();
+            _parser = new FormulaParser(_excelPackage);
+        }
+
+        [TestCleanup]
+        public void Cleanup()
+        {
+            _excelPackage.Dispose();
         }
 
         [TestMethod]

@@ -13,9 +13,11 @@
 #if (Core)
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.IO;
 #else
 using System.Configuration;
+using System.Collections.Generic;
 #endif
 
 
@@ -26,34 +28,36 @@ namespace OfficeOpenXml.FormulaParsing
     /// </summary>
     public class ExcelCalculationOption
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ExcelCalculationOption()
         {
             AllowCircularReferences = false;
             PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.DotNet;
-#if (Core)
-            var build = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, false);
-            var c = build.Build();
+            var initErrors = new List<ExcelInitializationError>();
 
-            var configValue = c["EPPlus:ExcelPackage:AllowCircularReferences"];
+#if (Core)
+            var configValue = ExcelConfigurationReader.GetJsonConfigValue("EPPlus:ExcelPackage:AllowCircularReferences", ExcelPackage.GlobalConfiguration, initErrors);
             if(bool.TryParse(configValue, out bool allow))
             {
                 AllowCircularReferences = allow;
             }
-            var roundingStrategy = c["EPPlus:ExcelPackage:PrecisionAndRoundingStrategy"];
-            if(Enum.TryParse(roundingStrategy, out PrecisionAndRoundingStrategy precisionAndRoundingStrategy))
+            //var roundingStrategy = c["EPPlus:ExcelPackage:PrecisionAndRoundingStrategy"];
+            var roundingStrategy = ExcelConfigurationReader.GetJsonConfigValue("EPPlus:ExcelPackage:PrecisionAndRoundingStrategy", ExcelPackage.GlobalConfiguration, initErrors);
+            if (Enum.TryParse(roundingStrategy, out PrecisionAndRoundingStrategy precisionAndRoundingStrategy))
             {
                 PrecisionAndRoundingStrategy = precisionAndRoundingStrategy;
             }
 
 #else
-            if(bool.TryParse(ConfigurationManager.AppSettings["EPPlus:ExcelPackage.AllowCircularReferences"], out bool allow))
+            var acr = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage.AllowCircularReferences", ExcelPackage.GlobalConfiguration, initErrors);
+            if(bool.TryParse(acr, out bool allow))
             {
                 AllowCircularReferences = allow;
             }
             // no Enum.TryParse in .NET 35...
-            var roundingStrategy = ConfigurationManager.AppSettings["EPPlus:ExcelPackage.PrecisionAndRoundingStrategy"];
+            var roundingStrategy = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage.PrecisionAndRoundingStrategy", ExcelPackage.GlobalConfiguration, initErrors);
             if(!string.IsNullOrEmpty(roundingStrategy))
             {
                 switch(roundingStrategy.ToLower())
