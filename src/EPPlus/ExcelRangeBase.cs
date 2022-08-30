@@ -391,7 +391,7 @@ namespace OfficeOpenXml
             {
                 Address = "A1";
             }
-            else
+            else    
             {
                 Address = _worksheet.View.SelectedRange;
             }
