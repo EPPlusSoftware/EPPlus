@@ -1,12 +1,21 @@
 ﻿# Features / Fixed issues - EPPlus 5
 
+## Version 5.8.13
+### Fixed issues
+* Copying comments sometimes did not change the name in the vml drawing causing OOXML validation to complain on duplicate drawings.
+* The count attribute on 'xsf' node in Styles.xml was not correctly set.
+* Setting drawing coordinates did not update the xml on save if ExcelPackage.DoAdjustDrawings was set to false.
+* IF function now handle errors correcly.
+* Referencing a worksheet to a cell address after a colon (for example 'sheet1'!a1:'sheet1'!A3) did not work correctly in the formula calculation.
+* Removing VBA signtures did not remove the newer types of signatures, Agile and V3.
+* Removing / Clearing or inserting into a table with a Calculated Column Formula sometimes caused a corrupt workbook or an Exception. 
+
 ## Version 5.8.12
 ### Fixed issues
 * Fixed an error in Positioning and sizing of form controls intruduced in 5.8.11.
 * Pivot table styles in template workbooks sometimes corrupts the new workbook.
 * Spaces were not preserved in rich text in drawing objects.
 * Defined names referencing external reference sometimes loaded incorrectly.
-
 
 ## Version 5.8.11
 ### Fixed issues
