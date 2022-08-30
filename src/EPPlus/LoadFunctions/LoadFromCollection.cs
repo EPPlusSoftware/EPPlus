@@ -253,7 +253,11 @@ namespace OfficeOpenXml.LoadFunctions
         {
             foreach (var colInfo in _columns)
             {
-                var header = string.Empty;
+                var header = colInfo.Header;
+
+                // if the header is already set and contains a space it doesn't need more formatting or validation.
+                var useExistingHeader = !string.IsNullOrEmpty(header) && header.Contains(" ");
+
                 if (colInfo.MemberInfo != null)
                 {
                     // column data based on a property read with reflection
