@@ -126,9 +126,9 @@ namespace OfficeOpenXml.LoadFunctions
                     var epplusColumnAttr = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
                     if (epplusColumnAttr != null)
                     {
-                        if(!string.IsNullOrEmpty(epplusColumnAttr.Header))
+                        if(!string.IsNullOrEmpty(epplusColumnAttr.Header) && !string.IsNullOrEmpty(headerPrefix))
                         {
-                            header = epplusColumnAttr.Header;
+                            header = $"{headerPrefix} {epplusColumnAttr.Header}";
                         }
                         sortOrder = sortOrderColumnsIndex > -1 ? sortOrderColumnsIndex : epplusColumnAttr.Order + SortOrderOffset;
                         
@@ -147,10 +147,14 @@ namespace OfficeOpenXml.LoadFunctions
                         totalsRowLabel = epplusColumnAttr.TotalsRowLabel;
                         totalsRowFormula = epplusColumnAttr.TotalsRowFormula;
                     }
-                    header = string.IsNullOrEmpty(header) ? member.Name : header;
-                    if (!string.IsNullOrEmpty(hPrefix))
+                    else if(!string.IsNullOrEmpty(headerPrefix))
                     {
-                        header = hPrefix;
+                        header = string.IsNullOrEmpty(header) ? member.Name : header;
+                        header = $"{headerPrefix} {header}";
+                    }
+                    else
+                    {
+                        header = string.IsNullOrEmpty(header) ? member.Name : header;
                     }
                     result.Add(new ColumnInfo
                     {

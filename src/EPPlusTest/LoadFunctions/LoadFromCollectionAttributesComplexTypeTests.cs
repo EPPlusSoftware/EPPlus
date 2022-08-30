@@ -170,6 +170,32 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [TestMethod]
+        public void ShouldSetHeaderPrefixOnComplexClassProperty_WithTableColumnAttributeOnChildProperty()
+        {
+            var items = ExcelItems.GetItems1();
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("test");
+                ws.Cells["A1"].LoadFromCollection(items);
+                var cv = ws.Cells["F1"].Value;
+                Assert.AreEqual("Collateral Owner Email", cv);
+            }
+        }
+
+        [TestMethod]
+        public void ShouldSetHeaderPrefixOnComplexClassProperty_WithoutTableColumnAttributeOnChildProperty()
+        {
+            var items = ExcelItems.GetItems1();
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("test");
+                ws.Cells["A1"].LoadFromCollection(items);
+                var cv = ws.Cells["G1"].Value;
+                Assert.AreEqual("Collateral Owner Name", cv);
+            }
+        }
+
+        [TestMethod]
         public void ShouldLoadFromComplexInheritence()
         {
             using (var package = new ExcelPackage())
