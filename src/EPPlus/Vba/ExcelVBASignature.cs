@@ -68,7 +68,6 @@ namespace OfficeOpenXml.VBA
                 Verifier = null;
             }
         }
-
         private void ReadSignature()
         {
             var stream = Part.GetStream();
@@ -147,14 +146,12 @@ namespace OfficeOpenXml.VBA
 
         //    return oId;
         //}
-
         private void DeletePart()
         {
             DeletePartAndRelations(Part);
             DeletePartAndRelations(PartAgile);
             DeletePartAndRelations(PartV3);
         }
-
         private void DeletePartAndRelations(ZipPackagePart part)
         {
             if (part == null) return;
@@ -164,7 +161,6 @@ namespace OfficeOpenXml.VBA
             }
             part.Package.DeletePart(part.Uri);
         }
-
         internal void Save(ExcelVbaProject proj)
         {
             if (Certificate == null)
@@ -236,7 +232,6 @@ namespace OfficeOpenXml.VBA
                 Part.GetStream(FileMode.Create).Write(b, 0, b.Length);
             }
         }
-
         private X509Certificate2 GetCertFromStore(StoreLocation loc)
         {
             try

@@ -1146,7 +1146,7 @@ namespace OfficeOpenXml
                         {
                             intAddress = intAddress.Substring(0, intAddress.IndexOf(','));
                         }
-                        if (IsAddress(intAddress))
+                        if (IsAddress(intAddress, true))
                         {
                             return string.IsNullOrEmpty(wb) ? AddressType.InternalAddress : AddressType.ExternalAddress;
                         }
@@ -1219,14 +1219,13 @@ namespace OfficeOpenXml
             }
             return true;
         }
-
-        private static bool IsAddress(string intAddress)
+        private static bool IsAddress(string intAddress, bool allowRef = false)
         {
-            if(string.IsNullOrEmpty(intAddress)) return false;            
+            if (string.IsNullOrEmpty(intAddress)) return false;
             var cells = intAddress.Split(':');
             int fromRow, toRow, fromCol, toCol;
 
-            if(!GetRowCol(cells[0], out fromRow, out fromCol, false))
+            if (!GetRowCol(cells[0], out fromRow, out fromCol, false))
             {
                 return false;
             }
@@ -1242,21 +1241,25 @@ namespace OfficeOpenXml
                 toRow = fromRow;
                 toCol = fromCol;
             }
-            if( fromRow <= toRow && 
-                fromCol <= toCol && 
-                fromCol > -1 && 
-                toCol <= ExcelPackage.MaxColumns && 
-                fromRow > -1 && 
-                toRow <= ExcelPackage.MaxRows)
+            if (allowRef)
             {
-                return true;
+                return
+                    fromCol > -1 &&
+                    toCol <= ExcelPackage.MaxColumns &&
+                    fromRow > -1 &&
+                    toRow <= ExcelPackage.MaxRows;
             }
             else
             {
-                return false;
+                return
+                    fromRow <= toRow &&
+                    fromCol <= toCol &&
+                    fromCol > -1 &&
+                    toCol <= ExcelPackage.MaxColumns &&
+                    fromRow > -1 &&
+                    toRow <= ExcelPackage.MaxRows;
             }
         }
-
         private static bool SplitAddress(string Address, out string wb, out string ws, out string intAddress)
         {
             wb = "";
@@ -1485,7 +1488,9 @@ namespace OfficeOpenXml
             {
                 if (address[ix] == '\'')
                 {
-                    return GetString(address, ix, out endIx);
+                    var ret=GetString(address, ix, out endIx);
+                    endIx++;
+                    return ret; 
                 }
                 else
                 {
@@ -1642,23 +1647,11 @@ namespace OfficeOpenXml
             while (strIx > -1)
             {
                 prevStrIx = strIx;
-                strIx = address.IndexOf("''", strIx+1);
+                strIx = address.IndexOf("''", strIx + 1);
             }
-            endIx = address.IndexOf("'", prevStrIx+1);
-            return address.Substring(ix, endIx - ix).Replace("''", "'");
+            endIx  = address.IndexOf("'", prevStrIx + 1) + 1;
+            return address.Substring(ix, endIx - ix - 1).Replace("''", "'");
         }
-        //private static string GetString(string address, int ix, out int endIx)
-        //{
-        //    var strIx = address.IndexOf("''");
-        //    int prevStrIx=strIx;
-        //    while (strIx > -1) 
-        //    {
-        //        prevStrIx = strIx + 2;
-        //        strIx = address.IndexOf("''", prevStrIx);
-        //    }
-        //    endIx = address.IndexOf("'", strIx+1);
-        //    return address.Substring(ix, endIx - ix).Replace("''","'");
-        //}
 
         internal bool IsValidRowCol()
         {

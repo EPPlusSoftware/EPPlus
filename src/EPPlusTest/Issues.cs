@@ -3400,6 +3400,23 @@ namespace EPPlusTest
                 Assert.AreEqual("Sheet1!$7:$7", pck.Workbook.Names["RowRange"].Address);
             }
         }
+        [TestMethod]
+        public void i701()
+        {
+            using (var p = OpenTemplatePackage(@"i701.xlsx"))
+            {
+                ExcelTable partsTable = p.Workbook.Worksheets
+                .SelectMany(x => x.Tables)
+                .SingleOrDefault(x => x.Name == "TblComponents");
+
+                if (!partsTable.Columns.Any(x => x.Name == "TEST"))
+                {
+                    partsTable.Columns.Add();
+                    var newCol = partsTable.Columns.Last();
+                }
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
 
