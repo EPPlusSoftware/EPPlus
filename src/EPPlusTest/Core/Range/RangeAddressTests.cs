@@ -407,5 +407,17 @@ namespace EPPlusTest.Core.Range
             Assert.AreEqual(3, a1._toRow);
             Assert.AreEqual(1, a1._toCol);
         }
+        [TestMethod]
+        public void ValidateGetWorksheetPart()
+        {
+            int ix = 0;
+            ExcelAddressBase.GetWorksheetPart("A1:A2", "Sheet1", ref ix);
+            Assert.AreEqual(0, ix);
+
+            ExcelAddressBase.GetWorksheetPart("sheet1!A1:A2", "Sheet1", ref ix);
+            Assert.AreEqual(7, ix);
+            ExcelAddressBase.GetWorksheetPart("'sheet 1'!A1:A2", "Sheet1", ref ix);
+            Assert.AreEqual(10, ix);
+        }
     }
 }

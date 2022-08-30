@@ -3619,9 +3619,25 @@ namespace EPPlusTest
                     ws.Column(colNum).OutlineLevel = 1;
                     ws.Column(colNum).Collapsed = true;
                     ws.Column(colNum).Hidden = true;
-
                 }
 
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i701()
+        {
+            using (var p = OpenTemplatePackage(@"i701.xlsx"))
+            {
+                ExcelTable partsTable = p.Workbook.Worksheets
+                .SelectMany(x => x.Tables)
+                .SingleOrDefault(x => x.Name == "TblComponents");
+
+                if (!partsTable.Columns.Any(x => x.Name == "TEST"))
+                {
+                    partsTable.Columns.Add();
+                    var newCol = partsTable.Columns.Last();
+                }
                 SaveAndCleanup(p);
             }
         }

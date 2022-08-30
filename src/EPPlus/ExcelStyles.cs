@@ -27,6 +27,7 @@ using OfficeOpenXml.Style.Table;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Slicer.Style;
 using OfficeOpenXml.Table;
+using System.Globalization;
 
 namespace OfficeOpenXml
 {
@@ -1182,8 +1183,17 @@ namespace OfficeOpenXml
                 }
                 cellStyleNode.AppendChild(style.CreateXmlNode(_styleXml.CreateElement("cellStyle", ExcelPackage.schemaMain)));
             }
-            if (cellStyleNode != null) (cellStyleNode as XmlElement).SetAttribute("count", count.ToString());
-            if (styleXfsNode != null) (styleXfsNode as XmlElement).SetAttribute("count", count.ToString());
+
+            if (cellStyleNode != null)
+            {
+                var cellStyleElement = (cellStyleNode as XmlElement);
+                cellStyleElement.SetAttribute("count", cellStyleElement.ChildNodes.Count.ToString(CultureInfo.InvariantCulture));
+            }
+            if (styleXfsNode != null)
+            {
+                var styleXfsElement = (styleXfsNode as XmlElement);
+                styleXfsElement.SetAttribute("count", styleXfsElement.ChildNodes.Count.ToString(CultureInfo.InvariantCulture));
+            }
 
             //CellStyle
             int xfix = 0;
@@ -1197,7 +1207,7 @@ namespace OfficeOpenXml
                 }
                 xfix++;
             }
-            (cellXfsNode as XmlElement).SetAttribute("count", xfsCount.ToString());
+            (cellXfsNode as XmlElement).SetAttribute("count", xfsCount.ToString(CultureInfo.InvariantCulture));
 
         }
 

@@ -15,7 +15,7 @@ using System.Collections.Generic;
 namespace OfficeOpenXml.Core.CellStore
 {
     /// <summary>
-    /// For testing purpous only. Can be removed when cellsstore is fully optimized.
+    /// For testing purpose only. Can be removed when cells store is fully optimized.
     /// </summary>
     internal static class CellStoreSettings
     {
@@ -45,7 +45,7 @@ namespace OfficeOpenXml.Core.CellStore
     /// <summary>
     /// This is the store for all Rows, Columns and Cells.
     /// It is a Dictionary implementation that allows you to change the Key.
-    /// Rows and Column data is stored in colum with index 0(row data) and row with index 0 (column data).
+    /// Rows and Column data is stored in column with index 0(row data) and row with index 0 (column data).
     /// </summary>
     internal class CellStore<T> : IDisposable
     {
