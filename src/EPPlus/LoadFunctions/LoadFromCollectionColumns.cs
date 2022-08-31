@@ -65,6 +65,7 @@ namespace OfficeOpenXml.LoadFunctions
             if (type.HasMemberWithPropertyOfType<EpplusTableColumnAttribute>())
             {
                 sort = true;
+                var index = 0;
                 foreach (var member in members)
                 {
                     var hPrefix = default(string);
@@ -130,6 +131,10 @@ namespace OfficeOpenXml.LoadFunctions
                         {
                             header = $"{headerPrefix} {epplusColumnAttr.Header}";
                         }
+                        else
+                        {
+                            header = epplusColumnAttr.Header;
+                        }
                         sortOrder = sortOrderColumnsIndex > -1 ? sortOrderColumnsIndex : epplusColumnAttr.Order + SortOrderOffset;
                         
                         if(sortOrderList != null && sortOrderList.Any())
@@ -160,6 +165,7 @@ namespace OfficeOpenXml.LoadFunctions
                     {
                         Header = header,
                         SortOrder = sortOrder,
+                        Index = index++,
                         SortOrderLevels = colInfoSortOrderList,
                         MemberInfo = member,
                         NumberFormat = numberFormat,
@@ -279,7 +285,7 @@ namespace OfficeOpenXml.LoadFunctions
                         if (aVal.CompareTo(bVal) == 0) continue;
                         return aVal.CompareTo(bVal);
                     }
-                    return 0;
+                    return a.Index.CompareTo(b.Index);
                 }
             });
             result.ForEach(x => x.Index = index++);
