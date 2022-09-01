@@ -53,6 +53,7 @@ namespace EPPlusTest.DataValidation
 
         public void CleanupTestData()
         {
+            if(_package != null) _package.Dispose();
             _package = null;
             _sheet = null;
             _namespaceManager = null;

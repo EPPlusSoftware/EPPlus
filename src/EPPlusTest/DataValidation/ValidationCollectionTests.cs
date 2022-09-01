@@ -139,10 +139,40 @@ namespace EPPlusTest.DataValidation
         public void ExcelDataValidationCollection_Clear_ShouldBeEmpty()
         {
             // Arrange
-            _sheet.DataValidations.AddDateTimeValidation("A1");
+            var v = _sheet.DataValidations.AddDateTimeValidation("A1");
 
             // Act
             _sheet.DataValidations.Clear();
+
+            // Assert
+            Assert.AreEqual(0, _sheet.DataValidations.Count);
+
+        }
+
+        [TestMethod]
+        public void ExcelDataValidationCollection_ExtLst_Clear_ShouldBeEmpty()
+        {
+            // Arrange
+            var sheet2 = _package.Workbook.Worksheets.Add("Sheet2");
+            var v = _sheet.DataValidations.AddListValidation("A1");
+            v.Formula.ExcelFormula = "Sheet2!A1:A2";
+
+            // Act
+            _sheet.DataValidations.Clear();
+
+            // Assert
+            Assert.AreEqual(0, _sheet.DataValidations.Count);
+
+        }
+
+        [TestMethod]
+        public void ExcelDataValidationCollection_Remove_ShouldBeEmpty()
+        {
+            // Arrange
+            _sheet.DataValidations.AddDateTimeValidation("A1");
+
+            // Act
+            _sheet.DataValidations.Remove(_sheet.DataValidations["A1"]);
 
             // Assert
             Assert.AreEqual(0, _sheet.DataValidations.Count);
