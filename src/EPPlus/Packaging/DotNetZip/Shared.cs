@@ -664,10 +664,10 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         // generates the JIT-compile time exception.
         //
 #endif
-        private static uint _HRForException(System.Exception ex1)
-        {
-            return unchecked((uint)System.Runtime.InteropServices.Marshal.GetHRForException(ex1));
-        }
+        //private static uint _HRForException(System.Exception ex1)
+        //{
+        //    return unchecked((uint)System.Runtime.InteropServices.Marshal.GetHRForException(ex1));
+        //}
 
     }
 

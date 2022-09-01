@@ -17,9 +17,11 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.Utils;
+using System.Diagnostics;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 {
+    [DebuggerDisplay("Operator: {_operator.ToString()}")]
     public class Operator : IOperator
     {
         private const int PrecedencePercent = 2;
@@ -65,11 +67,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                 return new CompileResult(right.Result, DataType.ExcelError);
             }
             return _implementation(left, right);
-        }
-
-        public override string ToString()
-        {
-            return "Operator: " + _operator;
         }
 
         private static bool CanDoNumericOperation(CompileResult l, CompileResult r)
