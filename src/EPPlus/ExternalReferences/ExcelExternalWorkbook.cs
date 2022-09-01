@@ -298,7 +298,7 @@ namespace OfficeOpenXml.ExternalReferences
                 file += _file.Name;
                 if (System.IO.File.Exists(file))
                 {
-                    _file = new FileInfo(file);
+                    _file = new FileInfo(FileHelper.GetRelativeFile(_wb._package.File, new FileInfo(file)));
                     return;
                 }
             }
@@ -389,8 +389,7 @@ namespace OfficeOpenXml.ExternalReferences
             }
             _package._loadedPackage = _wb._package;
             _file = file;
-
-            Relation.Target = "file:///" + file.FullName;
+            Relation.Target = "file:///" + FileHelper.GetRelativeFile(_wb._package.File, file);
             Relation.TargetUri = new Uri(Relation.Target);
         }
 

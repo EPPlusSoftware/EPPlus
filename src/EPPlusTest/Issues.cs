@@ -3641,6 +3641,14 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
-
+        [TestMethod]
+        public void AddExternalWorkbookNoUpdate()
+        {
+            using (var p = OpenTemplatePackage(@"extref_relative.xlsx"))
+            {
+                p.Workbook.ExternalLinks[0].As.ExternalWorkbook.Load();
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
