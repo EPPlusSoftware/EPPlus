@@ -13,12 +13,14 @@ using System;
   12/10/2020         EPPlus Software AB       EPPlus 5.5
  *************************************************************************************************/
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
 namespace OfficeOpenXml.LoadFunctions
 {
+    [DebuggerDisplay("Header: {Header}, SortOrder: {SortOrder}, Index: {Index}")]
     internal class ColumnInfo
     {
         public ColumnInfo()

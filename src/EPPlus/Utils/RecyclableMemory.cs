@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading;
 
 namespace OfficeOpenXml.Utils
@@ -11,13 +12,37 @@ namespace OfficeOpenXml.Utils
 #if !NET35
 		private static Microsoft.IO.RecyclableMemoryStreamManager _memoryManager;
 		private static bool _dataInitialized = false;
+		private static bool _lazyInitializeFailed = false;
 		private static object _dataLock = new object();
 
 		private static Microsoft.IO.RecyclableMemoryStreamManager MemoryManager
 		{
 			get
 			{
-				return LazyInitializer.EnsureInitialized(ref _memoryManager, ref _dataInitialized, ref _dataLock);
+				var manager = default(Microsoft.IO.RecyclableMemoryStreamManager);
+				if (_lazyInitializeFailed && _dataInitialized)
+				{
+					return _memoryManager;
+				}
+				// This has failed on dalvikvm (android), so adding a fallback handling of Exceptions /MA 2022-08-31
+				try
+                {
+					manager = LazyInitializer.EnsureInitialized(ref _memoryManager, ref _dataInitialized, ref _dataLock);
+				}
+				catch(Exception)
+                {
+					lock(_dataLock)
+                    {
+						_lazyInitializeFailed = true;
+						if (_memoryManager == null)
+                        {
+							_memoryManager = new Microsoft.IO.RecyclableMemoryStreamManager();
+							_dataInitialized = true;
+                        }
+                    }
+					manager = _memoryManager;
+				}
+				return manager;
 			}
 		}
 
