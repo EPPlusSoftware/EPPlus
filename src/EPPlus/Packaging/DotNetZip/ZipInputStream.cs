@@ -34,7 +34,8 @@ using System.Threading;
 using System.Collections.Generic;
 using System.IO;
 using OfficeOpenXml.Packaging.Ionic.Crc;
-
+using System.Text;
+using System.Linq;
 namespace OfficeOpenXml.Packaging.Ionic.Zip
 {
     /// <summary>
@@ -344,11 +345,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             if (!_inputStream.CanRead)
                 throw new ZipException("The stream must be readable.");
             _container= new ZipContainer(this);
-#if (Core)
-            _provisionalAlternateEncoding = System.Text.Encoding.GetEncoding("utf-8");
-#else
-            _provisionalAlternateEncoding = System.Text.Encoding.GetEncoding("IBM437");
-#endif
+
             _leaveUnderlyingStreamOpen = leaveOpen;
             _findRequired= true;
             _name = name ?? "(stream)";
@@ -366,73 +363,6 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         {
             return String.Format ("ZipInputStream::{0}(leaveOpen({1})))", _name, _leaveUnderlyingStreamOpen);
         }
-
-
-        /// <summary>
-        ///   The text encoding to use when reading entries into the zip archive, for
-        ///   those entries whose filenames or comments cannot be encoded with the
-        ///   default (IBM437) encoding.
-        /// </summary>
-        ///
-        /// <remarks>
-        /// <para>
-        ///   In <see href="http://www.pkware.com/documents/casestudies/APPNOTE.TXT">its
-        ///   zip specification</see>, PKWare describes two options for encoding
-        ///   filenames and comments: using IBM437 or UTF-8.  But, some archiving tools
-        ///   or libraries do not follow the specification, and instead encode
-        ///   characters using the system default code page.  For example, WinRAR when
-        ///   run on a machine in Shanghai may encode filenames with the Big-5 Chinese
-        ///   (950) code page.  This behavior is contrary to the Zip specification, but
-        ///   it occurs anyway.
-        /// </para>
-        ///
-        /// <para>
-        ///   When using DotNetZip to read zip archives that use something other than
-        ///   UTF-8 or IBM437, set this property to specify the code page to use when
-        ///   reading encoded filenames and comments for each <c>ZipEntry</c> in the zip
-        ///   file.
-        /// </para>
-        ///
-        /// <para>
-        ///   This property is "provisional". When the entry in the zip archive is not
-        ///   explicitly marked as using UTF-8, then IBM437 is used to decode filenames
-        ///   and comments. If a loss of data would result from using IBM436 -
-        ///   specifically when encoding and decoding is not reflexive - the codepage
-        ///   specified here is used. It is possible, therefore, to have a given entry
-        ///   with a <c>Comment</c> encoded in IBM437 and a <c>FileName</c> encoded with
-        ///   the specified "provisional" codepage.
-        /// </para>
-        ///
-        /// <para>
-        ///   When a zip file uses an arbitrary, non-UTF8 code page for encoding, there
-        ///   is no standard way for the reader application - whether DotNetZip, WinZip,
-        ///   WinRar, or something else - to know which codepage has been used for the
-        ///   entries. Readers of zip files are not able to inspect the zip file and
-        ///   determine the codepage that was used for the entries contained within it.
-        ///   It is left to the application or user to determine the necessary codepage
-        ///   when reading zip files encoded this way.  If you use an incorrect codepage
-        ///   when reading a zipfile, you will get entries with filenames that are
-        ///   incorrect, and the incorrect filenames may even contain characters that
-        ///   are not legal for use within filenames in Windows. Extracting entries with
-        ///   illegal characters in the filenames will lead to exceptions. It's too bad,
-        ///   but this is just the way things are with code pages in zip files. Caveat
-        ///   Emptor.
-        /// </para>
-        ///
-        /// </remarks>
-        public System.Text.Encoding ProvisionalAlternateEncoding
-        {
-            get
-            {
-                return _provisionalAlternateEncoding;
-            }
-            set
-            {
-                _provisionalAlternateEncoding = value;
-            }
-        }
-
-
         /// <summary>
         ///   Size of the work buffer to use for the ZLIB codec during decompression.
         /// </summary>
@@ -809,7 +739,6 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
 
         private Stream _inputStream;
-        private System.Text.Encoding _provisionalAlternateEncoding;
         private ZipEntry _currentEntry;
         private bool _firstEntry;
         private bool _needSetup;
