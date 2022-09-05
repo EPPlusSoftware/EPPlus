@@ -19,6 +19,7 @@ using OfficeOpenXml.Utils.CompundDocument;
 using System.Security.Cryptography.Pkcs;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.Vba.ContentHash;
 
 namespace OfficeOpenXml.VBA
 {
@@ -360,7 +361,7 @@ namespace OfficeOpenXml.VBA
                     {
                         bw.Write((byte)0x7B);
                     }
-                    if (reference.ReferenceRecordID == 0x0E)
+                    else if (reference.ReferenceRecordID == 0x0E)
                     {
                         foreach (byte b in BitConverter.GetBytes((uint)reference.Libid.Length))  //Length will never be an UInt with 4 bytes that aren't 0 (> 0x00FFFFFF), so no need for the rest of the properties.
                         {
@@ -388,7 +389,15 @@ namespace OfficeOpenXml.VBA
                 }
                 var buffer = ms.ToArray();
 
-                var hp = System.Security.Cryptography.MD5.Create();
+                // testing with new classes
+                using(var ms2 = RecyclableMemory.GetStream())
+                {
+                    ContentHashInputProvider.GetContentNormalizedDataHashInput(proj, ms2);
+                    var buffer2 = ms2.ToArray();
+                }
+
+                //var hp = System.Security.Cryptography.MD5.Create();
+                var hp = System.Security.Cryptography.SHA512.Create();
                 return hp.ComputeHash(buffer);
             }
         }

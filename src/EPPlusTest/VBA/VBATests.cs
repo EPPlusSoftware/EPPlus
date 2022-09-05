@@ -158,5 +158,15 @@ namespace EPPlusTest.VBA
                 Assert.AreEqual("Sheet4", p.Workbook.VbaProject.Modules[4].Name);
             }
         }
+
+        [TestMethod]
+        public void MyVbaTest()
+        {
+            using(var package = new ExcelPackage(@"c:\Temp\VbaCert\VbaSign.xlsm"))
+            {
+                var p = package.Workbook.VbaProject;
+                p.Save();
+            }
+        }
     }
 }
