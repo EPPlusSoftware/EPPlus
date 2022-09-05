@@ -40,7 +40,7 @@ namespace OfficeOpenXml.ExternalReferences
             CachedWorksheets = new ExcelExternalNamedItemCollection<ExcelExternalWorksheet>();
             CachedNames = new ExcelExternalNamedItemCollection<ExcelExternalDefinedName>();
             CacheStatus = eExternalWorkbookCacheStatus.NotUpdated;
-            SetPackage(p);
+            SetPackage(p, false);
        }
         internal ExcelExternalWorkbook(ExcelWorkbook wb, XmlTextReader reader, ZipPackagePart part, XmlElement workbookElement)  : base(wb, reader, part, workbookElement)
         {
@@ -364,35 +364,61 @@ namespace OfficeOpenXml.ExternalReferences
                 return false;
             }
 
-            SetPackage(package);
+            SetPackage(package, true);
 
             return true;
         }
 
-        private void SetPackage(ExcelPackage package)
+        private void SetPackage(ExcelPackage package, bool setTarget)
         {
             _package = package;
             _package._loadedPackage = _wb._package;
             _file = _package.File;
+            if (setTarget)
+            {
+                SetTarget(_file);
+            }
         }
         private void SetPackage(FileInfo file)
         {
-            if(_wb._package.File.Name.Equals(file.Name, StringComparison.CurrentCultureIgnoreCase))
+            if (_wb._package.File.Name.Equals(file.Name, StringComparison.CurrentCultureIgnoreCase))
             {
                 _package = _wb._package;
                 return;
             }
 
-            if (SetPackageFromOtherReference(_wb._externalLinks, file)==false)
+            if (SetPackageFromOtherReference(_wb._externalLinks, file) == false)
             {
                 _package = new ExcelPackage(file);
             }
             _package._loadedPackage = _wb._package;
             _file = file;
-            Relation.Target = "file:///" + FileHelper.GetRelativeFile(_wb._package.File, file);
-            Relation.TargetUri = new Uri(Relation.Target);
+            SetTarget(file);
         }
 
+        private void SetTarget(FileInfo file)
+        {
+            if (file == null) return;
+            if (IsPathRelative)
+            {
+                Relation.TargetUri = null;
+                Relation.Target = FileHelper.GetRelativeFile(_wb._package.File, file, true);
+            }
+            else
+            {
+                Relation.Target = "file:///" + file.FullName;
+                Relation.TargetUri = new Uri(Relation.Target);
+            }
+        }
+
+        /// <summary>
+        /// If true, sets the path to the workbook as a relative path on <see cref="Load()"/>, if the link is on the same drive.
+        /// Otherwise set it as an absolute path. If set to false, the path will always be saved as an absolute path.
+        /// If the file path is relative and the file can not be found, the file path will not be updated.
+        /// <see cref="Load()"/>
+        /// <see cref="File"/>
+        /// </summary>
+        public bool IsPathRelative { get; set; } = true;
         private bool SetPackageFromOtherReference(ExcelExternalLinksCollection erCollection, FileInfo file)
         {
             if (erCollection == null) return false;

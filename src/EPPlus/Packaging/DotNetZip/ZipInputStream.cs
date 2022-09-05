@@ -367,7 +367,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   Size of the work buffer to use for the ZLIB codec during decompression.
         /// </summary>
         ///
-        /// <remarks>
+        /// <remarks>q
         ///   Setting this affects the performance and memory efficiency of compression
         ///   and decompression.  For larger files, setting this to a larger size may
         ///   improve performance, but the exact numbers vary depending on available

@@ -3646,6 +3646,7 @@ namespace EPPlusTest
         {
             using (var p = OpenTemplatePackage(@"extref_relative.xlsx"))
             {
+                p.Workbook.ExternalLinks[0].As.ExternalWorkbook.IsPathRelative = true;
                 p.Workbook.ExternalLinks[0].As.ExternalWorkbook.Load();
                 SaveAndCleanup(p);
             }
