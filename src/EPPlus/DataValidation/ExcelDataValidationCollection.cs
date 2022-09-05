@@ -478,9 +478,13 @@ namespace OfficeOpenXml.DataValidation
         /// </summary>
         public void Clear()
         {
-            DeleteAllNode(DataValidationItemsPath.TrimStart('/'));
+            if (TopNode != null && !string.IsNullOrEmpty(TopNode.LocalName) && TopNode.LocalName.ToLower() == "datavalidations")
+            {
+                TopNode.ParentNode.RemoveChild(TopNode);
+            }
             _validations.Clear();
             _extLstValidations.Clear();
+            OnValidationCountChanged();
         }
 
         /// <summary>

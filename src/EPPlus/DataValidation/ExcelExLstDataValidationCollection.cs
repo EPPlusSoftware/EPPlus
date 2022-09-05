@@ -122,7 +122,10 @@ namespace OfficeOpenXml.DataValidation
 
         internal void Clear()
         {
-            DeleteAllNode(ExternalDataValidationPath.TrimStart('/'));
+            if (TopNode != null && !string.IsNullOrEmpty(TopNode.LocalName) && TopNode.LocalName.ToLower() == "datavalidations")
+            {
+                TopNode.ParentNode.RemoveChild(TopNode);
+            }
             _validations.Clear();
         }
 
