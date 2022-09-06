@@ -706,6 +706,9 @@ namespace OfficeOpenXml.Drawing
 
                             br.Close();
                             return true;
+                        case "IEND":
+                            br.Close();
+                            return width != 0 && height != 0;
                         default:
                             br.ReadBytes(length);
                             break;
