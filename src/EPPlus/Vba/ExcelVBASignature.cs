@@ -20,6 +20,10 @@ using System.Security.Cryptography.Pkcs;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Vba.ContentHash;
+using System.Security.Cryptography;
+using OfficeOpenXml.VBA.ContentHash;
+using System.Text;
+using OfficeOpenXml.VBA.Signatures;
 
 namespace OfficeOpenXml.VBA
 {
@@ -28,379 +32,18 @@ namespace OfficeOpenXml.VBA
     /// </summary>
     public class ExcelVbaSignature
     {
-        const string schemaRelVbaSignature = "http://schemas.microsoft.com/office/2006/relationships/vbaProjectSignature";
-        const string schemaRelVbaSignatureAgile = "http://schemas.microsoft.com/office/2014/relationships/vbaProjectSignatureAgile";
-        const string schemaRelVbaSignatureV3 = "http://schemas.microsoft.com/office/2020/07/relationships/vbaProjectSignatureV3";
-        Packaging.ZipPackagePart _vbaPart = null;
         internal ExcelVbaSignature(Packaging.ZipPackagePart vbaPart)
         {
             _vbaPart = vbaPart;
-            GetSignature();
-        }
-        private void GetSignature()
-        {
-            if (_vbaPart == null) return;
-            var rel = _vbaPart.GetRelationshipsByType(schemaRelVbaSignature).FirstOrDefault();
-            if (rel != null)
-            {
-                Uri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
-                Part = _vbaPart.Package.GetPart(Uri);
-
-                ReadSignature();
-            }
-            
-            rel = _vbaPart.GetRelationshipsByType(schemaRelVbaSignatureAgile).FirstOrDefault();
-            if (rel != null)
-            {
-                UriAgile = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
-                PartAgile = _vbaPart.Package.GetPart(UriAgile);
-            }
-
-            rel = _vbaPart.GetRelationshipsByType(schemaRelVbaSignatureV3).FirstOrDefault();
-            if (rel != null)
-            {
-                UriV3 = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
-                PartV3 = _vbaPart.Package.GetPart(UriV3);
-            }
-
-            if(rel==null)
-            {
-                Certificate = null;
-                Verifier = null;
-            }
+            _legacySignature = new EPPlusVbaSignatureLegacy(vbaPart);
+            _agileSignature = new EPPlusVbaSignatureAgile(vbaPart);
+            ReadSignatures();
         }
 
-        private void ReadSignature()
-        {
-            var stream = Part.GetStream();
-            BinaryReader br = new BinaryReader(stream);
-            uint cbSignature = br.ReadUInt32();
-            uint signatureOffset = br.ReadUInt32();     //44 ??
-            uint cbSigningCertStore = br.ReadUInt32();
-            uint certStoreOffset = br.ReadUInt32();
-            uint cbProjectName = br.ReadUInt32();
-            uint projectNameOffset = br.ReadUInt32();
-            uint fTimestamp = br.ReadUInt32();
-            uint cbTimestampUrl = br.ReadUInt32();
-            uint timestampUrlOffset = br.ReadUInt32();
-            byte[] signature = br.ReadBytes((int)cbSignature);
-            uint version = br.ReadUInt32();
-            uint fileType = br.ReadUInt32();
+        private readonly ZipPackagePart _vbaPart = null;
+        private readonly EPPlusVbaSignature _legacySignature;
+        private readonly EPPlusVbaSignature _agileSignature;
 
-            uint id = br.ReadUInt32();
-            while (id != 0)
-            {
-                uint encodingType = br.ReadUInt32();
-                uint length = br.ReadUInt32();
-                if (length > 0)
-                {
-                    byte[] value = br.ReadBytes((int)length);
-                    switch (id)
-                    {
-                        //Add property values here...
-                        case 0x20:
-                            Certificate = new X509Certificate2(value);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                id = br.ReadUInt32();
-            }
-            uint endel1 = br.ReadUInt32();  //0
-            uint endel2 = br.ReadUInt32();  //0
-            ushort rgchProjectNameBuffer = br.ReadUInt16();
-            ushort rgchTimestampBuffer = br.ReadUInt16();
-            Verifier = new SignedCms();
-            Verifier.Decode(signature);
-        }
-
-        //Create Oid from a bytearray
-        //private string ReadHash(byte[] content)
-        //{
-        //    StringBuilder builder = new StringBuilder();
-        //    int offset = 0x6;
-        //    if (0 < (content.Length))
-        //    {
-        //        byte num = content[offset];
-        //        byte num2 = (byte)(num / 40);
-        //        builder.Append(num2.ToString(null, null));
-        //        builder.Append(".");
-        //        num2 = (byte)(num % 40);
-        //        builder.Append(num2.ToString(null, null));
-        //        ulong num3 = 0L;
-        //        for (int i = offset + 1; i < content.Length; i++)
-        //        {
-        //            num2 = content[i];
-        //            num3 = (ulong)(ulong)(num3 << 7) + ((byte)(num2 & 0x7f));
-        //            if ((num2 & 0x80) == 0)
-        //            {
-        //                builder.Append(".");
-        //                builder.Append(num3.ToString(null, null));
-        //                num3 = 0L;
-        //            }
-        //            //1.2.840.113549.2.5
-        //        }
-        //    }
-
-
-        //    string oId = builder.ToString();
-
-        //    return oId;
-        //}
-
-        private void DeletePart()
-        {
-            DeletePartAndRelations(Part);
-            DeletePartAndRelations(PartAgile);
-            DeletePartAndRelations(PartV3);
-        }
-
-        private void DeletePartAndRelations(ZipPackagePart part)
-        {
-            if (part == null) return;
-            foreach (var r in part.GetRelationships())
-            {
-                part.DeleteRelationship(r.Id);
-            }
-            part.Package.DeletePart(part.Uri);
-        }
-
-        internal void Save(ExcelVbaProject proj)
-        {
-            if (Certificate == null)
-            {
-                DeletePart();
-                return;
-            }
-            
-            if (Certificate.HasPrivateKey==false)    //No signature. Remove any Signature part
-            {
-                var storeCert = GetCertFromStore(StoreLocation.CurrentUser);
-                if (storeCert == null)
-                {
-                    storeCert = GetCertFromStore(StoreLocation.LocalMachine);
-                }
-                if (storeCert != null && storeCert.HasPrivateKey == true)
-                {
-                    Certificate = storeCert;
-                }
-                else
-                {
-                    DeletePart();
-                    return;
-                }
-            }
-            using (var ms = RecyclableMemory.GetStream())
-            {
-                var bw = new BinaryWriter(ms);
-
-                byte[] certStore = GetCertStore();
-
-                byte[] cert = SignProject(proj);
-                bw.Write((uint)cert.Length);
-                bw.Write((uint)44);                  //?? 36 ref inside cert ??
-                bw.Write((uint)certStore.Length);    //cbSigningCertStore
-                bw.Write((uint)(cert.Length + 44));  //certStoreOffset
-                bw.Write((uint)0);                   //cbProjectName
-                bw.Write((uint)(cert.Length + certStore.Length + 44));    //projectNameOffset
-                bw.Write((uint)0);    //fTimestamp
-                bw.Write((uint)0);    //cbTimestampUrl
-                bw.Write((uint)(cert.Length + certStore.Length + 44 + 2));    //timestampUrlOffset
-                bw.Write(cert);
-                bw.Write(certStore);
-                bw.Write((ushort)0);//rgchProjectNameBuffer
-                bw.Write((ushort)0);//rgchTimestampBuffer
-                bw.Write((ushort)0);
-                bw.Flush();
-
-                var rel = (ZipPackageRelationship)proj.Part.GetRelationshipsByType(schemaRelVbaSignature).FirstOrDefault();
-                if (Part == null)
-                {
-
-                    if (rel != null)
-                    {
-                        Uri = rel.TargetUri;
-                        Part = proj._pck.GetPart(rel.TargetUri);
-                    }
-                    else
-                    {
-                        Uri = new Uri("/xl/vbaProjectSignature.bin", UriKind.Relative);
-                    Part = proj._pck.CreatePart(Uri, ContentTypes.contentTypeVBASignature);
-                    }
-                }
-                if (rel == null)
-                {
-                    proj.Part.CreateRelationship(UriHelper.ResolvePartUri(proj.Uri, Uri), Packaging.TargetMode.Internal, schemaRelVbaSignature);
-                }
-                var b = ms.ToArray();
-                Part.GetStream(FileMode.Create).Write(b, 0, b.Length);
-            }
-        }
-
-        private X509Certificate2 GetCertFromStore(StoreLocation loc)
-        {
-            try
-            {
-                X509Store store = new X509Store(StoreName.My, loc);
-                store.Open(OpenFlags.ReadOnly);
-                try
-                {
-                    var storeCert = store.Certificates.Find(
-                                    X509FindType.FindByThumbprint,
-                                    Certificate.Thumbprint,
-                                    true
-                                    ).OfType<X509Certificate2>().FirstOrDefault();
-                    return storeCert;
-                }
-                finally
-                {
-                    #if Core
-                        store.Dispose();
-                    #endif
-                    store.Close();
-                }
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        private byte[] GetCertStore()
-        {
-            using (var ms = RecyclableMemory.GetStream())
-            {
-                var bw = new BinaryWriter(ms);
-
-                bw.Write((uint)0); //Version
-                bw.Write((uint)0x54524543); //fileType
-
-                //SerializedCertificateEntry
-                var certData = Certificate.RawData;
-                bw.Write((uint)0x20);
-                bw.Write((uint)1);
-                bw.Write((uint)certData.Length);
-                bw.Write(certData);
-
-                //EndElementMarkerEntry
-                bw.Write((uint)0);
-                bw.Write((ulong)0);
-
-                bw.Flush();
-                return ms.ToArray();
-            }
-        }
-
-        private void WriteProp(BinaryWriter bw, int id, byte[] data)
-        {
-            bw.Write((uint)id);
-            bw.Write((uint)1);
-            bw.Write((uint)data.Length);
-            bw.Write(data);
-        }
-        internal byte[] SignProject(ExcelVbaProject proj)
-        {
-            if (!Certificate.HasPrivateKey)
-            {
-                //throw (new InvalidOperationException("The certificate doesn't have a private key"));
-                Certificate = null;
-                return null;
-            }
-            var hash = GetContentHash(proj);
-
-            ContentInfo contentInfo;
-            using (var ms = RecyclableMemory.GetStream())
-            {
-                BinaryWriter bw = new BinaryWriter(ms);
-                bw.Write((byte)0x30); //Constructed Type 
-                bw.Write((byte)0x32); //Total length
-                bw.Write((byte)0x30); //Constructed Type 
-                bw.Write((byte)0x0E); //Length SpcIndirectDataContent
-                bw.Write((byte)0x06); //Oid Tag Indentifier 
-                bw.Write((byte)0x0A); //Lenght OId
-                bw.Write(new byte[] { 0x2B, 0x06, 0x01, 0x04, 0x01, 0x82, 0x37, 0x02, 0x01, 0x1D }); //Encoded Oid 1.3.6.1.4.1.311.2.1.29
-                bw.Write((byte)0x04);   //Octet String Tag Identifier
-                bw.Write((byte)0x00);   //Zero length
-
-                bw.Write((byte)0x30); //Constructed Type (DigestInfo)
-                bw.Write((byte)0x20); //Length DigestInfo
-                bw.Write((byte)0x30); //Constructed Type (Algorithm)
-                bw.Write((byte)0x0C); //length AlgorithmIdentifier
-                bw.Write((byte)0x06); //Oid Tag Indentifier 
-                bw.Write((byte)0x08); //Lenght OId
-                bw.Write(new byte[] { 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x02, 0x05 }); //Encoded Oid for 1.2.840.113549.2.5 (AlgorithmIdentifier MD5)
-                bw.Write((byte)0x05);   //Null type identifier
-                bw.Write((byte)0x00);   //Null length
-                bw.Write((byte)0x04);   //Octet String Identifier
-                bw.Write((byte)hash.Length);   //Hash length
-                bw.Write(hash);                //Content hash
-
-                contentInfo = new ContentInfo(ms.ToArray());
-            }
-            contentInfo.ContentType.Value = "1.3.6.1.4.1.311.2.1.4";
-            Verifier = new SignedCms(contentInfo);
-            var signer = new CmsSigner(Certificate);
-            Verifier.ComputeSignature(signer, false);
-            
-            return Verifier.Encode();
-        }
-
-        private byte[] GetContentHash(ExcelVbaProject proj)
-        {
-            //MS-OVBA 2.4.2
-            var enc = System.Text.Encoding.GetEncoding(proj.CodePage);
-            using (var ms = RecyclableMemory.GetStream())
-            {
-                BinaryWriter bw = new BinaryWriter(ms);
-                bw.Write(enc.GetBytes(proj.Name));
-                bw.Write(enc.GetBytes(proj.Constants));
-                foreach (var reference in proj.References)
-                {
-                    if (reference.ReferenceRecordID == 0x0D)
-                    {
-                        bw.Write((byte)0x7B);
-                    }
-                    else if (reference.ReferenceRecordID == 0x0E)
-                    {
-                        foreach (byte b in BitConverter.GetBytes((uint)reference.Libid.Length))  //Length will never be an UInt with 4 bytes that aren't 0 (> 0x00FFFFFF), so no need for the rest of the properties.
-                        {
-                            if (b != 0)
-                            {
-                                bw.Write(b);
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
-                    }
-                }
-                foreach (var module in proj.Modules)
-                {
-                    var lines = module.Code.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                    foreach (var line in lines)
-                    {
-                        if (!line.StartsWith("attribute", StringComparison.OrdinalIgnoreCase))
-                        {
-                            bw.Write(enc.GetBytes(line));
-                        }
-                    }
-                }
-                var buffer = ms.ToArray();
-
-                // testing with new classes
-                using(var ms2 = RecyclableMemory.GetStream())
-                {
-                    ContentHashInputProvider.GetContentNormalizedDataHashInput(proj, ms2);
-                    var buffer2 = ms2.ToArray();
-                }
-
-                //var hp = System.Security.Cryptography.MD5.Create();
-                var hp = System.Security.Cryptography.SHA512.Create();
-                return hp.ComputeHash(buffer);
-            }
-        }
         /// <summary>
         /// The certificate to sign the VBA project.
         /// <remarks>
@@ -410,15 +53,51 @@ namespace OfficeOpenXml.VBA
         /// </summary>
         public X509Certificate2 Certificate { get; set; }
         /// <summary>
-        /// The verifier
+        /// The verifier (legacy format)
         /// </summary>
         public SignedCms Verifier { get; internal set; }
+        /// <summary>
+        /// The verifier (agile format)
+        /// </summary>
+        public SignedCms VerifierAgile { get; internal set; }
+        /// <summary>
+        /// The verifier (V3 format)
+        /// </summary>
+        public SignedCms VerifierV3 { get; internal set; }
         internal CompoundDocument Signature { get; set; }
         internal Packaging.ZipPackagePart Part { get; set; }
         internal Packaging.ZipPackagePart PartAgile { get; set; }
         internal Packaging.ZipPackagePart PartV3 { get; set; }
-        internal Uri Uri { get; private set; }
-        internal Uri UriAgile { get; private set; }
-        internal Uri UriV3 { get; private set; }
+        private void ReadSignatures()
+        {
+            if (_vbaPart == null) return;
+
+            // Legacy signature
+            _legacySignature.ReadSignature();
+            Part = _legacySignature.Part;
+            Certificate = _legacySignature.Certificate;
+            Verifier = _legacySignature.Verifier;
+
+            // Agile signature
+            _agileSignature.ReadSignature();
+            PartAgile = _agileSignature.Part;
+            if (Certificate == null)
+            {
+                Certificate = _agileSignature.Certificate;
+            }
+            VerifierAgile = _agileSignature.Verifier;
+        }
+
+        internal void Save(ExcelVbaProject proj)
+        {
+            _legacySignature.CreateSignature(proj);
+            _agileSignature.CreateSignature(proj);
+        }
+
+        private void CreateProjectSignatures(ExcelVbaProject proj)
+        {
+            _legacySignature.CreateSignature(proj);
+            _agileSignature.CreateSignature(proj);
+        }
     }
 }

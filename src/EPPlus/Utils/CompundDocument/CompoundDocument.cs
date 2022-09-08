@@ -80,6 +80,13 @@ namespace OfficeOpenXml.Utils.CompundDocument
             }
         }
 
+        internal List<CompoundDocumentItem> GetDirs()
+        {
+            var doc = new CompoundDocumentFile();
+            WriteStorageAndStreams(Storage, doc.RootItem);
+            return doc.FlattenDirs();
+        }
+
         private void GetStorageAndStreams(StoragePart storage, CompoundDocumentItem parent)
         {
             foreach(var item in parent.Children)

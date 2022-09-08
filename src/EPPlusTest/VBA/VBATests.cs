@@ -165,6 +165,7 @@ namespace EPPlusTest.VBA
             using(var package = new ExcelPackage(@"c:\Temp\VbaCert\VbaSign.xlsm"))
             {
                 var p = package.Workbook.VbaProject;
+                var s = p.Signature;
                 p.Save();
             }
         }
