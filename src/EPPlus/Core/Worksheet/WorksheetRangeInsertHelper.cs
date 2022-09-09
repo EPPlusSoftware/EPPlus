@@ -812,8 +812,18 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 throw (new ArgumentOutOfRangeException("Can't insert. Columns will be shifted outside the boundries of the worksheet."));
             }
+            
+            var insertRange = new ExcelAddressBase(1, columnFrom, ExcelPackage.MaxRows, columnFrom + columns - 1);
+            foreach (var f in ws._sharedFormulas.Values.Where(x => x.FormulaType == ExcelWorksheet.FormulaType.DataTable))
+            {
+                var a = new ExcelAddressBase(f.Address);
+                if (a.Collide(insertRange) != ExcelAddressBase.eAddressCollition.No)
+                {
+                    throw (new InvalidOperationException("Can't insert into a data table function address : " + f.Address));
+                }
+            }
         }
-        
+
         #region private methods
         private static void ValidateInsertRow(ExcelWorksheet ws, int rowFrom, int rows)
         {
@@ -829,6 +839,17 @@ namespace OfficeOpenXml.Core.Worksheet
             if (d != null && d.End.Row > rowFrom && d.End.Row + rows > ExcelPackage.MaxRows)
             {
                 throw (new ArgumentOutOfRangeException("Can't insert. Rows will be shifted outside the boundries of the worksheet."));
+            }
+            
+            
+            var insertRange=new ExcelAddressBase(rowFrom, 1, rowFrom+rows-1, ExcelPackage.MaxColumns);
+            foreach(var f in ws._sharedFormulas.Values.Where(x=>x.FormulaType==ExcelWorksheet.FormulaType.DataTable))
+            {
+                var a = new ExcelAddressBase(f.Address);
+                if(a.Collide(insertRange)!=ExcelAddressBase.eAddressCollition.No)
+                {
+                    throw (new InvalidOperationException("Can't insert into a data table function address : " + f.Address));
+                }
             }
         }
         internal static void InsertCellStores(ExcelWorksheet ws, int rowFrom, int columnFrom, int rows, int columns, int columnTo=ExcelPackage.MaxColumns)

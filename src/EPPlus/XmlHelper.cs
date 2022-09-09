@@ -1007,6 +1007,10 @@ namespace OfficeOpenXml
         {
             return s != null && (s == "1" || s == "-1" || s.Equals("true", StringComparison.OrdinalIgnoreCase));
         }
+        internal static bool GetBoolFromNullString(string s)
+        {
+            return s != null && (s == "1" || s == "-1" || s.Equals("true", StringComparison.OrdinalIgnoreCase));
+        }
 
         internal int GetXmlNodeInt(string path, int defaultValue=int.MinValue)
         {
