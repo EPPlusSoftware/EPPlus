@@ -32,7 +32,14 @@ namespace OfficeOpenXml.Utils.CompundDocument
             internal Dictionary<string, StoragePart> SubStorage = new Dictionary<string, StoragePart>();
             internal Dictionary<string, byte[]> DataStreams = new Dictionary<string, byte[]>();
         }
+        /// <summary>
+        /// The root storage part of the compound document.
+        /// </summary>
         internal StoragePart Storage = null;
+        /// <summary>
+        /// Directories in the order they are saved.
+        /// </summary>
+        internal List<CompoundDocumentItem> Directories { get; private set; }
         internal CompoundDocument()
         {
             Storage = new StoragePart();
@@ -77,14 +84,8 @@ namespace OfficeOpenXml.Utils.CompundDocument
             {
                 Storage = new StoragePart();
                 GetStorageAndStreams(Storage, doc.RootItem);
+                Directories = doc.Directories;
             }
-        }
-
-        internal List<CompoundDocumentItem> GetDirs()
-        {
-            var doc = new CompoundDocumentFile();
-            WriteStorageAndStreams(Storage, doc.RootItem);
-            return doc.FlattenDirs();
         }
 
         private void GetStorageAndStreams(StoragePart storage, CompoundDocumentItem parent)
@@ -107,6 +108,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
         {
             var doc = new CompoundDocumentFile();
             WriteStorageAndStreams(Storage, doc.RootItem);
+            Directories = doc.Directories;
             doc.Write(ms);
         }
 

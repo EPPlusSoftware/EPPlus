@@ -23,6 +23,7 @@ namespace OfficeOpenXml.VBA.Signatures
 {
     internal static class SignatureReader
     {
+        private const string IndirectDataContentOidV2 = "1.3.6.1.4.1.311.2.1.31";
         internal static SignatureInfo ReadSignature(ZipPackagePart part, ExcelVbaSignatureType signatureType, EPPlusSignatureContext ctx)
         {
             // [MS-OSHARED] 2.3.2.1 DigSigInfoSerialized
@@ -77,27 +78,27 @@ namespace OfficeOpenXml.VBA.Signatures
 
         internal static void ReadSignedData(byte[] data, EPPlusSignatureContext ctx)
         {
+            File.WriteAllBytes(@"c:\Temp\contentInfoRead.bin", data);
             var ms = new MemoryStream(data);
             var br = new BinaryReader(ms);
             var constructedType = br.ReadByte();    //0x30 is a constructed type 
             var totallength = br.ReadByte();
             constructedType = br.ReadByte();
             var lengthSpcIndirectDataContent = br.ReadByte();
-            var IndirectDataContentOid = ReadOId(br);
+            var indirectDataContentOid = ReadOId(br);
             var digestValue = ReadOctStringBytes(br);
 
             constructedType = br.ReadByte();            //Constructed Type (DigestInfo)
             var lengthDigestInfo = br.ReadByte();       //Length DigestInfo
             constructedType = br.ReadByte();            //Constructed Type (Algorithm)
             var lengthAlgorithmIdentifier = br.ReadByte(); //length AlgorithmIdentifier
-            var AlgorithmIdentifierOId = ReadOId(br);
-            ctx.AlgorithmIdentifierOId = AlgorithmIdentifierOId;
+            ctx.AlgorithmIdentifierOId = ReadOId(br);
 
             //Parameter is null
             var nullTypeIdentifyer = br.ReadByte();   //Null type identifier
             var nullLength = br.ReadByte();   //Null length
 
-            if (IndirectDataContentOid == "1.3.6.1.4.1.311.2.1.31") //V2
+            if (indirectDataContentOid == IndirectDataContentOidV2) //V2
             {
                 //Read
                 var SigFormatDescriptorV1_size = BitConverter.ToInt32(digestValue, 0);    //12

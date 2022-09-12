@@ -20,6 +20,14 @@ namespace OfficeOpenXml.VBA.Signatures
 {
     internal class EPPlusSignatureContext
     {
+        private static class HashAlgorithmOids
+        {
+            public const string MD5 = "1.2.840.113549.2.5";
+            public const string SHA1 = "1.3.14.3.2.26";
+            public const string SHA256 = "2.16.840.1.101.3.4.2.1";
+            public const string SHA384 = "2.16.840.1.101.3.4.2.2";
+            public const string SHA512 = "2.16.840.1.101.3.4.2.3";
+        }
         public EPPlusSignatureContext(ExcelVbaSignatureType signatureType)
         {
             _signatureType = signatureType;
@@ -52,7 +60,7 @@ namespace OfficeOpenXml.VBA.Signatures
             if (string.IsNullOrEmpty(AlgorithmIdentifierOId)) return GetHashAlgorithmDefault();
             switch(AlgorithmIdentifierOId)
             {
-                case "1.2.840.113549.2.5":
+                case HashAlgorithmOids.MD5:
                     return MD5.Create();
                 case "1.3.14.3.2.26":
                     return SHA1.Create();
@@ -75,6 +83,19 @@ namespace OfficeOpenXml.VBA.Signatures
                     return MD5.Create();
                 default:
                     return SHA1.Create();
+            }
+        }
+
+        public byte[] GetHashAlgorithmBytes()
+        {
+            switch (AlgorithmIdentifierOId)
+            {
+                case HashAlgorithmOids.MD5:
+                    return new byte[] { 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x02, 0x05 };
+                case HashAlgorithmOids.SHA1:
+                    return new byte[] { 0x2B, 0x0E, 0x03, 0x02, 0x1A };
+                default:
+                    return null;
             }
         }
     }

@@ -117,6 +117,7 @@ namespace OfficeOpenXml.VBA.Signatures
         internal static SignedCms SignProject(ExcelVbaProject proj, EPPlusVbaSignature signature, EPPlusSignatureContext ctx)
         {
             var contentInfo = ProjectSignUtil.SignProject(proj, signature, ctx);
+            File.WriteAllBytes(@"c:\Temp\contentInfoWrite.bin", contentInfo.Content);
             var verifier = new SignedCms(contentInfo);
             var signer = new CmsSigner(signature.Certificate);
             verifier.ComputeSignature(signer, false);

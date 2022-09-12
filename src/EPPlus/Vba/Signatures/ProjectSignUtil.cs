@@ -38,44 +38,96 @@ namespace OfficeOpenXml.VBA.Signatures
             ContentInfo contentInfo;
             using (var ms = RecyclableMemory.GetStream())
             {
-                contentInfo = CreateContentInfo(hash, ms);
+                contentInfo = CreateContentInfo(hash, ms, ctx);
             }
             contentInfo.ContentType.Value = "1.3.6.1.4.1.311.2.1.4";
             return contentInfo;
         }
 
-        private static ContentInfo CreateContentInfo(byte[] hash, MemoryStream ms)
+        private static ContentInfo CreateContentInfo(byte[] hash, MemoryStream ms, EPPlusSignatureContext ctx)
         {
             ContentInfo contentInfo;
             // [MS-OSHARED] 2.3.2.4.3.1 SpcIndirectDataContent
             BinaryWriter bw = new BinaryWriter(ms);
-            bw.Write((byte)0x30); //Constructed Type 
-            bw.Write((byte)0x32); //Total length
-            bw.Write((byte)0x30); //Constructed Type 
-            bw.Write((byte)0x0E); //Length SpcIndirectDataContent
-            bw.Write((byte)0x06); //Oid Tag Indentifier 
-            bw.Write((byte)0x0A); //Lenght OId
-            bw.Write(new byte[] { 0x2B, 0x06, 0x01, 0x04, 0x01, 0x82, 0x37, 0x02, 0x01, 0x1D }); //Encoded Oid 1.3.6.1.4.1.311.2.1.29
-            bw.Write((byte)0x04);   //Octet String Tag Identifier
-            bw.Write((byte)0x00);   //Zero length
+            if (ctx.SignatureType == ExcelVbaSignatureType.Legacy)
+            {
+                bw.Write((byte)0x30); //Constructed Type 
+                bw.Write((byte)0x32); //Total length
+                bw.Write((byte)0x30); //Constructed Type 
+                bw.Write((byte)0x0E); //Length SpcIndirectDataContent
+            }
+            else
+            {
+                bw.Write((byte)0x30); //Constructed Type 
+                bw.Write((byte)0x65); //Total length
+                bw.Write((byte)0x30); //Constructed Type 
+                bw.Write((byte)0x0E); //Length SpcIndirectDataContent
+            }
 
+            var spcIndirectDataContentOidBytes = new byte[] { 0x2B, 0x06, 0x01, 0x04, 0x01, 0x82, 0x37, 0x02, 0x01, 0x1D };
+            WriteOid(bw, spcIndirectDataContentOidBytes);
+            if(ctx.SignatureType == ExcelVbaSignatureType.Legacy)
+            {
+                bw.Write((byte)0x04);   //Octet String Tag Identifier
+                bw.Write((byte)0x00);   //Zero length
+            }
+            else
+            {
+                // SigFormatDescriptorV1
+                bw.Write((byte)0x04);
+                bw.Write((byte)0x1A); // Size of octstring
+                bw.Write(12); // size of record
+                bw.Write(1); // version
+                bw.Write(1);// format
+            }
             bw.Write((byte)0x30); //Constructed Type (DigestInfo)
             bw.Write((byte)0x20); //Length DigestInfo
             bw.Write((byte)0x30); //Constructed Type (Algorithm)
             bw.Write((byte)0x0C); //length AlgorithmIdentifier
-            bw.Write((byte)0x06); //Oid Tag Indentifier 
-            bw.Write((byte)0x08); //Lenght OId
-
-            // SHA1: 42, 134, 72, 134, 247, 13, 2, 5
-            bw.Write(new byte[] { 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x02, 0x05 }); //Encoded Oid for 1.2.840.113549.2.5 (AlgorithmIdentifier MD5)
+            WriteHashAlgorithmOid(bw, ctx);
             bw.Write((byte)0x05);   //Null type identifier
             bw.Write((byte)0x00);   //Null length
-            bw.Write((byte)0x04);   //Octet String Identifier
-            bw.Write((byte)hash.Length);   //Hash length
-            bw.Write(hash);                //Content hash
+            if(ctx.SignatureType == ExcelVbaSignatureType.Legacy)
+            {
+                bw.Write((byte)0x04);   //Octet String Identifier
+                bw.Write((byte)hash.Length);   //Hash length
+                bw.Write(hash);                //Content hash
+            }
+            else
+            {
+                // SigDataV1Serialized
+                bw.Write((byte)0x04);   //Octet String Tag Identifier
+                const int headerSizeOffset = 4 * 6; // size of header containg size and offset information
+                var discriptorLength = headerSizeOffset + ctx.AlgorithmIdentifierOId.Length + 1 + hash.Length; // length of structure
+                bw.Write((byte)discriptorLength);
+                bw.Write(ctx.AlgorithmIdentifierOId.Length + 1);
+                bw.Write(0); // compiled hash size
+                bw.Write(hash.Length); // source hash size
+                bw.Write(headerSizeOffset); // algorithm id offset
+                bw.Write(headerSizeOffset + ctx.AlgorithmIdentifierOId.Length + 1); // compiled hash offset (always empty)
+                bw.Write(headerSizeOffset + ctx.AlgorithmIdentifierOId.Length + 1); // source hash offset
+                var algorithmIdOffset = ctx.AlgorithmIdentifierOId.Length + 1 + hash.Length;
+                bw.Write(Encoding.ASCII.GetBytes(ctx.AlgorithmIdentifierOId));
+                bw.Write((byte)0); // string terminator
+                bw.Write(hash);
+            }
 
             contentInfo = new ContentInfo(ms.ToArray());
             return contentInfo;
+        }
+
+        private static void WriteHashAlgorithmOid(BinaryWriter bw, EPPlusSignatureContext ctx)
+        {
+            var bytes = ctx.GetHashAlgorithmBytes();
+            WriteOid(bw, bytes);
+
+        }
+
+        private static void WriteOid(BinaryWriter bw, byte[] bytes)
+        {
+            bw.Write((byte)0x06); //Oid Tag Indentifier 
+            bw.Write((byte)bytes.Length); //Lenght OId
+            bw.Write(bytes);
         }
     }
 }

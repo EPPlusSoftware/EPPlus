@@ -24,8 +24,7 @@ namespace OfficeOpenXml.VBA.Signatures
                 }
                 else
                 {
-                    // TODO: replace hardcoded signature
-                    uri = new Uri("/xl/vbaProjectSignature.bin", UriKind.Relative);
+                    uri = GetUriByType(signature.Context.SignatureType, UriKind.Relative);
                     part = proj._pck.CreatePart(uri, ContentTypes.contentTypeVBASignature);
                 }
             }
@@ -54,6 +53,19 @@ namespace OfficeOpenXml.VBA.Signatures
                 part.DeleteRelationship(r.Id);
             }
             part.Package.DeletePart(part.Uri);
+        }
+
+        private static Uri GetUriByType(ExcelVbaSignatureType signatureType, UriKind uriKind)
+        {
+            switch (signatureType)
+            {
+                case ExcelVbaSignatureType.Agile:
+                    return new Uri("/xl/vbaProjectSignatureAgile.bin", uriKind);
+                case ExcelVbaSignatureType.V3:
+                    return new Uri("/xl/vbaProjectSignatureV3.bin", uriKind);
+                default:
+                    return new Uri("/xl/vbaProjectSignature.bin", uriKind);
+            }
         }
     }
 }

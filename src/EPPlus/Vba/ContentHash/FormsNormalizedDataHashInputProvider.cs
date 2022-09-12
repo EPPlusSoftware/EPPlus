@@ -24,33 +24,25 @@ namespace OfficeOpenXml.Vba.ContentHash
         private void FormsNormaizedData(BinaryWriter bw)
         {
             var p = base.Project;
-            var dirs = p.Document.GetDirs();
             var designers = GetDesignersSorted(p);
-
+            var list=new List<SortItem>();
             foreach (var designer in designers)
             {
                 var storage = p.Document.Storage.SubStorage[designer];
-                NormalizeStorage(bw, storage);
+                NormalizeStorage(storage, list);
             }
         }
 
-        private void NormalizeStorage(BinaryWriter bw, CompoundDocument.StoragePart storage)
+        private void NormalizeStorage(CompoundDocument.StoragePart storage, List<SortItem> list)
         {
             var children = GetSortedChildren(storage);
             foreach (var child in children)
             {
-                if (child.IsStream)
-                {
-                    var b = storage.DataStreams[child.Name];
-                    WriteStreamData(bw, b);
-                }
-            }
-            foreach (var child in children)
-            {
                 if (child.IsStream==false)
                 {
-                    NormalizeStorage(bw, storage.SubStorage[child.Name]);
+                    NormalizeStorage(storage.SubStorage[child.Name], list);
                 }
+                list.Add(child);
             }
 
         }
