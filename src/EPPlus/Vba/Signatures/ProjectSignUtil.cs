@@ -49,22 +49,19 @@ namespace OfficeOpenXml.VBA.Signatures
             ContentInfo contentInfo;
             // [MS-OSHARED] 2.3.2.4.3.1 SpcIndirectDataContent
             BinaryWriter bw = new BinaryWriter(ms);
+            bw.Write((byte)0x30); //Constructed Type 
             if (ctx.SignatureType == ExcelVbaSignatureType.Legacy)
             {
-                bw.Write((byte)0x30); //Constructed Type 
                 bw.Write((byte)0x32); //Total length
-                bw.Write((byte)0x30); //Constructed Type 
-                bw.Write((byte)0x0E); //Length SpcIndirectDataContent
             }
             else
             {
-                bw.Write((byte)0x30); //Constructed Type 
                 bw.Write((byte)0x65); //Total length
-                bw.Write((byte)0x30); //Constructed Type 
-                bw.Write((byte)0x0E); //Length SpcIndirectDataContent
             }
+            bw.Write((byte)0x30); //Constructed Type 
+            bw.Write((byte)0x0E); //Length SpcIndirectDataContent
 
-            var spcIndirectDataContentOidBytes = new byte[] { 0x2B, 0x06, 0x01, 0x04, 0x01, 0x82, 0x37, 0x02, 0x01, 0x1D };
+            var spcIndirectDataContentOidBytes = ctx.GetIndirectDataContentOidBytes();
             WriteOid(bw, spcIndirectDataContentOidBytes);
             if(ctx.SignatureType == ExcelVbaSignatureType.Legacy)
             {
@@ -75,7 +72,7 @@ namespace OfficeOpenXml.VBA.Signatures
             {
                 // SigFormatDescriptorV1
                 bw.Write((byte)0x04);
-                bw.Write((byte)0x1A); // Size of octstring
+                bw.Write((byte)0x0C); // Size of octstring
                 bw.Write(12); // size of record
                 bw.Write(1); // version
                 bw.Write(1);// format

@@ -73,7 +73,9 @@ namespace OfficeOpenXml.VBA.ContentHash
                 {
                     ContentHashInputProvider.GetContentNormalizedDataHashInput(proj, ms);
                     var buffer = ms.ToArray();
-                    return ComputeHash(buffer, ctx);
+                    var hash = ComputeHash(buffer, ctx);
+                    var existingHash = ctx.SourceHash;
+                    return hash;
                 }
             }
             else if (ctx.SignatureType == ExcelVbaSignatureType.Agile)
@@ -83,7 +85,9 @@ namespace OfficeOpenXml.VBA.ContentHash
                     ContentHashInputProvider.GetContentNormalizedDataHashInput(proj, ms);
                     ContentHashInputProvider.GetFormsNormalizedDataHashInput(proj, ms);
                     var buffer = ms.ToArray();
-                    return ComputeHash(buffer, ctx);
+                    var hash = ComputeHash(buffer, ctx);
+                    var existingHash = ctx.SourceHash;
+                    return hash;
                 }
             }
             return default(byte[]);

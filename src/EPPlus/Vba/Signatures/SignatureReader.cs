@@ -23,6 +23,7 @@ namespace OfficeOpenXml.VBA.Signatures
 {
     internal static class SignatureReader
     {
+        private const string IndirectDataContentOid   = "1.3.6.1.4.1.311.2.1.29";
         private const string IndirectDataContentOidV2 = "1.3.6.1.4.1.311.2.1.31";
         internal static SignatureInfo ReadSignature(ZipPackagePart part, ExcelVbaSignatureType signatureType, EPPlusSignatureContext ctx)
         {
@@ -78,7 +79,7 @@ namespace OfficeOpenXml.VBA.Signatures
 
         internal static void ReadSignedData(byte[] data, EPPlusSignatureContext ctx)
         {
-            File.WriteAllBytes(@"c:\Temp\contentInfoRead.bin", data);
+            //File.WriteAllBytes(@"c:\Temp\contentInfoRead.bin", data);
             var ms = new MemoryStream(data);
             var br = new BinaryReader(ms);
             var constructedType = br.ReadByte();    //0x30 is a constructed type 

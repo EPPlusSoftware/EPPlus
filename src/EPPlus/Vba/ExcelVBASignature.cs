@@ -37,12 +37,15 @@ namespace OfficeOpenXml.VBA
             _vbaPart = vbaPart;
             _legacySignature = new EPPlusVbaSignatureLegacy(vbaPart);
             _agileSignature = new EPPlusVbaSignatureAgile(vbaPart);
+            _v3Signature = new EPPlusVbaSignatureV3(vbaPart);
             ReadSignatures();
         }
 
         private readonly ZipPackagePart _vbaPart = null;
         private readonly EPPlusVbaSignature _legacySignature;
         private readonly EPPlusVbaSignature _agileSignature;
+        private readonly EPPlusVbaSignature _v3Signature;
+        private X509Certificate2 _certificate;
 
         /// <summary>
         /// The certificate to sign the VBA project.
@@ -51,7 +54,20 @@ namespace OfficeOpenXml.VBA
         /// There is no validation that the certificate is valid for codesigning, so make sure it's valid to sign Excel files (Excel 2010 is more strict that prior versions).
         /// </remarks>
         /// </summary>
-        public X509Certificate2 Certificate { get; set; }
+        public X509Certificate2 Certificate 
+        { 
+            get
+            {
+                return _certificate;
+            }
+            set 
+            {
+                _certificate = value;
+                _legacySignature.Certificate = value;
+                _agileSignature.Certificate = value;
+                _v3Signature.Certificate = value;
+            } 
+        }
         /// <summary>
         /// The verifier (legacy format)
         /// </summary>
@@ -86,6 +102,15 @@ namespace OfficeOpenXml.VBA
                 Certificate = _agileSignature.Certificate;
             }
             VerifierAgile = _agileSignature.Verifier;
+
+            // V3 signature
+            _v3Signature.ReadSignature();
+            PartV3 = _v3Signature.Part;
+            if (Certificate == null)
+            {
+                Certificate = _v3Signature.Certificate;
+            }
+            VerifierV3 = _v3Signature.Verifier;
         }
 
         internal void Save(ExcelVbaProject proj)
@@ -94,10 +119,15 @@ namespace OfficeOpenXml.VBA
             _agileSignature.CreateSignature(proj);
         }
 
-        private void CreateProjectSignatures(ExcelVbaProject proj)
+        public void RemoveLegacyAndV3()
         {
-            _legacySignature.CreateSignature(proj);
-            _agileSignature.CreateSignature(proj);
+            var rel = _vbaPart.GetRelationshipsByType(VbaSchemaRelations.V3).FirstOrDefault();
+            if(rel != null)
+            {
+                var uriV3 = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+                PartV3 = _vbaPart.Package.GetPart(uriV3);
+            }
+            SignaturePartUtil.DeleteParts(Part, PartV3);
         }
     }
 }

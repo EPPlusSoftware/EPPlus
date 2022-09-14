@@ -79,6 +79,7 @@ namespace OfficeOpenXml.VBA.Signatures
             {
                 Certificate = null;
                 Verifier = null;
+                Context = new EPPlusSignatureContext(_signatureType);
             }
         }
 

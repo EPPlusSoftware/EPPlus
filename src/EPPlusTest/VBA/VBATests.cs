@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -162,11 +163,33 @@ namespace EPPlusTest.VBA
         [TestMethod]
         public void MyVbaTest()
         {
-            using(var package = new ExcelPackage(@"c:\Temp\VbaCert\VbaSign.xlsm"))
+            using(var package = new ExcelPackage(@"c:\Temp\VbaCert\SignedWorkbook1.xlsm"))
             {
                 var p = package.Workbook.VbaProject;
                 var s = p.Signature;
-                p.Save();
+                package.SaveAs(@"c:\Temp\VbaCert\VbaSignCopy.xlsm");
+            }
+        }
+
+        [TestMethod]
+        public void MyVbaTest_Sign1()
+        {
+            var workbook = "vbaSignUnSigned.xlsm";
+            //var workbook = "ExcelSigned1.xlsm";
+            using (var package = new ExcelPackage(@"c:\Temp\VbaCert\" + workbook))
+            {
+                X509Store store = new X509Store(StoreLocation.CurrentUser);
+                store.Open(OpenFlags.ReadOnly);
+                foreach (var cert in store.Certificates)
+                {
+                    if (cert.HasPrivateKey && cert.NotBefore <= DateTime.Today && cert.NotAfter >= DateTime.Today)
+                    {
+                        package.Workbook.VbaProject.Signature.Certificate = cert;
+                        break;
+                    }
+                }
+                //package.Workbook.VbaProject.Signature.RemoveLegacyAndV3();
+                package.SaveAs(@"c:\Temp\VbaCert\SignedWorkbook2.xlsm");
             }
         }
     }

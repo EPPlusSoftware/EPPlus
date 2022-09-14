@@ -88,6 +88,18 @@ namespace OfficeOpenXml.VBA.Signatures
 
         public byte[] GetHashAlgorithmBytes()
         {
+            if (string.IsNullOrEmpty(AlgorithmIdentifierOId))
+            {
+                switch (_signatureType)
+                {
+                    case ExcelVbaSignatureType.Legacy:
+                        AlgorithmIdentifierOId = HashAlgorithmOids.MD5;
+                        break;
+                    default:
+                        AlgorithmIdentifierOId = HashAlgorithmOids.SHA1;
+                        break;
+                }
+            }
             switch (AlgorithmIdentifierOId)
             {
                 case HashAlgorithmOids.MD5:
@@ -96,6 +108,17 @@ namespace OfficeOpenXml.VBA.Signatures
                     return new byte[] { 0x2B, 0x0E, 0x03, 0x02, 0x1A };
                 default:
                     return null;
+            }
+        }
+
+        public byte[] GetIndirectDataContentOidBytes()
+        {
+            switch (_signatureType)
+            {
+                case ExcelVbaSignatureType.Legacy:
+                    return new byte[] { 0x2B, 0x06, 0x01, 0x04, 0x01, 0x82, 0x37, 0x02, 0x01, 0x1D };
+                default:
+                    return new byte[] { 0x2B, 0x06, 0x01, 0x04, 0x01, 0x82, 0x37, 0x02, 0x01, 0x1F };
             }
         }
     }
