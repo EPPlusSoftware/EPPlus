@@ -689,7 +689,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         if(string.IsNullOrEmpty(f.R1CellAddress)==false)
                         {
-                            var c1 = ExcelCellBase.Insert(f.Address, range);                            
+                            //var c1 = ExcelCellBase.Insert(f.Address, range);                            
                         }
                     }
                 }
