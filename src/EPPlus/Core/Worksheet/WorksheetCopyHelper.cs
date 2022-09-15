@@ -104,6 +104,7 @@ namespace OfficeOpenXml.Core.Worksheet
             CloneCellsAndStyles(copy, added);
 
             //Copy the VBA code
+            
             if (pck.Workbook.VbaProject != null && copy.CodeModule != null)
             {
                 var wsName = pck.Workbook.VbaProject.GetModuleNameFromWorksheet(added);

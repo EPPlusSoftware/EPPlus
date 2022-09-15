@@ -72,6 +72,55 @@ namespace EPPlusTest.FormulaParsing
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void CheckSaveWhatif_CopyWorksheetDeleteRow()
+        {
+            using (var p = OpenTemplatePackage("Whatif-DataTable.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var copy = p.Workbook.Worksheets.Add("Copy", ws);
+                copy.DeleteRow(1, 1);
+                copy.DeleteRow(6, 1);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void CheckSaveWhatif_DeleteInsideRow()
+        {
+            using (var p = OpenTemplatePackage("Whatif-DataTable.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var copy = p.Workbook.Worksheets.Add("Copy", ws);
+                copy.DeleteRow(3, 1);
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void CheckSaveWhatif_CopyWorksheetDeleteColumn()
+        {
+            using (var p = OpenTemplatePackage("Whatif-DataTable.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var copy = p.Workbook.Worksheets.Add("Copy", ws);
+                copy.DeleteColumn(2, 1);
+                copy.DeleteColumn(8, 1);
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void CheckSaveWhatif_DeleteInsideColumn()
+        {
+            using (var p = OpenTemplatePackage("Whatif-DataTable.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var copy = p.Workbook.Worksheets.Add("Copy", ws);
+                copy.DeleteColumn(4, 1);
+                SaveAndCleanup(p);
+            }
+        }
 
     }
 }

@@ -2024,6 +2024,8 @@ namespace OfficeOpenXml
         {
 
             //First find the start cell
+            FormulaDataTableValidation.HasPartlyFormulaDataTable(_worksheet, Range, false, "Can't clear a part of a data table function");
+            
             int fromRow, fromCol;
             var d = Worksheet.Dimension;
             if (d != null && Range._fromRow <= d._fromRow && Range._toRow >= d._toRow) //EntireRow?

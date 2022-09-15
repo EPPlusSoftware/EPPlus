@@ -685,6 +685,13 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         f.Formula = ExcelCellBase.UpdateFormulaReferences(f.Formula, range, effectedAddress, shift, ws.Name, workSheetName);
                     }
+                    if(f.FormulaType==ExcelWorksheet.FormulaType.DataTable)
+                    {
+                        if(string.IsNullOrEmpty(f.R1CellAddress)==false)
+                        {
+                            var c1 = ExcelCellBase.Insert(f.Address, range);                            
+                        }
+                    }
                 }
 
                 var cse = new CellStoreEnumerator<object>(ws._formulas);
@@ -798,7 +805,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
         }
-        private static void ValidateInsertColumn(ExcelWorksheet ws, int columnFrom, int columns)
+        private static void ValidateInsertColumn(ExcelWorksheet ws, int columnFrom, int columns, int rowFrom = 1, int rows = ExcelPackage.MaxRows)
         {
             ws.CheckSheetTypeAndNotDisposed();
             var d = ws.Dimension;
@@ -813,19 +820,12 @@ namespace OfficeOpenXml.Core.Worksheet
                 throw (new ArgumentOutOfRangeException("Can't insert. Columns will be shifted outside the boundries of the worksheet."));
             }
             
-            var insertRange = new ExcelAddressBase(1, columnFrom, ExcelPackage.MaxRows, columnFrom + columns - 1);
-            foreach (var f in ws._sharedFormulas.Values.Where(x => x.FormulaType == ExcelWorksheet.FormulaType.DataTable))
-            {
-                var a = new ExcelAddressBase(f.Address);
-                if (a.Collide(insertRange) != ExcelAddressBase.eAddressCollition.No)
-                {
-                    throw (new InvalidOperationException("Can't insert into a data table function address : " + f.Address));
-                }
-            }
+            var insertRange = new ExcelAddressBase(rowFrom, columnFrom, rowFrom+rows-1, columnFrom + columns - 1);
+            FormulaDataTableValidation.HasPartlyFormulaDataTable(ws, insertRange, false, "Can't insert a part of a data table function");
         }
 
         #region private methods
-        private static void ValidateInsertRow(ExcelWorksheet ws, int rowFrom, int rows)
+        private static void ValidateInsertRow(ExcelWorksheet ws, int rowFrom, int rows, int columnFrom = 1, int columns = ExcelPackage.MaxColumns)
         {
             ws.CheckSheetTypeAndNotDisposed();
             var d = ws.Dimension;
@@ -840,17 +840,9 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 throw (new ArgumentOutOfRangeException("Can't insert. Rows will be shifted outside the boundries of the worksheet."));
             }
-            
-            
-            var insertRange=new ExcelAddressBase(rowFrom, 1, rowFrom+rows-1, ExcelPackage.MaxColumns);
-            foreach(var f in ws._sharedFormulas.Values.Where(x=>x.FormulaType==ExcelWorksheet.FormulaType.DataTable))
-            {
-                var a = new ExcelAddressBase(f.Address);
-                if(a.Collide(insertRange)!=ExcelAddressBase.eAddressCollition.No)
-                {
-                    throw (new InvalidOperationException("Can't insert into a data table function address : " + f.Address));
-                }
-            }
+                        
+            var insertRange=new ExcelAddressBase(rowFrom, columnFrom, rowFrom + rows - 1, columnFrom + columns - 1);
+            FormulaDataTableValidation.HasPartlyFormulaDataTable(ws, insertRange, false, "Can't insert into a part of a data table function");
         }
         internal static void InsertCellStores(ExcelWorksheet ws, int rowFrom, int columnFrom, int rows, int columns, int columnTo=ExcelPackage.MaxColumns)
         {

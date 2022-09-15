@@ -23,6 +23,7 @@ using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.Core.Worksheet
@@ -32,7 +33,7 @@ namespace OfficeOpenXml.Core.Worksheet
         internal static void DeleteRow(ExcelWorksheet ws, int rowFrom, int rows)
         {
             ws.CheckSheetTypeAndNotDisposed();
-            ValidateRow(rowFrom, rows);
+            ValidateRow(ws, rowFrom, rows);
             lock (ws)
             {
                 var delRange = new ExcelAddressBase(rowFrom, 1, rowFrom + rows - 1, ExcelPackage.MaxColumns);
@@ -92,7 +93,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void DeleteColumn(ExcelWorksheet ws, int columnFrom, int columns)
         {
-            ValidateColumn(columnFrom, columns);
+            ValidateColumn(ws, columnFrom, columns);
             lock (ws)
             {
                 AdjustColumnMinMaxDelete(ws, columnFrom, columns);
@@ -116,6 +117,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         ptbl.Address = ptbl.Address.DeleteColumn(columnFrom, columns);
                     }
+
                     if (ptbl.CacheDefinition.SourceRange.Start.Column > columnFrom + columns)
                     {
                         ptbl.CacheDefinition.SourceRange.Address = ptbl.CacheDefinition.SourceRange.DeleteColumn(columnFrom, columns).Address;
@@ -216,19 +218,25 @@ namespace OfficeOpenXml.Core.Worksheet
             if(moveValue._styleId!=int.MaxValue) ws._values.SetValue(0, toCol + 1, moveValue);
         }
 
-        private static void ValidateRow(int rowFrom, int rows)
+        private static void ValidateRow(ExcelWorksheet ws, int rowFrom, int rows, int columnFrom=1, int columns=ExcelPackage.MaxColumns)
         {
             if (rowFrom < 1 || rowFrom + rows > ExcelPackage.MaxRows)
             {
                 throw (new ArgumentException("rowFrom", "Row out of range. Spans from 1 to " + ExcelPackage.MaxRows.ToString(CultureInfo.InvariantCulture)));
             }
+
+            var deleteRange = new ExcelAddressBase(rowFrom, columnFrom, rowFrom + rows - 1, columnFrom + columns-1);
+            FormulaDataTableValidation.HasPartlyFormulaDataTable(ws, deleteRange, true, "Can't delete a part of a data table function");
         }
-        private static void ValidateColumn(int columnFrom, int columns)
+        private static void ValidateColumn(ExcelWorksheet ws, int columnFrom, int columns, int rowFrom=1, int rows=ExcelPackage.MaxRows)
         {
             if (columnFrom < 1 || columnFrom + columns > ExcelPackage.MaxColumns)
             {
                 throw (new ArgumentException("columnFrom", "Column out of range. Spans from 1 to " + ExcelPackage.MaxColumns.ToString(CultureInfo.InvariantCulture)));
             }
+
+            var deleteRange = new ExcelAddressBase(rowFrom, columnFrom, rowFrom+rows-1, columnFrom + columns-1);
+            FormulaDataTableValidation.HasPartlyFormulaDataTable(ws, deleteRange, true, "Can't delete into a part of a data table function.");
         }
 
         private static void DeleteCellStores(ExcelWorksheet ws, int rowFrom, int columnFrom, int rows, int columns, int columnTo = ExcelPackage.MaxColumns)
@@ -392,7 +400,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void Delete(ExcelRangeBase range, eShiftTypeDelete shift)
         {
-            ValidateDelete(range, shift);
+            ValidateDelete(range.Worksheet, range, shift);
 
             var effectedAddress = GetAffectedRange(range, shift);
             WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetAffectedRange(range, shift, 1), false);
@@ -509,7 +517,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
         }
-        private static void ValidateDelete(ExcelRangeBase range, eShiftTypeDelete shift)
+        private static void ValidateDelete(ExcelWorksheet ws, ExcelRangeBase range, eShiftTypeDelete shift)
         {
             if (range == null || (range.Addresses != null && range.Addresses.Count > 1))
             {
@@ -518,11 +526,11 @@ namespace OfficeOpenXml.Core.Worksheet
 
             if (shift == eShiftTypeDelete.Left)
             {
-                ValidateColumn(range._fromCol, range.Columns);
+                ValidateColumn(ws, range._fromCol, range.Columns, range._fromRow, range.Columns);
             }
             else
             {
-                ValidateRow(range._fromRow, range.Rows);
+                ValidateRow(ws, range._fromRow, range.Rows);
             }
         }
 
