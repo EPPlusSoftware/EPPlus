@@ -3651,5 +3651,16 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void i715()
+        {
+            using (var p = OpenTemplatePackage(@"i715.xlsx"))
+            {
+                var t = p.Workbook.Worksheets["Data"].Tables[0];
+                int columnPosition = t.Columns.First(c => c.Name == "Extra").Position;
+                t.Columns.Delete(columnPosition, 1);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

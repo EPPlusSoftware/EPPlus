@@ -372,9 +372,14 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             foreach(var pt in _pivotTables)
             {
-                foreach(var fld in pt.Fields)
+                if (pt.CacheDefinition.CacheSource == eSourceType.Worksheet)
                 {
-                    fld.Items.Refresh();
+                    var fieldCount = Math.Min(pt.CacheDefinition.SourceRange.Columns, pt.Fields.Count);
+
+                    for(int i=0;i < fieldCount;i++)
+                    {
+                        pt.Fields[i].Items.Refresh();
+                    }
                 }
             }
         }
