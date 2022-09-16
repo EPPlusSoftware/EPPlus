@@ -265,19 +265,33 @@ namespace OfficeOpenXml.Table.PivotTable
 
         private void RemoveDeletedFields(ExcelRangeBase r)
         {
-            var removedFields = _fields.Count - r.Columns;
-            while (r.Columns < _fields.Count)
-            {
-                var f = _fields[_fields.Count - 1];
-                f.TopNode.ParentNode.RemoveChild(f.TopNode);
-                _fields.Remove(f);
-            }
-            for(int i=0;i<_pivotTables.Count;i++)
+            var removedFields = _fields.Count;
+            var calcFields = 0;
+
+            for (int i = 0; i < _pivotTables.Count; i++)
             {
                 var pt = _pivotTables[i];
-                for(int p=0;p<removedFields;p++)
+                for (int p = r.Columns; p < pt.Fields.Count; p++)
                 {
-                    pt.Fields.RemoveAt(pt.Fields.Count - 1);
+                    if (pt.Fields[p].Cache.DatabaseField)
+                    {
+                        pt.Fields.RemoveAt(pt.Fields.Count - 1);
+                        p--;
+                    }
+                }
+            }
+
+            while (r.Columns + calcFields < _fields.Count)
+            {
+                var f = _fields[_fields.Count - 1];
+                if (f.DatabaseField)
+                {
+                    f.TopNode.ParentNode.RemoveChild(f.TopNode);
+                    _fields.Remove(f);
+                }
+                else
+                {
+                    calcFields++;
                 }
             }
         }
