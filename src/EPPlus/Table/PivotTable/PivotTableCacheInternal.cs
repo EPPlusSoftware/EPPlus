@@ -199,7 +199,6 @@ namespace OfficeOpenXml.Table.PivotTable
             var fields = new List<ExcelPivotTableCacheField>();
             var r = SourceRange;
             bool cacheUpdated=false;
-            
             for (int col = r._fromCol; col <= r._toCol; col++)
             {
                 var ix = col - r._fromCol;
@@ -255,10 +254,32 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
             _fields = fields;
-
-            if(cacheUpdated) UpdateRowColumnPageFields(tableFields);
+            if(r.Columns < _fields.Count)
+            {
+                RemoveDeletedFields(r);
+            }
+            if (cacheUpdated) UpdateRowColumnPageFields(tableFields);
 
              RefreshPivotTableItems();
+        }
+
+        private void RemoveDeletedFields(ExcelRangeBase r)
+        {
+            var removedFields = _fields.Count - r.Columns;
+            while (r.Columns < _fields.Count)
+            {
+                var f = _fields[_fields.Count - 1];
+                f.TopNode.ParentNode.RemoveChild(f.TopNode);
+                _fields.Remove(f);
+            }
+            for(int i=0;i<_pivotTables.Count;i++)
+            {
+                var pt = _pivotTables[i];
+                for(int p=0;p<removedFields;p++)
+                {
+                    pt.Fields.RemoveAt(pt.Fields.Count - 1);
+                }
+            }
         }
 
         private void UpdateRowColumnPageFields(List<List<string>> tableFields)

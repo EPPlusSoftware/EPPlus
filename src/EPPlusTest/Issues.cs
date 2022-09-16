@@ -3661,6 +3661,17 @@ namespace EPPlusTest
                 t.Columns.Delete(columnPosition, 1);
                 SaveAndCleanup(p);
             }
+
+            using (var p = OpenTemplatePackage(@"i715-2.xlsx"))
+            {
+                var t = p.Workbook.Worksheets["Data"].Tables[0];
+                int columnPosition = t.Columns.First(c => c.Name == "Extra").Position;
+                t.Columns.Delete(columnPosition, 1);
+                // delete one more column
+                columnPosition = t.Columns.First(c => c.Name == "Col X").Position;
+                t.Columns.Delete(columnPosition, 1);
+                SaveAndCleanup(p);
+            }
         }
     }
 }
