@@ -14,15 +14,9 @@ using System;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using OfficeOpenXml.Utils;
-using System.IO;
 using OfficeOpenXml.Utils.CompundDocument;
 using System.Security.Cryptography.Pkcs;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Constants;
-using OfficeOpenXml.Vba.ContentHash;
-using System.Security.Cryptography;
-using OfficeOpenXml.VBA.ContentHash;
-using System.Text;
 using OfficeOpenXml.VBA.Signatures;
 
 namespace OfficeOpenXml.VBA
@@ -115,8 +109,24 @@ namespace OfficeOpenXml.VBA
 
         internal void Save(ExcelVbaProject proj)
         {
-            _legacySignature.CreateSignature(proj);
+            if (Certificate == null) return;
+            //_legacySignature.CreateSignature(proj);
             _agileSignature.CreateSignature(proj);
+        }
+
+        public void RemoveAgileAndV3()
+        {
+            //var rel = _vbaPart.GetRelationshipsByType(VbaSchemaRelations.V3).FirstOrDefault();
+            //if (rel != null)
+            //{
+            //    var uriV3 = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+            //    PartV3 = _vbaPart.Package.GetPart(uriV3);
+            //}
+            SignaturePartUtil.DeleteParts(PartAgile, PartV3);
+            _agileSignature.Part = null;
+            _v3Signature.Part = null;
+            PartAgile = null;
+            PartV3 = null;
         }
 
         public void RemoveLegacyAndV3()
@@ -128,6 +138,10 @@ namespace OfficeOpenXml.VBA
                 PartV3 = _vbaPart.Package.GetPart(uriV3);
             }
             SignaturePartUtil.DeleteParts(Part, PartV3);
+            _legacySignature.Part = null;
+            _v3Signature.Part = null;
+            Part = null;
+            PartAgile = null;
         }
     }
 }

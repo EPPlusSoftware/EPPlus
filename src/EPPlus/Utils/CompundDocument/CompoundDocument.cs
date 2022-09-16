@@ -107,8 +107,8 @@ namespace OfficeOpenXml.Utils.CompundDocument
         internal void Save(MemoryStream ms)
         {
             var doc = new CompoundDocumentFile();
-            WriteStorageAndStreams(Storage, doc.RootItem);
-            Directories = doc.Directories;
+            WriteStorageAndStreams(Storage, doc.RootItem);            
+            Directories = doc.Directories;            
             doc.Write(ms);
         }
 
@@ -125,6 +125,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
                 var c = new CompoundDocumentItem() { Name = item.Key, ObjectType = 2, Stream = item.Value, StreamSize = (item.Value == null ? 0 : item.Value.Length), Parent = parent };
                 parent.Children.Add(c);
             }
+            
         }
     }
 }

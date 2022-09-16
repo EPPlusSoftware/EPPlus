@@ -15,6 +15,7 @@ using OfficeOpenXml.Vba.ContentHash;
 using OfficeOpenXml.VBA.Signatures;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -85,6 +86,7 @@ namespace OfficeOpenXml.VBA.ContentHash
                     ContentHashInputProvider.GetContentNormalizedDataHashInput(proj, ms);
                     ContentHashInputProvider.GetFormsNormalizedDataHashInput(proj, ms);
                     var buffer = ms.ToArray();
+                    Debug_WriteInfo(proj, buffer);
                     var hash = ComputeHash(buffer, ctx);
                     var existingHash = ctx.SourceHash;
                     return hash;
@@ -92,6 +94,17 @@ namespace OfficeOpenXml.VBA.ContentHash
             }
             return default(byte[]);
             
+        }
+
+        private static void Debug_WriteInfo(ExcelVbaProject proj, byte[] buffer)
+        {
+            var sw = new StringWriter();
+            foreach (var d in proj.Document.Directories)
+            {
+                sw.WriteLine(d.FullName);
+            }
+            File.WriteAllText("c:\\temp\\documents.txt", sw.ToString());
+            File.WriteAllBytes("c:\\temp\\agile.bin", buffer);
         }
 
         internal static byte[] ComputeHash(byte[] buffer, EPPlusSignatureContext ctx)

@@ -617,6 +617,8 @@ namespace OfficeOpenXml.VBA
                 }                
                 var st = Part.GetStream(FileMode.Create);
                 doc.Save((MemoryStream)st);
+                
+                Document = doc;
                 st.Flush();
                 //Save the digital signture
                 Signature.Save(this);

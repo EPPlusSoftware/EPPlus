@@ -90,7 +90,18 @@ namespace OfficeOpenXml.Utils.CompundDocument
 
         #endregion
         public CompoundDocumentItem RootItem { get; set; }
-        internal List<CompoundDocumentItem> Directories { get; private set; }
+        List<CompoundDocumentItem> _directories = null;
+        internal List<CompoundDocumentItem> Directories
+        {
+            get
+            {
+                if (_directories == null)
+                {
+                    _directories = FlattenDirs();
+                }
+                return _directories;
+            }
+        }
 
         /// <summary>
         /// Verifies that the header is correct.
@@ -195,7 +206,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
                 }
             }
             AddChildTree(dir[0], dir);
-            Directories = dir;
+            _directories = dir;
         }
         private void LoadDIFATSectors(DocWriteInfo dwi)
         {
@@ -417,8 +428,6 @@ namespace OfficeOpenXml.Utils.CompundDocument
             bw.Write(new byte[512 * 4]);            //Allocate for Header and first FAT, Directory och MiniFAT sectors
             WritePosition(bw, 0, ref _currentDIFATSectorPos, false);
             WritePosition(bw, new int[] { FAT_SECTOR, END_OF_CHAIN, END_OF_CHAIN }, ref _currentFATSectorPos);  //First sector is first FAT sector, second is First Dir sector, thirs is first Mini FAT sector.
-
-            Directories = FlattenDirs();
 
             //Write directories
             WriteDirs(bw, Directories);
