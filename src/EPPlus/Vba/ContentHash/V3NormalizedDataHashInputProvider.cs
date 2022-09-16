@@ -315,12 +315,63 @@ namespace OfficeOpenXml.Vba.ContentHash
                 bw.Write((ushort)0x0028); // Id
                 bw.Write((uint)0);      // Reserved
             }
-            /* TODO: 
+            /*
              * DEFINE CompressedContainer AS array of bytes
              * DEFINE Text AS array of bytes
              * SET CompressedContainer TO ModuleStream.CompressedSourceCode
              * SET Text TO result of Decompression(CompressedContainer) (section 2.4.1)
              **/
+            var vbaStorage = p.Document.Storage.SubStorage["VBA"];
+            var stream = vbaStorage.DataStreams[module.Name];
+            var text = VBACompression.DecompressPart(stream);
+
+            var lines = new List<byte[]>();
+            var textBuffer = new List<byte>();
+            foreach(var ch in text)
+            {
+                if(ch == 0x10 || ch == 0x13)
+                {
+                    lines.Add(textBuffer.ToArray());
+                    textBuffer.Clear();
+                }
+                else
+                {
+                    textBuffer.Add(ch);
+                }
+            }
+
+            var hashModuleNameFlag = false;
+            foreach(var line in lines)
+            {
+                var lineText = Encoding.GetEncoding(p.CodePage).GetString(line);
+                if(string.Compare(lineText, "attribute", true) != 0)
+                {
+                    hashModuleNameFlag = true;
+                    bw.Write(line);
+                    bw.Write((byte)'\n');
+                }
+                else if(string.Compare(lineText, "Attribute VB_Name = ", true) == 0)
+                {
+                    continue;
+                }
+                else if(DefaultAttributes.Contains(lineText) == false)
+                {
+                    hashModuleNameFlag = true;
+                    bw.Write(line);
+                    bw.Write((byte)'\n');
+                }
+            }
+            if(hashModuleNameFlag)
+            {
+                /*
+                 * IF exist MODULENAME.ModuleNameUnicode
+                 *   APPEND Buffer WITH MODULENAME.ModuleNameUnicode (section 2.3.4.2.3.2.2)
+                 * ELSE IF exist MODULENAME.ModuleName
+                 *   APPEND Buffer WITH MODULENAME.ModuleName (section 2.3.4.2.3.2.1)
+                 * END IF
+                 * APPEND Buffer WITH “\n”
+                 */
+            }
         }
     }
 }
