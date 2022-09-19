@@ -110,7 +110,7 @@ namespace OfficeOpenXml.VBA
         internal void Save(ExcelVbaProject proj)
         {
             if (Certificate == null) return;
-            //_legacySignature.CreateSignature(proj);
+            _legacySignature.CreateSignature(proj);
             _agileSignature.CreateSignature(proj);
             _v3Signature.CreateSignature(proj);
         }

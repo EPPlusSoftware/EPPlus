@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.Vba.ContentHash
 {
@@ -44,6 +45,7 @@ namespace OfficeOpenXml.Vba.ContentHash
         {
             BinaryWriter bw = new BinaryWriter(ms);
             CreateV3NormalizedDataHashInput(bw);
+            NormalizeProjectStream(bw);
         }
 
         /// <summary>
@@ -321,15 +323,16 @@ namespace OfficeOpenXml.Vba.ContentHash
              * SET CompressedContainer TO ModuleStream.CompressedSourceCode
              * SET Text TO result of Decompression(CompressedContainer) (section 2.4.1)
              **/
-            var vbaStorage = p.Document.Storage;
+            var vbaStorage = p.Document.Storage.SubStorage["VBA"];
             var stream = vbaStorage.DataStreams[module.Name];
             var text = VBACompression.DecompressPart(stream);
+            var totalText = Encoding.GetEncoding(p.CodePage).GetString(text);
 
             var lines = new List<byte[]>();
             var textBuffer = new List<byte>();
             foreach(var ch in text)
             {
-                if(ch == 0x10 || ch == 0x13)
+                if((ch == 0xA || ch == 0xD) && textBuffer.Count > 0)
                 {
                     lines.Add(textBuffer.ToArray());
                     textBuffer.Clear();
@@ -388,6 +391,58 @@ namespace OfficeOpenXml.Vba.ContentHash
             bw.Write((ushort)0x0010);
             // APPEND Buffer WITH Reserved (section 2.3.4.2) of Storage
             bw.Write((uint)0x00000000);
+        }
+
+
+        private void NormalizeProjectStream(BinaryWriter bw)
+        {
+            var p = base.Project;
+            if(string.IsNullOrEmpty(p.ProjectStreamText))
+            {
+                return;
+            }
+            var encoding = Encoding.GetEncoding(p.CodePage);
+            var lines = Regex.Split(p.ProjectStreamText, "\r\n");
+            var currentCategory = string.Empty;
+            foreach(var line in lines)
+            {
+                if(line.StartsWith("[") && line.EndsWith("]"))
+                {
+                    currentCategory = line.Substring(1, line.Length - 2);
+                    if(currentCategory == "Host Extender Info")
+                    {
+                        bw.Write(encoding.GetBytes("Host Extender Info"));
+                    }
+                    continue;
+                }
+                if(currentCategory == "Host Extender Info" && !string.IsNullOrEmpty(line))
+                {
+                    bw.Write(encoding.GetBytes(line));
+                    continue;
+                }
+                if(!string.IsNullOrEmpty(line) && line.Contains("="))
+                {
+                    var key = line.Split('=')[0];
+                    var val = line.Split('=')[1];
+                    if(key.ToLower() == "baseclass")
+                    {
+                        /*
+                         * IF property is ProjectDesignerModule THEN 
+                         *   APPEND Buffer WITH output of NormalizeDesignerStorage(ProjectDesignerModule) (section 2.4.2.2) 
+                         * END IF
+                         */
+                        FormsNormalizedDataHashInputProvider.NormalizeDesigner(p, bw, val);
+                    }
+                    if(key != "ID" && key != "Document" && key != "CMG" && key != "DPB" && key != "GC")
+                    {
+                        /*
+                         * APPEND Buffer WITH the string “Host Extender Info” APPEND Buffer WITH HostExtenderRef without NWLN (section 2.3.1.18)
+                         */
+                        bw.Write(encoding.GetBytes(key));
+                        bw.Write(encoding.GetBytes(val));
+                    }
+                }
+            }
         }
     }
 }

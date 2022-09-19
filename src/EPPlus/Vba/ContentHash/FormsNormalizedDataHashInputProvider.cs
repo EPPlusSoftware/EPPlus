@@ -36,24 +36,41 @@ namespace OfficeOpenXml.Vba.ContentHash
         private void FormsNormaizedData(BinaryWriter bw)
         {
             var p = base.Project;
-            var designers = GetDesignersSorted(p);
-            var list=new List<SortItem>();
+            var designers = GetDesigners(p);
+            var list = new List<SortItem>();
             foreach (var designer in designers)
             {
-                var storage = p.Document.Storage.SubStorage[designer];
-                NormalizeStorage(storage, list, p.Document.Directories[0].Name + "/" + designer);
+                AppendDesignerStreams(p, list, designer);
             }
-            var hs=new HashSet<string>(list.Where(x=>x.IsStream).Select(x=>x.Name));
-            foreach(var dir in p.Document.Directories)
+            WriteDesignerStreams(bw, p, list);
+        }
+
+        private static void WriteDesignerStreams(BinaryWriter bw, ExcelVbaProject p, List<SortItem> list)
+        {
+            var hs = new HashSet<string>(list.Where(x => x.IsStream).Select(x => x.Name));
+            foreach (var dir in p.Document.Directories)
             {
-                if(hs.Contains(dir.FullName) && dir.StreamSize > 0)
+                if (hs.Contains(dir.FullName) && dir.StreamSize > 0)
                 {
                     WriteStreamData(bw, dir.Stream);
                 }
             }
         }
 
-        private void NormalizeStorage(CompoundDocument.StoragePart storage, List<SortItem> list, string parentName)
+        internal static void NormalizeDesigner(ExcelVbaProject p, BinaryWriter bw, string designer)
+        {
+            var list = new List<SortItem>();
+            AppendDesignerStreams(p, list, designer);
+            WriteDesignerStreams(bw, p, list);
+        }
+
+        private static void AppendDesignerStreams(ExcelVbaProject p, List<SortItem> list, string designer)
+        {
+            var storage = p.Document.Storage.SubStorage[designer];
+            NormalizeStorage(storage, list, p.Document.Directories[0].Name + "/" + designer);
+        }
+
+        private static void NormalizeStorage(CompoundDocument.StoragePart storage, List<SortItem> list, string parentName)
         {
             var children = GetSortedChildren(storage);
             foreach (var child in children)
@@ -97,70 +114,18 @@ namespace OfficeOpenXml.Vba.ContentHash
             public string Name { get; set; }
             public bool IsStream { get; set; }
         }
-        private IList<SortItem> GetSortedChildren(CompoundDocument.StoragePart storage)
+        private static IList<SortItem> GetSortedChildren(CompoundDocument.StoragePart storage)
         {
             var list = new List<SortItem>();
             list.AddRange(storage.DataStreams.Keys.Select(x => new SortItem(x, true)));
             list.AddRange(storage.SubStorage.Keys.Select(x => new SortItem(x, false)));
-
-            //list.Sort((a, b) =>
-            //{
-            //    if (a.Name.Length < b.Name.Length)
-            //    {
-            //        return -1;
-            //    }
-            //    else if (a.Name.Length > b.Name.Length)
-            //    {
-            //        return 1;
-            //    }
-            //    var n1 = a.Name.ToUpperInvariant();
-            //    var n2 = b.Name.ToUpperInvariant();
-            //    for (int i = 0; i < n1.Length; i++)
-            //    {
-            //        if (n1[i] < n2[i])
-            //        {
-            //            return -1;
-            //        }
-            //        else if (n1[i] > n2[i])
-            //        {
-            //            return 1;
-            //        }
-            //    }
-            //    return 0;
-            //});
             return list;
         }
 
-        private static IList<string> GetDesignersSorted(ExcelVbaProject p)
+        private static IList<string> GetDesigners(ExcelVbaProject p)
         {
             var designerModules = p.Modules.Where(x => x.Type == eModuleType.Designer).Select(x => x.streamName);
-            var dl = designerModules.ToList();
-            dl.Sort((a, b) =>
-            {
-                if (a.Length < b.Length)
-                {
-                    return -1;
-                }
-                else if (a.Length > b.Length)
-                {
-                    return 1;
-                }
-                var n1 = a.ToUpperInvariant();
-                var n2 = b.ToUpperInvariant();
-                for (int i = 0; i < n1.Length; i++)
-                {
-                    if (n1[i] < n2[i])
-                    {
-                        return -1;
-                    }
-                    else if (n1[i] > n2[i])
-                    {
-                        return 1;
-                    }
-                }
-                return 0;
-            });
-            return dl;
+            return designerModules.ToList();
         }
 
         private void NormalizeDesignerStorage(ExcelVBAModule designerModule, BinaryWriter bw)

@@ -204,5 +204,24 @@ namespace EPPlusTest.VBA
                 SaveWorkbook("SignedUnsignedWorkbook1.xlsm", package);
             }
         }
+
+        [TestMethod]
+        public void VbaSign_V3()
+        {
+            using(var package = new ExcelPackage(@"c:\Temp\vbaCert\SignedWorkbook1.xlsm"))
+            {
+                X509Store store = new X509Store(StoreLocation.CurrentUser);
+                store.Open(OpenFlags.ReadOnly);
+                foreach (var cert in store.Certificates)
+                {
+                    if (cert.HasPrivateKey && cert.NotBefore <= DateTime.Today && cert.NotAfter >= DateTime.Today)
+                    {
+                        package.Workbook.VbaProject.Signature.Certificate = cert;
+                        break;
+                    }
+                }
+                package.Save();
+            }
+        }
     }
 }
