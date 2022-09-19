@@ -90,6 +90,19 @@ namespace OfficeOpenXml.VBA.ContentHash
                     return hash;
                 }
             }
+            else if(ctx.SignatureType == ExcelVbaSignatureType.V3)
+            {
+                using (var ms = RecyclableMemory.GetStream())
+                {
+                    ContentHashInputProvider.GetContentNormalizedDataHashInput(proj, ms);
+                    ContentHashInputProvider.GetFormsNormalizedDataHashInput(proj, ms);
+                    ContentHashInputProvider.GetV3HashInput(proj, ms);
+                    var buffer = ms.ToArray();
+                    var hash = ComputeHash(buffer, ctx);
+                    var existingHash = ctx.SourceHash;
+                    return hash;
+                }
+            }
             return default(byte[]);
             
         }

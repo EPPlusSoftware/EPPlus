@@ -321,7 +321,7 @@ namespace OfficeOpenXml.Vba.ContentHash
              * SET CompressedContainer TO ModuleStream.CompressedSourceCode
              * SET Text TO result of Decompression(CompressedContainer) (section 2.4.1)
              **/
-            var vbaStorage = p.Document.Storage.SubStorage["VBA"];
+            var vbaStorage = p.Document.Storage;
             var stream = vbaStorage.DataStreams[module.Name];
             var text = VBACompression.DecompressPart(stream);
 
@@ -371,7 +371,23 @@ namespace OfficeOpenXml.Vba.ContentHash
                  * END IF
                  * APPEND Buffer WITH “\n”
                  */
+                if(!string.IsNullOrEmpty(module.NameUnicode))
+                {
+                    var nameUnicodeBytes = Encoding.Unicode.GetBytes(module.NameUnicode);
+                    bw.Write(nameUnicodeBytes);
+                }
+                else
+                {
+                    var nameBytes = Encoding.Unicode.GetBytes(module.Name);
+                    bw.Write(nameBytes);
+                }
+                bw.Write((byte)'\n');
             }
+
+            // APPEND Buffer WITH Terminator (section 2.3.4.2) of Storage
+            bw.Write((ushort)0x0010);
+            // APPEND Buffer WITH Reserved (section 2.3.4.2) of Storage
+            bw.Write((uint)0x00000000);
         }
     }
 }

@@ -66,6 +66,12 @@ namespace OfficeOpenXml.VBA
                 }
             }
         }
+
+        /// <summary>
+        /// Module name unicode
+        /// </summary>
+        internal string NameUnicode { get; set; }
+
         internal static bool IsValidModuleName(string name)
         {
             //return Regex.IsMatch(name, _validModulePattern);

@@ -117,6 +117,7 @@ namespace OfficeOpenXml.VBA
         {
             _legacySignature.CreateSignature(proj);
             _agileSignature.CreateSignature(proj);
+            _v3Signature.CreateSignature(proj);
         }
 
         public void RemoveLegacyAndV3()

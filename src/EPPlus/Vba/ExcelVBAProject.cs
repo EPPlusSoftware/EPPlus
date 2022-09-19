@@ -558,6 +558,11 @@ namespace OfficeOpenXml.VBA
                         case 0x28:
                             currentModule.Private = true;
                             break;
+                        case 0x0047:
+                            var unicodeSize = br.ReadUInt32();
+                            var unicodeNameBytes = br.ReadBytes((int)unicodeSize);
+                            currentModule.NameUnicode = Encoding.Unicode.GetString(unicodeNameBytes);
+                            break;
                         case 0x4a:
                             CompatVersion = br.ReadUInt32();
                             break;
