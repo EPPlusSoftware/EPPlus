@@ -61,6 +61,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
             ms.Position = pos;
             return IsCompoundDocument(b);
         }
+
 #endif
     }
 }

@@ -161,22 +161,31 @@ namespace EPPlusTest.VBA
         }
 
         [TestMethod]
-        public void MyVbaTest()
+        public void SignedUnsignedWorkbook()
         {
-            using(var package = new ExcelPackage(@"c:\Temp\VbaCert\SignedWorkbook1.xlsm"))
+            using(var package = OpenTemplatePackage(@"SignedUnsignedWorkbook1.xlsm"))
             {
-                var p = package.Workbook.VbaProject;
-                var s = p.Signature;
-                package.SaveAs(@"c:\Temp\VbaCert\VbaSignCopy.xlsm");
+                var proj = package.Workbook.VbaProject;
+                var s = proj.Signature;
+                SaveWorkbook("SavedSignedUnsignedWorkbook1.xlsm", package);
             }
         }
-
+        [TestMethod]
+        public void SignedWorkbook()
+        {
+            using (var package = OpenTemplatePackage(@"SignedWorkbook1.xlsm"))
+            {
+                var proj = package.Workbook.VbaProject;
+                var s = proj.Signature;
+                package.Workbook.VbaProject.Signature.RemoveLegacyAndV3();
+                SaveAndCleanup(package);
+            }
+        }
         [TestMethod]
         public void MyVbaTest_Sign1()
         {
-            var workbook = "vbaSignUnSigned.xlsm";
-            //var workbook = "ExcelSigned1.xlsm";
-            using (var package = new ExcelPackage(@"c:\Temp\VbaCert\" + workbook))
+            var workbook = "UnsignedWorkbook1.xlsm";
+            using (var package = OpenTemplatePackage(workbook))
             {
                 X509Store store = new X509Store(StoreLocation.CurrentUser);
                 store.Open(OpenFlags.ReadOnly);
@@ -184,12 +193,15 @@ namespace EPPlusTest.VBA
                 {
                     if (cert.HasPrivateKey && cert.NotBefore <= DateTime.Today && cert.NotAfter >= DateTime.Today)
                     {
-                        package.Workbook.VbaProject.Signature.Certificate = cert;
-                        break;
+                        if (cert.Thumbprint == "C0201D22A64D78757EF4655988B267E6734E04B5")
+                        {
+                            package.Workbook.VbaProject.Signature.Certificate = cert;
+                            break;
+                        }
                     }
                 }
                 //package.Workbook.VbaProject.Signature.RemoveLegacyAndV3();
-                package.SaveAs(@"c:\Temp\VbaCert\SignedWorkbook2.xlsm");
+                SaveWorkbook("SignedUnsignedWorkbook1.xlsm", package);
             }
         }
     }
