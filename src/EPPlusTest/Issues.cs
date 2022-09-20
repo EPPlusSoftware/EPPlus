@@ -3672,6 +3672,16 @@ namespace EPPlusTest
                 t.Columns.Delete(columnPosition, 1);
                 SaveAndCleanup(p);
             }
+
+            using (var p = OpenTemplatePackage(@"i715-3.xlsx"))
+            {
+                var t = p.Workbook.Worksheets["Bookings This Year"].Tables["JobsThisYear"];
+                // if I delete even one column it produces corrupted xlsx
+                int columnPosition = t.Columns.First(c => c.Name == "Total Time").Position;
+                t.Columns.Delete(columnPosition, 1);
+
+                SaveAndCleanup(p);
+            }
         }
     }
 }

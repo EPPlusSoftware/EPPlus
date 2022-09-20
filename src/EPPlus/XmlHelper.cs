@@ -232,7 +232,7 @@ namespace OfficeOpenXml
                             node.InsertBefore(subNode, prependNode);
                             prependNode = null;
                         }
-                        else if (insertFirst)
+                        else if (insertFirst || (SchemaNodeOrder?.Length > 0 && subNode.LocalName == SchemaNodeOrder[0]))
                         {
                             node.PrependChild(subNode);
                         }

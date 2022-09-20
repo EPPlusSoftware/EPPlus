@@ -386,6 +386,7 @@ namespace OfficeOpenXml.VBA
                         }
                     }
                 }
+
                 var buffer = ms.ToArray();
 
                 var hp = System.Security.Cryptography.MD5.Create();

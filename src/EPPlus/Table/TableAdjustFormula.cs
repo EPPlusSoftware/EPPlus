@@ -22,7 +22,7 @@ namespace OfficeOpenXml.Table
                     {
                         if (!string.IsNullOrEmpty(c.CalculatedColumnFormula))
                         {
-                            c.CalculatedColumnFormula = ReplaceTableName(c.CalculatedColumnFormula, prevName, name); ;
+                            c.CalculatedColumnFormula = ReplaceTableName(c.CalculatedColumnFormula, prevName, name);
                         }
                     }
                 }

@@ -289,7 +289,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis.PostProcessing
         {
             _context.Result.RemoveAt(_navigator.Index + offset);
             SetNegatorOperator(_navigator.Index);
-            if (_navigator.Index > 0) _navigator.MoveIndex(-1); ;
+            if (_navigator.Index > 0) _navigator.MoveIndex(-1);
         }
     }
 }

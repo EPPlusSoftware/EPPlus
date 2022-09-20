@@ -41,7 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
 
             if(Due != PmtDue.EndOfPeriod && (Per == 1.0))
             {
-                return new FinanceCalcResult<double>(0d); ;
+                return new FinanceCalcResult<double>(0d);
             }
 
             //   Calculate PMT (i.e. annuity) for given parms. Rqrd for FV
