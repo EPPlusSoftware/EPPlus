@@ -26,7 +26,7 @@ namespace OfficeOpenXml
             _stream = zip;
             _size = size;
             _bytesRead = 0;
-            WriteToBuffer = writeToBuffer; ;
+            WriteToBuffer = writeToBuffer;
         }
 
         public override bool CanRead => _stream.CanRead;
