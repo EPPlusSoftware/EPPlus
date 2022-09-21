@@ -318,7 +318,7 @@ namespace OfficeOpenXml.Drawing
             }
             if (d._parent != null && d._parent!=grp)
             {
-                throw new InvalidOperationException($"The drawing {d.Name} is already in a group different from the other drawings."); ;
+                throw new InvalidOperationException($"The drawing {d.Name} is already in a group different from the other drawings.");
             }
         }
         internal void SetPositionAndSizeFromChildren()

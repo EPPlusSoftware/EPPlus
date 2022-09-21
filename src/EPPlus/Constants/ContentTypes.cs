@@ -30,7 +30,8 @@ namespace OfficeOpenXml.Constants
         //VBA
         internal const string contentTypeVBA = @"application/vnd.ms-office.vbaProject";
         internal const string contentTypeVBASignature = @"application/vnd.ms-office.vbaProjectSignature";
-
+        internal const string contentTypeVBASignatureAgile = @"application/vnd.ms-office.vbaProjectSignatureAgile";
+        internal const string contentTypeVBASignatureV3 = @"application/vnd.ms-office.vbaProjectSignatureV3";
 
         internal const string contentTypeExternalLink = "application/vnd.openxmlformats-officedocument.spreadsheetml.externalLink+xml";
 

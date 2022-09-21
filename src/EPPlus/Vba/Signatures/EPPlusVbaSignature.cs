@@ -10,6 +10,7 @@
  *************************************************************************************************
   09/05/2022         EPPlus Software AB       EPPlus 6.1
  *************************************************************************************************/
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System;
@@ -38,7 +39,7 @@ namespace OfficeOpenXml.VBA.Signatures
             set;
         }
 
-        private string SchemaRelation
+        internal string SchemaRelation
         {
             get
             {
@@ -52,6 +53,21 @@ namespace OfficeOpenXml.VBA.Signatures
                         return VbaSchemaRelations.V3;
                     default:
                         return VbaSchemaRelations.Legacy;
+                }
+            }
+        }
+        internal string ContentType
+        {
+            get
+            {
+                switch (_signatureType)
+                {
+                    case ExcelVbaSignatureType.Legacy:
+                        return ContentTypes.contentTypeVBASignature;
+                    case ExcelVbaSignatureType.Agile:
+                        return ContentTypes.contentTypeVBASignatureAgile;
+                    default:
+                        return ContentTypes.contentTypeVBASignatureV3;
                 }
             }
         }
@@ -111,7 +127,7 @@ namespace OfficeOpenXml.VBA.Signatures
                 Verifier = CertUtil.SignProject(project, this, Context);
                 var cert = Verifier.Encode();
                 var signatureBytes = CertUtil.CreateBinarySignature(ms, bw, certStore, cert);
-                Part = SignaturePartUtil.GetPart(project, this, SchemaRelation);
+                Part = SignaturePartUtil.GetPart(project, this);
                 Part.GetStream(FileMode.Create).Write(signatureBytes, 0, signatureBytes.Length);
             }
             

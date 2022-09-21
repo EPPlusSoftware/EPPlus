@@ -1281,7 +1281,7 @@ namespace OfficeOpenXml
 					var r = cache.SourceRange;
 					if (r != null && r.Worksheet!=null)              //Source does not exist
 					{
-						ExcelTable t = r.Worksheet.Tables.GetFromRange(r); ;
+						ExcelTable t = r.Worksheet.Tables.GetFromRange(r);
 
 						var fields =
 							cache.CacheDefinitionXml.SelectNodes(

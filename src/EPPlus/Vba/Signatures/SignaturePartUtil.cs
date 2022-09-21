@@ -10,9 +10,9 @@ namespace OfficeOpenXml.VBA.Signatures
 {
     internal static class SignaturePartUtil
     {
-        internal static ZipPackagePart GetPart(ExcelVbaProject proj, EPPlusVbaSignature signature, string schemaRelation)
+        internal static ZipPackagePart GetPart(ExcelVbaProject proj, EPPlusVbaSignature signature)
         {
-            var rel = (ZipPackageRelationship)proj.Part.GetRelationshipsByType(schemaRelation).FirstOrDefault();
+            var rel = (ZipPackageRelationship)proj.Part.GetRelationshipsByType(signature.SchemaRelation).FirstOrDefault();
             var part = signature.Part;
             var uri = default(Uri);
             if (part == null)
@@ -25,12 +25,13 @@ namespace OfficeOpenXml.VBA.Signatures
                 else
                 {
                     uri = GetUriByType(signature.Context.SignatureType, UriKind.Relative);
-                    part = proj._pck.CreatePart(uri, ContentTypes.contentTypeVBASignature);
+                    
+                    part = proj._pck.CreatePart(uri, signature.ContentType);
                 }
             }
             if (rel == null)
             {
-                proj.Part.CreateRelationship(UriHelper.ResolvePartUri(proj.Uri, uri), Packaging.TargetMode.Internal, schemaRelation);
+                proj.Part.CreateRelationship(UriHelper.ResolvePartUri(proj.Uri, uri), Packaging.TargetMode.Internal, signature.SchemaRelation);
             }
             return part;
         }

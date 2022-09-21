@@ -177,7 +177,8 @@ namespace EPPlusTest.VBA
             {
                 var proj = package.Workbook.VbaProject;
                 var s = proj.Signature;
-                package.Workbook.VbaProject.Signature.RemoveLegacyAndV3();
+                package.Workbook.VbaProject.Signature.CreateLegacySignatureOnSave = false;
+                package.Workbook.VbaProject.Signature.CreateV3SignatureOnSave = false;
                 SaveAndCleanup(package);
             }
         }
@@ -200,7 +201,8 @@ namespace EPPlusTest.VBA
                         }
                     }
                 }
-                //package.Workbook.VbaProject.Signature.RemoveLegacyAndV3();
+                package.Workbook.VbaProject.Signature.CreateLegacySignatureOnSave = false;
+                package.Workbook.VbaProject.Signature.CreateV3SignatureOnSave = false;
                 SaveWorkbook("SignedUnsignedWorkbook1.xlsm", package);
             }
         }
