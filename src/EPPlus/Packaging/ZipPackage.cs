@@ -62,7 +62,7 @@ namespace OfficeOpenXml.Packaging
             }
             else
             {
-                var rels = new Dictionary<string, string>();
+                var rels = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
                 stream.Seek(0, SeekOrigin.Begin);
                 //using (ZipInputStream zip = new ZipInputStream(stream))
                 //{

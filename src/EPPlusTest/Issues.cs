@@ -3683,5 +3683,13 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void i707()
+        {
+            using (var p = OpenTemplatePackage(@"i707.xlsx"))
+            {
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
