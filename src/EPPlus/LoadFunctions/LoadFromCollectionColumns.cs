@@ -42,7 +42,14 @@ namespace OfficeOpenXml.LoadFunctions
         internal List<ColumnInfo> Setup()
         {
             var result = new List<ColumnInfo>();
-            bool sort=SetupInternal(typeof(T), result, null);
+            var t = typeof(T);
+            var ut = Nullable.GetUnderlyingType(t);
+            if (ut != null)
+            {
+                t = ut;
+            }
+
+            bool sort=SetupInternal(t, result, null);
             if (sort)
             {
                 ReindexAndSortColumns(result);
