@@ -107,7 +107,7 @@ namespace OfficeOpenXml
             {
                 if (ignoreAttribute==null || !ignoreAttribute.Contains(a.LocalName))
                 {
-                    if (string.IsNullOrEmpty(a.NamespaceURI))
+                    if(string.IsNullOrEmpty(a.NamespaceURI))
                     {
                         toElement.SetAttribute(a.Name, a.Value);
                     }
@@ -232,7 +232,7 @@ namespace OfficeOpenXml
                             node.InsertBefore(subNode, prependNode);
                             prependNode = null;
                         }
-                        else if (insertFirst)
+                        else if (insertFirst || (SchemaNodeOrder?.Length > 0 && subNode.LocalName == SchemaNodeOrder[0]))
                         {
                             node.PrependChild(subNode);
                         }
@@ -779,6 +779,27 @@ namespace OfficeOpenXml
                     throw new ArgumentException("Negative value not permitted");
                 }
                 SetXmlNodeString(TopNode, path, d.Value.ToString(ci ?? CultureInfo.InvariantCulture));
+            }
+        }
+        readonly char[] _whiteSpaces = new char[] { '\t', '\n', '\r', ' ' };
+        internal void SetXmlNodeStringPreserveWhiteSpace(string path, string value, bool removeIfBlank=false, bool insertFirst=false)
+        {
+            SetXmlNodeString(TopNode, path, value, removeIfBlank, insertFirst);
+            if (value!=null &&  value.Length>0)
+            {
+                if(_whiteSpaces.Contains(value[0]) ||
+                   _whiteSpaces.Contains(value[value.Length - 1]))
+                {
+                    var workNode = GetNode(path);
+                    if(workNode.NodeType==XmlNodeType.Attribute)
+                    {
+                        workNode=workNode.ParentNode;
+                    }
+                    if(workNode.NodeType == XmlNodeType.Element)
+                    {
+                        ((XmlElement)workNode).SetAttribute("xml:space", "preserve");
+                    }
+                }
             }
         }
 

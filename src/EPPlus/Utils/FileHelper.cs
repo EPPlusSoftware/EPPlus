@@ -5,10 +5,10 @@ namespace OfficeOpenXml.Utils
 {
     internal static class FileHelper
     {
-        internal static string GetRelativeFile(FileInfo sourceFile, FileInfo targetFile)
+        internal static string GetRelativeFile(FileInfo sourceFile, FileInfo targetFile,bool addFileProtocolIfAbsolute=false)
         {
             var sourceDir = sourceFile.DirectoryName ?? "";
-            var targetDir = targetFile.DirectoryName ?? ""; ;
+            var targetDir = targetFile.DirectoryName ?? "";
             string[] source = sourceDir.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
             string[] target = targetDir.Split(new char[]{ '\\' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -18,7 +18,18 @@ namespace OfficeOpenXml.Utils
             {
                 i++;
             }
-            if (i == 0) return targetFile.FullName;
+            if (i == 0)
+            {
+                if(addFileProtocolIfAbsolute && targetFile.FullName.StartsWith("file:///") == false)
+                {
+                    return "file:///" + targetFile.FullName;
+                }
+                else
+                {
+                    return targetFile.FullName;
+                }
+            }
+
             string dirUp = "";
             for (int s = i; s < slen; s++)
             {
@@ -31,6 +42,5 @@ namespace OfficeOpenXml.Utils
             }
             return dirUp + path +(path == "" ? "" : "\\") + targetFile.Name;
         }
-
     }
 }

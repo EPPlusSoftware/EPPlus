@@ -143,5 +143,14 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             return _table.Fields[cacheField.Index];
         }
+        internal void RemoveAt(int index)
+        {
+            Remove(_list[index]);
+        }
+        internal void Remove(ExcelPivotTableField item)
+        {
+            item.TopNode.ParentNode.RemoveChild(item.TopNode);
+            _list.Remove(item);
+        }
     }
 }
