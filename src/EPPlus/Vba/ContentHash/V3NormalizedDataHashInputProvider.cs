@@ -162,24 +162,26 @@ namespace OfficeOpenXml.Vba.ContentHash
              */
             foreach (var reference in p.References)
             {
-                WriteNameReference(p, bw, reference);
+                HandleProjectReference(p, bw, reference);
 
-                if (reference.ReferenceRecordID == 0x2F)
-                {
-                    WriteControlReference(p, bw, reference);
-                }
-                else if (reference.ReferenceRecordID == 0x33)
-                {
-                    WriteOrginalReference(p, bw, reference);
-                }
-                else if (reference.ReferenceRecordID == 0x0D)
-                {
-                    WriteRegisteredReference(p, bw, reference);
-                }
-                else if (reference.ReferenceRecordID == 0x0E)
-                {
-                    WriteProjectReference(p, bw, reference);
-                }
+                //WriteNameReference(p, bw, reference);
+
+                //if (reference.ReferenceRecordID == 0x2F)
+                //{
+                //    WriteControlReference(p, bw, reference);
+                //}
+                //else if (reference.ReferenceRecordID == 0x33)
+                //{
+                //    WriteOrginalReference(p, bw, reference);
+                //}
+                //else if (reference.ReferenceRecordID == 0x0D)
+                //{
+                //    WriteRegisteredReference(p, bw, reference);
+                //}
+                //else if (reference.ReferenceRecordID == 0x0E)
+                //{
+                //    WriteProjectReference(p, bw, reference);
+                //}
             }
 
             // 2.3.4.2.3 PROJECTMODULES Record
@@ -199,22 +201,122 @@ namespace OfficeOpenXml.Vba.ContentHash
             }
         }
 
-        /// <summary>
-        /// 2.3.4.2.2.2 REFERENCENAME Record
-        /// </summary>
-        /// <param name="p"></param>
-        /// <param name="bw"></param>
-        /// <param name="reference"></param>
-        private void WriteNameReference(ExcelVbaProject p, BinaryWriter bw, ExcelVbaReference reference)
+        private void HandleProjectReference(ExcelVbaProject p, BinaryWriter bw, ExcelVbaReference reference)
         {
+            // APPEND Buffer WITH REFERENCENAME.Id (section 2.3.4.2.2.2)
             bw.Write((ushort)0x0016); // Id
+
             var refNameBytes = Encoding.GetEncoding(p.CodePage).GetBytes(reference.Name);
+
+            // APPEND Buffer WITH REFERENCENAME.SizeOfName (section 2.3.4.2.2.2)
             bw.Write((uint)refNameBytes.Length); // Size
+
+            // APPEND Buffer WITH REFERENCENAME.Name(section 2.3.4.2.2.2)
             bw.Write(refNameBytes); // Name
+
+            // APPEND Buffer WITH REFERENCENAME.Reserved (section 2.3.4.2.2.2)
             bw.Write((ushort)0x003E); // Reserved
+
             var refNameUnicodeBytes = Encoding.Unicode.GetBytes(reference.Name);
+
+            // APPEND Buffer WITH REFERENCENAME.SizeOfNameUnicode (section 2.3.4.2.2.2)
             bw.Write((uint)refNameUnicodeBytes.Length);
+
+            // APPEND Buffer WITH REFERENCENAME.NameUnicode (section 2.3.4.2.2.2)
             bw.Write(refNameUnicodeBytes);
+
+            // IF REFERENCE.ReferenceRecord.Id = 0x002F THEN
+            if (reference.ReferenceRecordID == 0x002F)
+            {
+                // APPEND Buffer with REFERENCE.ReferenceControl.Id (section 2.3.4.2.2.3)
+                bw.Write((ushort)0x002F);
+
+                var controlRef = (ExcelVbaReferenceControl)reference;
+                var libIdTwiddledBytes = Encoding.GetEncoding(p.CodePage).GetBytes(controlRef.LibIdTwiddled);
+
+                // APPEND Buffer with REFERENCE.ReferenceControl.SizeOfLibidTwiddled (section 2.3.4.2.2.3)
+                bw.Write((uint)libIdTwiddledBytes.Length);
+
+                // APPEND Buffer with REFERENCE.ReferenceControl.LibidTwiddled (section 2.3.4.2.2.3)
+                bw.Write(libIdTwiddledBytes);
+
+                // APPEND Buffer with REFERENCE.ReferenceControl.Reserved1 (section 2.3.4.2.2.3)
+                bw.Write((uint)0x00000000);
+
+                // APPEND Buffer with REFERENCE.ReferenceControl.Reserved2 (section 2.3.4.2.2.3)
+                bw.Write((ushort)0x000);
+
+                // IF exists REFERENCE.ReferenceControl.NameRecordExtended(section 2.3.4.2.2.2) THEN
+
+                //    APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.Id (section 2.3.4.2.2.2)
+                //    APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.Size (section 2.3.4.2.2.2)
+                //    APPEND Buffer REFERENCE.ReferenceControl.NameRecordExtended.Name (section 2.3.4.2.2.2)
+                // END IF
+                // IF exists REFERENCE.ReferenceControl.NameRecordExtended.Reserved (section 2.3.4.2.2.2) THEN
+                //   APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.Reserved (section 2.3.4.2.2.2)
+                //   APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.SizeOfNameUnicode (section 2.3.4.2.2.2)
+                //   APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.NameUnicode (section 2.3.4.2.2.2)
+                // END IF
+
+                // APPEND Buffer with REFERENCE.ReferenceControl.Reserved3 (section 2.3.4.2.2.3)
+                bw.Write((ushort)0x0030);
+
+                var libIdExtendedBytes = Encoding.GetEncoding(p.CodePage).GetBytes(controlRef.LibIdExtended);
+                // APPEND Buffer with REFERENCE.ReferenceControl.SizeOfLibidExtended (section 2.3.4.2.2.3)           
+                bw.Write((uint)libIdExtendedBytes.Length);
+
+                // APPEND Buffer with REFERENCE.ReferenceControl.LibidExtended (section 2.3.4.2.2.3)
+                bw.Write(libIdExtendedBytes);
+
+                // APPEND Buffer with REFERENCE.ReferenceControl.Reserved4 (section 2.3.4.2.2.3)
+                bw.Write((uint)0x00000000);
+
+                // APPEND Buffer with REFERENCE.ReferenceControl.Reserved5(section 2.3.4.2.2.3)
+                bw.Write((ushort)0x0000);
+
+                // APPEND Buffer with REFERENCE.ReferenceControl.OriginalTypeLib (section 2.3.4.2.2.3)
+                bw.Write(controlRef.OriginalTypeLib.ToByteArray());
+
+                // APPEND Buffer with REFERENCE.ReferenceControl.Cookie (section 2.3.4.2.2.3)
+                bw.Write(controlRef.Cookie);
+            }
+            // ELSE IF REFERENCE.ReferenceRecord.Id = 0x0033 THEN
+            else if(reference.ReferenceRecordID == 0x0033)
+            {
+                // APPEND Buffer with REFERENCE.ReferenceOriginal.Id (section 2.3.4.2.2.4)
+                bw.Write((ushort)0x33);
+
+                var libIdBytes = Encoding.GetEncoding(p.CodePage).GetBytes(reference.Libid);
+                // APPEND Buffer with REFERENCE.ReferenceOriginal.SizeOfLibidOriginal (section 2.3.4.2.2.4)
+                bw.Write((uint)libIdBytes.Length);
+
+                // APPEND Buffer with REFERENCE.ReferenceOriginal.LibidOriginal (section 2.3.4.2.2.4)
+                bw.Write(libIdBytes);
+            }
+            // ELSE IF REFERENCE.ReferenceRecord.Id = 0x000D THEN
+            else if(reference.ReferenceRecordID == 0x000D)
+            {
+                // APPEND Buffer with REFERENCE.ReferenceRegistered.Id (section 2.3.4.2.2.5)
+                bw.Write((ushort)0x000D);
+
+                var libIdBytes = Encoding.GetEncoding(p.CodePage).GetBytes(reference.Libid);
+                // APPEND Buffer with REFERENCE.ReferenceRegistered.SizeOfLibid (section 2.3.4.2.2.5)
+                bw.Write((uint)libIdBytes.Length);
+
+                // APPEND Buffer with REFERENCE.ReferenceRegistered.Libid converted to wide char (section 2.3.4.2.2.5)
+                bw.Write(libIdBytes);
+
+                // APPEND Buffer with REFERENCE.ReferenceRegistered.Reserved1 (section 2.3.4.2.2.5)
+                bw.Write((uint)0x00000000);
+
+                // APPEND Buffer with REFERENCE.ReferenceRegistered.Reserved2 (section 2.3.4.2.2.5)
+                bw.Write((ushort)0x0000);
+            }
+            // ELSE IF REFERENCE.ReferenceRecord.Id = 0x000E THEN
+            else if(reference.ReferenceRecordID == 0x000E)
+            {
+                // APPEND Buffer with REFERENCE.ReferenceProject.Id (section 2.3.4.2.2.6)
+            }
         }
 
         /// <summary>
