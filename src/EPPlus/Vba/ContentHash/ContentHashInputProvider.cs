@@ -57,7 +57,7 @@ namespace OfficeOpenXml.Vba.ContentHash
             provider.CreateHashInput(ms);
         }
 
-        public static void GetV3HashInput(ExcelVbaProject project, MemoryStream ms)
+        public static void GetV3ContentNormalizedDataHashInput(ExcelVbaProject project, MemoryStream ms)
         {
             var provider = new V3NormalizedDataHashInputProvider(project);
             provider.CreateHashInput(ms);

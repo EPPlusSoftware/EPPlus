@@ -528,7 +528,7 @@ namespace OfficeOpenXml.VBA
                         case 0x30:
                             var extRef = (ExcelVbaReferenceControl)currentRef;
                             var sizeExt = br.ReadUInt32();
-                            extRef.LibIdExternal = GetString(br, sizeExt);
+                            extRef.LibIdExtended = GetString(br, sizeExt);
 
                             uint reserved4 = br.ReadUInt32();
                             ushort reserved5 = br.ReadUInt16();
@@ -877,7 +877,7 @@ namespace OfficeOpenXml.VBA
             WriteNameReference(bw, reference);  //Name record again
             bw.Write((ushort)0x30); //Reserved3
 
-            var libIdExternalBytes = Encoding.GetEncoding(CodePage).GetBytes(controlRef.LibIdExternal);
+            var libIdExternalBytes = Encoding.GetEncoding(CodePage).GetBytes(controlRef.LibIdExtended);
             bw.Write((uint)(4 + libIdExternalBytes.Length + 4 + 2 + 16 + 4));    //Size of SizeOfLibidExtended, LibidExtended, Reserved4, Reserved5, OriginalTypeLib, and Cookie
             bw.Write((uint)libIdExternalBytes.Length);                              //Size            
             bw.Write(libIdExternalBytes);  //LibID

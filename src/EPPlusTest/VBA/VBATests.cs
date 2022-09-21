@@ -208,7 +208,9 @@ namespace EPPlusTest.VBA
         [TestMethod]
         public void VbaSign_V3()
         {
-            using(var package = new ExcelPackage(@"c:\Temp\vbaCert\SignedWorkbook1.xlsm"))
+            //var wbPath = @"c:\Temp\vbaCert\SignedWorkbook1.xlsm";
+            var wbPath = @"c:\Temp\vbaCert\vbaSignedSimple1.xlsm";
+            using (var package = new ExcelPackage(wbPath))
             {
                 X509Store store = new X509Store(StoreLocation.CurrentUser);
                 store.Open(OpenFlags.ReadOnly);

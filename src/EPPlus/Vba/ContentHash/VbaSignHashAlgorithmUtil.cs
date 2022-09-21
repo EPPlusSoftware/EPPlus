@@ -96,7 +96,7 @@ namespace OfficeOpenXml.VBA.ContentHash
             {
                 using (var ms = RecyclableMemory.GetStream())
                 {
-                    ContentHashInputProvider.GetV3HashInput(proj, ms);
+                    ContentHashInputProvider.GetV3ContentNormalizedDataHashInput(proj, ms);
                     var buffer = ms.ToArray();
                     var hash = ComputeHash(buffer, ctx);
                     var existingHash = ctx.SourceHash;
