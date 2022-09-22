@@ -149,7 +149,7 @@ namespace OfficeOpenXml.Vba.ContentHash
             bw.Write((uint)helpFile1Bytes.Length);  // PROJECTHELPFILEPATH.SizeOfHelpFile1            
 
             // APPEND Buffer WITH PROJECTHELPFILEPATH.Reserved (section 2.3.4.2.1.8) of Storage
-            bw.Write((ushort)0x3D);
+            bw.Write((ushort)0x003D);
 
             // APPEND Buffer WITH PROJECTHELPFILEPATH.SizeOfHelpFile2 (section 2.3.4.2.1.8) of Storage
             var helpFile2Bytes = encoding.GetBytes(p.HelpFile2);
@@ -480,7 +480,7 @@ namespace OfficeOpenXml.Vba.ContentHash
              * SET CompressedContainer TO ModuleStream.CompressedSourceCode
              * SET Text TO result of Decompression(CompressedContainer) (section 2.4.1)
              **/
-                var vbaStorage = p.Document.Storage.SubStorage["VBA"];
+            var vbaStorage = p.Document.Storage.SubStorage["VBA"];
             var stream = vbaStorage.DataStreams[module.Name];
             var text = VBACompression.DecompressPart(stream);
             var totalText = Encoding.GetEncoding(p.CodePage).GetString(text);
@@ -489,10 +489,13 @@ namespace OfficeOpenXml.Vba.ContentHash
             var textBuffer = new List<byte>();
             foreach(var ch in text)
             {
-                if((ch == 0xA || ch == 0xD) && textBuffer.Count > 0)
+                if(ch == 0xA || ch == 0xD)
                 {
-                    lines.Add(textBuffer.ToArray());
-                    textBuffer.Clear();
+                    if(textBuffer.Count > 0)
+                    {
+                        lines.Add(textBuffer.ToArray());
+                        textBuffer.Clear();
+                    }
                 }
                 else
                 {
@@ -554,9 +557,9 @@ namespace OfficeOpenXml.Vba.ContentHash
                     var nameUnicodeBytes = Encoding.Unicode.GetBytes(module.NameUnicode);
                     bw.Write(nameUnicodeBytes);
                 }
-                else
+                else if(!string.IsNullOrEmpty(module.Name))
                 {
-                    var nameBytes = Encoding.Unicode.GetBytes(module.Name);
+                    var nameBytes = Encoding.GetEncoding(p.CodePage).GetBytes(module.Name);
                     bw.Write(nameBytes);
                 }
                 bw.Write((byte)'\n');
@@ -628,8 +631,11 @@ namespace OfficeOpenXml.Vba.ContentHash
                      **/
                     if(propertyName != "ID" && propertyName != "Document" && propertyName != "CMG" && propertyName != "DPB" && propertyName != "GC")
                     {
-                        bw.Write(encoding.GetBytes(propertyName));
-                        bw.Write(encoding.GetBytes(propertyValue));
+                        //bw.Write(encoding.GetBytes(propertyName));
+                        //bw.Write(encoding.GetBytes(propertyValue));
+                        var name = GetPropertyName(propertyName);
+                        bw.Write(encoding.GetBytes(name));
+                        bw.Write(encoding.GetBytes(line));
                     }
                 }
             }
@@ -646,6 +652,47 @@ namespace OfficeOpenXml.Vba.ContentHash
             foreach(var hostExtender in hostExtenders)
             {
                 bw.Write(encoding.GetBytes(hostExtender));
+            }
+        }
+
+        private string GetPropertyName(string input)
+        {
+            if (string.IsNullOrEmpty(input)) return string.Empty;
+            switch(input)
+            {
+                case "ID":
+                    return "ProjectId";
+                case "Document":
+                    return "ProjectDocModule";
+                case "Module":
+                    return "ProjectStdModule";
+                case "Class":
+                    return "ProjectClassModule";
+                case "BaseClass":
+                    return "ProjectDesignerModule";
+                case "Package":
+                    return "ProjectPackage";
+                case "HelpFile":
+                    return "ProjectHelpFile";
+                case "CMG":
+                    return "ProjectProtectionState";
+                case "DPB":
+                    return "ProjectPassword";
+                case "GC":
+                    return "ProjectVisibilityState";
+                case "VersionCompatible32":
+                    return "ProjectVersionCompat32";
+                case "Description":
+                    return "ProjectDescription";
+                case "HelpContextID":
+                    return "ProjectHelpId";
+                case "Name":
+                    return "ProjectName";
+                case "ExeName32":
+                    return "ProjectExeName32";
+                default:
+                    return input;
+
             }
         }
     }
