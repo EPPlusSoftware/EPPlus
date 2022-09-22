@@ -24,6 +24,20 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
         {
             
         }
+        public override string Text
+        {
+            get
+            {
+                return RichText.Text;
+            }
+            set
+            {
+                var applyStyle = (RichText.Count == 0);
+                RichText.Text = value;
+                if (applyStyle) _chart.ApplyStyleOnPart(this, _chart.StyleManager?.Style?.Title, true);
+            }
+
+        }
         /// <summary>
         /// The side position alignment of the title
         /// </summary>

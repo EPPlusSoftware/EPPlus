@@ -24,7 +24,7 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Constants;
-
+using System.Linq;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -73,8 +73,8 @@ namespace OfficeOpenXml.Drawing.Chart
                 _axis = topChart.Axis;
                 if (_axis.Length > 0)
                 {
-                    XAxis = _axis[0];
-                    YAxis = _axis[1];
+                    XAxis = (ExcelChartAxisStandard)_axis[0];
+                    YAxis = (ExcelChartAxisStandard)_axis[1];
                 }
             }
         }
@@ -243,11 +243,11 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     if(XAxis==null)
                     {
-                        XAxis = _axis[ix];
+                        XAxis = (ExcelChartAxisStandard)_axis[ix];
                     }
                     else
                     {
-                        YAxis = _axis[ix];
+                        YAxis = (ExcelChartAxisStandard)_axis[ix];
                         break;
                     }
                 }
@@ -757,18 +757,22 @@ namespace OfficeOpenXml.Drawing.Chart
             throw (new NotImplementedException("Not yet implemented"));
         }
         /// <summary>
-        /// Titel of the chart
+        /// Title of the chart
         /// </summary>
-        public new ExcelChartTitle Title
+        public new ExcelChartTitleStandard Title
         {
             get
             {
                 if (_title == null)
                 {
-                    _title = new ExcelChartTitle(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart", NameSpaceManager),"c");
+                    _title = GetTitle();
                 }
-                return _title;
+                return (ExcelChartTitleStandard)_title;
             }
+        }
+        internal override ExcelChartTitle GetTitle()
+        {
+            return new ExcelChartTitleStandard(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart", NameSpaceManager), "c");
         }
         /// <summary>
         /// True if the chart has a title
@@ -1188,6 +1192,46 @@ namespace OfficeOpenXml.Drawing.Chart
             fmts.InnerXml = "<c:pivotFmt><c:idx val=\"0\"/><c:marker><c:symbol val=\"none\"/></c:marker></c:pivotFmt>";
 
             Series.AddPivotSerie(pivotTableSource);
+        }
+        ExcelChartAxisStandard[] _axisStandard = null;
+        public new ExcelChartAxisStandard[] Axis
+        {
+            get
+            {
+                if (_axisStandard == null)
+                {
+                    _axisStandard = _axis.Select(x => (ExcelChartAxisStandard)x).ToArray();
+                }
+                return _axisStandard;
+            }
+        }
+        /// <summary>
+        /// The X Axis
+        /// </summary>
+        public new ExcelChartAxisStandard XAxis
+        {
+            get
+            {
+                return (ExcelChartAxisStandard)base.XAxis;
+            }
+            internal set
+            {
+                base.XAxis = value;
+            }
+        }
+        /// <summary>
+        /// The Y Axis
+        /// </summary>
+        public new ExcelChartAxisStandard YAxis
+        {
+            get
+            {
+                return (ExcelChartAxisStandard)base.YAxis;
+            }
+            internal set
+            {
+                base.YAxis = value;
+            }
         }
     }
 }

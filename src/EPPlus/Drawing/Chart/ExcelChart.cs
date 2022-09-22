@@ -189,7 +189,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 return _chartNode;
             }
         }
-        internal ExcelChartTitle _title = null;
+        internal ExcelChartTitle _title;
         /// <summary>
         /// The titel of the chart
         /// </summary>
@@ -197,20 +197,15 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                 if (_title == null)
+                
+                if(_title==null)
                 {
-                    if(_isChartEx)
-                    {
-                        _title = new ExcelChartExTitle(this, NameSpaceManager, ChartXml.SelectSingleNode("cx:chartSpace/cx:chart", NameSpaceManager));
-                    }
-                    else
-                    {
-                        _title = new ExcelChartTitle(this, NameSpaceManager, ChartXml.SelectSingleNode("c:chartSpace/c:chart", NameSpaceManager), "c");
-                    }
+                    _title = GetTitle();
                 }
                 return _title;
             }
         }
+        internal abstract ExcelChartTitle GetTitle();
         /// <summary>
         /// True if the chart has a title
         /// </summary>
@@ -236,7 +231,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// An array containg all axis of all Charttypes
         /// </summary>
-        public ExcelChartAxis[] Axis
+        public virtual ExcelChartAxis[] Axis
         {
             get
             {
@@ -246,7 +241,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// The X Axis
         /// </summary>
-        public ExcelChartAxis XAxis
+        public virtual ExcelChartAxis XAxis
         {
             get;
             internal protected set;
@@ -254,7 +249,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// The Y Axis
         /// </summary>
-        public ExcelChartAxis YAxis
+        public virtual ExcelChartAxis YAxis
         {
             get;
             internal protected set;

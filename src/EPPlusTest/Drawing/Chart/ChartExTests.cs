@@ -4,15 +4,9 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Chart.Style;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EPPlusTest.Drawing.Chart
 {
@@ -286,7 +280,7 @@ namespace EPPlusTest.Drawing.Chart
             chart3.SetSize(750, 470);
             chart3.Title.Text = "Test BoxWhiskers";
             chart3.XAxis.Deleted = true;
-            chart3.YAxis.AddTitle("Test");
+            chart3.YAxis.AddTitle("Test");            
             chart3.Legend.Position   = eLegendPosition.TopRight;
             chart3.StyleManager.SetChartStyle(ePresetChartStyleMultiSeries.BoxWhiskerChartStyle6); //BoxWhiskerChartStyle3);
             

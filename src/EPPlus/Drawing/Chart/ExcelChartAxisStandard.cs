@@ -146,11 +146,11 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Chart axis title
         /// </summary>
-        public override ExcelChartTitle Title
+        public new ExcelChartTitleStandard Title
         {
             get
             {
-                return GetTitle();
+                return (ExcelChartTitleStandard)GetTitle();
             }
         }
         
@@ -159,11 +159,10 @@ namespace OfficeOpenXml.Drawing.Chart
             if (_title == null)
             {
                 AddTitleNode();
-                _title = new ExcelChartTitle(_chart, NameSpaceManager, TopNode, "c");
+                _title = new ExcelChartTitleStandard(_chart, NameSpaceManager, TopNode, "c");
             }
             return _title;
         }
-
         const string _minValuePath = "c:scaling/c:min/@val";
         /// <summary>
         /// Minimum value for the axis.
@@ -632,6 +631,15 @@ namespace OfficeOpenXml.Drawing.Chart
                     return eAxisType.Val;
                 }
             }
+        }
+        /// <summary>
+        /// Adds the axis title and styles it according to the style selected in the StyleManager
+        /// </summary>
+        /// <param name="title"></param>
+        public void AddTitle(ExcelRangeBase linkedCell)
+        {
+            Title.LinkedCell = linkedCell;
+            _chart.ApplyStyleOnPart(Title, _chart._styleManager?.Style?.AxisTitle);
         }
     }
 }

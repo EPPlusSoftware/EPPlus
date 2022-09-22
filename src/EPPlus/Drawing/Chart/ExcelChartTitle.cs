@@ -25,10 +25,10 @@ namespace OfficeOpenXml.Drawing.Chart
     /// <summary>
     /// The title of a chart
     /// </summary>
-    public class ExcelChartTitle : XmlHelper, IDrawingStyle, IStyleMandatoryProperties
+    public abstract class ExcelChartTitle : XmlHelper, IDrawingStyle, IStyleMandatoryProperties
     {
-        ExcelChart _chart;
-        string _nsPrefix = "";
+        internal ExcelChart _chart;
+        internal string _nsPrefix = "";
         private readonly string titlePath = "{0}:tx/{0}:rich/a:p/a:r/a:t";
 
         internal ExcelChartTitle(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix) :
@@ -37,9 +37,9 @@ namespace OfficeOpenXml.Drawing.Chart
             _chart = chart;
             _nsPrefix = nsPrefix;
             titlePath = string.Format(titlePath, nsPrefix);
-            if(chart._isChartEx)
+            if (chart._isChartEx)
             {
-                AddSchemaNodeOrder(new string[] { "tx", "bodyPr", "lstStyle", "layout", "p", "overlay", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
+                AddSchemaNodeOrder(new string[] { "tx", "strRef", "rich", "bodyPr", "lstStyle", "layout", "p", "overlay", "spPr", "txPr" }, ExcelDrawing._schemaNodeOrderSpPr);
                 CreateTopNode();
             }
             else
@@ -77,20 +77,12 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// The text
         /// </summary>
-        public string Text
+        public abstract string Text
         {
-            get
-            {
-                return RichText.Text;
-            }
-            set
-            {
-                var applyStyle = (RichText.Count == 0);
-                RichText.Text = value;
-                if(applyStyle) _chart.ApplyStyleOnPart(this, _chart.StyleManager?.Style?.Title, true);
-            }
+            get;
+            set;
         }
-        ExcelDrawingBorder _border = null;
+                ExcelDrawingBorder _border = null;
         /// <summary>
         /// A reference to the border properties
         /// </summary>
@@ -347,6 +339,77 @@ namespace OfficeOpenXml.Drawing.Chart
             Font.Bold = Font.Bold; //Must be set
 
             CreatespPrNode($"{_nsPrefix}:spPr");
+        }
+    }
+    public class ExcelChartTitleStandard : ExcelChartTitle
+    {
+        internal ExcelChartTitleStandard(ExcelChart chart, XmlNamespaceManager nameSpaceManager, XmlNode node, string nsPrefix) : base(chart, nameSpaceManager, node, nsPrefix)
+        {
+            titleLinkPath = string.Format(titleLinkPath, nsPrefix);
+        }
+        private readonly string titleLinkPath = "{0}:tx/{0}:strRef";
+        public override string Text 
+        {
+            get
+            {
+                if (LinkedCell == null)
+                {
+                    return RichText.Text;
+                }
+                else
+                {
+                    return LinkedCell.Text;
+                }
+            }
+            set
+            {
+                var applyStyle = (RichText.Count == 0);
+                LinkedCell = null;
+                RichText.Text = value;
+                if (applyStyle) _chart.ApplyStyleOnPart(this, _chart.StyleManager?.Style?.Title, true);
+            }
+        }
+        /// <summary>
+        /// A reference to a cell used as the title text
+        /// </summary>
+        public ExcelRangeBase LinkedCell
+        {
+            get
+            {
+                var a = GetXmlNodeString($"{titleLinkPath}/c:f");
+                if (ExcelCellBase.IsValidAddress(a))
+                {
+                    var address = new ExcelAddressBase(a);
+                    ExcelWorksheet ws;
+                    if (string.IsNullOrEmpty(address.WorkSheetName))
+                    {
+                        ws = _chart.WorkSheet;
+                    }
+                    else
+                    {
+                        ws = _chart.WorkSheet.Workbook.Worksheets[address.WorkSheetName];
+                    }
+                    if (ws == null) return null;
+                    return ws.Cells[address.LocalAddress];
+                }
+                return null;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    DeleteNode($"{_nsPrefix}:tx/{_nsPrefix}:strRef");
+                    RichText.Text = "";
+                    return;
+                }
+                else
+                {
+                    DeleteNode($"{_nsPrefix}:tx/{_nsPrefix}:rich");
+                    SetXmlNodeString($"{titleLinkPath}/c:f", value.FullAddressAbsolute);
+                    var cache = CreateNode($"{_nsPrefix}:tx/{_nsPrefix}strRef/c:strCache", false, true);
+                    cache.InnerXml = $"<c:ptCount val=\"1\"/><c:pt idx=\"0\"><c:v>{value.Text}</c:v></c:pt>";
+                }
+            }
         }
     }
 }

@@ -241,7 +241,6 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 return _exAxis;
             }
         }
-
         /// <summary>
         /// The titel of the chart
         /// </summary>
@@ -251,10 +250,14 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
             {
                 if (_title == null)
                 {
-                    return (ExcelChartExTitle)base.Title;
+                    _title = GetTitle();
                 }
                 return (ExcelChartExTitle)_title;
             }
+        }
+        internal override ExcelChartTitle GetTitle()
+        {
+            return new ExcelChartExTitle(this, NameSpaceManager, ChartXml.SelectSingleNode("cx:chartSpace/cx:chart", NameSpaceManager)); 
         }
         /// <summary>
         /// Legend
@@ -480,5 +483,35 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
                 throw new InvalidOperationException("ShowHiddenData do not apply to Extended charts");
             }
         }
+        /// <summary>
+        /// The X Axis
+        /// </summary>
+        public new ExcelChartExAxis XAxis
+        {
+            get
+            {
+                return (ExcelChartExAxis)base.XAxis;
+            }
+            internal set
+            {
+                base.XAxis = value;
+            }
+        }
+        /// <summary>
+        /// The Y Axis
+        /// </summary>
+        public new ExcelChartExAxis YAxis
+        {
+            get
+            {
+                return (ExcelChartExAxis)base.YAxis;
+            }
+            internal set
+            {
+                base.YAxis = value;
+            }
+        }
     }
+
 }
+
