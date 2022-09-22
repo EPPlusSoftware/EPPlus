@@ -57,104 +57,168 @@ namespace OfficeOpenXml.Vba.ContentHash
         {
             var p = base.Project;
             var encoding = Encoding.GetEncoding(p.CodePage);
-            //MS-OVBA 2.4.2.5 V3 Content Normalized Data
-            bw.Write((ushort)0x0001);           // PROJECTSYSKIND.Id
-            bw.Write((uint)0x00000004);         // PROJECTSYSKIND.Size
 
-            bw.Write((ushort)0x0002);           // PROJECTLCID.Id
-            bw.Write((uint)0x00000004);         // PROJECTLCID.Size
-            bw.Write((uint)p.Lcid);             // PROJECTLCID.Lcid
+            /******************************************
+             * 2.3.4.2.1.1 PROJECTSYSKIND Record      *
+             ******************************************/
 
-            bw.Write((ushort)0x0014);           // PROJECTLCIDINVOKE.Id
-            bw.Write((uint)0x00000004);         // PROJECTLCIDINVOKE.Size
-            bw.Write((uint)p.LcidInvoke);       // PROJECTLCIDINVOKE.LcidInvoke
+            // APPEND Buffer WITH PROJECTSYSKIND.Id (section 2.3.4.2.1.1) of Storage
+            bw.Write((ushort)0x0001);
 
-            bw.Write((ushort)0x0003);           // PROJECTCODEPAGE.Id
-            bw.Write((uint)0x00000002);         // PROJECTCODEPAGE.Size
-                                                
-            bw.Write((ushort)0x0004);           // PROJECTNAME.Id
+            // APPEND Buffer WITH PROJECTSYSKIND.Size (section 2.3.4.2.1.1) of Storage
+            bw.Write((uint)0x00000004);
+
+            /******************************************
+             * 2.3.4.2.1.4 PROJECTLCIDINVOKE Record   *
+             ******************************************/
+
+            // APPEND Buffer WITH PROJECTLCID.Id (section 2.3.4.2.1.3) of Storage
+            bw.Write((ushort)0x0002);
+
+            // APPEND Buffer WITH PROJECTLCID.Size (section 2.3.4.2.1.3) of Storage
+            bw.Write((uint)0x00000004);
+
+            // APPEND Buffer WITH PROJECTLCID.Lcid (section 2.3.4.2.1.3) of Storage
+            bw.Write((uint)p.Lcid);
+
+            /******************************************
+             * 2.3.4.2.1.4 PROJECTLCIDINVOKE Record   *
+             ******************************************/
+
+            // APPEND Buffer WITH PROJECTLCIDINVOKE.Id (section 2.3.4.2.1.4) of Storage
+            bw.Write((ushort)0x0014);
+
+            // APPEND Buffer WITH PROJECTLCIDINVOKE.Size (section 2.3.4.2.1.4) of Storage
+            bw.Write((uint)0x00000004);
+
+            // APPEND Buffer WITH PROJECTLCIDINVOKE.LcidInvoke (section 2.3.4.2.1.4) of Storage
+            bw.Write((uint)p.LcidInvoke);
+
+            /******************************************
+             * 2.3.4.2.1.5 PROJECTCODEPAGE Record     *
+             ******************************************/
+
+            // APPEND Buffer WITH PROJECTCODEPAGE.Id (section 2.3.4.2.1.5) of Storage
+            bw.Write((ushort)0x0003);
+
+            // APPEND Buffer WITH PROJECTCODEPAGE.Size (section 2.3.4.2.1.5) of Storage
+            bw.Write((uint)0x00000002);
+
+            /******************************************
+             * 2.3.4.2.1.6 PROJECTNAME Record         *
+             ******************************************/
+
+            // APPEND Buffer WITH PROJECTNAME.Id (section 2.3.4.2.1.6) of Storage
+            bw.Write((ushort)0x0004);
+
             var nameBytes = encoding.GetBytes(p.Name);
-            bw.Write((uint)nameBytes.Length);   // PROJECTNAME.SizeOfProjectName
-            bw.Write(nameBytes);                // PROJECTNAME.ProjectName
 
-            /*
-             * APPEND Buffer WITH PROJECTDOCSTRING.Id (section 2.3.4.2.1.7) 
-             * APPEND Buffer WITH PROJECTDOCSTRING.SizeOfDocString (section 2.3.4.2.1.7) of Storage 
-             * APPEND Buffer WITH PROJECTDOCSTRING.Reserved (section 2.3.4.2.1.7) 
-             * APPEND Buffer WITH PROJECTDOCSTRING.SizeOfDocStringUnicode (section 2.3.4.2.1.7) of Storage
-             * */
+            // APPEND Buffer WITH PROJECTNAME.SizeOfProjectName (section 2.3.4.2.1.6) of Storage
+            bw.Write((uint)nameBytes.Length);
 
-            bw.Write((ushort)0x0005);           // PROJECTDOCSTRING.Id
-            
+            // APPEND Buffer WITH PROJECTNAME.ProjectName (section 2.3.4.2.1.6) of Storage
+            bw.Write(nameBytes);
+
+            /******************************************
+             * 2.3.4.2.1.7 PROJECTDOCSTRING Record    *
+             ******************************************/
+
+            // APPEND Buffer WITH PROJECTDOCSTRING.Id (section 2.3.4.2.1.7) 
+            bw.Write((ushort)0x0005);
+
+            // APPEND Buffer WITH PROJECTDOCSTRING.SizeOfDocString (section 2.3.4.2.1.7) of Storage 
             var descriptionBytes = encoding.GetBytes(p.Description);
-            bw.Write((uint)descriptionBytes.Length);    // PROJECTDOCSTRING.SizeOfDocString
-            
-            bw.Write((ushort)0x0040);           // PROJECTDOCSTRING.Reserved
-            
-            var descriptionUnicodeBytes = Encoding.Unicode.GetBytes(p.Description);
-            bw.Write((uint)descriptionUnicodeBytes.Length); //PROJECTDOCSTRING.SizeOfDocStringUnicode
+            bw.Write((uint)descriptionBytes.Length);
 
-            /*
-             * APPEND Buffer WITH PROJECTHELPFILEPATH.Id (section 2.3.4.2.1.8) of Storage 
-             * APPEND Buffer WITH PROJECTHELPFILEPATH.SizeOfHelpFile1 (section 2.3.4.2.1.8) of Storage 
-             * APPEND Buffer WITH PROJECTHELPFILEPATH.Reserved (section 2.3.4.2.1.8) of Storage 
-             * APPEND Buffer WITH PROJECTHELPFILEPATH.SizeOfHelpFile2 (section 2.3.4.2.1.8) of Storage
-             **/
-            bw.Write((ushort)0x0006);               // PROJECTHELPFILEPATH.Id
-            
+            // APPEND Buffer WITH PROJECTDOCSTRING.Reserved (section 2.3.4.2.1.7)
+            bw.Write((ushort)0x0040);
+
+            // APPEND Buffer WITH PROJECTDOCSTRING.SizeOfDocStringUnicode (section 2.3.4.2.1.7) of Storage
+            var descriptionUnicodeBytes = Encoding.Unicode.GetBytes(p.Description);
+            bw.Write((uint)descriptionUnicodeBytes.Length);
+
+            /******************************************
+             * 2.3.4.2.1.8 PROJECTHELPFILEPATH Record *
+             ******************************************/
+
+            // APPEND Buffer WITH PROJECTHELPFILEPATH.Id (section 2.3.4.2.1.8) of Storage
+            bw.Write((ushort)0x0006);
+
+            // APPEND Buffer WITH PROJECTHELPFILEPATH.SizeOfHelpFile1 (section 2.3.4.2.1.8) of Storage
             var helpFile1Bytes = encoding.GetBytes(p.HelpFile1);
             bw.Write((uint)helpFile1Bytes.Length);  // PROJECTHELPFILEPATH.SizeOfHelpFile1            
-            
-            bw.Write((ushort)0x3D);                 // PROJECTHELPFILEPATH.Reserved
-            
+
+            // APPEND Buffer WITH PROJECTHELPFILEPATH.Reserved (section 2.3.4.2.1.8) of Storage
+            bw.Write((ushort)0x3D);
+
+            // APPEND Buffer WITH PROJECTHELPFILEPATH.SizeOfHelpFile2 (section 2.3.4.2.1.8) of Storage
             var helpFile2Bytes = encoding.GetBytes(p.HelpFile2);
-            bw.Write((uint)helpFile2Bytes.Length);  // PROJECTHELPFILEPATH.SizeOfHelpFile2
+            bw.Write((uint)helpFile2Bytes.Length);
 
-            /*
-             * APPEND Buffer WITH PROJECTHELPCONTEXT.Id (section 2.3.4.2.1.9) of Storage
-             * APPEND Buffer WITH PROJECTHELPCONTEXT.Size (section 2.3.4.2.1.9) of Storage
-             **/
-            //Help context id
-            bw.Write((ushort)0x0007);               // Id
-            bw.Write((uint)0x00000004);             // Size
+            /******************************************
+             * 2.3.4.2.1.9 PROJECTHELPCONTEXT Record  *
+             ******************************************/
 
-            /*
-             * APPEND Buffer WITH PROJECTLIBFLAGS.Id (section 2.3.4.2.1.10) of Storage 
-             * APPEND Buffer WITH PROJECTLIBFLAGS.Size (section 2.3.4.2.1.10) of Storage 
-             * APPEND Buffer WITH PROJECTLIBFLAGS.ProjectLibFlags (section 2.3.4.2.1.10) of Storage
-             **/
-            bw.Write((ushort)0x0008);               // ID
-            bw.Write((uint)0x00000004);             // Size
-            bw.Write((uint)0x00000000);             // ProjectLibFlags
+            // APPEND Buffer WITH PROJECTHELPCONTEXT.Id (section 2.3.4.2.1.9) of Storage
+            bw.Write((ushort)0x0007);
 
-            /*
-             * APPEND Buffer WITH PROJECTVERSION.Id (section 2.3.4.2.1.11) of Storage 
-             * APPEND Buffer WITH PROJECTVERSION.Reserved (section 2.3.4.2.1.11) of Storage 
-             * APPEND Buffer WITH PROJECTVERSION.VersionMajor (section 2.3.4.2.1.11) of Storage 
-             * APPEND Buffer WITH PROJECTVERSION.VersionMinor (section 2.3.4.2.1.11) of Storage
-             **/
-            bw.Write((ushort)0x0009);               // Id
-            bw.Write((uint)0x00000004);             // Reserved
-            bw.Write((uint)p.MajorVersion);         // Major version
-            bw.Write((ushort)p.MinorVersion);       // Minor version
+            // APPEND Buffer WITH PROJECTHELPCONTEXT.Size (section 2.3.4.2.1.9) of Storage
+            bw.Write((uint)0x00000004);
 
-            /*
-             * APPEND Buffer WITH PROJECTCONSTANTS.Id (section 2.3.4.2.1.12) of Storage 
-             * APPEND Buffer WITH PROJECTCONSTANTS.SizeOfConstants (section 2.3.4.2.1.12) of Storage 
-             * APPEND Buffer WITH PROJECTCONSTANTS.Constants (section 2.3.4.2.1.12) of Storage 
-             * APPEND Buffer WITH PROJECTCONSTANTS.Reserved (section 2.3.4.2.1.12) of Storage 
-             * APPEND Buffer WITH PROJECTCONSTANTS.SizeOfConstantsUnicode (section 2.3.4.2.1.12) of Storage 
-             * APPEND Buffer WITH PROJECTCONSTANTS.ConstantsUnicode (section 2.3.4.2.1.12) of Storage
-             **/
-            bw.Write((ushort)0x000C);                                           // Id
+            /******************************************
+             * 2.3.4.2.1.10 PROJECTLIBFLAGS Record    *
+             ******************************************/
+
+            // APPEND Buffer WITH PROJECTLIBFLAGS.Id (section 2.3.4.2.1.10) of Storage
+            bw.Write((ushort)0x0008);
+
+            // APPEND Buffer WITH PROJECTLIBFLAGS.Size (section 2.3.4.2.1.10) of Storage
+            bw.Write((uint)0x00000004);
+
+            // APPEND Buffer WITH PROJECTLIBFLAGS.ProjectLibFlags (section 2.3.4.2.1.10) of Storage
+            bw.Write((uint)0x00000000);
+
+            /******************************************
+             * 2.3.4.2.1.11 PROJECTVERSION Record     *
+             ******************************************/
+
+            // APPEND Buffer WITH PROJECTVERSION.Id (section 2.3.4.2.1.11) of Storage 
+            bw.Write((ushort)0x0009);
+
+            // APPEND Buffer WITH PROJECTVERSION.Reserved (section 2.3.4.2.1.11) of Storage
+            bw.Write((uint)0x00000004);
+
+            // APPEND Buffer WITH PROJECTVERSION.VersionMajor (section 2.3.4.2.1.11) of Storage
+            bw.Write((uint)p.MajorVersion);
+
+            // APPEND Buffer WITH PROJECTVERSION.VersionMinor (section 2.3.4.2.1.11) of Storage
+            bw.Write((ushort)p.MinorVersion);
+
+            /******************************************
+             * 2.3.4.2.1.12 PROJECTCONSTANTS Record   *
+             ******************************************/
+
+            // APPEND Buffer WITH PROJECTCONSTANTS.Id (section 2.3.4.2.1.12) of Storage
+            bw.Write((ushort)0x000C);
 
             var constantsBytes = encoding.GetBytes(p.Constants);
-            bw.Write((uint)constantsBytes.Length);                              // SizeOfConstants
-            bw.Write(constantsBytes);                                           // Constants
-            bw.Write((ushort)0x003C);                                           // Reserved
+
+            // APPEND Buffer WITH PROJECTCONSTANTS.SizeOfConstants (section 2.3.4.2.1.12) of Storage
+            bw.Write((uint)constantsBytes.Length);
+
+            // APPEND Buffer WITH PROJECTCONSTANTS.Constants (section 2.3.4.2.1.12) of Storage
+            bw.Write(constantsBytes);
+
+            // APPEND Buffer WITH PROJECTCONSTANTS.Reserved(section 2.3.4.2.1.12) of Storage
+            bw.Write((ushort)0x003C);
+
             var constantsUnicodeBytes = Encoding.Unicode.GetBytes(p.Constants);
-            bw.Write((uint)constantsUnicodeBytes.Length);                       // SizeOfConstantsUnicode
-            bw.Write(constantsUnicodeBytes);                                    // ConstantsUnicode
+
+            // APPEND Buffer WITH PROJECTCONSTANTS.SizeOfConstantsUnicode (section 2.3.4.2.1.12) of Storage
+            bw.Write((uint)constantsUnicodeBytes.Length);
+
+            // APPEND Buffer WITH PROJECTCONSTANTS.ConstantsUnicode (section 2.3.4.2.1.12) of Storage
+            bw.Write(constantsUnicodeBytes);
 
             /*
              * FOR EACH REFERENCE (section 2.3.4.2.2.1) IN PROJECTREFERENCES.ReferenceArray (section
@@ -162,34 +226,30 @@ namespace OfficeOpenXml.Vba.ContentHash
              */
             foreach (var reference in p.References)
             {
+                /******************************************
+                 * 2.3.4.2.2.1 REFERENCE Record           *
+                 ******************************************/
                 HandleProjectReference(p, bw, reference);
-
-                //WriteNameReference(p, bw, reference);
-
-                //if (reference.ReferenceRecordID == 0x2F)
-                //{
-                //    WriteControlReference(p, bw, reference);
-                //}
-                //else if (reference.ReferenceRecordID == 0x33)
-                //{
-                //    WriteOrginalReference(p, bw, reference);
-                //}
-                //else if (reference.ReferenceRecordID == 0x0D)
-                //{
-                //    WriteRegisteredReference(p, bw, reference);
-                //}
-                //else if (reference.ReferenceRecordID == 0x0E)
-                //{
-                //    WriteProjectReference(p, bw, reference);
-                //}
             }
 
-            // 2.3.4.2.3 PROJECTMODULES Record
-            bw.Write((ushort)0x000F); // Id
+            /******************************************
+             * 2.3.4.2.3 PROJECTMODULES Record        *
+             ******************************************/
+
+            // APPEND Buffer WITH PROJECTMODULES.Id (section 2.3.4.2.3) of Storage
+            bw.Write((ushort)0x000F);
+
+            // APPEND Buffer WITH PROJECTMODULES.Size (section 2.3.4.2.3) of Storage
             bw.Write((uint)0x00000002); // Size
 
-            // 2.3.4.2.3.1 PROJECTCOOKIE Record
+            /******************************************
+             * 2.3.4.2.3.1 PROJECTCOOKIE Record       *
+             ******************************************/
+
+            // APPEND Buffer WITH PROJECTCOOKIE.Id (section 2.3.4.2.3.1) of Storage
             bw.Write((ushort)0x0013);
+
+            // APPEND Buffer WITH PROJECTCOOKIE.Size (section 2.3.4.2.3.1) of Storage
             bw.Write((uint)0x00000002);
 
             /*
@@ -197,16 +257,25 @@ namespace OfficeOpenXml.Vba.ContentHash
              */
             foreach(var module in p.Modules)
             {
+                /******************************************
+                 * 2.3.4.2.2.1 REFERENCE Record           *
+                 ******************************************/
                 WriteModuleRecord(p, bw, module);
             }
         }
 
         private void HandleProjectReference(ExcelVbaProject p, BinaryWriter bw, ExcelVbaReference reference)
         {
+            var encoding = Encoding.GetEncoding(p.CodePage);
+
+            /******************************************
+             * 2.3.4.2.2.2 REFERENCENAME Record       *
+             ******************************************/
+
             // APPEND Buffer WITH REFERENCENAME.Id (section 2.3.4.2.2.2)
             bw.Write((ushort)0x0016); // Id
 
-            var refNameBytes = Encoding.GetEncoding(p.CodePage).GetBytes(reference.Name);
+            var refNameBytes = encoding.GetBytes(reference.Name);
 
             // APPEND Buffer WITH REFERENCENAME.SizeOfName (section 2.3.4.2.2.2)
             bw.Write((uint)refNameBytes.Length); // Size
@@ -228,11 +297,15 @@ namespace OfficeOpenXml.Vba.ContentHash
             // IF REFERENCE.ReferenceRecord.Id = 0x002F THEN
             if (reference.ReferenceRecordID == 0x002F)
             {
+                /******************************************
+                 * 2.3.4.2.2.3 REFERENCECONTROL Record    *
+                 ******************************************/
+
                 // APPEND Buffer with REFERENCE.ReferenceControl.Id (section 2.3.4.2.2.3)
                 bw.Write((ushort)0x002F);
 
                 var controlRef = (ExcelVbaReferenceControl)reference;
-                var libIdTwiddledBytes = Encoding.GetEncoding(p.CodePage).GetBytes(controlRef.LibIdTwiddled);
+                var libIdTwiddledBytes = encoding.GetBytes(controlRef.LibIdTwiddled);
 
                 // APPEND Buffer with REFERENCE.ReferenceControl.SizeOfLibidTwiddled (section 2.3.4.2.2.3)
                 bw.Write((uint)libIdTwiddledBytes.Length);
@@ -247,21 +320,43 @@ namespace OfficeOpenXml.Vba.ContentHash
                 bw.Write((ushort)0x000);
 
                 // IF exists REFERENCE.ReferenceControl.NameRecordExtended(section 2.3.4.2.2.2) THEN
+                if (false)
+                {
+                    /******************************************
+                     * 2.3.4.2.2.2 REFERENCENAME Record       *
+                     ******************************************/
 
-                //    APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.Id (section 2.3.4.2.2.2)
-                //    APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.Size (section 2.3.4.2.2.2)
-                //    APPEND Buffer REFERENCE.ReferenceControl.NameRecordExtended.Name (section 2.3.4.2.2.2)
-                // END IF
+                    //    APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.Id (section 2.3.4.2.2.2)
+
+                    //    APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.Size (section 2.3.4.2.2.2)
+
+                    //    APPEND Buffer REFERENCE.ReferenceControl.NameRecordExtended.Name (section 2.3.4.2.2.2)
+                    // END IF
+                }
                 // IF exists REFERENCE.ReferenceControl.NameRecordExtended.Reserved (section 2.3.4.2.2.2) THEN
-                //   APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.Reserved (section 2.3.4.2.2.2)
-                //   APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.SizeOfNameUnicode (section 2.3.4.2.2.2)
-                //   APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.NameUnicode (section 2.3.4.2.2.2)
+                if(false)
+                {
+                    /******************************************
+                     * 2.3.4.2.2.2 REFERENCENAME Record       *
+                     ******************************************/
+
+                    //   APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.Reserved (section 2.3.4.2.2.2)
+
+                    //   APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.SizeOfNameUnicode (section 2.3.4.2.2.2)
+
+                    //   APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.NameUnicode (section 2.3.4.2.2.2)
+                }
+
                 // END IF
+
+                /******************************************
+                 * 2.3.4.2.2.3 REFERENCECONTROL Record    *
+                 ******************************************/
 
                 // APPEND Buffer with REFERENCE.ReferenceControl.Reserved3 (section 2.3.4.2.2.3)
                 bw.Write((ushort)0x0030);
 
-                var libIdExtendedBytes = Encoding.GetEncoding(p.CodePage).GetBytes(controlRef.LibIdExtended);
+                var libIdExtendedBytes = encoding.GetBytes(controlRef.LibIdExtended);
                 // APPEND Buffer with REFERENCE.ReferenceControl.SizeOfLibidExtended (section 2.3.4.2.2.3)           
                 bw.Write((uint)libIdExtendedBytes.Length);
 
@@ -283,10 +378,14 @@ namespace OfficeOpenXml.Vba.ContentHash
             // ELSE IF REFERENCE.ReferenceRecord.Id = 0x0033 THEN
             else if(reference.ReferenceRecordID == 0x0033)
             {
+                /******************************************
+                 * 2.3.4.2.2.4 REFERENCEORIGINAL Record   *
+                 ******************************************/
+                 
                 // APPEND Buffer with REFERENCE.ReferenceOriginal.Id (section 2.3.4.2.2.4)
                 bw.Write((ushort)0x33);
 
-                var libIdBytes = Encoding.GetEncoding(p.CodePage).GetBytes(reference.Libid);
+                var libIdBytes = encoding.GetBytes(reference.Libid);
                 // APPEND Buffer with REFERENCE.ReferenceOriginal.SizeOfLibidOriginal (section 2.3.4.2.2.4)
                 bw.Write((uint)libIdBytes.Length);
 
@@ -296,6 +395,10 @@ namespace OfficeOpenXml.Vba.ContentHash
             // ELSE IF REFERENCE.ReferenceRecord.Id = 0x000D THEN
             else if(reference.ReferenceRecordID == 0x000D)
             {
+                /******************************************
+                 * 2.3.4.2.2.5 REFERENCEREGISTERED Record *
+                 ******************************************/
+
                 // APPEND Buffer with REFERENCE.ReferenceRegistered.Id (section 2.3.4.2.2.5)
                 bw.Write((ushort)0x000D);
 
@@ -315,94 +418,35 @@ namespace OfficeOpenXml.Vba.ContentHash
             // ELSE IF REFERENCE.ReferenceRecord.Id = 0x000E THEN
             else if(reference.ReferenceRecordID == 0x000E)
             {
+                /******************************************
+                 * 2.3.4.2.2.6 REFERENCEPROJECT Record    *
+                 ******************************************/
+
+                var projRef = (ExcelVbaReferenceProject)reference;
+                var libIdBytes = Encoding.GetEncoding(p.CodePage).GetBytes(projRef.Libid);
+                var libIdRelativeBytes = Encoding.GetEncoding(p.CodePage).GetBytes(projRef.LibIdRelative);
+
                 // APPEND Buffer with REFERENCE.ReferenceProject.Id (section 2.3.4.2.2.6)
+                bw.Write((ushort)0x000E);
+
+                // APPEND Buffer with REFERENCE.ReferenceProject.SizeOfLibidAbsolute(section 2.3.4.2.2.6)
+                bw.Write((uint)libIdBytes.Length);
+
+                // APPEND Buffer with REFERENCE.ReferenceProject.LibidAbsolute (section 2.3.4.2.2.6)
+                bw.Write(libIdBytes);
+
+                // APPEND Buffer with REFERENCE.ReferenceProject.SizeOfLibidRelative (section 2.3.4.2.2.6)
+                bw.Write((uint)libIdRelativeBytes.Length);
+
+                // APPEND Buffer with REFERENCE.ReferenceProject.LibidRelative(section 2.3.4.2.2.6)
+                bw.Write(libIdRelativeBytes);
+
+                // APPEND Buffer with REFERENCE.ReferenceProject.MajorVersion(section 2.3.4.2.2.6)
+                bw.Write(p.MajorVersion);
+
+                // APPEND Buffer with REFERENCE.ReferenceProject.MinorVersion (section 2.3.4.2.2.6)
+                bw.Write(p.MinorVersion);
             }
-        }
-
-        /// <summary>
-        /// 2.3.4.2.2.4 REFERENCEORIGINAL Record
-        /// </summary>
-        /// <param name="p"></param>
-        /// <param name="bw"></param>
-        /// <param name="reference"></param>
-        private void WriteOrginalReference(ExcelVbaProject p, BinaryWriter bw, ExcelVbaReference reference)
-        {
-            bw.Write((ushort)0x33);             // Id
-            var libIdBytes = Encoding.GetEncoding(p.CodePage).GetBytes(reference.Libid);
-            bw.Write((uint)libIdBytes.Length);  // Size
-            bw.Write(libIdBytes);               // LibID
-        }
-
-        /// <summary>
-        /// 2.3.4.2.2.3 REFERENCECONTROL Record
-        /// </summary>
-        /// <param name="p"></param>
-        /// <param name="bw"></param>
-        /// <param name="reference"></param>
-        private void WriteControlReference(ExcelVbaProject p, BinaryWriter bw, ExcelVbaReference reference)
-        {
-            bw.Write((ushort)0x002F);                                       // Id
-
-            var controlRef = (ExcelVbaReferenceControl)reference;
-
-            var libIdTwiddledBytes = Encoding.GetEncoding(p.CodePage).GetBytes(controlRef.LibIdTwiddled);
-            // bw.Write((uint)(4 + libIdTwiddledBytes.Length + 4 + 2));     // SizeTwiddled - Size of SizeOfLibidTwiddled, LibidTwiddled, Reserved1, and Reserved2.
-            bw.Write((uint)libIdTwiddledBytes.Length);                      // SizeOfLibidTwiddled             
-            bw.Write(libIdTwiddledBytes);                                   // LibIDTwiddled
-
-            bw.Write((uint)0x00000000);                                     // Reserved1
-            bw.Write((ushort)0);                                            // Reserved2
-            
-            if(!string.IsNullOrEmpty(controlRef.LibIdExtended))
-            {
-                //WriteNameReference(p, bw, reference);  //Name record again
-                //controlRef.ex
-            }
-            bw.Write((ushort)0x30); //Reserved3
-
-            var libIdExtendedBytes = Encoding.GetEncoding(p.CodePage).GetBytes(controlRef.LibIdExtended);
-            //bw.Write((uint)(4 + libIdExternalBytes.Length + 4 + 2 + 16 + 4));    // Size of SizeOfLibidExtended, LibidExtended, Reserved4, Reserved5, OriginalTypeLib, and Cookie
-            bw.Write((uint)libIdExtendedBytes.Length);                      // SizeOfLibidExtended            
-            bw.Write(libIdExtendedBytes);                                   // LibIdExtended
-            bw.Write((uint)0);                                              //Reserved4
-            bw.Write((ushort)0);                                            //Reserved5
-            bw.Write(controlRef.OriginalTypeLib.ToByteArray());             // OriginalTypeLib
-            bw.Write(controlRef.Cookie);                                    //Cookie
-        }
-
-        /// <summary>
-        /// 2.3.4.2.2.5 REFERENCEREGISTERED Record
-        /// </summary>
-        /// <param name="p"></param>
-        /// <param name="bw"></param>
-        /// <param name="reference"></param>
-        private void WriteRegisteredReference(ExcelVbaProject p, BinaryWriter bw, ExcelVbaReference reference)
-        {
-            bw.Write((ushort)0x000D);   // Id
-            var libIdBytes = Encoding.GetEncoding(p.CodePage).GetBytes(reference.Libid);
-            bw.Write((uint)libIdBytes.Length); // Size of LibId
-            bw.Write(libIdBytes);       // LibID            
-            bw.Write((uint)0);          // Reserved1
-            bw.Write((ushort)0);        // Reserved2
-        }
-
-        /// <summary>
-        /// 2.3.4.2.2.6 REFERENCEPROJECT Record
-        /// </summary>
-        /// <param name="bw"></param>
-        /// <param name="reference"></param>
-        private void WriteProjectReference(ExcelVbaProject p, BinaryWriter bw, ExcelVbaReference reference)
-        {
-            bw.Write((ushort)0x000E); // Id
-            var projRef = (ExcelVbaReferenceProject)reference;
-            var libIdBytes = Encoding.GetEncoding(p.CodePage).GetBytes(projRef.Libid);
-            var libIdRelativeBytes = Encoding.GetEncoding(p.CodePage).GetBytes(projRef.LibIdRelative);
-            bw.Write((uint)libIdBytes.Length);  // SizeOfLibidAbsolute
-            bw.Write(libIdBytes);               // LibAbsolute
-            bw.Write((uint)libIdRelativeBytes.Length); // SizeOfLibIdRelative
-            bw.Write(libIdRelativeBytes);       // LibIdRelative
-            bw.Write(projRef.MajorVersion);
-            bw.Write(projRef.MinorVersion);
         }
 
         private void WriteModuleRecord(ExcelVbaProject p, BinaryWriter bw, ExcelVBAModule module)
@@ -436,7 +480,7 @@ namespace OfficeOpenXml.Vba.ContentHash
              * SET CompressedContainer TO ModuleStream.CompressedSourceCode
              * SET Text TO result of Decompression(CompressedContainer) (section 2.4.1)
              **/
-            var vbaStorage = p.Document.Storage.SubStorage["VBA"];
+                var vbaStorage = p.Document.Storage.SubStorage["VBA"];
             var stream = vbaStorage.DataStreams[module.Name];
             var text = VBACompression.DecompressPart(stream);
             var totalText = Encoding.GetEncoding(p.CodePage).GetString(text);
@@ -460,17 +504,33 @@ namespace OfficeOpenXml.Vba.ContentHash
             foreach(var line in lines)
             {
                 var lineText = Encoding.GetEncoding(p.CodePage).GetString(line);
-                //if(string.Compare(lineText, "attribute", true) != 0)
-                if(!lineText.ToLower().StartsWith("attribute"))
+
+                /*
+                 * IF Line NOT start with “attribute” when ignoring case THEN 
+                 *    SET HashModuleNameFlag TO true 
+                 *    APPEND Buffer WITH Line 
+                 *    APPEND Buffer WITH “\n”
+                 */
+                if (!lineText.ToLower().StartsWith("attribute"))
                 {
                     hashModuleNameFlag = true;
                     bw.Write(line);
                     bw.Write((byte)'\n');
                 }
-                else if(lineText.StartsWith("Attribute VB_Name = "))
+                /*
+                 * ELSE IF Line starts with “Attribute VB_Name = ” when ignoring case THEN
+                 *    CONTINUE
+                 */
+                else if (lineText.StartsWith("Attribute VB_Name = "))
                 {
                     continue;
                 }
+                /*
+                 * ELSE IF Line not same with any one of DefaultAttributes THEN 
+                 *    SET HashModuleNameFlag TO true 
+                 *    APPEND Buffer WITH Line 
+                 *    APPEND Buffer WITH “\n”
+                 */
                 else if(DefaultAttributes.Contains(lineText) == false)
                 {
                     hashModuleNameFlag = true;
@@ -478,7 +538,8 @@ namespace OfficeOpenXml.Vba.ContentHash
                     bw.Write((byte)'\n');
                 }
             }
-            if(hashModuleNameFlag)
+            // IF HashModuleNameFlag IS true
+            if (hashModuleNameFlag)
             {
                 /*
                  * IF exist MODULENAME.ModuleNameUnicode
@@ -488,7 +549,7 @@ namespace OfficeOpenXml.Vba.ContentHash
                  * END IF
                  * APPEND Buffer WITH “\n”
                  */
-                if(!string.IsNullOrEmpty(module.NameUnicode))
+                if (!string.IsNullOrEmpty(module.NameUnicode))
                 {
                     var nameUnicodeBytes = Encoding.Unicode.GetBytes(module.NameUnicode);
                     bw.Write(nameUnicodeBytes);
@@ -507,7 +568,12 @@ namespace OfficeOpenXml.Vba.ContentHash
             bw.Write((uint)0x00000000);
         }
 
+        const string HostExtenderInfo = "Host Extender Info";
 
+        /// <summary>
+        /// See 2.4.2.6 Project Normalized Data for meta code
+        /// </summary>
+        /// <param name="bw"></param>
         private void NormalizeProjectStream(BinaryWriter bw)
         {
             var p = base.Project;
@@ -519,6 +585,10 @@ namespace OfficeOpenXml.Vba.ContentHash
             var lines = Regex.Split(p.ProjectStreamText, "\r\n");
             var currentCategory = string.Empty;
             var hostExtenders = new List<string>();
+
+            /***************************************************************
+             * For definition of properties, see 2.3.1.1 ProjectProperties *
+             ***************************************************************/
             foreach(var line in lines)
             {
                 if(line.StartsWith("[") && line.EndsWith("]"))
@@ -526,7 +596,7 @@ namespace OfficeOpenXml.Vba.ContentHash
                     currentCategory = line.Substring(1, line.Length - 2);
                     continue;
                 }
-                if(currentCategory == "Host Extender Info" && !string.IsNullOrEmpty(line))
+                if(currentCategory == HostExtenderInfo && !string.IsNullOrEmpty(line))
                 {
                     hostExtenders.Add(line);
                     continue;
@@ -539,29 +609,39 @@ namespace OfficeOpenXml.Vba.ContentHash
                 {
                     var propertyName = line.Split('=')[0];
                     var propertyValue = line.Split('=')[1];
-                    if(propertyName.ToLower() == "baseclass")
+                    /*
+                     * IF property is ProjectDesignerModule THEN 
+                     *   APPEND Buffer WITH output of NormalizeDesignerStorage(ProjectDesignerModule) (section 2.4.2.2) 
+                     * END IF
+                     */
+                    if (propertyName.ToLower() == "baseclass")
                     {
-                        /*
-                         * IF property is ProjectDesignerModule THEN 
-                         *   APPEND Buffer WITH output of NormalizeDesignerStorage(ProjectDesignerModule) (section 2.4.2.2) 
-                         * END IF
-                         */
                         FormsNormalizedDataHashInputProvider.NormalizeDesigner(p, bw, propertyValue);
                     }
+                    /*
+                     * IF property NOT is ProjectId (section 2.3.1.2) 
+                     * OR ProjectDocModule (section 2.3.1.4) 
+                     * OR ProjectProtectionState (section 2.3.1.15) 
+                     * OR ProjectPassword (section 2.3.1.16) 
+                     * OR ProjectVisibilityState (section 2.3.1.17) 
+                     * THEN
+                     **/
                     if(propertyName != "ID" && propertyName != "Document" && propertyName != "CMG" && propertyName != "DPB" && propertyName != "GC")
                     {
-                        /*
-                         * APPEND Buffer WITH the string “Host Extender Info” APPEND Buffer WITH HostExtenderRef without NWLN (section 2.3.1.18)
-                         */
                         bw.Write(encoding.GetBytes(propertyName));
-                        //propertyValue = propertyValue.Replace("\"", string.Empty);
                         bw.Write(encoding.GetBytes(propertyValue));
                     }
                 }
             }
-            if(hostExtenders.Count > 0)
+            /*
+             * IF exist string “[Host Extender Info]” THEN 
+             *    APPEND Buffer WITH the string “Host Extender Info” 
+             *    APPEND Buffer WITH HostExtenderRef without NWLN (section 2.3.1.18) 
+             * END IF
+             */
+            if (hostExtenders.Count > 0)
             {
-                bw.Write(encoding.GetBytes("Host Extender Info"));
+                bw.Write(encoding.GetBytes(HostExtenderInfo));
             }
             foreach(var hostExtender in hostExtenders)
             {
