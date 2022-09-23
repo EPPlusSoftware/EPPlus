@@ -211,8 +211,7 @@ namespace EPPlusTest.VBA
         public void VbaSign_V3()
         {
             //var wbPath = @"c:\Temp\vbaCert\SignedWorkbook1.xlsm";
-            var wbPath = @"c:\Temp\vbaCert\vbaSignedSimple1.xlsm";
-            using (var package = new ExcelPackage(wbPath))
+            using (var package = OpenTemplatePackage("VbaSignedSimple1.xlsm"))
             {
                 X509Store store = new X509Store(StoreLocation.CurrentUser);
                 store.Open(OpenFlags.ReadOnly);
@@ -224,7 +223,7 @@ namespace EPPlusTest.VBA
                         break;
                     }
                 }
-                package.Save();
+                SaveAndCleanup(package);
             }
         }
     }
