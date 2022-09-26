@@ -3683,5 +3683,25 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void i707()
+        {
+            using (var p = OpenTemplatePackage(@"i707.xlsx"))
+            {
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i720()
+        {
+           var stream = new MemoryStream();
+            using (var p=OpenPackage("i720.xlsx"))
+            {
+                p.Settings.TextSettings.DefaultTextMeasurer = new OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics.DefaultTextMeasurer();
+                var worksheet = p.Workbook.Worksheets.Add("Sheet1");
+                worksheet.Cells["A1"].Value = "Test";
+                worksheet.Cells["a:xfd"].AutoFitColumns();
+            }
+        }
     }
 }

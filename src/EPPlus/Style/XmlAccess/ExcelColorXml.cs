@@ -209,13 +209,13 @@ namespace OfficeOpenXml.Style.XmlAccess
             {
                 SetXmlNodeString("@indexed", _indexed.ToString());
             }
-            else if (_auto)
+            else if (Theme.HasValue)
             {
-                SetXmlNodeBool("@auto", _auto);
+                SetXmlNodeString("@theme", ((int)_theme).ToString(CultureInfo.InvariantCulture));
             }
             else
             {
-                SetXmlNodeString("@theme", ((int)_theme).ToString(CultureInfo.InvariantCulture));
+                SetXmlNodeBool("@auto", _auto);
             }
             if (_tint != decimal.MinValue)
             {
