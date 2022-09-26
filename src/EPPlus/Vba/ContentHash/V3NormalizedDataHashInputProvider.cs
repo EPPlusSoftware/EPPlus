@@ -507,10 +507,11 @@ namespace OfficeOpenXml.Vba.ContentHash
             }
 
             var hashModuleNameFlag = false;
-            foreach(var line in lines)
+            //var endOfLine = Encoding.GetEncoding(p.CodePage).GetBytes("\\n");
+            var endOfLine = '\n';
+            foreach (var line in lines)
             {
                 var lineText = Encoding.GetEncoding(p.CodePage).GetString(line);
-
                 /*
                  * IF Line NOT start with “attribute” when ignoring case THEN 
                  *    SET HashModuleNameFlag TO true 
@@ -521,7 +522,7 @@ namespace OfficeOpenXml.Vba.ContentHash
                 {
                     hashModuleNameFlag = true;
                     bw.Write(line);
-                    bw.Write((byte)'\n');
+                    bw.Write(endOfLine);
                 }
                 /*
                  * ELSE IF Line starts with “Attribute VB_Name = ” when ignoring case THEN
@@ -541,7 +542,7 @@ namespace OfficeOpenXml.Vba.ContentHash
                 {
                     hashModuleNameFlag = true;
                     bw.Write(line);
-                    bw.Write((byte)'\n');
+                    bw.Write(endOfLine);
                 }
             }
             // IF HashModuleNameFlag IS true
@@ -565,7 +566,7 @@ namespace OfficeOpenXml.Vba.ContentHash
                     var nameBytes = Encoding.GetEncoding(p.CodePage).GetBytes(module.Name);
                     bw.Write(nameBytes);
                 }
-                bw.Write((byte)'\n');
+                bw.Write(endOfLine);
             }
        }
 
@@ -634,7 +635,7 @@ namespace OfficeOpenXml.Vba.ContentHash
                         bw.Write(encoding.GetBytes(propertyValue));
                         //var name = GetPropertyName(propertyName);
                         //bw.Write(encoding.GetBytes(name));
-                        //bw.Write(encoding.GetBytes(line));
+                        //bw.Write(encoding.GetBytes(propertyValue));
                     }
                 }
             }
