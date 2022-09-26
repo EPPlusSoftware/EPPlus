@@ -96,7 +96,8 @@ namespace OfficeOpenXml.Core
             }
 
             var styles = ws.Workbook.Styles;
-            var normalXfId = styles.GetNormalStyle().StyleXfId;
+            var ns = styles.GetNormalStyle();
+            var normalXfId = ns?.StyleXfId ?? 0;
             if (normalXfId < 0 || normalXfId >= styles.CellStyleXfs.Count) normalXfId = 0;
             var nf = styles.Fonts[styles.CellStyleXfs[normalXfId].FontId];
             var fs = MeasurementFontStyles.Regular;
