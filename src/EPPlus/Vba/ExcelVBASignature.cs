@@ -138,7 +138,7 @@ namespace OfficeOpenXml.VBA
             }
             else if (PartAgile?.Uri != null && PartAgile.Package.PartExists(PartAgile.Uri))
             {
-                PartV3.Package.DeletePart(PartV3.Uri);
+                PartAgile.Package.DeletePart(PartAgile.Uri);
             }
 
             //V3 signature

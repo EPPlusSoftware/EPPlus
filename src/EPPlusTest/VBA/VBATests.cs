@@ -185,7 +185,7 @@ namespace EPPlusTest.VBA
         [TestMethod]
         public void MyVbaTest_Sign1()
         {
-            var workbook = "UnsignedWorkbook1.xlsm";
+            var workbook = "VbaSignedSimple1.xlsm";
             using (var package = OpenTemplatePackage(workbook))
             {
                 X509Store store = new X509Store(StoreLocation.CurrentUser);
@@ -202,7 +202,7 @@ namespace EPPlusTest.VBA
                     }
                 }
                 package.Workbook.VbaProject.Signature.CreateLegacySignatureOnSave = false;
-                package.Workbook.VbaProject.Signature.CreateV3SignatureOnSave = false;
+                package.Workbook.VbaProject.Signature.CreateAgileSignatureOnSave = false;
                 SaveWorkbook("SignedUnsignedWorkbook1.xlsm", package);
             }
         }

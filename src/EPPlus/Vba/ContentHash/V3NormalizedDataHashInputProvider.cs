@@ -66,13 +66,14 @@ namespace OfficeOpenXml.Vba.ContentHash
             bw.Write((ushort)0x0001);
 
             // APPEND Buffer WITH PROJECTSYSKIND.Size (section 2.3.4.2.1.1) of Storage
-            bw.Write((uint)0x00000004);
+            bw.Write((uint)0x00000004); 
 
             /******************************************
              * 2.3.4.2.1.4 PROJECTLCIDINVOKE Record   *
              ******************************************/
 
             // APPEND Buffer WITH PROJECTLCID.Id (section 2.3.4.2.1.3) of Storage
+            
             bw.Write((ushort)0x0002);
 
             // APPEND Buffer WITH PROJECTLCID.Size (section 2.3.4.2.1.3) of Storage
@@ -262,6 +263,12 @@ namespace OfficeOpenXml.Vba.ContentHash
                  ******************************************/
                 WriteModuleRecord(p, bw, module);
             }
+
+            // APPEND Buffer WITH Terminator (section 2.3.4.2) of Storage
+            bw.Write((ushort)0x0010);
+            // APPEND Buffer WITH Reserved (section 2.3.4.2) of Storage
+            bw.Write((uint)0x00000000);
+
         }
 
         private void HandleProjectReference(ExcelVbaProject p, BinaryWriter bw, ExcelVbaReference reference)
@@ -457,11 +464,7 @@ namespace OfficeOpenXml.Vba.ContentHash
                 bw.Write((ushort)0x0021);           // Id
                 bw.Write((uint)0x00000000);         // Reserved
             }
-            else if(module.Type == eModuleType.Document || module.Type == eModuleType.Class || module.Type == eModuleType.Designer)
-            {
-                bw.Write((ushort)0x0022);           // Id
-                bw.Write((uint)0x00000000);         // Reserved
-            }
+
             // 2.3.4.2.3.2.9 MODULEREADONLY Record
             if (module.ReadOnly)
             {
@@ -564,12 +567,7 @@ namespace OfficeOpenXml.Vba.ContentHash
                 }
                 bw.Write((byte)'\n');
             }
-
-            // APPEND Buffer WITH Terminator (section 2.3.4.2) of Storage
-            bw.Write((ushort)0x0010);
-            // APPEND Buffer WITH Reserved (section 2.3.4.2) of Storage
-            bw.Write((uint)0x00000000);
-        }
+       }
 
         const string HostExtenderInfo = "Host Extender Info";
 
@@ -631,11 +629,12 @@ namespace OfficeOpenXml.Vba.ContentHash
                      **/
                     if(propertyName != "ID" && propertyName != "Document" && propertyName != "CMG" && propertyName != "DPB" && propertyName != "GC")
                     {
-                        //bw.Write(encoding.GetBytes(propertyName));
-                        //bw.Write(encoding.GetBytes(propertyValue));
-                        var name = GetPropertyName(propertyName);
-                        bw.Write(encoding.GetBytes(name));
-                        bw.Write(encoding.GetBytes(line));
+                        if (propertyValue.StartsWith("\"")) propertyValue = propertyValue.Substring(1, propertyValue.Length - 2);
+                        bw.Write(encoding.GetBytes(propertyName));
+                        bw.Write(encoding.GetBytes(propertyValue));
+                        //var name = GetPropertyName(propertyName);
+                        //bw.Write(encoding.GetBytes(name));
+                        //bw.Write(encoding.GetBytes(line));
                     }
                 }
             }
