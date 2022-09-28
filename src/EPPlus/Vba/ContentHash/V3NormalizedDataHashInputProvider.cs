@@ -490,11 +490,13 @@ namespace OfficeOpenXml.Vba.ContentHash
 
             var lines = new List<byte[]>();
             var textBuffer = new List<byte>();
+            byte pc = 0x0;
             foreach(var ch in text)
             {
                 if(ch == 0xA || ch == 0xD)
                 {
-                    if(textBuffer.Count > 0)
+                    if(pc != 0xD)
+                    //if(textBuffer.Count > 0)
                     {
                         lines.Add(textBuffer.ToArray());
                         textBuffer.Clear();
@@ -504,11 +506,12 @@ namespace OfficeOpenXml.Vba.ContentHash
                 {
                     textBuffer.Add(ch);
                 }
+                pc = ch;
             }
 
             var hashModuleNameFlag = false;
             //var endOfLine = Encoding.GetEncoding(p.CodePage).GetBytes("\\n");
-            var endOfLine = '\n';
+            byte endOfLine = 0xA;
             foreach (var line in lines)
             {
                 var lineText = Encoding.GetEncoding(p.CodePage).GetString(line);
@@ -630,12 +633,14 @@ namespace OfficeOpenXml.Vba.ContentHash
                      **/
                     if(propertyName != "ID" && propertyName != "Document" && propertyName != "CMG" && propertyName != "DPB" && propertyName != "GC")
                     {
-                        if (propertyValue.StartsWith("\"")) propertyValue = propertyValue.Substring(1, propertyValue.Length - 2);
+                        //if (propertyValue.StartsWith("\"")) propertyValue = propertyValue.Substring(1, propertyValue.Length - 2);
                         bw.Write(encoding.GetBytes(propertyName));
                         bw.Write(encoding.GetBytes(propertyValue));
                         //var name = GetPropertyName(propertyName);
                         //bw.Write(encoding.GetBytes(name));
-                        //bw.Write(encoding.GetBytes(propertyValue));
+                        //bw.Write(encoding.GetBytes(line));
+                        bw.Write((byte)13);
+                        bw.Write((byte)10);
                     }
                 }
             }

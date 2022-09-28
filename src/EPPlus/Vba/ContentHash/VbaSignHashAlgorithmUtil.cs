@@ -100,6 +100,7 @@ namespace OfficeOpenXml.VBA.ContentHash
                     var buffer = ms.ToArray();
                     var hash = ComputeHash(buffer, ctx);
                     var existingHash = ctx.SourceHash;
+                    
                     return hash;
                 }
             }

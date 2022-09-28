@@ -185,7 +185,7 @@ namespace EPPlusTest.VBA
         [TestMethod]
         public void MyVbaTest_Sign1()
         {
-            var workbook = "VbaSignedSimple1.xlsm";
+            var workbook = "VbaSignedSimple2.xlsm";
             using (var package = OpenTemplatePackage(workbook))
             {
                 X509Store store = new X509Store(StoreLocation.CurrentUser);
