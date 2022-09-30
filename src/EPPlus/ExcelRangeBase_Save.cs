@@ -18,6 +18,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using System.Data;
+using System.Collections.Generic;
 using OfficeOpenXml.Export.ToDataTable;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -502,6 +503,70 @@ namespace OfficeOpenXml
             }
             if (row != _toRow) sb.Append(Format.EOL);
             return sb.ToString();
+        }
+        /// <summary>
+        /// Returns a collection of T
+        /// </summary>
+        /// <typeparam name="T">The type to map to</typeparam>
+        /// <param name="setRow">The call back function to map each row to the the T.</param>
+        /// <returns>A list of T</returns>
+        public List<T> ToCollection<T>(Func<List<object>, T> setRow)
+        {
+            var ret = new List<T>();
+            var row = new List<object>();
+            for (int r = _fromRow; r <= _toRow; r++)
+            {
+                for (int c = _fromCol; c <= _toCol; c++)
+                {
+                    row.Add(Worksheet.GetValueInner(r, c));
+                }
+                ret.Add(setRow(row));
+                row.Clear();
+            }
+            return ret;
+        }
+        /// <summary>
+        /// Returns a collection of T
+        /// </summary>
+        /// <typeparam name="T">The type to map to</typeparam>
+        /// <param name="setRow">The call back function to map each row to the the T.</param>
+        /// <returns>A list of T</returns>
+        public List<T> ToCollection<T>(Func<Dictionary<string, object>, T> setRow)
+        {
+            var ret = new List<T>();
+            if (_toRow < _fromRow) return null;
+
+            var headers = GetRangeHeaders();
+
+            var row = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+            for (int r = _fromRow + 1; r <= _toRow; r++)
+            {
+                for (int c = _fromCol; c <= _toCol; c++)
+                {
+                    row.Add(headers[c], Worksheet.GetValueInner(r, c));
+                }
+                ret.Add(setRow(row));
+                row.Clear();
+            }
+            return ret;
+        }
+        private List<string> GetRangeHeaders()
+        {
+            var headers = new List<string>();
+            for (int c = _fromCol; c <= _toCol; c++)
+            {
+                var h = Worksheet.Cells[_fromRow, c].Text;
+                if (string.IsNullOrEmpty(h))
+                {
+                    throw new InvalidOperationException("Header cells cannot be empty");
+                }
+                if (headers.Contains(h))
+                {
+                    throw new InvalidOperationException($"Header cells must be unique. Value : {h}");
+                }
+                headers.Add(h);
+            }
+            return headers;
         }
     }
 }
