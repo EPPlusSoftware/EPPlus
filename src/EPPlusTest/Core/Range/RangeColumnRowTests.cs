@@ -69,6 +69,47 @@ namespace EPPlusTest.Core.Range
             Assert.IsTrue(ws.Cells["J1"].EntireColumn.Hidden);
         }
         [TestMethod]
+        public void Column_CollapsChildren_Left()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Column_Collapsed_Level0");
+            ws.OutLineSummaryRight = false;
+            ws.Cells["A1"].EntireColumn.OutlineLevel = 1;
+            ws.Cells["B:B"].EntireColumn.OutlineLevel = 2;
+            ws.Cells["C:C"].EntireColumn.OutlineLevel = 2;
+            ws.Cells["D:J"].EntireColumn.OutlineLevel = 3;
+            ws.Cells["K:K"].EntireColumn.OutlineLevel = 3;
+            ws.Cells["D1"].EntireColumn.CollapseChildren(true);
+            
+            //Assert.IsFalse(ws.Cells["E10"].EntireColumn.Hidden);
+            //Assert.IsFalse(ws.Cells["G10"].EntireColumn.Hidden);
+            //Assert.IsFalse(ws.Cells["K10"].EntireColumn.Hidden);
+            //Assert.IsTrue(ws.Cells["F1"].EntireColumn.Hidden);
+            //Assert.IsTrue(ws.Cells["H1"].EntireColumn.Hidden);
+            //Assert.IsTrue(ws.Cells["I1"].EntireColumn.Hidden);
+            //Assert.IsTrue(ws.Cells["J1"].EntireColumn.Hidden);
+        }
+        [TestMethod]
+        public void Column_CollapsChildren_Right()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Column_Collapsed_Level0");
+            ws.OutLineSummaryRight = true;
+            ws.Cells["A1"].EntireColumn.OutlineLevel = 3;
+            ws.Cells["B:B"].EntireColumn.OutlineLevel = 2;
+            ws.Cells["C:C"].EntireColumn.OutlineLevel = 2;
+            ws.Cells["D:J"].EntireColumn.OutlineLevel = 1;
+            ws.Cells["K:K"].EntireColumn.OutlineLevel = 1;
+            ws.Cells["K1"].EntireColumn.CollapseChildren(false);
+
+            //Assert.IsFalse(ws.Cells["E10"].EntireColumn.Hidden);
+            //Assert.IsFalse(ws.Cells["G10"].EntireColumn.Hidden);
+            //Assert.IsFalse(ws.Cells["K10"].EntireColumn.Hidden);
+            //Assert.IsTrue(ws.Cells["F1"].EntireColumn.Hidden);
+            //Assert.IsTrue(ws.Cells["H1"].EntireColumn.Hidden);
+            //Assert.IsTrue(ws.Cells["I1"].EntireColumn.Hidden);
+            //Assert.IsTrue(ws.Cells["J1"].EntireColumn.Hidden);
+         }
+
+        [TestMethod]
         public void Column_SetStyleName()
         {
             var styleName = "Green Fill";

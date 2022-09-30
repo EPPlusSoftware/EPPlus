@@ -910,6 +910,24 @@ namespace OfficeOpenXml
                 }
             }
         }
+        /// <summary>
+		/// If true, empty rows are hidden by default.
+        /// This reduces the size of the package and increases performance if most of the rows in a worksheet are hidden.
+		/// </summary>
+        public bool RowZeroHeight
+        {
+            get
+            {
+                CheckSheetTypeAndNotDisposed();
+                return GetXmlNodeBool("d:sheetFormatPr/@zeroHeight");
+            }
+            set
+            {
+                CheckSheetTypeAndNotDisposed();
+
+                SetXmlNodeBool("d:sheetFormatPr/@zeroHeight",value, false);
+            }
+        }
 
         private double GetRowHeightFromNormalStyle()
         {
