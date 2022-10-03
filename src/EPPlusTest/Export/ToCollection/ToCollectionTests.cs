@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Export.ToDataTable
 {
     [TestClass]
-    public class ToCollectionTests
+    public class ToCollectionTests : TestBase
     {
         public struct Category
         {
@@ -29,25 +29,13 @@ namespace EPPlusTest.Export.ToDataTable
         }
 
         [TestMethod]
-        public void ToCollection_RowList()
+        public void ToCollection_Index()
         {
-            using(var package = new ExcelPackage())
+            using(var p = new ExcelPackage())
             {
-                var sheet = package.Workbook.Worksheets.Add("Test");
-                sheet.Cells["A1"].Value = "Id";
-                sheet.Cells["B1"].Value = "Name";
-                sheet.Cells["C1"].Value = "Ratio";
-                sheet.Cells["D1"].Value = "CategoryId";
-                sheet.Cells["A2"].Value = 1;
-                sheet.Cells["B2"].Value = "John Doe";
-                sheet.Cells["C2"].Value = 12.38;
-                sheet.Cells["D2"].Value = 1;
-                sheet.Cells["A3"].Value = 2;
-                sheet.Cells["B3"].Value = "Jane Doe";
-                sheet.Cells["C3"].Value = 68.44;
-                sheet.Cells["D3"].Value = 3;
-
-                var list = sheet.Cells["A2:D3"].ToCollection((List<object> l) => 
+                var sheet = LoadTestData(p, "LoadFromCollectionIndex");
+                var list = sheet.Cells["A2:D3"].ToCollection(
+                    (List<object> l) => 
                 {
                     var dto = new TestDto();
                     dto.Id = (int)l[0];
@@ -68,6 +56,54 @@ namespace EPPlusTest.Export.ToDataTable
                 Assert.AreEqual(sheet.Cells["C3"].Value, list[1].Ratio);
                 Assert.AreEqual(sheet.Cells["D3"].Value, list[1].Category.CatId);
             }
+        }
+
+        [TestMethod]
+        public void ToCollection_ColumnNames()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet = LoadTestData(p, "LoadFromCollectionName");
+                var list = sheet.Cells["A1:D3"].ToCollection((Dictionary<string, object> l) =>
+                {
+                    var dto = new TestDto();
+                    dto.Id = (int)l["id"];
+                    dto.Name = l["Name"].ToString();
+                    dto.Ratio = (double)l["Ratio"];
+                    dto.Category = new Category() { CatId = (int)l["CategoryId"] };
+                    return dto;
+                });
+
+                Assert.AreEqual(2, list.Count);
+                Assert.AreEqual(sheet.Cells["A2"].Value, list[0].Id);
+                Assert.AreEqual(sheet.Cells["B2"].Text, list[0].Name);
+                Assert.AreEqual(sheet.Cells["C2"].Value, list[0].Ratio);
+                Assert.AreEqual(sheet.Cells["D2"].Value, list[0].Category.CatId);
+
+                Assert.AreEqual(sheet.Cells["A3"].Value, list[1].Id);
+                Assert.AreEqual(sheet.Cells["B3"].Text, list[1].Name);
+                Assert.AreEqual(sheet.Cells["C3"].Value, list[1].Ratio);
+                Assert.AreEqual(sheet.Cells["D3"].Value, list[1].Category.CatId);
+            }
+        }
+
+        private ExcelWorksheet LoadTestData(ExcelPackage p, string wsName)
+        {
+            var sheet = p.Workbook.Worksheets.Add("Test");
+            sheet.Cells["A1"].Value = "Id";
+            sheet.Cells["B1"].Value = "Name";
+            sheet.Cells["C1"].Value = "Ratio";
+            sheet.Cells["D1"].Value = "CategoryId";
+            sheet.Cells["A2"].Value = 1;
+            sheet.Cells["B2"].Value = "John Doe";
+            sheet.Cells["C2"].Value = 12.38;
+            sheet.Cells["D2"].Value = 1;
+            sheet.Cells["A3"].Value = 2;
+            sheet.Cells["B3"].Value = "Jane Doe";
+            sheet.Cells["C3"].Value = 68.44;
+            sheet.Cells["D3"].Value = 3;
+            return sheet;
+
         }
     }
 }
