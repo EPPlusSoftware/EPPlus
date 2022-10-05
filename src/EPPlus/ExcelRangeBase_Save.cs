@@ -20,6 +20,9 @@ using System.Xml;
 using System.Data;
 using System.Collections.Generic;
 using OfficeOpenXml.Export.ToDataTable;
+using OfficeOpenXml.Export.ToCollection;
+using System.Linq;
+using OfficeOpenXml.Core.CellStore;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -507,24 +510,25 @@ namespace OfficeOpenXml
         /// <summary>
         /// Returns a collection of T for the range. 
         /// If the range contains multiple addresses the first range is used.
+        /// The first row must containt the unique headers used as keys in the row dictionary.
         /// </summary>
         /// <typeparam name="T">The type to map to</typeparam>
         /// <param name="setRow">The call back function to map each row to the the T.</param>
-        /// <param name="options"><see cref="Action{ToCollectionOptions}"/> to set parameters for the function</param>
         /// <returns>A list of T</returns>
-        public List<T> ToCollection<T>(Func<List<object>, T> setRow)
+        public List<T> ToCollection<T>(Func<ToCollectionRow, T> setRow)
         {
             return ToCollection(setRow, new ToCollectionOptions());
         }
         /// <summary>
         /// Returns a collection of T for the range. 
         /// If the range contains multiple addresses the first range is used.
+        /// The first row must contain the unique headers used as keys in the row dictionary.
         /// </summary>
         /// <typeparam name="T">The type to map to</typeparam>
         /// <param name="setRow">The call back function to map each row to the the T.</param>
-        /// <param name="options"><see cref="Action{ToCollectionOptions}"/> to set parameters for the function</param>
+        /// <param name="options">Action<ToCollectionOptions> to set parameters for the function</param>
         /// <returns>A list of T</returns>
-        public List<T> ToCollection<T>(Func<List<object>, T> setRow, Action<ToCollectionOptions> options)
+        public List<T> ToCollection<T>(Func<ToCollectionRow, T> setRow, Action<ToCollectionOptions> options)
         {
             var o = new ToCollectionOptions();
             options.Invoke(o);
@@ -533,128 +537,67 @@ namespace OfficeOpenXml
         /// <summary>
         /// Returns a collection of T for the range. 
         /// If the range contains multiple addresses the first range is used.
-        /// </summary>
-        /// <typeparam name="T">The type to map to</typeparam>
-        /// <param name="setRow">The call back function to map each row to the the T.</param>
-        /// <param name="options">Parameters to the function</param>
-        /// <returns>A list of T</returns>
-        public List<T> ToCollection<T>(Func<List<object>, T> setRow, ToCollectionOptions options)
-        {
-            var ret = new List<T>();
-            var row = new List<object>();            
-            for (int r = _fromRow; r <= _toRow; r++)
-            {
-                for (int c = _fromCol; c <= _toCol; c++)
-                {
-                    var v = Worksheet.GetValueInner(r, c);
-                    if (options.ValueType == ToCollectionValueType.Value)
-                    {
-                        row.Add(v);
-                    }
-                    else
-                    {
-                        var s = Worksheet.GetStyleInner(r, c);
-                        var t = ValueToTextHandler.GetFormattedText(v, _workbook, s, false);
-                        row.Add(t);
-                    }
-                }
-                var item = setRow(row);
-                if (item != null)
-                {
-                    ret.Add(item);
-                }
-                row.Clear();
-            }
-            return ret;
-        }
-
-        /// <summary>
-        /// Returns a collection of T for the range. 
-        /// If the range contains multiple addresses the first range is used.
-        /// The first row must containt the unique headers used as keys in the row dictionary.
-        /// </summary>
-        /// <typeparam name="T">The type to map to</typeparam>
-        /// <param name="setRow">The call back function to map each row to the the T.</param>
-        /// <returns>A list of T</returns>
-        public List<T> ToCollection<T>(Func<Dictionary<string, object>, T> setRow)
-        {
-            return ToCollection(setRow, new ToCollectionOptionsWithHeader());
-        }
-        /// <summary>
-        /// Returns a collection of T for the range. 
-        /// If the range contains multiple addresses the first range is used.
-        /// The first row must containt the unique headers used as keys in the row dictionary.
-        /// </summary>
-        /// <typeparam name="T">The type to map to</typeparam>
-        /// <param name="setRow">The call back function to map each row to the the T.</param>
-        /// <param name="options"><see cref="Action{ToCollectionOptionsWithHeader}"/> to set parameters for the function</param>
-        /// <returns>A list of T</returns>
-        public List<T> ToCollection<T>(Func<Dictionary<string, object>, T> setRow, Action<ToCollectionOptionsWithHeader> options)
-        {
-            var o = new ToCollectionOptionsWithHeader();
-            options.Invoke(o);
-            return ToCollection(setRow, o);
-        }
-        /// <summary>
-        /// Returns a collection of T for the range.
-        /// If the range contains multiple addresses the first range is used.
         /// The first row must containt the unique headers used as keys in the row dictionary.
         /// </summary>
         /// <typeparam name="T">The type to map to</typeparam>
         /// <param name="setRow">The call back function to map each row to the the T.</param>
         /// <param name="options">Parameters to the function</param>
         /// <returns>A list of T</returns>
-        public List<T> ToCollection<T>(Func<Dictionary<string, object>, T> setRow, ToCollectionOptionsWithHeader options)
+        public List<T> ToCollection<T>(Func<ToCollectionRow, T> setRow, ToCollectionOptions options)
         {
             var ret = new List<T>();
             if (_toRow < _fromRow) return null;
 
-            var headers = GetRangeHeaders(options.HeaderRow);
+            var headers = GetRangeHeaders(options);
 
-            var row = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
-            for (int r = _fromRow + options.DataStartRow; r <= _toRow; r++)
+            var values = new List<ExcelValue>();
+            var row = new ToCollectionRow(headers, _workbook);
+            var startRow = options.DataStartRow ?? ((options.HeaderRow ?? -1) + 1);
+            for (int r = _fromRow + startRow; r <= _toRow; r++)
             {
                 for (int c = _fromCol; c <= _toCol; c++)
                 {
-                    var v=Worksheet.GetValueInner(r, c); 
-                    if (options.ValueType == ToCollectionValueType.Value)
-                    {
-                        row.Add(headers[c - _fromCol], v);
-                    }
-                    else
-                    {
-                        var s = Worksheet.GetStyleInner(r, c);
-                        var t=ValueToTextHandler.GetFormattedText(v, _workbook, s, false);
-                        row.Add(headers[c - _fromCol], t);
-                    }
+                    var v = Worksheet.GetCoreValueInner(r, c);
                 }
-
+                row._cellValues = values;
                 var item = setRow(row);
                 if (item != null)
                 {
                     ret.Add(item);
                 }
 
-                row.Clear();
+                values.Clear();
             }
             return ret;
+
         }
-        private List<string> GetRangeHeaders(int headerRow)
+        private List<string> GetRangeHeaders(ToCollectionOptions options)
         {
-            var headers = new List<string>();
-            for (int c = _fromCol; c <= _toCol; c++)
+            List<string> headers;
+            if (options.Headers == null || options.Headers.Length == 0)
             {
-                var h = Worksheet.Cells[_fromRow+headerRow, c].Text;
-                if (string.IsNullOrEmpty(h))
+                headers = new List<string>();
+                if (options.HeaderRow.HasValue == false) return headers;
+
+                for (int c = _fromCol; c <= _toCol; c++)
                 {
-                    throw new InvalidOperationException("Header cells cannot be empty");
+                    var h = Worksheet.Cells[_fromRow + options.HeaderRow.Value, c].Text;
+                    if (string.IsNullOrEmpty(h))
+                    {
+                        throw new InvalidOperationException("Header cells cannot be empty");
+                    }
+                    if (headers.Contains(h))
+                    {
+                        throw new InvalidOperationException($"Header cells must be unique. Value : {h}");
+                    }
+                    headers.Add(h);
                 }
-                if (headers.Contains(h))
-                {
-                    throw new InvalidOperationException($"Header cells must be unique. Value : {h}");
-                }
-                headers.Add(h);
             }
+            else
+            {
+                headers = new List<string>(options.Headers);
+            }
+
             return headers;
         }
     }
