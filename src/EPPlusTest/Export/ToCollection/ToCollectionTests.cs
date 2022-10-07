@@ -1,16 +1,14 @@
 ﻿using EPPlusTest.Drawing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Attributes;
 using OfficeOpenXml.Export.ToCollection;
 using OfficeOpenXml.Export.ToDataTable;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.LoadFunctions.Params;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace EPPlusTest.Export.ToDataTable
 {
@@ -25,7 +23,9 @@ namespace EPPlusTest.Export.ToDataTable
         }
         public class TestDto
         {
+            [DisplayName("Identity")]            
             public int Id { get; set; }
+            [EpplusTableColumn(Order = 1, Header = "First name")]
             public string Name { get; set; }
             public double Ratio { get; set; }
             public DateTime TimeStamp { get; set; }
@@ -98,15 +98,14 @@ namespace EPPlusTest.Export.ToDataTable
                 Assert.AreEqual(sheet.Cells["C2"].Value, list[0].Ratio);
                 Assert.AreEqual(sheet.Cells["D2"].Value, list[0].TimeStamp);
                 Assert.AreEqual(sheet.Cells["E2"].Value, list[0].Category.CatId);
-                Assert.AreEqual(sheet.Cells["C3"].Text, list[0].FormattedRatio);
-                Assert.AreEqual(sheet.Cells["D3"].Text, list[0].FormattedTimeStamp);
+                Assert.AreEqual(sheet.Cells["C2"].Text, list[0].FormattedRatio);
+                Assert.AreEqual(sheet.Cells["D2"].Text, list[0].FormattedTimeStamp);
 
                 Assert.AreEqual(sheet.Cells["A3"].Value, list[1].Id);
                 Assert.AreEqual(sheet.Cells["B3"].Text, list[1].Name);
                 Assert.AreEqual(sheet.Cells["C3"].Value, list[1].Ratio);
                 Assert.AreEqual(sheet.Cells["D3"].Value, list[1].TimeStamp);
-                Assert.AreEqual(sheet.Cells["E3"].Value, list[1].Category.CatId);
-                
+                Assert.AreEqual(sheet.Cells["E3"].Value, list[1].Category.CatId);                
                 Assert.AreEqual(sheet.Cells["C3"].Text, list[1].FormattedRatio);
                 Assert.AreEqual(sheet.Cells["D3"].Text, list[1].FormattedTimeStamp);
             }
@@ -117,16 +116,15 @@ namespace EPPlusTest.Export.ToDataTable
             using (var p = new ExcelPackage())
             {
                 var sheet = LoadTestData(p, "LoadFromCollectionName");
-                var list = sheet.Cells["A2:E3"].ToCollection((ToCollectionRow row) =>
+                var list = sheet.Cells["A1:E3"].ToCollection((ToCollectionRow row) =>
                 {
                     var dto = new TestDto();
-                    dto.Id = row.GetValue<int>("The Id");                    
-                    dto.Name = row.GetValue<string>("The Name");
-                    dto.Ratio = row.GetValue<double>("The Ratio");
-                    dto.TimeStamp = row.GetValue<DateTime>("End Date");                    
-                    dto.Category = new Category() { CatId = row.GetValue<int>("Category Id") };
+                    row.Automap(dto);
+                    dto.Category = new Category() { CatId = row.GetValue<int>("CategoryId") };
+                    dto.FormattedRatio = row.GetText("Ratio");
+                    dto.FormattedTimeStamp = row.GetText("TimeStamp");
                     return dto;
-                }, x => x.SetCustomHeaders("The Id", "The Name", "The Ratio", "End Date", "Category Id"));
+                }, x => x.HeaderRow=0);
 
                 Assert.AreEqual(2, list.Count);
                 Assert.AreEqual(sheet.Cells["A2"].Value, list[0].Id);
@@ -142,6 +140,61 @@ namespace EPPlusTest.Export.ToDataTable
                 Assert.AreEqual(sheet.Cells["E3"].Value, list[1].Category.CatId);
             }
         }
+#if(NET40_OR_GREATER)
+        [TestMethod]
+        public void ToCollection_AutoMap()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet = LoadTestData(p, "LoadFromCollectionAuto");
+                sheet.Cells["A1"].Value = "Identity";
+                sheet.Cells["B1"].Value = "First name";
+                var list = sheet.Cells["A1:E3"].ToCollection<TestDto>();
+
+                Assert.AreEqual(2, list.Count);
+                Assert.AreEqual(sheet.Cells["A2"].Value, list[0].Id);
+                Assert.AreEqual(sheet.Cells["B2"].Text, list[0].Name);
+                Assert.AreEqual(sheet.Cells["C2"].Value, list[0].Ratio);
+                Assert.AreEqual(sheet.Cells["D2"].Value, list[0].TimeStamp);
+
+                Assert.AreEqual(sheet.Cells["A3"].Value, list[1].Id);
+                Assert.AreEqual(sheet.Cells["B3"].Text, list[1].Name);
+                Assert.AreEqual(sheet.Cells["C3"].Value, list[1].Ratio);
+                Assert.AreEqual(sheet.Cells["D3"].Value, list[1].TimeStamp);
+            }
+        }
+        [TestMethod]
+        public void ToCollection_AutoMapInCallback()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet = LoadTestData(p, "LoadFromCollectionAuto");
+                sheet.Cells["A1"].Value = "Identity";
+                sheet.Cells["B1"].Value = "First name";
+                var list = sheet.Cells["A1:E3"].ToCollection(x =>
+                {
+                    var item = new TestDto();
+                    x.Automap(item); 
+                    item.Category = new Category() { CatId = x.GetValue<int>("CategoryId") };
+                    item.FormattedRatio = x.GetText("Ratio");
+                    item.FormattedTimeStamp = x.GetText("TimeStamp");
+                    return item;
+                }, x=>x.HeaderRow=0);
+
+                Assert.AreEqual(2, list.Count);
+                Assert.AreEqual(sheet.Cells["A2"].Value, list[0].Id);
+                Assert.AreEqual(sheet.Cells["B2"].Text, list[0].Name);
+                Assert.AreEqual(sheet.Cells["C2"].Value, list[0].Ratio);
+                Assert.AreEqual(sheet.Cells["D2"].Value, list[0].TimeStamp);
+
+                Assert.AreEqual(sheet.Cells["A3"].Value, list[1].Id);
+                Assert.AreEqual(sheet.Cells["B3"].Text, list[1].Name);
+                Assert.AreEqual(sheet.Cells["C3"].Value, list[1].Ratio);
+                Assert.AreEqual(sheet.Cells["D3"].Value, list[1].TimeStamp);
+            }
+        }
+
+#endif
 
         private ExcelWorksheet LoadTestData(ExcelPackage p, string wsName)
         {

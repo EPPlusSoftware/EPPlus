@@ -11,13 +11,10 @@
   10/04/2022         EPPlus Software AB       Initial release EPPlus 6.1
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
+using System.Reflection;
 
 namespace OfficeOpenXml.Export.ToCollection
 {
@@ -31,7 +28,6 @@ namespace OfficeOpenXml.Export.ToCollection
         {
             _workbook = workbook;
             Headers = headers;
-
             for(int i = 0; i < headers.Count; i++)
             {
                 _headers.Add(headers[i], i);
@@ -147,5 +143,29 @@ namespace OfficeOpenXml.Export.ToCollection
             
             return GetText(_headers[columnName]);
         }
+#if (!NET35)
+        List<Tuple<int, PropertyInfo>> _members;
+        /// <summary>
+        /// Maps properties on the item to values matching the column header with the property name or attibutes without white spaces.
+        /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
+        /// </summary>
+        /// <typeparam name="T">The type used</typeparam>
+        /// <param name="item">The item to set the values on.</param>
+        public void Automap<T>(T item)
+        {
+            if(_members==null)
+            {
+                _members = ToCollectionAutomap.GetAutomapList<T>(Headers);
+            }
+
+            foreach (var m in _members)
+            {
+                if (m.Item1 < _cellValues.Count)
+                {
+                    m.Item2.SetValue(item, _cellValues[m.Item1]._value);
+                }
+            }
+        }
+#endif
     }
 }

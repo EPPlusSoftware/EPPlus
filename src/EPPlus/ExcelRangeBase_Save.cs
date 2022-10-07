@@ -23,6 +23,11 @@ using OfficeOpenXml.Export.ToDataTable;
 using OfficeOpenXml.Export.ToCollection;
 using System.Linq;
 using OfficeOpenXml.Core.CellStore;
+using System.Reflection;
+using System.ComponentModel;
+using OfficeOpenXml.Attributes;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -526,7 +531,7 @@ namespace OfficeOpenXml
         /// </summary>
         /// <typeparam name="T">The type to map to</typeparam>
         /// <param name="setRow">The call back function to map each row to the the T.</param>
-        /// <param name="options">Action<ToCollectionOptions> to set parameters for the function</param>
+        /// <param name="options">Configures the settings for the function</param>
         /// <returns>A list of T</returns>
         public List<T> ToCollection<T>(Func<ToCollectionRow, T> setRow, Action<ToCollectionOptions> options)
         {
@@ -557,7 +562,7 @@ namespace OfficeOpenXml
             {
                 for (int c = _fromCol; c <= _toCol; c++)
                 {
-                    var v = Worksheet.GetCoreValueInner(r, c);
+                    values.Add(Worksheet.GetCoreValueInner(r, c));
                 }
                 row._cellValues = values;
                 var item = setRow(row);
@@ -571,6 +576,69 @@ namespace OfficeOpenXml
             return ret;
 
         }
+#if (!NET35)
+        /// <summary>
+        /// Returns a collection of T for the range. 
+        /// If the range contains multiple addresses the first range is used.
+        /// The first row must containt the unique headers used as keys in the row dictionary.
+        /// Headers will be mapped to properties using name or attributes without white spaces. 
+        /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
+        /// </summary>
+        /// <typeparam name="T">The type to map to</typeparam>
+        /// <returns>A list of T</returns>
+        public List<T> ToCollection<T>()
+        {
+            return ToCollection<T>(new ToCollectionOptions() { HeaderRow = 0 });
+        }
+        /// <summary>
+        /// Automatically maps the range to the properties <see cref="T"/> using the headers.
+        /// Using this method requires a headers.
+        /// Headers will be mapped to properties using name or attributes without white spaces. 
+        /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
+        /// </summary>
+        /// <typeparam name="T">The type to use</typeparam>
+        /// <param name="options">Configures the settings for the function</param>
+        /// <returns>A list of <see cref="T"/></returns>
+        public List<T> ToCollection<T>(Action<ToCollectionOptions> options)
+        {
+            var o = new ToCollectionOptions();
+            options.Invoke(o);
+            return ToCollection<T>(o);
+        }
+        /// <summary>
+        /// Automatically maps the range to the properties <see cref="T"/> using the headers.
+        /// Using this method requires a headers.
+        /// Headers will be mapped to properties using name or attributes without white spaces. 
+        /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
+        /// </summary>
+        /// <typeparam name="T">The type to use</typeparam>
+        /// <param name="options">Parameters to the function</param>
+        /// <returns>A list of <see cref="T"/></returns>
+        public List<T> ToCollection<T>(ToCollectionOptions options)
+        {
+            var t = typeof(T);
+            var h = GetRangeHeaders(options);
+            if (h.Count <= 0) throw new InvalidOperationException("No headers specified. Please set a ToCollectionOptions.HeaderRow or ToCollectionOptions.Headers[].");
+            var d= ToCollectionAutomap.GetAutomapList<T>(h);
+            var l = new List<T>();
+            var values = new List<ExcelValue>();
+            var startRow = options.DataStartRow ?? ((options.HeaderRow ?? -1) + 1);
+            for (int r = _fromRow + startRow; r <= _toRow; r++)
+            {
+                var item = (T)Activator.CreateInstance(t);
+                foreach(var m in d)
+                {
+                    var v = Worksheet.GetValueInner(r, m.Item1 + _fromCol);
+                    m.Item2.SetValue(item, v);
+                }
+
+                l.Add(item);
+            }            
+
+            return l;
+        }
+#endif
+
         private List<string> GetRangeHeaders(ToCollectionOptions options)
         {
             List<string> headers;
