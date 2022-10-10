@@ -10,20 +10,20 @@
  *************************************************************************************************
   10/04/2022         EPPlus Software AB       Initial release EPPlus 6.1
  *************************************************************************************************/
-namespace OfficeOpenXml
+namespace OfficeOpenXml.Export.ToCollection
 {
     /// <summary>
-    /// The type of value returned for the cells.
+    /// How conversion failure should be handled when mapping properties
     /// </summary>
-    public enum ToCollectionValueType
+    public enum ToCollectionConversionFailureStrategy
     {
         /// <summary>
-        /// The cells value will be returned. Default.
+        /// Throw Exception. A <see cref="Exceptions.EPPlusDataTypeConvertionException"/> will be thrown on any datatype conversion failure when mapping properties.
         /// </summary>
-        Value,
+        Exception,
         /// <summary>
-        /// The cells formatted value will be returned.
+        /// Set the default value for the property.
         /// </summary>
-        Text
+        SetDefaultValue
     }
 }

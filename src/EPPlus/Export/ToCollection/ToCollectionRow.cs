@@ -11,6 +11,7 @@
   10/04/2022         EPPlus Software AB       Initial release EPPlus 6.1
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Export.ToCollection.Exceptions;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -19,14 +20,16 @@ using System.Reflection;
 namespace OfficeOpenXml.Export.ToCollection
 {
     /// <summary>
-    /// An object that represents a row in the callback function in <see cref="ExcelRangeBase.ToCollection{T}(Func{ToCollectionRow, T}, ToCollectionOptions)"/>
+    /// An object that represents a row in the callback function in <see cref="ExcelRangeBase.ToCollection{T}(Func{ToCollectionRow, T}, ToCollectionRangeOptions)"/>
     /// </summary>
     public class ToCollectionRow
     {
         private ExcelWorkbook _workbook;
-        internal ToCollectionRow(List<string> headers, ExcelWorkbook workbook)
+        private ToCollectionConversionFailureStrategy _failureStrategy;
+        internal ToCollectionRow(List<string> headers, ExcelWorkbook workbook, ToCollectionConversionFailureStrategy failureStrategy)
         {
             _workbook = workbook;
+            _failureStrategy = failureStrategy;
             Headers = headers;
             for(int i = 0; i < headers.Count; i++)
             {
@@ -85,13 +88,25 @@ namespace OfficeOpenXml.Export.ToCollection
         /// <typeparam name="T">The type to convert to</typeparam>
         /// <param name="index">The column index</param>
         /// <returns>The value</returns>
+        /// <exception cref="EPPlusDataTypeConvertionException">Returned if the data type conversion fails and <see cref="ToCollectionOptions.ConversionFailureStrategy"/> is set to Exception</exception>
         public T GetValue<T>(int index)
         {
             if(index < 0 || index >= _cellValues.Count)
             {
                 throw(new ArgumentOutOfRangeException("index"));
             }
-            return ConvertUtil.GetTypedCellValue<T>(_cellValues[index]._value);
+            try
+            {
+                return ConvertUtil.GetTypedCellValue<T>(_cellValues[index]._value);
+            }
+            catch (Exception ex)
+            {
+                if(_failureStrategy==ToCollectionConversionFailureStrategy.Exception)
+                {
+                    throw new EPPlusDataTypeConvertionException($"Failure to convert value {_cellValues[index]._value} for index {index}", ex);
+                }
+                return default;
+            }
         }
         /// <summary>
         /// Returns the typed value of the cell at the column index within the row of the range.
@@ -99,6 +114,7 @@ namespace OfficeOpenXml.Export.ToCollection
         /// <typeparam name="T">The type to convert to</typeparam>
         /// <param name="columnName">The column name</param>
         /// <returns>The value</returns>
+        /// <exception cref="EPPlusDataTypeConvertionException">Returned if the data type conversion fails and <see cref="ToCollectionOptions.ConversionFailureStrategy"/> is set to Exception</exception>
         public T GetValue<T>(string columnName)
         {
             if(_headers.Count==0)
@@ -162,7 +178,30 @@ namespace OfficeOpenXml.Export.ToCollection
             {
                 if (m.Item1 < _cellValues.Count)
                 {
-                    m.Item2.SetValue(item, _cellValues[m.Item1]._value);
+                    try
+                    {
+                        m.Item2.SetValue(item, _cellValues[m.Item1]._value);
+                    }
+                    catch(Exception ex)
+                    {
+                        if (_failureStrategy == ToCollectionConversionFailureStrategy.Exception)
+                        {
+                            var dtcExeption = new EPPlusDataTypeConvertionException($"Can not convert item {_cellValues[m.Item1]._value} to datatype {m.Item2.DeclaringType}", ex);
+                            throw dtcExeption;
+                        }
+                        else
+                        {
+                            //Set the default value
+                            if(m.Item2.DeclaringType.IsValueType)
+                            {
+                                m.Item2.SetValue(item, null);
+                            }
+                            else
+                            {
+                                m.Item2.SetValue(item, Activator.CreateInstance(m.Item2.DeclaringType));
+                            }
+                        }
+                    }
                 }
             }
         }

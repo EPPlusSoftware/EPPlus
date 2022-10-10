@@ -33,7 +33,7 @@ namespace EPPlusTest.Export.ToDataTable
             public string FormattedRatio { get; set; }
             public string FormattedTimeStamp { get; set; }
         }
-
+#region Range
         [TestMethod]
         public void ToCollection_Index()
         {
@@ -195,10 +195,72 @@ namespace EPPlusTest.Export.ToDataTable
         }
 
 #endif
-
-        private ExcelWorksheet LoadTestData(ExcelPackage p, string wsName)
+        #endregion
+        [TestMethod]
+        public void ToCollectionTable_AutoMap()
         {
-            var sheet = p.Workbook.Worksheets.Add("Test");
+            using (var p = new ExcelPackage())
+            {
+                var sheet = LoadTestData(p, "LoadFromCollectionAuto");
+                sheet.Cells["A1"].Value = "Identity";
+                sheet.Cells["B1"].Value = "First name";
+                var list = sheet.Cells["A1:E3"].ToCollection<TestDto>();
+
+                Assert.AreEqual(2, list.Count);
+                Assert.AreEqual(sheet.Cells["A2"].Value, list[0].Id);
+                Assert.AreEqual(sheet.Cells["B2"].Text, list[0].Name);
+                Assert.AreEqual(sheet.Cells["C2"].Value, list[0].Ratio);
+                Assert.AreEqual(sheet.Cells["D2"].Value, list[0].TimeStamp);
+
+                Assert.AreEqual(sheet.Cells["A3"].Value, list[1].Id);
+                Assert.AreEqual(sheet.Cells["B3"].Text, list[1].Name);
+                Assert.AreEqual(sheet.Cells["C3"].Value, list[1].Ratio);
+                Assert.AreEqual(sheet.Cells["D3"].Value, list[1].TimeStamp);
+            }
+        }
+
+        [TestMethod]
+        public void ToCollectionTable_Index()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet = LoadTestData(p, "LoadFromCollectionIndex", true);
+                var list = sheet.Tables[0].ToCollection(
+                    row =>
+                    {
+                        var dto = new TestDto();
+                        dto.Id = row.GetValue<int>(0);
+                        dto.Name = row.GetValue<string>(1);
+                        dto.Ratio = row.GetValue<double>(2);
+                        dto.TimeStamp = row.GetValue<DateTime > (3);
+                        dto.Category = new Category() { CatId = row.GetValue<int>(4) };
+                        dto.FormattedRatio = row.GetText(2);
+                        dto.FormattedTimeStamp = row.GetText(3);
+                        return dto;
+                    });
+
+                Assert.AreEqual(2, list.Count);
+                Assert.AreEqual(sheet.Cells["A2"].Value, list[0].Id);
+                Assert.AreEqual(sheet.Cells["B2"].Text, list[0].Name);
+                Assert.AreEqual(sheet.Cells["C2"].Value, list[0].Ratio);
+                Assert.AreEqual(sheet.Cells["D2"].Value, list[0].TimeStamp);
+                Assert.AreEqual(sheet.Cells["E2"].Value, list[0].Category.CatId);
+                Assert.AreEqual(sheet.Cells["C2"].Text, list[0].FormattedRatio);
+                Assert.AreEqual(sheet.Cells["D2"].Text, list[0].FormattedTimeStamp);
+
+                Assert.AreEqual(sheet.Cells["A3"].Value, list[1].Id);
+                Assert.AreEqual(sheet.Cells["B3"].Text, list[1].Name);
+                Assert.AreEqual(sheet.Cells["C3"].Value, list[1].Ratio);
+                Assert.AreEqual(sheet.Cells["D3"].Value, list[1].TimeStamp);
+                Assert.AreEqual(sheet.Cells["E3"].Value, list[1].Category.CatId);
+                Assert.AreEqual(sheet.Cells["C3"].Text, list[1].FormattedRatio);
+                Assert.AreEqual(sheet.Cells["D3"].Text, list[1].FormattedTimeStamp);
+            }
+        }
+
+        private ExcelWorksheet LoadTestData(ExcelPackage p, string wsName, bool addTable = false)
+        {
+            var sheet = p.Workbook.Worksheets.Add(wsName);
             sheet.Cells["A1"].Value = "Id";
             sheet.Cells["B1"].Value = "Name";
             sheet.Cells["C1"].Value = "Ratio";
@@ -216,6 +278,14 @@ namespace EPPlusTest.Export.ToDataTable
             sheet.Cells["E3"].Value = 3;
             sheet.Cells["C2:C3"].Style.Numberformat.Format = "#,##0.0";
             sheet.Cells["D2:D3"].Style.Numberformat.Format = "yyyy-MM-dd HH:MM";
+            if(addTable)
+            {
+                var t=sheet.Tables.Add(sheet.Cells["A1:E3"], $"tbl{wsName}");
+                t.ShowTotal = true;
+                t.Columns["Id"].TotalsRowLabel = "Totals";
+                t.Columns["Ratio"].TotalsRowFunction = OfficeOpenXml.Table.RowFunctions.Sum;
+                t.Columns["TimeStamp"].TotalsRowFunction = OfficeOpenXml.Table.RowFunctions.Count;
+            }
             return sheet;
 
         }
