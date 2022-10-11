@@ -13,12 +13,12 @@
 namespace OfficeOpenXml.Export.ToCollection
 {
     /// <summary>
-    /// How conversion failure should be handled when mapping properties
+    /// How conversion failures should be handled when mapping properties in the ToCollection method.
     /// </summary>
     public enum ToCollectionConversionFailureStrategy
     {
         /// <summary>
-        /// Throw Exception. A <see cref="Exceptions.EPPlusDataTypeConvertionException"/> will be thrown on any datatype conversion failure when mapping properties.
+        /// Throw an Exception if the conversion fails. Blank values will return the default value for the type. An <see cref="Exceptions.EPPlusDataTypeConvertionException"/> will be thrown on any datatype conversion failure when mapping properties.
         /// </summary>
         Exception,
         /// <summary>

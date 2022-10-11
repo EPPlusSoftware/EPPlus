@@ -12,12 +12,14 @@
  *************************************************************************************************/
 using OfficeOpenXml.Export.ToCollection;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Table;
 using System;
 
 namespace OfficeOpenXml
 {
     /// <summary>
-    /// Parameters for the ToCollection Method
+    /// Settings for the ToCollection method.
+    /// <see cref="ExcelRangeBase.ToCollection{T}()"/>
     /// </summary>
     public class ToCollectionRangeOptions : ToCollectionOptions
     {
@@ -28,6 +30,7 @@ namespace OfficeOpenXml
         internal ToCollectionRangeOptions(ToCollectionOptions options)
         {
             SetCustomHeaders(options.Headers);
+            ConversionFailureStrategy = options.ConversionFailureStrategy;
         }
         /// <summary>
         /// Header row in the range, if applicable. 
@@ -52,6 +55,11 @@ namespace OfficeOpenXml
             }
         }
     }
+    /// <summary>
+    /// Base class for settings to the ToCollection method.
+    /// <see cref="ExcelRangeBase.ToCollection{T}()"/>
+    /// <see cref="ExcelTable.ToCollection{T}()"/>
+    /// </summary>
     public abstract class ToCollectionOptions
     {
         /// <summary>
@@ -73,7 +81,8 @@ namespace OfficeOpenXml
         public ToCollectionConversionFailureStrategy ConversionFailureStrategy { get; set; }
     }
     /// <summary>
-    /// Table ToCollection options.
+    /// Settings for the ToCollection method.
+    /// <see cref="ExcelTable.ToCollection{T}()"/>
     /// </summary>
     public class ToCollectionTableOptions : ToCollectionOptions
     {

@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Attributes;
 using OfficeOpenXml.Export.ToCollection;
+using OfficeOpenXml.Export.ToCollection.Exceptions;
 using OfficeOpenXml.Export.ToDataTable;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.LoadFunctions.Params;
@@ -196,15 +197,16 @@ namespace EPPlusTest.Export.ToDataTable
 
 #endif
         #endregion
+        #region Table
         [TestMethod]
         public void ToCollectionTable_AutoMap()
         {
             using (var p = new ExcelPackage())
             {
-                var sheet = LoadTestData(p, "LoadFromCollectionAuto");
+                var sheet = LoadTestData(p, "LoadFromCollectionAuto", true);
                 sheet.Cells["A1"].Value = "Identity";
                 sheet.Cells["B1"].Value = "First name";
-                var list = sheet.Cells["A1:E3"].ToCollection<TestDto>();
+                var list = sheet.Tables[0].ToCollection<TestDto>();
 
                 Assert.AreEqual(2, list.Count);
                 Assert.AreEqual(sheet.Cells["A2"].Value, list[0].Id);
@@ -218,7 +220,6 @@ namespace EPPlusTest.Export.ToDataTable
                 Assert.AreEqual(sheet.Cells["D3"].Value, list[1].TimeStamp);
             }
         }
-
         [TestMethod]
         public void ToCollectionTable_Index()
         {
@@ -257,7 +258,135 @@ namespace EPPlusTest.Export.ToDataTable
                 Assert.AreEqual(sheet.Cells["D3"].Text, list[1].FormattedTimeStamp);
             }
         }
+        [TestMethod]
+        public void ToCollectionTable_AutoMapInCallback()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet = LoadTestData(p, "LoadFromCollectionAuto", true);
+                sheet.Cells["A1"].Value = "Identity";
+                sheet.Cells["B1"].Value = "First name";
+                var list = sheet.Tables[0].ToCollection(x =>
+                {
+                    var item = new TestDto();
+                    x.Automap(item);
+                    item.Category = new Category() { CatId = x.GetValue<int>("CategoryId") };
+                    item.FormattedRatio = x.GetText("Ratio");
+                    item.FormattedTimeStamp = x.GetText("TimeStamp");
+                    return item;
+                });
 
+                Assert.AreEqual(2, list.Count);
+                Assert.AreEqual(sheet.Cells["A2"].Value, list[0].Id);
+                Assert.AreEqual(sheet.Cells["B2"].Text, list[0].Name);
+                Assert.AreEqual(sheet.Cells["C2"].Value, list[0].Ratio);
+                Assert.AreEqual(sheet.Cells["D2"].Value, list[0].TimeStamp);
+
+                Assert.AreEqual(sheet.Cells["A3"].Value, list[1].Id);
+                Assert.AreEqual(sheet.Cells["B3"].Text, list[1].Name);
+                Assert.AreEqual(sheet.Cells["C3"].Value, list[1].Ratio);
+                Assert.AreEqual(sheet.Cells["D3"].Value, list[1].TimeStamp);
+            }
+        }
+        [TestMethod]
+        public void ToCollectionTable_ColumnNames()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet = LoadTestData(p, "LoadFromCollectionName",true);
+                var list = sheet.Tables[0].ToCollection(x =>
+                {
+                    var dto = new TestDto();
+                    dto.Id = x.GetValue<int>("id");
+                    dto.Name = x.GetValue<string>("Name");
+                    dto.Ratio = x.GetValue<double>("Ratio");
+                    dto.TimeStamp = x.GetValue<DateTime>("TimeStamp");
+                    dto.Category = new Category() { CatId = x.GetValue<int>("CategoryId") };
+                    dto.FormattedRatio = x.GetText("Ratio");
+                    dto.FormattedTimeStamp = x.GetText("TimeStamp");
+                    return dto;
+                });
+
+                Assert.AreEqual(2, list.Count);
+                Assert.AreEqual(sheet.Cells["A2"].Value, list[0].Id);
+                Assert.AreEqual(sheet.Cells["B2"].Text, list[0].Name);
+                Assert.AreEqual(sheet.Cells["C2"].Value, list[0].Ratio);
+                Assert.AreEqual(sheet.Cells["D2"].Value, list[0].TimeStamp);
+                Assert.AreEqual(sheet.Cells["E2"].Value, list[0].Category.CatId);
+                Assert.AreEqual(sheet.Cells["C2"].Text, list[0].FormattedRatio);
+                Assert.AreEqual(sheet.Cells["D2"].Text, list[0].FormattedTimeStamp);
+
+                Assert.AreEqual(sheet.Cells["A3"].Value, list[1].Id);
+                Assert.AreEqual(sheet.Cells["B3"].Text, list[1].Name);
+                Assert.AreEqual(sheet.Cells["C3"].Value, list[1].Ratio);
+                Assert.AreEqual(sheet.Cells["D3"].Value, list[1].TimeStamp);
+                Assert.AreEqual(sheet.Cells["E3"].Value, list[1].Category.CatId);
+                Assert.AreEqual(sheet.Cells["C3"].Text, list[1].FormattedRatio);
+                Assert.AreEqual(sheet.Cells["D3"].Text, list[1].FormattedTimeStamp);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(EPPlusDataTypeConvertionException))]
+        public void ToCollectionTable_ColumnNamesConversionFailure()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet = LoadTestData(p, "LoadFromCollectionName", true);
+                sheet.Cells["C2"].Value = "str";
+                var list = sheet.Tables[0].ToCollection(x =>
+                {
+                    var dto = new TestDto();
+                    dto.Id = x.GetValue<int>("id");
+                    dto.Name = x.GetValue<string>("Name");
+                    dto.Ratio = x.GetValue<double>("Ratio");
+                    dto.TimeStamp = x.GetValue<DateTime>("TimeStamp");
+                    dto.Category = new Category() { CatId = x.GetValue<int>("CategoryId") };
+                    dto.FormattedRatio = x.GetText("Ratio");
+                    dto.FormattedTimeStamp = x.GetText("TimeStamp");
+                    return dto;
+                });
+            }
+        }
+        [TestMethod]
+        public void ToCollectionTable_ColumnNamesConversionDefault()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet = LoadTestData(p, "LoadFromCollectionName", true);
+                sheet.Cells["C2"].Value = "str";
+                var list = sheet.Tables[0].ToCollection(x =>
+                {
+                    var dto = new TestDto();
+                    dto.Id = x.GetValue<int>("id");
+                    dto.Name = x.GetValue<string>("Name");
+                    dto.Ratio = x.GetValue<double>("Ratio");
+                    dto.TimeStamp = x.GetValue<DateTime>("TimeStamp");
+                    dto.Category = new Category() { CatId = x.GetValue<int>("CategoryId") };
+                    dto.FormattedRatio = x.GetText("Ratio");
+                    dto.FormattedTimeStamp = x.GetText("TimeStamp");
+                    return dto;
+                }, x => x.ConversionFailureStrategy = ToCollectionConversionFailureStrategy.SetDefaultValue);
+                
+                Assert.AreEqual(2, list.Count);
+                Assert.AreEqual(sheet.Cells["A2"].Value, list[0].Id);
+                Assert.AreEqual(sheet.Cells["B2"].Text, list[0].Name);
+                Assert.AreEqual(0D,list[0].Ratio);
+                Assert.AreEqual(sheet.Cells["D2"].Value, list[0].TimeStamp);
+                Assert.AreEqual(sheet.Cells["E2"].Value, list[0].Category.CatId);
+                Assert.AreEqual(sheet.Cells["C2"].Text, list[0].FormattedRatio);
+                Assert.AreEqual(sheet.Cells["D2"].Text, list[0].FormattedTimeStamp);
+
+                Assert.AreEqual(sheet.Cells["A3"].Value, list[1].Id);
+                Assert.AreEqual(sheet.Cells["B3"].Text, list[1].Name);
+                Assert.AreEqual(sheet.Cells["C3"].Value, list[1].Ratio);
+                Assert.AreEqual(sheet.Cells["D3"].Value, list[1].TimeStamp);
+                Assert.AreEqual(sheet.Cells["E3"].Value, list[1].Category.CatId);
+                Assert.AreEqual(sheet.Cells["C3"].Text, list[1].FormattedRatio);
+                Assert.AreEqual(sheet.Cells["D3"].Text, list[1].FormattedTimeStamp);
+
+            }
+        }
+        #endregion
         private ExcelWorksheet LoadTestData(ExcelPackage p, string wsName, bool addTable = false)
         {
             var sheet = p.Workbook.Worksheets.Add(wsName);

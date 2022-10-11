@@ -473,9 +473,9 @@ namespace OfficeOpenXml.Table
         #endregion
 #if (!NET35)
         /// <summary>
-        /// Returns a collection of T for the table. 
+        /// Returns a collection of T for the tables data range. The total row is not included.
         /// The table must have headers.
-        /// Headers will be mapped to properties using the name or the attributes without white spaces. 
+        /// Headers will be mapped to properties using the name or the objects attributes without white spaces. 
         /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
         /// </summary>
         /// <typeparam name="T">The type to map to</typeparam>
@@ -486,14 +486,32 @@ namespace OfficeOpenXml.Table
             {
                 throw new InvalidOperationException("The table must have headers.");
             }
-            return Range.ToCollection<T>(new ToCollectionRangeOptions { HeaderRow = 0});
+            return ToCollection<T>(ToCollectionTableOptions.Default);
         }
+        /// <summary>
+        /// Returns a collection of T for the tables data range. The total row is not included.
+        /// The table must have headers.
+        /// Headers will be mapped to properties using the name or the property attributes without white spaces. 
+        /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
+        /// </summary>
+        /// <typeparam name="T">The type to map to</typeparam>
+        /// <param name="options">Configures the settings for the function</param>
+        /// <returns>A list of T</returns>
         public List<T> ToCollection<T>(Action<ToCollectionTableOptions> options)
         {
             var o = new ToCollectionTableOptions();
             options.Invoke(o);
             return ToCollection<T>(o);
         }
+        /// <summary>
+        /// Returns a collection of T for the tables data range. The total row is not included.
+        /// The table must have headers.
+        /// Headers will be mapped to properties using the name or the property attributes without white spaces. 
+        /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
+        /// </summary>
+        /// <typeparam name="T">The type to map to</typeparam>
+        /// <param name="options">Settings for the method</param>
+        /// <returns>A list of T</returns>
         public List<T> ToCollection<T>(ToCollectionTableOptions options)
         {
             

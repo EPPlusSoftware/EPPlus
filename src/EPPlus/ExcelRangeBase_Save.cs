@@ -28,6 +28,7 @@ using System.ComponentModel;
 using OfficeOpenXml.Attributes;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.Export.ToCollection.Exceptions;
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -550,31 +551,7 @@ namespace OfficeOpenXml
         /// <returns>A list of T</returns>
         public List<T> ToCollection<T>(Func<ToCollectionRow, T> setRow, ToCollectionRangeOptions options)
         {
-            var ret = new List<T>();
-            if (_toRow < _fromRow) return null;
-
-            var headers = ToCollectionRange.GetRangeHeaders(this, options.Headers, options.HeaderRow);
-
-            var values = new List<ExcelValue>();
-            var row = new ToCollectionRow(headers, _workbook, options.ConversionFailureStrategy);
-            var startRow = options.DataStartRow ?? ((options.HeaderRow ?? -1) + 1);
-            for (int r = _fromRow + startRow; r <= _toRow; r++)
-            {
-                for (int c = _fromCol; c <= _toCol; c++)
-                {
-                    values.Add(Worksheet.GetCoreValueInner(r, c));
-                }
-                row._cellValues = values;
-                var item = setRow(row);
-                if (item != null)
-                {
-                    ret.Add(item);
-                }
-
-                values.Clear();
-            }
-            return ret;
-
+            return ToCollectionRange.ToCollection(this, setRow, options);
         }
 #if (!NET35)
         /// <summary>
@@ -612,30 +589,11 @@ namespace OfficeOpenXml
         /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
         /// </summary>
         /// <typeparam name="T">The type to use</typeparam>
-        /// <param name="options">Parameters to the function</param>
+        /// <param name="options">Settings for the method</param>
         /// <returns>A list of <see cref="T"/></returns>
         public List<T> ToCollection<T>(ToCollectionRangeOptions options)
         {
-            var t = typeof(T);
-            var h = ToCollectionRange.GetRangeHeaders(this, options.Headers, options.HeaderRow);
-            if (h.Count <= 0) throw new InvalidOperationException("No headers specified. Please set a ToCollectionOptions.HeaderRow or ToCollectionOptions.Headers[].");
-            var d = ToCollectionAutomap.GetAutomapList<T>(h);
-            var l = new List<T>();
-            var values = new List<ExcelValue>();
-            var startRow = options.DataStartRow ?? ((options.HeaderRow ?? -1) + 1);
-            for (int r = _fromRow + startRow; r <= _toRow; r++)
-            {
-                var item = (T)Activator.CreateInstance(t);
-                foreach (var m in d)
-                {
-                    var v = Worksheet.GetValueInner(r, m.Item1 + _fromCol);
-                    m.Item2.SetValue(item, v);
-                }
-
-                l.Add(item);
-            }
-
-            return l;
+            return ToCollectionRange.ToCollection<T>(this, options);
         }
 #endif
     }
