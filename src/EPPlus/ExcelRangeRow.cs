@@ -362,5 +362,109 @@ namespace OfficeOpenXml
         public void Dispose()
         {
         }
+        /// <summary>
+        /// Collapses and hides the column's children. Children are columns immegetaly to the right or left of the column depending on the <see cref="ExcelWorksheet.OutLineSummaryRight"/>
+        /// <paramref name="allLevels">If true, all children will be collapsed and hidden. If false, only the children of the referenced columns will be collapsed.</paramref>
+        /// </summary>
+        public void CollapseChildren(bool allLevels = true)
+        {
+            if (_worksheet.OutLineSummaryBelow)
+            {
+                for (int c = _toRow; c >= _fromRow; c--)
+                {
+                    c = CollapseRowBottom(c, allLevels);
+                }
+            }
+            else
+            {
+                for (int c = _fromRow; c <= _toRow; c++)
+                {
+                    c = CollapseRowTop(c, allLevels);
+                }
+            }
+        }
+        private int CollapseRowBottom(int rowNo, bool allLevels)
+        {
+            int lvl;
+            var row = GetRow(rowNo);
+            if (row == null || row.OutlineLevel == 0)
+            {
+                row=GetRow(--rowNo);
+                if (row == null || row.OutlineLevel == 0)
+                {
+                    return rowNo;
+                }
+                else
+                {
+                    _worksheet.Row(rowNo+1).Collapsed = true;
+                    lvl = 0;
+                    row.Hidden = true;
+                }
+            }
+            else
+            {
+                row.Collapsed = true;
+                lvl = row.OutlineLevel;
+            }
+
+
+            row = GetRow(--rowNo);
+
+            while (row != null && row.OutlineLevel >= lvl)
+            {
+                row.Hidden = true;
+                if (allLevels)
+                {
+                    row.Collapsed = true;
+                }
+                row = GetRow(--rowNo);
+            }
+
+            return rowNo;
+        }
+
+        private int CollapseRowTop(int rowNo, bool allLevels)
+        {
+            int lvl;
+            var row = GetRow(rowNo);
+            if (row == null || row.OutlineLevel == 0)
+            {
+                row = GetRow(++rowNo);
+                if (row == null || row.OutlineLevel == 0 || rowNo > ExcelPackage.MaxRows)
+                {
+                    return rowNo;
+                }
+                else
+                {
+                    _worksheet.Row(rowNo - 1).Collapsed = true;
+                    lvl = 0;
+                    row.Hidden = true;
+                }
+            }
+            else
+            {
+                lvl = row.OutlineLevel;
+                row.Collapsed = true;
+            }
+
+            row = GetRow(++rowNo);
+            while (row != null && row.OutlineLevel >= lvl)
+            {
+                row.Hidden = true;
+                if (allLevels)
+                {
+                    row.Collapsed = true;
+                }
+                row = GetRow(++rowNo);
+            }
+
+            return rowNo;
+        }
+        private RowInternal GetRow(int row)
+        {
+            if (row < 1 || row > ExcelPackage.MaxRows) return null;
+            return _worksheet.GetValueInner(row, 0) as RowInternal;
+        }
+
     }
 }

@@ -108,8 +108,8 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Collapses and hides children.
-        /// <paramref name="allLevels">If true, all children will be collapsed and hidden. If false, only the children of the references columns are collapsed.</paramref>
+        /// Collapses and hides the column's children. Children are columns immegetaly to the right or left of the column depending on the <see cref="ExcelWorksheet.OutLineSummaryRight"/>
+        /// <paramref name="allLevels">If true, all children will be collapsed and hidden. If false, only the children of the referenced columns are collapsed.</paramref>
         /// </summary>
         public void CollapseChildren(bool allLevels = true)
         {
@@ -171,12 +171,12 @@ namespace OfficeOpenXml
                 return colNo;
             }
 
-            if (col.ColumnMax > _toCol) return col.ColumnMax;
+            if (col.ColumnMin < _fromCol) return col.ColumnMin;
             var lvl = col.OutlineLevel;
             col.Collapsed = true;
             col = GetColumn(col.ColumnMax+1, true);
 
-            while (col != null && col.OutlineLevel >= lvl)
+            while (col != null && col.OutlineLevel > lvl)
             {
                 col.Hidden = true;
                 if (allLevels)
