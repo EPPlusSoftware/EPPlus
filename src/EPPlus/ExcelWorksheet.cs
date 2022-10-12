@@ -910,6 +910,24 @@ namespace OfficeOpenXml
                 }
             }
         }
+        /// <summary>
+		/// If true, empty rows are hidden by default.
+        /// This reduces the size of the package and increases performance if most of the rows in a worksheet are hidden.
+		/// </summary>
+        public bool RowZeroHeight
+        {
+            get
+            {
+                CheckSheetTypeAndNotDisposed();
+                return GetXmlNodeBool("d:sheetFormatPr/@zeroHeight");
+            }
+            set
+            {
+                CheckSheetTypeAndNotDisposed();
+
+                SetXmlNodeBool("d:sheetFormatPr/@zeroHeight",value, false);
+            }
+        }
 
         private double GetRowHeightFromNormalStyle()
         {
@@ -981,7 +999,7 @@ namespace OfficeOpenXml
         /** <outlinePr applyStyles="1" summaryBelow="0" summaryRight="0" /> **/
         const string outLineSummaryBelowPath = "d:sheetPr/d:outlinePr/@summaryBelow";
         /// <summary>
-        /// Summary rows below details 
+        /// If true, summary rows are showen below the details, otherwise above.
         /// </summary>
         public bool OutLineSummaryBelow
         {
@@ -998,7 +1016,7 @@ namespace OfficeOpenXml
         }
         const string outLineSummaryRightPath = "d:sheetPr/d:outlinePr/@summaryRight";
         /// <summary>
-        /// Summary rows to right of details
+        /// If true, summary columns are to right of details otherwise to the left.
         /// </summary>
         public bool OutLineSummaryRight
         {
@@ -3489,14 +3507,7 @@ namespace OfficeOpenXml
                     cache.AppendFormat(" outlineLevel =\"{0}\"", currRow.OutlineLevel);
                     if (currRow.Collapsed)
                     {
-                        if (currRow.Hidden)
-                        {
-                            cache.Append(" collapsed=\"1\"");
-                        }
-                        else
-                        {
-                            cache.Append(" collapsed=\"1\" hidden=\"1\""); //Always hidden
-                        }
+                        cache.Append(" collapsed=\"1\"");
                     }
                 }
                 if (currRow.Phonetic)

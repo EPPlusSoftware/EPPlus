@@ -108,6 +108,87 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
+        /// Collapses and hides the column's children. Children are columns immegetaly to the right or left of the column depending on the <see cref="ExcelWorksheet.OutLineSummaryRight"/>
+        /// <paramref name="allLevels">If true, all children will be collapsed and hidden. If false, only the children of the referenced columns are collapsed.</paramref>
+        /// </summary>
+        public void CollapseChildren(bool allLevels = true)
+        {
+            if (_worksheet.OutLineSummaryRight)
+            {
+                for (int c = _toCol; c >= _fromCol; c--)
+                {
+                    c = CollapseColumnRight(c, allLevels);
+                }
+            }
+            else
+            {
+                for (int c = _toCol; c >= _fromCol; c--)
+                {
+                    c = CollapseColumnLeft(c, allLevels);
+                }
+            }            
+        }
+        private int CollapseColumnRight(int colNo, bool allLevels)
+        {
+            var col = GetColumn(colNo);
+            if (col == null || col.OutlineLevel == 0)
+            {
+                return colNo;
+            }
+
+            if (col.ColumnMax < _fromCol) return col.ColumnMax;
+            _worksheet.Column(colNo + 1).Collapsed = true;
+            if (col.ColumnMax > colNo)
+            {
+                col = GetColumn(colNo);
+            }
+            var lvl = col.OutlineLevel;
+            col.Hidden = true;
+            if (allLevels)
+            {
+                col.Collapsed = true;
+            }
+            col = GetColumn(col.ColumnMin - 1, true);
+
+            while(col != null && col.OutlineLevel >= lvl)
+            {
+                col.Hidden = true;
+                if (allLevels)
+                {                    
+                    col.Collapsed = true;
+                }
+                col = GetColumn(col.ColumnMin - 1, true);
+            }
+
+            return colNo;
+        }
+
+        private int CollapseColumnLeft(int colNo, bool allLevels)
+        {
+            var col = GetColumn(colNo);
+            if(col==null || col.OutlineLevel==0)
+            {
+                return colNo;
+            }
+
+            if (col.ColumnMin < _fromCol) return col.ColumnMin;
+            var lvl = col.OutlineLevel;
+            col.Collapsed = true;
+            col = GetColumn(col.ColumnMax+1, true);
+
+            while (col != null && col.OutlineLevel > lvl)
+            {
+                col.Hidden = true;
+                if (allLevels)
+                {
+                    col.Collapsed = true;
+                }
+                col = _worksheet.GetValueInner(0, col.ColumnMax + 1) as ExcelColumn;
+            }
+
+            return colNo;
+        }
+        /// <summary>
         /// Outline level. Zero if no outline
         /// </summary>
         public int OutlineLevel
@@ -307,6 +388,26 @@ namespace OfficeOpenXml
         public void AutoFit(double MinimumWidth, double MaximumWidth)
         {
             _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(MinimumWidth, MaximumWidth);
+        }
+        private ExcelColumn GetColumn(int col, bool ignoreFromCol = true)
+        {
+            var currentCol = _worksheet.GetValueInner(0, col) as ExcelColumn;
+            if (currentCol == null)
+            {
+                int r = 0, c = col;
+                if (_worksheet._values.PrevCell(ref r, ref c))
+                {
+                    if (c > 0)
+                    {
+                        ExcelColumn prevCol = _worksheet.GetValueInner(0, c) as ExcelColumn;
+                        if (prevCol.ColumnMax >= _fromCol || ignoreFromCol)
+                        {
+                            return prevCol;
+                        }
+                    }
+                }
+            }
+            return currentCol;
         }
         private TOut GetValue<TOut>(Func<ExcelColumn, TOut> getValue, TOut defaultValue)
         {

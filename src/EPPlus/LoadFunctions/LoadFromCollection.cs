@@ -68,7 +68,7 @@ namespace OfficeOpenXml.LoadFunctions
                         _isSameType = false;
                     }
 
-                    //Fixing inverted check for IsSubclassOf / Pullrequest from tomdam
+                    //Fixing inverted check for IsSubclassOf / Pullrequest from tom dam
                     if (member.DeclaringType != null && member.DeclaringType != type && !TypeCompat.IsSubclassOf(type, member.DeclaringType) && !TypeCompat.IsSubclassOf(member.DeclaringType, type))
                     {
                         throw new InvalidCastException("Supplied properties in parameter Properties must be of the same type as T (or an assignable type from T)");
