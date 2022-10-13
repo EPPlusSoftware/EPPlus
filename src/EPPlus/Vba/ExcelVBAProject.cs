@@ -547,7 +547,7 @@ namespace OfficeOpenXml.VBA
                             break;
                         case 0x2F:
                             var contrRef = (ExcelVbaReferenceControl)currentRef;
-                            contrRef.ReferenceRecordID = id;
+                            contrRef.SecondaryReferenceRecordID = id;
 
                             var sizeTwiddled = br.ReadUInt32();
                             contrRef.LibIdTwiddled = GetString(br, sizeTwiddled);

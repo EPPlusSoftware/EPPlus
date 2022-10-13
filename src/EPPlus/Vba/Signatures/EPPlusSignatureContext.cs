@@ -69,7 +69,7 @@ namespace OfficeOpenXml.VBA.Signatures
                 case "2.16.840.1.101.3.4.2.2":
                     return SHA384.Create();
                 case "2.16.840.1.101.3.4.2.3":
-                    return SHA512.Create();
+                    return SHA512.Create();                    
                 default:
                     return null;
             }
@@ -78,7 +78,7 @@ namespace OfficeOpenXml.VBA.Signatures
         private HashAlgorithm GetHashAlgorithmDefault()
         {
             switch(_signatureType)
-            {
+            {                
                 case ExcelVbaSignatureType.Legacy:
                     return MD5.Create();
                 default:
@@ -106,6 +106,12 @@ namespace OfficeOpenXml.VBA.Signatures
                     return new byte[] { 0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x02, 0x05 };
                 case HashAlgorithmOids.SHA1:
                     return new byte[] { 0x2B, 0x0E, 0x03, 0x02, 0x1A };
+                case HashAlgorithmOids.SHA256:
+                    return new byte[] { 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x01 };
+                case HashAlgorithmOids.SHA384:
+                    return new byte[] { 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x02 };
+                case HashAlgorithmOids.SHA512:
+                    return new byte[] { 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x03 };
                 default:
                     return null;
             }

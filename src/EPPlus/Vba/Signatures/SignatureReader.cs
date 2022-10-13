@@ -79,20 +79,16 @@ namespace OfficeOpenXml.VBA.Signatures
 
         internal static void ReadSignedData(byte[] data, EPPlusSignatureContext ctx)
         {
-            //File.WriteAllBytes(@"c:\Temp\contentInfoRead.bin", data);
+            File.WriteAllBytes(@"c:\Temp\contentInfoRead.bin", data);
             var ms = new MemoryStream(data);
-            var br = new BinaryReader(ms);
-            var constructedType = br.ReadByte();    //0x30 is a constructed type 
-            var totallength = br.ReadByte();
-            constructedType = br.ReadByte();
-            var lengthSpcIndirectDataContent = br.ReadByte();
+            var br = new BinaryReader(ms);            
+            var totallength = ReadSequence(br);
+            var lengthSpcIndirectDataContent = ReadSequence(br);
             var indirectDataContentOid = ReadOId(br);
             var digestValue = ReadOctStringBytes(br);
 
-            constructedType = br.ReadByte();            //Constructed Type (DigestInfo)
-            var lengthDigestInfo = br.ReadByte();       //Length DigestInfo
-            constructedType = br.ReadByte();            //Constructed Type (Algorithm)
-            var lengthAlgorithmIdentifier = br.ReadByte(); //length AlgorithmIdentifier
+            var lengthDigestInfo = ReadSequence(br);
+            var lengthAlgorithmIdentifier = ReadSequence(br);
             ctx.AlgorithmIdentifierOId = ReadOId(br);
 
             //Parameter is null
@@ -129,6 +125,21 @@ namespace OfficeOpenXml.VBA.Signatures
                 var hash = ReadOctStringBytes(br);
                 ctx.SourceHash = hash;
             }
+        }
+
+        private static int ReadSequence(BinaryReader br)
+        {
+            var id = br.ReadByte();
+            if (id == 0x30)
+            {
+                var b = br.ReadByte();
+                if (b > 0x80)
+                {
+                    return br.ReadByte();
+                }                
+                return b;
+            }
+            return id;
         }
 
         private static byte[] ReadOctStringBytes(BinaryReader bw)

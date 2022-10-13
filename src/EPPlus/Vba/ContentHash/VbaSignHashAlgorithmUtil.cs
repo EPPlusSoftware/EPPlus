@@ -98,6 +98,7 @@ namespace OfficeOpenXml.VBA.ContentHash
                 {
                     ContentHashInputProvider.GetV3ContentNormalizedDataHashInput(proj, ms);
                     var buffer = ms.ToArray();
+                    File.WriteAllBytes(@"c:\epplusTest\testoutput\v3Signing\v3sign.bin", buffer);
                     var hash = ComputeHash(buffer, ctx);
                     var existingHash = ctx.SourceHash;
                     

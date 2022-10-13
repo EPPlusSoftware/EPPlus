@@ -206,6 +206,30 @@ namespace EPPlusTest.VBA
                 SaveWorkbook("SignedUnsignedWorkbook1.xlsm", package);
             }
         }
+        [TestMethod]
+        public void v3ContentSigningSample()
+        {
+            var workbook = "v3Signing\\V3ContentSigning.xlsm";
+            using (var package = OpenTemplatePackage(workbook))
+            {
+                X509Store store = new X509Store(StoreLocation.CurrentUser);
+                store.Open(OpenFlags.ReadOnly);
+                foreach (var cert in store.Certificates)
+                {
+                    if (cert.HasPrivateKey && cert.NotBefore <= DateTime.Today && cert.NotAfter >= DateTime.Today)
+                    {
+                        if (cert.Thumbprint == "C0201D22A64D78757EF4655988B267E6734E04B5")
+                        {
+                            package.Workbook.VbaProject.Signature.Certificate = cert;
+                            break;
+                        }
+                    }
+                }
+                //package.Workbook.VbaProject.Signature.CreateLegacySignatureOnSave = false;
+                //package.Workbook.VbaProject.Signature.CreateAgileSignatureOnSave = false;
+                SaveWorkbook("v3Signing\\EPPlusV3ContentSigning.xlsm", package);
+            }
+        }
 
         [TestMethod]
         public void VbaSign_V3()

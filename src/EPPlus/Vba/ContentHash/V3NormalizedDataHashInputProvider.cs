@@ -279,116 +279,16 @@ namespace OfficeOpenXml.Vba.ContentHash
              * 2.3.4.2.2.2 REFERENCENAME Record       *
              ******************************************/
 
-            // APPEND Buffer WITH REFERENCENAME.Id (section 2.3.4.2.2.2)
-            bw.Write((ushort)0x0016); // Id
-
-            var refNameBytes = encoding.GetBytes(reference.Name);
-
-            // APPEND Buffer WITH REFERENCENAME.SizeOfName (section 2.3.4.2.2.2)
-            bw.Write((uint)refNameBytes.Length); // Size
-
-            // APPEND Buffer WITH REFERENCENAME.Name(section 2.3.4.2.2.2)
-            bw.Write(refNameBytes); // Name
-
-            // APPEND Buffer WITH REFERENCENAME.Reserved (section 2.3.4.2.2.2)
-            bw.Write((ushort)0x003E); // Reserved
-
-            var refNameUnicodeBytes = Encoding.Unicode.GetBytes(reference.Name);
-
-            // APPEND Buffer WITH REFERENCENAME.SizeOfNameUnicode (section 2.3.4.2.2.2)
-            bw.Write((uint)refNameUnicodeBytes.Length);
-
-            // APPEND Buffer WITH REFERENCENAME.NameUnicode (section 2.3.4.2.2.2)
-            bw.Write(refNameUnicodeBytes);
+            WriteNameRecord(bw, reference, encoding);
 
             // IF REFERENCE.ReferenceRecord.Id = 0x002F THEN
-            if (reference.ReferenceRecordID == 0x002F)
-            {
-                /******************************************
-                 * 2.3.4.2.2.3 REFERENCECONTROL Record    *
-                 ******************************************/
-
-                // APPEND Buffer with REFERENCE.ReferenceControl.Id (section 2.3.4.2.2.3)
-                bw.Write((ushort)0x002F);
-
-                var controlRef = (ExcelVbaReferenceControl)reference;
-                var libIdTwiddledBytes = encoding.GetBytes(controlRef.LibIdTwiddled);
-
-                // APPEND Buffer with REFERENCE.ReferenceControl.SizeOfLibidTwiddled (section 2.3.4.2.2.3)
-                bw.Write((uint)libIdTwiddledBytes.Length);
-
-                // APPEND Buffer with REFERENCE.ReferenceControl.LibidTwiddled (section 2.3.4.2.2.3)
-                bw.Write(libIdTwiddledBytes);
-
-                // APPEND Buffer with REFERENCE.ReferenceControl.Reserved1 (section 2.3.4.2.2.3)
-                bw.Write((uint)0x00000000);
-
-                // APPEND Buffer with REFERENCE.ReferenceControl.Reserved2 (section 2.3.4.2.2.3)
-                bw.Write((ushort)0x000);
-
-                // IF exists REFERENCE.ReferenceControl.NameRecordExtended(section 2.3.4.2.2.2) THEN
-                if (false)
-                {
-                    /******************************************
-                     * 2.3.4.2.2.2 REFERENCENAME Record       *
-                     ******************************************/
-
-                    //    APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.Id (section 2.3.4.2.2.2)
-
-                    //    APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.Size (section 2.3.4.2.2.2)
-
-                    //    APPEND Buffer REFERENCE.ReferenceControl.NameRecordExtended.Name (section 2.3.4.2.2.2)
-                    // END IF
-                }
-                // IF exists REFERENCE.ReferenceControl.NameRecordExtended.Reserved (section 2.3.4.2.2.2) THEN
-                if(false)
-                {
-                    /******************************************
-                     * 2.3.4.2.2.2 REFERENCENAME Record       *
-                     ******************************************/
-
-                    //   APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.Reserved (section 2.3.4.2.2.2)
-
-                    //   APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.SizeOfNameUnicode (section 2.3.4.2.2.2)
-
-                    //   APPEND Buffer WITH REFERENCE.ReferenceControl.NameRecordExtended.NameUnicode (section 2.3.4.2.2.2)
-                }
-
-                // END IF
-
-                /******************************************
-                 * 2.3.4.2.2.3 REFERENCECONTROL Record    *
-                 ******************************************/
-
-                // APPEND Buffer with REFERENCE.ReferenceControl.Reserved3 (section 2.3.4.2.2.3)
-                bw.Write((ushort)0x0030);
-
-                var libIdExtendedBytes = encoding.GetBytes(controlRef.LibIdExtended);
-                // APPEND Buffer with REFERENCE.ReferenceControl.SizeOfLibidExtended (section 2.3.4.2.2.3)           
-                bw.Write((uint)libIdExtendedBytes.Length);
-
-                // APPEND Buffer with REFERENCE.ReferenceControl.LibidExtended (section 2.3.4.2.2.3)
-                bw.Write(libIdExtendedBytes);
-
-                // APPEND Buffer with REFERENCE.ReferenceControl.Reserved4 (section 2.3.4.2.2.3)
-                bw.Write((uint)0x00000000);
-
-                // APPEND Buffer with REFERENCE.ReferenceControl.Reserved5(section 2.3.4.2.2.3)
-                bw.Write((ushort)0x0000);
-
-                // APPEND Buffer with REFERENCE.ReferenceControl.OriginalTypeLib (section 2.3.4.2.2.3)
-                bw.Write(controlRef.OriginalTypeLib.ToByteArray());
-
-                // APPEND Buffer with REFERENCE.ReferenceControl.Cookie (section 2.3.4.2.2.3)
-                bw.Write(controlRef.Cookie);
-            }
             // ELSE IF REFERENCE.ReferenceRecord.Id = 0x0033 THEN
-            else if(reference.ReferenceRecordID == 0x0033)
+            if (reference.ReferenceRecordID == 0x0033)
             {
                 /******************************************
                  * 2.3.4.2.2.4 REFERENCEORIGINAL Record   *
                  ******************************************/
-                 
+
                 // APPEND Buffer with REFERENCE.ReferenceOriginal.Id (section 2.3.4.2.2.4)
                 bw.Write((ushort)0x33);
 
@@ -398,9 +298,63 @@ namespace OfficeOpenXml.Vba.ContentHash
 
                 // APPEND Buffer with REFERENCE.ReferenceOriginal.LibidOriginal (section 2.3.4.2.2.4)
                 bw.Write(libIdBytes);
+
+                if (reference.SecondaryReferenceRecordID == 0x002F)
+                {
+                    /******************************************
+                     * 2.3.4.2.2.3 REFERENCECONTROL Record    *
+                     ******************************************/
+
+                    // APPEND Buffer with REFERENCE.ReferenceControl.Id (section 2.3.4.2.2.3)
+                    bw.Write((ushort)0x002F);
+
+                    var controlRef = (ExcelVbaReferenceControl)reference;
+                    var libIdTwiddledBytes = encoding.GetBytes(controlRef.LibIdTwiddled);
+
+                    // APPEND Buffer with REFERENCE.ReferenceControl.SizeOfLibidTwiddled (section 2.3.4.2.2.3)
+                    bw.Write((uint)libIdTwiddledBytes.Length);
+
+                    // APPEND Buffer with REFERENCE.ReferenceControl.LibidTwiddled (section 2.3.4.2.2.3)
+                    bw.Write(libIdTwiddledBytes);
+
+                    // APPEND Buffer with REFERENCE.ReferenceControl.Reserved1 (section 2.3.4.2.2.3)
+                    bw.Write((uint)0x00000000);
+
+                    // APPEND Buffer with REFERENCE.ReferenceControl.Reserved2 (section 2.3.4.2.2.3)
+                    bw.Write((ushort)0x000);
+
+                    //Write name record again.
+                    WriteNameRecord(bw, reference, encoding);
+
+                    /******************************************
+                     * 2.3.4.2.2.3 REFERENCECONTROL Record    *
+                     ******************************************/
+
+                    // APPEND Buffer with REFERENCE.ReferenceControl.Reserved3 (section 2.3.4.2.2.3)
+                    bw.Write((ushort)0x0030);
+
+                    var libIdExtendedBytes = encoding.GetBytes(controlRef.LibIdExtended);
+                    // APPEND Buffer with REFERENCE.ReferenceControl.SizeOfLibidExtended (section 2.3.4.2.2.3)           
+                    bw.Write((uint)libIdExtendedBytes.Length);
+
+                    // APPEND Buffer with REFERENCE.ReferenceControl.LibidExtended (section 2.3.4.2.2.3)
+                    bw.Write(libIdExtendedBytes);
+
+                    // APPEND Buffer with REFERENCE.ReferenceControl.Reserved4 (section 2.3.4.2.2.3)
+                    bw.Write((uint)0x00000000);
+
+                    // APPEND Buffer with REFERENCE.ReferenceControl.Reserved5(section 2.3.4.2.2.3)
+                    bw.Write((ushort)0x0000);
+
+                    // APPEND Buffer with REFERENCE.ReferenceControl.OriginalTypeLib (section 2.3.4.2.2.3)
+                    bw.Write(controlRef.OriginalTypeLib.ToByteArray());
+
+                    // APPEND Buffer with REFERENCE.ReferenceControl.Cookie (section 2.3.4.2.2.3)
+                    bw.Write(controlRef.Cookie);
+                }
             }
             // ELSE IF REFERENCE.ReferenceRecord.Id = 0x000D THEN
-            else if(reference.ReferenceRecordID == 0x000D)
+            else if (reference.ReferenceRecordID == 0x000D)
             {
                 /******************************************
                  * 2.3.4.2.2.5 REFERENCEREGISTERED Record *
@@ -409,9 +363,9 @@ namespace OfficeOpenXml.Vba.ContentHash
                 // APPEND Buffer with REFERENCE.ReferenceRegistered.Id (section 2.3.4.2.2.5)
                 bw.Write((ushort)0x000D);
 
-                var libIdBytes = Encoding.GetEncoding(p.CodePage).GetBytes(reference.Libid);
+                var libIdBytes = Encoding.Unicode.GetBytes(reference.Libid);
                 // APPEND Buffer with REFERENCE.ReferenceRegistered.SizeOfLibid (section 2.3.4.2.2.5)
-                bw.Write((uint)libIdBytes.Length);
+                bw.Write((uint)reference.Libid.Length);
 
                 // APPEND Buffer with REFERENCE.ReferenceRegistered.Libid converted to wide char (section 2.3.4.2.2.5)
                 bw.Write(libIdBytes);
@@ -423,7 +377,7 @@ namespace OfficeOpenXml.Vba.ContentHash
                 bw.Write((ushort)0x0000);
             }
             // ELSE IF REFERENCE.ReferenceRecord.Id = 0x000E THEN
-            else if(reference.ReferenceRecordID == 0x000E)
+            else if (reference.ReferenceRecordID == 0x000E)
             {
                 /******************************************
                  * 2.3.4.2.2.6 REFERENCEPROJECT Record    *
@@ -454,6 +408,31 @@ namespace OfficeOpenXml.Vba.ContentHash
                 // APPEND Buffer with REFERENCE.ReferenceProject.MinorVersion (section 2.3.4.2.2.6)
                 bw.Write(p.MinorVersion);
             }
+        }
+
+        private static void WriteNameRecord(BinaryWriter bw, ExcelVbaReference reference, Encoding encoding)
+        {
+            // APPEND Buffer WITH REFERENCENAME.Id (section 2.3.4.2.2.2)
+            bw.Write((ushort)0x0016); // Id
+
+            var refNameBytes = encoding.GetBytes(reference.Name);
+
+            // APPEND Buffer WITH REFERENCENAME.SizeOfName (section 2.3.4.2.2.2)
+            bw.Write((uint)refNameBytes.Length); // Size
+
+            // APPEND Buffer WITH REFERENCENAME.Name(section 2.3.4.2.2.2)
+            bw.Write(refNameBytes); // Name
+
+            // APPEND Buffer WITH REFERENCENAME.Reserved (section 2.3.4.2.2.2)
+            bw.Write((ushort)0x003E); // Reserved
+
+            var refNameUnicodeBytes = Encoding.Unicode.GetBytes(reference.Name);
+
+            // APPEND Buffer WITH REFERENCENAME.SizeOfNameUnicode (section 2.3.4.2.2.2)
+            bw.Write((uint)refNameUnicodeBytes.Length);
+
+            // APPEND Buffer WITH REFERENCENAME.NameUnicode (section 2.3.4.2.2.2)
+            bw.Write(refNameUnicodeBytes);
         }
 
         private void WriteModuleRecord(ExcelVbaProject p, BinaryWriter bw, ExcelVBAModule module)
@@ -495,8 +474,7 @@ namespace OfficeOpenXml.Vba.ContentHash
             {
                 if(ch == 0xA || ch == 0xD)
                 {
-                    if(pc != 0xD)
-                    //if(textBuffer.Count > 0)
+                    if (pc == 0xD)
                     {
                         lines.Add(textBuffer.ToArray());
                         textBuffer.Clear();
@@ -619,7 +597,7 @@ namespace OfficeOpenXml.Vba.ContentHash
                      *   APPEND Buffer WITH output of NormalizeDesignerStorage(ProjectDesignerModule) (section 2.4.2.2) 
                      * END IF
                      */
-                    if (propertyName.ToLower() == "baseclass")
+                    if (propertyName.Equals("baseclass", StringComparison.InvariantCultureIgnoreCase))
                     {
                         FormsNormalizedDataHashInputProvider.NormalizeDesigner(p, bw, propertyValue);
                     }
@@ -633,14 +611,9 @@ namespace OfficeOpenXml.Vba.ContentHash
                      **/
                     if(propertyName != "ID" && propertyName != "Document" && propertyName != "CMG" && propertyName != "DPB" && propertyName != "GC")
                     {
-                        //if (propertyValue.StartsWith("\"")) propertyValue = propertyValue.Substring(1, propertyValue.Length - 2);
+                        if (propertyValue.StartsWith("\"")) propertyValue = propertyValue.Substring(1, propertyValue.Length - 2);   //Remove leading and trailing double-quotes
                         bw.Write(encoding.GetBytes(propertyName));
                         bw.Write(encoding.GetBytes(propertyValue));
-                        //var name = GetPropertyName(propertyName);
-                        //bw.Write(encoding.GetBytes(name));
-                        //bw.Write(encoding.GetBytes(line));
-                        bw.Write((byte)13);
-                        bw.Write((byte)10);
                     }
                 }
             }
@@ -657,47 +630,6 @@ namespace OfficeOpenXml.Vba.ContentHash
             foreach(var hostExtender in hostExtenders)
             {
                 bw.Write(encoding.GetBytes(hostExtender));
-            }
-        }
-
-        private string GetPropertyName(string input)
-        {
-            if (string.IsNullOrEmpty(input)) return string.Empty;
-            switch(input)
-            {
-                case "ID":
-                    return "ProjectId";
-                case "Document":
-                    return "ProjectDocModule";
-                case "Module":
-                    return "ProjectStdModule";
-                case "Class":
-                    return "ProjectClassModule";
-                case "BaseClass":
-                    return "ProjectDesignerModule";
-                case "Package":
-                    return "ProjectPackage";
-                case "HelpFile":
-                    return "ProjectHelpFile";
-                case "CMG":
-                    return "ProjectProtectionState";
-                case "DPB":
-                    return "ProjectPassword";
-                case "GC":
-                    return "ProjectVisibilityState";
-                case "VersionCompatible32":
-                    return "ProjectVersionCompat32";
-                case "Description":
-                    return "ProjectDescription";
-                case "HelpContextID":
-                    return "ProjectHelpId";
-                case "Name":
-                    return "ProjectName";
-                case "ExeName32":
-                    return "ProjectExeName32";
-                default:
-                    return input;
-
             }
         }
     }
