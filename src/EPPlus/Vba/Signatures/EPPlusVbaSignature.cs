@@ -13,13 +13,10 @@
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.Pkcs;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace OfficeOpenXml.VBA.Signatures
 {
@@ -77,10 +74,10 @@ namespace OfficeOpenXml.VBA.Signatures
 
         public EPPlusSignatureContext Context { get; set; }
 
-        internal void ReadSignature()
+        internal bool ReadSignature()
         {
 
-            if (_vbaPart == null) return;
+            if (_vbaPart == null) return true; //If no vba part exists, create the signature by default.
             var rel = _vbaPart.GetRelationshipsByType(SchemaRelation).FirstOrDefault();
             if(rel != null)
             {
@@ -89,13 +86,15 @@ namespace OfficeOpenXml.VBA.Signatures
                 Context = new EPPlusSignatureContext(_signatureType);
                 var signature = SignatureReader.ReadSignature(Part, _signatureType, Context);
                 Certificate = signature.Certificate;
-                Verifier = signature.Verifier;
+                Verifier = signature.Verifier;                
+                return true;
             }
             else
             {
                 Certificate = null;
                 Verifier = null;
                 Context = new EPPlusSignatureContext(_signatureType);
+                return false;
             }
         }
 

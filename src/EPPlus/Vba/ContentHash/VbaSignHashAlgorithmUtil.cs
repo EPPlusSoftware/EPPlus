@@ -86,7 +86,7 @@ namespace OfficeOpenXml.VBA.ContentHash
                     ContentHashInputProvider.GetContentNormalizedDataHashInput(proj, ms);
                     ContentHashInputProvider.GetFormsNormalizedDataHashInput(proj, ms);
                     var buffer = ms.ToArray();
-                    Debug_WriteInfo(proj, buffer);
+                    //Debug_WriteInfo(proj, buffer);
                     var hash = ComputeHash(buffer, ctx);
                     var existingHash = ctx.SourceHash;
                     return hash;
@@ -98,7 +98,6 @@ namespace OfficeOpenXml.VBA.ContentHash
                 {
                     ContentHashInputProvider.GetV3ContentNormalizedDataHashInput(proj, ms);
                     var buffer = ms.ToArray();
-                    File.WriteAllBytes(@"c:\epplusTest\testoutput\v3Signing\v3sign.bin", buffer);
                     var hash = ComputeHash(buffer, ctx);
                     var existingHash = ctx.SourceHash;
                     
@@ -108,18 +107,6 @@ namespace OfficeOpenXml.VBA.ContentHash
             return default(byte[]);
             
         }
-
-        private static void Debug_WriteInfo(ExcelVbaProject proj, byte[] buffer)
-        {
-            var sw = new StringWriter();
-            foreach (var d in proj.Document.Directories)
-            {
-                sw.WriteLine(d.FullName);
-            }
-            File.WriteAllText("c:\\temp\\documents.txt", sw.ToString());
-            File.WriteAllBytes("c:\\temp\\agile.bin", buffer);
-        }
-
         internal static byte[] ComputeHash(byte[] buffer, EPPlusSignatureContext ctx)
         {
             var algorithm = ctx.GetHashAlgorithm();

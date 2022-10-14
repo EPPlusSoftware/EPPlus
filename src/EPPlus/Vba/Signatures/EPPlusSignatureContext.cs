@@ -42,7 +42,46 @@ namespace OfficeOpenXml.VBA.Signatures
             get;
             set;
         }
-
+        public VbaSignatureHashAlgorithm HashAlgorithm
+        {
+            get
+            {
+                switch (AlgorithmIdentifierOId)
+                {
+                    case HashAlgorithmOids.MD5:
+                        return VbaSignatureHashAlgorithm.MD5;
+                    case HashAlgorithmOids.SHA256:
+                        return VbaSignatureHashAlgorithm.SHA256;
+                    case HashAlgorithmOids.SHA384:
+                        return VbaSignatureHashAlgorithm.SHA384;
+                    case HashAlgorithmOids.SHA512:
+                        return VbaSignatureHashAlgorithm.SHA512;
+                    default:
+                        return VbaSignatureHashAlgorithm.SHA1;
+                }
+            }
+            set
+            {
+                switch (value)
+                {
+                    case VbaSignatureHashAlgorithm.MD5:
+                        AlgorithmIdentifierOId = HashAlgorithmOids.MD5;
+                        break;
+                    case VbaSignatureHashAlgorithm.SHA256:
+                        AlgorithmIdentifierOId = HashAlgorithmOids.SHA256;
+                        break;
+                    case VbaSignatureHashAlgorithm.SHA384:
+                        AlgorithmIdentifierOId = HashAlgorithmOids.SHA384;
+                        break;
+                    case VbaSignatureHashAlgorithm.SHA512:
+                        AlgorithmIdentifierOId = HashAlgorithmOids.SHA512;
+                        break;
+                    default:
+                        AlgorithmIdentifierOId = HashAlgorithmOids.SHA1;
+                        break;
+                }
+            }
+        }
         public byte[] CompiledHash
         {
             get;

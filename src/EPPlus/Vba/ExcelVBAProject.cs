@@ -587,6 +587,7 @@ namespace OfficeOpenXml.VBA
                 store.DataStreams.Add("dir", CreateDirStream());
                 foreach (var module in Modules)
                 {
+                    module.ModuleOffset = 0;
                     store.DataStreams.Add(module.Name, VBACompression.CompressPart(Encoding.GetEncoding(CodePage).GetBytes(module.Attributes.GetAttributeText() + module.Code)));
                 }
 

@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Security.Cryptography.Pkcs;
 using System.Text;
 
@@ -56,12 +57,12 @@ namespace OfficeOpenXml.VBA.Signatures
             bw.Write((byte)0x30); //Constructed Type 
             if (ctx.SignatureType == ExcelVbaSignatureType.Legacy)
             {
-                bw.Write((byte)0x32); //Total length
+                bw.Write((byte)(hashAlgorithmBytes.Length + hashContentBytes.Length + 0x18)); //Total length
             }
             else
             {
                 var length = (byte)(hashAlgorithmBytes.Length + hashContentBytes.Length + 0x24);
-                bw.Write(length); //Total length
+                WriteSequenceLength(bw, length);
             }
             bw.Write((byte)0x30); //Constructed Type 
             bw.Write((byte)0x0E); //Length SpcIndirectDataContent
@@ -95,6 +96,37 @@ namespace OfficeOpenXml.VBA.Signatures
 
             contentInfo = new ContentInfo(ms.ToArray());
             return contentInfo;
+        }
+
+        private static void WriteSequenceLength(BinaryWriter bw,int length)
+        {
+            int num = length;
+            if(num >= 0x80)
+            {
+                var bytes = GetByteSize(length);
+                length += bytes;
+                var b2 = GetByteSize(length);
+                if (bytes!=b2)
+                {
+                    length++;
+                    bytes = b2;
+                }
+                bw.Write((byte)(0x80 | bytes));
+                var lengthBytes = BitConverter.GetBytes(length);
+                for (int i = 0; i < bytes; i++)
+                {
+                    bw.Write(lengthBytes[bytes - i - 1]);
+                }
+            }
+            else
+            {
+                bw.Write((byte)num);
+            }
+        }
+
+        private static int GetByteSize(int length)
+        {
+            return length < 0xFF ? 1 : (length < 0xFFFF ? 2 : (length < 0xFFFFFF ? 3 : 4));
         }
 
         private static byte[] GetHashContent(EPPlusSignatureContext ctx, byte[] hash)

@@ -464,7 +464,7 @@ namespace OfficeOpenXml.Vba.ContentHash
              **/
             var vbaStorage = p.Document.Storage.SubStorage["VBA"];
             var stream = vbaStorage.DataStreams[module.Name];
-            var text = VBACompression.DecompressPart(stream);
+            var text = VBACompression.DecompressPart(stream, (int)module.ModuleOffset);
             var totalText = Encoding.GetEncoding(p.CodePage).GetString(text);
 
             var lines = new List<byte[]>();
@@ -488,7 +488,6 @@ namespace OfficeOpenXml.Vba.ContentHash
             }
 
             var hashModuleNameFlag = false;
-            //var endOfLine = Encoding.GetEncoding(p.CodePage).GetBytes("\\n");
             byte endOfLine = 0xA;
             foreach (var line in lines)
             {

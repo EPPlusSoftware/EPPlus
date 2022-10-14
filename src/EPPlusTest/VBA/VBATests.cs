@@ -1,10 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.VBA.ContentHash;
+using OfficeOpenXml.VBA.Signatures;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -167,7 +170,49 @@ namespace EPPlusTest.VBA
             {
                 var proj = package.Workbook.VbaProject;
                 var s = proj.Signature;
+                s.LegacySignature.HashAlgorithm = OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA512;
+                s.AgileSignature.CreateSignatureOnSave = false;
+                s.V3Signature.CreateSignatureOnSave = false;
                 SaveWorkbook("SavedSignedUnsignedWorkbook1.xlsm", package);
+            }
+        }
+        [TestMethod]
+        public void Verify_SignedWorkbook1_Hash_V3()
+        {
+            using(var package = OpenTemplatePackage(@"SignedWorkbook1.xlsm"))
+            {
+                var proj = package.Workbook.VbaProject;
+                var s = proj.Signature;
+                var ctx = s.V3Signature.SignatureHandler.Context;
+
+                var hash = VbaSignHashAlgorithmUtil.GetContentHash(proj, ctx);
+                Assert.IsTrue(ctx.SourceHash.SequenceEqual(hash));
+            }
+        }
+        [TestMethod]
+        public void Verify_SignedWorkbook1_Hash_Agile()
+        {
+            using (var package = OpenTemplatePackage(@"SignedWorkbook1.xlsm"))
+            {
+                var proj = package.Workbook.VbaProject;
+                var s = proj.Signature;
+                var ctx = s.AgileSignature.SignatureHandler.Context;
+
+                var hash = VbaSignHashAlgorithmUtil.GetContentHash(proj, ctx);
+                Assert.IsTrue(ctx.SourceHash.SequenceEqual(hash));
+            }
+        }
+        [TestMethod]
+        public void Verify_SignedWorkbook1_Hash_Legacy()
+        {
+            using (var package = OpenTemplatePackage(@"SignedWorkbook1.xlsm"))
+            {
+                var proj = package.Workbook.VbaProject;
+                var s = proj.Signature;
+                var ctx = s.LegacySignature.SignatureHandler.Context;
+
+                var hash = VbaSignHashAlgorithmUtil.GetContentHash(proj, ctx);
+                Assert.IsTrue(ctx.SourceHash.SequenceEqual(hash));
             }
         }
         [TestMethod]
@@ -177,8 +222,8 @@ namespace EPPlusTest.VBA
             {
                 var proj = package.Workbook.VbaProject;
                 var s = proj.Signature;
-                package.Workbook.VbaProject.Signature.CreateLegacySignatureOnSave = false;
-                package.Workbook.VbaProject.Signature.CreateV3SignatureOnSave = false;
+                package.Workbook.VbaProject.Signature.LegacySignature.CreateSignatureOnSave = false;
+                package.Workbook.VbaProject.Signature.V3Signature.CreateSignatureOnSave = false;
                 SaveAndCleanup(package);
             }
         }
@@ -201,15 +246,18 @@ namespace EPPlusTest.VBA
                         }
                     }
                 }
-                package.Workbook.VbaProject.Signature.CreateLegacySignatureOnSave = false;
-                package.Workbook.VbaProject.Signature.CreateAgileSignatureOnSave = false;
+                var module=package.Workbook.VbaProject.Modules.AddModule("TestCode");
+                module.Code = "Sub Main\r\nMsgbox(\"Test\")\r\nEnd Sub";
+                package.Workbook.VbaProject.Signature.LegacySignature.CreateSignatureOnSave = false;
+                package.Workbook.VbaProject.Signature.V3Signature.CreateSignatureOnSave = false;
+                package.Workbook.VbaProject.Signature.AgileSignature.HashAlgorithm = OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA256;
                 SaveWorkbook("SignedUnsignedWorkbook1.xlsm", package);
             }
         }
         [TestMethod]
         public void v3ContentSigningSample()
         {
-            var workbook = "v3Signing\\V3ContentSigning.xlsm";
+            var workbook = "v3Signing\\V3ContentSigning_original.xlsm";
             using (var package = OpenTemplatePackage(workbook))
             {
                 X509Store store = new X509Store(StoreLocation.CurrentUser);
@@ -225,29 +273,9 @@ namespace EPPlusTest.VBA
                         }
                     }
                 }
-                //package.Workbook.VbaProject.Signature.CreateLegacySignatureOnSave = false;
-                //package.Workbook.VbaProject.Signature.CreateAgileSignatureOnSave = false;
+                package.Workbook.VbaProject.Signature.LegacySignature.CreateSignatureOnSave = false;
+                package.Workbook.VbaProject.Signature.AgileSignature.CreateSignatureOnSave = false;
                 SaveWorkbook("v3Signing\\EPPlusV3ContentSigning.xlsm", package);
-            }
-        }
-
-        [TestMethod]
-        public void VbaSign_V3()
-        {
-            //var wbPath = @"c:\Temp\vbaCert\SignedWorkbook1.xlsm";
-            using (var package = OpenTemplatePackage("VbaSignedSimple1.xlsm"))
-            {
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                store.Open(OpenFlags.ReadOnly);
-                foreach (var cert in store.Certificates)
-                {
-                    if (cert.HasPrivateKey && cert.NotBefore <= DateTime.Today && cert.NotAfter >= DateTime.Today)
-                    {
-                        package.Workbook.VbaProject.Signature.Certificate = cert;
-                        break;
-                    }
-                }
-                SaveAndCleanup(package);
             }
         }
     }

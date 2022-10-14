@@ -18,6 +18,7 @@ using OfficeOpenXml.Utils.CompundDocument;
 using System.Security.Cryptography.Pkcs;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.VBA.Signatures;
+using OfficeOpenXml.Vba.Signatures;
 
 namespace OfficeOpenXml.VBA
 {
@@ -29,16 +30,16 @@ namespace OfficeOpenXml.VBA
         internal ExcelVbaSignature(Packaging.ZipPackagePart vbaPart)
         {
             _vbaPart = vbaPart;
-            _legacySignature = new EPPlusVbaSignatureLegacy(vbaPart);
-            _agileSignature = new EPPlusVbaSignatureAgile(vbaPart);
-            _v3Signature = new EPPlusVbaSignatureV3(vbaPart);
-            ReadSignatures();
+            LegacySignature = new ExcelSignatureVersion(new EPPlusVbaSignatureLegacy(vbaPart), VbaSignatureHashAlgorithm.MD5);
+            AgileSignature = new ExcelSignatureVersion(new EPPlusVbaSignatureAgile(vbaPart), VbaSignatureHashAlgorithm.SHA1);
+            V3Signature = new ExcelSignatureVersion(new EPPlusVbaSignatureV3(vbaPart), VbaSignatureHashAlgorithm.SHA1);
+            
+            if (LegacySignature.Certificate != null) _certificate = LegacySignature.Certificate;
+            if (_certificate == null && AgileSignature.Certificate != null) _certificate = AgileSignature.Certificate;
+            if (_certificate == null && V3Signature.Certificate != null) _certificate = V3Signature.Certificate;
         }
 
-        private readonly ZipPackagePart _vbaPart = null;
-        private readonly EPPlusVbaSignature _legacySignature;
-        private readonly EPPlusVbaSignature _agileSignature;
-        private readonly EPPlusVbaSignature _v3Signature;
+        internal readonly ZipPackagePart _vbaPart = null;
         private X509Certificate2 _certificate;
 
         /// <summary>
@@ -57,73 +58,23 @@ namespace OfficeOpenXml.VBA
             set 
             {
                 _certificate = value;
-                _legacySignature.Certificate = value;
-                if(_agileSignature != null) _agileSignature.Certificate = value;
-                if(_v3Signature != null) _v3Signature.Certificate = value;
             } 
         }
         /// <summary>
         /// The verifier (legacy format)
         /// </summary>
         public SignedCms Verifier { get; internal set; }
-        /// <summary>
-        /// The verifier (agile format)
-        /// </summary>
-        public SignedCms VerifierAgile { get; internal set; }
-        /// <summary>
-        /// The verifier (V3 format)
-        /// </summary>
-        public SignedCms VerifierV3 { get; internal set; }
         internal CompoundDocument Signature { get; set; }
         internal Packaging.ZipPackagePart Part { get; set; }
-        internal Packaging.ZipPackagePart PartAgile { get; set; }
-        internal Packaging.ZipPackagePart PartV3 { get; set; }
-        private void ReadSignatures()
-        {
-            if (_vbaPart == null) return;
-
-            // Legacy signature
-            if (_legacySignature != null)
-            {
-                _legacySignature.ReadSignature();
-                Part = _legacySignature.Part;
-                Certificate = _legacySignature.Certificate;
-                Verifier = _legacySignature.Verifier;
-            }
-
-            if (_agileSignature != null)
-            {
-                // Agile signature
-                _agileSignature.ReadSignature();
-                PartAgile = _agileSignature.Part;
-                if (Certificate == null)
-                {
-                    Certificate = _agileSignature.Certificate;
-                }
-                VerifierAgile = _agileSignature.Verifier;
-            }
-            if (_v3Signature != null)
-            {
-                // V3 signature
-                _v3Signature.ReadSignature();
-                PartV3 = _v3Signature.Part;
-                if (Certificate == null)
-                {
-                    Certificate = _v3Signature.Certificate;
-                }
-                VerifierV3 = _v3Signature.Verifier;
-            }
-        }
-
         internal void Save(ExcelVbaProject proj)
         {
             if (Certificate == null) return;
             
             //Legacy signature
-            if (CreateLegacySignatureOnSave)
+            if (LegacySignature.CreateSignatureOnSave)
             {
-                _legacySignature.Certificate = Certificate;
-                _legacySignature.CreateSignature(proj);
+                LegacySignature.SignatureHandler.Certificate = Certificate;
+                LegacySignature.CreateSignature(proj);
             }
             else if(Part?.Uri != null && Part.Package.PartExists(Part.Uri))
             {                
@@ -131,41 +82,40 @@ namespace OfficeOpenXml.VBA
             }
 
             //Agile signature
-            if (CreateAgileSignatureOnSave)
+            var p = AgileSignature.Part;
+            if (AgileSignature.CreateSignatureOnSave)
             {
-                _agileSignature.Certificate = Certificate;
-                _agileSignature.CreateSignature(proj);
+                AgileSignature.SignatureHandler.Certificate = Certificate;
+                AgileSignature.CreateSignature(proj);
             }
-            else if (PartAgile?.Uri != null && PartAgile.Package.PartExists(PartAgile.Uri))
+            else if (p?.Uri != null && p.Package.PartExists(p.Uri))
             {
-                PartAgile.Package.DeletePart(PartAgile.Uri);
+                p.Package.DeletePart(p.Uri);
             }
 
             //V3 signature
-            if (CreateV3SignatureOnSave)
+            p = V3Signature.Part;
+            if (V3Signature.CreateSignatureOnSave)
             {
-                _v3Signature.Certificate = Certificate;
-                _v3Signature.CreateSignature(proj);
+                V3Signature.Certificate = Certificate;
+                V3Signature.CreateSignature(proj);
             }
-            else if (PartV3?.Uri != null && PartV3.Package.PartExists(PartV3.Uri))
+            else if (p?.Uri != null && p.Package.PartExists(p.Uri))
             {
-                PartV3.Package.DeletePart(PartV3.Uri);
+                p.Package.DeletePart(p.Uri);
             }
         }
         /// <summary>
-        /// A boolean indicating if a legacy signature for the VBA project should be created when the package is saved.
-        /// Default is true
+        /// Settings for the legacy signing.
         /// </summary>
-        public bool CreateLegacySignatureOnSave { get; set; } = true;
+        public ExcelSignatureVersion LegacySignature { get; set; }
         /// <summary>
-        /// A boolean indicating if a agile signature for the VBA project should be created when the package is saved.
-        /// Default is true
-        /// /// </summary>
-        public bool CreateAgileSignatureOnSave { get; set; } = true;
-        /// <summary>
-        /// A boolean indicating if a v3 signature for the VBA project should be created when the package is saved.
-        /// Default is true
+        /// Settings for the agile vba signing.
         /// </summary>
-        public bool CreateV3SignatureOnSave { get; set; } = true;
+        public ExcelSignatureVersion AgileSignature { get; set; }
+        /// <summary>
+        /// Settings for the V3 vba signing.
+        /// </summary>
+        public ExcelSignatureVersion V3Signature { get; set; }
     }
 }

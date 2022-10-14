@@ -159,7 +159,7 @@ namespace EPPlusTest.Core.Range
         [TestMethod]
         public void Column_CollapsChildren_Right()
         {
-            var ws = _pck.Workbook.Worksheets.Add("Column_Collapsed_Level0");
+            var ws = _pck.Workbook.Worksheets.Add("Column_Collapsed_Level0_Right");
             ws.OutLineSummaryRight = true;
             ws.Cells["A1"].EntireColumn.OutlineLevel = 3;
             ws.Cells["B:B"].EntireColumn.OutlineLevel = 2;

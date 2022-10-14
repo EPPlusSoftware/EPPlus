@@ -79,7 +79,6 @@ namespace OfficeOpenXml.VBA.Signatures
 
         internal static void ReadSignedData(byte[] data, EPPlusSignatureContext ctx)
         {
-            File.WriteAllBytes(@"c:\Temp\contentInfoRead.bin", data);
             var ms = new MemoryStream(data);
             var br = new BinaryReader(ms);            
             var totallength = ReadSequence(br);
@@ -135,7 +134,9 @@ namespace OfficeOpenXml.VBA.Signatures
                 var b = br.ReadByte();
                 if (b > 0x80)
                 {
-                    return br.ReadByte();
+                    var bl = b & 0x80;
+                    var lengthBytes = br.ReadBytes(bl);
+                    return BitConverter.ToInt32(lengthBytes.Reverse().ToArray(), 0);
                 }                
                 return b;
             }
