@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.VBA;
 using OfficeOpenXml.VBA.ContentHash;
 using OfficeOpenXml.VBA.Signatures;
 using System;
@@ -170,7 +171,7 @@ namespace EPPlusTest.VBA
             {
                 var proj = package.Workbook.VbaProject;
                 var s = proj.Signature;
-                s.LegacySignature.HashAlgorithm = OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA512;
+                s.LegacySignature.HashAlgorithm = VbaSignatureHashAlgorithm.SHA512;
                 s.AgileSignature.CreateSignatureOnSave = false;
                 s.V3Signature.CreateSignatureOnSave = false;
                 SaveWorkbook("SavedSignedUnsignedWorkbook1.xlsm", package);

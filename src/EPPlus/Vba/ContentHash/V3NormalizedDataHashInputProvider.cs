@@ -403,10 +403,10 @@ namespace OfficeOpenXml.Vba.ContentHash
                 bw.Write(libIdRelativeBytes);
 
                 // APPEND Buffer with REFERENCE.ReferenceProject.MajorVersion(section 2.3.4.2.2.6)
-                bw.Write(p.MajorVersion);
+                bw.Write(projRef.MajorVersion);
 
                 // APPEND Buffer with REFERENCE.ReferenceProject.MinorVersion (section 2.3.4.2.2.6)
-                bw.Write(p.MinorVersion);
+                bw.Write(projRef.MinorVersion);
             }
         }
 
