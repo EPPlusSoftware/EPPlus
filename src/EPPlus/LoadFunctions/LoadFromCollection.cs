@@ -294,15 +294,18 @@ namespace OfficeOpenXml.LoadFunctions
                     // column data based on a property read with reflection
                     var member = colInfo.MemberInfo;
                     var epplusColumnAttribute = member.GetFirstAttributeOfType<EpplusTableColumnAttribute>();
-                    if (epplusColumnAttribute != null && !useExistingHeader)
+                    if (epplusColumnAttribute != null)
                     {
-                        if (!string.IsNullOrEmpty(epplusColumnAttribute.Header))
+                        if (!useExistingHeader)
                         {
-                            header = epplusColumnAttribute.Header;
-                        }
-                        else
-                        {
-                            header = ParseHeader(member.Name);
+                            if (!string.IsNullOrEmpty(epplusColumnAttribute.Header))
+                            {
+                                header = epplusColumnAttribute.Header;
+                            }
+                            else
+                            {
+                                header = ParseHeader(member.Name);
+                            }
                         }
                         if (!string.IsNullOrEmpty(epplusColumnAttribute.NumberFormat))
                         {
