@@ -30,6 +30,10 @@ namespace OfficeOpenXml.VBA
         /// </summary>
         public int ReferenceRecordID { get; internal set; }
         /// <summary>
+        /// The reference record ID. See MS-OVBA documentation for more info. 
+        /// </summary>
+        public int SecondaryReferenceRecordID { get; internal set; }
+        /// <summary>
         /// The name of the reference
         /// </summary>
         public string Name { get; set; }

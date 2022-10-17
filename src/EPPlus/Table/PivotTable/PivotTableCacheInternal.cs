@@ -199,7 +199,6 @@ namespace OfficeOpenXml.Table.PivotTable
             var fields = new List<ExcelPivotTableCacheField>();
             var r = SourceRange;
             bool cacheUpdated=false;
-            
             for (int col = r._fromCol; col <= r._toCol; col++)
             {
                 var ix = col - r._fromCol;
@@ -229,21 +228,20 @@ namespace OfficeOpenXml.Table.PivotTable
                     else
                     {
                         field=_fields[ix];
-
                         field.SharedItems.Clear();
 
                         if (cacheUpdated == false && string.IsNullOrEmpty(name)==false && !field.Name.StartsWith(name, StringComparison.CurrentCultureIgnoreCase)) cacheUpdated=true;
                     }
 
                     if (!string.IsNullOrEmpty(name) && !field.Name.StartsWith(name)) field.Name = name;
-                    var hs = new HashSet<object>();
-                    var dimensionToRow = ws.Dimension?._toRow ?? r._fromRow + 1;
-                    var toRow = r._toRow < dimensionToRow ? r._toRow : dimensionToRow;
-                    for (int row = r._fromRow + 1; row <= toRow; row++)
-                    {
-                        ExcelPivotTableCacheField.AddSharedItemToHashSet(hs, ws.GetValue(row, col));
-                    }
-                    field.SharedItems._list = hs.ToList();
+                    //var hs = new HashSet<object>();
+                    //var dimensionToRow = ws.Dimension?._toRow ?? r._fromRow + 1;
+                    //var toRow = r._toRow < dimensionToRow ? r._toRow : dimensionToRow;
+                    //for (int row = r._fromRow + 1; row <= toRow; row++)
+                    //{
+                    //    ExcelPivotTableCacheField.AddSharedItemToHashSet(hs, ws.GetValue(row, col));
+                    //}
+                    //field.SharedItems._list = hs.ToList();
                     fields.Add(field);
                 }
             }
@@ -255,10 +253,73 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
             _fields = fields;
+            if (r.Columns != fields.Count)
+            {
+                RemoveDeletedFields(r);
+            }
 
-            if(cacheUpdated) UpdateRowColumnPageFields(tableFields);
+            if (cacheUpdated) UpdateRowColumnPageFields(tableFields);
 
-             RefreshPivotTableItems();
+            RefreshPivotTableItems();
+        }
+
+        //private void SyncFields(List<ExcelPivotTableCacheField> fields)
+        //{
+            
+        //}
+
+        //private void SyncFields()
+        //{
+        //    var r = SourceRange;
+        //    foreach(var pt in _pivotTables)
+        //    {       
+        //        var newList = new List<ExcelPivotTableField>();
+        //        foreach (var f in pt.Fields)
+        //        {                    
+        //            if (pt.CacheDefinition._cacheReference.Fields.Any(x=>x.Name.Equals(f.Name))
+        //            {
+        //                f.TopNode.RemoveChild(f.TopNode);                            
+        //            }
+        //            else
+        //            {
+        //                newList.Add(f);
+        //            }
+        //        }
+        //        pt.Fields._list = newList;
+        //    }
+        //}
+
+        private void RemoveDeletedFields(ExcelRangeBase r)
+        {
+            for (int i = 0; i < _pivotTables.Count; i++)
+            {
+                var pt = _pivotTables[i];
+                for (int p = r.Columns; p < pt.Fields.Count; p++)
+                {
+                    if (pt.Fields[p].Cache.DatabaseField)
+                    {
+                        pt.Fields.RemoveAt(pt.Fields.Count - 1);
+                        p--;
+                    }
+                }
+            }
+
+            var removedFields = _fields.Count;
+            var calcFields = 0;
+
+            while (r.Columns + calcFields < _fields.Count)
+            {
+                var f = _fields[_fields.Count - 1];
+                if (f.DatabaseField)
+                {
+                    f.TopNode.ParentNode.RemoveChild(f.TopNode);
+                    _fields.Remove(f);
+                }
+                else
+                {
+                    calcFields++;
+                }
+            }
         }
 
         private void UpdateRowColumnPageFields(List<List<string>> tableFields)
@@ -372,9 +433,14 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             foreach(var pt in _pivotTables)
             {
-                foreach(var fld in pt.Fields)
+                if (pt.CacheDefinition.CacheSource == eSourceType.Worksheet)
                 {
-                    fld.Items.Refresh();
+                    var fieldCount = Math.Min(pt.CacheDefinition.SourceRange.Columns, pt.Fields.Count);
+
+                    for(int i=0;i < fieldCount;i++)
+                    {
+                        pt.Fields[i].Items.Refresh();
+                    }
                 }
             }
         }

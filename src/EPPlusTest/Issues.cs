@@ -3651,6 +3651,57 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void i715()
+        {
+            using (var p = OpenTemplatePackage(@"i715.xlsx"))
+            {
+                var t = p.Workbook.Worksheets["Data"].Tables[0];
+                int columnPosition = t.Columns.First(c => c.Name == "Extra").Position;
+                t.Columns.Delete(columnPosition, 1);
+                SaveAndCleanup(p);
+            }
 
+            using (var p = OpenTemplatePackage(@"i715-2.xlsx"))
+            {
+                var t = p.Workbook.Worksheets["Data"].Tables[0];
+                int columnPosition = t.Columns.First(c => c.Name == "Extra").Position;
+                t.Columns.Delete(columnPosition, 1);
+                // delete one more column
+                columnPosition = t.Columns.First(c => c.Name == "Col X").Position;
+                t.Columns.Delete(columnPosition, 1);
+                SaveAndCleanup(p);
+            }
+
+            using (var p = OpenTemplatePackage(@"i715-3.xlsx"))
+            {
+                var t = p.Workbook.Worksheets["Bookings This Year"].Tables["JobsThisYear"];
+                // if I delete even one column it produces corrupted xlsx
+                int columnPosition = t.Columns.First(c => c.Name == "Total Time").Position;
+                t.Columns.Delete(columnPosition, 1);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i707()
+        {
+            using (var p = OpenTemplatePackage(@"i707.xlsx"))
+            {
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void i720()
+        {
+           var stream = new MemoryStream();
+            using (var p=OpenPackage("i720.xlsx"))
+            {
+                p.Settings.TextSettings.DefaultTextMeasurer = new OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics.DefaultTextMeasurer();
+                var worksheet = p.Workbook.Worksheets.Add("Sheet1");
+                worksheet.Cells["A1"].Value = "Test";
+                worksheet.Cells["a:xfd"].AutoFitColumns();
+            }
+        }
     }
 }

@@ -43,7 +43,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
             if((type == PmtDue.EndOfPeriod && rate == -1d))
                 return -(pv * System.Math.Pow(1d + rate, nper));
             if (rate == -1d && type == PmtDue.EndOfPeriod) return -(pv * System.Math.Pow(1d + rate, nper) + pmt);
-            return FvCalc(rate, nper, pmt, pv, type); ;
+            return FvCalc(rate, nper, pmt, pv, type);
         }
 
         /// <summary>
