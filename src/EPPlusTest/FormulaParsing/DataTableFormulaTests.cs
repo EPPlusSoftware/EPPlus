@@ -121,6 +121,15 @@ namespace EPPlusTest.FormulaParsing
                 SaveAndCleanup(p);
             }
         }
-
+        [TestMethod]
+        public void CheckSaveWhatif_CopyRange()
+        {
+            using (var p = OpenTemplatePackage("Whatif-DataTable.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                ws.Cells["R14:T20"].Copy(ws.Cells["G30"]);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

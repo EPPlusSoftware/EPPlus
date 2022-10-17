@@ -264,6 +264,7 @@ namespace OfficeOpenXml.Core
                         {
                             _destination._worksheet._flags.SetFlagValue(cse.Row, cse.Column, true, CellFlags.ArrayFormula);
                         }
+                        // We currently don't copy CellFlags.DataTableFormula's, as Excel does not.
                     }
                     else
                     {
