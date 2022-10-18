@@ -117,18 +117,18 @@ namespace OfficeOpenXml
             {
                 for (int c = _toCol; c >= _fromCol; c--)
                 {
-                    c = CollapseColumnRight(c, allLevels);
+                    c = CollapseColumnRight(c, allLevels, true);
                 }
             }
             else
             {
                 for (int c = _fromCol; c <= _toCol; c++)
                 {
-                    c = CollapseColumnLeft(c, allLevels);
+                    c = CollapseColumnLeft(c, allLevels, true);
                 }
             }            
         }
-        private int CollapseColumnRight(int colNo, bool allLevels)
+        private int CollapseColumnRight(int colNo, bool allLevels, bool collapsed)
         {
             var col = GetColumn(colNo);
             int lvl;
@@ -143,13 +143,13 @@ namespace OfficeOpenXml
                 {
                     _worksheet.Column(colNo - 1).Collapsed = true;
                     lvl = 0;
-                    col.Hidden = true;
+                    col.Hidden = collapsed;
                 }
             }
             else
             {
                 lvl = col.OutlineLevel;
-                col.Collapsed = true;
+                col.Collapsed = collapsed;
             }
 
             if (col.ColumnMax < _fromCol) return col.ColumnMax;
@@ -159,19 +159,19 @@ namespace OfficeOpenXml
                 col = GetColumn(colNo);
             }
             lvl = col.OutlineLevel;
-            col.Hidden = true;
+            col.Hidden = collapsed;
             if (allLevels)
             {
-                col.Collapsed = true;
+                col.Collapsed = collapsed;
             }
             col = GetColumn(col.ColumnMin - 1, true);
 
             while(col != null && col.OutlineLevel > lvl)
             {
-                col.Hidden = true;
+                col.Hidden = collapsed;
                 if (allLevels)
                 {                    
-                    col.Collapsed = true;
+                    col.Collapsed = collapsed;
                 }
                 if (allLevels) colNo = col.ColumnMin - 1;
                 col = GetColumn(col.ColumnMin - 1, true);
@@ -180,7 +180,7 @@ namespace OfficeOpenXml
             return colNo;
         }
 
-        private int CollapseColumnLeft(int colNo, bool allLevels)
+        private int CollapseColumnLeft(int colNo, bool allLevels, bool collapsed)
         {
             var col = GetColumn(colNo);
             if(col==null || col.OutlineLevel==0)
@@ -190,7 +190,7 @@ namespace OfficeOpenXml
 
             if (col.ColumnMax > _toCol) return col.ColumnMax;
             var lvl = col.OutlineLevel;
-            col.Collapsed = true;
+            col.Collapsed = collapsed;
             col = GetColumn(col.ColumnMax+1, true);
 
             while (col != null && col.OutlineLevel > lvl)
@@ -198,7 +198,7 @@ namespace OfficeOpenXml
                 col.Hidden = true;
                 if (allLevels)
                 {
-                    col.Collapsed = true;
+                    col.Collapsed = collapsed;
                 }
                 if (allLevels) colNo = col.ColumnMax + 1;
                 col = _worksheet.GetValueInner(0, col.ColumnMax + 1) as ExcelColumn;
