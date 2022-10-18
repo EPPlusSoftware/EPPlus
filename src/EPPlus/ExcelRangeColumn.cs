@@ -122,7 +122,7 @@ namespace OfficeOpenXml
             }
             else
             {
-                for (int c = _toCol; c >= _fromCol; c--)
+                for (int c = _fromCol; c <= _toCol; c++)
                 {
                     c = CollapseColumnLeft(c, allLevels);
                 }
@@ -131,9 +131,25 @@ namespace OfficeOpenXml
         private int CollapseColumnRight(int colNo, bool allLevels)
         {
             var col = GetColumn(colNo);
+            int lvl;
             if (col == null || col.OutlineLevel == 0)
             {
-                return colNo;
+                col = GetColumn(--colNo);
+                if (col == null || col.OutlineLevel == 0 || colNo < 1)
+                {
+                    return colNo;
+                }
+                else
+                {
+                    _worksheet.Column(colNo - 1).Collapsed = true;
+                    lvl = 0;
+                    col.Hidden = true;
+                }
+            }
+            else
+            {
+                lvl = col.OutlineLevel;
+                col.Collapsed = true;
             }
 
             if (col.ColumnMax < _fromCol) return col.ColumnMax;
@@ -142,7 +158,7 @@ namespace OfficeOpenXml
             {
                 col = GetColumn(colNo);
             }
-            var lvl = col.OutlineLevel;
+            lvl = col.OutlineLevel;
             col.Hidden = true;
             if (allLevels)
             {
@@ -150,13 +166,14 @@ namespace OfficeOpenXml
             }
             col = GetColumn(col.ColumnMin - 1, true);
 
-            while(col != null && col.OutlineLevel >= lvl)
+            while(col != null && col.OutlineLevel > lvl)
             {
                 col.Hidden = true;
                 if (allLevels)
                 {                    
                     col.Collapsed = true;
                 }
+                if (allLevels) colNo = col.ColumnMin - 1;
                 col = GetColumn(col.ColumnMin - 1, true);
             }
 
@@ -171,7 +188,7 @@ namespace OfficeOpenXml
                 return colNo;
             }
 
-            if (col.ColumnMin < _fromCol) return col.ColumnMin;
+            if (col.ColumnMax > _toCol) return col.ColumnMax;
             var lvl = col.OutlineLevel;
             col.Collapsed = true;
             col = GetColumn(col.ColumnMax+1, true);
@@ -183,6 +200,7 @@ namespace OfficeOpenXml
                 {
                     col.Collapsed = true;
                 }
+                if (allLevels) colNo = col.ColumnMax + 1;
                 col = _worksheet.GetValueInner(0, col.ColumnMax + 1) as ExcelColumn;
             }
 

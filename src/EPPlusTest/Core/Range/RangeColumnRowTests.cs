@@ -166,7 +166,7 @@ namespace EPPlusTest.Core.Range
             ws.Cells["C:C"].EntireColumn.OutlineLevel = 2;
             ws.Cells["D:J"].EntireColumn.OutlineLevel = 1;
             ws.Cells["K:K"].EntireColumn.OutlineLevel = 1;
-            ws.Cells["K1"].EntireColumn.CollapseChildren(false);
+            ws.Cells["L1"].EntireColumn.CollapseChildren(false);
 
             //Assert.IsFalse(ws.Cells["E10"].EntireColumn.Hidden);
             //Assert.IsFalse(ws.Cells["G10"].EntireColumn.Hidden);
