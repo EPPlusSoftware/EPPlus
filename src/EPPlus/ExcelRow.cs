@@ -370,8 +370,11 @@ namespace OfficeOpenXml
         {
             ExcelRow newRow = added.Row(Row);
             newRow.Collapsed = Collapsed;
-            newRow.Height = Height;
-            newRow.CustomHeight = newRow.CustomHeight;
+            if (newRow.CustomHeight)
+            {
+                newRow.Height = Height;
+            }
+            newRow.CustomHeight = CustomHeight;
             newRow.Hidden = Hidden;
             newRow.OutlineLevel = OutlineLevel;
             newRow.PageBreak = PageBreak;
