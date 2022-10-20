@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections;
@@ -368,18 +369,19 @@ namespace OfficeOpenXml
         /// </summary>
         public void CollapseChildren(bool allLevels = true)
         {
+            var helper = new WorksheetOutlineHelper(_worksheet);
             if (_worksheet.OutLineSummaryBelow)
             {
                 for (int c = _toRow; c >= _fromRow; c--)
                 {
-                    c = CollapseRowBottom(c, allLevels ? -1 : -2, true);
+                    c = helper.CollapseRowBottom(c, allLevels ? -1 : -2, true);
                 }
             }
             else
             {
                 for (int c = _fromRow; c <= _toRow; c++)
                 {
-                    c = CollapseRowTop(c, allLevels ? -1 : -2, true);
+                    c = helper.CollapseRowTop(c, allLevels ? -1 : -2, true);
                 }
             }
         }
@@ -389,18 +391,19 @@ namespace OfficeOpenXml
         /// </summary>
         public void ExpandChildren(bool allLevels = true)
         {
+            var helper = new WorksheetOutlineHelper(_worksheet);
             if (_worksheet.OutLineSummaryBelow)
             {
                 for (int row = _toRow; row >= _fromRow; row--)
                 {
-                    row = CollapseRowBottom(row, allLevels ? -1 : -2, false);
+                    row = helper.CollapseRowBottom(row, allLevels ? -1 : -2, false);
                 }
             }
             else
             {
                 for (int c = _fromRow; c <= _toRow; c++)
                 {
-                    c = CollapseRowTop(c, allLevels ? -1 : -2, false);
+                    c = helper.CollapseRowTop(c, allLevels ? -1 : -2, false);
                 }
             }
         }
@@ -409,108 +412,23 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="level">Expand all rows with a <see cref="OutlineLevel"/> Equal or Greater than this number.</param>
         /// <param name="collapseChildren">Collapse all children with a greater <see cref="OutlineLevel"/> than <paramref name="level"/></param>
-        public void ExpandToLevel(int level, bool collapseChildren=true)
+        public void SetVisibleOutlineLevel(int level, bool collapseChildren=true)
         {
+            var helper = new WorksheetOutlineHelper(_worksheet);
             if (_worksheet.OutLineSummaryBelow)
             {
                 for (int r = _toRow; r >= _fromRow; r--)
                 {
-                    r = CollapseRowBottom(r, level, collapseChildren);
+                    r = helper.CollapseRowBottom(r, level, collapseChildren);
                 }
             }
             else
             {
                 for (int r = _fromRow; r <= _toRow; r++)
                 {
-                    //r = CollapseRowTop(r, level, false);
+                    r = helper.CollapseRowTop(r, level, false);
                 }
             }
         }
-
-        private int CollapseRowBottom(int rowNo, int level, bool collapsed)
-        {
-            int lvl;
-            var row = GetRow(rowNo);
-            if (level == -2) level = row?.OutlineLevel ?? 0;
-            if (row == null || row.OutlineLevel == 0)
-            {
-                row=GetRow(--rowNo);
-                if (row == null || row.OutlineLevel == 0)
-                {
-                    return rowNo;
-                }
-                else
-                {
-                    _worksheet.Row(rowNo+1).Collapsed = collapsed;
-                    lvl = 0;
-                    row.Hidden = collapsed;
-                }
-            }
-            else
-            {
-                row.Collapsed = collapsed;
-                lvl = row.OutlineLevel;
-            }
-
-
-            row = GetRow(--rowNo);
-
-            while (row != null && row.OutlineLevel > lvl)
-            {
-                row.Hidden = collapsed;
-                if (level==-1 || level < row.OutlineLevel)
-                {
-                    row.Collapsed = collapsed;
-                }
-                row = GetRow(--rowNo);
-            }
-
-            return rowNo;
-        }
-
-        private int CollapseRowTop(int rowNo, int level, bool collapsed)
-        {
-            int lvl;
-            var row = GetRow(rowNo);
-            if(level == -2) level = row?.OutlineLevel ?? 0;
-            if (row == null || row.OutlineLevel == 0)
-            {
-                row = GetRow(++rowNo);
-                if (row == null || row.OutlineLevel == 0 || rowNo > ExcelPackage.MaxRows)
-                {
-                    return rowNo;
-                }
-                else
-                {
-                    _worksheet.Row(rowNo - 1).Collapsed = collapsed;
-                    lvl = 0;
-                    row.Hidden = collapsed;
-                }
-            }
-            else
-            {
-                lvl = row.OutlineLevel;
-                row.Collapsed = collapsed;
-            }
-
-            row = GetRow(++rowNo);
-            while (row != null && row.OutlineLevel >= lvl)
-            {
-                row.Hidden = collapsed;
-                if (level==-1 || level <= row.OutlineLevel)
-                {
-                    row.Collapsed = collapsed;
-                }
-                row = GetRow(++rowNo);
-            }
-
-            return rowNo;
-        }
-        private RowInternal GetRow(int row)
-        {
-            if (row < 1 || row > ExcelPackage.MaxRows) return null;
-            return _worksheet.GetValueInner(row, 0) as RowInternal;
-        }
-
     }
 }

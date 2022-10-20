@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections;
@@ -113,99 +114,68 @@ namespace OfficeOpenXml
         /// </summary>
         public void CollapseChildren(bool allLevels = true)
         {
+            var helper = new WorksheetOutlineHelper(_worksheet);
             if (_worksheet.OutLineSummaryRight)
             {
                 for (int c = _toCol; c >= _fromCol; c--)
                 {
-                    c = CollapseColumnRight(c, allLevels, true);
+                    c = helper.CollapseColumn(c, allLevels ? -1 : -2, true, true, -1);
                 }
             }
             else
             {
                 for (int c = _fromCol; c <= _toCol; c++)
                 {
-                    c = CollapseColumnLeft(c, allLevels, true);
+                    c = helper.CollapseColumn(c, allLevels ? -1 : -2, true, true, 1);
                 }
             }            
         }
-        private int CollapseColumnRight(int colNo, bool allLevels, bool collapsed)
+        /// <summary>
+        /// Expands and shows the column's children. Children are columns immegetaly to the right or left of the column depending on the <see cref="ExcelWorksheet.OutLineSummaryRight"/>
+        /// <paramref name="allLevels">If true, all children will be expanded and shown. If false, only the children of the referenced columns will be expanded.</paramref>
+        /// </summary>
+        public void ExpandChildren(bool allLevels = true)
         {
-            var col = GetColumn(colNo);
-            int lvl;
-            if (col == null || col.OutlineLevel == 0)
+            var helper = new WorksheetOutlineHelper(_worksheet);
+            if (_worksheet.OutLineSummaryBelow)
             {
-                col = GetColumn(--colNo);
-                if (col == null || col.OutlineLevel == 0 || colNo < 1)
+                for (int c = _toCol; c >= _fromCol; c--)
                 {
-                    return colNo;
-                }
-                else
-                {
-                    _worksheet.Column(colNo - 1).Collapsed = true;
-                    lvl = 0;
-                    col.Hidden = collapsed;
+                    c = helper.CollapseColumn(c, allLevels ? -1 : -2, false, false, -1);
                 }
             }
             else
             {
-                lvl = col.OutlineLevel;
-                col.Collapsed = collapsed;
-            }
-
-            if (col.ColumnMax < _fromCol) return col.ColumnMax;
-            _worksheet.Column(colNo + 1).Collapsed = true;
-            if (col.ColumnMax > colNo)
-            {
-                col = GetColumn(colNo);
-            }
-            lvl = col.OutlineLevel;
-            col.Hidden = collapsed;
-            if (allLevels)
-            {
-                col.Collapsed = collapsed;
-            }
-            col = GetColumn(col.ColumnMin - 1, true);
-
-            while(col != null && col.OutlineLevel > lvl)
-            {
-                col.Hidden = collapsed;
-                if (allLevels)
-                {                    
-                    col.Collapsed = collapsed;
-                }
-                if (allLevels) colNo = col.ColumnMin - 1;
-                col = GetColumn(col.ColumnMin - 1, true);
-            }
-
-            return colNo;
-        }
-
-        private int CollapseColumnLeft(int colNo, bool allLevels, bool collapsed)
-        {
-            var col = GetColumn(colNo);
-            if(col==null || col.OutlineLevel==0)
-            {
-                return colNo;
-            }
-
-            if (col.ColumnMax > _toCol) return col.ColumnMax;
-            var lvl = col.OutlineLevel;
-            col.Collapsed = collapsed;
-            col = GetColumn(col.ColumnMax+1, true);
-
-            while (col != null && col.OutlineLevel > lvl)
-            {
-                col.Hidden = true;
-                if (allLevels)
+                for (int c = _fromCol; c <= _toCol; c++)
                 {
-                    col.Collapsed = collapsed;
+                    c = helper.CollapseColumn(c, allLevels ? -1 : -2, false, false, -1);
                 }
-                if (allLevels) colNo = col.ColumnMax + 1;
-                col = _worksheet.GetValueInner(0, col.ColumnMax + 1) as ExcelColumn;
             }
-
-            return colNo;
         }
+        /// <summary>
+        /// Expands the rows to the <see cref="OutlineLevel"/> supplied. 
+        /// </summary>
+        /// <param name="level">Expand all rows with a <see cref="OutlineLevel"/> Equal or Greater than this number.</param>
+        /// <param name="collapseChildren">Collapse all children with a greater <see cref="OutlineLevel"/> than <paramref name="level"/></param>
+        public void SetVisibleOutlineLevel(int level, bool collapseChildren = true)
+        {
+            var helper = new WorksheetOutlineHelper(_worksheet);
+            if (_worksheet.OutLineSummaryRight)
+            {
+                for (int c = _toCol; c >= _fromCol; c--)
+                {
+                    c = helper.CollapseColumn(c, level, true, collapseChildren, -1);
+                }
+            }
+            else
+            {
+                for (int c = _fromCol; c <= _toCol; c++)
+                {
+                    c = helper.CollapseColumn(c, level, true, collapseChildren, 1);
+                }
+            }
+        }
+
         /// <summary>
         /// Outline level. Zero if no outline
         /// </summary>
@@ -406,26 +376,6 @@ namespace OfficeOpenXml
         public void AutoFit(double MinimumWidth, double MaximumWidth)
         {
             _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(MinimumWidth, MaximumWidth);
-        }
-        private ExcelColumn GetColumn(int col, bool ignoreFromCol = true)
-        {
-            var currentCol = _worksheet.GetValueInner(0, col) as ExcelColumn;
-            if (currentCol == null)
-            {
-                int r = 0, c = col;
-                if (_worksheet._values.PrevCell(ref r, ref c))
-                {
-                    if (c > 0)
-                    {
-                        ExcelColumn prevCol = _worksheet.GetValueInner(0, c) as ExcelColumn;
-                        if (prevCol.ColumnMax >= _fromCol || ignoreFromCol)
-                        {
-                            return prevCol;
-                        }
-                    }
-                }
-            }
-            return currentCol;
         }
         private TOut GetValue<TOut>(Func<ExcelColumn, TOut> getValue, TOut defaultValue)
         {
