@@ -163,6 +163,8 @@ namespace EPPlusTest.Core.Range
         }
 
         [TestMethod]
+
+
         public void Column_CollapsChildren_Left()
         {
             var ws = _pck.Workbook.Worksheets.Add("Column_Collapsed_Level0_Left");
@@ -246,20 +248,24 @@ namespace EPPlusTest.Core.Range
             Assert.IsTrue(ws.Cells["A13"].EntireRow.Collapsed);
         }
         [TestMethod]
-        public void Row_ExpandToLevel1()
+        public void Row_ExpandToLevel3()
         {
-            var ws = _pck.Workbook.Worksheets.Add("Row_Collapsed_Level0_Below");
+            var ws = _pck.Workbook.Worksheets.Add("Row_Collapsed_ExpandToLevel3");
             SetupRowOutlineBelow(ws);
 
-            ws.Cells["A1:A16"].EntireRow.SetVisibleOutlineLevel(3);
+            ws.Cells["A1:A19"].EntireRow.SetVisibleOutlineLevel(1);
 
-            //Assert.IsTrue(ws.Cells["A1"].EntireRow.Hidden);
-            //Assert.IsTrue(ws.Cells["A2"].EntireRow.Hidden);
-            //Assert.IsTrue(ws.Cells["A12"].EntireRow.Hidden);
-            //Assert.IsFalse(ws.Cells["A13"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["A1"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["A3"].EntireRow.Hidden);
 
-            //Assert.IsTrue(ws.Cells["A2"].EntireRow.Collapsed);
-            //Assert.IsTrue(ws.Cells["A13"].EntireRow.Collapsed);
+            Assert.IsFalse(ws.Cells["A4"].EntireRow.Hidden);
+            Assert.IsFalse(ws.Cells["A13"].EntireRow.Hidden);
+
+            Assert.IsTrue(ws.Cells["A14"].EntireRow.Hidden);
+            Assert.IsTrue(ws.Cells["A16"].EntireRow.Hidden);
+
+            Assert.IsFalse(ws.Cells["A17"].EntireRow.Hidden);
+            Assert.IsFalse(ws.Cells["A19"].EntireRow.Hidden);
         }
 
         [TestMethod]
@@ -418,11 +424,11 @@ namespace EPPlusTest.Core.Range
             ws.Cells["A4:A11"].EntireRow.OutlineLevel = 1;
             ws.Cells["A12"].EntireRow.OutlineLevel = 1;
             ws.Cells["A13"].EntireRow.OutlineLevel = 0;
-            ws.Cells["A14"].EntireRow.OutlineLevel = 1;
-            ws.Cells["A15"].EntireRow.OutlineLevel = 1;
+            ws.Cells["A14"].EntireRow.OutlineLevel = 3;
+            ws.Cells["A15"].EntireRow.OutlineLevel = 3;
             ws.Cells["A16"].EntireRow.OutlineLevel = 2;
-            ws.Cells["A17"].EntireRow.OutlineLevel = 3;
-            ws.Cells["A18"].EntireRow.OutlineLevel = 3;
+            ws.Cells["A17"].EntireRow.OutlineLevel = 1;
+            ws.Cells["A18"].EntireRow.OutlineLevel = 1;
         }
     }
 }

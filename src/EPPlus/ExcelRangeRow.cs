@@ -374,14 +374,14 @@ namespace OfficeOpenXml
             {
                 for (int c = _toRow; c >= _fromRow; c--)
                 {
-                    c = helper.CollapseRowBottom(c, allLevels ? -1 : -2, true);
+                    c = helper.CollapseRow(c, allLevels ? -1 : -2, true, true, -1);
                 }
             }
             else
             {
                 for (int c = _fromRow; c <= _toRow; c++)
                 {
-                    c = helper.CollapseRowTop(c, allLevels ? -1 : -2, true);
+                    c = helper.CollapseRow(c, allLevels ? -1 : -2, true, true, 1);
                 }
             }
         }
@@ -396,14 +396,14 @@ namespace OfficeOpenXml
             {
                 for (int row = _toRow; row >= _fromRow; row--)
                 {
-                    row = helper.CollapseRowBottom(row, allLevels ? -1 : -2, false);
+                    row = helper.CollapseRow(row, allLevels ? -1 : -2, false, false, -1);
                 }
             }
             else
             {
                 for (int c = _fromRow; c <= _toRow; c++)
                 {
-                    c = helper.CollapseRowTop(c, allLevels ? -1 : -2, false);
+                    c = helper.CollapseRow(c, allLevels ? -1 : -2, false, false, 1);
                 }
             }
         }
@@ -419,14 +419,14 @@ namespace OfficeOpenXml
             {
                 for (int r = _toRow; r >= _fromRow; r--)
                 {
-                    r = helper.CollapseRowBottom(r, level, collapseChildren);
+                    r = helper.CollapseRow(r, level, true, collapseChildren, -1);
                 }
             }
             else
             {
                 for (int r = _fromRow; r <= _toRow; r++)
                 {
-                    r = helper.CollapseRowTop(r, level, false);
+                    r = helper.CollapseRow(r, level, true, collapseChildren, 1);
                 }
             }
         }

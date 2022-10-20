@@ -148,7 +148,7 @@ namespace OfficeOpenXml
             {
                 for (int c = _fromCol; c <= _toCol; c++)
                 {
-                    c = helper.CollapseColumn(c, allLevels ? -1 : -2, false, false, -1);
+                    c = helper.CollapseColumn(c, allLevels ? -1 : -2, false, false, 1);
                 }
             }
         }
