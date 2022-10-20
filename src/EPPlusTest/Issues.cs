@@ -3703,5 +3703,17 @@ namespace EPPlusTest
                 worksheet.Cells["a:xfd"].AutoFitColumns();
             }
         }
+        [TestMethod]
+        public void s392()
+        {
+            using (var p = OpenTemplatePackage(@"s392.xlsx"))
+            {
+                var wsSource = p.Workbook.Worksheets[0];
+                var wsCopy = p.Workbook.Worksheets.Add("Copied sheet", wsSource);
+                
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }
