@@ -163,8 +163,6 @@ namespace EPPlusTest.Core.Range
         }
 
         [TestMethod]
-
-
         public void Column_CollapsChildren_Left()
         {
             var ws = _pck.Workbook.Worksheets.Add("Column_Collapsed_Level0_Left");
@@ -380,55 +378,55 @@ namespace EPPlusTest.Core.Range
         private static void SetupColumnOutlineRight(ExcelWorksheet ws)
         {
             ws.OutLineSummaryRight = true;
-            ws.Cells["A1"].EntireColumn.OutlineLevel = 3;
-            ws.Cells["B:B"].EntireColumn.OutlineLevel = 2;
-            ws.Cells["C:C"].EntireColumn.OutlineLevel = 2;
-            ws.Cells["D:J"].EntireColumn.OutlineLevel = 1;
-            ws.Cells["K:K"].EntireColumn.OutlineLevel = 1;
-            //ws.Cells["L:L"].EntireColumn.OutlineLevel = 0;
-            ws.Cells["M:M"].EntireColumn.OutlineLevel = 2;
-            ws.Cells["N:O"].EntireColumn.OutlineLevel = 1;
+            ws.Cells["A:K"].EntireColumn.Group();
+            ws.Cells["M:O"].EntireColumn.Group();
+            ws.Cells["A:C"].EntireColumn.Group();
+            ws.Cells["A:A"].EntireColumn.Group();
+            ws.Cells["M:M"].EntireColumn.Group();
         }
 
         private static void SetupColumnOutlineLeft(ExcelWorksheet ws)
         {
             ws.OutLineSummaryRight = false;
-            ws.Cells["A1"].EntireColumn.OutlineLevel = 1;
-            ws.Cells["B:B"].EntireColumn.OutlineLevel = 2;
-            ws.Cells["C:C"].EntireColumn.OutlineLevel = 2;
-            ws.Cells["D:J"].EntireColumn.OutlineLevel = 3;
-            ws.Cells["K:K"].EntireColumn.OutlineLevel = 3;
-            ws.Cells["L:M"].EntireColumn.OutlineLevel = 4;
-            ws.Cells["N:N"].EntireColumn.OutlineLevel = 3;
-            ws.Cells["O:P"].EntireColumn.OutlineLevel = 4;
+            ws.Columns[1, 16].Group();
+            ws.Columns[2, 16].Group();
+            ws.Columns[4, 11].Group();
+            ws.Columns[12, 13].Group();
+            ws.Columns[14].Group();
+            ws.Columns[15, 16].Group();
         }
         private static void SetupRowOutlineTop(ExcelWorksheet ws)
         {
             ws.OutLineSummaryBelow = false;
-            ws.Cells["A1"].EntireRow.OutlineLevel = 1;
-            ws.Cells["A2"].EntireRow.OutlineLevel = 2;
-            ws.Cells["A3"].EntireRow.OutlineLevel = 2;
-            ws.Cells["A4:B9"].EntireRow.OutlineLevel = 3;
-            ws.Cells["C10"].EntireRow.OutlineLevel = 3;
-            ws.Cells["A11:A12"].EntireRow.OutlineLevel = 4;
-            ws.Cells["A13:A13"].EntireRow.OutlineLevel = 3;
-            ws.Cells["B14:B15"].EntireRow.OutlineLevel = 4;
+            ws.Rows[1, 15].Group();
+            ws.Rows[2, 15].Group();
+            ws.Rows[4, 15].Group();
+            ws.Rows[11, 12].Group();
+            ws.Rows[14, 15].Group();
         }
 
         private static void SetupRowOutlineBelow(ExcelWorksheet ws)
         {
             ws.OutLineSummaryBelow = true;
-            ws.Cells["A1"].EntireRow.OutlineLevel = 3;
-            ws.Cells["A2"].EntireRow.OutlineLevel = 2;
-            ws.Cells["A3"].EntireRow.OutlineLevel = 2;
-            ws.Cells["A4:A11"].EntireRow.OutlineLevel = 1;
-            ws.Cells["A12"].EntireRow.OutlineLevel = 1;
-            ws.Cells["A13"].EntireRow.OutlineLevel = 0;
-            ws.Cells["A14"].EntireRow.OutlineLevel = 3;
-            ws.Cells["A15"].EntireRow.OutlineLevel = 3;
-            ws.Cells["A16"].EntireRow.OutlineLevel = 2;
-            ws.Cells["A17"].EntireRow.OutlineLevel = 1;
-            ws.Cells["A18"].EntireRow.OutlineLevel = 1;
+
+            ws.Rows[1, 12].Group();
+            ws.Rows[1, 3].Group();
+            ws.Rows[1].Group();
+            ws.Rows[14, 18].Group();
+            ws.Rows[14, 15].Group();
+            ws.Rows[14, 16].Group();
+
+            //ws.Cells["A1"].EntireRow.OutlineLevel = 3;
+            //ws.Cells["A2"].EntireRow.OutlineLevel = 2;
+            //ws.Cells["A3"].EntireRow.OutlineLevel = 2;
+            //ws.Cells["A4:A11"].EntireRow.OutlineLevel = 1;
+            //ws.Cells["A12"].EntireRow.OutlineLevel = 1;
+            //ws.Cells["A13"].EntireRow.OutlineLevel = 0;
+            //ws.Cells["A14"].EntireRow.OutlineLevel = 3;
+            //ws.Cells["A15"].EntireRow.OutlineLevel = 3;
+            //ws.Cells["A16"].EntireRow.OutlineLevel = 2;
+            //ws.Cells["A17"].EntireRow.OutlineLevel = 1;
+            //ws.Cells["A18"].EntireRow.OutlineLevel = 1;
         }
     }
 }

@@ -58,7 +58,33 @@ namespace OfficeOpenXml
         {
             get;
             set;
-        }        
+        }
+        /// <summary>
+        /// Groups the rows using an outline. 
+        /// Adds one to <see cref="OutlineLevel" /> for each row if the outline level is less than 8.
+        /// </summary>
+        void Group();
+        /// <summary>
+        /// Ungroups the rows from the outline. 
+        /// Subtracts one from <see cref="OutlineLevel" /> for each row if the outline level is larger that zero. 
+        /// </summary>
+        void Ungroup();
+        /// <summary>
+        /// Collapses and hides the rows's children. Children are rows immegetaly below or top of the row depending on the <see cref="ExcelWorksheet.OutLineSummaryBelow"/>
+        /// <paramref name="allLevels">If true, all children will be collapsed and hidden. If false, only the children of the referenced rows are collapsed.</paramref>
+        /// </summary>
+        void CollapseChildren(bool allLevels = true);
+        /// <summary>
+        /// Expands and shows the rows's children. Children are columns immegetaly below or top of the row depending on the <see cref="ExcelWorksheet.OutLineSummaryBelow"/>
+        /// <paramref name="allLevels">If true, all children will be expanded and shown. If false, only the children of the referenced columns will be expanded.</paramref>
+        /// </summary>
+        void ExpandChildren(bool allLevels = true);
+        /// <summary>
+        /// Expands the rows to the <see cref="OutlineLevel"/> supplied. 
+        /// </summary>
+        /// <param name="level">Expand all rows with a <see cref="OutlineLevel"/> Equal or Greater than this number.</param>
+        /// <param name="collapseChildren">Collapse all children with a greater <see cref="OutlineLevel"/> than <paramref name="level"/></param>
+        void SetVisibleOutlineLevel(int level, bool collapseChildren = true);
     }
     /// <summary>
     /// Represents a range of rows
@@ -364,8 +390,24 @@ namespace OfficeOpenXml
         {
         }
         /// <summary>
-        /// Collapses and hides the column's children. Children are columns immegetaly to the right or left of the column depending on the <see cref="ExcelWorksheet.OutLineSummaryRight"/>
-        /// <paramref name="allLevels">If true, all children will be collapsed and hidden. If false, only the children of the referenced columns will be collapsed.</paramref>
+        /// Groups the rows using an outline. 
+        /// Adds one to <see cref="OutlineLevel" /> for each row if the outline level is less than 8.
+        /// </summary>
+        public void Group()
+        {
+            SetValue(new Action<RowInternal, int>((x, v) => { if (x.OutlineLevel < 8) x.OutlineLevel += (short)v; }), 1);
+        }
+        /// <summary>
+        /// Ungroups the rows from the outline. 
+        /// Subtracts one from <see cref="OutlineLevel" /> for each row if the outline level is larger that zero. 
+        /// </summary>
+        public void Ungroup()
+        {
+            SetValue(new Action<RowInternal, int>((x, v) => { if (x.OutlineLevel >= 0) x.OutlineLevel += (short)v; }), -1);
+        }
+        /// <summary>
+        /// Collapses and hides the rows's children. Children are rows immegetaly below or top of the row depending on the <see cref="ExcelWorksheet.OutLineSummaryBelow"/>
+        /// <paramref name="allLevels">If true, all children will be collapsed and hidden. If false, only the children of the referenced rows are collapsed.</paramref>
         /// </summary>
         public void CollapseChildren(bool allLevels = true)
         {
@@ -386,7 +428,7 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Expands and shows the column's children. Children are columns immegetaly to the right or left of the column depending on the <see cref="ExcelWorksheet.OutLineSummaryRight"/>
+        /// Expands and shows the rows's children. Children are columns immegetaly below or top of the row depending on the <see cref="ExcelWorksheet.OutLineSummaryBelow"/>
         /// <paramref name="allLevels">If true, all children will be expanded and shown. If false, only the children of the referenced columns will be expanded.</paramref>
         /// </summary>
         public void ExpandChildren(bool allLevels = true)

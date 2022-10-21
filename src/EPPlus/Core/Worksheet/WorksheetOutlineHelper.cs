@@ -26,7 +26,7 @@ namespace OfficeOpenXml.Core.Worksheet
             if (level < row?.OutlineLevel)
                 row.Collapsed = collapsed;
             else
-                _worksheet.Row(rowNo).Collapsed = !collapsed;
+                _worksheet.Row(rowNo).Collapsed = collapsed;
 
             var r = rowNo + addValue;
             row = GetRow(r);
@@ -83,7 +83,7 @@ namespace OfficeOpenXml.Core.Worksheet
             if(level < col?.OutlineLevel) 
                 col.Collapsed = collapsed;
             else 
-                _worksheet.Column(colNo).Collapsed = !collapsed;
+                _worksheet.Column(colNo).Collapsed = collapsed;
 
             col = GetColumn(colNo + addValue);
             while(col!=null && (col.OutlineLevel > startLevel || (col.OutlineLevel >= level && level >= 0)))
