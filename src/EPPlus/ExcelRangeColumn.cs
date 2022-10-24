@@ -180,18 +180,18 @@ namespace OfficeOpenXml
         public void ExpandChildren(bool allLevels = true)
         {
             var helper = new WorksheetOutlineHelper(_worksheet);
-            if (_worksheet.OutLineSummaryBelow)
+            if (_worksheet.OutLineSummaryRight)
             {
                 for (int c = _toCol; c >= _fromCol; c--)
                 {
-                    c = helper.CollapseColumn(c, allLevels ? -1 : -2, false, false, -1);
+                    c = helper.CollapseColumn(c, allLevels ? -1 : -2, false, true, -1);
                 }
             }
             else
             {
                 for (int c = _fromCol; c <= _toCol; c++)
                 {
-                    c = helper.CollapseColumn(c, allLevels ? -1 : -2, false, false, 1);
+                    c = helper.CollapseColumn(c, allLevels ? -1 : -2, false, true, 1);
                 }
             }
         }

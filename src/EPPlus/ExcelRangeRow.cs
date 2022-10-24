@@ -438,14 +438,14 @@ namespace OfficeOpenXml
             {
                 for (int row = _toRow; row >= _fromRow; row--)
                 {
-                    row = helper.CollapseRow(row, allLevels ? -1 : -2, false, false, -1);
+                    row = helper.CollapseRow(row, allLevels ? -1 : -2, false, true, -1);
                 }
             }
             else
             {
                 for (int c = _fromRow; c <= _toRow; c++)
                 {
-                    c = helper.CollapseRow(c, allLevels ? -1 : -2, false, false, 1);
+                    c = helper.CollapseRow(c, allLevels ? -1 : -2, false, true, 1);
                 }
             }
         }
