@@ -106,5 +106,36 @@ namespace OfficeOpenXml.Core.CellStore
             var v = new ExcelValue { _value = value, _styleId = styleId};
             SetValue(Row, Column, v);
         }
+
+        internal int GetLastRow(int columnIndex)
+        {
+            if(columnIndex < ColumnCount)
+            {
+                var c = _columnIndex[columnIndex];
+                if(c.PageCount>0)
+                {
+                    var p = c._pages[c.PageCount - 1];
+                    return p.GetRow(p.RowCount-1);
+                }
+            }
+            return 0;
+        }
+
+        internal int GetLastColumn()
+        {
+            if(ColumnCount>0 && _columnIndex[ColumnCount - 1].PageCount > 0)
+            {
+                var cIx = _columnIndex[ColumnCount - 1].GetPointer(0);
+                if(cIx>=0)
+                {
+                    var c = _columnIndex[ColumnCount - 1]._values[cIx]._value as ExcelColumn;
+                    if(c!=null)
+                    {
+                        return c.ColumnMax;
+                    }
+                }
+            }
+            return 0;
+        }
     }
 }

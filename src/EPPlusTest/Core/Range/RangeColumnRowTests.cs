@@ -310,7 +310,7 @@ namespace EPPlusTest.Core.Range
             Assert.IsFalse(ws.Cells["Q1"].EntireColumn.Hidden);
         }
         [TestMethod]
-        public void Col_ExpandAllAndCollapseSubLevel_Right()
+        public void Column_ExpandAllAndCollapseSubLevel_Right()
         {
             var ws = _pck.Workbook.Worksheets.Add("Col_Collapsed_ExpandHidden_Right");
             SetupColumnOutlineRight(ws);

@@ -160,14 +160,14 @@ namespace OfficeOpenXml
             var helper = new WorksheetOutlineHelper(_worksheet);
             if (_worksheet.OutLineSummaryRight)
             {
-                for (int c = _toCol; c >= _fromCol; c--)
+                for (int c = GetLastCol(); c >= _fromCol; c--)
                 {
                     c = helper.CollapseColumn(c, allLevels ? -1 : -2, true, true, -1);
                 }
             }
             else
             {
-                for (int c = _fromCol; c <= _toCol; c++)
+                for (int c = _fromCol; c <= GetLastCol(); c++)
                 {
                     c = helper.CollapseColumn(c, allLevels ? -1 : -2, true, true, 1);
                 }
@@ -182,14 +182,14 @@ namespace OfficeOpenXml
             var helper = new WorksheetOutlineHelper(_worksheet);
             if (_worksheet.OutLineSummaryRight)
             {
-                for (int c = _toCol; c >= _fromCol; c--)
+                for (int c = GetLastCol(); c >= _fromCol; c--)
                 {
                     c = helper.CollapseColumn(c, allLevels ? -1 : -2, false, true, -1);
                 }
             }
             else
             {
-                for (int c = _fromCol; c <= _toCol; c++)
+                for (int c = _fromCol; c <= GetLastCol(); c++)
                 {
                     c = helper.CollapseColumn(c, allLevels ? -1 : -2, false, true, 1);
                 }
@@ -205,14 +205,14 @@ namespace OfficeOpenXml
             var helper = new WorksheetOutlineHelper(_worksheet);
             if (_worksheet.OutLineSummaryRight)
             {
-                for (int c = _toCol; c >= _fromCol; c--)
+                for (int c = GetLastCol(); c >= _fromCol; c--)
                 {
                     c = helper.CollapseColumn(c, level, true, collapseChildren, -1);
                 }
             }
             else
             {
-                for (int c = _fromCol; c <= _toCol; c++)
+                for (int c = _fromCol; c <= GetLastCol(); c++)
                 {
                     c = helper.CollapseColumn(c, level, true, collapseChildren, 1);
                 }
@@ -630,6 +630,21 @@ namespace OfficeOpenXml
                 }
             }
         }
+        private int GetLastCol()
+        {
+            int maxCol;
+            if
+                (_worksheet.Dimension == null)
+            {
+                maxCol = _worksheet._values.GetLastColumn();
+            }
+            else
+            {
+                maxCol = Math.Max(_worksheet.Dimension.End.Row, _worksheet._values.GetLastRow(0));
+            }
+            return _toCol > maxCol + 1 ? maxCol + 1 : _toCol;   // +1 if the last column has outline level 1 then +1 is outline level 0.
+        }
+
         /// <summary>
         /// Disposes this object
         /// </summary>

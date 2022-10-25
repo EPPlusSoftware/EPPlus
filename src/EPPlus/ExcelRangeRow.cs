@@ -414,14 +414,14 @@ namespace OfficeOpenXml
             var helper = new WorksheetOutlineHelper(_worksheet);
             if (_worksheet.OutLineSummaryBelow)
             {
-                for (int c = _toRow; c >= _fromRow; c--)
+                for (int c = GetToRow(); c >= _fromRow; c--)
                 {
                     c = helper.CollapseRow(c, allLevels ? -1 : -2, true, true, -1);
                 }
             }
             else
             {
-                for (int c = _fromRow; c <= _toRow; c++)
+                for (int c = _fromRow; c <= GetToRow(); c++)
                 {
                     c = helper.CollapseRow(c, allLevels ? -1 : -2, true, true, 1);
                 }
@@ -436,14 +436,14 @@ namespace OfficeOpenXml
             var helper = new WorksheetOutlineHelper(_worksheet);
             if (_worksheet.OutLineSummaryBelow)
             {
-                for (int row = _toRow; row >= _fromRow; row--)
+                for (int row = GetToRow(); row >= _fromRow; row--)
                 {
                     row = helper.CollapseRow(row, allLevels ? -1 : -2, false, true, -1);
                 }
             }
             else
             {
-                for (int c = _fromRow; c <= _toRow; c++)
+                for (int c = _fromRow; c <= GetToRow(); c++)
                 {
                     c = helper.CollapseRow(c, allLevels ? -1 : -2, false, true, 1);
                 }
@@ -459,18 +459,33 @@ namespace OfficeOpenXml
             var helper = new WorksheetOutlineHelper(_worksheet);
             if (_worksheet.OutLineSummaryBelow)
             {
-                for (int r = _toRow; r >= _fromRow; r--)
+                for (int r = GetToRow(); r >= _fromRow; r--)
                 {
                     r = helper.CollapseRow(r, level, true, collapseChildren, -1);
                 }
             }
             else
             {
-                for (int r = _fromRow; r <= _toRow; r++)
+                for (int r = _fromRow; r <= GetToRow(); r++)
                 {
                     r = helper.CollapseRow(r, level, true, collapseChildren, 1);
                 }
             }
         }
+        private int GetToRow()
+        {
+            int maxRow;
+            if 
+                (_worksheet.Dimension == null)
+            {
+                maxRow=_worksheet._values.GetLastRow(0);
+            }
+            else
+            {
+                maxRow = Math.Max(_worksheet.Dimension.End.Row, _worksheet._values.GetLastRow(0));
+            }
+            return _toRow > maxRow + 1 ? maxRow + 1 : _toRow; // +1 if the last row has outline level 1 then +1 is outline level 0.
+        }
+
     }
 }
