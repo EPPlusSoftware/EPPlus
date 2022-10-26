@@ -951,7 +951,10 @@ namespace OfficeOpenXml.VBA
                 else
                 {
                     //Designer
-                    sb.AppendFormat("Package={0}\r\n", module.ClassID);
+                    if (string.IsNullOrEmpty(module.ClassID) == false)
+                    {
+                        sb.AppendFormat("Package={0}\r\n", module.ClassID);
+                    }
                     sb.AppendFormat("BaseClass={0}\r\n", module.Name);
                 }
             }
