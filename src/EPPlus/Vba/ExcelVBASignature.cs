@@ -23,7 +23,7 @@ using OfficeOpenXml.Vba.Signatures;
 namespace OfficeOpenXml.VBA
 {
     /// <summary>
-    /// The code signature properties of the project
+    /// The VBA project's code signature properties
     /// </summary>
     public class ExcelVbaSignature
     {
@@ -110,11 +110,13 @@ namespace OfficeOpenXml.VBA
         /// </summary>
         public ExcelSignatureVersion LegacySignature { get; set; }
         /// <summary>
-        /// Settings for the agile vba signing.
+        /// Settings for the agile vba signing. 
+        /// The agile signature adds a hash that is calculated for user forms data in the vba project (designer streams). 
         /// </summary>
         public ExcelSignatureVersion AgileSignature { get; set; }
         /// <summary>
         /// Settings for the V3 vba signing.
+        /// The V3 signature includes more coverage for data in the dir and project stream in the hash, not covered by the legacy and agile signatures.
         /// </summary>
         public ExcelSignatureVersion V3Signature { get; set; }
     }
