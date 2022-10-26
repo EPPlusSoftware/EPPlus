@@ -886,10 +886,16 @@ namespace OfficeOpenXml
             get
             {
                 CheckSheetTypeAndNotDisposed();
-                _defaultRowHeight = GetXmlNodeDouble("d:sheetFormatPr/@defaultRowHeight");
-                if (double.IsNaN(_defaultRowHeight) || CustomHeight == false)
+                if (double.IsNaN(_defaultRowHeight))
                 {
-                    _defaultRowHeight = GetRowHeightFromNormalStyle();
+                    if (CustomHeight)
+                    {
+                        _defaultRowHeight = GetXmlNodeDouble("d:sheetFormatPr/@defaultRowHeight");
+                    }
+                    if (double.IsNaN(_defaultRowHeight))
+                    {
+                        _defaultRowHeight = GetRowHeightFromNormalStyle();
+                    }
                 }
                 return _defaultRowHeight;
             }
@@ -931,11 +937,11 @@ namespace OfficeOpenXml
 
         private double GetRowHeightFromNormalStyle()
         {
-            var ix = Workbook.Styles.NamedStyles.FindIndexById("Normal");
+            var ix = Workbook.Styles.GetNormalStyleIndex();
             if (ix >= 0)
             {
                 var f = Workbook.Styles.NamedStyles[ix].Style.Font;
-                if(f.Name.Equals("Calibri", StringComparison.OrdinalIgnoreCase) && f.Size==11) //Default normal font
+                if (f.Name.Equals("Calibri", StringComparison.OrdinalIgnoreCase) && f.Size == 11) //Default normal font
                 {
                     return 15;
                 }

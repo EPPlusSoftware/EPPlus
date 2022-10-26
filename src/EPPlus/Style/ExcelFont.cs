@@ -39,9 +39,23 @@ namespace OfficeOpenXml.Style
             }
             set
             {
+                CheckNormalStyleChange();
                 _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Font, eStyleProperty.Name, value, _positionID, _address));
             }
         }
+
+        private void CheckNormalStyleChange()
+        {
+            var nsIx = _styles.GetNormalStyleIndex();
+            if(nsIx>=0)
+            {
+                if(_styles.NamedStyles[nsIx].Style.Font.Index==Index)
+                {
+                    _styles._wb.ClearDefaultHeightsAndWidths();
+                }
+            }
+        }
+
         /// <summary>
         /// The Size of the font
         /// </summary>
@@ -53,6 +67,7 @@ namespace OfficeOpenXml.Style
             }
             set
             {
+                CheckNormalStyleChange();
                 _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Font, eStyleProperty.Size, value, _positionID, _address));
             }
         }
@@ -105,6 +120,7 @@ namespace OfficeOpenXml.Style
             }
             set
             {
+                CheckNormalStyleChange();
                 _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Font, eStyleProperty.Bold, value, _positionID, _address));
             }
         }
@@ -119,6 +135,7 @@ namespace OfficeOpenXml.Style
             }
             set
             {
+                CheckNormalStyleChange();
                 _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Font, eStyleProperty.Italic, value, _positionID, _address));
             }
         }

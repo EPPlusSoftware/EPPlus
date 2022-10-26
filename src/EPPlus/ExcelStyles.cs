@@ -49,7 +49,7 @@ namespace OfficeOpenXml
         internal const string DxfSlicerStylesPath = "d:extLst/d:ext[@uri='" + ExtLstUris.SlicerStylesDxfCollectionUri + "']/x14:dxfs";
         const string SlicerStylesPath = "d:extLst/d:ext[@uri='" + ExtLstUris.SlicerStylesUri + "']/x14:slicerStyles";
         XmlDocument _styleXml;
-        ExcelWorkbook _wb;
+        internal ExcelWorkbook _wb;
         ExcelNamedStyleXml _normalStyle;
         XmlNamespaceManager _nameSpaceManager;
         internal int _nextDfxNumFmtID = 164;

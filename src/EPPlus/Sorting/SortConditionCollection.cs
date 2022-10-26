@@ -96,5 +96,14 @@ namespace OfficeOpenXml.Sorting
             TopNode.AppendChild(condition.TopNode);
             _sortConditions.Add(condition);
         }
+
+        /// <summary>
+        /// Removes all sort conditions
+        /// </summary>
+        internal void Clear()
+        {
+            _sortConditions.Clear();
+            TopNode.RemoveAll();
+        }
     }
 }

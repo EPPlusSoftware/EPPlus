@@ -52,6 +52,9 @@ using OfficeOpenXml.ConditionalFormatting.Contracts;
 using Newtonsoft.Json;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using System.Xml.Linq;
+using static System.Net.WebRequestMethods;
+using OfficeOpenXml.Utils.CompundDocument;
 
 namespace EPPlusTest
 {
@@ -3055,7 +3058,7 @@ namespace EPPlusTest
         public void Issue592()
         {
             using (var p = OpenTemplatePackage("I592.xlsx"))
-            {        
+            {
                 var ws = p.Workbook.Worksheets[0];
                 SaveAndCleanup(p);
             }
@@ -3097,7 +3100,7 @@ namespace EPPlusTest
 
                 ExcelBarChartSerie eventS2Serie = chart.Series.Add("H9:H12", "B9:B12");
 
-                
+
 
                 chart.StyleManager.SetChartStyle(ePresetChartStyle.BarChartStyle5, ePresetChartColors.MonochromaticPalette5);
 
@@ -3189,14 +3192,14 @@ namespace EPPlusTest
                 var wsTable = p.Workbook.Worksheets[1];
                 var tbl = wsTable.Tables[0];
                 wsTable.Cells["E9"].Value = "New Value";
-                wsTable.Cells["E9"].Value="Stockholm";
+                wsTable.Cells["E9"].Value = "Stockholm";
                 wsTable.Cells["F11"].Value = "Test";
                 tbl.AddRow(11);
-                tbl.Range.Offset(1, 0, tbl.Range.Rows - 1, tbl.Range.Columns).Copy(tbl.Range.Offset(11,0));
+                tbl.Range.Offset(1, 0, tbl.Range.Rows - 1, tbl.Range.Columns).Copy(tbl.Range.Offset(11, 0));
                 Assert.IsNotNull(pt.Fields[2].Items.Count);
                 Assert.IsNotNull(pt.Fields[10].Items.Count);
                 Assert.IsNotNull(pt.Fields[1].Items.Count);
-                for (int r=12;r<23;r++)
+                for (int r = 12; r < 23; r++)
                 {
                     wsTable.Cells[r, 1].Value += "-" + r;
                     wsTable.Cells[r, 2].Value = r;
@@ -3343,12 +3346,12 @@ namespace EPPlusTest
         [TestMethod]
         public void I676()
         {
-            using (var p=OpenTemplatePackage("i676.xlsm"))
+            using (var p = OpenTemplatePackage("i676.xlsm"))
             {
                 var ws = p.Workbook.Worksheets["4"];
                 ws.Cells["P10"].Value = 10;
                 p.Workbook.VbaProject.Remove();
-                SaveWorkbook("i676.xlsx",p);
+                SaveWorkbook("i676.xlsx", p);
             }
         }
         [TestMethod]
@@ -3490,7 +3493,7 @@ namespace EPPlusTest
 
                 var ws = p.Workbook.Worksheets[1];
                 Assert.AreEqual(400D, ws.Cells["B118"].Value);
-            }            
+            }
         }
         [TestMethod]
         public void SumWithDoubleWorksheetRefs()
@@ -3511,7 +3514,7 @@ namespace EPPlusTest
         [TestMethod]
         public void AddressWithDoubleWorksheetRefs()
         {
-            var a=new ExcelAddressBase("a!a1:'a'!A3");
+            var a = new ExcelAddressBase("a!a1:'a'!A3");
 
             Assert.AreEqual(1, a._fromRow);
             Assert.AreEqual(3, a._toRow);
@@ -3593,8 +3596,8 @@ namespace EPPlusTest
 
                 sheet1.DeleteColumn(1, 1);
 
-                Assert.AreEqual("Sheet1!$7:$7",pck.Workbook.Names["RowRange"].Address);
-             }
+                Assert.AreEqual("Sheet1!$7:$7", pck.Workbook.Names["RowRange"].Address);
+            }
         }
         [TestMethod]
         public void s330()
@@ -3694,14 +3697,66 @@ namespace EPPlusTest
         [TestMethod]
         public void i720()
         {
-           var stream = new MemoryStream();
-            using (var p=OpenPackage("i720.xlsx"))
+            var stream = new MemoryStream();
+            using (var p = OpenPackage("i720.xlsx"))
             {
                 p.Settings.TextSettings.DefaultTextMeasurer = new OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics.DefaultTextMeasurer();
                 var worksheet = p.Workbook.Worksheets.Add("Sheet1");
                 worksheet.Cells["A1"].Value = "Test";
                 worksheet.Cells["a:xfd"].AutoFitColumns();
             }
+        }
+        [TestMethod]
+        public void i729()
+        {
+            var id = "2";
+            using (var p = OpenTemplatePackage($"i729-{id}.xlsm"))
+            {
+                var path = $"c:\\temp\\vba-issue\\{id}\\";
+                if (Directory.Exists(path))
+                {
+                    Directory.Delete(path, true);
+                }
+                Directory.CreateDirectory(path);
+
+                var code = p.Workbook.VbaProject.Modules[0].Code;
+                var sb = new StringWriter();
+                WriteStorage(p.Workbook.VbaProject.Document.Storage, sb, path, "");
+
+                SaveWorkbook("i729.xlsm", p);
+            }
+        }
+
+        private void WriteStorage(CompoundDocument.StoragePart storage, StringWriter sb, string path, string dir)
+        {
+            foreach (var key in storage.SubStorage.Keys)
+            {
+                Directory.CreateDirectory($"{path}{dir}{key}\\");
+                WriteStorage(storage.SubStorage[key], sb, path, dir + $"{key}\\");
+            }
+            foreach(var key in storage.DataStreams.Keys)
+            {
+                sb.WriteLine($"{path}{dir}\\" + key);
+                System.IO.File.WriteAllBytes($"{path}{dir}\\" + GetFileName(key) + ".bin", storage.DataStreams[key]);
+            }
+        }
+
+        private string GetFileName(string key)
+        {
+            var sb = new StringBuilder();
+            var ic = Path.GetInvalidFileNameChars();
+            foreach (var c in key)
+            {
+                if(ic.Contains(c))
+                {
+                    sb.Append($"0x{(int)c}");
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+            }
+            return sb.ToString();
         }
     }
 }

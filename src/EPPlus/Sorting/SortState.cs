@@ -40,6 +40,10 @@ namespace OfficeOpenXml.Sorting
                 attr.Value = ExcelPackage.schemaRichData2;
                 TopNode.Attributes.Append(attr);
             }
+            else
+            {
+                TopNode.RemoveAll();
+            }
             _sortConditions = new SortConditionCollection(nameSpaceManager, TopNode);
         }
 
@@ -63,6 +67,15 @@ namespace OfficeOpenXml.Sorting
         private string _refPath = "@ref";
 
         private readonly SortConditionCollection _sortConditions;
+
+        /// <summary>
+        /// Removes all sort conditions
+        /// </summary>
+        public void Clear()
+        {
+            _sortConditions.Clear();
+        }
+
         /// <summary>
         /// The preserved sort conditions of the sort state.
         /// </summary>

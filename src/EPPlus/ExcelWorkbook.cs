@@ -1780,5 +1780,20 @@ namespace OfficeOpenXml
             }
 			return null;
         }
-    } // end Workbook
+
+		internal void ClearDefaultHeightsAndWidths()
+		{
+			foreach (var ws in Worksheets)
+			{
+				if (ws.IsChartSheet == false)
+				{
+					if (ws.CustomHeight)
+					{
+						ws.DefaultRowHeight = double.NaN;
+					}
+					ws.DefaultColWidth = double.NaN;
+				}
+			}
+		}
+	} // end Workbook
 }
