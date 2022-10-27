@@ -21,7 +21,6 @@ using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Drawing.Slicer;
@@ -81,7 +80,7 @@ namespace OfficeOpenXml.Drawing
             _drawingNames = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
             CreateNSM();
             XmlNode node = sheet.WorksheetXml.SelectSingleNode("//d:drawing", sheet.NameSpaceManager);
-            if (node != null && sheet !=null)
+            if (node != null && sheet != null)
             {
                 _drawingRelation = sheet.Part.GetRelationship(node.Attributes["r:id"].Value);
                 _uriDrawing = UriHelper.ResolvePartUri(sheet.WorksheetUri, _drawingRelation.TargetUri);
@@ -94,7 +93,7 @@ namespace OfficeOpenXml.Drawing
         }
 
         internal ExcelWorksheet Worksheet { get; set; }
-        
+
         /// <summary>
         /// A reference to the drawing xml document
         /// </summary>
@@ -153,11 +152,11 @@ namespace OfficeOpenXml.Drawing
             NameSpaceManager.AddNamespace("mc", ExcelPackage.schemaMarkupCompatibility);
             NameSpaceManager.AddNamespace("c14", ExcelPackage.schemaChart14);
             NameSpaceManager.AddNamespace("mc", ExcelPackage.schemaMc2006);
-            NameSpaceManager.AddNamespace("cx", ExcelPackage.schemaChartExMain); 
+            NameSpaceManager.AddNamespace("cx", ExcelPackage.schemaChartExMain);
             NameSpaceManager.AddNamespace("cx1", ExcelPackage.schemaChartEx2015_9_8);
             NameSpaceManager.AddNamespace("cx2", ExcelPackage.schemaChartEx2015_10_21);
             NameSpaceManager.AddNamespace("x14", ExcelPackage.schemaMainX14);
-            NameSpaceManager.AddNamespace("x15", ExcelPackage.schemaMainX15);                
+            NameSpaceManager.AddNamespace("x15", ExcelPackage.schemaMainX15);
             NameSpaceManager.AddNamespace("sle", ExcelPackage.schemaSlicer2010);
             NameSpaceManager.AddNamespace("sle15", ExcelPackage.schemaSlicer);
             NameSpaceManager.AddNamespace("a14", ExcelPackage.schemaDrawings2010);
@@ -276,7 +275,7 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new InvalidOperationException("For stock charts please use the AddStockChart method.");
             }
-            
+
             return AddAllChartTypes(Name, ChartType, PivotTableSource, DrawingType);
         }
 
@@ -355,7 +354,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="Name"></param>
         /// <param name="AddParetoLine">If true a pareto line is added to the chart. The <see cref="ExcelChart.ChartType"/> will also be Pareto.</param>
         /// <returns>The chart</returns>
-        public ExcelHistogramChart AddHistogramChart(string Name, bool AddParetoLine=false)
+        public ExcelHistogramChart AddHistogramChart(string Name, bool AddParetoLine = false)
         {
             return (ExcelHistogramChart)AddAllChartTypes(Name, AddParetoLine ? eChartType.Pareto : eChartType.Histogram, null);
         }
@@ -418,11 +417,11 @@ namespace OfficeOpenXml.Drawing
             switch (ChartType)
             {
                 case eStockChartType.StockHLC:
-                    if(Range.Columns!=4)
+                    if (Range.Columns != 4)
                     {
                         throw (new InvalidOperationException("Range must contain 4 columns with the Category serie to the left and the High Price, Low Price and Close Price series"));
                     }
-                    return AddStockChart(Name, 
+                    return AddStockChart(Name,
                         ws.Cells[startRow, startCol, endRow, startCol],
                         ws.Cells[startRow, startCol + 1, endRow, startCol + 1],
                         ws.Cells[startRow, startCol + 2, endRow, startCol + 2],
@@ -478,7 +477,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="OpenSerie">The opening price serie. Supplying this serie will create a StockOHLC or StockVOHLC chart</param>
         /// <param name="VolumeSerie">The volume represented as a column chart. Supplying this serie will create a StockVHLC or StockVOHLC chart</param>
         /// <returns>The chart</returns>
-        public ExcelStockChart AddStockChart(string Name, ExcelRangeBase CategorySerie, ExcelRangeBase HighSerie, ExcelRangeBase LowSerie, ExcelRangeBase CloseSerie, ExcelRangeBase OpenSerie = null, ExcelRangeBase VolumeSerie =null)
+        public ExcelStockChart AddStockChart(string Name, ExcelRangeBase CategorySerie, ExcelRangeBase HighSerie, ExcelRangeBase LowSerie, ExcelRangeBase CloseSerie, ExcelRangeBase OpenSerie = null, ExcelRangeBase VolumeSerie = null)
         {
             ValidateSeries(CategorySerie, LowSerie, HighSerie, CloseSerie);
 
@@ -791,7 +790,7 @@ namespace OfficeOpenXml.Drawing
             return pic;
         }
         /// <summary>
-        /// Adds a picture to the worksheet using a stream. EPPlus will automatically identigfy the format
+        /// Adds a picture to the worksheet using a stream. EPPlus will identify the type of image automatically.
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="PictureStream">An stream image.</param>
@@ -816,7 +815,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="PictureStream">An stream image.</param>
-        /// <param name="PictureType">The type of image</param>
+        /// <param name="PictureType">The type of image.  A null value means that EPPlus will identify the type of image automatically.</param>
         /// <returns>A picture object</returns>
         public ExcelPicture AddPicture(string Name, Stream PictureStream, ePictureType? PictureType)
         {
@@ -827,7 +826,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="pictureStream">An stream image.</param>
-        /// <param name="pictureType">The type of image</param>
+        /// <param name="pictureType">The type of image. A null value means that EPPlus will identify the type of image automatically.</param>
         /// <param name="Hyperlink">Picture Hyperlink</param>
         /// <returns>A picture object</returns>
         public ExcelPicture AddPicture(string Name, Stream pictureStream, ePictureType? pictureType, Uri Hyperlink)
@@ -852,13 +851,13 @@ namespace OfficeOpenXml.Drawing
         internal ExcelGroupShape AddGroupDrawing()
         {
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-            var grp=new ExcelGroupShape(this, drawNode);
+            var grp = new ExcelGroupShape(this, drawNode);
             grp.Name = $"Group {grp.Id}";
             _drawingsList.Add(grp);
             _drawingNames.Add(grp.Name, _drawingsList.Count - 1);
             return grp;
         }
-#region AddPictureAsync
+        #region AddPictureAsync
 #if !NET35 && !NET40
         /// <summary>
         /// Adds a picture to the worksheet
@@ -928,13 +927,13 @@ namespace OfficeOpenXml.Drawing
         public async Task<ExcelPicture> AddPictureAsync(string Name, Stream PictureStream, Uri Hyperlink)
         {
             return await AddPictureAsync(Name, PictureStream, null, Hyperlink);
-        }        
+        }
         /// <summary>
         /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="PictureStream">An stream image.</param>
-        /// <param name="PictureType">The type of image</param>
+        /// <param name="PictureType">The type of image. A null value means that EPPlus will identify the type of image automatically.</param>
         /// <returns>A picture object</returns>
         public async Task<ExcelPicture> AddPictureAsync(string Name, Stream PictureStream, ePictureType? PictureType)
         {
@@ -945,7 +944,7 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="pictureStream">An stream image.</param>
-        /// <param name="pictureType">The type of image. A null value means EPPlus will identify the type of image.</param>
+        /// <param name="pictureType">The type of image. A null value means that EPPlus will identify the type of image automatically.</param>
         /// <param name="Hyperlink">The Picture Hyperlink</param>
         /// <returns>A picture object</returns>
         public async Task<ExcelPicture> AddPictureAsync(string Name, Stream pictureStream, ePictureType? pictureType, Uri Hyperlink)
@@ -967,7 +966,7 @@ namespace OfficeOpenXml.Drawing
             return pic;
         }
 #endif
-#endregion
+        #endregion
         private void AddPicture(string Name, ExcelPicture pic)
         {
             pic.Name = Name;
@@ -982,7 +981,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>A picture object</returns>
         public ExcelPicture AddPicture(string Name, string ImagePath)
         {
-            if (string.IsNullOrEmpty(ImagePath)==false)
+            if (string.IsNullOrEmpty(ImagePath) == false)
             {
                 return AddPicture(Name, new FileInfo(ImagePath), null);
             }
@@ -997,7 +996,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>A picture object</returns>
         public ExcelPicture AddPicture(string Name, string ImagePath, ExcelHyperLink Hyperlink)
         {
-            if (string.IsNullOrEmpty(ImagePath)==false)
+            if (string.IsNullOrEmpty(ImagePath) == false)
             {
                 return AddPicture(Name, new FileInfo(ImagePath), Hyperlink);
             }
@@ -1023,7 +1022,7 @@ namespace OfficeOpenXml.Drawing
                 throw new Exception("Name already exists in the drawings collection");
             }
         }
-    
+
         /// <summary>
         /// Adds a new chart using an crtx template
         /// </summary>
@@ -1043,7 +1042,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The new chart</returns>
         public ExcelChart AddChartFromTemplate(FileInfo crtxFile, string name, ExcelPivotTable pivotTableSource)
         {
-            if(!crtxFile.Exists)
+            if (!crtxFile.Exists)
             {
                 throw (new FileNotFoundException($"{crtxFile.FullName} cannot be found."));
             }
@@ -1059,7 +1058,7 @@ namespace OfficeOpenXml.Drawing
             }
             finally
             {
-                if (fs!=null)
+                if (fs != null)
                     fs.Close();
             }
         }
@@ -1094,7 +1093,7 @@ namespace OfficeOpenXml.Drawing
             }
             var chartXmlHelper = XmlHelperFactory.Create(NameSpaceManager, chartXml.DocumentElement);
             var serNode = chartXmlHelper.GetNode("/c:chartSpace/c:chart/c:plotArea/*[substring(name(), string-length(name()) - 4) = 'Chart']/c:ser");
-            if(serNode!=null)
+            if (serNode != null)
             {
                 _seriesTemplateXml = serNode.InnerXml;
                 serNode.ParentNode.RemoveChild(serNode);
@@ -1102,16 +1101,16 @@ namespace OfficeOpenXml.Drawing
             XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell);
             var chartType = ExcelChart.GetChartTypeFromNodeName(GetChartNodeName(chartXmlHelper));
             var chart = ExcelChart.GetNewChart(this, drawNode, chartType, null, pivotTableSource, chartXml);
-            
+
             chart.Name = name;
             _drawingsList.Add(chart);
             _drawingNames.Add(name, _drawingsList.Count - 1);
             var chartStyle = chart.Style;
-            if(chartStyle==eChartStyle.None)
+            if (chartStyle == eChartStyle.None)
             {
                 chartStyle = eChartStyle.Style2;
             }
-            if(themePart!=null)
+            if (themePart != null)
             {
                 chart.StyleManager.LoadThemeOverrideXml(themePart);
             }
@@ -1122,9 +1121,9 @@ namespace OfficeOpenXml.Drawing
         private string GetChartNodeName(XmlHelper xmlHelper)
         {
             var ploterareaNode = xmlHelper.GetNode(ExcelChart.plotAreaPath);
-            foreach(XmlNode node in ploterareaNode?.ChildNodes)
+            foreach (XmlNode node in ploterareaNode?.ChildNodes)
             {
-                if(node.LocalName.EndsWith("Chart"))
+                if (node.LocalName.EndsWith("Chart"))
                 {
                     return node.LocalName;
                 }
@@ -1156,7 +1155,7 @@ namespace OfficeOpenXml.Drawing
             _drawingNames.Add(Name, _drawingsList.Count - 1);
             return shape;
         }
-#region Add Slicers
+        #region Add Slicers
         /// <summary>
         /// Adds a slicer to a table column
         /// </summary>
@@ -1169,7 +1168,7 @@ namespace OfficeOpenXml.Drawing
                 throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
             }
 
-            if(TableColumn.Table.AutoFilter.Columns[TableColumn.Position] ==null)
+            if (TableColumn.Table.AutoFilter.Columns[TableColumn.Position] == null)
             {
                 TableColumn.Table.AutoFilter.Columns.AddValueFilterColumn(TableColumn.Position);
             }
@@ -1182,7 +1181,7 @@ namespace OfficeOpenXml.Drawing
 
             _drawingsList.Add(slicer);
             _drawingNames.Add(slicer.Name, _drawingsList.Count - 1);
-            
+
             return slicer;
         }
         /// <summary>
@@ -1196,11 +1195,11 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
             }
-            if(!string.IsNullOrEmpty(Field.Cache.Formula))
+            if (!string.IsNullOrEmpty(Field.Cache.Formula))
             {
                 throw new InvalidOperationException("Can't add a slicer to a calculated field");
             }
-            if(Field._pivotTable.CacheId==0)
+            if (Field._pivotTable.CacheId == 0)
             {
                 Field._pivotTable.ChangeCacheId(0); //Slicers can for some reason not have a cache id of 0.
             }
@@ -1215,7 +1214,7 @@ namespace OfficeOpenXml.Drawing
 
             return slicer;
         }
-#endregion
+        #endregion
         ///// <summary>
         ///// Adds a line connectin two shapes
         ///// </summary>
@@ -1379,8 +1378,8 @@ namespace OfficeOpenXml.Drawing
         {
             return (ExcelControlScrollBar)AddControl(Name, eControlType.ScrollBar);
         }
-#endregion
-        private XmlElement CreateDrawingXml(eEditAs topNodeType = eEditAs.TwoCell, bool asAlterniveContent=false)
+        #endregion
+        private XmlElement CreateDrawingXml(eEditAs topNodeType = eEditAs.TwoCell, bool asAlterniveContent = false)
         {
             if (DrawingXml.DocumentElement == null)
             {
@@ -1429,7 +1428,7 @@ namespace OfficeOpenXml.Drawing
             {
                 //Add from position Element;
                 XmlElement fromNode = _drawingsXml.CreateElement("xdr", "from", ExcelPackage.schemaSheetDrawings);
-                drawNode.AppendChild(fromNode);                
+                drawNode.AppendChild(fromNode);
                 fromNode.InnerXml = "<xdr:col>0</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>0</xdr:row><xdr:rowOff>0</xdr:rowOff>";
             }
             else
@@ -1459,8 +1458,8 @@ namespace OfficeOpenXml.Drawing
 
             return drawNode;
         }
-#endregion
-#region Remove methods
+        #endregion
+        #region Remove methods
         /// <summary>
         /// Removes a drawing.
         /// </summary>
@@ -1492,7 +1491,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_drawingNames.ContainsKey(_drawingsList[i].Name))
                 {
-                    _drawingNames[_drawingsList[i].Name]+= increase;
+                    _drawingNames[_drawingsList[i].Name] += increase;
                 }
             }
         }
@@ -1532,8 +1531,8 @@ namespace OfficeOpenXml.Drawing
                 RemoveDrawing(0);
             }
         }
-#endregion
-#region BringToFront & SendToBack
+        #endregion
+        #region BringToFront & SendToBack
         internal void BringToFront(ExcelDrawing drawing)
         {
             var index = _drawingsList.IndexOf(drawing);
@@ -1554,15 +1553,15 @@ namespace OfficeOpenXml.Drawing
 
             //Reindex dictionary
             _drawingNames[drawing.Name] = endIndex;
-            for (int i = index+0; i < endIndex; i++)
+            for (int i = index + 0; i < endIndex; i++)
             {
                 _drawingNames[_drawingsList[i].Name]--;
             }
-            }
+        }
         internal void SendToBack(ExcelDrawing drawing)
         {
             var index = _drawingsList.IndexOf(drawing);
-            if(index==0)
+            if (index == 0)
             {
                 return;
             }
@@ -1578,12 +1577,12 @@ namespace OfficeOpenXml.Drawing
 
             //Reindex dictionary
             _drawingNames[drawing.Name] = 0;
-            for(int i=1;i<=index;i++)
+            for (int i = 1; i <= index; i++)
             {
                 _drawingNames[_drawingsList[i].Name]++;
             }
         }
-#endregion
+        #endregion
         internal void AdjustWidth(double[,] pos)
         {
             var ix = 0;
