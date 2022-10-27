@@ -90,13 +90,13 @@ namespace OfficeOpenXml.Drawing
             }
         }
 #if !NET35 && !NET40
-        internal async Task LoadImageAsync(Stream stream, ePictureType type)
+        internal async Task LoadImageAsync(Stream stream, ePictureType? type)
         {
             var img = new byte[stream.Length];
             stream.Seek(0, SeekOrigin.Begin);
             await stream.ReadAsync(img, 0, (int)stream.Length).ConfigureAwait(false);
-
-            SaveImageToPackage(type, img);
+            if(type.HasValue==false) type = ImageReader.GetPictureType(stream);
+            SaveImageToPackage(type.Value, img);
         }        
 #endif
         internal void LoadImage(Stream stream, ePictureType type)

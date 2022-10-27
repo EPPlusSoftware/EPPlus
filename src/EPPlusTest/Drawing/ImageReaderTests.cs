@@ -7,8 +7,10 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EPPlusTest.Drawing
 {
@@ -126,6 +128,186 @@ namespace EPPlusTest.Drawing
             }
         }
         [TestMethod]
+        public void AddTestImagesToWorksheetNoPictureType()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("picturesISNoPT");
+
+            using (var msGif = new MemoryStream(Properties.Resources.BitmapImageGif))
+            {
+                var imageGif = ws.Drawings.AddPicture("gif1", msGif);
+                Assert.AreEqual("image/gif", imageGif.ContentType);
+                imageGif.SetPosition(40, 0, 0, 0);                
+            }
+
+            using (var msBmp = new MemoryStream(Properties.Resources.CodeBmp))
+            {
+                var imagebmp = ws.Drawings.AddPicture("bmp1", msBmp);
+                Assert.AreEqual("image/bmp", imagebmp.ContentType);
+                imagebmp.SetPosition(40, 0, 10, 0);
+            }
+
+
+            using (var ms1 = new MemoryStream(Properties.Resources.Test1JpgByteArray))
+            {
+                var image1 = ws.Drawings.AddPicture("jpg1", ms1);
+                Assert.AreEqual("image/jpeg", image1.ContentType);
+            }
+
+            using (var ms2 = new MemoryStream(Properties.Resources.VmlPatternImagePngByteArray))
+            {
+                var image2 = ws.Drawings.AddPicture("png1", ms2);
+                image2.SetPosition(0, 0, 10, 0);
+                Assert.AreEqual("image/png", image2.ContentType);
+            }
+
+            using (var ms22 = new MemoryStream(Properties.Resources.Png2ByteArray))
+            {
+                var image22 = ws.Drawings.AddPicture("png2", ms22);
+                image22.SetPosition(0, 0, 20, 0);
+                Assert.AreEqual("image/png", image22.ContentType);
+            }
+
+            using (var ms23 = new MemoryStream(Properties.Resources.Png3ByteArray))
+            {
+                var image23 = ws.Drawings.AddPicture("png3", ms23);
+                image23.SetPosition(0, 0, 30, 0);
+                Assert.AreEqual("image/png", image23.ContentType);
+            }
+
+            using (var ms3 = new MemoryStream(Properties.Resources.CodeEmfByteArray))
+            {
+                var image3 = ws.Drawings.AddPicture("emf1", ms3);
+                image3.SetPosition(0, 0, 40, 0);
+                Assert.AreEqual("image/x-emf", image3.ContentType);                
+            }
+
+            using (var ms4 = new MemoryStream(Properties.Resources.Svg1ByteArray))
+            {
+                var image4 = ws.Drawings.AddPicture("svg1", ms4);
+                image4.SetPosition(0, 0, 50, 0);
+                Assert.AreEqual("image/svg+xml", image4.ContentType);
+            }
+
+            using (var ms5 = new MemoryStream(Properties.Resources.Svg2ByteArray))
+            {
+                var image5 = ws.Drawings.AddPicture("svg2", ms5);
+                image5.SetPosition(0, 0, 60, 0);
+                image5.SetSize(25);
+                Assert.AreEqual("image/svg+xml", image5.ContentType);
+            }
+
+            using (var ms6 = Properties.Resources.VectorDrawing)
+            {
+                var image6 = ws.Drawings.AddPicture("wmf", ms6);
+                image6.SetPosition(0, 0, 70, 0);
+                Assert.AreEqual("image/x-wmf", image6.ContentType);
+            }
+
+            using (var msTif = Properties.Resources.CodeTif)
+            {
+                var imageTif = ws.Drawings.AddPicture("tif1", msTif);
+                imageTif.SetPosition(0, 0, 80, 0);
+                Assert.AreEqual("image/x-tiff", imageTif.ContentType);
+            }
+
+            using (var msIco128 = GetImageMemoryStream("1_128x128.ico"))
+            {
+                var imageIco = ws.Drawings.AddPicture("ico2", msIco128, OfficeOpenXml.Drawing.ePictureType.Ico);
+                imageIco.SetPosition(40, 0, 10, 0);
+                Assert.AreEqual("image/x-icon", imageIco.ContentType);
+            }
+        }
+        [TestMethod]
+        public async Task AddTestImagesToWorksheetNoPictureTypeAsync()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("picturesISNoPTAsync");
+
+            using (var msGif = new MemoryStream(Properties.Resources.BitmapImageGif))
+            {
+                var imageGif = await ws.Drawings.AddPictureAsync("gif1", msGif);
+                Assert.AreEqual("image/gif", imageGif.ContentType);
+                imageGif.SetPosition(40, 0, 0, 0);
+            }
+
+            using (var msBmp = new MemoryStream(Properties.Resources.CodeBmp))
+            {
+                var imagebmp = await ws.Drawings.AddPictureAsync("bmp1", msBmp);
+                Assert.AreEqual("image/bmp", imagebmp.ContentType);
+                imagebmp.SetPosition(40, 0, 10, 0);
+            }
+
+
+            using (var ms1 = new MemoryStream(Properties.Resources.Test1JpgByteArray))
+            {
+                var image1 = await ws.Drawings.AddPictureAsync("jpg1", ms1);
+                Assert.AreEqual("image/jpeg", image1.ContentType);
+            }
+
+            using (var ms2 = new MemoryStream(Properties.Resources.VmlPatternImagePngByteArray))
+            {
+                var image2 = await ws.Drawings.AddPictureAsync("png1", ms2);
+                image2.SetPosition(0, 0, 10, 0);
+                Assert.AreEqual("image/png", image2.ContentType);
+            }
+
+            using (var ms22 = new MemoryStream(Properties.Resources.Png2ByteArray))
+            {
+                var image22 = await ws.Drawings.AddPictureAsync("png2", ms22);
+                image22.SetPosition(0, 0, 20, 0);
+                Assert.AreEqual("image/png", image22.ContentType);
+            }
+
+            using (var ms23 = new MemoryStream(Properties.Resources.Png3ByteArray))
+            {
+                var image23 = await ws.Drawings.AddPictureAsync("png3", ms23);
+                image23.SetPosition(0, 0, 30, 0);
+                Assert.AreEqual("image/png", image23.ContentType);
+            }
+
+            using (var ms3 = new MemoryStream(Properties.Resources.CodeEmfByteArray))
+            {
+                var image3 = await ws.Drawings.AddPictureAsync("emf1", ms3);
+                image3.SetPosition(0, 0, 40, 0);
+                Assert.AreEqual("image/x-emf", image3.ContentType);
+            }
+
+            using (var ms4 = new MemoryStream(Properties.Resources.Svg1ByteArray))
+            {
+                var image4 = await ws.Drawings.AddPictureAsync("svg1", ms4);
+                image4.SetPosition(0, 0, 50, 0);
+                Assert.AreEqual("image/svg+xml", image4.ContentType);
+            }
+
+            using (var ms5 = new MemoryStream(Properties.Resources.Svg2ByteArray))
+            {
+                var image5 = await ws.Drawings.AddPictureAsync("svg2", ms5);
+                image5.SetPosition(0, 0, 60, 0);
+                image5.SetSize(25);
+                Assert.AreEqual("image/svg+xml", image5.ContentType);
+            }
+
+            using (var ms6 = Properties.Resources.VectorDrawing)
+            {
+                var image6 = await ws.Drawings.AddPictureAsync("wmf", ms6);
+                image6.SetPosition(0, 0, 70, 0);
+                Assert.AreEqual("image/x-wmf", image6.ContentType);
+            }
+
+            using (var msTif = Properties.Resources.CodeTif)
+            {
+                var imageTif = await ws.Drawings.AddPictureAsync("tif1", msTif);
+                imageTif.SetPosition(0, 0, 80, 0);
+                Assert.AreEqual("image/x-tiff", imageTif.ContentType);
+            }
+
+            using (var msIco128 = GetImageMemoryStream("1_128x128.ico"))
+            {
+                var imageIco = await ws.Drawings.AddPictureAsync("ico2", msIco128, OfficeOpenXml.Drawing.ePictureType.Ico);
+                imageIco.SetPosition(40, 0, 10, 0);
+                Assert.AreEqual("image/x-icon", imageIco.ContentType);
+            }
+        }
+        [TestMethod]
         public void AddIcoImages()
         {
             var ws = _pck.Workbook.Worksheets.Add("Icon");
@@ -205,6 +387,12 @@ namespace EPPlusTest.Drawing
             AddFilesToWorksheet("webp", ePictureType.WebP);
         }
         [TestMethod]
+        public void AddWepPImagesNoPT()
+        {
+            AddFilesToWorksheet("webp", null, "webp-NoPT");
+        }
+
+        [TestMethod]
         public void AddEmfImages()
         {
             AddFilesToWorksheet("Emf", ePictureType.Emf);
@@ -281,9 +469,9 @@ namespace EPPlusTest.Drawing
             await ws.BackgroundImage.Image.SetImageAsync(new MemoryStream(Properties.Resources.BitmapImageGif), ePictureType.Gif);
         }
 
-        private static void AddFilesToWorksheet(string fileType, ePictureType type)
+        private static void AddFilesToWorksheet(string fileType, ePictureType? type, string worksheetName=null)
         {
-            var ws = _pck.Workbook.Worksheets.Add(fileType);
+            var ws = _pck.Workbook.Worksheets.Add(worksheetName ?? fileType);
 
             var dir = new DirectoryInfo(_imagePath + fileType);
             if(dir.Exists==false)

@@ -791,13 +791,34 @@ namespace OfficeOpenXml.Drawing
             return pic;
         }
         /// <summary>
+        /// Adds a picture to the worksheet using a stream. EPPlus will automatically identigfy the format
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="PictureStream">An stream image.</param>
+        /// <returns>A picture object</returns>
+        public ExcelPicture AddPicture(string Name, Stream PictureStream)
+        {
+            return AddPicture(Name, PictureStream, null, null);
+        }
+        /// <summary>
+        /// Adds a picture to the worksheet from a stream. EPPlus will identify the type of image automatically.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="PictureStream">An stream image.</param>        
+        /// <param name="Hyperlink">The Picture Hyperlink</param>
+        /// <returns>A picture object</returns>
+        public ExcelPicture AddPicture(string Name, Stream PictureStream, Uri Hyperlink)
+        {
+            return AddPicture(Name, PictureStream, null, Hyperlink);
+        }
+        /// <summary>
         /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="PictureStream">An stream image.</param>
         /// <param name="PictureType">The type of image</param>
         /// <returns>A picture object</returns>
-        public ExcelPicture AddPicture(string Name, Stream PictureStream, ePictureType PictureType)
+        public ExcelPicture AddPicture(string Name, Stream PictureStream, ePictureType? PictureType)
         {
             return AddPicture(Name, PictureStream, PictureType, null);
         }
@@ -809,7 +830,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="pictureType">The type of image</param>
         /// <param name="Hyperlink">Picture Hyperlink</param>
         /// <returns>A picture object</returns>
-        public ExcelPicture AddPicture(string Name, Stream pictureStream, ePictureType pictureType, Uri Hyperlink)
+        public ExcelPicture AddPicture(string Name, Stream pictureStream, ePictureType? pictureType, Uri Hyperlink)
         {
             if (pictureStream == null)
             {
@@ -820,9 +841,10 @@ namespace OfficeOpenXml.Drawing
                 throw (new IOException("Stream must be readable and seekable"));
             }
 
+            if (pictureType == null) pictureType = ImageReader.GetPictureType(pictureStream);
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-            var pic = new ExcelPicture(this, drawNode, Hyperlink, pictureType);
-            pic.LoadImage(pictureStream, pictureType);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink, pictureType.Value);
+            pic.LoadImage(pictureStream, pictureType.Value);
             AddPicture(Name, pic);
             return pic;
         }
@@ -887,13 +909,34 @@ namespace OfficeOpenXml.Drawing
             return await AddPictureAsync(Name, new FileInfo(ImagePath), Hyperlink);
         }
         /// <summary>
+        /// Adds a picture to the worksheet from a stream. EPPlus will identify the type of image automatically.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="PictureStream">An stream image.</param>        
+        /// <returns>A picture object</returns>
+        public async Task<ExcelPicture> AddPictureAsync(string Name, Stream PictureStream)
+        {
+            return await AddPictureAsync(Name, PictureStream, null, null);
+        }
+        /// <summary>
+        /// Adds a picture to the worksheet from a stream. EPPlus will identify the type of image automatically.
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="PictureStream">An stream image.</param>        
+        /// <param name="Hyperlink">The Picture Hyperlink</param>
+        /// <returns>A picture object</returns>
+        public async Task<ExcelPicture> AddPictureAsync(string Name, Stream PictureStream, Uri Hyperlink)
+        {
+            return await AddPictureAsync(Name, PictureStream, null, Hyperlink);
+        }        
+        /// <summary>
         /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="PictureStream">An stream image.</param>
         /// <param name="PictureType">The type of image</param>
         /// <returns>A picture object</returns>
-        public async Task<ExcelPicture> AddPictureAsync(string Name, Stream PictureStream, ePictureType PictureType)
+        public async Task<ExcelPicture> AddPictureAsync(string Name, Stream PictureStream, ePictureType? PictureType)
         {
             return await AddPictureAsync(Name, PictureStream, PictureType, null);
         }
@@ -902,10 +945,10 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="pictureStream">An stream image.</param>
-        /// <param name="pictureType">The type of image</param>
-        /// <param name="Hyperlink">Picture Hyperlink</param>
+        /// <param name="pictureType">The type of image. A null value means EPPlus will identify the type of image.</param>
+        /// <param name="Hyperlink">The Picture Hyperlink</param>
         /// <returns>A picture object</returns>
-        public async Task<ExcelPicture> AddPictureAsync(string Name, Stream pictureStream, ePictureType pictureType, Uri Hyperlink)
+        public async Task<ExcelPicture> AddPictureAsync(string Name, Stream pictureStream, ePictureType? pictureType, Uri Hyperlink)
         {
             if (pictureStream == null)
             {
@@ -917,7 +960,8 @@ namespace OfficeOpenXml.Drawing
             }
 
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-            var pic = new ExcelPicture(this, drawNode, Hyperlink, pictureType);
+            if (pictureType == null) pictureType = await ImageReader.GetPictureTypeAsync(pictureStream);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink, pictureType.Value);
             await pic.LoadImageAsync(pictureStream, pictureType);
             AddPicture(Name, pic);
             return pic;
