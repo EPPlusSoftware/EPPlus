@@ -4274,6 +4274,11 @@ namespace OfficeOpenXml
 
             return ctrlContainerNode;
         }
-#endregion
+
+        internal void NormalStyleChange()
+        {
+            _defaultRowHeight = double.NaN;            
+        }
+        #endregion
     }  // END class Worksheet
 }
