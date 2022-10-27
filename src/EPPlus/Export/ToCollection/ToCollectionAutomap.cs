@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Export.ToCollection
                 var ix = h.FindIndex(x => RemoveWS(x).Equals(m.Name, StringComparison.CurrentCultureIgnoreCase));
                 if (ix < 0)
                 {
-                    var tca = m.GetFirstAttributeOfType<EpplusTableColumnAttributeBase>();
+                    var tca = m.GetFirstAttributeOfType<EpplusTableColumnAttributeBase>(true);
                     if (tca != null)
                     {
                         ix = h.FindIndex(x => RemoveWS(x).Equals(RemoveWS(tca.Header), StringComparison.CurrentCultureIgnoreCase));
