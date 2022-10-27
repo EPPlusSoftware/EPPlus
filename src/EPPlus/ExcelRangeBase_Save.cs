@@ -553,11 +553,10 @@ namespace OfficeOpenXml
         {
             return ToCollectionRange.ToCollection(this, setRow, options);
         }
-#if (!NET35)
         /// <summary>
         /// Returns a collection of T for the range. 
         /// If the range contains multiple addresses the first range is used.
-        /// The first row must containt the unique headers used as keys in the row dictionary.
+        /// The first row must contain the unique headers used as keys in the row dictionary.
         /// Headers will be mapped to properties using the name or the attributes without white spaces. 
         /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
         /// </summary>
@@ -595,6 +594,5 @@ namespace OfficeOpenXml
         {
             return ToCollectionRange.ToCollection<T>(this, options);
         }
-#endif
     }
 }

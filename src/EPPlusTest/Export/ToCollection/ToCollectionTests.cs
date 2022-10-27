@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace EPPlusTest.Export.ToDataTable
+namespace EPPlusTest.Export.ToCollection
 {
     [TestClass]
     public class ToCollectionTests : TestBase
@@ -220,6 +220,7 @@ namespace EPPlusTest.Export.ToDataTable
                 Assert.AreEqual(sheet.Cells["D3"].Value, list[1].TimeStamp);
             }
         }
+
         [TestMethod]
         public void ToCollectionTable_Index()
         {

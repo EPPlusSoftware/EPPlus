@@ -159,8 +159,8 @@ namespace OfficeOpenXml.Export.ToCollection
             
             return GetText(_headers[columnName]);
         }
-#if (!NET35)
-        List<Tuple<int, PropertyInfo>> _members;
+
+        List<MappedProperty> _members;
         /// <summary>
         /// Maps properties on the item to values matching the column header with the property name or attibutes without white spaces.
         /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
@@ -176,35 +176,34 @@ namespace OfficeOpenXml.Export.ToCollection
 
             foreach (var m in _members)
             {
-                if (m.Item1 < _cellValues.Count)
+                if (m.Index < _cellValues.Count)
                 {
                     try
                     {
-                        m.Item2.SetValue(item, _cellValues[m.Item1]._value);
+                        m.PropertyInfo.SetValue(item, _cellValues[m.Index]._value, null);
                     }
                     catch(Exception ex)
                     {
                         if (_failureStrategy == ToCollectionConversionFailureStrategy.Exception)
                         {
-                            var dtcExeption = new EPPlusDataTypeConvertionException($"Can not convert item {_cellValues[m.Item1]._value} to datatype {m.Item2.DeclaringType}", ex);
+                            var dtcExeption = new EPPlusDataTypeConvertionException($"Can not convert item {_cellValues[m.Index]._value} to datatype {m.PropertyInfo.DeclaringType}", ex);
                             throw dtcExeption;
                         }
                         else
                         {
                             //Set the default value
-                            if(m.Item2.DeclaringType.IsValueType)
+                            if(m.PropertyInfo.DeclaringType.IsValueType)
                             {
-                                m.Item2.SetValue(item, null);
+                                m.PropertyInfo.SetValue(item, null, null);
                             }
                             else
                             {
-                                m.Item2.SetValue(item, Activator.CreateInstance(m.Item2.DeclaringType));
+                                m.PropertyInfo.SetValue(item, Activator.CreateInstance(m.PropertyInfo.DeclaringType), null);
                             }
                         }
                     }
                 }
             }
         }
-#endif
     }
 }

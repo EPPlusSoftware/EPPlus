@@ -64,35 +64,35 @@ namespace OfficeOpenXml.Export.ToCollection
             }
             return ret;
         }
-        #if(!NET35)        
+        
         internal static List<T> ToCollection<T>(ExcelRangeBase range, ToCollectionRangeOptions options)
         {
             var t = typeof(T);
             var h = GetRangeHeaders(range, options.Headers, options.HeaderRow);
             if (h.Count <= 0) throw new InvalidOperationException("No headers specified. Please set a ToCollectionOptions.HeaderRow or ToCollectionOptions.Headers[].");
-            var d = ToCollectionAutomap.GetAutomapList<T>(h);
+            var mappings = ToCollectionAutomap.GetAutomapList<T>(h);
             var l = new List<T>();
             var values = new List<ExcelValue>();
             var startRow = options.DataStartRow ?? ((options.HeaderRow ?? -1) + 1);
             for (int r = range._fromRow + startRow; r <= range._toRow; r++)
             {
                 var item = (T)Activator.CreateInstance(t);
-                foreach (var m in d)
+                foreach (var m in mappings)
                 {
-                    var v = range.Worksheet.GetValueInner(r, m.Item1 + range._fromCol);
+                    var v = range.Worksheet.GetValueInner(r, m.Index + range._fromCol);
                     try
                     {
-                        m.Item2.SetValue(item, v);
+                        m.PropertyInfo.SetValue(item, v, null);
                     }
                     catch (Exception ex)
                     {
                         if (options.ConversionFailureStrategy == ToCollectionConversionFailureStrategy.Exception)
                         {
-                            throw new EPPlusDataTypeConvertionException($"Failure to convert value {v} for index {m.Item1}", ex);
+                            throw new EPPlusDataTypeConvertionException($"Failure to convert value {v} for index {m.Index}", ex);
                         }
                         else
                         {
-                            m.Item2.SetValue(item, default(T));
+                            m.PropertyInfo.SetValue(item, default(T), null);
                         }
                     }
                 }
@@ -102,7 +102,6 @@ namespace OfficeOpenXml.Export.ToCollection
 
             return l;
         }
-        #endif
     }
 
 }
