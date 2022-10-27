@@ -544,16 +544,39 @@ namespace OfficeOpenXml.Table
         /// <returns>A list of T</returns>
         public List<T> ToCollection<T>(Func<Export.ToCollection.ToCollectionRow, T> setRow)
         {
-            return ToCollection(setRow, ToCollectionTableOptions.Default);
+            return ToCollectionWithMappings(setRow, ToCollectionTableOptions.Default);
         }
-        public List<T> ToCollection<T>(Func<Export.ToCollection.ToCollectionRow, T> setRow, Action<ToCollectionTableOptions> options)
+
+        /// <summary>
+        /// Returns a collection of T for the table. 
+        /// If the range contains multiple addresses the first range is used.
+        /// The the table must have headers.
+        /// Headers will be mapped to properties using the name or the attributes without white spaces. 
+        /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
+        /// </summary>
+        /// <typeparam name="T">The type to map to</typeparam>
+        /// <param name="setRow">The call back function to map each row to the item of type T.</param>
+        /// <param name="options">Configures the settings for the function</param>
+        /// <returns>A list of T</returns>
+        public List<T> ToCollectionWithMappings<T>(Func<Export.ToCollection.ToCollectionRow, T> setRow, Action<ToCollectionTableOptions> options)
         {
             var o = ToCollectionTableOptions.Default;
             options.Invoke(o);
-            return ToCollection(setRow, o);
+            return ToCollectionWithMappings(setRow, o);
         }
 
-        public List<T> ToCollection<T>(Func<Export.ToCollection.ToCollectionRow, T> setRow, ToCollectionTableOptions options)
+        /// <summary>
+        /// Returns a collection of T for the table. 
+        /// If the range contains multiple addresses the first range is used.
+        /// The the table must have headers.
+        /// Headers will be mapped to properties using the name or the attributes without white spaces. 
+        /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
+        /// </summary>
+        /// <typeparam name="T">The type to map to</typeparam>
+        /// <param name="setRow">The call back function to map each row to the item of type T.</param>
+        /// <param name="options">Configures the settings for the function</param>
+        /// <returns>A list of T</returns>
+        public List<T> ToCollectionWithMappings<T>(Func<Export.ToCollection.ToCollectionRow, T> setRow, ToCollectionTableOptions options)
         {
             if (ShowHeader == false && (options.Headers == null || options.Headers.Length == 0))
             {
@@ -564,11 +587,11 @@ namespace OfficeOpenXml.Table
             if (ShowTotal)
             {
                 var r = Range;
-                return WorkSheet.Cells[r._fromRow, r._fromCol, r._toRow - 1, r._toCol].ToCollection(setRow, ro);
+                return WorkSheet.Cells[r._fromRow, r._fromCol, r._toRow - 1, r._toCol].ToCollectionWithMappings(setRow, ro);
             }
             else
             {
-                return Range.ToCollection(setRow, ro);
+                return Range.ToCollectionWithMappings(setRow, ro);
             }
         }
         

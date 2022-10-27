@@ -41,7 +41,7 @@ namespace EPPlusTest.Export.ToCollection
             using(var p = new ExcelPackage())
             {
                 var sheet = LoadTestData(p, "LoadFromCollectionIndex");
-                var list = sheet.Cells["A2:E3"].ToCollection(
+                var list = sheet.Cells["A2:E3"].ToCollectionWithMappings(
                     row => 
                     {
                         var dto = new TestDto();
@@ -80,7 +80,7 @@ namespace EPPlusTest.Export.ToCollection
             using (var p = new ExcelPackage())
             {
                 var sheet = LoadTestData(p, "LoadFromCollectionName");
-                var list = sheet.Cells["A1:E3"].ToCollection(x =>
+                var list = sheet.Cells["A1:E3"].ToCollectionWithMappings(x =>
                 {
                     var dto = new TestDto();
                     dto.Id = x.GetValue<int>("id");
@@ -117,7 +117,7 @@ namespace EPPlusTest.Export.ToCollection
             using (var p = new ExcelPackage())
             {
                 var sheet = LoadTestData(p, "LoadFromCollectionName");
-                var list = sheet.Cells["A1:E3"].ToCollection((ToCollectionRow row) =>
+                var list = sheet.Cells["A1:E3"].ToCollectionWithMappings((ToCollectionRow row) =>
                 {
                     var dto = new TestDto();
                     row.Automap(dto);
@@ -172,7 +172,7 @@ namespace EPPlusTest.Export.ToCollection
                 var sheet = LoadTestData(p, "LoadFromCollectionAuto");
                 sheet.Cells["A1"].Value = "Identity";
                 sheet.Cells["B1"].Value = "First name";
-                var list = sheet.Cells["A1:E3"].ToCollection(x =>
+                var list = sheet.Cells["A1:E3"].ToCollectionWithMappings(x =>
                 {
                     var item = new TestDto();
                     x.Automap(item); 
@@ -355,7 +355,7 @@ namespace EPPlusTest.Export.ToCollection
             {
                 var sheet = LoadTestData(p, "LoadFromCollectionName", true);
                 sheet.Cells["C2"].Value = "str";
-                var list = sheet.Tables[0].ToCollection(x =>
+                var list = sheet.Tables[0].ToCollectionWithMappings(x =>
                 {
                     var dto = new TestDto();
                     dto.Id = x.GetValue<int>("id");
