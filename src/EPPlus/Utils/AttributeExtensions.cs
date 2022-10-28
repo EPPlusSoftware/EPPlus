@@ -42,7 +42,7 @@ namespace OfficeOpenXml.Utils
             where T : Attribute
         {
 #if (NET35 || NET40)
-            return member.GetCustomAttributes(typeof(T), false).FirstOrDefault() as T;
+            return member.GetCustomAttributes(typeof(T), inherit ?? false).FirstOrDefault() as T;
 #else
             if (!inherit.HasValue)
             {

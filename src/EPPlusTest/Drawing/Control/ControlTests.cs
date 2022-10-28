@@ -9,6 +9,7 @@ using OfficeOpenXml.VBA;
 using System.Drawing;
 using System.IO;
 using System.Security.Cryptography;
+using System.Security.Principal;
 
 namespace EPPlusTest.Drawing.Control
 {
@@ -351,8 +352,43 @@ namespace EPPlusTest.Drawing.Control
             _ws = _pck.Workbook.Worksheets.Add("RemoveControl");
             var ctrl = _ws.Drawings.AddGroupBoxControl("GroupBox 1");
             Assert.AreEqual(1, _ws.Drawings.Count);
-            //_ws.Drawings.Remove(ctrl);
-            //Assert.AreEqual(0, _ws.Drawings.Count);
         }
+        [TestMethod]
+        public void VerifySize2()
+        {
+            using (var p = OpenPackage("i729-1.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Diagramme & Tabellen erzeugen");                
+                var button1 = ws.Drawings.AddButtonControl("Button 1");
+                button1.SetPosition(1, 0, 1, 0);
+                button1.SetSize(135, 70);
+
+                Assert.AreEqual(4, button1.To.Row);
+                Assert.AreEqual(95250, button1.To.RowOff); 
+
+                p.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
+                p.Workbook.Styles.NamedStyles[0].Style.Font.Size = 15F;
+
+                var button2 = ws.Drawings.AddButtonControl("Button 2");
+                button2.SetPosition(1, 0, 5, 0);
+                button2.SetSize(135, 70);
+
+                Assert.AreEqual(3, button2.To.Row);
+                Assert.AreEqual(190500, button2.To.RowOff);
+
+                p.Workbook.Styles.NamedStyles[0].Style.Font.Name = "Arial";
+                p.Workbook.Styles.NamedStyles[0].Style.Font.Size = 25F;
+
+                var button3 = ws.Drawings.AddButtonControl("Button 3");
+                button3.SetPosition(1, 0, 10, 0);
+                button3.SetSize(135, 70);
+
+                Assert.AreEqual(2, button3.To.Row);
+                Assert.AreEqual(276225, button3.To.RowOff);
+
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }

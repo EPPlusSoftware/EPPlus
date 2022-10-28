@@ -58,7 +58,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     if(value!=Direction)
                     {
-                        throw new InvalidOperationException("Can't change direction for this chart type. Please use ErrorBars or ErrorBarsX property to determin the direction.");
+                        throw new InvalidOperationException("Can't change direction for this chart type. Please use ErrorBars or ErrorBarsX property to determine the direction.");
                     }
                     return;
                 }

@@ -521,9 +521,9 @@ namespace OfficeOpenXml
         /// <typeparam name="T">The type to map to</typeparam>
         /// <param name="setRow">The call back function to map each row to the item of type T.</param>
         /// <returns>A list of T</returns>
-        public List<T> ToCollection<T>(Func<ToCollectionRow, T> setRow)
+        public List<T> ToCollectionWithMappings<T>(Func<ToCollectionRow, T> setRow)
         {
-            return ToCollection(setRow, new ToCollectionRangeOptions());
+            return ToCollectionWithMappings(setRow, new ToCollectionRangeOptions());
         }
         /// <summary>
         /// Returns a collection of T for the range. 
@@ -534,12 +534,13 @@ namespace OfficeOpenXml
         /// <param name="setRow">The call back function to map each row to the item of type T.</param>
         /// <param name="options">Configures the settings for the function</param>
         /// <returns>A list of T</returns>
-        public List<T> ToCollection<T>(Func<ToCollectionRow, T> setRow, Action<ToCollectionRangeOptions> options)
+        public List<T> ToCollectionWithMappings<T>(Func<ToCollectionRow, T> setRow, Action<ToCollectionRangeOptions> options)
         {
             var o = new ToCollectionRangeOptions();
             options.Invoke(o);
-            return ToCollection(setRow, o);
+            return ToCollectionWithMappings(setRow, o);
         }
+
         /// <summary>
         /// Returns a collection of T for the range. 
         /// If the range contains multiple addresses the first range is used.
@@ -549,15 +550,14 @@ namespace OfficeOpenXml
         /// <param name="setRow">The call back function to map each row to the item of type T.</param>
         /// <param name="options">Parameters to the function</param>
         /// <returns>A list of T</returns>
-        public List<T> ToCollection<T>(Func<ToCollectionRow, T> setRow, ToCollectionRangeOptions options)
+        public List<T> ToCollectionWithMappings<T>(Func<ToCollectionRow, T> setRow, ToCollectionRangeOptions options)
         {
             return ToCollectionRange.ToCollection(this, setRow, options);
         }
-#if (!NET35)
         /// <summary>
         /// Returns a collection of T for the range. 
         /// If the range contains multiple addresses the first range is used.
-        /// The first row must containt the unique headers used as keys in the row dictionary.
+        /// The first row must contain the unique headers used as keys in the row dictionary.
         /// Headers will be mapped to properties using the name or the attributes without white spaces. 
         /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
         /// </summary>
@@ -595,6 +595,5 @@ namespace OfficeOpenXml
         {
             return ToCollectionRange.ToCollection<T>(this, options);
         }
-#endif
     }
 }

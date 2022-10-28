@@ -23,6 +23,9 @@ namespace OfficeOpenXml
     /// </summary>
     public class ToCollectionRangeOptions : ToCollectionOptions
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ToCollectionRangeOptions()
         {
 
@@ -33,7 +36,7 @@ namespace OfficeOpenXml
             ConversionFailureStrategy = options.ConversionFailureStrategy;
         }
         /// <summary>
-        /// Header row in the range, if applicable. 
+        /// 0-based index of the Header row in the range, if applicable. 
         /// A null value means there is no header row.
         /// See also: <seealso cref="ToCollectionOptions.SetCustomHeaders(string[])"/>
         /// <seealso cref="DataStartRow"/>
