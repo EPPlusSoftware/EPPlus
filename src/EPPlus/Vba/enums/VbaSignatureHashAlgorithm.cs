@@ -13,42 +13,29 @@
 namespace OfficeOpenXml.VBA
 {
     /// <summary>
-    /// A VBA reference
+    /// Hash algorithm used for signing vba projects.
     /// </summary>
-    public class ExcelVbaReference
+    public enum VbaSignatureHashAlgorithm
     {
         /// <summary>
-        /// Constructor.
-        /// Defaults ReferenceRecordID to 0xD
+        /// Specifies that the MD5 algorithm, as defined by RFC 1319, shall be used.
         /// </summary>
-        public ExcelVbaReference()
-        {
-            ReferenceRecordID = 0xD;
-        }
+        MD5 = 0,
         /// <summary>
-        /// The reference record ID. See MS-OVBA documentation for more info. 
+        /// Specifies that the SHA-1 algorithm, as defined by ISO/IEC 10118-3:2004 shall be used.
         /// </summary>
-        public int ReferenceRecordID { get; internal set; }
+        SHA1 = 1,
         /// <summary>
-        /// The reference record ID. See MS-OVBA documentation for more info. 
+        /// Specifies that the SHA-256 algorithm, as defined by ISO/IEC10118-3:2004 shall be used.
         /// </summary>
-        public int SecondaryReferenceRecordID { get; internal set; }
+        SHA256 = 2,
         /// <summary>
-        /// The name of the reference
+        /// Specifies that the SHA-384 algorithm, as defined by ISO/IEC 10118-3:2004 shall be used.
         /// </summary>
-        public string Name { get; set; }
+        SHA384 = 3,
         /// <summary>
-        /// LibID
-        /// For more info check MS-OVBA 2.1.1.8 LibidReference and 2.3.4.2.2 PROJECTREFERENCES
+        /// Specifies that the SHA-512 algorithm, as defined by ISO/IEC10118-3:2004 shall be used.
         /// </summary>
-        public string Libid { get; set; }
-        /// <summary>
-        /// A string representation of the object (the Name)
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString()
-        {
-            return Name;
-        }
+        SHA512 = 4
     }
 }

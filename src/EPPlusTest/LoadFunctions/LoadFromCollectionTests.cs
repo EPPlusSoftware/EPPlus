@@ -55,7 +55,22 @@ namespace EPPlusTest.LoadFunctions
         {
             public int Number { get; set; }
         }
-
+        [System.ComponentModel.Description("The color Red")]
+        internal enum Aenum
+        {
+            [System.ComponentModel.Description("The color Red")]
+            Red,
+            [System.ComponentModel.Description("The color Blue")]
+            Blue,            
+            Green
+        }
+        internal class EnumClass
+        {
+            public int Id { get; set; }
+            public Aenum Enum { get; set; }
+            [System.ComponentModel.Description("Nullable Enum")]
+            public Aenum? NullableEnum{ get; set; }
+        }
         internal class Aclass
         {
             public string Id { get; set; }
@@ -414,6 +429,76 @@ namespace EPPlusTest.LoadFunctions
                 Assert.AreEqual("Person 2", sheet.Cells["B3"].Value);
                 Assert.IsInstanceOfType(sheet.Cells["E3"].Hyperlink, typeof(ExcelHyperLink));
                 Assert.AreEqual("Person 2", sheet.Cells["E3"].Value);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void LoadListOfEnumWithDescription()
+        {
+            var items = new List<Aenum>()
+            {
+                Aenum.Red,
+                Aenum.Green,
+                Aenum.Blue
+            };
+
+            using (var package = OpenPackage("LoadFromCollectionEnumDescrAtt.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("EnumList");
+                var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1);
+                Assert.AreEqual("The color Red", sheet.Cells["A1"].Value);
+                Assert.AreEqual("Green", sheet.Cells["A2"].Value);
+                Assert.AreEqual("The color Blue", sheet.Cells["A3"].Value);
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void LoadListOfNullableEnumWithDescription()
+        {
+            var items = new List<Aenum?>()
+            {
+                Aenum.Red,
+                Aenum.Green,
+                Aenum.Blue
+            };
+
+            using (var package = OpenPackage("LoadFromCollectionNullableEnumDescrAtt.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("NullableEnumList");
+                var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1);
+                Assert.AreEqual("The color Red", sheet.Cells["A1"].Value);
+                Assert.AreEqual("Green", sheet.Cells["A2"].Value);
+                Assert.AreEqual("The color Blue", sheet.Cells["A3"].Value);
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void LoadListOfClassWithEnumWithDescription()
+        {
+            var items = new List<EnumClass>()
+            {
+                new EnumClass(){Id=1, Enum=Aenum.Red, NullableEnum = Aenum.Blue},
+                new EnumClass(){Id=2, Enum=Aenum.Blue, NullableEnum = null},
+                new EnumClass(){Id=3, Enum=Aenum.Green, NullableEnum = Aenum.Red},
+            };
+
+            using (var package = OpenPackage("LoadFromCollectionClassWithEnumDescrAtt.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1);
+                Assert.AreEqual("Id", sheet.Cells["A1"].Value);
+                Assert.AreEqual("Enum", sheet.Cells["B1"].Value);
+                Assert.AreEqual("Nullable Enum", sheet.Cells["C1"].Value);
+                Assert.AreEqual(1, sheet.Cells["A2"].Value);
+                Assert.AreEqual("The color Red", sheet.Cells["B2"].Value);
+                Assert.AreEqual("The color Blue", sheet.Cells["C2"].Value);
+                Assert.AreEqual(2, sheet.Cells["A3"].Value);
+                Assert.AreEqual("The color Blue", sheet.Cells["B3"].Value);
+                Assert.IsNull(sheet.Cells["C3"].Value);
+                Assert.AreEqual(3, sheet.Cells["A4"].Value);
+                Assert.AreEqual("Green", sheet.Cells["B4"].Value);
+                Assert.AreEqual("The color Red", sheet.Cells["C4"].Value);
 
                 SaveAndCleanup(package);
             }

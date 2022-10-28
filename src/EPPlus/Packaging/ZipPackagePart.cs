@@ -112,7 +112,7 @@ namespace OfficeOpenXml.Packaging
         public Uri Uri { get; private set; }
         public Stream GetZipStream()
         {
-            MemoryStream ms = new MemoryStream();
+            MemoryStream ms = RecyclableMemory.GetStream();
             ZipOutputStream os = new ZipOutputStream(ms);
             return os;
         }

@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Utils;
 using System;
 using System.IO;
 #if !NET35 && !NET40
@@ -277,7 +278,7 @@ namespace OfficeOpenXml.Drawing
             {
                 ImageBytes = image;
             }
-            var ms = new MemoryStream(image);
+            var ms = RecyclableMemory.GetStream(image);
             var imageHandler = new GenericImageHandler();
             if (imageHandler.GetImageBounds(ms, pictureType, out double height, out double width, out double horizontalResolution, out double verticalResolution))
             {
@@ -337,7 +338,7 @@ namespace OfficeOpenXml.Drawing
                 ImageBytes = image;
             }
             PictureStore.SavePicture(image, _container, pictureType);
-            var ms = new MemoryStream(image);
+            var ms = RecyclableMemory.GetStream(image);
             if (_container.RelationDocument.Package.Settings.ImageSettings.GetImageBounds(ms, pictureType, out double height, out double width, out double horizontalResolution, out double verticalResolution))
             {
                 Bounds.Width = width;

@@ -165,9 +165,14 @@ namespace OfficeOpenXml.LoadFunctions
                 else
                 {
                     col = 0;
-                    if (item is string || item is decimal || item is DateTime || TypeCompat.IsPrimitive(item))
+                    var t = item.GetType();
+                    if (item is string || item is decimal || item is DateTime || t.IsPrimitive)
                     {
                         values[row, col++] = item;
+                    }
+                    else if(t.IsEnum)
+                    {                        
+                        values[row, col++] = GetEnumValue(item, t); ;
                     }
                     else
                     {
@@ -182,6 +187,7 @@ namespace OfficeOpenXml.LoadFunctions
                             if (colInfo.MemberInfo != null)
                             {
                                 var member = colInfo.MemberInfo;
+                                object v=null;
                                 if (_isSameType == false && obj.GetType().GetMember(member.Name, _bindingFlags).Length == 0)
                                 {
                                     col++;
@@ -189,16 +195,29 @@ namespace OfficeOpenXml.LoadFunctions
                                 }
                                 else if (member is PropertyInfo)
                                 {
-                                    values[row, col++] = ((PropertyInfo)member).GetValue(obj, null);
+                                    v = ((PropertyInfo)member).GetValue(obj, null);
                                 }
                                 else if (member is FieldInfo)
                                 {
-                                    values[row, col++] = ((FieldInfo)member).GetValue(obj);
+                                    v = ((FieldInfo)member).GetValue(obj);
                                 }
                                 else if (member is MethodInfo)
                                 {
-                                    values[row, col++] = ((MethodInfo)member).Invoke(obj, null);
+                                    v = ((MethodInfo)member).Invoke(obj, null);
                                 }
+
+#if (!NET35)
+                                if (v != null)
+                                {
+                                    var type = v.GetType();
+                                    if (type.IsEnum)
+                                    {
+                                        v=GetEnumValue(v, type);
+                                    }
+                                }
+#endif
+
+                                values[row, col++] = v;                                
                             }
                             else if (!string.IsNullOrEmpty(colInfo.Formula))
                             {
@@ -213,6 +232,18 @@ namespace OfficeOpenXml.LoadFunctions
                 }
                 row++;
             }
+        }
+
+        private static string GetEnumValue(object item, Type t)
+        {
+#if (NET35)
+            return item.ToString();
+#else
+            var v = item.ToString();
+            var m = t.GetMember(v).FirstOrDefault();
+            var da = m.GetCustomAttribute<DescriptionAttribute>();
+            return da?.Description ?? v;
+#endif            
         }
 
         private object GetValueByPath(object obj, string path)

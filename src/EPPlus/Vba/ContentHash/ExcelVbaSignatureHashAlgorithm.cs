@@ -8,43 +8,39 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  07/16/2020         EPPlus Software AB       EPPlus 5.2.1
+  09/05/2022         EPPlus Software AB       EPPlus 6.1
  *************************************************************************************************/
-using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.LoadFunctions
+namespace OfficeOpenXml.VBA.ContentHash
 {
     /// <summary>
-    /// Base class for parameter classes for Load functions
+    /// Hash algorithms for usage when signing VBA
     /// </summary>
-    public abstract class LoadFunctionFunctionParamsBase
+    internal enum ExcelVbaSignatureHashAlgorithm
     {
         /// <summary>
-        /// If true a row with headers will be added above the data
+        /// MD5 hash algorithm
         /// </summary>
-        public bool PrintHeaders
-        {
-            get; set;
-        }
+        MD5,
         /// <summary>
-        /// A custom name for the table, if created. 
-        /// The TableName must be unique within the workbook and be a valid table name.
+        /// SHA1 hash algorithm
         /// </summary>
-        public string TableName
-        {
-            get;
-            set;
-        }
+        SHA1,
         /// <summary>
-        /// If set to another value than TableStyles.None the data will be added to a
-        /// table with the specified style
+        /// SHA256 hash algorithm
         /// </summary>
-        public TableStyles? TableStyle
-        {
-            get; set;
-        } = null;
+        SHA256,
+        /// <summary>
+        /// SHA384 hash algorithm
+        /// </summary>
+        SHA384,
+        /// <summary>
+        /// SHA512 hash algorithm
+        /// </summary>
+        SHA512
     }
 }
