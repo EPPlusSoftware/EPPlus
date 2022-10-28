@@ -131,7 +131,7 @@ namespace OfficeOpenXml.VBA.Signatures
 
         private static byte[] GetHashContent(EPPlusSignatureContext ctx, byte[] hash)
         {
-            var ms=new MemoryStream();
+            var ms= RecyclableMemory.GetStream();
             var bw=new BinaryWriter(ms);
             if (ctx.SignatureType == ExcelVbaSignatureType.Legacy)
             {

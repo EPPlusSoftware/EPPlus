@@ -119,7 +119,7 @@ namespace OfficeOpenXml.Drawing
         internal static ExcelImageInfo GetImageBounds(byte[] image, ePictureType type, ExcelPackage pck)
         {
             var ret = new ExcelImageInfo();
-            var ms = new MemoryStream(image);
+            var ms = RecyclableMemory.GetStream(image);
             var s = pck.Settings.ImageSettings;
 
             if(s.GetImageBounds(ms, type, out double width, out double height, out double horizontalResolution, out double verticalResolution)==false)

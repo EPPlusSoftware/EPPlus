@@ -11,6 +11,7 @@
   09/05/2022         EPPlus Software AB       EPPlus 6.1
  *************************************************************************************************/
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -79,7 +80,7 @@ namespace OfficeOpenXml.VBA.Signatures
 
         internal static void ReadSignedData(byte[] data, EPPlusSignatureContext ctx)
         {
-            var ms = new MemoryStream(data);
+            var ms = RecyclableMemory.GetStream(data);
             var br = new BinaryReader(ms);            
             var totallength = ReadSequence(br);
             var lengthSpcIndirectDataContent = ReadSequence(br);

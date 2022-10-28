@@ -445,7 +445,7 @@ namespace OfficeOpenXml.Table
         private string ToJsonString(JsonTableExportSettings s)
         {
             var exporter = new JsonTableExport(this, s);
-            var ms = new MemoryStream();            
+            var ms = RecyclableMemory.GetStream();
             exporter.Export(ms);
             return s.Encoding.GetString(ms.ToArray());
         }
