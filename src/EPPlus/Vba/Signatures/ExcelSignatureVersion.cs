@@ -42,7 +42,7 @@ namespace OfficeOpenXml.Vba.Signatures
         /// <summary>
         /// The hash algorithm used.
         /// </summary>
-        internal VbaSignatureHashAlgorithm HashAlgorithm
+        public VbaSignatureHashAlgorithm HashAlgorithm
         {
             get;
             set;

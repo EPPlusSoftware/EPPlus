@@ -19,6 +19,7 @@ using System.Security.Cryptography.Pkcs;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.VBA.Signatures;
 using OfficeOpenXml.Vba.Signatures;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 
 namespace OfficeOpenXml.VBA
 {
@@ -57,6 +58,16 @@ namespace OfficeOpenXml.VBA
             }
             set 
             {
+                if(_certificate == null && value!=null && (LegacySignature.CreateSignatureOnSave==false && AgileSignature.CreateSignatureOnSave == false && V3Signature.CreateSignatureOnSave == false))
+                {
+                    //If we set a new certificate, make sure all signatures are written by default.
+                    LegacySignature.CreateSignatureOnSave = true;
+                    AgileSignature.CreateSignatureOnSave = true;
+                    V3Signature.CreateSignatureOnSave = true;
+                }
+                LegacySignature.Certificate = value;
+                AgileSignature.Certificate = value;
+                V3Signature.Certificate = value;
                 _certificate = value;
             } 
         }

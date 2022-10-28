@@ -877,7 +877,7 @@ namespace OfficeOpenXml
             }
         }
 
-        double _defaultRowHeight = double.NaN;
+        internal double _defaultRowHeight = double.NaN;
         /// <summary>
 		/// Get/set the default height of all rows in the worksheet
 		/// </summary>
@@ -994,7 +994,7 @@ namespace OfficeOpenXml
             set
             {
                 CheckSheetTypeAndNotDisposed();
-                SetXmlNodeString("d:sheetFormatPr/@defaultColWidth", value.ToString(CultureInfo.InvariantCulture));
+                SetXmlNodeDouble("d:sheetFormatPr/@defaultColWidth", value);
 
                 if (double.IsNaN(GetXmlNodeDouble("d:sheetFormatPr/@defaultRowHeight")))
                 {

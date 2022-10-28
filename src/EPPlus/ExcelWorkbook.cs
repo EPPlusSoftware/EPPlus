@@ -1791,11 +1791,10 @@ namespace OfficeOpenXml
 			{
 				if (ws.IsChartSheet == false)
 				{
-					if (ws.CustomHeight)
+					if (ws.CustomHeight==false)
 					{
-						ws.DefaultRowHeight = double.NaN;
+						ws._defaultRowHeight = double.NaN;
 					}
-					ws.DefaultColWidth = double.NaN;
 				}
 			}
 		}
