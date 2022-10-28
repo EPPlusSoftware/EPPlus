@@ -3726,17 +3726,6 @@ namespace EPPlusTest
                 SaveWorkbook("i729.xlsm", p);
             }
         }
-        [TestMethod]
-        public void i725()
-        {
-            var stream = new FileStream(_testInputPathOptional + "TestData.xlsx", FileMode.Open);
-            using (var p = new ExcelPackage())
-            {
-                p.Load(stream);
-                //var ba = p.GetAsByteArray();
-                SaveWorkbook("i725.xlsx", p);
-            }
-        }
 
         private void WriteStorage(CompoundDocument.StoragePart storage, StringWriter sb, string path, string dir)
         {
