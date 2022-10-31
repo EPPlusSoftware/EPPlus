@@ -442,7 +442,7 @@ namespace OfficeOpenXml.VBA
                             Name = GetString(br, size);
                             break;
                         case 0x05:
-                            Description = GetUnicodeString(br, size);
+                            Description = GetStringAndUnicodeString(br, size);
                             break;
                         case 0x06:
                             HelpFile1 = GetString(br, size);
@@ -461,7 +461,7 @@ namespace OfficeOpenXml.VBA
                             MinorVersion = (int)br.ReadUInt16();
                             break;
                         case 0x0C:
-                            Constants = GetUnicodeString(br, size);
+                            Constants = GetStringAndUnicodeString(br, size);
                             break;
                         case 0x0D:
                             uint sizeLibID = br.ReadUInt32();
@@ -495,18 +495,21 @@ namespace OfficeOpenXml.VBA
                             LcidInvoke = (int)br.ReadUInt32();
                             break;
                         case 0x16:
-                            referenceName = GetUnicodeString(br, size);
+                            referenceName = GetStringAndUnicodeString(br, size);
                             break;
                         case 0x19:
                             currentModule = new ExcelVBAModule();
-                            currentModule.Name = GetUnicodeString(br, size);
+                            currentModule.Name = GetString(br, size);
                             Modules.Add(currentModule);
                             break;
+                        case 0x47:
+                            currentModule.NameUnicode = GetString(br, size, System.Text.Encoding.Unicode);
+                            break;
                         case 0x1A:
-                            currentModule.streamName = GetUnicodeString(br, size);
+                            currentModule.streamName = GetStringAndUnicodeString(br, size);
                             break;
                         case 0x1C:
-                            currentModule.Description = GetUnicodeString(br, size);
+                            currentModule.Description = GetStringAndUnicodeString(br, size);
                             break;
                         case 0x1E:
                             currentModule.HelpContext = (int)br.ReadUInt32();
@@ -528,7 +531,7 @@ namespace OfficeOpenXml.VBA
                         case 0x30:
                             var extRef = (ExcelVbaReferenceControl)currentRef;
                             var sizeExt = br.ReadUInt32();
-                            extRef.LibIdExternal = GetString(br, sizeExt);
+                            extRef.LibIdExtended = GetString(br, sizeExt);
 
                             uint reserved4 = br.ReadUInt32();
                             ushort reserved5 = br.ReadUInt16();
@@ -544,7 +547,7 @@ namespace OfficeOpenXml.VBA
                             break;
                         case 0x2F:
                             var contrRef = (ExcelVbaReferenceControl)currentRef;
-                            contrRef.ReferenceRecordID = id;
+                            contrRef.SecondaryReferenceRecordID = id;
 
                             var sizeTwiddled = br.ReadUInt32();
                             contrRef.LibIdTwiddled = GetString(br, sizeTwiddled);
@@ -584,6 +587,7 @@ namespace OfficeOpenXml.VBA
                 store.DataStreams.Add("dir", CreateDirStream());
                 foreach (var module in Modules)
                 {
+                    module.ModuleOffset = 0;
                     store.DataStreams.Add(module.Name, VBACompression.CompressPart(Encoding.GetEncoding(CodePage).GetBytes(module.Attributes.GetAttributeText() + module.Code)));
                 }
 
@@ -617,6 +621,8 @@ namespace OfficeOpenXml.VBA
                 }                
                 var st = Part.GetStream(FileMode.Create);
                 doc.Save((MemoryStream)st);
+                
+                Document = doc;
                 st.Flush();
                 //Save the digital signture
                 Signature.Save(this);
@@ -870,7 +876,7 @@ namespace OfficeOpenXml.VBA
             WriteNameReference(bw, reference);  //Name record again
             bw.Write((ushort)0x30); //Reserved3
 
-            var libIdExternalBytes = Encoding.GetEncoding(CodePage).GetBytes(controlRef.LibIdExternal);
+            var libIdExternalBytes = Encoding.GetEncoding(CodePage).GetBytes(controlRef.LibIdExtended);
             bw.Write((uint)(4 + libIdExternalBytes.Length + 4 + 2 + 16 + 4));    //Size of SizeOfLibidExtended, LibidExtended, Reserved4, Reserved5, OriginalTypeLib, and Cookie
             bw.Write((uint)libIdExternalBytes.Length);                              //Size            
             bw.Write(libIdExternalBytes);  //LibID
@@ -951,7 +957,10 @@ namespace OfficeOpenXml.VBA
                 else
                 {
                     //Designer
-                    sb.AppendFormat("Package={0}\r\n", module.ClassID);
+                    if (string.IsNullOrEmpty(module.ClassID) == false)
+                    {
+                        sb.AppendFormat("Package={0}\r\n", module.ClassID);
+                    }
                     sb.AppendFormat("BaseClass={0}\r\n", module.Name);
                 }
             }
@@ -1068,7 +1077,7 @@ namespace OfficeOpenXml.VBA
                 return "";
             }
         }
-        private string GetUnicodeString(BinaryReader br, uint size)
+        private string GetStringAndUnicodeString(BinaryReader br, uint size)
         {
             string s = GetString(br, size);
             int reserved = br.ReadUInt16();
@@ -1076,6 +1085,7 @@ namespace OfficeOpenXml.VBA
             string sUC = GetString(br, sizeUC, System.Text.Encoding.Unicode);
             return sUC.Length == 0 ? s : sUC;
         }
+
         internal CompoundDocument Document { get; set; }
         internal Packaging.ZipPackagePart Part { get; set; }
         internal Uri Uri { get; private set; }

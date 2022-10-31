@@ -487,5 +487,11 @@ namespace OfficeOpenXml
             return _toRow > maxRow + 1 ? maxRow + 1 : _toRow; // +1 if the last row has outline level 1 then +1 is outline level 0.
         }
 
+        private RowInternal GetRow(int row)
+        {
+            if (row < 1 || row > ExcelPackage.MaxRows) return null;
+            return _worksheet.GetValueInner(row, 0) as RowInternal;
+        }
+
     }
 }

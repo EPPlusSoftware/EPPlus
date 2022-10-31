@@ -33,6 +33,48 @@ namespace EPPlusTest.Sorting
         }
 
         [TestMethod]
+        public void SetSortStateShouldClearChildNodesAtEachSearch()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var rnd = new Random();
+                var sheet = package.Workbook.Worksheets.Add("Test");
+                Assert.IsNull(sheet.SortState, "Worksheet.SortState was not null");
+                for (var x = 1; x < 10; x++)
+                {
+                    sheet.Cells[x, 1].Value = rnd.Next(1, 20);
+                }
+                sheet.Cells["A1:A10"].Sort(0, true);
+                Assert.AreEqual(1, sheet.SortState.TopNode.ChildNodes.Count);
+                
+                sheet.Cells["A1:A10"].Sort(0, true);
+                Assert.AreEqual(1, sheet.SortState.TopNode.ChildNodes.Count);
+            }
+        }
+
+        [TestMethod]
+        public void SortStateClearMethodShouldRemoveAllConditions()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var rnd = new Random();
+                var sheet = package.Workbook.Worksheets.Add("Test");
+                Assert.IsNull(sheet.SortState, "Worksheet.SortState was not null");
+                for (var x = 1; x < 10; x++)
+                {
+                    sheet.Cells[x, 1].Value = rnd.Next(1, 20);
+                }
+                sheet.Cells["A1:A10"].Sort(0, true);
+                Assert.AreEqual(1, sheet.SortState.TopNode.ChildNodes.Count);
+                Assert.AreEqual(1, sheet.SortState.TopNode.ChildNodes.Count);
+
+                sheet.SortState.SortConditions.Clear();
+                Assert.AreEqual(0, sheet.SortState.SortConditions.Count());
+                Assert.AreEqual(0, sheet.SortState.TopNode.ChildNodes.Count);
+            }
+        }
+
+        [TestMethod]
         public void ShouldHandleEmptyDescendingArray()
         {
             using(var package = new ExcelPackage())

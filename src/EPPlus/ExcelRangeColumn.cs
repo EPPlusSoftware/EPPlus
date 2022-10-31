@@ -420,6 +420,26 @@ namespace OfficeOpenXml
         {
             _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(MinimumWidth, MaximumWidth);
         }
+        private ExcelColumn GetColumn(int col, bool ignoreFromCol = true)
+        {
+            var currentCol = _worksheet.GetValueInner(0, col) as ExcelColumn;
+            if (currentCol == null)
+            {
+                int r = 0, c = col;
+                if (_worksheet._values.PrevCell(ref r, ref c))
+                {
+                    if (c > 0)
+                    {
+                        ExcelColumn prevCol = _worksheet.GetValueInner(0, c) as ExcelColumn;
+                        if (prevCol.ColumnMax >= _fromCol || ignoreFromCol)
+                        {
+                            return prevCol;
+                        }
+                    }
+                }
+            }
+            return currentCol;
+        }
         private TOut GetValue<TOut>(Func<ExcelColumn, TOut> getValue, TOut defaultValue)
         {
             var currentCol = _worksheet.GetValueInner(0, _fromCol) as ExcelColumn;

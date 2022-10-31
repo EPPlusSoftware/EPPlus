@@ -147,5 +147,6 @@ namespace OfficeOpenXml
             get;
             set;
         }
+        internal string Target { get; set; }
     }
 }

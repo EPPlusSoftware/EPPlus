@@ -52,6 +52,9 @@ using OfficeOpenXml.ConditionalFormatting.Contracts;
 using Newtonsoft.Json;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Style.Coloring;
+using System.Xml.Linq;
+using static System.Net.WebRequestMethods;
+using OfficeOpenXml.Utils.CompundDocument;
 
 namespace EPPlusTest
 {
@@ -3704,16 +3707,73 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void s392()
+        public void i729()
         {
-            using (var p = OpenTemplatePackage(@"s392.xlsx"))
+            var id = "2";
+            using (var p = OpenTemplatePackage($"i729-{id}.xlsm"))
             {
-                var wsSource = p.Workbook.Worksheets[0];
-                var wsCopy = p.Workbook.Worksheets.Add("Copied sheet", wsSource);
-                
+                var path = $"c:\\temp\\vba-issue\\{id}\\";
+                if (Directory.Exists(path))
+                {
+                    Directory.Delete(path, true);
+                }
+                Directory.CreateDirectory(path);
+
+                var code = p.Workbook.VbaProject.Modules[0].Code;
+                var sb = new StringWriter();
+                WriteStorage(p.Workbook.VbaProject.Document.Storage, sb, path, "");
+
+                SaveWorkbook("i729.xlsm", p);
+            }
+        }
+        [TestMethod]
+        public void i735()
+        {
+            using (var p = OpenPackage("i735.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("test");
+                var tableRange = ws.Cells["A1:C5"];
+                tableRange.Style.Border.Top.Style = ExcelBorderStyle.Dashed;
+                tableRange.Style.Border.Left.Style = ExcelBorderStyle.Dashed;
+                tableRange.Style.Border.Bottom.Style = ExcelBorderStyle.Dashed;
+                tableRange.Style.Border.Right.Style = ExcelBorderStyle.Dashed;
+
+                //I want row 2 to be a dotted edge. But only the right edge changes.
+                ws.Cells["A2:C2"].Style.Border.BorderAround(ExcelBorderStyle.DashDotDot); //this doesn't work.
                 SaveAndCleanup(p);
             }
         }
+        private void WriteStorage(CompoundDocument.StoragePart storage, StringWriter sb, string path, string dir)
+        {
+            foreach (var key in storage.SubStorage.Keys)
+            {
+                Directory.CreateDirectory($"{path}{dir}{key}\\");
+                WriteStorage(storage.SubStorage[key], sb, path, dir + $"{key}\\");
+            }
+            foreach(var key in storage.DataStreams.Keys)
+            {
+                sb.WriteLine($"{path}{dir}\\" + key);
+                System.IO.File.WriteAllBytes($"{path}{dir}\\" + GetFileName(key) + ".bin", storage.DataStreams[key]);
+            }
+        }
 
+        private string GetFileName(string key)
+        {
+            var sb = new StringBuilder();
+            var ic = Path.GetInvalidFileNameChars();
+            foreach (var c in key)
+            {
+                if(ic.Contains(c))
+                {
+                    sb.Append($"0x{(int)c}");
+                }
+                else
+                {
+                    sb.Append(c);
+                }
+            }
+            return sb.ToString();
+        }
     }
 }

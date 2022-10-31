@@ -16,6 +16,7 @@ using OfficeOpenXml.Packaging.Ionic.Zip;
 using System.Reflection;
 using System.IO;
 using System.Text;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml
 {
@@ -207,7 +208,7 @@ namespace OfficeOpenXml
                             var br = new BinaryReader(zipStream);
                             if (string.IsNullOrEmpty(fontName))
                             {
-                                using (var ms = new MemoryStream(br.ReadBytes((int)entry.UncompressedSize)))
+                                using (var ms = RecyclableMemory.GetStream(br.ReadBytes((int)entry.UncompressedSize)))
                                 {
                                     ReadFontSize(ms, fontName);
                                 }
@@ -215,7 +216,7 @@ namespace OfficeOpenXml
                             }
                             else
                             {
-                                _fontStream = new MemoryStream(br.ReadBytes((int)entry.UncompressedSize));
+                                _fontStream = RecyclableMemory.GetStream(br.ReadBytes((int)entry.UncompressedSize));
                                 ReadFontSize(_fontStream, fontName);
                             }
                         }
