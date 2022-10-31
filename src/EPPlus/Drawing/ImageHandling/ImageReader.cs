@@ -36,7 +36,7 @@ namespace OfficeOpenXml.Drawing
             public int Count;
             public int ValueOffset;
         }
-        internal static ePictureType? GetPictureType(Stream stream)
+        internal static ePictureType? GetPictureType(Stream stream, bool throwException)
         {
             ePictureType? pt;
             if(stream is MemoryStream ms)
@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Drawing
                 StreamUtil.CopyStream(stream, ref newMs);
                 pt = GetPictureTypeFromMs((MemoryStream)newMs);
             }
-            if (pt == null) throw new InvalidOperationException("Cannot identify the image format of the stream.");
+            if (throwException && pt == null) throw new InvalidOperationException("Cannot identify the image format of the stream.");
             return pt;
         }
 #if !NET35

@@ -61,9 +61,15 @@ namespace OfficeOpenXml.Drawing
                     return;
                 }
 
-                byte[] iby = ((MemoryStream)Part.GetStream()).ToArray();
+                var ms = ((MemoryStream)Part.GetStream());
+                var pt = ImageReader.GetPictureType(ms, false);
+                if(pt == null)
+                {
+                    pt = PictureStore.GetPictureType(extension);
+                }
+                byte[] iby = ms.ToArray();
                 Image = new ExcelImage(this);
-                Image.SetImage(iby, PictureStore.GetPictureType(extension));
+                Image.SetImage(iby, pt.Value);
 
                 var ii = _drawings._package.PictureStore.LoadImage(iby, container.UriPic, Part);
                 container.ImageHash = ii.Hash;
@@ -90,13 +96,13 @@ namespace OfficeOpenXml.Drawing
             }
         }
 #if !NET35 && !NET40
-        internal async Task LoadImageAsync(Stream stream, ePictureType? type)
+        internal async Task LoadImageAsync(Stream stream, ePictureType type)
         {
             var img = new byte[stream.Length];
             stream.Seek(0, SeekOrigin.Begin);
             await stream.ReadAsync(img, 0, (int)stream.Length).ConfigureAwait(false);
-            if(type.HasValue==false) type = ImageReader.GetPictureType(stream);
-            SaveImageToPackage(type.Value, img);
+
+            SaveImageToPackage(type, img);
         }        
 #endif
         internal void LoadImage(Stream stream, ePictureType type)

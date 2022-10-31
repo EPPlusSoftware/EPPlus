@@ -1581,7 +1581,7 @@ namespace OfficeOpenXml
             {
                 if (address[ix] == '\'')
                 {
-                    var ret=GetString(address, ix, out endIx);
+                    var ret=GetString(address, ix+1, out endIx);
                     endIx++;
                     return ret; 
                 }

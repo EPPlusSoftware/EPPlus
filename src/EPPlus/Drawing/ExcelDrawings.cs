@@ -849,7 +849,7 @@ namespace OfficeOpenXml.Drawing
                 throw (new IOException("Stream must be readable and seekable"));
             }
 
-            if (pictureType == null) pictureType = ImageReader.GetPictureType(pictureStream);
+            if (pictureType == null) pictureType = ImageReader.GetPictureType(pictureStream, true);
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
             var pic = new ExcelPicture(this, drawNode, Hyperlink, pictureType.Value);
             pic.LoadImage(pictureStream, pictureType.Value);
@@ -976,7 +976,7 @@ namespace OfficeOpenXml.Drawing
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
             if (pictureType == null) pictureType = await ImageReader.GetPictureTypeAsync(pictureStream);
             var pic = new ExcelPicture(this, drawNode, Hyperlink, pictureType.Value);
-            await pic.LoadImageAsync(pictureStream, pictureType);
+            await pic.LoadImageAsync(pictureStream, pictureType.Value);
             AddPicture(Name, pic);
             return pic;
 
