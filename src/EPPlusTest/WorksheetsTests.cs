@@ -192,5 +192,13 @@ namespace EPPlusTest
 				positionId++;
 			}
 		}
-	}
+        [TestMethod]
+        public void CheckAddedWorksheetWithInvalidName()
+        {
+            if (workbook.Worksheets["[NEW2]"] == null)
+                workbook.Worksheets.Add("[NEW2]");
+
+			Assert.IsNotNull(workbook.Worksheets["[NEW2]"]);
+        }
+    }
 }
