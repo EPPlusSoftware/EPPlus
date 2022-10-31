@@ -108,10 +108,9 @@ namespace OfficeOpenXml.Utils.CompundDocument
         {
             var doc = new CompoundDocumentFile();
             WriteStorageAndStreams(Storage, doc.RootItem);            
-            Directories = doc.Directories;            
+            Directories = doc.Directories;
             doc.Write(ms);
         }
-
         private void WriteStorageAndStreams(StoragePart storage, CompoundDocumentItem parent)
         {
             foreach(var item in storage.SubStorage)

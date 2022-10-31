@@ -53,13 +53,21 @@ namespace OfficeOpenXml
         //Merged = 0x1,
         RichText = 0x2,
         SharedFormula = 0x4,
-        ArrayFormula = 0x8
+        ArrayFormula = 0x8,
+        DataTableFormula = 0x10
     }
     /// <summary>
 	/// Represents an Excel worksheet and provides access to its properties and methods
 	/// </summary>
     public class ExcelWorksheet : XmlHelper, IEqualityComparer<ExcelWorksheet>, IDisposable, IPictureRelationDocument
     {
+            internal enum FormulaType
+            {
+                Normal,
+                Shared,
+                Array,
+                DataTable
+            }        
         internal class Formulas
         {
             public Formulas(ISourceCodeTokenizer tokenizer)
@@ -70,7 +78,7 @@ namespace OfficeOpenXml
             private ISourceCodeTokenizer _tokenizer;
             internal int Index { get; set; }
             internal string Address { get; set; }
-            internal bool IsArray { get; set; }
+            internal FormulaType FormulaType { get; set; }
             string _formula = "";
             public string Formula 
             { 
@@ -86,10 +94,16 @@ namespace OfficeOpenXml
                         Tokens = null;
                     }
                 }
-            }
+            }            
             public int StartRow { get; set; }
             public int StartCol { get; set; }
+            public bool FirstCellDeleted { get; set; }  //del1
+            public bool SecondCellDeleted { get; set; } //del2
 
+            public bool DataTableIsTwoDimesional { get; set; } //dt2D
+            public bool IsDataTableRow { get; set; } //dtr
+            public string R1CellAddress { get; set; } //r1
+            public string R2CellAddress { get; set; } //r2
             internal IEnumerable<Token> Tokens { get; set; }
 
             internal void SetTokens(string worksheet)
@@ -160,10 +174,16 @@ namespace OfficeOpenXml
                 {
                     Index = Index,
                     Address = Address,
-                    IsArray = IsArray,
+                    FormulaType = FormulaType,
                     Formula = Formula,
                     StartRow = StartRow,
-                    StartCol = StartCol
+                    StartCol = StartCol,
+                    DataTableIsTwoDimesional = DataTableIsTwoDimesional,
+                    IsDataTableRow = IsDataTableRow,
+                    R1CellAddress = R1CellAddress,
+                    R2CellAddress = R2CellAddress,
+                    FirstCellDeleted = FirstCellDeleted,
+                    SecondCellDeleted = SecondCellDeleted,
                 };
             }
         }
@@ -1876,7 +1896,7 @@ namespace OfficeOpenXml
                             string formula = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
                             if (formula != "")
                             {
-                                _sharedFormulas.Add(sfIndex, new Formulas(SourceCodeTokenizer.Default) { Index = sfIndex, Formula = formula, Address = fAddress, StartRow = address._fromRow, StartCol = address._fromCol });
+                                _sharedFormulas.Add(sfIndex, new Formulas(SourceCodeTokenizer.Default) { Index = sfIndex, Formula = formula, Address = fAddress, StartRow = address._fromRow, StartCol = address._fromCol, FormulaType = FormulaType.Shared });
                             }
                         }
                         else
@@ -1891,15 +1911,35 @@ namespace OfficeOpenXml
                         var afIndex = GetMaxShareFunctionIndex(true);
                         if (!string.IsNullOrEmpty(refAddress))
                         {
-                            WriteArrayFormulaRange(refAddress, afIndex);
+                            WriteArrayFormulaRange(refAddress, afIndex, CellFlags.ArrayFormula);
                         }
 
-                        _sharedFormulas.Add(afIndex, new Formulas(SourceCodeTokenizer.Default) { Index = afIndex, Formula = formula, Address = refAddress, StartRow = address._fromRow, StartCol = address._fromCol, IsArray = true });
+                        _sharedFormulas.Add(afIndex, new Formulas(SourceCodeTokenizer.Default) { Index = afIndex, Formula = formula, Address = refAddress, StartRow = address._fromRow, StartCol = address._fromCol, FormulaType = FormulaType.Array });
                     }
-                    else if (t=="dataTable") //Unsupported
+                    else if (t=="dataTable") 
                     {
-                        //TODO:Add support.
-                        xr.Read();
+                        var afIndex = GetMaxShareFunctionIndex(true);
+                        string refAddress = xr.GetAttribute("ref");
+                        var f = new Formulas(SourceCodeTokenizer.Default)
+                        {
+                            Address = refAddress,
+                            StartRow = address._fromRow,
+                            StartCol = address._fromCol,
+                            FormulaType = FormulaType.DataTable,
+                            FirstCellDeleted = GetBoolFromString(xr.GetAttribute("del1")),
+                            SecondCellDeleted =GetBoolFromString(xr.GetAttribute("del2")),
+                            DataTableIsTwoDimesional = GetBoolFromString(xr.GetAttribute("dt2D")),
+                            R1CellAddress = xr.GetAttribute("r1")??"",
+                            R2CellAddress = xr.GetAttribute("r2")??""
+                        };
+                        f.Formula = xr.ReadElementContentAsString();
+                        if (!string.IsNullOrEmpty(refAddress))
+                        {
+                            WriteArrayFormulaRange(refAddress, afIndex, CellFlags.DataTableFormula);
+                        }
+
+                        _sharedFormulas.Add(afIndex, f);
+                        //xr.Read();
                     }
                     else // ??? some other type
                     {
@@ -1938,7 +1978,7 @@ namespace OfficeOpenXml
                 }
             }
         }
-        private void WriteArrayFormulaRange(string address, int index)
+        private void WriteArrayFormulaRange(string address, int index, CellFlags type)
         {
             var refAddress = new ExcelAddressBase(address);
             for (int r = refAddress._fromRow; r <= refAddress._toRow; r++)
@@ -1947,7 +1987,7 @@ namespace OfficeOpenXml
                 {
                     _formulas.SetValue(r, c, index);
                     SetValueInner(r, c, null);
-                    _flags.SetFlagValue(r, c, true, CellFlags.ArrayFormula);
+                    _flags.SetFlagValue(r, c, true, type);
                 }
             }
         }
@@ -3284,9 +3324,14 @@ namespace OfficeOpenXml
                         {
                             if (f.StartCol == cse.Column && f.StartRow == cse.Row)
                             {
-                                if (f.IsArray)
+                                if (f.FormulaType == FormulaType.Array)
                                 {
                                     cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"array\" {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                }
+                                else if (f.FormulaType == FormulaType.DataTable)
+                                {
+                                    var dataTableAttributes = GetDataTableAttributes(f);
+                                    cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{f.Address}\" t=\"dataTable\"{dataTableAttributes} {mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}></{cTag}>");
                                 }
                                 else
                                 {
@@ -3294,7 +3339,7 @@ namespace OfficeOpenXml
                                 }
 
                             }
-                            else if (f.IsArray) 
+                            else if (f.FormulaType == FormulaType.Array) 
                             {
                                 string fElement;
                                 if(string.IsNullOrEmpty(mdAttrForFTag)==false)
@@ -3307,15 +3352,19 @@ namespace OfficeOpenXml
                                 }
                                 cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}>{fElement}{GetFormulaValue(v, prefix)}</{cTag}>");
                             }
-                            else
+                            else if (f.FormulaType == FormulaType.DataTable)
+                            {
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                            }
+                            else 
                             {
                                 cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><f t=\"shared\" si=\"{sfId}\" {mdAttrForFTag}/>{GetFormulaValue(v, prefix)}</{cTag}>");
-                            }
+                            }                            
                         }
                         else
                         {
                             // We can also have a single cell array formula
-                            if (f.IsArray)
+                            if (f.FormulaType == FormulaType.Array)
                             {
                                 cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{string.Format("{0}:{1}", f.Address, f.Address)}\" t=\"array\"{mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula)}</{fTag}>{GetFormulaValue(v,prefix)}</{cTag}>");
                             }
@@ -3398,6 +3447,36 @@ namespace OfficeOpenXml
             cache.Append($"</{prefix}sheetData>");
             sw.Write(cache.ToString());
             sw.Flush();
+        }
+
+        private string GetDataTableAttributes(Formulas f)
+        {
+            var attributes = " ";
+            if(f.IsDataTableRow)
+            {
+                attributes += "dtr=\"1\" ";
+            }
+            if(f.DataTableIsTwoDimesional)
+            {
+                attributes += "dt2D=\"1\" ";
+            }
+            if(f.FirstCellDeleted)
+            {
+                attributes += "del1=\"1\" ";
+            }
+            if(f.SecondCellDeleted)
+            {
+                attributes += "del2=\"1\" ";
+            }
+            if (string.IsNullOrEmpty(f.R1CellAddress)==false)
+            {
+                attributes += $"r1=\"{f.R1CellAddress}\" ";
+            }
+            if (string.IsNullOrEmpty(f.R2CellAddress) == false)
+            {
+                attributes += $"r2=\"{f.R2CellAddress}\" ";
+            }
+            return attributes;
         }
 
         /// <summary>

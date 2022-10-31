@@ -294,7 +294,7 @@ namespace OfficeOpenXml
             f.Address = address.FirstAddress;
             f.StartCol = address.Start.Column;
             f.StartRow = address.Start.Row;
-            f.IsArray = IsArray;
+            f.FormulaType = ExcelWorksheet.FormulaType.Shared;
 
             range._worksheet._sharedFormulas.Add(f.Index, f);
 
@@ -1533,7 +1533,7 @@ namespace OfficeOpenXml
                         int id = (int)f;
                         if (id >= 0 && !formulas.Contains(id))
                         {
-                            if (_worksheet._sharedFormulas[id].IsArray &&
+                            if (_worksheet._sharedFormulas[id].FormulaType==ExcelWorksheet.FormulaType.Array &&
                                     Collide(_worksheet.Cells[_worksheet._sharedFormulas[id].Address]) == eAddressCollition.Partly) // If the formula is an array formula and its on the inside the overwriting range throw an exception
                             {
                                 throw (new InvalidOperationException("Cannot overwrite a part of an array-formula"));
@@ -1587,7 +1587,7 @@ namespace OfficeOpenXml
                         f = new ExcelWorksheet.Formulas(SourceCodeTokenizer.Default);
                         f.Index = _worksheet.GetMaxShareFunctionIndex(false);
                         f.StartCol = fRange._fromCol;
-                        f.IsArray = false;
+                        f.FormulaType = ExcelWorksheet.FormulaType.Shared;
                         _worksheet._sharedFormulas.Add(f.Index, f);
                     }
                     else
@@ -1620,7 +1620,7 @@ namespace OfficeOpenXml
                     {
                         f = new ExcelWorksheet.Formulas(SourceCodeTokenizer.Default);
                         f.Index = _worksheet.GetMaxShareFunctionIndex(false);
-                        f.IsArray = false;
+                        f.FormulaType = ExcelWorksheet.FormulaType.Shared;
                         _worksheet._sharedFormulas.Add(f.Index, f);
                     }
                     else
@@ -1655,7 +1655,7 @@ namespace OfficeOpenXml
                     {
                         f = new ExcelWorksheet.Formulas(SourceCodeTokenizer.Default);
                         f.Index = _worksheet.GetMaxShareFunctionIndex(false);
-                        f.IsArray = false;
+                        f.FormulaType = ExcelWorksheet.FormulaType.Shared;
                         _worksheet._sharedFormulas.Add(f.Index, f);
                     }
 
@@ -1999,6 +1999,8 @@ namespace OfficeOpenXml
         {
 
             //First find the start cell
+            FormulaDataTableValidation.HasPartlyFormulaDataTable(_worksheet, Range, false, "Can't clear a part of a data table function");
+            
             int fromRow, fromCol;
             var d = Worksheet.Dimension;
             if (d != null && Range._fromRow <= d._fromRow && Range._toRow >= d._toRow) //EntireRow?
