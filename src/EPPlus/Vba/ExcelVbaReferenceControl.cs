@@ -30,8 +30,27 @@ namespace OfficeOpenXml.VBA
         /// <summary>
         /// LibIdExternal 
         /// For more info check MS-OVBA 2.1.1.8 LibidReference and 2.3.4.2.2 PROJECTREFERENCES
+        /// This corresponds to LibIdExtended in the documentation.
         /// </summary>
-        public string LibIdExternal { get; set; }
+        [Obsolete("Use LibIdExtended instead of this.")]
+        public string LibIdExternal
+        {
+            get
+            {
+                return LibIdExtended;
+            }
+            set
+            {
+                LibIdExtended = value;
+            }
+        }
+
+        /// <summary>
+        /// LibIdExtended 
+        /// For more info check MS-OVBA 2.1.1.8 LibidReference and 2.3.4.2.2 PROJECTREFERENCES
+        /// </summary>
+        public string LibIdExtended { get; set; }
+
         /// <summary>
         /// LibIdTwiddled
         /// For more info check MS-OVBA 2.1.1.8 LibidReference and 2.3.4.2.2 PROJECTREFERENCES

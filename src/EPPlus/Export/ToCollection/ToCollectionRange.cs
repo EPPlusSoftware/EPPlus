@@ -32,6 +32,10 @@ namespace OfficeOpenXml.Export.ToCollection
             }
             else
             {
+                if(headers.Length > range.Columns)
+                {
+                    throw new InvalidOperationException("ToCollectionOptions.Headers[] contain more items than the columns in the range.");
+                }
                 headersList = new List<string>(headers);
             }
 

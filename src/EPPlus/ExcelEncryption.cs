@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -209,7 +210,7 @@ namespace OfficeOpenXml
                 stream.Read(b, 0, (int)stream.Length);
                 ms = new MemoryStream(b);
 #else
-                ms = new MemoryStream();
+                ms = RecyclableMemory.GetStream();
                 stream.CopyTo(ms);
 #endif
             }

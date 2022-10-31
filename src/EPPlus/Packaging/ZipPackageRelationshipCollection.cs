@@ -80,7 +80,7 @@ namespace OfficeOpenXml.Packaging
             StringBuilder xml = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">");
             foreach (var rel in _rels.Values)
             {
-                if(rel.TargetUri==null || rel.TargetUri.OriginalString.StartsWith("Invalid:URI"))
+                if(rel.TargetUri==null || rel.TargetUri.OriginalString.StartsWith("Invalid:URI", StringComparison.OrdinalIgnoreCase))
                 {
                     xml.AppendFormat("<Relationship Id=\"{0}\" Type=\"{1}\" Target=\"{2}\"{3}/>", SecurityElement.Escape(rel.Id), rel.RelationshipType, SecurityElement.Escape(rel.Target), rel.TargetMode == TargetMode.External ? " TargetMode=\"External\"" : "");
                 }

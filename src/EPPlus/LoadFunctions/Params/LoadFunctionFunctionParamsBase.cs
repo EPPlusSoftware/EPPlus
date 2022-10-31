@@ -17,6 +17,9 @@ using System.Text;
 
 namespace OfficeOpenXml.LoadFunctions
 {
+    /// <summary>
+    /// Base class for parameter classes for Load functions
+    /// </summary>
     public abstract class LoadFunctionFunctionParamsBase
     {
         /// <summary>

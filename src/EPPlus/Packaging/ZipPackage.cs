@@ -152,7 +152,7 @@ namespace OfficeOpenXml.Packaging
             else
             {
                 const int BATCH_SIZE = 0x100000;
-                part.Stream = new MemoryStream();
+                part.Stream = RecyclableMemory.GetStream();
                 while (rest > 0)
                 {
                     var bufferSize = rest > BATCH_SIZE ? BATCH_SIZE : (int)rest;
