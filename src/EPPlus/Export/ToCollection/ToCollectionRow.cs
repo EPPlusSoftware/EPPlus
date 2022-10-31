@@ -165,9 +165,10 @@ namespace OfficeOpenXml.Export.ToCollection
         /// Maps properties on the item to values matching the column header with the property name or attibutes without white spaces.
         /// The attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.
         /// </summary>
-        /// <typeparam name="T">The type used</typeparam>
+        /// <typeparam name="T">The type used, must be a class</typeparam>
         /// <param name="item">The item to set the values on.</param>
         public void Automap<T>(T item)
+            where T : class
         {
             if(_members==null)
             {

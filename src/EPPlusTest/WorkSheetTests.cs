@@ -1966,6 +1966,5 @@ namespace EPPlusTest
                 Assert.IsNull(worksheet.Cells["B3"].Value);
             }
         }
-
     }
 }
