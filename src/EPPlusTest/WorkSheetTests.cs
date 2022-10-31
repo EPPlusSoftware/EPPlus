@@ -498,7 +498,7 @@ namespace EPPlusTest
             Assert.AreEqual(ws.Cells["E24"].Text, "0");
             ws.Cells["F7"].Style.Font.UnderLine = false;
             ws.Names.Add("SheetName", ws.Cells["A1:A2"]);
-            ws.View.    FreezePanes(3, 5);
+            ws.View.FreezePanes(3, 5);
 
             foreach (ExcelRangeBase cell in ws.Cells["A1"])
             {
@@ -808,7 +808,7 @@ namespace EPPlusTest
 
         }
         [TestMethod]
-            public void Address()
+        public void Address()
         {
             var ws = _pck.Workbook.Worksheets.Add("Address");
             ws.Cells["A1:A4,B5:B7"].Value = "AddressTest";

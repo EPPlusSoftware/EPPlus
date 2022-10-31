@@ -173,7 +173,11 @@ namespace OfficeOpenXml
         /// <summary>
         /// Outline level. Zero if no outline
         /// </summary>
-        public int OutlineLevel { get; set; }
+        public int OutlineLevel 
+        { 
+            get;
+            set; 
+        }
         /// <summary>
         /// Phonetic
         /// </summary>
