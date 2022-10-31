@@ -5,13 +5,13 @@
 # EPPlus 6
 
 ## Announcement: new license model from version 5
-EPPlus has from this new major version changed license from LGPL to [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
+EPPlus has from version 5 and up changed its license from LGPL to [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
 
 With the new license EPPlus is still free to use in some cases, but will require a commercial license to be used in a commercial business.
 
 This is explained in more detail [here](https://www.epplussoftware.com/Home/LgplToPolyform).
 
-Commercial licenses, which includes support, can be purchased at (https://www.epplussoftware.com/).
+Commercial licenses, which includes support, can be purchased at [EPPlus Software's website](https://www.epplussoftware.com/).
 
 ## LicenseContext parameter must be set
 With the license change EPPlus has a new parameter that needs to be configured. If the LicenseContext is not set, EPPlus will throw a LicenseException (only in debug mode).
