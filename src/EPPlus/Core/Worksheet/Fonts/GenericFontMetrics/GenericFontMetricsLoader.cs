@@ -11,6 +11,7 @@
   12/26/2021         EPPlus Software AB       EPPlus 6.0
  *************************************************************************************************/
 using OfficeOpenXml.Packaging.Ionic.Zip;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -42,7 +43,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
                     {
                         var bytes = new byte[entry.UncompressedSize];
                         var size = zipStream.Read(bytes, 0, (int)entry.UncompressedSize);
-                        using (var ms = new MemoryStream(bytes))
+                        using (var ms = RecyclableMemory.GetStream(bytes))
                         {
                             var fnt = GenericFontMetricsSerializer.Deserialize(ms);
                             fonts.Add(fnt.GetKey(), fnt);

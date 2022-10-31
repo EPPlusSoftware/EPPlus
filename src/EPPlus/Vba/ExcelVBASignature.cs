@@ -19,11 +19,12 @@ using System.Security.Cryptography.Pkcs;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.VBA.Signatures;
 using OfficeOpenXml.Vba.Signatures;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 
 namespace OfficeOpenXml.VBA
 {
     /// <summary>
-    /// The code signature properties of the project
+    /// The VBA project's code signature properties
     /// </summary>
     public class ExcelVbaSignature
     {
@@ -57,6 +58,16 @@ namespace OfficeOpenXml.VBA
             }
             set 
             {
+                if(_certificate == null && value!=null && (LegacySignature.CreateSignatureOnSave==false && AgileSignature.CreateSignatureOnSave == false && V3Signature.CreateSignatureOnSave == false))
+                {
+                    //If we set a new certificate, make sure all signatures are written by default.
+                    LegacySignature.CreateSignatureOnSave = true;
+                    AgileSignature.CreateSignatureOnSave = true;
+                    V3Signature.CreateSignatureOnSave = true;
+                }
+                LegacySignature.Certificate = value;
+                AgileSignature.Certificate = value;
+                V3Signature.Certificate = value;
                 _certificate = value;
             } 
         }
@@ -110,11 +121,13 @@ namespace OfficeOpenXml.VBA
         /// </summary>
         public ExcelSignatureVersion LegacySignature { get; set; }
         /// <summary>
-        /// Settings for the agile vba signing.
+        /// Settings for the agile vba signing. 
+        /// The agile signature adds a hash that is calculated for user forms data in the vba project (designer streams). 
         /// </summary>
         public ExcelSignatureVersion AgileSignature { get; set; }
         /// <summary>
         /// Settings for the V3 vba signing.
+        /// The V3 signature includes more coverage for data in the dir and project stream in the hash, not covered by the legacy and agile signatures.
         /// </summary>
         public ExcelSignatureVersion V3Signature { get; set; }
     }

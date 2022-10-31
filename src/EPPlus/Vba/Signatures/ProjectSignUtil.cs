@@ -41,7 +41,6 @@ namespace OfficeOpenXml.VBA.Signatures
             {
                 contentInfo = CreateContentInfo(hash, ms, ctx);
             }
-            contentInfo.ContentType.Value = "1.3.6.1.4.1.311.2.1.4";
             return contentInfo;
         }
 
@@ -94,7 +93,7 @@ namespace OfficeOpenXml.VBA.Signatures
             bw.Write((byte)0x00);   //Null length
             bw.Write(hashContentBytes);
 
-            contentInfo = new ContentInfo(ms.ToArray());
+            contentInfo = new ContentInfo(new Oid("1.3.6.1.4.1.311.2.1.4"), ms.ToArray());
             return contentInfo;
         }
 
@@ -131,7 +130,7 @@ namespace OfficeOpenXml.VBA.Signatures
 
         private static byte[] GetHashContent(EPPlusSignatureContext ctx, byte[] hash)
         {
-            var ms=new MemoryStream();
+            var ms= RecyclableMemory.GetStream();
             var bw=new BinaryWriter(ms);
             if (ctx.SignatureType == ExcelVbaSignatureType.Legacy)
             {

@@ -8,17 +8,26 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  09/05/2022         EPPlus Software AB       EPPlus 6.1
+  10/04/2022         EPPlus Software AB       Initial release EPPlus 6.1
  *************************************************************************************************/
-using OfficeOpenXml.Packaging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 
-namespace OfficeOpenXml.VBA.Signatures
+namespace OfficeOpenXml.Export.ToCollection
 {
-    internal class EPPlusVbaSignatureLegacy : EPPlusVbaSignature
+    internal class MappedProperty
     {
-        public EPPlusVbaSignatureLegacy(ZipPackagePart part) 
-            : base(part, ExcelVbaSignatureType.Legacy)
+        public MappedProperty(int ix, PropertyInfo property)
         {
+            Index = ix;
+            PropertyInfo = property;
         }
+
+        internal int Index { get; set; }
+
+        internal PropertyInfo PropertyInfo { get; set; }
     }
 }

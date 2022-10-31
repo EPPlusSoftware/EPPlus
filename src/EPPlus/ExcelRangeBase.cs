@@ -1467,31 +1467,6 @@ namespace OfficeOpenXml
                 return fullAddress;
             }
         }
-        /// <summary>
-        /// Address including sheetname
-        /// </summary>
-        internal string FullAddressAbsoluteNoFullRowCol
-        {
-            get
-            {
-                string wbwsRef = string.IsNullOrEmpty(base._wb) ? base._ws : "[" + base._wb.Replace("'", "''") + "]" + _ws;
-                string fullAddress;
-                if (Addresses == null)
-                {
-                    fullAddress = GetFullAddress(wbwsRef, GetAddress(_fromRow, _fromCol, _toRow, _toCol, true), false);
-                }
-                else
-                {
-                    fullAddress = "";
-                    foreach (var a in Addresses)
-                    {
-                        if (fullAddress != "") fullAddress += ",";
-                        fullAddress += GetFullAddress(wbwsRef, GetAddress(a.Start.Row, a.Start.Column, a.End.Row, a.End.Column, true), false);
-                    }
-                }
-                return fullAddress;
-            }
-        }
 #endregion
 #region Private Methods
         /// <summary>

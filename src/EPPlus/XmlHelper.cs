@@ -738,7 +738,7 @@ namespace OfficeOpenXml
         }
         internal void SetXmlNodeDouble(string path, double? d, CultureInfo ci = null, string suffix="", bool allowNegative=true)
         {
-            if (d.HasValue==false)
+            if (d.HasValue==false || double.IsNaN(d.Value))
             {
                 DeleteNode(path);
             }

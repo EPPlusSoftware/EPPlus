@@ -406,7 +406,16 @@ namespace EPPlusTest.Core.Range
             Assert.AreEqual(1, a1._fromCol);
             Assert.AreEqual(3, a1._toRow);
             Assert.AreEqual(1, a1._toCol);
+            Assert.AreEqual("A1:A3", a1.LocalAddress);
         }
+        [TestMethod]
+        public void ValidateLocalAddressWhenMultiAddress()
+        {
+            ExcelAddressBase a1 = new ExcelAddressBase("'a'!a1,'b'!A3");
+
+            Assert.AreEqual("A1,A3", a1.LocalAddress);
+        }
+
         [TestMethod]
         public void ValidateGetWorksheetPart()
         {
