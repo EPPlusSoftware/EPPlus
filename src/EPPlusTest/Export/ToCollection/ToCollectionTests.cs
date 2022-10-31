@@ -112,7 +112,7 @@ namespace EPPlusTest.Export.ToCollection
             }
         }
         [TestMethod]
-        public void ToCollection_CustomHeaders()
+        public void ToCollection_AutoMapInMapping()
         {
             using (var p = new ExcelPackage())
             {
@@ -126,6 +126,39 @@ namespace EPPlusTest.Export.ToCollection
                     dto.FormattedTimeStamp = row.GetText("TimeStamp");
                     return dto;
                 }, x => x.HeaderRow=0);
+
+                Assert.AreEqual(2, list.Count);
+                Assert.AreEqual(sheet.Cells["A2"].Value, list[0].Id);
+                Assert.AreEqual(sheet.Cells["B2"].Text, list[0].Name);
+                Assert.AreEqual(sheet.Cells["C2"].Value, list[0].Ratio);
+                Assert.AreEqual(sheet.Cells["D2"].GetValue<DateTime>(), list[0].TimeStamp);
+                Assert.AreEqual(sheet.Cells["E2"].Value, list[0].Category.CatId);
+
+                Assert.AreEqual(sheet.Cells["A3"].Value, list[1].Id);
+                Assert.AreEqual(sheet.Cells["B3"].Text, list[1].Name);
+                Assert.AreEqual(sheet.Cells["C3"].Value, list[1].Ratio);
+                Assert.AreEqual(sheet.Cells["D3"].GetValue<DateTime>(), list[1].TimeStamp);
+                Assert.AreEqual(sheet.Cells["E3"].Value, list[1].Category.CatId);
+            }
+        }
+        [TestMethod]
+        public void ToCollection_CustomHeaders()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var sheet = LoadTestData(p, "LoadFromCollectionHeaders");
+                var list = sheet.Cells["A2:E3"].ToCollectionWithMappings((ToCollectionRow row) =>
+                {
+                    var dto = new TestDto();
+                    dto.Id = row.GetValue<int>("Custom-Id");
+                    dto.Name = row.GetText("Custom-Name");
+                    dto.Category = new Category() { CatId = row.GetValue<int>("Custom-CategoryId") };
+                    dto.Ratio = row.GetValue<double>("Custom-Ratio");
+                    dto.FormattedRatio = row.GetText("Custom-Ratio");
+                    dto.FormattedTimeStamp = row.GetText("Custom-TimeStamp");
+                    dto.TimeStamp = row.GetValue<DateTime>("Custom-TimeStamp");
+                    return dto;
+                }, x => x.SetCustomHeaders("Custom-Id", "Custom-Name", "Custom-Ratio", "Custom-TimeStamp", "Custom-CategoryId"));
 
                 Assert.AreEqual(2, list.Count);
                 Assert.AreEqual(sheet.Cells["A2"].Value, list[0].Id);
@@ -197,7 +230,7 @@ namespace EPPlusTest.Export.ToCollection
 
 #endif
         #endregion
-        #region Table
+#region Table
         [TestMethod]
         public void ToCollectionTable_AutoMap()
         {
