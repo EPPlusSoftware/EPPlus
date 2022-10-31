@@ -731,6 +731,13 @@ namespace OfficeOpenXml
             int index = NamedStyles.FindIndexById(e.Address);
             if (index >= 0)
             {
+                if(e.StyleClass == eStyleClass.Font && (e.StyleProperty==eStyleProperty.Name || e.StyleProperty == eStyleProperty.Size) && NamedStyles[index].BuildInId==0)
+                {
+                    foreach(var ws in _wb.Worksheets)
+                    {
+                        ws.NormalStyleChange();
+                    }
+                }
                 int newId = CellStyleXfs[NamedStyles[index].StyleXfId].GetNewID(CellStyleXfs, sender, e.StyleClass, e.StyleProperty, e.Value);
                 int prevIx = NamedStyles[index].StyleXfId;
                 NamedStyles[index].StyleXfId = newId;

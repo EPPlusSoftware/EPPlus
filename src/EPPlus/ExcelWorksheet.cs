@@ -44,7 +44,7 @@ using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Interfaces;
-
+using OfficeOpenXml.Packaging;
 namespace OfficeOpenXml
 {
     [Flags]
@@ -877,7 +877,7 @@ namespace OfficeOpenXml
             }
         }
 
-        double _defaultRowHeight = double.NaN;
+        internal double _defaultRowHeight = double.NaN;
         /// <summary>
 		/// Get/set the default height of all rows in the worksheet
 		/// </summary>
@@ -914,6 +914,24 @@ namespace OfficeOpenXml
                     double defHeight = GetRowHeightFromNormalStyle();
                     CustomHeight = true;
                 }
+            }
+        }
+        /// <summary>
+		/// If true, empty rows are hidden by default.
+        /// This reduces the size of the package and increases performance if most of the rows in a worksheet are hidden.
+		/// </summary>
+        public bool RowZeroHeight
+        {
+            get
+            {
+                CheckSheetTypeAndNotDisposed();
+                return GetXmlNodeBool("d:sheetFormatPr/@zeroHeight");
+            }
+            set
+            {
+                CheckSheetTypeAndNotDisposed();
+
+                SetXmlNodeBool("d:sheetFormatPr/@zeroHeight",value, false);
             }
         }
 
@@ -976,7 +994,7 @@ namespace OfficeOpenXml
             set
             {
                 CheckSheetTypeAndNotDisposed();
-                SetXmlNodeString("d:sheetFormatPr/@defaultColWidth", value.ToString(CultureInfo.InvariantCulture));
+                SetXmlNodeDouble("d:sheetFormatPr/@defaultColWidth", value);
 
                 if (double.IsNaN(GetXmlNodeDouble("d:sheetFormatPr/@defaultRowHeight")))
                 {
@@ -987,7 +1005,7 @@ namespace OfficeOpenXml
         /** <outlinePr applyStyles="1" summaryBelow="0" summaryRight="0" /> **/
         const string outLineSummaryBelowPath = "d:sheetPr/d:outlinePr/@summaryBelow";
         /// <summary>
-        /// Summary rows below details 
+        /// If true, summary rows are showen below the details, otherwise above.
         /// </summary>
         public bool OutLineSummaryBelow
         {
@@ -1004,7 +1022,7 @@ namespace OfficeOpenXml
         }
         const string outLineSummaryRightPath = "d:sheetPr/d:outlinePr/@summaryRight";
         /// <summary>
-        /// Summary rows to right of details
+        /// If true, summary columns are to right of details otherwise to the left.
         /// </summary>
         public bool OutLineSummaryRight
         {
@@ -1273,7 +1291,7 @@ namespace OfficeOpenXml
 
             // now release stream buffer (already converted whole Xml into XmlDocument Object and String)
             stream.Dispose();
-            packPart.Stream = new MemoryStream();
+            packPart.Stream = RecyclableMemory.GetStream();
 
             //first char is invalid sometimes?? 
             if (xml[0] != '<')
@@ -1640,6 +1658,7 @@ namespace OfficeOpenXml
                                     hl = new ExcelHyperLink(uri.OriginalString, UriKind.Relative);
                                 }
                             }
+                            hl.Target = rel.Target;
                             hl.RId = rId;
                         }
                         else if (xr.GetAttribute("location") != null)
@@ -3495,14 +3514,7 @@ namespace OfficeOpenXml
                     cache.AppendFormat(" outlineLevel =\"{0}\"", currRow.OutlineLevel);
                     if (currRow.Collapsed)
                     {
-                        if (currRow.Hidden)
-                        {
-                            cache.Append(" collapsed=\"1\"");
-                        }
-                        else
-                        {
-                            cache.Append(" collapsed=\"1\" hidden=\"1\""); //Always hidden
-                        }
+                        cache.Append(" collapsed=\"1\"");
                     }
                 }
                 if (currRow.Phonetic)
@@ -3524,62 +3536,75 @@ namespace OfficeOpenXml
         /// <param name="prefix">The namespace prefix for the main schema</param>
         private void UpdateHyperLinks(StreamWriter sw, string prefix)
         {
-                Dictionary<string, string> hyps = new Dictionary<string, string>();
-                var cse = new CellStoreEnumerator<Uri>(_hyperLinks);
-                bool first = true;
-                while(cse.Next())
+            Dictionary<string, string> hyps = new Dictionary<string, string>();
+            var cse = new CellStoreEnumerator<Uri>(_hyperLinks);
+            bool first = true;
+            while (cse.Next())
+            {
+                var uri = _hyperLinks.GetValue(cse.Row, cse.Column);
+                if (first && uri != null)
                 {
-                    var uri = _hyperLinks.GetValue(cse.Row, cse.Column);
-                    if (first && uri != null)
+                    sw.Write($"<{prefix}hyperlinks>");
+                    first = false;
+                }
+                var hl = uri as ExcelHyperLink;
+                if (hl != null && !string.IsNullOrEmpty(hl.ReferenceAddress))
+                {
+                    var address = Cells[cse.Row, cse.Column, cse.Row + hl.RowSpann, cse.Column + hl.ColSpann].Address;
+                    var location = ExcelCellBase.GetFullAddress(SecurityElement.Escape(Name), SecurityElement.Escape(hl.ReferenceAddress));
+                    var display = string.IsNullOrEmpty(hl.Display) ? "" : " display=\"" + SecurityElement.Escape(hl.Display) + "\"";
+                    var tooltip = string.IsNullOrEmpty(hl.ToolTip) ? "" : " tooltip=\"" + SecurityElement.Escape(hl.ToolTip) + "\"";
+                    sw.Write($"<{prefix}hyperlink ref=\"{address}\" location=\"{location}\"{display}{tooltip}/>");
+                }
+                else if (uri != null)
+                {
+                    string id;
+                    Uri hyp;
+                    string target = ""; ;
+                    if (hl != null)
                     {
-                        sw.Write($"<{prefix}hyperlinks>");
-                        first = false;
+                        if (hl.Target != null && hl.OriginalString.StartsWith("Invalid:Uri", StringComparison.OrdinalIgnoreCase))
+                        {
+                            target = hl.Target;
+                        }
+                        hyp = hl.OriginalUri;
                     }
-                    var hl = uri as ExcelHyperLink;
-                    if (hl != null && !string.IsNullOrEmpty(hl.ReferenceAddress))
+                    else
                     {
-                        var address = Cells[cse.Row, cse.Column, cse.Row + hl.RowSpann, cse.Column + hl.ColSpann].Address;
-                        var location = ExcelCellBase.GetFullAddress(SecurityElement.Escape(Name), SecurityElement.Escape(hl.ReferenceAddress));
-                        var display = string.IsNullOrEmpty(hl.Display) ? "" : " display=\"" + SecurityElement.Escape(hl.Display) + "\"";
-                        var tooltip = string.IsNullOrEmpty(hl.ToolTip) ? "" : " tooltip=\"" + SecurityElement.Escape(hl.ToolTip) + "\"";
-                            sw.Write($"<{prefix}hyperlink ref=\"{address}\" location=\"{location}\"{display}{tooltip}/>");
+                        hyp = uri;
                     }
-                    else if(uri!=null)
+                    if (hyps.ContainsKey(hyp.OriginalString) && string.IsNullOrEmpty(target))
                     {
-                        string id;
-                        Uri hyp;
+                        id = hyps[hyp.OriginalString];
+                    }
+                    else
+                    {
+                        ZipPackageRelationship relationship;
+                        if (string.IsNullOrEmpty(target))
+                        {
+                            relationship = Part.CreateRelationship(hyp, Packaging.TargetMode.External, ExcelPackage.schemaHyperlink);
+                        }
+                        else
+                        {
+                            relationship = Part.CreateRelationship(target, Packaging.TargetMode.External, ExcelPackage.schemaHyperlink);
+                        }
                         if (hl != null)
                         {
-                            hyp = hl.OriginalUri;
+                            var display = string.IsNullOrEmpty(hl.Display) ? "" : " display=\"" + SecurityElement.Escape(hl.Display) + "\"";
+                            var toolTip = string.IsNullOrEmpty(hl.ToolTip) ? "" : " tooltip=\"" + SecurityElement.Escape(hl.ToolTip) + "\"";
+                            sw.Write($"<{prefix}hyperlink ref=\"{ExcelCellBase.GetAddress(cse.Row, cse.Column)}\"{display}{toolTip} r:id=\"{relationship.Id}\"/>");
                         }
                         else
                         {
-                            hyp = uri;
-                        }
-                        if (hyps.ContainsKey(hyp.OriginalString))
-                        {
-                            id = hyps[hyp.OriginalString];
-                        }
-                        else
-                        {
-                            var relationship = Part.CreateRelationship(hyp, Packaging.TargetMode.External, ExcelPackage.schemaHyperlink);
-                            if (hl != null)
-                            {                                
-                                var display = string.IsNullOrEmpty(hl.Display) ? "" : " display=\"" + SecurityElement.Escape(hl.Display) + "\"";
-                                var toolTip = string.IsNullOrEmpty(hl.ToolTip) ? "" : " tooltip=\"" + SecurityElement.Escape(hl.ToolTip) + "\"";
-                                sw.Write($"<{prefix}hyperlink ref=\"{ExcelCellBase.GetAddress(cse.Row, cse.Column)}\"{display}{toolTip} r:id=\"{relationship.Id}\"/>");
-                            }
-                            else
-                            {
-                                sw.Write($"<{prefix}hyperlink ref=\"{ExcelCellBase.GetAddress(cse.Row, cse.Column)}\" r:id=\"{relationship.Id}\"/>");
-                            }
+                            sw.Write($"<{prefix}hyperlink ref=\"{ExcelCellBase.GetAddress(cse.Row, cse.Column)}\" r:id=\"{relationship.Id}\"/>");
                         }
                     }
                 }
-                if (!first)
-                {
-                    sw.Write($"</{prefix}hyperlinks>");
-                }
+            }
+            if (!first)
+            {
+                sw.Write($"</{prefix}hyperlinks>");
+            }
         }
         /// <summary>
         /// Create the hyperlinks node in the XML
@@ -4274,6 +4299,11 @@ namespace OfficeOpenXml
 
             return ctrlContainerNode;
         }
-#endregion
+
+        internal void NormalStyleChange()
+        {
+            _defaultRowHeight = double.NaN;            
+        }
+        #endregion
     }  // END class Worksheet
 }

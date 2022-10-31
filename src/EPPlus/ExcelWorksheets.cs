@@ -701,5 +701,10 @@ namespace OfficeOpenXml
                 _pck = null;
             }
         }
+
+        internal void NormalStyleChange()
+        {
+            throw new NotImplementedException();
+        }
     } // end class Worksheets
 }

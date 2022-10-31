@@ -686,13 +686,17 @@ namespace OfficeOpenXml
                 float min = -1;
                 foreach (var size in font.Keys)
                 {
-                    if (min < size && size < fontSize)
+                    if (min < size && size > fontSize)
                     {
-                        break;
+						if (min == -1) min = size;
+						break;
                     }
                     min = size;
                 }
-                if (min > -1) return font[min];
+				if (min > -1)
+				{
+					return font[min];
+				}
                 return 20;  //Default pixels, Calibri 11
             }
         }
@@ -1787,11 +1791,10 @@ namespace OfficeOpenXml
 			{
 				if (ws.IsChartSheet == false)
 				{
-					if (ws.CustomHeight)
+					if (ws.CustomHeight==false)
 					{
-						ws.DefaultRowHeight = double.NaN;
+						ws._defaultRowHeight = double.NaN;
 					}
-					ws.DefaultColWidth = double.NaN;
 				}
 			}
 		}

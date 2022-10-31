@@ -3726,7 +3726,24 @@ namespace EPPlusTest
                 SaveWorkbook("i729.xlsm", p);
             }
         }
+        [TestMethod]
+        public void i735()
+        {
+            using (var p = OpenPackage("i735.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("test");
+                var tableRange = ws.Cells["A1:C5"];
+                tableRange.Style.Border.Top.Style = ExcelBorderStyle.Dashed;
+                tableRange.Style.Border.Left.Style = ExcelBorderStyle.Dashed;
+                tableRange.Style.Border.Bottom.Style = ExcelBorderStyle.Dashed;
+                tableRange.Style.Border.Right.Style = ExcelBorderStyle.Dashed;
 
+                //I want row 2 to be a dotted edge. But only the right edge changes.
+                ws.Cells["A2:C2"].Style.Border.BorderAround(ExcelBorderStyle.DashDotDot); //this doesn't work.
+                SaveAndCleanup(p);
+            }
+        }
         private void WriteStorage(CompoundDocument.StoragePart storage, StringWriter sb, string path, string dir)
         {
             foreach (var key in storage.SubStorage.Keys)

@@ -12,12 +12,14 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.Utils.CompundDocument
 {
+    [DebuggerDisplay("FullName: {FullName}")]
     internal class CompoundDocumentItem : IComparable<CompoundDocumentItem>
     {
         public CompoundDocumentItem()
@@ -32,7 +34,21 @@ namespace OfficeOpenXml.Utils.CompundDocument
             get;
             set;
         }
-
+        
+        public string FullName
+        {
+            get
+            {
+                var path = Name;
+                var p=Parent;
+                while(p!=null)
+                {
+                    path=p.Name + "/" + path;
+                    p = p.Parent;
+                }
+                return path;
+            }
+        }
         /// <summary>
         /// 0=Red
         /// 1=Black

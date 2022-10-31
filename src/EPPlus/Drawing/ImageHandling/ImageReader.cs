@@ -196,8 +196,8 @@ namespace OfficeOpenXml.Drawing
             {
                 try
                 {
-                    var ms = new MemoryStream(img);
-                    var msOut = new MemoryStream();
+                    var ms = RecyclableMemory.GetStream(img);
+                    var msOut = RecyclableMemory.GetStream();
                     const int bufferSize = 4096;
                     var buffer = new byte[bufferSize];
                     using (var z = new OfficeOpenXml.Packaging.Ionic.Zlib.GZipStream(ms, Packaging.Ionic.Zlib.CompressionMode.Decompress))
