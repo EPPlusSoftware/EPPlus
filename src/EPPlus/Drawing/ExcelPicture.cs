@@ -61,9 +61,15 @@ namespace OfficeOpenXml.Drawing
                     return;
                 }
 
-                byte[] iby = ((MemoryStream)Part.GetStream()).ToArray();
+                var ms = ((MemoryStream)Part.GetStream());
+                var pt = ImageReader.GetPictureType(ms, false);
+                if(pt == null)
+                {
+                    pt = PictureStore.GetPictureType(extension);
+                }
+                byte[] iby = ms.ToArray();
                 Image = new ExcelImage(this);
-                Image.SetImage(iby, PictureStore.GetPictureType(extension));
+                Image.SetImage(iby, pt.Value);
 
                 var ii = _drawings._package.PictureStore.LoadImage(iby, container.UriPic, Part);
                 container.ImageHash = ii.Hash;

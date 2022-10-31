@@ -17,7 +17,10 @@ using System.Text;
 using System.Xml;
 using System.Collections.Generic;
 using OfficeOpenXml.Utils;
-
+using System.Threading;
+#if !NET35
+using System.Threading.Tasks;
+#endif
 namespace OfficeOpenXml.Drawing
 {
     internal class ImageReader
@@ -33,7 +36,41 @@ namespace OfficeOpenXml.Drawing
             public int Count;
             public int ValueOffset;
         }
-        internal ePictureType? GetPictureType(MemoryStream ms)
+        internal static ePictureType? GetPictureType(Stream stream, bool throwException)
+        {
+            ePictureType? pt;
+            if(stream is MemoryStream ms)
+            {
+                pt = GetPictureTypeFromMs(ms);
+            }
+            else
+            {
+                Stream newMs = RecyclableMemory.GetStream();
+                StreamUtil.CopyStream(stream, ref newMs);
+                pt = GetPictureTypeFromMs((MemoryStream)newMs);
+            }
+            if (throwException && pt == null) throw new InvalidOperationException("Cannot identify the image format of the stream.");
+            return pt;
+        }
+#if !NET35
+        internal static async Task<ePictureType?> GetPictureTypeAsync(Stream stream)
+        {
+            ePictureType? pt;
+            if (stream is MemoryStream ms)
+            {
+                pt = GetPictureTypeFromMs(ms);
+            }
+            else
+            {
+                Stream newMs = RecyclableMemory.GetStream();
+                await StreamUtil.CopyStreamAsync(stream, newMs, new CancellationToken()).ConfigureAwait(false);
+                pt = GetPictureTypeFromMs((MemoryStream)newMs);
+            }
+            if (pt == null) throw new InvalidOperationException("Cannot identify the image format of the stream.");
+            return pt;
+        }
+#endif
+        private static ePictureType? GetPictureTypeFromMs(MemoryStream ms)
         {
             var br = new BinaryReader(ms);
             if(IsJpg(br))
@@ -52,7 +89,7 @@ namespace OfficeOpenXml.Drawing
             {
                 return ePictureType.Png;
             }
-            else if(IsTif(br, out _))
+            else if(IsTif(br, out _, true))
             {
                 return ePictureType.Tif;
             }
@@ -338,7 +375,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        #region Ico
+#region Ico
         private static bool IsIcon(MemoryStream ms, ref double width, ref double height)
         {
             using (var br = new BinaryReader(ms))
@@ -376,8 +413,8 @@ namespace OfficeOpenXml.Drawing
             var type1 = br.ReadInt16();
             return type0 == 0 && type1 == 1;
         }
-        #endregion
-        #region WebP
+#endregion
+#region WebP
         private static bool IsWebP(MemoryStream ms, ref double width, ref double height, ref double horizontalResolution, ref double verticalResolution)
         {
             width = height = 0;
@@ -431,8 +468,8 @@ namespace OfficeOpenXml.Drawing
                 return false;
             }
         }
-        #endregion
-        #region Tiff
+#endregion
+#region Tiff
         private static bool IsTif(MemoryStream ms, ref double width, ref double height, ref double horizontalResolution, ref double verticalResolution)
         {
             using (var br = new BinaryReader(ms))
@@ -514,7 +551,7 @@ namespace OfficeOpenXml.Drawing
             return width != 0 && height != 0;
         }
 
-        private static bool IsTif(BinaryReader br, out bool isBigEndian, bool resetPos=false)
+        private static bool IsTif(BinaryReader br, out bool isBigEndian, bool resetPos)
         {
             try
             {
@@ -560,8 +597,8 @@ namespace OfficeOpenXml.Drawing
                 return br.ReadInt32();
             }
         }
-        #endregion
-        #region Emf
+#endregion
+#region Emf
         private static bool IsEmf(MemoryStream ms, ref double width, ref double height, ref double horizontalResolution, ref double verticalResolution)
         {
             using (var br = new BinaryReader(ms))
@@ -633,8 +670,8 @@ namespace OfficeOpenXml.Drawing
             return type == 1;
         }
 
-        #endregion
-        #region Wmf
+#endregion
+#region Wmf
         private const double PIXELS_PER_TWIPS = 1D / 15D;
         private const double DEFAULT_TWIPS = 1440D;
         private static bool IsWmf(MemoryStream ms, ref double width, ref double height, ref double horizontalResolution, ref double verticalResolution)
@@ -669,8 +706,8 @@ namespace OfficeOpenXml.Drawing
             var key = br.ReadUInt32();
             return key == 0x9AC6CDD7;
         }
-        #endregion
-        #region Png
+#endregion
+#region Png
         private static bool IsPng(MemoryStream ms, ref double width, ref double height, ref double horizontalResolution, ref double verticalResolution)
         {
             using (var br = new BinaryReader(ms))
@@ -734,8 +771,8 @@ namespace OfficeOpenXml.Drawing
             var type = Encoding.ASCII.GetString(b);
             return type;
         }
-        #endregion
-        #region Svg
+#endregion
+#region Svg
         private static bool IsSvg(MemoryStream ms, ref double width, ref double height)
         {
             try
@@ -790,14 +827,12 @@ namespace OfficeOpenXml.Drawing
             try
             {
                 ms.Position = 0;
-                using (var reader = new XmlTextReader(ms))
+                var reader = new XmlTextReader(ms);
+                while (reader.Read())
                 {
-                    while (reader.Read())
+                    if (reader.LocalName == "svg" && reader.NodeType == XmlNodeType.Element)
                     {
-                        if (reader.LocalName == "svg" && reader.NodeType == XmlNodeType.Element)
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
                 return false;
@@ -845,7 +880,7 @@ namespace OfficeOpenXml.Drawing
             }
             return double.NaN;
         }
-        #endregion
+#endregion
 
         private static ushort GetUInt16BigEndian(BinaryReader br)
         {
