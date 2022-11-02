@@ -135,9 +135,20 @@ namespace OfficeOpenXml.VBA.Signatures
                 var b = br.ReadByte();
                 if (b > 0x80)
                 {
-                    var bl = b & 0x80;
+                    var bl = (b & 0x80) >> 7;
                     var lengthBytes = br.ReadBytes(bl);
-                    return BitConverter.ToInt32(lengthBytes.Reverse().ToArray(), 0);
+                    if (lengthBytes.Length == 1)
+                    {
+                        return lengthBytes[0];
+                    }
+                    else if(lengthBytes.Length == 2)
+                    {
+                        return BitConverter.ToInt16(lengthBytes.Reverse().ToArray(), 0);
+                    }
+                    else
+                    {
+                        return BitConverter.ToInt32(lengthBytes.Reverse().ToArray(), 0);
+                    }
                 }                
                 return b;
             }

@@ -747,7 +747,7 @@ namespace OfficeOpenXml.VBA
                 {
                     WriteNameReference(bw, reference);
 
-                    if (reference.ReferenceRecordID == 0x2F)
+                    if(reference.SecondaryReferenceRecordID == 0x2F)
                     {
                         WriteControlReference(bw, reference);
                     }
