@@ -1,0 +1,659 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelTableAddress
+  commentId: T:OfficeOpenXml.ExcelTableAddress
+  id: ExcelTableAddress
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelTableAddress.ColumnSpan
+  - OfficeOpenXml.ExcelTableAddress.IsAll
+  - OfficeOpenXml.ExcelTableAddress.IsData
+  - OfficeOpenXml.ExcelTableAddress.IsHeader
+  - OfficeOpenXml.ExcelTableAddress.IsThisRow
+  - OfficeOpenXml.ExcelTableAddress.IsTotals
+  - OfficeOpenXml.ExcelTableAddress.Name
+  langs:
+  - csharp
+  - vb
+  name: ExcelTableAddress
+  nameWithType: ExcelTableAddress
+  fullName: OfficeOpenXml.ExcelTableAddress
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelTableAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelTableAddress
+    path: ../src/EPPlus/ExcelTableAddress.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nExtended address information for a table address\n"
+  example: []
+  syntax:
+    content: public class ExcelTableAddress
+    content.vb: Public Class ExcelTableAddress
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelTableAddress.Name
+  commentId: P:OfficeOpenXml.ExcelTableAddress.Name
+  id: Name
+  parent: OfficeOpenXml.ExcelTableAddress
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ExcelTableAddress.Name
+  fullName: OfficeOpenXml.ExcelTableAddress.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTableAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/ExcelTableAddress.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe name of the table\n"
+  example: []
+  syntax:
+    content: public string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: OfficeOpenXml.ExcelTableAddress.Name*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTableAddress.ColumnSpan
+  commentId: P:OfficeOpenXml.ExcelTableAddress.ColumnSpan
+  id: ColumnSpan
+  parent: OfficeOpenXml.ExcelTableAddress
+  langs:
+  - csharp
+  - vb
+  name: ColumnSpan
+  nameWithType: ExcelTableAddress.ColumnSpan
+  fullName: OfficeOpenXml.ExcelTableAddress.ColumnSpan
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTableAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnSpan
+    path: ../src/EPPlus/ExcelTableAddress.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nColumn span\n"
+  example: []
+  syntax:
+    content: public string ColumnSpan { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ColumnSpan As String
+  overload: OfficeOpenXml.ExcelTableAddress.ColumnSpan*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTableAddress.IsAll
+  commentId: P:OfficeOpenXml.ExcelTableAddress.IsAll
+  id: IsAll
+  parent: OfficeOpenXml.ExcelTableAddress
+  langs:
+  - csharp
+  - vb
+  name: IsAll
+  nameWithType: ExcelTableAddress.IsAll
+  fullName: OfficeOpenXml.ExcelTableAddress.IsAll
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTableAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsAll
+    path: ../src/EPPlus/ExcelTableAddress.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReference entire table\n"
+  example: []
+  syntax:
+    content: public bool IsAll { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsAll As Boolean
+  overload: OfficeOpenXml.ExcelTableAddress.IsAll*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTableAddress.IsHeader
+  commentId: P:OfficeOpenXml.ExcelTableAddress.IsHeader
+  id: IsHeader
+  parent: OfficeOpenXml.ExcelTableAddress
+  langs:
+  - csharp
+  - vb
+  name: IsHeader
+  nameWithType: ExcelTableAddress.IsHeader
+  fullName: OfficeOpenXml.ExcelTableAddress.IsHeader
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTableAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsHeader
+    path: ../src/EPPlus/ExcelTableAddress.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReference the table header row\n"
+  example: []
+  syntax:
+    content: public bool IsHeader { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsHeader As Boolean
+  overload: OfficeOpenXml.ExcelTableAddress.IsHeader*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTableAddress.IsData
+  commentId: P:OfficeOpenXml.ExcelTableAddress.IsData
+  id: IsData
+  parent: OfficeOpenXml.ExcelTableAddress
+  langs:
+  - csharp
+  - vb
+  name: IsData
+  nameWithType: ExcelTableAddress.IsData
+  fullName: OfficeOpenXml.ExcelTableAddress.IsData
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTableAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsData
+    path: ../src/EPPlus/ExcelTableAddress.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReference table data\n"
+  example: []
+  syntax:
+    content: public bool IsData { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsData As Boolean
+  overload: OfficeOpenXml.ExcelTableAddress.IsData*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTableAddress.IsTotals
+  commentId: P:OfficeOpenXml.ExcelTableAddress.IsTotals
+  id: IsTotals
+  parent: OfficeOpenXml.ExcelTableAddress
+  langs:
+  - csharp
+  - vb
+  name: IsTotals
+  nameWithType: ExcelTableAddress.IsTotals
+  fullName: OfficeOpenXml.ExcelTableAddress.IsTotals
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTableAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsTotals
+    path: ../src/EPPlus/ExcelTableAddress.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReference table totals row\n"
+  example: []
+  syntax:
+    content: public bool IsTotals { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsTotals As Boolean
+  overload: OfficeOpenXml.ExcelTableAddress.IsTotals*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTableAddress.IsThisRow
+  commentId: P:OfficeOpenXml.ExcelTableAddress.IsThisRow
+  id: IsThisRow
+  parent: OfficeOpenXml.ExcelTableAddress
+  langs:
+  - csharp
+  - vb
+  name: IsThisRow
+  nameWithType: ExcelTableAddress.IsThisRow
+  fullName: OfficeOpenXml.ExcelTableAddress.IsThisRow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTableAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsThisRow
+    path: ../src/EPPlus/ExcelTableAddress.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReference the current table row\n"
+  example: []
+  syntax:
+    content: public bool IsThisRow { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsThisRow As Boolean
+  overload: OfficeOpenXml.ExcelTableAddress.IsThisRow*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelTableAddress.Name*
+  commentId: Overload:OfficeOpenXml.ExcelTableAddress.Name
+  name: Name
+  nameWithType: ExcelTableAddress.Name
+  fullName: OfficeOpenXml.ExcelTableAddress.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExcelTableAddress.ColumnSpan*
+  commentId: Overload:OfficeOpenXml.ExcelTableAddress.ColumnSpan
+  name: ColumnSpan
+  nameWithType: ExcelTableAddress.ColumnSpan
+  fullName: OfficeOpenXml.ExcelTableAddress.ColumnSpan
+- uid: OfficeOpenXml.ExcelTableAddress.IsAll*
+  commentId: Overload:OfficeOpenXml.ExcelTableAddress.IsAll
+  name: IsAll
+  nameWithType: ExcelTableAddress.IsAll
+  fullName: OfficeOpenXml.ExcelTableAddress.IsAll
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExcelTableAddress.IsHeader*
+  commentId: Overload:OfficeOpenXml.ExcelTableAddress.IsHeader
+  name: IsHeader
+  nameWithType: ExcelTableAddress.IsHeader
+  fullName: OfficeOpenXml.ExcelTableAddress.IsHeader
+- uid: OfficeOpenXml.ExcelTableAddress.IsData*
+  commentId: Overload:OfficeOpenXml.ExcelTableAddress.IsData
+  name: IsData
+  nameWithType: ExcelTableAddress.IsData
+  fullName: OfficeOpenXml.ExcelTableAddress.IsData
+- uid: OfficeOpenXml.ExcelTableAddress.IsTotals*
+  commentId: Overload:OfficeOpenXml.ExcelTableAddress.IsTotals
+  name: IsTotals
+  nameWithType: ExcelTableAddress.IsTotals
+  fullName: OfficeOpenXml.ExcelTableAddress.IsTotals
+- uid: OfficeOpenXml.ExcelTableAddress.IsThisRow*
+  commentId: Overload:OfficeOpenXml.ExcelTableAddress.IsThisRow
+  name: IsThisRow
+  nameWithType: ExcelTableAddress.IsThisRow
+  fullName: OfficeOpenXml.ExcelTableAddress.IsThisRow

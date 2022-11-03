@@ -1,0 +1,572 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.VBA.ExcelVbaProtection
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaProtection
+  id: ExcelVbaProtection
+  parent: OfficeOpenXml.VBA
+  children:
+  - OfficeOpenXml.VBA.ExcelVbaProtection.HostProtected
+  - OfficeOpenXml.VBA.ExcelVbaProtection.SetPassword(System.String)
+  - OfficeOpenXml.VBA.ExcelVbaProtection.UserProtected
+  - OfficeOpenXml.VBA.ExcelVbaProtection.VbeProtected
+  - OfficeOpenXml.VBA.ExcelVbaProtection.VisibilityState
+  langs:
+  - csharp
+  - vb
+  name: ExcelVbaProtection
+  nameWithType: ExcelVbaProtection
+  fullName: OfficeOpenXml.VBA.ExcelVbaProtection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelVbaProtection
+    path: ../src/EPPlus/Vba/ExcelVbaProtection.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nVba security properties\n"
+  example: []
+  syntax:
+    content: public class ExcelVbaProtection
+    content.vb: Public Class ExcelVbaProtection
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.VBA.ExcelVbaProtection.UserProtected
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaProtection.UserProtected
+  id: UserProtected
+  parent: OfficeOpenXml.VBA.ExcelVbaProtection
+  langs:
+  - csharp
+  - vb
+  name: UserProtected
+  nameWithType: ExcelVbaProtection.UserProtected
+  fullName: OfficeOpenXml.VBA.ExcelVbaProtection.UserProtected
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UserProtected
+    path: ../src/EPPlus/Vba/ExcelVbaProtection.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nIf access to the VBA project was restricted by the user\n"
+  example: []
+  syntax:
+    content: public bool UserProtected { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property UserProtected As Boolean
+  overload: OfficeOpenXml.VBA.ExcelVbaProtection.UserProtected*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.VBA.ExcelVbaProtection.HostProtected
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaProtection.HostProtected
+  id: HostProtected
+  parent: OfficeOpenXml.VBA.ExcelVbaProtection
+  langs:
+  - csharp
+  - vb
+  name: HostProtected
+  nameWithType: ExcelVbaProtection.HostProtected
+  fullName: OfficeOpenXml.VBA.ExcelVbaProtection.HostProtected
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HostProtected
+    path: ../src/EPPlus/Vba/ExcelVbaProtection.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nIf access to the VBA project was restricted by the VBA host application\n"
+  example: []
+  syntax:
+    content: public bool HostProtected { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property HostProtected As Boolean
+  overload: OfficeOpenXml.VBA.ExcelVbaProtection.HostProtected*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.VBA.ExcelVbaProtection.VbeProtected
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaProtection.VbeProtected
+  id: VbeProtected
+  parent: OfficeOpenXml.VBA.ExcelVbaProtection
+  langs:
+  - csharp
+  - vb
+  name: VbeProtected
+  nameWithType: ExcelVbaProtection.VbeProtected
+  fullName: OfficeOpenXml.VBA.ExcelVbaProtection.VbeProtected
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VbeProtected
+    path: ../src/EPPlus/Vba/ExcelVbaProtection.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nIf access to the VBA project was restricted by the VBA project editor\n"
+  example: []
+  syntax:
+    content: public bool VbeProtected { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property VbeProtected As Boolean
+  overload: OfficeOpenXml.VBA.ExcelVbaProtection.VbeProtected*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.VBA.ExcelVbaProtection.VisibilityState
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaProtection.VisibilityState
+  id: VisibilityState
+  parent: OfficeOpenXml.VBA.ExcelVbaProtection
+  langs:
+  - csharp
+  - vb
+  name: VisibilityState
+  nameWithType: ExcelVbaProtection.VisibilityState
+  fullName: OfficeOpenXml.VBA.ExcelVbaProtection.VisibilityState
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VisibilityState
+    path: ../src/EPPlus/Vba/ExcelVbaProtection.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nif the VBA project is visible.\n"
+  example: []
+  syntax:
+    content: public bool VisibilityState { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property VisibilityState As Boolean
+  overload: OfficeOpenXml.VBA.ExcelVbaProtection.VisibilityState*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.VBA.ExcelVbaProtection.SetPassword(System.String)
+  commentId: M:OfficeOpenXml.VBA.ExcelVbaProtection.SetPassword(System.String)
+  id: SetPassword(System.String)
+  parent: OfficeOpenXml.VBA.ExcelVbaProtection
+  langs:
+  - csharp
+  - vb
+  name: SetPassword(String)
+  nameWithType: ExcelVbaProtection.SetPassword(String)
+  fullName: OfficeOpenXml.VBA.ExcelVbaProtection.SetPassword(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetPassword
+    path: ../src/EPPlus/Vba/ExcelVbaProtection.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nPassword protect the VBA project.\nAn empty string or null will remove the password protection\n"
+  example: []
+  syntax:
+    content: public void SetPassword(string Password)
+    parameters:
+    - id: Password
+      type: System.String
+      description: The password
+    content.vb: Public Sub SetPassword(Password As String)
+  overload: OfficeOpenXml.VBA.ExcelVbaProtection.SetPassword*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.VBA
+  commentId: N:OfficeOpenXml.VBA
+  name: OfficeOpenXml.VBA
+  nameWithType: OfficeOpenXml.VBA
+  fullName: OfficeOpenXml.VBA
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.VBA.ExcelVbaProtection.UserProtected*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProtection.UserProtected
+  name: UserProtected
+  nameWithType: ExcelVbaProtection.UserProtected
+  fullName: OfficeOpenXml.VBA.ExcelVbaProtection.UserProtected
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.VBA.ExcelVbaProtection.HostProtected*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProtection.HostProtected
+  name: HostProtected
+  nameWithType: ExcelVbaProtection.HostProtected
+  fullName: OfficeOpenXml.VBA.ExcelVbaProtection.HostProtected
+- uid: OfficeOpenXml.VBA.ExcelVbaProtection.VbeProtected*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProtection.VbeProtected
+  name: VbeProtected
+  nameWithType: ExcelVbaProtection.VbeProtected
+  fullName: OfficeOpenXml.VBA.ExcelVbaProtection.VbeProtected
+- uid: OfficeOpenXml.VBA.ExcelVbaProtection.VisibilityState*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProtection.VisibilityState
+  name: VisibilityState
+  nameWithType: ExcelVbaProtection.VisibilityState
+  fullName: OfficeOpenXml.VBA.ExcelVbaProtection.VisibilityState
+- uid: OfficeOpenXml.VBA.ExcelVbaProtection.SetPassword*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProtection.SetPassword
+  name: SetPassword
+  nameWithType: ExcelVbaProtection.SetPassword
+  fullName: OfficeOpenXml.VBA.ExcelVbaProtection.SetPassword
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

@@ -1,0 +1,546 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D
+  commentId: T:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D
+  id: ExcelDrawingScene3D
+  parent: OfficeOpenXml.Drawing.Style.ThreeD
+  children:
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D._path
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.BackDropPlane
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.Camera
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.LightRig
+  langs:
+  - csharp
+  - vb
+  name: ExcelDrawingScene3D
+  nameWithType: ExcelDrawingScene3D
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDrawingScene3D
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nScene-level 3D properties to apply to a drawing\n"
+  example: []
+  syntax:
+    content: 'public class ExcelDrawingScene3D : XmlHelper'
+    content.vb: >-
+      Public Class ExcelDrawingScene3D
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D._path
+  commentId: F:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D._path
+  id: _path
+  parent: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D
+  langs:
+  - csharp
+  - vb
+  name: _path
+  nameWithType: ExcelDrawingScene3D._path
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D._path
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: _path
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nThe xpath\n"
+  example: []
+  syntax:
+    content: protected string _path
+    return:
+      type: System.String
+    content.vb: Protected _path As String
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.Camera
+  commentId: P:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.Camera
+  id: Camera
+  parent: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D
+  langs:
+  - csharp
+  - vb
+  name: Camera
+  nameWithType: ExcelDrawingScene3D.Camera
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.Camera
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Camera
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nThe placement and properties of the camera in the 3D scene\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingScene3DCamera Camera { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DCamera
+    content.vb: Public ReadOnly Property Camera As ExcelDrawingScene3DCamera
+  overload: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.Camera*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.LightRig
+  commentId: P:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.LightRig
+  id: LightRig
+  parent: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D
+  langs:
+  - csharp
+  - vb
+  name: LightRig
+  nameWithType: ExcelDrawingScene3D.LightRig
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.LightRig
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightRig
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nThe light rig.\nWhen 3D is used, the light rig defines the lighting properties for the scene\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingScene3DLightRig LightRig { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DLightRig
+    content.vb: Public ReadOnly Property LightRig As ExcelDrawingScene3DLightRig
+  overload: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.LightRig*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.BackDropPlane
+  commentId: P:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.BackDropPlane
+  id: BackDropPlane
+  parent: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D
+  langs:
+  - csharp
+  - vb
+  name: BackDropPlane
+  nameWithType: ExcelDrawingScene3D.BackDropPlane
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.BackDropPlane
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BackDropPlane
+    path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
+    startLine: 77
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.ThreeD
+  summary: "\nThe points and vectors contained within the backdrop define a plane in 3D space\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingScene3DBackDrop BackDropPlane { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DBackDrop
+    content.vb: Public ReadOnly Property BackDropPlane As ExcelDrawingScene3DBackDrop
+  overload: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.BackDropPlane*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Style.ThreeD
+  commentId: N:OfficeOpenXml.Drawing.Style.ThreeD
+  name: OfficeOpenXml.Drawing.Style.ThreeD
+  nameWithType: OfficeOpenXml.Drawing.Style.ThreeD
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.Camera*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.Camera
+  name: Camera
+  nameWithType: ExcelDrawingScene3D.Camera
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.Camera
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DCamera
+  commentId: T:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DCamera
+  parent: OfficeOpenXml.Drawing.Style.ThreeD
+  name: ExcelDrawingScene3DCamera
+  nameWithType: ExcelDrawingScene3DCamera
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DCamera
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.LightRig*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.LightRig
+  name: LightRig
+  nameWithType: ExcelDrawingScene3D.LightRig
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.LightRig
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DLightRig
+  commentId: T:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DLightRig
+  parent: OfficeOpenXml.Drawing.Style.ThreeD
+  name: ExcelDrawingScene3DLightRig
+  nameWithType: ExcelDrawingScene3DLightRig
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DLightRig
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.BackDropPlane*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.BackDropPlane
+  name: BackDropPlane
+  nameWithType: ExcelDrawingScene3D.BackDropPlane
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D.BackDropPlane
+- uid: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DBackDrop
+  commentId: T:OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DBackDrop
+  parent: OfficeOpenXml.Drawing.Style.ThreeD
+  name: ExcelDrawingScene3DBackDrop
+  nameWithType: ExcelDrawingScene3DBackDrop
+  fullName: OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DBackDrop

@@ -1,0 +1,363 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  commentId: T:OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  id: eBuildInUnits
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eBuildInUnits.billions
+  - OfficeOpenXml.Drawing.Chart.eBuildInUnits.hundredMillions
+  - OfficeOpenXml.Drawing.Chart.eBuildInUnits.hundreds
+  - OfficeOpenXml.Drawing.Chart.eBuildInUnits.hundredThousands
+  - OfficeOpenXml.Drawing.Chart.eBuildInUnits.millions
+  - OfficeOpenXml.Drawing.Chart.eBuildInUnits.tenMillions
+  - OfficeOpenXml.Drawing.Chart.eBuildInUnits.tenThousands
+  - OfficeOpenXml.Drawing.Chart.eBuildInUnits.thousands
+  - OfficeOpenXml.Drawing.Chart.eBuildInUnits.trillions
+  langs:
+  - csharp
+  - vb
+  name: eBuildInUnits
+  nameWithType: eBuildInUnits
+  fullName: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eBuildInUnits
+    path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nBuild in units for a chart axis\n"
+  example: []
+  syntax:
+    content: 'public enum eBuildInUnits : long'
+    content.vb: Public Enum eBuildInUnits As Long
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eBuildInUnits.hundreds
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBuildInUnits.hundreds
+  id: hundreds
+  parent: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  langs:
+  - csharp
+  - vb
+  name: hundreds
+  nameWithType: eBuildInUnits.hundreds
+  fullName: OfficeOpenXml.Drawing.Chart.eBuildInUnits.hundreds
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: hundreds
+    path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\n100\n"
+  example: []
+  syntax:
+    content: hundreds = 100L
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBuildInUnits.thousands
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBuildInUnits.thousands
+  id: thousands
+  parent: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  langs:
+  - csharp
+  - vb
+  name: thousands
+  nameWithType: eBuildInUnits.thousands
+  fullName: OfficeOpenXml.Drawing.Chart.eBuildInUnits.thousands
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: thousands
+    path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\n1,000\n"
+  example: []
+  syntax:
+    content: thousands = 1000L
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBuildInUnits.tenThousands
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBuildInUnits.tenThousands
+  id: tenThousands
+  parent: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  langs:
+  - csharp
+  - vb
+  name: tenThousands
+  nameWithType: eBuildInUnits.tenThousands
+  fullName: OfficeOpenXml.Drawing.Chart.eBuildInUnits.tenThousands
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: tenThousands
+    path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\n10,000\n"
+  example: []
+  syntax:
+    content: tenThousands = 10000L
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBuildInUnits.hundredThousands
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBuildInUnits.hundredThousands
+  id: hundredThousands
+  parent: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  langs:
+  - csharp
+  - vb
+  name: hundredThousands
+  nameWithType: eBuildInUnits.hundredThousands
+  fullName: OfficeOpenXml.Drawing.Chart.eBuildInUnits.hundredThousands
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: hundredThousands
+    path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\n100,000\n"
+  example: []
+  syntax:
+    content: hundredThousands = 100000L
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBuildInUnits.millions
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBuildInUnits.millions
+  id: millions
+  parent: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  langs:
+  - csharp
+  - vb
+  name: millions
+  nameWithType: eBuildInUnits.millions
+  fullName: OfficeOpenXml.Drawing.Chart.eBuildInUnits.millions
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: millions
+    path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\n1,000,000\n"
+  example: []
+  syntax:
+    content: millions = 1000000L
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBuildInUnits.tenMillions
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBuildInUnits.tenMillions
+  id: tenMillions
+  parent: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  langs:
+  - csharp
+  - vb
+  name: tenMillions
+  nameWithType: eBuildInUnits.tenMillions
+  fullName: OfficeOpenXml.Drawing.Chart.eBuildInUnits.tenMillions
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: tenMillions
+    path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\n10,000,000\n"
+  example: []
+  syntax:
+    content: tenMillions = 10000000L
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBuildInUnits.hundredMillions
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBuildInUnits.hundredMillions
+  id: hundredMillions
+  parent: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  langs:
+  - csharp
+  - vb
+  name: hundredMillions
+  nameWithType: eBuildInUnits.hundredMillions
+  fullName: OfficeOpenXml.Drawing.Chart.eBuildInUnits.hundredMillions
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: hundredMillions
+    path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\n10,000,000\n"
+  example: []
+  syntax:
+    content: hundredMillions = 100000000L
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBuildInUnits.billions
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBuildInUnits.billions
+  id: billions
+  parent: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  langs:
+  - csharp
+  - vb
+  name: billions
+  nameWithType: eBuildInUnits.billions
+  fullName: OfficeOpenXml.Drawing.Chart.eBuildInUnits.billions
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: billions
+    path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\n1,000,000,000\n"
+  example: []
+  syntax:
+    content: billions = 1000000000L
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eBuildInUnits.trillions
+  commentId: F:OfficeOpenXml.Drawing.Chart.eBuildInUnits.trillions
+  id: trillions
+  parent: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  langs:
+  - csharp
+  - vb
+  name: trillions
+  nameWithType: eBuildInUnits.trillions
+  fullName: OfficeOpenXml.Drawing.Chart.eBuildInUnits.trillions
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: trillions
+    path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\n1,000,000,000,000\n"
+  example: []
+  syntax:
+    content: trillions = 1000000000000L
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  commentId: T:OfficeOpenXml.Drawing.Chart.eBuildInUnits
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eBuildInUnits
+  nameWithType: eBuildInUnits
+  fullName: OfficeOpenXml.Drawing.Chart.eBuildInUnits

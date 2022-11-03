@@ -1,0 +1,223 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eLegendPosition
+  commentId: T:OfficeOpenXml.Drawing.Chart.eLegendPosition
+  id: eLegendPosition
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eLegendPosition.Bottom
+  - OfficeOpenXml.Drawing.Chart.eLegendPosition.Left
+  - OfficeOpenXml.Drawing.Chart.eLegendPosition.Right
+  - OfficeOpenXml.Drawing.Chart.eLegendPosition.Top
+  - OfficeOpenXml.Drawing.Chart.eLegendPosition.TopRight
+  langs:
+  - csharp
+  - vb
+  name: eLegendPosition
+  nameWithType: eLegendPosition
+  fullName: OfficeOpenXml.Drawing.Chart.eLegendPosition
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLegendPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eLegendPosition
+    path: ../src/EPPlus/Drawing/Chart/enums/eLegendPosition.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nPosition of the legend\n"
+  example: []
+  syntax:
+    content: public enum eLegendPosition
+    content.vb: Public Enum eLegendPosition
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eLegendPosition.Top
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLegendPosition.Top
+  id: Top
+  parent: OfficeOpenXml.Drawing.Chart.eLegendPosition
+  langs:
+  - csharp
+  - vb
+  name: Top
+  nameWithType: eLegendPosition.Top
+  fullName: OfficeOpenXml.Drawing.Chart.eLegendPosition.Top
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLegendPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Top
+    path: ../src/EPPlus/Drawing/Chart/enums/eLegendPosition.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nPositioned over the chart area\n"
+  example: []
+  syntax:
+    content: Top = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLegendPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLegendPosition.Left
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLegendPosition.Left
+  id: Left
+  parent: OfficeOpenXml.Drawing.Chart.eLegendPosition
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: eLegendPosition.Left
+  fullName: OfficeOpenXml.Drawing.Chart.eLegendPosition.Left
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLegendPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Left
+    path: ../src/EPPlus/Drawing/Chart/enums/eLegendPosition.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nPositioned to the left the chart area\n"
+  example: []
+  syntax:
+    content: Left = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLegendPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLegendPosition.Right
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLegendPosition.Right
+  id: Right
+  parent: OfficeOpenXml.Drawing.Chart.eLegendPosition
+  langs:
+  - csharp
+  - vb
+  name: Right
+  nameWithType: eLegendPosition.Right
+  fullName: OfficeOpenXml.Drawing.Chart.eLegendPosition.Right
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLegendPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Right
+    path: ../src/EPPlus/Drawing/Chart/enums/eLegendPosition.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nPositioned to the right the chart area\n"
+  example: []
+  syntax:
+    content: Right = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLegendPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLegendPosition.Bottom
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLegendPosition.Bottom
+  id: Bottom
+  parent: OfficeOpenXml.Drawing.Chart.eLegendPosition
+  langs:
+  - csharp
+  - vb
+  name: Bottom
+  nameWithType: eLegendPosition.Bottom
+  fullName: OfficeOpenXml.Drawing.Chart.eLegendPosition.Bottom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLegendPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bottom
+    path: ../src/EPPlus/Drawing/Chart/enums/eLegendPosition.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nPositioned below the chart area\n"
+  example: []
+  syntax:
+    content: Bottom = 3
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLegendPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLegendPosition.TopRight
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLegendPosition.TopRight
+  id: TopRight
+  parent: OfficeOpenXml.Drawing.Chart.eLegendPosition
+  langs:
+  - csharp
+  - vb
+  name: TopRight
+  nameWithType: eLegendPosition.TopRight
+  fullName: OfficeOpenXml.Drawing.Chart.eLegendPosition.TopRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLegendPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopRight
+    path: ../src/EPPlus/Drawing/Chart/enums/eLegendPosition.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nPositioned to the top right of the chart area\n"
+  example: []
+  syntax:
+    content: TopRight = 4
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLegendPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eLegendPosition
+  commentId: T:OfficeOpenXml.Drawing.Chart.eLegendPosition
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eLegendPosition
+  nameWithType: eLegendPosition
+  fullName: OfficeOpenXml.Drawing.Chart.eLegendPosition

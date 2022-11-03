@@ -1,0 +1,258 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eTrendLine
+  commentId: T:OfficeOpenXml.Drawing.Chart.eTrendLine
+  id: eTrendLine
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eTrendLine.Exponential
+  - OfficeOpenXml.Drawing.Chart.eTrendLine.Linear
+  - OfficeOpenXml.Drawing.Chart.eTrendLine.Logarithmic
+  - OfficeOpenXml.Drawing.Chart.eTrendLine.MovingAvgerage
+  - OfficeOpenXml.Drawing.Chart.eTrendLine.Polynomial
+  - OfficeOpenXml.Drawing.Chart.eTrendLine.Power
+  langs:
+  - csharp
+  - vb
+  name: eTrendLine
+  nameWithType: eTrendLine
+  fullName: OfficeOpenXml.Drawing.Chart.eTrendLine
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eTrendLine
+    path: ../src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nType of Trendline for a chart\n"
+  example: []
+  syntax:
+    content: public enum eTrendLine
+    content.vb: Public Enum eTrendLine
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eTrendLine.Exponential
+  commentId: F:OfficeOpenXml.Drawing.Chart.eTrendLine.Exponential
+  id: Exponential
+  parent: OfficeOpenXml.Drawing.Chart.eTrendLine
+  langs:
+  - csharp
+  - vb
+  name: Exponential
+  nameWithType: eTrendLine.Exponential
+  fullName: OfficeOpenXml.Drawing.Chart.eTrendLine.Exponential
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Exponential
+    path: ../src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe trendline will be an exponential curve. y = abx\n"
+  example: []
+  syntax:
+    content: Exponential = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eTrendLine
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eTrendLine.Linear
+  commentId: F:OfficeOpenXml.Drawing.Chart.eTrendLine.Linear
+  id: Linear
+  parent: OfficeOpenXml.Drawing.Chart.eTrendLine
+  langs:
+  - csharp
+  - vb
+  name: Linear
+  nameWithType: eTrendLine.Linear
+  fullName: OfficeOpenXml.Drawing.Chart.eTrendLine.Linear
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Linear
+    path: ../src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe trendline will be a linear curve. y = mx + b\n"
+  example: []
+  syntax:
+    content: Linear = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eTrendLine
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eTrendLine.Logarithmic
+  commentId: F:OfficeOpenXml.Drawing.Chart.eTrendLine.Logarithmic
+  id: Logarithmic
+  parent: OfficeOpenXml.Drawing.Chart.eTrendLine
+  langs:
+  - csharp
+  - vb
+  name: Logarithmic
+  nameWithType: eTrendLine.Logarithmic
+  fullName: OfficeOpenXml.Drawing.Chart.eTrendLine.Logarithmic
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Logarithmic
+    path: ../src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe trendline will be a logarithmic curve y = a log x + b\n"
+  example: []
+  syntax:
+    content: Logarithmic = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eTrendLine
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eTrendLine.MovingAvgerage
+  commentId: F:OfficeOpenXml.Drawing.Chart.eTrendLine.MovingAvgerage
+  id: MovingAvgerage
+  parent: OfficeOpenXml.Drawing.Chart.eTrendLine
+  langs:
+  - csharp
+  - vb
+  name: MovingAvgerage
+  nameWithType: eTrendLine.MovingAvgerage
+  fullName: OfficeOpenXml.Drawing.Chart.eTrendLine.MovingAvgerage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MovingAvgerage
+    path: ../src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe trendline will be the moving average.\n"
+  example: []
+  syntax:
+    content: MovingAvgerage = 3
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eTrendLine
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eTrendLine.Polynomial
+  commentId: F:OfficeOpenXml.Drawing.Chart.eTrendLine.Polynomial
+  id: Polynomial
+  parent: OfficeOpenXml.Drawing.Chart.eTrendLine
+  langs:
+  - csharp
+  - vb
+  name: Polynomial
+  nameWithType: eTrendLine.Polynomial
+  fullName: OfficeOpenXml.Drawing.Chart.eTrendLine.Polynomial
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Polynomial
+    path: ../src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe trendline will be a polynomial curve.\n"
+  example: []
+  syntax:
+    content: Polynomial = 4
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eTrendLine
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eTrendLine.Power
+  commentId: F:OfficeOpenXml.Drawing.Chart.eTrendLine.Power
+  id: Power
+  parent: OfficeOpenXml.Drawing.Chart.eTrendLine
+  langs:
+  - csharp
+  - vb
+  name: Power
+  nameWithType: eTrendLine.Power
+  fullName: OfficeOpenXml.Drawing.Chart.eTrendLine.Power
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Power
+    path: ../src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe trendline will be a power curve. y = axb\n"
+  example: []
+  syntax:
+    content: Power = 5
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eTrendLine
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eTrendLine
+  commentId: T:OfficeOpenXml.Drawing.Chart.eTrendLine
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eTrendLine
+  nameWithType: eTrendLine
+  fullName: OfficeOpenXml.Drawing.Chart.eTrendLine

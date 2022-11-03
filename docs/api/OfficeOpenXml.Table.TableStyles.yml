@@ -1,0 +1,2218 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.TableStyles
+  commentId: T:OfficeOpenXml.Table.TableStyles
+  id: TableStyles
+  parent: OfficeOpenXml.Table
+  children:
+  - OfficeOpenXml.Table.TableStyles.Custom
+  - OfficeOpenXml.Table.TableStyles.Dark1
+  - OfficeOpenXml.Table.TableStyles.Dark10
+  - OfficeOpenXml.Table.TableStyles.Dark11
+  - OfficeOpenXml.Table.TableStyles.Dark2
+  - OfficeOpenXml.Table.TableStyles.Dark3
+  - OfficeOpenXml.Table.TableStyles.Dark4
+  - OfficeOpenXml.Table.TableStyles.Dark5
+  - OfficeOpenXml.Table.TableStyles.Dark6
+  - OfficeOpenXml.Table.TableStyles.Dark7
+  - OfficeOpenXml.Table.TableStyles.Dark8
+  - OfficeOpenXml.Table.TableStyles.Dark9
+  - OfficeOpenXml.Table.TableStyles.Light1
+  - OfficeOpenXml.Table.TableStyles.Light10
+  - OfficeOpenXml.Table.TableStyles.Light11
+  - OfficeOpenXml.Table.TableStyles.Light12
+  - OfficeOpenXml.Table.TableStyles.Light13
+  - OfficeOpenXml.Table.TableStyles.Light14
+  - OfficeOpenXml.Table.TableStyles.Light15
+  - OfficeOpenXml.Table.TableStyles.Light16
+  - OfficeOpenXml.Table.TableStyles.Light17
+  - OfficeOpenXml.Table.TableStyles.Light18
+  - OfficeOpenXml.Table.TableStyles.Light19
+  - OfficeOpenXml.Table.TableStyles.Light2
+  - OfficeOpenXml.Table.TableStyles.Light20
+  - OfficeOpenXml.Table.TableStyles.Light21
+  - OfficeOpenXml.Table.TableStyles.Light3
+  - OfficeOpenXml.Table.TableStyles.Light4
+  - OfficeOpenXml.Table.TableStyles.Light5
+  - OfficeOpenXml.Table.TableStyles.Light6
+  - OfficeOpenXml.Table.TableStyles.Light7
+  - OfficeOpenXml.Table.TableStyles.Light8
+  - OfficeOpenXml.Table.TableStyles.Light9
+  - OfficeOpenXml.Table.TableStyles.Medium1
+  - OfficeOpenXml.Table.TableStyles.Medium10
+  - OfficeOpenXml.Table.TableStyles.Medium11
+  - OfficeOpenXml.Table.TableStyles.Medium12
+  - OfficeOpenXml.Table.TableStyles.Medium13
+  - OfficeOpenXml.Table.TableStyles.Medium14
+  - OfficeOpenXml.Table.TableStyles.Medium15
+  - OfficeOpenXml.Table.TableStyles.Medium16
+  - OfficeOpenXml.Table.TableStyles.Medium17
+  - OfficeOpenXml.Table.TableStyles.Medium18
+  - OfficeOpenXml.Table.TableStyles.Medium19
+  - OfficeOpenXml.Table.TableStyles.Medium2
+  - OfficeOpenXml.Table.TableStyles.Medium20
+  - OfficeOpenXml.Table.TableStyles.Medium21
+  - OfficeOpenXml.Table.TableStyles.Medium22
+  - OfficeOpenXml.Table.TableStyles.Medium23
+  - OfficeOpenXml.Table.TableStyles.Medium24
+  - OfficeOpenXml.Table.TableStyles.Medium25
+  - OfficeOpenXml.Table.TableStyles.Medium26
+  - OfficeOpenXml.Table.TableStyles.Medium27
+  - OfficeOpenXml.Table.TableStyles.Medium28
+  - OfficeOpenXml.Table.TableStyles.Medium3
+  - OfficeOpenXml.Table.TableStyles.Medium4
+  - OfficeOpenXml.Table.TableStyles.Medium5
+  - OfficeOpenXml.Table.TableStyles.Medium6
+  - OfficeOpenXml.Table.TableStyles.Medium7
+  - OfficeOpenXml.Table.TableStyles.Medium8
+  - OfficeOpenXml.Table.TableStyles.Medium9
+  - OfficeOpenXml.Table.TableStyles.None
+  langs:
+  - csharp
+  - vb
+  name: TableStyles
+  nameWithType: TableStyles
+  fullName: OfficeOpenXml.Table.TableStyles
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableStyles
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nTable style Enum\n"
+  example: []
+  syntax:
+    content: public enum TableStyles
+    content.vb: Public Enum TableStyles
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.TableStyles.None
+  commentId: F:OfficeOpenXml.Table.TableStyles.None
+  id: None
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: TableStyles.None
+  fullName: OfficeOpenXml.Table.TableStyles.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nNo table style\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Custom
+  commentId: F:OfficeOpenXml.Table.TableStyles.Custom
+  id: Custom
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Custom
+  nameWithType: TableStyles.Custom
+  fullName: OfficeOpenXml.Table.TableStyles.Custom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Custom
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nCustom table style\n"
+  example: []
+  syntax:
+    content: Custom = 1
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light1
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light1
+  id: Light1
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light1
+  nameWithType: TableStyles.Light1
+  fullName: OfficeOpenXml.Table.TableStyles.Light1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light1
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 1\n"
+  example: []
+  syntax:
+    content: Light1 = 2
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light2
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light2
+  id: Light2
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light2
+  nameWithType: TableStyles.Light2
+  fullName: OfficeOpenXml.Table.TableStyles.Light2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light2
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 2\n"
+  example: []
+  syntax:
+    content: Light2 = 3
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light3
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light3
+  id: Light3
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light3
+  nameWithType: TableStyles.Light3
+  fullName: OfficeOpenXml.Table.TableStyles.Light3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light3
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 3\n"
+  example: []
+  syntax:
+    content: Light3 = 4
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light4
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light4
+  id: Light4
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light4
+  nameWithType: TableStyles.Light4
+  fullName: OfficeOpenXml.Table.TableStyles.Light4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light4
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 4\n"
+  example: []
+  syntax:
+    content: Light4 = 5
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light5
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light5
+  id: Light5
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light5
+  nameWithType: TableStyles.Light5
+  fullName: OfficeOpenXml.Table.TableStyles.Light5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light5
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 5\n"
+  example: []
+  syntax:
+    content: Light5 = 6
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light6
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light6
+  id: Light6
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light6
+  nameWithType: TableStyles.Light6
+  fullName: OfficeOpenXml.Table.TableStyles.Light6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light6
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 6\n"
+  example: []
+  syntax:
+    content: Light6 = 7
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light7
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light7
+  id: Light7
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light7
+  nameWithType: TableStyles.Light7
+  fullName: OfficeOpenXml.Table.TableStyles.Light7
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light7
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 7\n"
+  example: []
+  syntax:
+    content: Light7 = 8
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light8
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light8
+  id: Light8
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light8
+  nameWithType: TableStyles.Light8
+  fullName: OfficeOpenXml.Table.TableStyles.Light8
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light8
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 8\n"
+  example: []
+  syntax:
+    content: Light8 = 9
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light9
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light9
+  id: Light9
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light9
+  nameWithType: TableStyles.Light9
+  fullName: OfficeOpenXml.Table.TableStyles.Light9
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light9
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 9\n"
+  example: []
+  syntax:
+    content: Light9 = 10
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light10
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light10
+  id: Light10
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light10
+  nameWithType: TableStyles.Light10
+  fullName: OfficeOpenXml.Table.TableStyles.Light10
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light10
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 10\n"
+  example: []
+  syntax:
+    content: Light10 = 11
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light11
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light11
+  id: Light11
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light11
+  nameWithType: TableStyles.Light11
+  fullName: OfficeOpenXml.Table.TableStyles.Light11
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light11
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 11\n"
+  example: []
+  syntax:
+    content: Light11 = 12
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light12
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light12
+  id: Light12
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light12
+  nameWithType: TableStyles.Light12
+  fullName: OfficeOpenXml.Table.TableStyles.Light12
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light12
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 12\n"
+  example: []
+  syntax:
+    content: Light12 = 13
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light13
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light13
+  id: Light13
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light13
+  nameWithType: TableStyles.Light13
+  fullName: OfficeOpenXml.Table.TableStyles.Light13
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light13
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 13\n"
+  example: []
+  syntax:
+    content: Light13 = 14
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light14
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light14
+  id: Light14
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light14
+  nameWithType: TableStyles.Light14
+  fullName: OfficeOpenXml.Table.TableStyles.Light14
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light14
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 14\n"
+  example: []
+  syntax:
+    content: Light14 = 15
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light15
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light15
+  id: Light15
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light15
+  nameWithType: TableStyles.Light15
+  fullName: OfficeOpenXml.Table.TableStyles.Light15
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light15
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 15\n"
+  example: []
+  syntax:
+    content: Light15 = 16
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light16
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light16
+  id: Light16
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light16
+  nameWithType: TableStyles.Light16
+  fullName: OfficeOpenXml.Table.TableStyles.Light16
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light16
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 16\n"
+  example: []
+  syntax:
+    content: Light16 = 17
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light17
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light17
+  id: Light17
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light17
+  nameWithType: TableStyles.Light17
+  fullName: OfficeOpenXml.Table.TableStyles.Light17
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light17
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 17\n"
+  example: []
+  syntax:
+    content: Light17 = 18
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light18
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light18
+  id: Light18
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light18
+  nameWithType: TableStyles.Light18
+  fullName: OfficeOpenXml.Table.TableStyles.Light18
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light18
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 18\n"
+  example: []
+  syntax:
+    content: Light18 = 19
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light19
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light19
+  id: Light19
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light19
+  nameWithType: TableStyles.Light19
+  fullName: OfficeOpenXml.Table.TableStyles.Light19
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light19
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 19\n"
+  example: []
+  syntax:
+    content: Light19 = 20
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light20
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light20
+  id: Light20
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light20
+  nameWithType: TableStyles.Light20
+  fullName: OfficeOpenXml.Table.TableStyles.Light20
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light20
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 20\n"
+  example: []
+  syntax:
+    content: Light20 = 21
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Light21
+  commentId: F:OfficeOpenXml.Table.TableStyles.Light21
+  id: Light21
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light21
+  nameWithType: TableStyles.Light21
+  fullName: OfficeOpenXml.Table.TableStyles.Light21
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light21
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 21\n"
+  example: []
+  syntax:
+    content: Light21 = 22
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium1
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium1
+  id: Medium1
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium1
+  nameWithType: TableStyles.Medium1
+  fullName: OfficeOpenXml.Table.TableStyles.Medium1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium1
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 1\n"
+  example: []
+  syntax:
+    content: Medium1 = 23
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium2
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium2
+  id: Medium2
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium2
+  nameWithType: TableStyles.Medium2
+  fullName: OfficeOpenXml.Table.TableStyles.Medium2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium2
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 2\n"
+  example: []
+  syntax:
+    content: Medium2 = 24
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium3
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium3
+  id: Medium3
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium3
+  nameWithType: TableStyles.Medium3
+  fullName: OfficeOpenXml.Table.TableStyles.Medium3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium3
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 122
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 3\n"
+  example: []
+  syntax:
+    content: Medium3 = 25
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium4
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium4
+  id: Medium4
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium4
+  nameWithType: TableStyles.Medium4
+  fullName: OfficeOpenXml.Table.TableStyles.Medium4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium4
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 4\n"
+  example: []
+  syntax:
+    content: Medium4 = 26
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium5
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium5
+  id: Medium5
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium5
+  nameWithType: TableStyles.Medium5
+  fullName: OfficeOpenXml.Table.TableStyles.Medium5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium5
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 5\n"
+  example: []
+  syntax:
+    content: Medium5 = 27
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium6
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium6
+  id: Medium6
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium6
+  nameWithType: TableStyles.Medium6
+  fullName: OfficeOpenXml.Table.TableStyles.Medium6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium6
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 134
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 6\n"
+  example: []
+  syntax:
+    content: Medium6 = 28
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium7
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium7
+  id: Medium7
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium7
+  nameWithType: TableStyles.Medium7
+  fullName: OfficeOpenXml.Table.TableStyles.Medium7
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium7
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 7\n"
+  example: []
+  syntax:
+    content: Medium7 = 29
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium8
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium8
+  id: Medium8
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium8
+  nameWithType: TableStyles.Medium8
+  fullName: OfficeOpenXml.Table.TableStyles.Medium8
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium8
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 142
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 8\n"
+  example: []
+  syntax:
+    content: Medium8 = 30
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium9
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium9
+  id: Medium9
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium9
+  nameWithType: TableStyles.Medium9
+  fullName: OfficeOpenXml.Table.TableStyles.Medium9
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium9
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 146
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 9\n"
+  example: []
+  syntax:
+    content: Medium9 = 31
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium10
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium10
+  id: Medium10
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium10
+  nameWithType: TableStyles.Medium10
+  fullName: OfficeOpenXml.Table.TableStyles.Medium10
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium10
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 150
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 10\n"
+  example: []
+  syntax:
+    content: Medium10 = 32
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium11
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium11
+  id: Medium11
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium11
+  nameWithType: TableStyles.Medium11
+  fullName: OfficeOpenXml.Table.TableStyles.Medium11
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium11
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 154
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 11\n"
+  example: []
+  syntax:
+    content: Medium11 = 33
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium12
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium12
+  id: Medium12
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium12
+  nameWithType: TableStyles.Medium12
+  fullName: OfficeOpenXml.Table.TableStyles.Medium12
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium12
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 158
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 12\n"
+  example: []
+  syntax:
+    content: Medium12 = 34
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium13
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium13
+  id: Medium13
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium13
+  nameWithType: TableStyles.Medium13
+  fullName: OfficeOpenXml.Table.TableStyles.Medium13
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium13
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 162
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 13\n"
+  example: []
+  syntax:
+    content: Medium13 = 35
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium14
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium14
+  id: Medium14
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium14
+  nameWithType: TableStyles.Medium14
+  fullName: OfficeOpenXml.Table.TableStyles.Medium14
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium14
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 166
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 14\n"
+  example: []
+  syntax:
+    content: Medium14 = 36
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium15
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium15
+  id: Medium15
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium15
+  nameWithType: TableStyles.Medium15
+  fullName: OfficeOpenXml.Table.TableStyles.Medium15
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium15
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 170
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 15\n"
+  example: []
+  syntax:
+    content: Medium15 = 37
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium16
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium16
+  id: Medium16
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium16
+  nameWithType: TableStyles.Medium16
+  fullName: OfficeOpenXml.Table.TableStyles.Medium16
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium16
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 174
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 16\n"
+  example: []
+  syntax:
+    content: Medium16 = 38
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium17
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium17
+  id: Medium17
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium17
+  nameWithType: TableStyles.Medium17
+  fullName: OfficeOpenXml.Table.TableStyles.Medium17
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium17
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 178
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 17\n"
+  example: []
+  syntax:
+    content: Medium17 = 39
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium18
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium18
+  id: Medium18
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium18
+  nameWithType: TableStyles.Medium18
+  fullName: OfficeOpenXml.Table.TableStyles.Medium18
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium18
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 182
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 18\n"
+  example: []
+  syntax:
+    content: Medium18 = 40
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium19
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium19
+  id: Medium19
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium19
+  nameWithType: TableStyles.Medium19
+  fullName: OfficeOpenXml.Table.TableStyles.Medium19
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium19
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 186
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 19\n"
+  example: []
+  syntax:
+    content: Medium19 = 41
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium20
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium20
+  id: Medium20
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium20
+  nameWithType: TableStyles.Medium20
+  fullName: OfficeOpenXml.Table.TableStyles.Medium20
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium20
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 190
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 20\n"
+  example: []
+  syntax:
+    content: Medium20 = 42
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium21
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium21
+  id: Medium21
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium21
+  nameWithType: TableStyles.Medium21
+  fullName: OfficeOpenXml.Table.TableStyles.Medium21
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium21
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 194
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 21\n"
+  example: []
+  syntax:
+    content: Medium21 = 43
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium22
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium22
+  id: Medium22
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium22
+  nameWithType: TableStyles.Medium22
+  fullName: OfficeOpenXml.Table.TableStyles.Medium22
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium22
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 198
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 22\n"
+  example: []
+  syntax:
+    content: Medium22 = 44
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium23
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium23
+  id: Medium23
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium23
+  nameWithType: TableStyles.Medium23
+  fullName: OfficeOpenXml.Table.TableStyles.Medium23
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium23
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 202
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 23\n"
+  example: []
+  syntax:
+    content: Medium23 = 45
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium24
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium24
+  id: Medium24
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium24
+  nameWithType: TableStyles.Medium24
+  fullName: OfficeOpenXml.Table.TableStyles.Medium24
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium24
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 206
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 24\n"
+  example: []
+  syntax:
+    content: Medium24 = 46
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium25
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium25
+  id: Medium25
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium25
+  nameWithType: TableStyles.Medium25
+  fullName: OfficeOpenXml.Table.TableStyles.Medium25
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium25
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 210
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 25\n"
+  example: []
+  syntax:
+    content: Medium25 = 47
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium26
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium26
+  id: Medium26
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium26
+  nameWithType: TableStyles.Medium26
+  fullName: OfficeOpenXml.Table.TableStyles.Medium26
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium26
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 214
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 26\n"
+  example: []
+  syntax:
+    content: Medium26 = 48
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium27
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium27
+  id: Medium27
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium27
+  nameWithType: TableStyles.Medium27
+  fullName: OfficeOpenXml.Table.TableStyles.Medium27
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium27
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 218
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 27\n"
+  example: []
+  syntax:
+    content: Medium27 = 49
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Medium28
+  commentId: F:OfficeOpenXml.Table.TableStyles.Medium28
+  id: Medium28
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium28
+  nameWithType: TableStyles.Medium28
+  fullName: OfficeOpenXml.Table.TableStyles.Medium28
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium28
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 222
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 28\n"
+  example: []
+  syntax:
+    content: Medium28 = 50
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Dark1
+  commentId: F:OfficeOpenXml.Table.TableStyles.Dark1
+  id: Dark1
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark1
+  nameWithType: TableStyles.Dark1
+  fullName: OfficeOpenXml.Table.TableStyles.Dark1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark1
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 226
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 1\n"
+  example: []
+  syntax:
+    content: Dark1 = 51
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Dark2
+  commentId: F:OfficeOpenXml.Table.TableStyles.Dark2
+  id: Dark2
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark2
+  nameWithType: TableStyles.Dark2
+  fullName: OfficeOpenXml.Table.TableStyles.Dark2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark2
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 230
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 2\n"
+  example: []
+  syntax:
+    content: Dark2 = 52
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Dark3
+  commentId: F:OfficeOpenXml.Table.TableStyles.Dark3
+  id: Dark3
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark3
+  nameWithType: TableStyles.Dark3
+  fullName: OfficeOpenXml.Table.TableStyles.Dark3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark3
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 234
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 3\n"
+  example: []
+  syntax:
+    content: Dark3 = 53
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Dark4
+  commentId: F:OfficeOpenXml.Table.TableStyles.Dark4
+  id: Dark4
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark4
+  nameWithType: TableStyles.Dark4
+  fullName: OfficeOpenXml.Table.TableStyles.Dark4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark4
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 238
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 4\n"
+  example: []
+  syntax:
+    content: Dark4 = 54
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Dark5
+  commentId: F:OfficeOpenXml.Table.TableStyles.Dark5
+  id: Dark5
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark5
+  nameWithType: TableStyles.Dark5
+  fullName: OfficeOpenXml.Table.TableStyles.Dark5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark5
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 242
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 5\n"
+  example: []
+  syntax:
+    content: Dark5 = 55
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Dark6
+  commentId: F:OfficeOpenXml.Table.TableStyles.Dark6
+  id: Dark6
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark6
+  nameWithType: TableStyles.Dark6
+  fullName: OfficeOpenXml.Table.TableStyles.Dark6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark6
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 246
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 6\n"
+  example: []
+  syntax:
+    content: Dark6 = 56
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Dark7
+  commentId: F:OfficeOpenXml.Table.TableStyles.Dark7
+  id: Dark7
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark7
+  nameWithType: TableStyles.Dark7
+  fullName: OfficeOpenXml.Table.TableStyles.Dark7
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark7
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 250
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 7\n"
+  example: []
+  syntax:
+    content: Dark7 = 57
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Dark8
+  commentId: F:OfficeOpenXml.Table.TableStyles.Dark8
+  id: Dark8
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark8
+  nameWithType: TableStyles.Dark8
+  fullName: OfficeOpenXml.Table.TableStyles.Dark8
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark8
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 254
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 8\n"
+  example: []
+  syntax:
+    content: Dark8 = 58
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Dark9
+  commentId: F:OfficeOpenXml.Table.TableStyles.Dark9
+  id: Dark9
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark9
+  nameWithType: TableStyles.Dark9
+  fullName: OfficeOpenXml.Table.TableStyles.Dark9
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark9
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 258
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 9\n"
+  example: []
+  syntax:
+    content: Dark9 = 59
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Dark10
+  commentId: F:OfficeOpenXml.Table.TableStyles.Dark10
+  id: Dark10
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark10
+  nameWithType: TableStyles.Dark10
+  fullName: OfficeOpenXml.Table.TableStyles.Dark10
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark10
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 262
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 10\n"
+  example: []
+  syntax:
+    content: Dark10 = 60
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.TableStyles.Dark11
+  commentId: F:OfficeOpenXml.Table.TableStyles.Dark11
+  id: Dark11
+  parent: OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark11
+  nameWithType: TableStyles.Dark11
+  fullName: OfficeOpenXml.Table.TableStyles.Dark11
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/TableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark11
+    path: ../src/EPPlus/Table/enums/TableStyles.cs
+    startLine: 266
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 11\n"
+  example: []
+  syntax:
+    content: Dark11 = 61
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: OfficeOpenXml.Table.TableStyles
+  commentId: T:OfficeOpenXml.Table.TableStyles
+  parent: OfficeOpenXml.Table
+  name: TableStyles
+  nameWithType: TableStyles
+  fullName: OfficeOpenXml.Table.TableStyles

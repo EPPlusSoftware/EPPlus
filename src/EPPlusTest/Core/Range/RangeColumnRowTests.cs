@@ -197,7 +197,6 @@ namespace EPPlusTest.Core.Range
             Assert.IsTrue(ws.Cells["J1"].EntireColumn.Hidden);
             Assert.IsTrue(ws.Cells["P10"].EntireColumn.Hidden);
         }
-
         [TestMethod]
         public void Row_CollapsChildren_Top()
         {

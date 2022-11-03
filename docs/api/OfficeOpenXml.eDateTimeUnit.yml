@@ -1,0 +1,328 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eDateTimeUnit
+  commentId: T:OfficeOpenXml.eDateTimeUnit
+  id: eDateTimeUnit
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eDateTimeUnit.Day
+  - OfficeOpenXml.eDateTimeUnit.Hour
+  - OfficeOpenXml.eDateTimeUnit.Minute
+  - OfficeOpenXml.eDateTimeUnit.Month
+  - OfficeOpenXml.eDateTimeUnit.Second
+  - OfficeOpenXml.eDateTimeUnit.Ticks
+  - OfficeOpenXml.eDateTimeUnit.Week
+  - OfficeOpenXml.eDateTimeUnit.Year
+  langs:
+  - csharp
+  - vb
+  name: eDateTimeUnit
+  nameWithType: eDateTimeUnit
+  fullName: OfficeOpenXml.eDateTimeUnit
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eDateTimeUnit
+    path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe date units for date fill operations\n"
+  example: []
+  syntax:
+    content: public enum eDateTimeUnit
+    content.vb: Public Enum eDateTimeUnit
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eDateTimeUnit.Year
+  commentId: F:OfficeOpenXml.eDateTimeUnit.Year
+  id: Year
+  parent: OfficeOpenXml.eDateTimeUnit
+  langs:
+  - csharp
+  - vb
+  name: Year
+  nameWithType: eDateTimeUnit.Year
+  fullName: OfficeOpenXml.eDateTimeUnit.Year
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Year
+    path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdds a Year\n"
+  example: []
+  syntax:
+    content: Year = 0
+    return:
+      type: OfficeOpenXml.eDateTimeUnit
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eDateTimeUnit.Month
+  commentId: F:OfficeOpenXml.eDateTimeUnit.Month
+  id: Month
+  parent: OfficeOpenXml.eDateTimeUnit
+  langs:
+  - csharp
+  - vb
+  name: Month
+  nameWithType: eDateTimeUnit.Month
+  fullName: OfficeOpenXml.eDateTimeUnit.Month
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Month
+    path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdds a Month\n"
+  example: []
+  syntax:
+    content: Month = 1
+    return:
+      type: OfficeOpenXml.eDateTimeUnit
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eDateTimeUnit.Week
+  commentId: F:OfficeOpenXml.eDateTimeUnit.Week
+  id: Week
+  parent: OfficeOpenXml.eDateTimeUnit
+  langs:
+  - csharp
+  - vb
+  name: Week
+  nameWithType: eDateTimeUnit.Week
+  fullName: OfficeOpenXml.eDateTimeUnit.Week
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Week
+    path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdds 7 Days\n"
+  example: []
+  syntax:
+    content: Week = 2
+    return:
+      type: OfficeOpenXml.eDateTimeUnit
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eDateTimeUnit.Day
+  commentId: F:OfficeOpenXml.eDateTimeUnit.Day
+  id: Day
+  parent: OfficeOpenXml.eDateTimeUnit
+  langs:
+  - csharp
+  - vb
+  name: Day
+  nameWithType: eDateTimeUnit.Day
+  fullName: OfficeOpenXml.eDateTimeUnit.Day
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Day
+    path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdds a Day\n"
+  example: []
+  syntax:
+    content: Day = 3
+    return:
+      type: OfficeOpenXml.eDateTimeUnit
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eDateTimeUnit.Hour
+  commentId: F:OfficeOpenXml.eDateTimeUnit.Hour
+  id: Hour
+  parent: OfficeOpenXml.eDateTimeUnit
+  langs:
+  - csharp
+  - vb
+  name: Hour
+  nameWithType: eDateTimeUnit.Hour
+  fullName: OfficeOpenXml.eDateTimeUnit.Hour
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hour
+    path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdds an Hour\n"
+  example: []
+  syntax:
+    content: Hour = 4
+    return:
+      type: OfficeOpenXml.eDateTimeUnit
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eDateTimeUnit.Minute
+  commentId: F:OfficeOpenXml.eDateTimeUnit.Minute
+  id: Minute
+  parent: OfficeOpenXml.eDateTimeUnit
+  langs:
+  - csharp
+  - vb
+  name: Minute
+  nameWithType: eDateTimeUnit.Minute
+  fullName: OfficeOpenXml.eDateTimeUnit.Minute
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Minute
+    path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdds a Minute\n"
+  example: []
+  syntax:
+    content: Minute = 5
+    return:
+      type: OfficeOpenXml.eDateTimeUnit
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eDateTimeUnit.Second
+  commentId: F:OfficeOpenXml.eDateTimeUnit.Second
+  id: Second
+  parent: OfficeOpenXml.eDateTimeUnit
+  langs:
+  - csharp
+  - vb
+  name: Second
+  nameWithType: eDateTimeUnit.Second
+  fullName: OfficeOpenXml.eDateTimeUnit.Second
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Second
+    path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdds a Second\n"
+  example: []
+  syntax:
+    content: Second = 6
+    return:
+      type: OfficeOpenXml.eDateTimeUnit
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eDateTimeUnit.Ticks
+  commentId: F:OfficeOpenXml.eDateTimeUnit.Ticks
+  id: Ticks
+  parent: OfficeOpenXml.eDateTimeUnit
+  langs:
+  - csharp
+  - vb
+  name: Ticks
+  nameWithType: eDateTimeUnit.Ticks
+  fullName: OfficeOpenXml.eDateTimeUnit.Ticks
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Ticks
+    path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdds ticks\n"
+  example: []
+  syntax:
+    content: Ticks = 7
+    return:
+      type: OfficeOpenXml.eDateTimeUnit
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eDateTimeUnit
+  commentId: T:OfficeOpenXml.eDateTimeUnit
+  parent: OfficeOpenXml
+  name: eDateTimeUnit
+  nameWithType: eDateTimeUnit
+  fullName: OfficeOpenXml.eDateTimeUnit

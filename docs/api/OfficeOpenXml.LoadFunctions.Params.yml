@@ -1,0 +1,52 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.LoadFunctions.Params
+  commentId: N:OfficeOpenXml.LoadFunctions.Params
+  id: OfficeOpenXml.LoadFunctions.Params
+  children:
+  - OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  - OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams
+  - OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams
+  - OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams
+  - OfficeOpenXml.LoadFunctions.Params.LoadFromTextParams
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.LoadFunctions.Params
+  nameWithType: OfficeOpenXml.LoadFunctions.Params
+  fullName: OfficeOpenXml.LoadFunctions.Params
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  commentId: T:OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  parent: OfficeOpenXml.LoadFunctions.Params
+  name: HeaderParsingTypes
+  nameWithType: HeaderParsingTypes
+  fullName: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams
+  commentId: T:OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams
+  name: LoadFromCollectionParams
+  nameWithType: LoadFromCollectionParams
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromCollectionParams
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams
+  commentId: T:OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams
+  name: LoadFromDataTableParams
+  nameWithType: LoadFromDataTableParams
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams
+  commentId: T:OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams
+  name: LoadFromDictionariesParams
+  nameWithType: LoadFromDictionariesParams
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromTextParams
+  commentId: T:OfficeOpenXml.LoadFunctions.Params.LoadFromTextParams
+  name: LoadFromTextParams
+  nameWithType: LoadFromTextParams
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromTextParams
+- uid: OfficeOpenXml.LoadFunctions.Params
+  commentId: N:OfficeOpenXml.LoadFunctions.Params
+  name: OfficeOpenXml.LoadFunctions.Params
+  nameWithType: OfficeOpenXml.LoadFunctions.Params
+  fullName: OfficeOpenXml.LoadFunctions.Params

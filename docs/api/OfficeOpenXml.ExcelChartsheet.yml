@@ -1,0 +1,2581 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelChartsheet
+  commentId: T:OfficeOpenXml.ExcelChartsheet
+  id: ExcelChartsheet
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelChartsheet.Chart
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartsheet
+  nameWithType: ExcelChartsheet
+  fullName: OfficeOpenXml.ExcelChartsheet
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelChartsheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartsheet
+    path: ../src/EPPlus/ExcelChartsheet.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRepresents an Excel Chartsheet and provides access to its properties and methods\n"
+  example: []
+  syntax:
+    content: 'public class ExcelChartsheet : ExcelWorksheet, IEqualityComparer<ExcelWorksheet>, IDisposable'
+    content.vb: >-
+      Public Class ExcelChartsheet
+          Inherits ExcelWorksheet
+          Implements IEqualityComparer(Of ExcelWorksheet), IDisposable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.ExcelWorksheet
+  implements:
+  - System.Collections.Generic.IEqualityComparer{OfficeOpenXml.ExcelWorksheet}
+  - System.IDisposable
+  inheritedMembers:
+  - OfficeOpenXml.ExcelWorksheet.ClearFormulas
+  - OfficeOpenXml.ExcelWorksheet.ClearFormulaValues
+  - OfficeOpenXml.ExcelWorksheet.Index
+  - OfficeOpenXml.ExcelWorksheet.AutoFilterAddress
+  - OfficeOpenXml.ExcelWorksheet.AutoFilter
+  - OfficeOpenXml.ExcelWorksheet.SortState
+  - OfficeOpenXml.ExcelWorksheet.View
+  - OfficeOpenXml.ExcelWorksheet.Name
+  - OfficeOpenXml.ExcelWorksheet.Names
+  - OfficeOpenXml.ExcelWorksheet.Hidden
+  - OfficeOpenXml.ExcelWorksheet.DefaultRowHeight
+  - OfficeOpenXml.ExcelWorksheet.RowZeroHeight
+  - OfficeOpenXml.ExcelWorksheet.CustomHeight
+  - OfficeOpenXml.ExcelWorksheet.DefaultColWidth
+  - OfficeOpenXml.ExcelWorksheet.OutLineSummaryBelow
+  - OfficeOpenXml.ExcelWorksheet.OutLineSummaryRight
+  - OfficeOpenXml.ExcelWorksheet.OutLineApplyStyle
+  - OfficeOpenXml.ExcelWorksheet.TabColor
+  - OfficeOpenXml.ExcelWorksheet.CodeModule
+  - OfficeOpenXml.ExcelWorksheet.WorksheetXml
+  - OfficeOpenXml.ExcelWorksheet.Comments
+  - OfficeOpenXml.ExcelWorksheet.ThreadedComments
+  - OfficeOpenXml.ExcelWorksheet.HeaderFooter
+  - OfficeOpenXml.ExcelWorksheet.PrinterSettings
+  - OfficeOpenXml.ExcelWorksheet.Cells
+  - OfficeOpenXml.ExcelWorksheet.SelectedRange
+  - OfficeOpenXml.ExcelWorksheet.MergedCells
+  - OfficeOpenXml.ExcelWorksheet.Row(System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.Column(System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.ToString
+  - OfficeOpenXml.ExcelWorksheet.Select
+  - OfficeOpenXml.ExcelWorksheet.Select(System.String)
+  - OfficeOpenXml.ExcelWorksheet.Select(System.String,System.Boolean)
+  - OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress,System.Boolean)
+  - OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32,System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32,System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32,System.Boolean)
+  - OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.GetValue(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.GetValue``1(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.SetValue(System.Int32,System.Int32,System.Object)
+  - OfficeOpenXml.ExcelWorksheet.SetValue(System.String,System.Object)
+  - OfficeOpenXml.ExcelWorksheet.GetMergeCellId(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorksheet.Dimension
+  - OfficeOpenXml.ExcelWorksheet.Protection
+  - OfficeOpenXml.ExcelWorksheet.ProtectedRanges
+  - OfficeOpenXml.ExcelWorksheet.Drawings
+  - OfficeOpenXml.ExcelWorksheet.SparklineGroups
+  - OfficeOpenXml.ExcelWorksheet.Tables
+  - OfficeOpenXml.ExcelWorksheet.PivotTables
+  - OfficeOpenXml.ExcelWorksheet.ConditionalFormatting
+  - OfficeOpenXml.ExcelWorksheet.DataValidations
+  - OfficeOpenXml.ExcelWorksheet.IgnoredErrors
+  - OfficeOpenXml.ExcelWorksheet.BackgroundImage
+  - OfficeOpenXml.ExcelWorksheet.Workbook
+  - OfficeOpenXml.ExcelWorksheet.Dispose
+  - OfficeOpenXml.ExcelWorksheet.Equals(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.ExcelWorksheet)
+  - OfficeOpenXml.ExcelWorksheet.GetHashCode(OfficeOpenXml.ExcelWorksheet)
+  - OfficeOpenXml.ExcelWorksheet.Rows
+  - OfficeOpenXml.ExcelWorksheet.Columns
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  extensionMethods:
+  - OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate
+  - OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate(System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  - OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  - OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate(System.String)
+  - OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate(System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelChartsheet.Chart
+  commentId: P:OfficeOpenXml.ExcelChartsheet.Chart
+  id: Chart
+  parent: OfficeOpenXml.ExcelChartsheet
+  langs:
+  - csharp
+  - vb
+  name: Chart
+  nameWithType: ExcelChartsheet.Chart
+  fullName: OfficeOpenXml.ExcelChartsheet.Chart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelChartsheet.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Chart
+    path: ../src/EPPlus/ExcelChartsheet.cs
+    startLine: 40
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe worksheet chart object\n"
+  example: []
+  syntax:
+    content: public ExcelChart Chart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ExcelChart
+    content.vb: Public ReadOnly Property Chart As ExcelChart
+  overload: OfficeOpenXml.ExcelChartsheet.Chart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.ExcelWorksheet
+  commentId: T:OfficeOpenXml.ExcelWorksheet
+  parent: OfficeOpenXml
+  name: ExcelWorksheet
+  nameWithType: ExcelWorksheet
+  fullName: OfficeOpenXml.ExcelWorksheet
+- uid: System.Collections.Generic.IEqualityComparer{OfficeOpenXml.ExcelWorksheet}
+  commentId: T:System.Collections.Generic.IEqualityComparer{OfficeOpenXml.ExcelWorksheet}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEqualityComparer`1
+  name: IEqualityComparer<ExcelWorksheet>
+  nameWithType: IEqualityComparer<ExcelWorksheet>
+  fullName: System.Collections.Generic.IEqualityComparer<OfficeOpenXml.ExcelWorksheet>
+  nameWithType.vb: IEqualityComparer(Of ExcelWorksheet)
+  fullName.vb: System.Collections.Generic.IEqualityComparer(Of OfficeOpenXml.ExcelWorksheet)
+  name.vb: IEqualityComparer(Of ExcelWorksheet)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    nameWithType: IEqualityComparer
+    fullName: System.Collections.Generic.IEqualityComparer
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    nameWithType: IEqualityComparer
+    fullName: System.Collections.Generic.IEqualityComparer
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: OfficeOpenXml.ExcelWorksheet.ClearFormulas
+  commentId: M:OfficeOpenXml.ExcelWorksheet.ClearFormulas
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: ClearFormulas()
+  nameWithType: ExcelWorksheet.ClearFormulas()
+  fullName: OfficeOpenXml.ExcelWorksheet.ClearFormulas()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.ClearFormulas
+    name: ClearFormulas
+    nameWithType: ExcelWorksheet.ClearFormulas
+    fullName: OfficeOpenXml.ExcelWorksheet.ClearFormulas
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.ClearFormulas
+    name: ClearFormulas
+    nameWithType: ExcelWorksheet.ClearFormulas
+    fullName: OfficeOpenXml.ExcelWorksheet.ClearFormulas
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.ClearFormulaValues
+  commentId: M:OfficeOpenXml.ExcelWorksheet.ClearFormulaValues
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: ClearFormulaValues()
+  nameWithType: ExcelWorksheet.ClearFormulaValues()
+  fullName: OfficeOpenXml.ExcelWorksheet.ClearFormulaValues()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.ClearFormulaValues
+    name: ClearFormulaValues
+    nameWithType: ExcelWorksheet.ClearFormulaValues
+    fullName: OfficeOpenXml.ExcelWorksheet.ClearFormulaValues
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.ClearFormulaValues
+    name: ClearFormulaValues
+    nameWithType: ExcelWorksheet.ClearFormulaValues
+    fullName: OfficeOpenXml.ExcelWorksheet.ClearFormulaValues
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.Index
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Index
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Index
+  nameWithType: ExcelWorksheet.Index
+  fullName: OfficeOpenXml.ExcelWorksheet.Index
+- uid: OfficeOpenXml.ExcelWorksheet.AutoFilterAddress
+  commentId: P:OfficeOpenXml.ExcelWorksheet.AutoFilterAddress
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: AutoFilterAddress
+  nameWithType: ExcelWorksheet.AutoFilterAddress
+  fullName: OfficeOpenXml.ExcelWorksheet.AutoFilterAddress
+- uid: OfficeOpenXml.ExcelWorksheet.AutoFilter
+  commentId: P:OfficeOpenXml.ExcelWorksheet.AutoFilter
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: AutoFilter
+  nameWithType: ExcelWorksheet.AutoFilter
+  fullName: OfficeOpenXml.ExcelWorksheet.AutoFilter
+- uid: OfficeOpenXml.ExcelWorksheet.SortState
+  commentId: P:OfficeOpenXml.ExcelWorksheet.SortState
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: SortState
+  nameWithType: ExcelWorksheet.SortState
+  fullName: OfficeOpenXml.ExcelWorksheet.SortState
+- uid: OfficeOpenXml.ExcelWorksheet.View
+  commentId: P:OfficeOpenXml.ExcelWorksheet.View
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: View
+  nameWithType: ExcelWorksheet.View
+  fullName: OfficeOpenXml.ExcelWorksheet.View
+- uid: OfficeOpenXml.ExcelWorksheet.Name
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Name
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Name
+  nameWithType: ExcelWorksheet.Name
+  fullName: OfficeOpenXml.ExcelWorksheet.Name
+- uid: OfficeOpenXml.ExcelWorksheet.Names
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Names
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Names
+  nameWithType: ExcelWorksheet.Names
+  fullName: OfficeOpenXml.ExcelWorksheet.Names
+- uid: OfficeOpenXml.ExcelWorksheet.Hidden
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Hidden
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Hidden
+  nameWithType: ExcelWorksheet.Hidden
+  fullName: OfficeOpenXml.ExcelWorksheet.Hidden
+- uid: OfficeOpenXml.ExcelWorksheet.DefaultRowHeight
+  commentId: P:OfficeOpenXml.ExcelWorksheet.DefaultRowHeight
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: DefaultRowHeight
+  nameWithType: ExcelWorksheet.DefaultRowHeight
+  fullName: OfficeOpenXml.ExcelWorksheet.DefaultRowHeight
+- uid: OfficeOpenXml.ExcelWorksheet.RowZeroHeight
+  commentId: P:OfficeOpenXml.ExcelWorksheet.RowZeroHeight
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: RowZeroHeight
+  nameWithType: ExcelWorksheet.RowZeroHeight
+  fullName: OfficeOpenXml.ExcelWorksheet.RowZeroHeight
+- uid: OfficeOpenXml.ExcelWorksheet.CustomHeight
+  commentId: P:OfficeOpenXml.ExcelWorksheet.CustomHeight
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: CustomHeight
+  nameWithType: ExcelWorksheet.CustomHeight
+  fullName: OfficeOpenXml.ExcelWorksheet.CustomHeight
+- uid: OfficeOpenXml.ExcelWorksheet.DefaultColWidth
+  commentId: P:OfficeOpenXml.ExcelWorksheet.DefaultColWidth
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: DefaultColWidth
+  nameWithType: ExcelWorksheet.DefaultColWidth
+  fullName: OfficeOpenXml.ExcelWorksheet.DefaultColWidth
+- uid: OfficeOpenXml.ExcelWorksheet.OutLineSummaryBelow
+  commentId: P:OfficeOpenXml.ExcelWorksheet.OutLineSummaryBelow
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: OutLineSummaryBelow
+  nameWithType: ExcelWorksheet.OutLineSummaryBelow
+  fullName: OfficeOpenXml.ExcelWorksheet.OutLineSummaryBelow
+- uid: OfficeOpenXml.ExcelWorksheet.OutLineSummaryRight
+  commentId: P:OfficeOpenXml.ExcelWorksheet.OutLineSummaryRight
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: OutLineSummaryRight
+  nameWithType: ExcelWorksheet.OutLineSummaryRight
+  fullName: OfficeOpenXml.ExcelWorksheet.OutLineSummaryRight
+- uid: OfficeOpenXml.ExcelWorksheet.OutLineApplyStyle
+  commentId: P:OfficeOpenXml.ExcelWorksheet.OutLineApplyStyle
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: OutLineApplyStyle
+  nameWithType: ExcelWorksheet.OutLineApplyStyle
+  fullName: OfficeOpenXml.ExcelWorksheet.OutLineApplyStyle
+- uid: OfficeOpenXml.ExcelWorksheet.TabColor
+  commentId: P:OfficeOpenXml.ExcelWorksheet.TabColor
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: TabColor
+  nameWithType: ExcelWorksheet.TabColor
+  fullName: OfficeOpenXml.ExcelWorksheet.TabColor
+- uid: OfficeOpenXml.ExcelWorksheet.CodeModule
+  commentId: P:OfficeOpenXml.ExcelWorksheet.CodeModule
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: CodeModule
+  nameWithType: ExcelWorksheet.CodeModule
+  fullName: OfficeOpenXml.ExcelWorksheet.CodeModule
+- uid: OfficeOpenXml.ExcelWorksheet.WorksheetXml
+  commentId: P:OfficeOpenXml.ExcelWorksheet.WorksheetXml
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: WorksheetXml
+  nameWithType: ExcelWorksheet.WorksheetXml
+  fullName: OfficeOpenXml.ExcelWorksheet.WorksheetXml
+- uid: OfficeOpenXml.ExcelWorksheet.Comments
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Comments
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Comments
+  nameWithType: ExcelWorksheet.Comments
+  fullName: OfficeOpenXml.ExcelWorksheet.Comments
+- uid: OfficeOpenXml.ExcelWorksheet.ThreadedComments
+  commentId: P:OfficeOpenXml.ExcelWorksheet.ThreadedComments
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: ThreadedComments
+  nameWithType: ExcelWorksheet.ThreadedComments
+  fullName: OfficeOpenXml.ExcelWorksheet.ThreadedComments
+- uid: OfficeOpenXml.ExcelWorksheet.HeaderFooter
+  commentId: P:OfficeOpenXml.ExcelWorksheet.HeaderFooter
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: HeaderFooter
+  nameWithType: ExcelWorksheet.HeaderFooter
+  fullName: OfficeOpenXml.ExcelWorksheet.HeaderFooter
+- uid: OfficeOpenXml.ExcelWorksheet.PrinterSettings
+  commentId: P:OfficeOpenXml.ExcelWorksheet.PrinterSettings
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: PrinterSettings
+  nameWithType: ExcelWorksheet.PrinterSettings
+  fullName: OfficeOpenXml.ExcelWorksheet.PrinterSettings
+- uid: OfficeOpenXml.ExcelWorksheet.Cells
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Cells
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Cells
+  nameWithType: ExcelWorksheet.Cells
+  fullName: OfficeOpenXml.ExcelWorksheet.Cells
+- uid: OfficeOpenXml.ExcelWorksheet.SelectedRange
+  commentId: P:OfficeOpenXml.ExcelWorksheet.SelectedRange
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: SelectedRange
+  nameWithType: ExcelWorksheet.SelectedRange
+  fullName: OfficeOpenXml.ExcelWorksheet.SelectedRange
+- uid: OfficeOpenXml.ExcelWorksheet.MergedCells
+  commentId: P:OfficeOpenXml.ExcelWorksheet.MergedCells
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: MergedCells
+  nameWithType: ExcelWorksheet.MergedCells
+  fullName: OfficeOpenXml.ExcelWorksheet.MergedCells
+- uid: OfficeOpenXml.ExcelWorksheet.Row(System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Row(System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: Row(Int32)
+  nameWithType: ExcelWorksheet.Row(Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.Row(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.Row(System.Int32)
+    name: Row
+    nameWithType: ExcelWorksheet.Row
+    fullName: OfficeOpenXml.ExcelWorksheet.Row
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.Row(System.Int32)
+    name: Row
+    nameWithType: ExcelWorksheet.Row
+    fullName: OfficeOpenXml.ExcelWorksheet.Row
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.Column(System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Column(System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: Column(Int32)
+  nameWithType: ExcelWorksheet.Column(Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.Column(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.Column(System.Int32)
+    name: Column
+    nameWithType: ExcelWorksheet.Column
+    fullName: OfficeOpenXml.ExcelWorksheet.Column
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.Column(System.Int32)
+    name: Column
+    nameWithType: ExcelWorksheet.Column
+    fullName: OfficeOpenXml.ExcelWorksheet.Column
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.ToString
+  commentId: M:OfficeOpenXml.ExcelWorksheet.ToString
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: ToString()
+  nameWithType: ExcelWorksheet.ToString()
+  fullName: OfficeOpenXml.ExcelWorksheet.ToString()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.ToString
+    name: ToString
+    nameWithType: ExcelWorksheet.ToString
+    fullName: OfficeOpenXml.ExcelWorksheet.ToString
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.ToString
+    name: ToString
+    nameWithType: ExcelWorksheet.ToString
+    fullName: OfficeOpenXml.ExcelWorksheet.ToString
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.Select
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Select
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Select()
+  nameWithType: ExcelWorksheet.Select()
+  fullName: OfficeOpenXml.ExcelWorksheet.Select()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.Select
+    name: Select
+    nameWithType: ExcelWorksheet.Select
+    fullName: OfficeOpenXml.ExcelWorksheet.Select
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.Select
+    name: Select
+    nameWithType: ExcelWorksheet.Select
+    fullName: OfficeOpenXml.ExcelWorksheet.Select
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.Select(System.String)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Select(System.String)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: Select(String)
+  nameWithType: ExcelWorksheet.Select(String)
+  fullName: OfficeOpenXml.ExcelWorksheet.Select(System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.Select(System.String)
+    name: Select
+    nameWithType: ExcelWorksheet.Select
+    fullName: OfficeOpenXml.ExcelWorksheet.Select
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.Select(System.String)
+    name: Select
+    nameWithType: ExcelWorksheet.Select
+    fullName: OfficeOpenXml.ExcelWorksheet.Select
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.Select(System.String,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Select(System.String,System.Boolean)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: Select(String, Boolean)
+  nameWithType: ExcelWorksheet.Select(String, Boolean)
+  fullName: OfficeOpenXml.ExcelWorksheet.Select(System.String, System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.Select(System.String,System.Boolean)
+    name: Select
+    nameWithType: ExcelWorksheet.Select
+    fullName: OfficeOpenXml.ExcelWorksheet.Select
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.Select(System.String,System.Boolean)
+    name: Select
+    nameWithType: ExcelWorksheet.Select
+    fullName: OfficeOpenXml.ExcelWorksheet.Select
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Select(ExcelAddress)
+  nameWithType: ExcelWorksheet.Select(ExcelAddress)
+  fullName: OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress)
+    name: Select
+    nameWithType: ExcelWorksheet.Select
+    fullName: OfficeOpenXml.ExcelWorksheet.Select
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelAddress
+    name: ExcelAddress
+    nameWithType: ExcelAddress
+    fullName: OfficeOpenXml.ExcelAddress
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress)
+    name: Select
+    nameWithType: ExcelWorksheet.Select
+    fullName: OfficeOpenXml.ExcelWorksheet.Select
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelAddress
+    name: ExcelAddress
+    nameWithType: ExcelAddress
+    fullName: OfficeOpenXml.ExcelAddress
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress,System.Boolean)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: Select(ExcelAddress, Boolean)
+  nameWithType: ExcelWorksheet.Select(ExcelAddress, Boolean)
+  fullName: OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress, System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress,System.Boolean)
+    name: Select
+    nameWithType: ExcelWorksheet.Select
+    fullName: OfficeOpenXml.ExcelWorksheet.Select
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelAddress
+    name: ExcelAddress
+    nameWithType: ExcelAddress
+    fullName: OfficeOpenXml.ExcelAddress
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.Select(OfficeOpenXml.ExcelAddress,System.Boolean)
+    name: Select
+    nameWithType: ExcelWorksheet.Select
+    fullName: OfficeOpenXml.ExcelWorksheet.Select
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelAddress
+    name: ExcelAddress
+    nameWithType: ExcelAddress
+    fullName: OfficeOpenXml.ExcelAddress
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: InsertRow(Int32, Int32)
+  nameWithType: ExcelWorksheet.InsertRow(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32,System.Int32)
+    name: InsertRow
+    nameWithType: ExcelWorksheet.InsertRow
+    fullName: OfficeOpenXml.ExcelWorksheet.InsertRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32,System.Int32)
+    name: InsertRow
+    nameWithType: ExcelWorksheet.InsertRow
+    fullName: OfficeOpenXml.ExcelWorksheet.InsertRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32,System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: InsertRow(Int32, Int32, Int32)
+  nameWithType: ExcelWorksheet.InsertRow(Int32, Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32, System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32,System.Int32,System.Int32)
+    name: InsertRow
+    nameWithType: ExcelWorksheet.InsertRow
+    fullName: OfficeOpenXml.ExcelWorksheet.InsertRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.InsertRow(System.Int32,System.Int32,System.Int32)
+    name: InsertRow
+    nameWithType: ExcelWorksheet.InsertRow
+    fullName: OfficeOpenXml.ExcelWorksheet.InsertRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: InsertColumn(Int32, Int32)
+  nameWithType: ExcelWorksheet.InsertColumn(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32,System.Int32)
+    name: InsertColumn
+    nameWithType: ExcelWorksheet.InsertColumn
+    fullName: OfficeOpenXml.ExcelWorksheet.InsertColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32,System.Int32)
+    name: InsertColumn
+    nameWithType: ExcelWorksheet.InsertColumn
+    fullName: OfficeOpenXml.ExcelWorksheet.InsertColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32,System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: InsertColumn(Int32, Int32, Int32)
+  nameWithType: ExcelWorksheet.InsertColumn(Int32, Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32, System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32,System.Int32,System.Int32)
+    name: InsertColumn
+    nameWithType: ExcelWorksheet.InsertColumn
+    fullName: OfficeOpenXml.ExcelWorksheet.InsertColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.InsertColumn(System.Int32,System.Int32,System.Int32)
+    name: InsertColumn
+    nameWithType: ExcelWorksheet.InsertColumn
+    fullName: OfficeOpenXml.ExcelWorksheet.InsertColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: DeleteRow(Int32)
+  nameWithType: ExcelWorksheet.DeleteRow(Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32)
+    name: DeleteRow
+    nameWithType: ExcelWorksheet.DeleteRow
+    fullName: OfficeOpenXml.ExcelWorksheet.DeleteRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32)
+    name: DeleteRow
+    nameWithType: ExcelWorksheet.DeleteRow
+    fullName: OfficeOpenXml.ExcelWorksheet.DeleteRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: DeleteRow(Int32, Int32)
+  nameWithType: ExcelWorksheet.DeleteRow(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32)
+    name: DeleteRow
+    nameWithType: ExcelWorksheet.DeleteRow
+    fullName: OfficeOpenXml.ExcelWorksheet.DeleteRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32)
+    name: DeleteRow
+    nameWithType: ExcelWorksheet.DeleteRow
+    fullName: OfficeOpenXml.ExcelWorksheet.DeleteRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32,System.Boolean)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: DeleteRow(Int32, Int32, Boolean)
+  nameWithType: ExcelWorksheet.DeleteRow(Int32, Int32, Boolean)
+  fullName: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32, System.Int32, System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32,System.Boolean)
+    name: DeleteRow
+    nameWithType: ExcelWorksheet.DeleteRow
+    fullName: OfficeOpenXml.ExcelWorksheet.DeleteRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.DeleteRow(System.Int32,System.Int32,System.Boolean)
+    name: DeleteRow
+    nameWithType: ExcelWorksheet.DeleteRow
+    fullName: OfficeOpenXml.ExcelWorksheet.DeleteRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: DeleteColumn(Int32)
+  nameWithType: ExcelWorksheet.DeleteColumn(Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32)
+    name: DeleteColumn
+    nameWithType: ExcelWorksheet.DeleteColumn
+    fullName: OfficeOpenXml.ExcelWorksheet.DeleteColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32)
+    name: DeleteColumn
+    nameWithType: ExcelWorksheet.DeleteColumn
+    fullName: OfficeOpenXml.ExcelWorksheet.DeleteColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: DeleteColumn(Int32, Int32)
+  nameWithType: ExcelWorksheet.DeleteColumn(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32,System.Int32)
+    name: DeleteColumn
+    nameWithType: ExcelWorksheet.DeleteColumn
+    fullName: OfficeOpenXml.ExcelWorksheet.DeleteColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.DeleteColumn(System.Int32,System.Int32)
+    name: DeleteColumn
+    nameWithType: ExcelWorksheet.DeleteColumn
+    fullName: OfficeOpenXml.ExcelWorksheet.DeleteColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.GetValue(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.GetValue(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: GetValue(Int32, Int32)
+  nameWithType: ExcelWorksheet.GetValue(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.GetValue(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.GetValue(System.Int32,System.Int32)
+    name: GetValue
+    nameWithType: ExcelWorksheet.GetValue
+    fullName: OfficeOpenXml.ExcelWorksheet.GetValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.GetValue(System.Int32,System.Int32)
+    name: GetValue
+    nameWithType: ExcelWorksheet.GetValue
+    fullName: OfficeOpenXml.ExcelWorksheet.GetValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.GetValue``1(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.GetValue``1(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: GetValue<T>(Int32, Int32)
+  nameWithType: ExcelWorksheet.GetValue<T>(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.GetValue<T>(System.Int32, System.Int32)
+  nameWithType.vb: ExcelWorksheet.GetValue(Of T)(Int32, Int32)
+  fullName.vb: OfficeOpenXml.ExcelWorksheet.GetValue(Of T)(System.Int32, System.Int32)
+  name.vb: GetValue(Of T)(Int32, Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.GetValue``1(System.Int32,System.Int32)
+    name: GetValue<T>
+    nameWithType: ExcelWorksheet.GetValue<T>
+    fullName: OfficeOpenXml.ExcelWorksheet.GetValue<T>
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.GetValue``1(System.Int32,System.Int32)
+    name: GetValue(Of T)
+    nameWithType: ExcelWorksheet.GetValue(Of T)
+    fullName: OfficeOpenXml.ExcelWorksheet.GetValue(Of T)
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.SetValue(System.Int32,System.Int32,System.Object)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.SetValue(System.Int32,System.Int32,System.Object)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: SetValue(Int32, Int32, Object)
+  nameWithType: ExcelWorksheet.SetValue(Int32, Int32, Object)
+  fullName: OfficeOpenXml.ExcelWorksheet.SetValue(System.Int32, System.Int32, System.Object)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.SetValue(System.Int32,System.Int32,System.Object)
+    name: SetValue
+    nameWithType: ExcelWorksheet.SetValue
+    fullName: OfficeOpenXml.ExcelWorksheet.SetValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.SetValue(System.Int32,System.Int32,System.Object)
+    name: SetValue
+    nameWithType: ExcelWorksheet.SetValue
+    fullName: OfficeOpenXml.ExcelWorksheet.SetValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.SetValue(System.String,System.Object)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.SetValue(System.String,System.Object)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: SetValue(String, Object)
+  nameWithType: ExcelWorksheet.SetValue(String, Object)
+  fullName: OfficeOpenXml.ExcelWorksheet.SetValue(System.String, System.Object)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.SetValue(System.String,System.Object)
+    name: SetValue
+    nameWithType: ExcelWorksheet.SetValue
+    fullName: OfficeOpenXml.ExcelWorksheet.SetValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.SetValue(System.String,System.Object)
+    name: SetValue
+    nameWithType: ExcelWorksheet.SetValue
+    fullName: OfficeOpenXml.ExcelWorksheet.SetValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.GetMergeCellId(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.GetMergeCellId(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorksheet
+  isExternal: true
+  name: GetMergeCellId(Int32, Int32)
+  nameWithType: ExcelWorksheet.GetMergeCellId(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorksheet.GetMergeCellId(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.GetMergeCellId(System.Int32,System.Int32)
+    name: GetMergeCellId
+    nameWithType: ExcelWorksheet.GetMergeCellId
+    fullName: OfficeOpenXml.ExcelWorksheet.GetMergeCellId
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.GetMergeCellId(System.Int32,System.Int32)
+    name: GetMergeCellId
+    nameWithType: ExcelWorksheet.GetMergeCellId
+    fullName: OfficeOpenXml.ExcelWorksheet.GetMergeCellId
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.Dimension
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Dimension
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Dimension
+  nameWithType: ExcelWorksheet.Dimension
+  fullName: OfficeOpenXml.ExcelWorksheet.Dimension
+- uid: OfficeOpenXml.ExcelWorksheet.Protection
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Protection
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Protection
+  nameWithType: ExcelWorksheet.Protection
+  fullName: OfficeOpenXml.ExcelWorksheet.Protection
+- uid: OfficeOpenXml.ExcelWorksheet.ProtectedRanges
+  commentId: P:OfficeOpenXml.ExcelWorksheet.ProtectedRanges
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: ProtectedRanges
+  nameWithType: ExcelWorksheet.ProtectedRanges
+  fullName: OfficeOpenXml.ExcelWorksheet.ProtectedRanges
+- uid: OfficeOpenXml.ExcelWorksheet.Drawings
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Drawings
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Drawings
+  nameWithType: ExcelWorksheet.Drawings
+  fullName: OfficeOpenXml.ExcelWorksheet.Drawings
+- uid: OfficeOpenXml.ExcelWorksheet.SparklineGroups
+  commentId: P:OfficeOpenXml.ExcelWorksheet.SparklineGroups
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: SparklineGroups
+  nameWithType: ExcelWorksheet.SparklineGroups
+  fullName: OfficeOpenXml.ExcelWorksheet.SparklineGroups
+- uid: OfficeOpenXml.ExcelWorksheet.Tables
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Tables
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Tables
+  nameWithType: ExcelWorksheet.Tables
+  fullName: OfficeOpenXml.ExcelWorksheet.Tables
+- uid: OfficeOpenXml.ExcelWorksheet.PivotTables
+  commentId: P:OfficeOpenXml.ExcelWorksheet.PivotTables
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: PivotTables
+  nameWithType: ExcelWorksheet.PivotTables
+  fullName: OfficeOpenXml.ExcelWorksheet.PivotTables
+- uid: OfficeOpenXml.ExcelWorksheet.ConditionalFormatting
+  commentId: P:OfficeOpenXml.ExcelWorksheet.ConditionalFormatting
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: ConditionalFormatting
+  nameWithType: ExcelWorksheet.ConditionalFormatting
+  fullName: OfficeOpenXml.ExcelWorksheet.ConditionalFormatting
+- uid: OfficeOpenXml.ExcelWorksheet.DataValidations
+  commentId: P:OfficeOpenXml.ExcelWorksheet.DataValidations
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: DataValidations
+  nameWithType: ExcelWorksheet.DataValidations
+  fullName: OfficeOpenXml.ExcelWorksheet.DataValidations
+- uid: OfficeOpenXml.ExcelWorksheet.IgnoredErrors
+  commentId: P:OfficeOpenXml.ExcelWorksheet.IgnoredErrors
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: IgnoredErrors
+  nameWithType: ExcelWorksheet.IgnoredErrors
+  fullName: OfficeOpenXml.ExcelWorksheet.IgnoredErrors
+- uid: OfficeOpenXml.ExcelWorksheet.BackgroundImage
+  commentId: P:OfficeOpenXml.ExcelWorksheet.BackgroundImage
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: BackgroundImage
+  nameWithType: ExcelWorksheet.BackgroundImage
+  fullName: OfficeOpenXml.ExcelWorksheet.BackgroundImage
+- uid: OfficeOpenXml.ExcelWorksheet.Workbook
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Workbook
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Workbook
+  nameWithType: ExcelWorksheet.Workbook
+  fullName: OfficeOpenXml.ExcelWorksheet.Workbook
+- uid: OfficeOpenXml.ExcelWorksheet.Dispose
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Dispose
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Dispose()
+  nameWithType: ExcelWorksheet.Dispose()
+  fullName: OfficeOpenXml.ExcelWorksheet.Dispose()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.Dispose
+    name: Dispose
+    nameWithType: ExcelWorksheet.Dispose
+    fullName: OfficeOpenXml.ExcelWorksheet.Dispose
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.Dispose
+    name: Dispose
+    nameWithType: ExcelWorksheet.Dispose
+    fullName: OfficeOpenXml.ExcelWorksheet.Dispose
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.Equals(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.ExcelWorksheet)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.Equals(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.ExcelWorksheet)
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Equals(ExcelWorksheet, ExcelWorksheet)
+  nameWithType: ExcelWorksheet.Equals(ExcelWorksheet, ExcelWorksheet)
+  fullName: OfficeOpenXml.ExcelWorksheet.Equals(OfficeOpenXml.ExcelWorksheet, OfficeOpenXml.ExcelWorksheet)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.Equals(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.ExcelWorksheet)
+    name: Equals
+    nameWithType: ExcelWorksheet.Equals
+    fullName: OfficeOpenXml.ExcelWorksheet.Equals
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.Equals(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.ExcelWorksheet)
+    name: Equals
+    nameWithType: ExcelWorksheet.Equals
+    fullName: OfficeOpenXml.ExcelWorksheet.Equals
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.GetHashCode(OfficeOpenXml.ExcelWorksheet)
+  commentId: M:OfficeOpenXml.ExcelWorksheet.GetHashCode(OfficeOpenXml.ExcelWorksheet)
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: GetHashCode(ExcelWorksheet)
+  nameWithType: ExcelWorksheet.GetHashCode(ExcelWorksheet)
+  fullName: OfficeOpenXml.ExcelWorksheet.GetHashCode(OfficeOpenXml.ExcelWorksheet)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelWorksheet.GetHashCode(OfficeOpenXml.ExcelWorksheet)
+    name: GetHashCode
+    nameWithType: ExcelWorksheet.GetHashCode
+    fullName: OfficeOpenXml.ExcelWorksheet.GetHashCode
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelWorksheet.GetHashCode(OfficeOpenXml.ExcelWorksheet)
+    name: GetHashCode
+    nameWithType: ExcelWorksheet.GetHashCode
+    fullName: OfficeOpenXml.ExcelWorksheet.GetHashCode
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.Rows
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Rows
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Rows
+  nameWithType: ExcelWorksheet.Rows
+  fullName: OfficeOpenXml.ExcelWorksheet.Rows
+- uid: OfficeOpenXml.ExcelWorksheet.Columns
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Columns
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Columns
+  nameWithType: ExcelWorksheet.Columns
+  fullName: OfficeOpenXml.ExcelWorksheet.Columns
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+  parent: OfficeOpenXml.CalculationExtension
+  definition: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+  name: Calculate()
+  nameWithType: CalculationExtension.Calculate()
+  fullName: OfficeOpenXml.CalculationExtension.Calculate()
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate(System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  parent: OfficeOpenXml.CalculationExtension
+  definition: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  name: Calculate(Action<ExcelCalculationOption>)
+  nameWithType: CalculationExtension.Calculate(Action<ExcelCalculationOption>)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(System.Action<OfficeOpenXml.FormulaParsing.ExcelCalculationOption>)
+  nameWithType.vb: CalculationExtension.Calculate(Action(Of ExcelCalculationOption))
+  fullName.vb: OfficeOpenXml.CalculationExtension.Calculate(System.Action(Of OfficeOpenXml.FormulaParsing.ExcelCalculationOption))
+  name.vb: Calculate(Action(Of ExcelCalculationOption))
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  parent: OfficeOpenXml.CalculationExtension
+  definition: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  name: Calculate(ExcelCalculationOption)
+  nameWithType: CalculationExtension.Calculate(ExcelCalculationOption)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate(System.String)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String)
+  parent: OfficeOpenXml.CalculationExtension
+  definition: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String)
+  name: Calculate(String)
+  nameWithType: CalculationExtension.Calculate(String)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(System.String)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(System.String)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.OfficeOpenXml.CalculationExtension.Calculate(System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  parent: OfficeOpenXml.CalculationExtension
+  definition: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  name: Calculate(String, ExcelCalculationOption)
+  nameWithType: CalculationExtension.Calculate(String, ExcelCalculationOption)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(System.String, OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEqualityComparer`1
+  commentId: T:System.Collections.Generic.IEqualityComparer`1
+  isExternal: true
+  name: IEqualityComparer<T>
+  nameWithType: IEqualityComparer<T>
+  fullName: System.Collections.Generic.IEqualityComparer<T>
+  nameWithType.vb: IEqualityComparer(Of T)
+  fullName.vb: System.Collections.Generic.IEqualityComparer(Of T)
+  name.vb: IEqualityComparer(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    nameWithType: IEqualityComparer
+    fullName: System.Collections.Generic.IEqualityComparer
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    nameWithType: IEqualityComparer
+    fullName: System.Collections.Generic.IEqualityComparer
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+  name: Calculate(ExcelWorksheet)
+  nameWithType: CalculationExtension.Calculate(ExcelWorksheet)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.CalculationExtension
+  commentId: T:OfficeOpenXml.CalculationExtension
+  parent: OfficeOpenXml
+  name: CalculationExtension
+  nameWithType: CalculationExtension
+  fullName: OfficeOpenXml.CalculationExtension
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  isExternal: true
+  name: Calculate(ExcelWorksheet, Action<ExcelCalculationOption>)
+  nameWithType: CalculationExtension.Calculate(ExcelWorksheet, Action<ExcelCalculationOption>)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet, System.Action<OfficeOpenXml.FormulaParsing.ExcelCalculationOption>)
+  nameWithType.vb: CalculationExtension.Calculate(ExcelWorksheet, Action(Of ExcelCalculationOption))
+  fullName.vb: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet, System.Action(Of OfficeOpenXml.FormulaParsing.ExcelCalculationOption))
+  name.vb: Calculate(ExcelWorksheet, Action(Of ExcelCalculationOption))
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  name: Calculate(ExcelWorksheet, ExcelCalculationOption)
+  nameWithType: CalculationExtension.Calculate(ExcelWorksheet, ExcelCalculationOption)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet, OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String)
+  isExternal: true
+  name: Calculate(ExcelWorksheet, String)
+  nameWithType: CalculationExtension.Calculate(ExcelWorksheet, String)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet, System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  isExternal: true
+  name: Calculate(ExcelWorksheet, String, ExcelCalculationOption)
+  nameWithType: CalculationExtension.Calculate(ExcelWorksheet, String, ExcelCalculationOption)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet, System.String, OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelChartsheet.Chart*
+  commentId: Overload:OfficeOpenXml.ExcelChartsheet.Chart
+  name: Chart
+  nameWithType: ExcelChartsheet.Chart
+  fullName: OfficeOpenXml.ExcelChartsheet.Chart
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChart
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChart
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChart
+  nameWithType: ExcelChart
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChart
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart

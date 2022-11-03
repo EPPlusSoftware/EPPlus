@@ -1,0 +1,1204 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  commentId: T:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  id: IExcelHtmlRangeExporter
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces
+  children:
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetCssString
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetCssStringAsync
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString(System.Int32)
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString(System.Int32,OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString(System.Int32,System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings})
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync(System.Int32,OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync(System.Int32,System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings})
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetSinglePage(System.String)
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetSinglePageAsync(System.String)
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.Ranges
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderCss(System.IO.Stream)
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderCssAsync(System.IO.Stream)
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml(System.IO.Stream)
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml(System.IO.Stream,System.Int32,OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml(System.IO.Stream,System.Int32,System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings})
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync(System.IO.Stream)
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync(System.IO.Stream,System.Int32,OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync(System.IO.Stream,System.Int32,System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings})
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.Settings
+  langs:
+  - csharp
+  - vb
+  name: IExcelHtmlRangeExporter
+  nameWithType: IExcelHtmlRangeExporter
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelHtmlRangeExporter
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nPublic interface for the Html exporter\n"
+  example: []
+  syntax:
+    content: public interface IExcelHtmlRangeExporter
+    content.vb: Public Interface IExcelHtmlRangeExporter
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.Settings
+  commentId: P:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.Settings
+  id: Settings
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: Settings
+  nameWithType: IExcelHtmlRangeExporter.Settings
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.Settings
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Settings
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nSettings for how to perform the html export\n"
+  example: []
+  syntax:
+    content: HtmlRangeExportSettings Settings { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.HtmlRangeExportSettings
+    content.vb: ReadOnly Property Settings As HtmlRangeExportSettings
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.Settings*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.Ranges
+  commentId: P:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.Ranges
+  id: Ranges
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: Ranges
+  nameWithType: IExcelHtmlRangeExporter.Ranges
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.Ranges
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Ranges
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExported ranges\n"
+  example: []
+  syntax:
+    content: EPPlusReadOnlyList<ExcelRangeBase> Ranges { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExcelRangeBase}
+    content.vb: ReadOnly Property Ranges As EPPlusReadOnlyList(Of ExcelRangeBase)
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.Ranges*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString
+  id: GetHtmlString
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: GetHtmlString()
+  nameWithType: IExcelHtmlRangeExporter.GetHtmlString()
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetHtmlString
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: string GetHtmlString()
+    return:
+      type: System.String
+      description: A html table
+    content.vb: Function GetHtmlString As String
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString(System.Int32)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString(System.Int32)
+  id: GetHtmlString(System.Int32)
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: GetHtmlString(Int32)
+  nameWithType: IExcelHtmlRangeExporter.GetHtmlString(Int32)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetHtmlString
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: string GetHtmlString(int rangeIndex)
+    parameters:
+    - id: rangeIndex
+      type: System.Int32
+      description: 0-based index of the requested range
+    return:
+      type: System.String
+      description: A html table
+    content.vb: Function GetHtmlString(rangeIndex As Integer) As String
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString(System.Int32,OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString(System.Int32,OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  id: GetHtmlString(System.Int32,OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: GetHtmlString(Int32, ExcelHtmlOverrideExportSettings)
+  nameWithType: IExcelHtmlRangeExporter.GetHtmlString(Int32, ExcelHtmlOverrideExportSettings)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString(System.Int32, OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetHtmlString
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 57
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: string GetHtmlString(int rangeIndex, ExcelHtmlOverrideExportSettings settings)
+    parameters:
+    - id: rangeIndex
+      type: System.Int32
+      description: Index of the range to export
+    - id: settings
+      type: OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings
+      description: Override some of the settings for this html exclusively
+    return:
+      type: System.String
+      description: A html table
+    content.vb: Function GetHtmlString(rangeIndex As Integer, settings As ExcelHtmlOverrideExportSettings) As String
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString(System.Int32,System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings})
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString(System.Int32,System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings})
+  id: GetHtmlString(System.Int32,System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings})
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: GetHtmlString(Int32, Action<ExcelHtmlOverrideExportSettings>)
+  nameWithType: IExcelHtmlRangeExporter.GetHtmlString(Int32, Action<ExcelHtmlOverrideExportSettings>)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString(System.Int32, System.Action<OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetHtmlString
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: string GetHtmlString(int rangeIndex, Action<ExcelHtmlOverrideExportSettings> config)
+    parameters:
+    - id: rangeIndex
+      type: System.Int32
+      description: Index of the range to export
+    - id: config
+      type: System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings}
+      description: Override some of the settings for this html exclusively
+    return:
+      type: System.String
+      description: ''
+    content.vb: Function GetHtmlString(rangeIndex As Integer, config As Action(Of ExcelHtmlOverrideExportSettings)) As String
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString*
+  nameWithType.vb: IExcelHtmlRangeExporter.GetHtmlString(Int32, Action(Of ExcelHtmlOverrideExportSettings))
+  fullName.vb: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString(System.Int32, System.Action(Of OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings))
+  name.vb: GetHtmlString(Int32, Action(Of ExcelHtmlOverrideExportSettings))
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml(System.IO.Stream)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml(System.IO.Stream)
+  id: RenderHtml(System.IO.Stream)
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: RenderHtml(Stream)
+  nameWithType: IExcelHtmlRangeExporter.RenderHtml(Stream)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml(System.IO.Stream)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RenderHtml
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 72
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: void RenderHtml(Stream stream)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream to write to
+    content.vb: Sub RenderHtml(stream As Stream)
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml(System.IO.Stream,System.Int32,OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml(System.IO.Stream,System.Int32,OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  id: RenderHtml(System.IO.Stream,System.Int32,OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: RenderHtml(Stream, Int32, ExcelHtmlOverrideExportSettings)
+  nameWithType: IExcelHtmlRangeExporter.RenderHtml(Stream, Int32, ExcelHtmlOverrideExportSettings)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml(System.IO.Stream, System.Int32, OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RenderHtml
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 81
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: void RenderHtml(Stream stream, int rangeIndex, ExcelHtmlOverrideExportSettings overrideSettings = null)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream to write to
+    - id: rangeIndex
+      type: System.Int32
+      description: The index of the range to output.
+    - id: overrideSettings
+      type: OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings
+      description: Settings for this specific range index
+    content.vb: Sub RenderHtml(stream As Stream, rangeIndex As Integer, overrideSettings As ExcelHtmlOverrideExportSettings = Nothing)
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml(System.IO.Stream,System.Int32,System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings})
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml(System.IO.Stream,System.Int32,System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings})
+  id: RenderHtml(System.IO.Stream,System.Int32,System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings})
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: RenderHtml(Stream, Int32, Action<ExcelHtmlOverrideExportSettings>)
+  nameWithType: IExcelHtmlRangeExporter.RenderHtml(Stream, Int32, Action<ExcelHtmlOverrideExportSettings>)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml(System.IO.Stream, System.Int32, System.Action<OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RenderHtml
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: void RenderHtml(Stream stream, int rangeIndex, Action<ExcelHtmlOverrideExportSettings> config)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream to write to
+    - id: rangeIndex
+      type: System.Int32
+      description: The index of the range to output.
+    - id: config
+      type: System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings}
+      description: Settings for this specific range index
+    content.vb: Sub RenderHtml(stream As Stream, rangeIndex As Integer, config As Action(Of ExcelHtmlOverrideExportSettings))
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml*
+  nameWithType.vb: IExcelHtmlRangeExporter.RenderHtml(Stream, Int32, Action(Of ExcelHtmlOverrideExportSettings))
+  fullName.vb: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml(System.IO.Stream, System.Int32, System.Action(Of OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings))
+  name.vb: RenderHtml(Stream, Int32, Action(Of ExcelHtmlOverrideExportSettings))
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetSinglePage(System.String)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetSinglePage(System.String)
+  id: GetSinglePage(System.String)
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: GetSinglePage(String)
+  nameWithType: IExcelHtmlRangeExporter.GetSinglePage(String)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetSinglePage(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetSinglePage
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 97
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nRenders both the Html and the Css to a single page. \n"
+  example: []
+  syntax:
+    content: string GetSinglePage(string htmlDocument = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}\r\n</body>\r\n</html>")
+    parameters:
+    - id: htmlDocument
+      type: System.String
+      description: The html string where to insert the html and the css. The Html will be inserted in string parameter {0} and the Css will be inserted in parameter {1}.
+    return:
+      type: System.String
+      description: The html document
+    content.vb: Function GetSinglePage(htmlDocument As String = "<!DOCTYPE html>" & vbCrLf & "<html>" & vbCrLf & "<head>" & vbCrLf & "<style type=""text/css"">" & vbCrLf & "{1}</style></head>" & vbCrLf & "<body>" & vbCrLf & "{0}" & vbCrLf & "</body>" & vbCrLf & "</html>") As String
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetSinglePage*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetCssString
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetCssString
+  id: GetCssString
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: GetCssString()
+  nameWithType: IExcelHtmlRangeExporter.GetCssString()
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetCssString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetCssString
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 103
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: string GetCssString()
+    return:
+      type: System.String
+      description: Cascading style sheet for the exported range
+    content.vb: Function GetCssString As String
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetCssString*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderCss(System.IO.Stream)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderCss(System.IO.Stream)
+  id: RenderCss(System.IO.Stream)
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: RenderCss(Stream)
+  nameWithType: IExcelHtmlRangeExporter.RenderCss(Stream)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderCss(System.IO.Stream)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RenderCss
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports the css part of the html export.\n"
+  example: []
+  syntax:
+    content: void RenderCss(Stream stream)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream to write the css to.
+    content.vb: Sub RenderCss(stream As Stream)
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderCss*
+  exceptions:
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync
+  id: GetHtmlStringAsync
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: GetHtmlStringAsync()
+  nameWithType: IExcelHtmlRangeExporter.GetHtmlStringAsync()
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetHtmlStringAsync
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 117
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: Task<string> GetHtmlStringAsync()
+    return:
+      type: System.Threading.Tasks.Task{System.String}
+      description: A html table
+    content.vb: Function GetHtmlStringAsync As Task(Of String)
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync(System.Int32,OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync(System.Int32,OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  id: GetHtmlStringAsync(System.Int32,OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: GetHtmlStringAsync(Int32, ExcelHtmlOverrideExportSettings)
+  nameWithType: IExcelHtmlRangeExporter.GetHtmlStringAsync(Int32, ExcelHtmlOverrideExportSettings)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync(System.Int32, OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetHtmlStringAsync
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 125
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: Task<string> GetHtmlStringAsync(int rangeIndex, ExcelHtmlOverrideExportSettings settings = null)
+    parameters:
+    - id: rangeIndex
+      type: System.Int32
+      description: Index of the range to export
+    - id: settings
+      type: OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings
+      description: Override some of the settings for this html exclusively
+    return:
+      type: System.Threading.Tasks.Task{System.String}
+      description: A html table
+    content.vb: Function GetHtmlStringAsync(rangeIndex As Integer, settings As ExcelHtmlOverrideExportSettings = Nothing) As Task(Of String)
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync(System.Int32,System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings})
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync(System.Int32,System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings})
+  id: GetHtmlStringAsync(System.Int32,System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings})
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: GetHtmlStringAsync(Int32, Action<ExcelHtmlOverrideExportSettings>)
+  nameWithType: IExcelHtmlRangeExporter.GetHtmlStringAsync(Int32, Action<ExcelHtmlOverrideExportSettings>)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync(System.Int32, System.Action<OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetHtmlStringAsync
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 133
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: Task<string> GetHtmlStringAsync(int rangeIndex, Action<ExcelHtmlOverrideExportSettings> config)
+    parameters:
+    - id: rangeIndex
+      type: System.Int32
+      description: Index of the range to export
+    - id: config
+      type: System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings}
+      description: Override some of the settings for this html exclusively
+    return:
+      type: System.Threading.Tasks.Task{System.String}
+      description: ''
+    content.vb: Function GetHtmlStringAsync(rangeIndex As Integer, config As Action(Of ExcelHtmlOverrideExportSettings)) As Task(Of String)
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync*
+  nameWithType.vb: IExcelHtmlRangeExporter.GetHtmlStringAsync(Int32, Action(Of ExcelHtmlOverrideExportSettings))
+  fullName.vb: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync(System.Int32, System.Action(Of OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings))
+  name.vb: GetHtmlStringAsync(Int32, Action(Of ExcelHtmlOverrideExportSettings))
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync(System.IO.Stream)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync(System.IO.Stream)
+  id: RenderHtmlAsync(System.IO.Stream)
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: RenderHtmlAsync(Stream)
+  nameWithType: IExcelHtmlRangeExporter.RenderHtmlAsync(Stream)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync(System.IO.Stream)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RenderHtmlAsync
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 140
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: Task RenderHtmlAsync(Stream stream)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream to write to
+    return:
+      type: System.Threading.Tasks.Task
+      description: A html table
+    content.vb: Function RenderHtmlAsync(stream As Stream) As Task
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync(System.IO.Stream,System.Int32,OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync(System.IO.Stream,System.Int32,OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  id: RenderHtmlAsync(System.IO.Stream,System.Int32,OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: RenderHtmlAsync(Stream, Int32, ExcelHtmlOverrideExportSettings)
+  nameWithType: IExcelHtmlRangeExporter.RenderHtmlAsync(Stream, Int32, ExcelHtmlOverrideExportSettings)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync(System.IO.Stream, System.Int32, OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RenderHtmlAsync
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 149
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports the html part of the html export, without the styles.\n"
+  example: []
+  syntax:
+    content: Task RenderHtmlAsync(Stream stream, int rangeIndex, ExcelHtmlOverrideExportSettings overrideSettings = null)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream to write to.
+    - id: rangeIndex
+      type: System.Int32
+      description: The index of the range to output.
+    - id: overrideSettings
+      type: OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings
+      description: Settings for this specific range index
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Function RenderHtmlAsync(stream As Stream, rangeIndex As Integer, overrideSettings As ExcelHtmlOverrideExportSettings = Nothing) As Task
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync*
+  exceptions:
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync(System.IO.Stream,System.Int32,System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings})
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync(System.IO.Stream,System.Int32,System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings})
+  id: RenderHtmlAsync(System.IO.Stream,System.Int32,System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings})
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: RenderHtmlAsync(Stream, Int32, Action<ExcelHtmlOverrideExportSettings>)
+  nameWithType: IExcelHtmlRangeExporter.RenderHtmlAsync(Stream, Int32, Action<ExcelHtmlOverrideExportSettings>)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync(System.IO.Stream, System.Int32, System.Action<OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RenderHtmlAsync
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 158
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports the html part of the html export, without the styles.\n"
+  example: []
+  syntax:
+    content: Task RenderHtmlAsync(Stream stream, int rangeIndex, Action<ExcelHtmlOverrideExportSettings> config)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream to write to.
+    - id: rangeIndex
+      type: System.Int32
+      description: Index of the range to export
+    - id: config
+      type: System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings}
+      description: Override some of the settings for this html exclusively
+    return:
+      type: System.Threading.Tasks.Task
+      description: ''
+    content.vb: Function RenderHtmlAsync(stream As Stream, rangeIndex As Integer, config As Action(Of ExcelHtmlOverrideExportSettings)) As Task
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync*
+  nameWithType.vb: IExcelHtmlRangeExporter.RenderHtmlAsync(Stream, Int32, Action(Of ExcelHtmlOverrideExportSettings))
+  fullName.vb: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync(System.IO.Stream, System.Int32, System.Action(Of OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings))
+  name.vb: RenderHtmlAsync(Stream, Int32, Action(Of ExcelHtmlOverrideExportSettings))
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetSinglePageAsync(System.String)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetSinglePageAsync(System.String)
+  id: GetSinglePageAsync(System.String)
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: GetSinglePageAsync(String)
+  nameWithType: IExcelHtmlRangeExporter.GetSinglePageAsync(String)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetSinglePageAsync(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetSinglePageAsync
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 165
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nRenders the first range of the Html and the Css to a single page. \n"
+  example: []
+  syntax:
+    content: Task<string> GetSinglePageAsync(string htmlDocument = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}\r\n</body>\r\n</html>")
+    parameters:
+    - id: htmlDocument
+      type: System.String
+      description: The html string where to insert the html and the css. The Html will be inserted in string parameter {0} and the Css will be inserted in parameter {1}.
+    return:
+      type: System.Threading.Tasks.Task{System.String}
+      description: The html document
+    content.vb: Function GetSinglePageAsync(htmlDocument As String = "<!DOCTYPE html>" & vbCrLf & "<html>" & vbCrLf & "<head>" & vbCrLf & "<style type=""text/css"">" & vbCrLf & "{1}</style></head>" & vbCrLf & "<body>" & vbCrLf & "{0}" & vbCrLf & "</body>" & vbCrLf & "</html>") As Task(Of String)
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetSinglePageAsync*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetCssStringAsync
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetCssStringAsync
+  id: GetCssStringAsync
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: GetCssStringAsync()
+  nameWithType: IExcelHtmlRangeExporter.GetCssStringAsync()
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetCssStringAsync()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetCssStringAsync
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 171
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports the css part of an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: Task<string> GetCssStringAsync()
+    return:
+      type: System.Threading.Tasks.Task{System.String}
+      description: A html table
+    content.vb: Function GetCssStringAsync As Task(Of String)
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetCssStringAsync*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderCssAsync(System.IO.Stream)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderCssAsync(System.IO.Stream)
+  id: RenderCssAsync(System.IO.Stream)
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  langs:
+  - csharp
+  - vb
+  name: RenderCssAsync(Stream)
+  nameWithType: IExcelHtmlRangeExporter.RenderCssAsync(Stream)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderCssAsync(System.IO.Stream)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RenderCssAsync
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlRangeExporter.cs
+    startLine: 177
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports the css part of an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: Task RenderCssAsync(Stream stream)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+    return:
+      type: System.Threading.Tasks.Task
+      description: A html table
+    content.vb: Function RenderCssAsync(stream As Stream) As Task
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderCssAsync*
+references:
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces
+  commentId: N:OfficeOpenXml.Export.HtmlExport.Interfaces
+  name: OfficeOpenXml.Export.HtmlExport.Interfaces
+  nameWithType: OfficeOpenXml.Export.HtmlExport.Interfaces
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.Settings*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.Settings
+  name: Settings
+  nameWithType: IExcelHtmlRangeExporter.Settings
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.Settings
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlRangeExportSettings
+  commentId: T:OfficeOpenXml.Export.HtmlExport.HtmlRangeExportSettings
+  parent: OfficeOpenXml.Export.HtmlExport
+  name: HtmlRangeExportSettings
+  nameWithType: HtmlRangeExportSettings
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlRangeExportSettings
+- uid: OfficeOpenXml.Export.HtmlExport
+  commentId: N:OfficeOpenXml.Export.HtmlExport
+  name: OfficeOpenXml.Export.HtmlExport
+  nameWithType: OfficeOpenXml.Export.HtmlExport
+  fullName: OfficeOpenXml.Export.HtmlExport
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.Ranges*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.Ranges
+  name: Ranges
+  nameWithType: IExcelHtmlRangeExporter.Ranges
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.Ranges
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExcelRangeBase}
+  commentId: T:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExcelRangeBase}
+  parent: OfficeOpenXml.Core
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  name: EPPlusReadOnlyList<ExcelRangeBase>
+  nameWithType: EPPlusReadOnlyList<ExcelRangeBase>
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.ExcelRangeBase>
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelRangeBase)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.ExcelRangeBase)
+  name.vb: EPPlusReadOnlyList(Of ExcelRangeBase)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  commentId: T:OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  name: EPPlusReadOnlyList<T>
+  nameWithType: EPPlusReadOnlyList<T>
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>
+  nameWithType.vb: EPPlusReadOnlyList(Of T)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T)
+  name.vb: EPPlusReadOnlyList(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core
+  commentId: N:OfficeOpenXml.Core
+  name: OfficeOpenXml.Core
+  nameWithType: OfficeOpenXml.Core
+  fullName: OfficeOpenXml.Core
+- uid: OfficeOpenXml.Table.ExcelTable
+  commentId: T:OfficeOpenXml.Table.ExcelTable
+  parent: OfficeOpenXml.Table
+  name: ExcelTable
+  nameWithType: ExcelTable
+  fullName: OfficeOpenXml.Table.ExcelTable
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString
+  name: GetHtmlString
+  nameWithType: IExcelHtmlRangeExporter.GetHtmlString
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings
+  commentId: T:OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings
+  parent: OfficeOpenXml.Export.HtmlExport
+  name: ExcelHtmlOverrideExportSettings
+  nameWithType: ExcelHtmlOverrideExportSettings
+  fullName: OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings
+- uid: System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings}
+  commentId: T:System.Action{OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings}
+  parent: System
+  definition: System.Action`1
+  name: Action<ExcelHtmlOverrideExportSettings>
+  nameWithType: Action<ExcelHtmlOverrideExportSettings>
+  fullName: System.Action<OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings>
+  nameWithType.vb: Action(Of ExcelHtmlOverrideExportSettings)
+  fullName.vb: System.Action(Of OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings)
+  name.vb: Action(Of ExcelHtmlOverrideExportSettings)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings
+    name: ExcelHtmlOverrideExportSettings
+    nameWithType: ExcelHtmlOverrideExportSettings
+    fullName: OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings
+    name: ExcelHtmlOverrideExportSettings
+    nameWithType: ExcelHtmlOverrideExportSettings
+    fullName: OfficeOpenXml.Export.HtmlExport.ExcelHtmlOverrideExportSettings
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml
+  name: RenderHtml
+  nameWithType: IExcelHtmlRangeExporter.RenderHtml
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtml
+- uid: System.IO.Stream
+  commentId: T:System.IO.Stream
+  parent: System.IO
+  isExternal: true
+  name: Stream
+  nameWithType: Stream
+  fullName: System.IO.Stream
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetSinglePage*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetSinglePage
+  name: GetSinglePage
+  nameWithType: IExcelHtmlRangeExporter.GetSinglePage
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetSinglePage
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetCssString*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetCssString
+  name: GetCssString
+  nameWithType: IExcelHtmlRangeExporter.GetCssString
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetCssString
+- uid: System.IO.IOException
+  commentId: T:System.IO.IOException
+  isExternal: true
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderCss*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderCss
+  name: RenderCss
+  nameWithType: IExcelHtmlRangeExporter.RenderCss
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderCss
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync
+  name: GetHtmlStringAsync
+  nameWithType: IExcelHtmlRangeExporter.GetHtmlStringAsync
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetHtmlStringAsync
+- uid: System.Threading.Tasks.Task{System.String}
+  commentId: T:System.Threading.Tasks.Task{System.String}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  name: Task<String>
+  nameWithType: Task<String>
+  fullName: System.Threading.Tasks.Task<System.String>
+  nameWithType.vb: Task(Of String)
+  fullName.vb: System.Threading.Tasks.Task(Of System.String)
+  name.vb: Task(Of String)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync
+  name: RenderHtmlAsync
+  nameWithType: IExcelHtmlRangeExporter.RenderHtmlAsync
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderHtmlAsync
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetSinglePageAsync*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetSinglePageAsync
+  name: GetSinglePageAsync
+  nameWithType: IExcelHtmlRangeExporter.GetSinglePageAsync
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetSinglePageAsync
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetCssStringAsync*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetCssStringAsync
+  name: GetCssStringAsync
+  nameWithType: IExcelHtmlRangeExporter.GetCssStringAsync
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.GetCssStringAsync
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderCssAsync*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderCssAsync
+  name: RenderCssAsync
+  nameWithType: IExcelHtmlRangeExporter.RenderCssAsync
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter.RenderCssAsync

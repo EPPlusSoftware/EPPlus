@@ -1,0 +1,22 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.Exporters
+  commentId: N:OfficeOpenXml.Export.HtmlExport.Exporters
+  id: OfficeOpenXml.Export.HtmlExport.Exporters
+  children:
+  - OfficeOpenXml.Export.HtmlExport.Exporters.ExcelHtmlExporterBase
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Export.HtmlExport.Exporters
+  nameWithType: OfficeOpenXml.Export.HtmlExport.Exporters
+  fullName: OfficeOpenXml.Export.HtmlExport.Exporters
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Export.HtmlExport.Exporters.ExcelHtmlExporterBase
+  commentId: T:OfficeOpenXml.Export.HtmlExport.Exporters.ExcelHtmlExporterBase
+  name: ExcelHtmlExporterBase
+  nameWithType: ExcelHtmlExporterBase
+  fullName: OfficeOpenXml.Export.HtmlExport.Exporters.ExcelHtmlExporterBase

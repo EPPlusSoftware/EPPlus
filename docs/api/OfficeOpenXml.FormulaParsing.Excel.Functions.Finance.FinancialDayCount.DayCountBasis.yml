@@ -1,0 +1,211 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  id: DayCountBasis
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.Actual_360
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.Actual_365
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.Actual_Actual
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.European_30_360
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.US_30_360
+  langs:
+  - csharp
+  - vb
+  name: DayCountBasis
+  nameWithType: DayCountBasis
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DayCountBasis
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  syntax:
+    content: public enum DayCountBasis
+    content.vb: Public Enum DayCountBasis
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.US_30_360
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.US_30_360
+  id: US_30_360
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  langs:
+  - csharp
+  - vb
+  name: US_30_360
+  nameWithType: DayCountBasis.US_30_360
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.US_30_360
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: US_30_360
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  syntax:
+    content: US_30_360 = 0
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.Actual_Actual
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.Actual_Actual
+  id: Actual_Actual
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  langs:
+  - csharp
+  - vb
+  name: Actual_Actual
+  nameWithType: DayCountBasis.Actual_Actual
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.Actual_Actual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Actual_Actual
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  syntax:
+    content: Actual_Actual = 1
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.Actual_360
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.Actual_360
+  id: Actual_360
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  langs:
+  - csharp
+  - vb
+  name: Actual_360
+  nameWithType: DayCountBasis.Actual_360
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.Actual_360
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Actual_360
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  syntax:
+    content: Actual_360 = 2
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.Actual_365
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.Actual_365
+  id: Actual_365
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  langs:
+  - csharp
+  - vb
+  name: Actual_365
+  nameWithType: DayCountBasis.Actual_365
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.Actual_365
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Actual_365
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  syntax:
+    content: Actual_365 = 3
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.European_30_360
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.European_30_360
+  id: European_30_360
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  langs:
+  - csharp
+  - vb
+  name: European_30_360
+  nameWithType: DayCountBasis.European_30_360
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis.European_30_360
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: European_30_360
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  syntax:
+    content: European_30_360 = 4
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  name: DayCountBasis
+  nameWithType: DayCountBasis
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis

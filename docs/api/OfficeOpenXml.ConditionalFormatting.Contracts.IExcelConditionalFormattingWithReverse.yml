@@ -1,0 +1,95 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithReverse
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithReverse
+  id: IExcelConditionalFormattingWithReverse
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  children:
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithReverse.Reverse
+  langs:
+  - csharp
+  - vb
+  name: IExcelConditionalFormattingWithReverse
+  nameWithType: IExcelConditionalFormattingWithReverse
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithReverse
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithReverse.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelConditionalFormattingWithReverse
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithReverse.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nIExcelConditionalFormattingWithReverse\n"
+  example: []
+  syntax:
+    content: public interface IExcelConditionalFormattingWithReverse
+    content.vb: Public Interface IExcelConditionalFormattingWithReverse
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithReverse.Reverse
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithReverse.Reverse
+  id: Reverse
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithReverse
+  langs:
+  - csharp
+  - vb
+  name: Reverse
+  nameWithType: IExcelConditionalFormattingWithReverse.Reverse
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithReverse.Reverse
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithReverse.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Reverse
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithReverse.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nReverse Attribute\n"
+  example: []
+  syntax:
+    content: bool Reverse { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Property Reverse As Boolean
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithReverse.Reverse*
+  modifiers.csharp:
+  - get
+  - set
+references:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts
+  commentId: N:OfficeOpenXml.ConditionalFormatting.Contracts
+  name: OfficeOpenXml.ConditionalFormatting.Contracts
+  nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithReverse.Reverse*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithReverse.Reverse
+  name: Reverse
+  nameWithType: IExcelConditionalFormattingWithReverse.Reverse
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithReverse.Reverse
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

@@ -1,0 +1,258 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eAreaChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eAreaChartType
+  id: eAreaChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eAreaChartType.Area
+  - OfficeOpenXml.Drawing.Chart.eAreaChartType.Area3D
+  - OfficeOpenXml.Drawing.Chart.eAreaChartType.AreaStacked
+  - OfficeOpenXml.Drawing.Chart.eAreaChartType.AreaStacked100
+  - OfficeOpenXml.Drawing.Chart.eAreaChartType.AreaStacked1003D
+  - OfficeOpenXml.Drawing.Chart.eAreaChartType.AreaStacked3D
+  langs:
+  - csharp
+  - vb
+  name: eAreaChartType
+  nameWithType: eAreaChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eAreaChartType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eAreaChartType
+    path: ../src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nArea chart type\n"
+  example: []
+  syntax:
+    content: public enum eAreaChartType
+    content.vb: Public Enum eAreaChartType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eAreaChartType.Area
+  commentId: F:OfficeOpenXml.Drawing.Chart.eAreaChartType.Area
+  id: Area
+  parent: OfficeOpenXml.Drawing.Chart.eAreaChartType
+  langs:
+  - csharp
+  - vb
+  name: Area
+  nameWithType: eAreaChartType.Area
+  fullName: OfficeOpenXml.Drawing.Chart.eAreaChartType.Area
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Area
+    path: ../src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAn area chart\n"
+  example: []
+  syntax:
+    content: Area = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAreaChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eAreaChartType.AreaStacked
+  commentId: F:OfficeOpenXml.Drawing.Chart.eAreaChartType.AreaStacked
+  id: AreaStacked
+  parent: OfficeOpenXml.Drawing.Chart.eAreaChartType
+  langs:
+  - csharp
+  - vb
+  name: AreaStacked
+  nameWithType: eAreaChartType.AreaStacked
+  fullName: OfficeOpenXml.Drawing.Chart.eAreaChartType.AreaStacked
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AreaStacked
+    path: ../src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked area chart\n"
+  example: []
+  syntax:
+    content: AreaStacked = 76
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAreaChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eAreaChartType.AreaStacked100
+  commentId: F:OfficeOpenXml.Drawing.Chart.eAreaChartType.AreaStacked100
+  id: AreaStacked100
+  parent: OfficeOpenXml.Drawing.Chart.eAreaChartType
+  langs:
+  - csharp
+  - vb
+  name: AreaStacked100
+  nameWithType: eAreaChartType.AreaStacked100
+  fullName: OfficeOpenXml.Drawing.Chart.eAreaChartType.AreaStacked100
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AreaStacked100
+    path: ../src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked 100 percent area chart\n"
+  example: []
+  syntax:
+    content: AreaStacked100 = 77
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAreaChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eAreaChartType.Area3D
+  commentId: F:OfficeOpenXml.Drawing.Chart.eAreaChartType.Area3D
+  id: Area3D
+  parent: OfficeOpenXml.Drawing.Chart.eAreaChartType
+  langs:
+  - csharp
+  - vb
+  name: Area3D
+  nameWithType: eAreaChartType.Area3D
+  fullName: OfficeOpenXml.Drawing.Chart.eAreaChartType.Area3D
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Area3D
+    path: ../src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAn 3D area chart\n"
+  example: []
+  syntax:
+    content: Area3D = -4098
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAreaChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eAreaChartType.AreaStacked3D
+  commentId: F:OfficeOpenXml.Drawing.Chart.eAreaChartType.AreaStacked3D
+  id: AreaStacked3D
+  parent: OfficeOpenXml.Drawing.Chart.eAreaChartType
+  langs:
+  - csharp
+  - vb
+  name: AreaStacked3D
+  nameWithType: eAreaChartType.AreaStacked3D
+  fullName: OfficeOpenXml.Drawing.Chart.eAreaChartType.AreaStacked3D
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AreaStacked3D
+    path: ../src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked area 3D chart\n"
+  example: []
+  syntax:
+    content: AreaStacked3D = 78
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAreaChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eAreaChartType.AreaStacked1003D
+  commentId: F:OfficeOpenXml.Drawing.Chart.eAreaChartType.AreaStacked1003D
+  id: AreaStacked1003D
+  parent: OfficeOpenXml.Drawing.Chart.eAreaChartType
+  langs:
+  - csharp
+  - vb
+  name: AreaStacked1003D
+  nameWithType: eAreaChartType.AreaStacked1003D
+  fullName: OfficeOpenXml.Drawing.Chart.eAreaChartType.AreaStacked1003D
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AreaStacked1003D
+    path: ../src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked 100 percent 3D area chart\n"
+  example: []
+  syntax:
+    content: AreaStacked1003D = 79
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAreaChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eAreaChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eAreaChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eAreaChartType
+  nameWithType: eAreaChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eAreaChartType

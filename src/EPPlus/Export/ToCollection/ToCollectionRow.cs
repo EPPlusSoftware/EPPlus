@@ -20,7 +20,7 @@ using System.Reflection;
 namespace OfficeOpenXml.Export.ToCollection
 {
     /// <summary>
-    /// An object that represents a row in the callback function in <see cref="ExcelRangeBase.ToCollection{T}(Func{ToCollectionRow, T}, ToCollectionRangeOptions)"/>
+    /// An object that represents a row in the callback function in <see cref="ExcelRangeBase.ToCollectionWithMappings{T}(Func{ToCollectionRow, T}, ToCollectionRangeOptions)"/>
     /// </summary>
     public class ToCollectionRow
     {

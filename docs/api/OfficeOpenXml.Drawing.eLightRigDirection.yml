@@ -1,0 +1,328 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eLightRigDirection
+  commentId: T:OfficeOpenXml.Drawing.eLightRigDirection
+  id: eLightRigDirection
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eLightRigDirection.Bottom
+  - OfficeOpenXml.Drawing.eLightRigDirection.BottomLeft
+  - OfficeOpenXml.Drawing.eLightRigDirection.BottomRight
+  - OfficeOpenXml.Drawing.eLightRigDirection.Left
+  - OfficeOpenXml.Drawing.eLightRigDirection.Right
+  - OfficeOpenXml.Drawing.eLightRigDirection.Top
+  - OfficeOpenXml.Drawing.eLightRigDirection.TopLeft
+  - OfficeOpenXml.Drawing.eLightRigDirection.TopRight
+  langs:
+  - csharp
+  - vb
+  name: eLightRigDirection
+  nameWithType: eLightRigDirection
+  fullName: OfficeOpenXml.Drawing.eLightRigDirection
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eLightRigDirection
+    path: ../src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe direction from which the light rig is oriented in relation to the scene.\n"
+  example: []
+  syntax:
+    content: public enum eLightRigDirection
+    content.vb: Public Enum eLightRigDirection
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eLightRigDirection.Bottom
+  commentId: F:OfficeOpenXml.Drawing.eLightRigDirection.Bottom
+  id: Bottom
+  parent: OfficeOpenXml.Drawing.eLightRigDirection
+  langs:
+  - csharp
+  - vb
+  name: Bottom
+  nameWithType: eLightRigDirection.Bottom
+  fullName: OfficeOpenXml.Drawing.eLightRigDirection.Bottom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bottom
+    path: ../src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBottom\n"
+  example: []
+  syntax:
+    content: Bottom = 0
+    return:
+      type: OfficeOpenXml.Drawing.eLightRigDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLightRigDirection.BottomLeft
+  commentId: F:OfficeOpenXml.Drawing.eLightRigDirection.BottomLeft
+  id: BottomLeft
+  parent: OfficeOpenXml.Drawing.eLightRigDirection
+  langs:
+  - csharp
+  - vb
+  name: BottomLeft
+  nameWithType: eLightRigDirection.BottomLeft
+  fullName: OfficeOpenXml.Drawing.eLightRigDirection.BottomLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BottomLeft
+    path: ../src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBottom Left\n"
+  example: []
+  syntax:
+    content: BottomLeft = 1
+    return:
+      type: OfficeOpenXml.Drawing.eLightRigDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLightRigDirection.BottomRight
+  commentId: F:OfficeOpenXml.Drawing.eLightRigDirection.BottomRight
+  id: BottomRight
+  parent: OfficeOpenXml.Drawing.eLightRigDirection
+  langs:
+  - csharp
+  - vb
+  name: BottomRight
+  nameWithType: eLightRigDirection.BottomRight
+  fullName: OfficeOpenXml.Drawing.eLightRigDirection.BottomRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BottomRight
+    path: ../src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBottom Right\n"
+  example: []
+  syntax:
+    content: BottomRight = 2
+    return:
+      type: OfficeOpenXml.Drawing.eLightRigDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLightRigDirection.Left
+  commentId: F:OfficeOpenXml.Drawing.eLightRigDirection.Left
+  id: Left
+  parent: OfficeOpenXml.Drawing.eLightRigDirection
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: eLightRigDirection.Left
+  fullName: OfficeOpenXml.Drawing.eLightRigDirection.Left
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Left
+    path: ../src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLeft\n"
+  example: []
+  syntax:
+    content: Left = 3
+    return:
+      type: OfficeOpenXml.Drawing.eLightRigDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLightRigDirection.Right
+  commentId: F:OfficeOpenXml.Drawing.eLightRigDirection.Right
+  id: Right
+  parent: OfficeOpenXml.Drawing.eLightRigDirection
+  langs:
+  - csharp
+  - vb
+  name: Right
+  nameWithType: eLightRigDirection.Right
+  fullName: OfficeOpenXml.Drawing.eLightRigDirection.Right
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Right
+    path: ../src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRight\n"
+  example: []
+  syntax:
+    content: Right = 4
+    return:
+      type: OfficeOpenXml.Drawing.eLightRigDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLightRigDirection.Top
+  commentId: F:OfficeOpenXml.Drawing.eLightRigDirection.Top
+  id: Top
+  parent: OfficeOpenXml.Drawing.eLightRigDirection
+  langs:
+  - csharp
+  - vb
+  name: Top
+  nameWithType: eLightRigDirection.Top
+  fullName: OfficeOpenXml.Drawing.eLightRigDirection.Top
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Top
+    path: ../src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nTop\n"
+  example: []
+  syntax:
+    content: Top = 5
+    return:
+      type: OfficeOpenXml.Drawing.eLightRigDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLightRigDirection.TopLeft
+  commentId: F:OfficeOpenXml.Drawing.eLightRigDirection.TopLeft
+  id: TopLeft
+  parent: OfficeOpenXml.Drawing.eLightRigDirection
+  langs:
+  - csharp
+  - vb
+  name: TopLeft
+  nameWithType: eLightRigDirection.TopLeft
+  fullName: OfficeOpenXml.Drawing.eLightRigDirection.TopLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopLeft
+    path: ../src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nTop Left\n"
+  example: []
+  syntax:
+    content: TopLeft = 6
+    return:
+      type: OfficeOpenXml.Drawing.eLightRigDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eLightRigDirection.TopRight
+  commentId: F:OfficeOpenXml.Drawing.eLightRigDirection.TopRight
+  id: TopRight
+  parent: OfficeOpenXml.Drawing.eLightRigDirection
+  langs:
+  - csharp
+  - vb
+  name: TopRight
+  nameWithType: eLightRigDirection.TopRight
+  fullName: OfficeOpenXml.Drawing.eLightRigDirection.TopRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopRight
+    path: ../src/EPPlus/Drawing/Enums/eLightRigDirection.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nTop Right\n"
+  example: []
+  syntax:
+    content: TopRight = 7
+    return:
+      type: OfficeOpenXml.Drawing.eLightRigDirection
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eLightRigDirection
+  commentId: T:OfficeOpenXml.Drawing.eLightRigDirection
+  parent: OfficeOpenXml.Drawing
+  name: eLightRigDirection
+  nameWithType: eLightRigDirection
+  fullName: OfficeOpenXml.Drawing.eLightRigDirection

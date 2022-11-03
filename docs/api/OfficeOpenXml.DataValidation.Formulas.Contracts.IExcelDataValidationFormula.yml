@@ -1,0 +1,95 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula
+  commentId: T:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula
+  id: IExcelDataValidationFormula
+  parent: OfficeOpenXml.DataValidation.Formulas.Contracts
+  children:
+  - OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+  langs:
+  - csharp
+  - vb
+  name: IExcelDataValidationFormula
+  nameWithType: IExcelDataValidationFormula
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormula.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelDataValidationFormula
+    path: ../src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormula.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation.Formulas.Contracts
+  summary: "\nInterface for a data validation formula\n"
+  example: []
+  syntax:
+    content: public interface IExcelDataValidationFormula
+    content.vb: Public Interface IExcelDataValidationFormula
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+  commentId: P:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+  id: ExcelFormula
+  parent: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula
+  langs:
+  - csharp
+  - vb
+  name: ExcelFormula
+  nameWithType: IExcelDataValidationFormula.ExcelFormula
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormula.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelFormula
+    path: ../src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormula.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation.Formulas.Contracts
+  summary: "\nAn excel formula\n"
+  example: []
+  syntax:
+    content: string ExcelFormula { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Property ExcelFormula As String
+  overload: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula*
+  modifiers.csharp:
+  - get
+  - set
+references:
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts
+  commentId: N:OfficeOpenXml.DataValidation.Formulas.Contracts
+  name: OfficeOpenXml.DataValidation.Formulas.Contracts
+  nameWithType: OfficeOpenXml.DataValidation.Formulas.Contracts
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula*
+  commentId: Overload:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+  name: ExcelFormula
+  nameWithType: IExcelDataValidationFormula.ExcelFormula
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

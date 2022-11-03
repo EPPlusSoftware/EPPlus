@@ -1,0 +1,468 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  commentId: T:OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  id: DataFieldFunctions
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Average
+  - OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Count
+  - OfficeOpenXml.Table.PivotTable.DataFieldFunctions.CountNums
+  - OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Max
+  - OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Min
+  - OfficeOpenXml.Table.PivotTable.DataFieldFunctions.None
+  - OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Product
+  - OfficeOpenXml.Table.PivotTable.DataFieldFunctions.StdDev
+  - OfficeOpenXml.Table.PivotTable.DataFieldFunctions.StdDevP
+  - OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Sum
+  - OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Var
+  - OfficeOpenXml.Table.PivotTable.DataFieldFunctions.VarP
+  langs:
+  - csharp
+  - vb
+  name: DataFieldFunctions
+  nameWithType: DataFieldFunctions
+  fullName: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataFieldFunctions
+    path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nBuild-in table row functions\n"
+  example: []
+  syntax:
+    content: public enum DataFieldFunctions
+    content.vb: Public Enum DataFieldFunctions
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Average
+  commentId: F:OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Average
+  id: Average
+  parent: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  langs:
+  - csharp
+  - vb
+  name: Average
+  nameWithType: DataFieldFunctions.Average
+  fullName: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Average
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Average
+    path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAverage\n"
+  example: []
+  syntax:
+    content: Average = 0
+    return:
+      type: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Count
+  commentId: F:OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Count
+  id: Count
+  parent: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: DataFieldFunctions.Count
+  fullName: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Count
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nCount\n"
+  example: []
+  syntax:
+    content: Count = 1
+    return:
+      type: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.CountNums
+  commentId: F:OfficeOpenXml.Table.PivotTable.DataFieldFunctions.CountNums
+  id: CountNums
+  parent: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  langs:
+  - csharp
+  - vb
+  name: CountNums
+  nameWithType: DataFieldFunctions.CountNums
+  fullName: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.CountNums
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CountNums
+    path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nCount, numbers\n"
+  example: []
+  syntax:
+    content: CountNums = 2
+    return:
+      type: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Max
+  commentId: F:OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Max
+  id: Max
+  parent: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  langs:
+  - csharp
+  - vb
+  name: Max
+  nameWithType: DataFieldFunctions.Max
+  fullName: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Max
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Max
+    path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nMax value\n"
+  example: []
+  syntax:
+    content: Max = 3
+    return:
+      type: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Min
+  commentId: F:OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Min
+  id: Min
+  parent: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  langs:
+  - csharp
+  - vb
+  name: Min
+  nameWithType: DataFieldFunctions.Min
+  fullName: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Min
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Min
+    path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nMinimum value\n"
+  example: []
+  syntax:
+    content: Min = 4
+    return:
+      type: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Product
+  commentId: F:OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Product
+  id: Product
+  parent: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  langs:
+  - csharp
+  - vb
+  name: Product
+  nameWithType: DataFieldFunctions.Product
+  fullName: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Product
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Product
+    path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe product\n"
+  example: []
+  syntax:
+    content: Product = 5
+    return:
+      type: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.None
+  commentId: F:OfficeOpenXml.Table.PivotTable.DataFieldFunctions.None
+  id: None
+  parent: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: DataFieldFunctions.None
+  fullName: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nNone\n"
+  example: []
+  syntax:
+    content: None = 6
+    return:
+      type: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.StdDev
+  commentId: F:OfficeOpenXml.Table.PivotTable.DataFieldFunctions.StdDev
+  id: StdDev
+  parent: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  langs:
+  - csharp
+  - vb
+  name: StdDev
+  nameWithType: DataFieldFunctions.StdDev
+  fullName: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.StdDev
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StdDev
+    path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nStandard deviation\n"
+  example: []
+  syntax:
+    content: StdDev = 7
+    return:
+      type: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.StdDevP
+  commentId: F:OfficeOpenXml.Table.PivotTable.DataFieldFunctions.StdDevP
+  id: StdDevP
+  parent: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  langs:
+  - csharp
+  - vb
+  name: StdDevP
+  nameWithType: DataFieldFunctions.StdDevP
+  fullName: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.StdDevP
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StdDevP
+    path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nStandard deviation of a population,\n"
+  example: []
+  syntax:
+    content: StdDevP = 8
+    return:
+      type: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Sum
+  commentId: F:OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Sum
+  id: Sum
+  parent: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  langs:
+  - csharp
+  - vb
+  name: Sum
+  nameWithType: DataFieldFunctions.Sum
+  fullName: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Sum
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Sum
+    path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nSum\n"
+  example: []
+  syntax:
+    content: Sum = 9
+    return:
+      type: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Var
+  commentId: F:OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Var
+  id: Var
+  parent: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  langs:
+  - csharp
+  - vb
+  name: Var
+  nameWithType: DataFieldFunctions.Var
+  fullName: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.Var
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Var
+    path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nVariation\n"
+  example: []
+  syntax:
+    content: Var = 10
+    return:
+      type: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.VarP
+  commentId: F:OfficeOpenXml.Table.PivotTable.DataFieldFunctions.VarP
+  id: VarP
+  parent: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  langs:
+  - csharp
+  - vb
+  name: VarP
+  nameWithType: DataFieldFunctions.VarP
+  fullName: OfficeOpenXml.Table.PivotTable.DataFieldFunctions.VarP
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VarP
+    path: ../src/EPPlus/Table/PivotTable/enums/DataFieldFunctions.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe variance of a population\n"
+  example: []
+  syntax:
+    content: VarP = 11
+    return:
+      type: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  commentId: T:OfficeOpenXml.Table.PivotTable.DataFieldFunctions
+  parent: OfficeOpenXml.Table.PivotTable
+  name: DataFieldFunctions
+  nameWithType: DataFieldFunctions
+  fullName: OfficeOpenXml.Table.PivotTable.DataFieldFunctions

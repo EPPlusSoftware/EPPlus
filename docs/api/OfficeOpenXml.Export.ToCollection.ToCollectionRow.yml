@@ -1,0 +1,944 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  commentId: T:OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  id: ToCollectionRow
+  parent: OfficeOpenXml.Export.ToCollection
+  children:
+  - OfficeOpenXml.Export.ToCollection.ToCollectionRow.Automap``1(``0)
+  - OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetText(System.Int32)
+  - OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetText(System.String)
+  - OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetValue``1(System.Int32)
+  - OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetValue``1(System.String)
+  - OfficeOpenXml.Export.ToCollection.ToCollectionRow.Headers
+  - OfficeOpenXml.Export.ToCollection.ToCollectionRow.Item(System.Int32)
+  - OfficeOpenXml.Export.ToCollection.ToCollectionRow.Item(System.String)
+  langs:
+  - csharp
+  - vb
+  name: ToCollectionRow
+  nameWithType: ToCollectionRow
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToCollectionRow
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToCollection
+  summary: "\nAn object that represents a row in the callback function in <xref href=\"OfficeOpenXml.ExcelRangeBase.ToCollectionWithMappings%60%601(System.Func%7bOfficeOpenXml.Export.ToCollection.ToCollectionRow%2c%60%600%7d%2cOfficeOpenXml.ToCollectionRangeOptions)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public class ToCollectionRow
+    content.vb: Public Class ToCollectionRow
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Headers
+  commentId: P:OfficeOpenXml.Export.ToCollection.ToCollectionRow.Headers
+  id: Headers
+  parent: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  langs:
+  - csharp
+  - vb
+  name: Headers
+  nameWithType: ToCollectionRow.Headers
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Headers
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Headers
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToCollection
+  summary: "\nHeaders used to access cell values.\n"
+  example: []
+  syntax:
+    content: public List<string> Headers { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{System.String}
+    content.vb: Public ReadOnly Property Headers As List(Of String)
+  overload: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Headers*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Export.ToCollection.ToCollectionRow.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ToCollectionRow.Item[Int32]
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+    startLine: 53
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToCollection
+  summary: "\nReturns the value of the row at the column index\n"
+  example: []
+  syntax:
+    content: public object this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: the column index
+    return:
+      type: System.Object
+      description: ''
+    content.vb: Public ReadOnly Property Item(index As Integer) As Object
+  overload: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Item*
+  nameWithType.vb: ToCollectionRow.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Item(System.String)
+  commentId: P:OfficeOpenXml.Export.ToCollection.ToCollectionRow.Item(System.String)
+  id: Item(System.String)
+  parent: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  langs:
+  - csharp
+  - vb
+  name: Item[String]
+  nameWithType: ToCollectionRow.Item[String]
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Item[System.String]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+    startLine: 69
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToCollection
+  summary: "\nReturns the value of the row at the column index\n"
+  example: []
+  syntax:
+    content: public object this[string columnName] { get; }
+    parameters:
+    - id: columnName
+      type: System.String
+      description: the column index
+    return:
+      type: System.Object
+      description: ''
+    content.vb: Public ReadOnly Property Item(columnName As String) As Object
+  overload: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Item*
+  nameWithType.vb: ToCollectionRow.Item(String)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Item(System.String)
+  name.vb: Item(String)
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetValue``1(System.Int32)
+  commentId: M:OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetValue``1(System.Int32)
+  id: GetValue``1(System.Int32)
+  parent: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  langs:
+  - csharp
+  - vb
+  name: GetValue<T>(Int32)
+  nameWithType: ToCollectionRow.GetValue<T>(Int32)
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetValue<T>(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetValue
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+    startLine: 91
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToCollection
+  summary: "\nReturns the typed value of the cell at the column index within the row of the range.\n"
+  example: []
+  syntax:
+    content: public T GetValue<T>(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The column index
+    typeParameters:
+    - id: T
+      description: The type to convert to
+    return:
+      type: '{T}'
+      description: The value
+    content.vb: Public Function GetValue(Of T)(index As Integer) As T
+  overload: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetValue*
+  exceptions:
+  - type: OfficeOpenXml.Export.ToCollection.Exceptions.EPPlusDataTypeConvertionException
+    commentId: T:OfficeOpenXml.Export.ToCollection.Exceptions.EPPlusDataTypeConvertionException
+    description: Returned if the data type conversion fails and <xref href="OfficeOpenXml.ToCollectionOptions.ConversionFailureStrategy" data-throw-if-not-resolved="false"></xref> is set to Exception
+  nameWithType.vb: ToCollectionRow.GetValue(Of T)(Int32)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetValue(Of T)(System.Int32)
+  name.vb: GetValue(Of T)(Int32)
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetValue``1(System.String)
+  commentId: M:OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetValue``1(System.String)
+  id: GetValue``1(System.String)
+  parent: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  langs:
+  - csharp
+  - vb
+  name: GetValue<T>(String)
+  nameWithType: ToCollectionRow.GetValue<T>(String)
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetValue<T>(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetValue
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+    startLine: 117
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToCollection
+  summary: "\nReturns the typed value of the cell at the column index within the row of the range.\n"
+  example: []
+  syntax:
+    content: public T GetValue<T>(string columnName)
+    parameters:
+    - id: columnName
+      type: System.String
+      description: The column name
+    typeParameters:
+    - id: T
+      description: The type to convert to
+    return:
+      type: '{T}'
+      description: The value
+    content.vb: Public Function GetValue(Of T)(columnName As String) As T
+  overload: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetValue*
+  exceptions:
+  - type: OfficeOpenXml.Export.ToCollection.Exceptions.EPPlusDataTypeConvertionException
+    commentId: T:OfficeOpenXml.Export.ToCollection.Exceptions.EPPlusDataTypeConvertionException
+    description: Returned if the data type conversion fails and <xref href="OfficeOpenXml.ToCollectionOptions.ConversionFailureStrategy" data-throw-if-not-resolved="false"></xref> is set to Exception
+  nameWithType.vb: ToCollectionRow.GetValue(Of T)(String)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetValue(Of T)(System.String)
+  name.vb: GetValue(Of T)(String)
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetText(System.Int32)
+  commentId: M:OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetText(System.Int32)
+  id: GetText(System.Int32)
+  parent: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  langs:
+  - csharp
+  - vb
+  name: GetText(Int32)
+  nameWithType: ToCollectionRow.GetText(Int32)
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetText(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetText
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+    startLine: 134
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToCollection
+  summary: "\nReturns formatted value of the cell at the column index within the row of the range.\n"
+  example: []
+  syntax:
+    content: public string GetText(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The column index
+    return:
+      type: System.String
+      description: The formatted value
+    content.vb: Public Function GetText(index As Integer) As String
+  overload: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetText*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetText(System.String)
+  commentId: M:OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetText(System.String)
+  id: GetText(System.String)
+  parent: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  langs:
+  - csharp
+  - vb
+  name: GetText(String)
+  nameWithType: ToCollectionRow.GetText(String)
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetText(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetText
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+    startLine: 148
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToCollection
+  summary: "\nReturns formatted value of the cell at the column index within the row of the range.\n"
+  example: []
+  syntax:
+    content: public string GetText(string columnName)
+    parameters:
+    - id: columnName
+      type: System.String
+      description: The column name
+    return:
+      type: System.String
+      description: The formatted value
+    content.vb: Public Function GetText(columnName As String) As String
+  overload: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetText*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Automap``1(``0)
+  commentId: M:OfficeOpenXml.Export.ToCollection.ToCollectionRow.Automap``1(``0)
+  id: Automap``1(``0)
+  parent: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  langs:
+  - csharp
+  - vb
+  name: Automap<T>(T)
+  nameWithType: ToCollectionRow.Automap<T>(T)
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Automap<T>(T)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Automap
+    path: ../src/EPPlus/Export/ToCollection/ToCollectionRow.cs
+    startLine: 169
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToCollection
+  summary: "\nMaps properties on the item to values matching the column header with the property name or attibutes without white spaces.\nThe attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.\n"
+  example: []
+  syntax:
+    content: >-
+      public void Automap<T>(T item)
+          where T : class
+    parameters:
+    - id: item
+      type: '{T}'
+      description: The item to set the values on.
+    typeParameters:
+    - id: T
+      description: The type used, must be a class
+    content.vb: Public Sub Automap(Of T As Class)(item As T)
+  overload: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Automap*
+  nameWithType.vb: ToCollectionRow.Automap(Of T)(T)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Automap(Of T)(T)
+  name.vb: Automap(Of T)(T)
+references:
+- uid: OfficeOpenXml.ExcelRangeBase.ToCollectionWithMappings``1(System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,``0},OfficeOpenXml.ToCollectionRangeOptions)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.ToCollectionWithMappings``1(System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,``0},OfficeOpenXml.ToCollectionRangeOptions)
+  isExternal: true
+  name: ToCollectionWithMappings<T>(Func<ToCollectionRow, T>, ToCollectionRangeOptions)
+  nameWithType: ExcelRangeBase.ToCollectionWithMappings<T>(Func<ToCollectionRow, T>, ToCollectionRangeOptions)
+  fullName: OfficeOpenXml.ExcelRangeBase.ToCollectionWithMappings<T>(System.Func<OfficeOpenXml.Export.ToCollection.ToCollectionRow, T>, OfficeOpenXml.ToCollectionRangeOptions)
+  nameWithType.vb: ExcelRangeBase.ToCollectionWithMappings(Of T)(Func(Of ToCollectionRow, T), ToCollectionRangeOptions)
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.ToCollectionWithMappings(Of T)(System.Func(Of OfficeOpenXml.Export.ToCollection.ToCollectionRow, T), OfficeOpenXml.ToCollectionRangeOptions)
+  name.vb: ToCollectionWithMappings(Of T)(Func(Of ToCollectionRow, T), ToCollectionRangeOptions)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToCollectionWithMappings``1(System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,``0},OfficeOpenXml.ToCollectionRangeOptions)
+    name: ToCollectionWithMappings<T>
+    nameWithType: ExcelRangeBase.ToCollectionWithMappings<T>
+    fullName: OfficeOpenXml.ExcelRangeBase.ToCollectionWithMappings<T>
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+    name: ToCollectionRow
+    nameWithType: ToCollectionRow
+    fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ToCollectionRangeOptions
+    name: ToCollectionRangeOptions
+    nameWithType: ToCollectionRangeOptions
+    fullName: OfficeOpenXml.ToCollectionRangeOptions
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToCollectionWithMappings``1(System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,``0},OfficeOpenXml.ToCollectionRangeOptions)
+    name: ToCollectionWithMappings(Of T)
+    nameWithType: ExcelRangeBase.ToCollectionWithMappings(Of T)
+    fullName: OfficeOpenXml.ExcelRangeBase.ToCollectionWithMappings(Of T)
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+    name: ToCollectionRow
+    nameWithType: ToCollectionRow
+    fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ToCollectionRangeOptions
+    name: ToCollectionRangeOptions
+    nameWithType: ToCollectionRangeOptions
+    fullName: OfficeOpenXml.ToCollectionRangeOptions
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Export.ToCollection
+  commentId: N:OfficeOpenXml.Export.ToCollection
+  name: OfficeOpenXml.Export.ToCollection
+  nameWithType: OfficeOpenXml.Export.ToCollection
+  fullName: OfficeOpenXml.Export.ToCollection
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Headers*
+  commentId: Overload:OfficeOpenXml.Export.ToCollection.ToCollectionRow.Headers
+  name: Headers
+  nameWithType: ToCollectionRow.Headers
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Headers
+- uid: System.Collections.Generic.List{System.String}
+  commentId: T:System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<String>
+  nameWithType: List<String>
+  fullName: System.Collections.Generic.List<System.String>
+  nameWithType.vb: List(Of String)
+  fullName.vb: System.Collections.Generic.List(Of System.String)
+  name.vb: List(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Item*
+  commentId: Overload:OfficeOpenXml.Export.ToCollection.ToCollectionRow.Item
+  name: Item
+  nameWithType: ToCollectionRow.Item
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Item
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ToCollectionOptions.ConversionFailureStrategy
+  commentId: P:OfficeOpenXml.ToCollectionOptions.ConversionFailureStrategy
+  parent: OfficeOpenXml.ToCollectionOptions
+  name: ConversionFailureStrategy
+  nameWithType: ToCollectionOptions.ConversionFailureStrategy
+  fullName: OfficeOpenXml.ToCollectionOptions.ConversionFailureStrategy
+- uid: OfficeOpenXml.Export.ToCollection.Exceptions.EPPlusDataTypeConvertionException
+  commentId: T:OfficeOpenXml.Export.ToCollection.Exceptions.EPPlusDataTypeConvertionException
+  name: EPPlusDataTypeConvertionException
+  nameWithType: EPPlusDataTypeConvertionException
+  fullName: OfficeOpenXml.Export.ToCollection.Exceptions.EPPlusDataTypeConvertionException
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetValue*
+  commentId: Overload:OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetValue
+  name: GetValue
+  nameWithType: ToCollectionRow.GetValue
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetValue
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: OfficeOpenXml.ToCollectionOptions
+  commentId: T:OfficeOpenXml.ToCollectionOptions
+  parent: OfficeOpenXml
+  name: ToCollectionOptions
+  nameWithType: ToCollectionOptions
+  fullName: OfficeOpenXml.ToCollectionOptions
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetText*
+  commentId: Overload:OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetText
+  name: GetText
+  nameWithType: ToCollectionRow.GetText
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow.GetText
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Automap*
+  commentId: Overload:OfficeOpenXml.Export.ToCollection.ToCollectionRow.Automap
+  name: Automap
+  nameWithType: ToCollectionRow.Automap
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow.Automap

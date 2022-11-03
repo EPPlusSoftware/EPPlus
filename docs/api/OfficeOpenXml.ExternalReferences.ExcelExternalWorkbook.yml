@@ -1,0 +1,1124 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  id: ExcelExternalWorkbook
+  parent: OfficeOpenXml.ExternalReferences
+  children:
+  - OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CachedNames
+  - OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CachedWorksheets
+  - OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CacheStatus
+  - OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ExternalLinkType
+  - OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ExternalLinkUri
+  - OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.File
+  - OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.IsPathRelative
+  - OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load
+  - OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load(OfficeOpenXml.ExcelPackage)
+  - OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load(System.IO.FileInfo)
+  - OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Package
+  - OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ToString
+  - OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.UpdateCache
+  langs:
+  - csharp
+  - vb
+  name: ExcelExternalWorkbook
+  nameWithType: ExcelExternalWorkbook
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelExternalWorkbook
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nRepresents an external workbook.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelExternalWorkbook : ExcelExternalLink'
+    content.vb: >-
+      Public Class ExcelExternalWorkbook
+          Inherits ExcelExternalLink
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  inheritedMembers:
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLink.As
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLink.Index
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ExternalLinkType
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ExternalLinkType
+  id: ExternalLinkType
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  langs:
+  - csharp
+  - vb
+  name: ExternalLinkType
+  nameWithType: ExcelExternalWorkbook.ExternalLinkType
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ExternalLinkType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExternalLinkType
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+    startLine: 95
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nSets the external link type\n"
+  example: []
+  syntax:
+    content: public override eExternalLinkType ExternalLinkType { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExternalReferences.eExternalLinkType
+    content.vb: Public Overrides ReadOnly Property ExternalLinkType As eExternalLinkType
+  overridden: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ExternalLinkType
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ExternalLinkType*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  modifiers.vb:
+  - Public
+  - Overrides
+  - ReadOnly
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ExternalLinkUri
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ExternalLinkUri
+  id: ExternalLinkUri
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  langs:
+  - csharp
+  - vb
+  name: ExternalLinkUri
+  nameWithType: ExcelExternalWorkbook.ExternalLinkUri
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ExternalLinkUri
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExternalLinkUri
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+    startLine: 223
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe Uri to the external workbook. This property will be set by the <xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.File\" data-throw-if-not-resolved=\"false\"></xref> property on save, if it has been set.\n"
+  example: []
+  syntax:
+    content: public Uri ExternalLinkUri { get; set; }
+    parameters: []
+    return:
+      type: System.Uri
+    content.vb: Public Property ExternalLinkUri As Uri
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ExternalLinkUri*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.File
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.File
+  id: File
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  langs:
+  - csharp
+  - vb
+  name: File
+  nameWithType: ExcelExternalWorkbook.File
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.File
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: File
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+    startLine: 239
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nIf the external reference is a file in the filesystem\n"
+  example: []
+  syntax:
+    content: public FileInfo File { get; set; }
+    parameters: []
+    return:
+      type: System.IO.FileInfo
+    content.vb: Public Property File As FileInfo
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.File*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Package
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Package
+  id: Package
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  langs:
+  - csharp
+  - vb
+  name: Package
+  nameWithType: ExcelExternalWorkbook.Package
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Package
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Package
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+    startLine: 311
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nA reference to the external package, it it has been loaded.\n<xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public ExcelPackage Package { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelPackage
+    content.vb: Public ReadOnly Property Package As ExcelPackage
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Package*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load
+  commentId: M:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load
+  id: Load
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  langs:
+  - csharp
+  - vb
+  name: Load()
+  nameWithType: ExcelExternalWorkbook.Load()
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Load
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+    startLine: 322
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nTries to Loads the external package using the External Uri into the <xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Package\" data-throw-if-not-resolved=\"false\"></xref> property\n"
+  example: []
+  syntax:
+    content: public bool Load()
+    return:
+      type: System.Boolean
+      description: True if the load succeeded, otherwise false. If false, see <xref href="OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Function Load As Boolean
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load(System.IO.FileInfo)
+  commentId: M:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load(System.IO.FileInfo)
+  id: Load(System.IO.FileInfo)
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  langs:
+  - csharp
+  - vb
+  name: Load(FileInfo)
+  nameWithType: ExcelExternalWorkbook.Load(FileInfo)
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load(System.IO.FileInfo)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Load
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+    startLine: 330
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nTries to Loads the external package using the External Uri into the <xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Package\" data-throw-if-not-resolved=\"false\"></xref> property\n"
+  example: []
+  syntax:
+    content: public bool Load(FileInfo packageFile)
+    parameters:
+    - id: packageFile
+      type: System.IO.FileInfo
+    return:
+      type: System.Boolean
+      description: True if the load succeeded, otherwise false. If false, see <xref href="OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Function Load(packageFile As FileInfo) As Boolean
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load(OfficeOpenXml.ExcelPackage)
+  commentId: M:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load(OfficeOpenXml.ExcelPackage)
+  id: Load(OfficeOpenXml.ExcelPackage)
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  langs:
+  - csharp
+  - vb
+  name: Load(ExcelPackage)
+  nameWithType: ExcelExternalWorkbook.Load(ExcelPackage)
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load(OfficeOpenXml.ExcelPackage)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Load
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+    startLine: 352
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nTries to Loads the external package using the External Uri into the <xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Package\" data-throw-if-not-resolved=\"false\"></xref> property\n"
+  example: []
+  syntax:
+    content: public bool Load(ExcelPackage package)
+    parameters:
+    - id: package
+      type: OfficeOpenXml.ExcelPackage
+    return:
+      type: System.Boolean
+      description: True if the load succeeded, otherwise false. If false, see <xref href="OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog" data-throw-if-not-resolved="false"></xref> and <xref href="OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CacheStatus" data-throw-if-not-resolved="false"></xref> of each <xref href="OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Function Load(package As ExcelPackage) As Boolean
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.IsPathRelative
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.IsPathRelative
+  id: IsPathRelative
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  langs:
+  - csharp
+  - vb
+  name: IsPathRelative
+  nameWithType: ExcelExternalWorkbook.IsPathRelative
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.IsPathRelative
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsPathRelative
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+    startLine: 420
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nIf true, sets the path to the workbook as a relative path on <xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load\" data-throw-if-not-resolved=\"false\"></xref>, if the link is on the same drive.\nOtherwise set it as an absolute path. If set to false, the path will always be saved as an absolute path.\nIf the file path is relative and the file can not be found, the file path will not be updated.\n<xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.File\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public bool IsPathRelative { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsPathRelative As Boolean
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.IsPathRelative*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.UpdateCache
+  commentId: M:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.UpdateCache
+  id: UpdateCache
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  langs:
+  - csharp
+  - vb
+  name: UpdateCache()
+  nameWithType: ExcelExternalWorkbook.UpdateCache()
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.UpdateCache()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UpdateCache
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+    startLine: 446
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nUpdates the external reference cache for the external workbook. To be used a <xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Package\" data-throw-if-not-resolved=\"false\"></xref> must be loaded via the <xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load\" data-throw-if-not-resolved=\"false\"></xref> method.\n<xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CacheStatus\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public bool UpdateCache()
+    return:
+      type: System.Boolean
+      description: True if the update was successful otherwise false
+    content.vb: Public Function UpdateCache As Boolean
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.UpdateCache*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CacheStatus
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CacheStatus
+  id: CacheStatus
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  langs:
+  - csharp
+  - vb
+  name: CacheStatus
+  nameWithType: ExcelExternalWorkbook.CacheStatus
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CacheStatus
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CacheStatus
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+    startLine: 561
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe status of the cache. If the <xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.UpdateCache\" data-throw-if-not-resolved=\"false\"></xref>method fails this status is set to <xref href=\"OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.Failed\" data-throw-if-not-resolved=\"false\"></xref>\nIf cache status is set to NotUpdated, the cache will be updated when the package is saved.\n<xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.UpdateCache\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public eExternalWorkbookCacheStatus CacheStatus { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+    content.vb: Public ReadOnly Property CacheStatus As eExternalWorkbookCacheStatus
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CacheStatus*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ToString
+  commentId: M:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ToString
+  id: ToString
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: ExcelExternalWorkbook.ToString()
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToString
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+    startLine: 706
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nString representation\n"
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Overrides Function ToString As String
+  overridden: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ToString
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ToString*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CachedNames
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CachedNames
+  id: CachedNames
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  langs:
+  - csharp
+  - vb
+  name: CachedNames
+  nameWithType: ExcelExternalWorkbook.CachedNames
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CachedNames
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CachedNames
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+    startLine: 726
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nA collection of cached defined names in the external workbook\n"
+  example: []
+  syntax:
+    content: public ExcelExternalNamedItemCollection<ExcelExternalDefinedName> CachedNames { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection{OfficeOpenXml.ExternalReferences.ExcelExternalDefinedName}
+    content.vb: Public ReadOnly Property CachedNames As ExcelExternalNamedItemCollection(Of ExcelExternalDefinedName)
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CachedNames*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CachedWorksheets
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CachedWorksheets
+  id: CachedWorksheets
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  langs:
+  - csharp
+  - vb
+  name: CachedWorksheets
+  nameWithType: ExcelExternalWorkbook.CachedWorksheets
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CachedWorksheets
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CachedWorksheets
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalWorkbook.cs
+    startLine: 733
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nA collection of cached worksheets in the external workbook\n"
+  example: []
+  syntax:
+    content: public ExcelExternalNamedItemCollection<ExcelExternalWorksheet> CachedWorksheets { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection{OfficeOpenXml.ExternalReferences.ExcelExternalWorksheet}
+    content.vb: Public ReadOnly Property CachedWorksheets As ExcelExternalNamedItemCollection(Of ExcelExternalWorksheet)
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CachedWorksheets*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.ExternalReferences
+  commentId: N:OfficeOpenXml.ExternalReferences
+  name: OfficeOpenXml.ExternalReferences
+  nameWithType: OfficeOpenXml.ExternalReferences
+  fullName: OfficeOpenXml.ExternalReferences
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalLink
+  nameWithType: ExcelExternalLink
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.As
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalLink.As
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  name: As
+  nameWithType: ExcelExternalLink.As
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.As
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.Index
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalLink.Index
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  name: Index
+  nameWithType: ExcelExternalLink.Index
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.Index
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  name: ErrorLog
+  nameWithType: ExcelExternalLink.ErrorLog
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ExternalLinkType
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalLink.ExternalLinkType
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  name: ExternalLinkType
+  nameWithType: ExcelExternalLink.ExternalLinkType
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ExternalLinkType
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ExternalLinkType*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ExternalLinkType
+  name: ExternalLinkType
+  nameWithType: ExcelExternalWorkbook.ExternalLinkType
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ExternalLinkType
+- uid: OfficeOpenXml.ExternalReferences.eExternalLinkType
+  commentId: T:OfficeOpenXml.ExternalReferences.eExternalLinkType
+  parent: OfficeOpenXml.ExternalReferences
+  name: eExternalLinkType
+  nameWithType: eExternalLinkType
+  fullName: OfficeOpenXml.ExternalReferences.eExternalLinkType
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.File
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.File
+  isExternal: true
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ExternalLinkUri*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ExternalLinkUri
+  name: ExternalLinkUri
+  nameWithType: ExcelExternalWorkbook.ExternalLinkUri
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ExternalLinkUri
+- uid: System.Uri
+  commentId: T:System.Uri
+  parent: System
+  isExternal: true
+  name: Uri
+  nameWithType: Uri
+  fullName: System.Uri
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.File*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.File
+  name: File
+  nameWithType: ExcelExternalWorkbook.File
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.File
+- uid: System.IO.FileInfo
+  commentId: T:System.IO.FileInfo
+  parent: System.IO
+  isExternal: true
+  name: FileInfo
+  nameWithType: FileInfo
+  fullName: System.IO.FileInfo
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load
+  commentId: M:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load
+  isExternal: true
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Package*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Package
+  name: Package
+  nameWithType: ExcelExternalWorkbook.Package
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Package
+- uid: OfficeOpenXml.ExcelPackage
+  commentId: T:OfficeOpenXml.ExcelPackage
+  parent: OfficeOpenXml
+  name: ExcelPackage
+  nameWithType: ExcelPackage
+  fullName: OfficeOpenXml.ExcelPackage
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Package
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Package
+  isExternal: true
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load
+  name: Load
+  nameWithType: ExcelExternalWorkbook.Load
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.Load
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CacheStatus
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CacheStatus
+  isExternal: true
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalWorkbook
+  nameWithType: ExcelExternalWorkbook
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.IsPathRelative*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.IsPathRelative
+  name: IsPathRelative
+  nameWithType: ExcelExternalWorkbook.IsPathRelative
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.IsPathRelative
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.UpdateCache*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.UpdateCache
+  name: UpdateCache
+  nameWithType: ExcelExternalWorkbook.UpdateCache
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.UpdateCache
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.UpdateCache
+  commentId: M:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.UpdateCache
+  isExternal: true
+- uid: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.Failed
+  commentId: F:OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus.Failed
+  isExternal: true
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CacheStatus*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CacheStatus
+  name: CacheStatus
+  nameWithType: ExcelExternalWorkbook.CacheStatus
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CacheStatus
+- uid: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  commentId: T:OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  parent: OfficeOpenXml.ExternalReferences
+  name: eExternalWorkbookCacheStatus
+  nameWithType: eExternalWorkbookCacheStatus
+  fullName: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ToString
+  commentId: M:OfficeOpenXml.ExternalReferences.ExcelExternalLink.ToString
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  name: ToString()
+  nameWithType: ExcelExternalLink.ToString()
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ToString()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ToString
+    name: ToString
+    nameWithType: ExcelExternalLink.ToString
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ToString
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ToString
+    name: ToString
+    nameWithType: ExcelExternalLink.ToString
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ToString
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ToString*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ToString
+  name: ToString
+  nameWithType: ExcelExternalWorkbook.ToString
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.ToString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CachedNames*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CachedNames
+  name: CachedNames
+  nameWithType: ExcelExternalWorkbook.CachedNames
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CachedNames
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection{OfficeOpenXml.ExternalReferences.ExcelExternalDefinedName}
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection{OfficeOpenXml.ExternalReferences.ExcelExternalDefinedName}
+  parent: OfficeOpenXml.ExternalReferences
+  definition: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection`1
+  name: ExcelExternalNamedItemCollection<ExcelExternalDefinedName>
+  nameWithType: ExcelExternalNamedItemCollection<ExcelExternalDefinedName>
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection<OfficeOpenXml.ExternalReferences.ExcelExternalDefinedName>
+  nameWithType.vb: ExcelExternalNamedItemCollection(Of ExcelExternalDefinedName)
+  fullName.vb: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection(Of OfficeOpenXml.ExternalReferences.ExcelExternalDefinedName)
+  name.vb: ExcelExternalNamedItemCollection(Of ExcelExternalDefinedName)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection`1
+    name: ExcelExternalNamedItemCollection
+    nameWithType: ExcelExternalNamedItemCollection
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalDefinedName
+    name: ExcelExternalDefinedName
+    nameWithType: ExcelExternalDefinedName
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalDefinedName
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection`1
+    name: ExcelExternalNamedItemCollection
+    nameWithType: ExcelExternalNamedItemCollection
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalDefinedName
+    name: ExcelExternalDefinedName
+    nameWithType: ExcelExternalDefinedName
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalDefinedName
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection`1
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection`1
+  name: ExcelExternalNamedItemCollection<T>
+  nameWithType: ExcelExternalNamedItemCollection<T>
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection<T>
+  nameWithType.vb: ExcelExternalNamedItemCollection(Of T)
+  fullName.vb: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection(Of T)
+  name.vb: ExcelExternalNamedItemCollection(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection`1
+    name: ExcelExternalNamedItemCollection
+    nameWithType: ExcelExternalNamedItemCollection
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection`1
+    name: ExcelExternalNamedItemCollection
+    nameWithType: ExcelExternalNamedItemCollection
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CachedWorksheets*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CachedWorksheets
+  name: CachedWorksheets
+  nameWithType: ExcelExternalWorkbook.CachedWorksheets
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook.CachedWorksheets
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection{OfficeOpenXml.ExternalReferences.ExcelExternalWorksheet}
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection{OfficeOpenXml.ExternalReferences.ExcelExternalWorksheet}
+  parent: OfficeOpenXml.ExternalReferences
+  definition: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection`1
+  name: ExcelExternalNamedItemCollection<ExcelExternalWorksheet>
+  nameWithType: ExcelExternalNamedItemCollection<ExcelExternalWorksheet>
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection<OfficeOpenXml.ExternalReferences.ExcelExternalWorksheet>
+  nameWithType.vb: ExcelExternalNamedItemCollection(Of ExcelExternalWorksheet)
+  fullName.vb: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection(Of OfficeOpenXml.ExternalReferences.ExcelExternalWorksheet)
+  name.vb: ExcelExternalNamedItemCollection(Of ExcelExternalWorksheet)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection`1
+    name: ExcelExternalNamedItemCollection
+    nameWithType: ExcelExternalNamedItemCollection
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorksheet
+    name: ExcelExternalWorksheet
+    nameWithType: ExcelExternalWorksheet
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorksheet
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection`1
+    name: ExcelExternalNamedItemCollection
+    nameWithType: ExcelExternalNamedItemCollection
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorksheet
+    name: ExcelExternalWorksheet
+    nameWithType: ExcelExternalWorksheet
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )

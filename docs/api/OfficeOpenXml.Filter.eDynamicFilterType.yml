@@ -1,0 +1,1273 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Filter.eDynamicFilterType
+  commentId: T:OfficeOpenXml.Filter.eDynamicFilterType
+  id: eDynamicFilterType
+  parent: OfficeOpenXml.Filter
+  children:
+  - OfficeOpenXml.Filter.eDynamicFilterType.AboveAverage
+  - OfficeOpenXml.Filter.eDynamicFilterType.BelowAverage
+  - OfficeOpenXml.Filter.eDynamicFilterType.LastMonth
+  - OfficeOpenXml.Filter.eDynamicFilterType.LastQuarter
+  - OfficeOpenXml.Filter.eDynamicFilterType.LastWeek
+  - OfficeOpenXml.Filter.eDynamicFilterType.LastYear
+  - OfficeOpenXml.Filter.eDynamicFilterType.M1
+  - OfficeOpenXml.Filter.eDynamicFilterType.M10
+  - OfficeOpenXml.Filter.eDynamicFilterType.M11
+  - OfficeOpenXml.Filter.eDynamicFilterType.M12
+  - OfficeOpenXml.Filter.eDynamicFilterType.M2
+  - OfficeOpenXml.Filter.eDynamicFilterType.M3
+  - OfficeOpenXml.Filter.eDynamicFilterType.M4
+  - OfficeOpenXml.Filter.eDynamicFilterType.M5
+  - OfficeOpenXml.Filter.eDynamicFilterType.M6
+  - OfficeOpenXml.Filter.eDynamicFilterType.M7
+  - OfficeOpenXml.Filter.eDynamicFilterType.M8
+  - OfficeOpenXml.Filter.eDynamicFilterType.M9
+  - OfficeOpenXml.Filter.eDynamicFilterType.NextMonth
+  - OfficeOpenXml.Filter.eDynamicFilterType.NextQuarter
+  - OfficeOpenXml.Filter.eDynamicFilterType.NextWeek
+  - OfficeOpenXml.Filter.eDynamicFilterType.NextYear
+  - OfficeOpenXml.Filter.eDynamicFilterType.Null
+  - OfficeOpenXml.Filter.eDynamicFilterType.Q1
+  - OfficeOpenXml.Filter.eDynamicFilterType.Q2
+  - OfficeOpenXml.Filter.eDynamicFilterType.Q3
+  - OfficeOpenXml.Filter.eDynamicFilterType.Q4
+  - OfficeOpenXml.Filter.eDynamicFilterType.ThisMonth
+  - OfficeOpenXml.Filter.eDynamicFilterType.ThisQuarter
+  - OfficeOpenXml.Filter.eDynamicFilterType.ThisWeek
+  - OfficeOpenXml.Filter.eDynamicFilterType.ThisYear
+  - OfficeOpenXml.Filter.eDynamicFilterType.Today
+  - OfficeOpenXml.Filter.eDynamicFilterType.Tomorrow
+  - OfficeOpenXml.Filter.eDynamicFilterType.YearToDate
+  - OfficeOpenXml.Filter.eDynamicFilterType.Yesterday
+  langs:
+  - csharp
+  - vb
+  name: eDynamicFilterType
+  nameWithType: eDynamicFilterType
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eDynamicFilterType
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nDynamic filter types.\nA dynamic filter returns a result set which might vary due to a change in the data itself.\n"
+  example: []
+  syntax:
+    content: public enum eDynamicFilterType
+    content.vb: Public Enum eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.AboveAverage
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.AboveAverage
+  id: AboveAverage
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: AboveAverage
+  nameWithType: eDynamicFilterType.AboveAverage
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.AboveAverage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AboveAverage
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows values that are above average. \n"
+  example: []
+  syntax:
+    content: AboveAverage = 0
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.BelowAverage
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.BelowAverage
+  id: BelowAverage
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: BelowAverage
+  nameWithType: eDynamicFilterType.BelowAverage
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.BelowAverage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BelowAverage
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows values that are below average. \n"
+  example: []
+  syntax:
+    content: BelowAverage = 1
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.LastMonth
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.LastMonth
+  id: LastMonth
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: LastMonth
+  nameWithType: eDynamicFilterType.LastMonth
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.LastMonth
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LastMonth
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows last month&apos;s dates.\n"
+  example: []
+  syntax:
+    content: LastMonth = 2
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.LastQuarter
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.LastQuarter
+  id: LastQuarter
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: LastQuarter
+  nameWithType: eDynamicFilterType.LastQuarter
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.LastQuarter
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LastQuarter
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows last calendar quarter&apos;s dates.\n"
+  example: []
+  syntax:
+    content: LastQuarter = 3
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.LastWeek
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.LastWeek
+  id: LastWeek
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: LastWeek
+  nameWithType: eDynamicFilterType.LastWeek
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.LastWeek
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LastWeek
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows last week&apos;s dates, using Sunday as the first weekday.\n"
+  example: []
+  syntax:
+    content: LastWeek = 4
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.LastYear
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.LastYear
+  id: LastYear
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: LastYear
+  nameWithType: eDynamicFilterType.LastYear
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.LastYear
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LastYear
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows last year&apos;s dates.\n"
+  example: []
+  syntax:
+    content: LastYear = 5
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.M1
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.M1
+  id: M1
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: M1
+  nameWithType: eDynamicFilterType.M1
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.M1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M1
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows the dates that are in January, regardless of year.\n"
+  example: []
+  syntax:
+    content: M1 = 6
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.M2
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.M2
+  id: M2
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: M2
+  nameWithType: eDynamicFilterType.M2
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.M2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M2
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows the dates that are in February, regardless of year. \n"
+  example: []
+  syntax:
+    content: M2 = 7
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.M3
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.M3
+  id: M3
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: M3
+  nameWithType: eDynamicFilterType.M3
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.M3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M3
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 55
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows the dates that are in March, regardless of year.\n"
+  example: []
+  syntax:
+    content: M3 = 8
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.M4
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.M4
+  id: M4
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: M4
+  nameWithType: eDynamicFilterType.M4
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.M4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M4
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 59
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows the dates that are in April, regardless of year.\n"
+  example: []
+  syntax:
+    content: M4 = 9
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.M5
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.M5
+  id: M5
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: M5
+  nameWithType: eDynamicFilterType.M5
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.M5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M5
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows the dates that are in May, regardless of year.\n"
+  example: []
+  syntax:
+    content: M5 = 10
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.M6
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.M6
+  id: M6
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: M6
+  nameWithType: eDynamicFilterType.M6
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.M6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M6
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 67
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows the dates that are in June, regardless of year.\n"
+  example: []
+  syntax:
+    content: M6 = 11
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.M7
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.M7
+  id: M7
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: M7
+  nameWithType: eDynamicFilterType.M7
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.M7
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M7
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 71
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows the dates that are in July, regardless of year.\n"
+  example: []
+  syntax:
+    content: M7 = 12
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.M8
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.M8
+  id: M8
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: M8
+  nameWithType: eDynamicFilterType.M8
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.M8
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M8
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 75
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows the dates that are in August, regardless of year.\n"
+  example: []
+  syntax:
+    content: M8 = 13
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.M9
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.M9
+  id: M9
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: M9
+  nameWithType: eDynamicFilterType.M9
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.M9
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M9
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 79
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows the dates that are in September, regardless of\n"
+  example: []
+  syntax:
+    content: M9 = 14
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.M10
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.M10
+  id: M10
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: M10
+  nameWithType: eDynamicFilterType.M10
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.M10
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M10
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 83
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows the dates that are in October, regardless of year.\n"
+  example: []
+  syntax:
+    content: M10 = 15
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.M11
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.M11
+  id: M11
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: M11
+  nameWithType: eDynamicFilterType.M11
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.M11
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M11
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 87
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows the dates that are in November, regardless of year.\n"
+  example: []
+  syntax:
+    content: M11 = 16
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.M12
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.M12
+  id: M12
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: M12
+  nameWithType: eDynamicFilterType.M12
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.M12
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M12
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 91
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows the dates that are in December, regardless of year.\n"
+  example: []
+  syntax:
+    content: M12 = 17
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.NextMonth
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.NextMonth
+  id: NextMonth
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: NextMonth
+  nameWithType: eDynamicFilterType.NextMonth
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.NextMonth
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NextMonth
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 95
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows next month&apos;s dates.\n"
+  example: []
+  syntax:
+    content: NextMonth = 18
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.NextQuarter
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.NextQuarter
+  id: NextQuarter
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: NextQuarter
+  nameWithType: eDynamicFilterType.NextQuarter
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.NextQuarter
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NextQuarter
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 99
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows next calendar quarter&apos;s dates.\n"
+  example: []
+  syntax:
+    content: NextQuarter = 19
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.NextWeek
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.NextWeek
+  id: NextWeek
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: NextWeek
+  nameWithType: eDynamicFilterType.NextWeek
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.NextWeek
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NextWeek
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 103
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows next week&apos;s dates, using Sunday as the firstweekday.\n"
+  example: []
+  syntax:
+    content: NextWeek = 20
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.NextYear
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.NextYear
+  id: NextYear
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: NextYear
+  nameWithType: eDynamicFilterType.NextYear
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.NextYear
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NextYear
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 107
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows next year&apos;s dates.\n"
+  example: []
+  syntax:
+    content: NextYear = 21
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.Null
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.Null
+  id: "Null"
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: "Null"
+  nameWithType: eDynamicFilterType.Null
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.Null
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: "Null"
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 111
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nNo filter\n"
+  example: []
+  syntax:
+    content: Null = 22
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.Q1
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.Q1
+  id: Q1
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: Q1
+  nameWithType: eDynamicFilterType.Q1
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.Q1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Q1
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 115
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows the dates that are in the 1st calendar quarter, regardless of year. \n"
+  example: []
+  syntax:
+    content: Q1 = 23
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.Q2
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.Q2
+  id: Q2
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: Q2
+  nameWithType: eDynamicFilterType.Q2
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.Q2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Q2
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 119
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows the dates that are in the 2nd calendar quarter, regardless of year. \n"
+  example: []
+  syntax:
+    content: Q2 = 24
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.Q3
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.Q3
+  id: Q3
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: Q3
+  nameWithType: eDynamicFilterType.Q3
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.Q3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Q3
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 123
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows the dates that are in the 3rd calendar quarter, regardless of year. \n"
+  example: []
+  syntax:
+    content: Q3 = 25
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.Q4
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.Q4
+  id: Q4
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: Q4
+  nameWithType: eDynamicFilterType.Q4
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.Q4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Q4
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 127
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows the dates that are in the 4th calendar quarter, regardless of year.\n"
+  example: []
+  syntax:
+    content: Q4 = 26
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.ThisMonth
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.ThisMonth
+  id: ThisMonth
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: ThisMonth
+  nameWithType: eDynamicFilterType.ThisMonth
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.ThisMonth
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThisMonth
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 131
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows this month&apos;s dates.\n"
+  example: []
+  syntax:
+    content: ThisMonth = 27
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.ThisQuarter
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.ThisQuarter
+  id: ThisQuarter
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: ThisQuarter
+  nameWithType: eDynamicFilterType.ThisQuarter
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.ThisQuarter
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThisQuarter
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 135
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows this calendar quarter&apos;s dates.\n"
+  example: []
+  syntax:
+    content: ThisQuarter = 28
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.ThisWeek
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.ThisWeek
+  id: ThisWeek
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: ThisWeek
+  nameWithType: eDynamicFilterType.ThisWeek
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.ThisWeek
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThisWeek
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 139
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows this week&apos;s dates, using Sunday as the first weekday.\n"
+  example: []
+  syntax:
+    content: ThisWeek = 29
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.ThisYear
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.ThisYear
+  id: ThisYear
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: ThisYear
+  nameWithType: eDynamicFilterType.ThisYear
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.ThisYear
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThisYear
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 143
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows this year&apos;s dates.\n"
+  example: []
+  syntax:
+    content: ThisYear = 30
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.Today
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.Today
+  id: Today
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: Today
+  nameWithType: eDynamicFilterType.Today
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.Today
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Today
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 147
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows today&apos;s dates.\n"
+  example: []
+  syntax:
+    content: Today = 31
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.Tomorrow
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.Tomorrow
+  id: Tomorrow
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: Tomorrow
+  nameWithType: eDynamicFilterType.Tomorrow
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.Tomorrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Tomorrow
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 151
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows tomorrow&apos;s dates.\n"
+  example: []
+  syntax:
+    content: Tomorrow = 32
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.YearToDate
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.YearToDate
+  id: YearToDate
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: YearToDate
+  nameWithType: eDynamicFilterType.YearToDate
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.YearToDate
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: YearToDate
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 155
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows the dates between the beginning of the year and today, inclusive.\n"
+  example: []
+  syntax:
+    content: YearToDate = 33
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eDynamicFilterType.Yesterday
+  commentId: F:OfficeOpenXml.Filter.eDynamicFilterType.Yesterday
+  id: Yesterday
+  parent: OfficeOpenXml.Filter.eDynamicFilterType
+  langs:
+  - csharp
+  - vb
+  name: Yesterday
+  nameWithType: eDynamicFilterType.Yesterday
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType.Yesterday
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Yesterday
+    path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
+    startLine: 159
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShows yesterday&apos;s dates.\n"
+  example: []
+  syntax:
+    content: Yesterday = 34
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Filter
+  commentId: N:OfficeOpenXml.Filter
+  name: OfficeOpenXml.Filter
+  nameWithType: OfficeOpenXml.Filter
+  fullName: OfficeOpenXml.Filter
+- uid: OfficeOpenXml.Filter.eDynamicFilterType
+  commentId: T:OfficeOpenXml.Filter.eDynamicFilterType
+  parent: OfficeOpenXml.Filter
+  name: eDynamicFilterType
+  nameWithType: eDynamicFilterType
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType

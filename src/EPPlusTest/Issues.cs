@@ -3775,5 +3775,51 @@ namespace EPPlusTest
             }
             return sb.ToString();
         }
+        public class BorderInfo
+        {
+            public string RangeType { get; set; }
+        }
+        [TestMethod]
+        public void i740()
+        {
+            using (var package = OpenPackage($"i738.xlsx",true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("sheet1");
+                var tableRange = sheet.Cells["A1:C5"];
+                List<BorderInfo> brders = new List<BorderInfo>()
+                    {
+                        new BorderInfo(){ RangeType="border-all" },
+                        new BorderInfo(){ RangeType="border-outside" },
+                        new BorderInfo(){ RangeType="border-none" }
+                    };
+                foreach (var border in brders)
+                {
+                    if (border.RangeType.Equals("border-all"))
+                    {
+                        tableRange.Style.Border.Top.Style = ExcelBorderStyle.Dashed;
+                        tableRange.Style.Border.Bottom.Style = ExcelBorderStyle.Dashed;
+                        tableRange.Style.Border.Left.Style = ExcelBorderStyle.Dashed;
+                        tableRange.Style.Border.Right.Style = ExcelBorderStyle.Dashed;
+                    }
+                    else if (border.RangeType.Equals("border-outside"))
+                    {
+                        tableRange.Style.Border.BorderAround(ExcelBorderStyle.Dashed);
+                    }
+                    else if (border.RangeType.Equals("border-none"))
+                    {
+                        tableRange["B2"].Style.Border.Top.Style = ExcelBorderStyle.None;
+                        tableRange["B2"].Style.Border.Bottom.Style = ExcelBorderStyle.None;
+                        tableRange["B2"].Style.Border.Left.Style = ExcelBorderStyle.None;
+                        tableRange["B2"].Style.Border.Right.Style = ExcelBorderStyle.None;
+
+                        tableRange["B1"].Style.Border.Bottom.Style = ExcelBorderStyle.None;
+                        tableRange["A2"].Style.Border.Right.Style = ExcelBorderStyle.None;
+                        tableRange["C2"].Style.Border.Left.Style = ExcelBorderStyle.None;
+                        tableRange["B3"].Style.Border.Top.Style = ExcelBorderStyle.None;
+                    }
+                }
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

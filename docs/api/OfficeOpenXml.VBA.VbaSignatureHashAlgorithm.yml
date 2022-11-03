@@ -1,0 +1,223 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  commentId: T:OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  id: VbaSignatureHashAlgorithm
+  parent: OfficeOpenXml.VBA
+  children:
+  - OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.MD5
+  - OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA1
+  - OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA256
+  - OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA384
+  - OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA512
+  langs:
+  - csharp
+  - vb
+  name: VbaSignatureHashAlgorithm
+  nameWithType: VbaSignatureHashAlgorithm
+  fullName: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/VbaSignatureHashAlgorithm.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VbaSignatureHashAlgorithm
+    path: ../src/EPPlus/Vba/enums/VbaSignatureHashAlgorithm.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nHash algorithm used for signing vba projects.\n"
+  example: []
+  syntax:
+    content: public enum VbaSignatureHashAlgorithm
+    content.vb: Public Enum VbaSignatureHashAlgorithm
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.MD5
+  commentId: F:OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.MD5
+  id: MD5
+  parent: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  langs:
+  - csharp
+  - vb
+  name: MD5
+  nameWithType: VbaSignatureHashAlgorithm.MD5
+  fullName: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.MD5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/VbaSignatureHashAlgorithm.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MD5
+    path: ../src/EPPlus/Vba/enums/VbaSignatureHashAlgorithm.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nSpecifies that the MD5 algorithm, as defined by RFC 1319, shall be used.\n"
+  example: []
+  syntax:
+    content: MD5 = 0
+    return:
+      type: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA1
+  commentId: F:OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA1
+  id: SHA1
+  parent: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  langs:
+  - csharp
+  - vb
+  name: SHA1
+  nameWithType: VbaSignatureHashAlgorithm.SHA1
+  fullName: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/VbaSignatureHashAlgorithm.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SHA1
+    path: ../src/EPPlus/Vba/enums/VbaSignatureHashAlgorithm.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nSpecifies that the SHA-1 algorithm, as defined by ISO/IEC 10118-3:2004 shall be used.\n"
+  example: []
+  syntax:
+    content: SHA1 = 1
+    return:
+      type: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA256
+  commentId: F:OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA256
+  id: SHA256
+  parent: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  langs:
+  - csharp
+  - vb
+  name: SHA256
+  nameWithType: VbaSignatureHashAlgorithm.SHA256
+  fullName: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA256
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/VbaSignatureHashAlgorithm.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SHA256
+    path: ../src/EPPlus/Vba/enums/VbaSignatureHashAlgorithm.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nSpecifies that the SHA-256 algorithm, as defined by ISO/IEC10118-3:2004 shall be used.\n"
+  example: []
+  syntax:
+    content: SHA256 = 2
+    return:
+      type: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA384
+  commentId: F:OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA384
+  id: SHA384
+  parent: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  langs:
+  - csharp
+  - vb
+  name: SHA384
+  nameWithType: VbaSignatureHashAlgorithm.SHA384
+  fullName: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA384
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/VbaSignatureHashAlgorithm.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SHA384
+    path: ../src/EPPlus/Vba/enums/VbaSignatureHashAlgorithm.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nSpecifies that the SHA-384 algorithm, as defined by ISO/IEC 10118-3:2004 shall be used.\n"
+  example: []
+  syntax:
+    content: SHA384 = 3
+    return:
+      type: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA512
+  commentId: F:OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA512
+  id: SHA512
+  parent: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  langs:
+  - csharp
+  - vb
+  name: SHA512
+  nameWithType: VbaSignatureHashAlgorithm.SHA512
+  fullName: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA512
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/VbaSignatureHashAlgorithm.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SHA512
+    path: ../src/EPPlus/Vba/enums/VbaSignatureHashAlgorithm.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nSpecifies that the SHA-512 algorithm, as defined by ISO/IEC10118-3:2004 shall be used.\n"
+  example: []
+  syntax:
+    content: SHA512 = 4
+    return:
+      type: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.VBA
+  commentId: N:OfficeOpenXml.VBA
+  name: OfficeOpenXml.VBA
+  nameWithType: OfficeOpenXml.VBA
+  fullName: OfficeOpenXml.VBA
+- uid: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  commentId: T:OfficeOpenXml.VBA.VbaSignatureHashAlgorithm
+  parent: OfficeOpenXml.VBA
+  name: VbaSignatureHashAlgorithm
+  nameWithType: VbaSignatureHashAlgorithm
+  fullName: OfficeOpenXml.VBA.VbaSignatureHashAlgorithm

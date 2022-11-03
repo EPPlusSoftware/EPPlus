@@ -1,0 +1,442 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExNumericData
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExNumericData
+  id: ExcelChartExNumericData
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExNumericData.Type
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartExNumericData
+  nameWithType: ExcelChartExNumericData
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExNumericData
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExNumericData.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartExNumericData
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExNumericData.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nNumeric data reference for an extended chart\n"
+  example: []
+  syntax:
+    content: 'public class ExcelChartExNumericData : ExcelChartExData'
+    content.vb: >-
+      Public Class ExcelChartExNumericData
+          Inherits ExcelChartExData
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData.Formula
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData.FormulaDirection
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData.NameFormula
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData.NameFormulaDirection
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExNumericData.Type
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExNumericData.Type
+  id: Type
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExNumericData
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: ExcelChartExNumericData.Type
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExNumericData.Type
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExNumericData.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Type
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExNumericData.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe type of data.\n"
+  example: []
+  syntax:
+    content: public eNumericDataType Type { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+    content.vb: Public Property Type As eNumericDataType
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExNumericData.Type*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelChartExData
+  nameWithType: ExcelChartExData
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData.Formula
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData.Formula
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData
+  name: Formula
+  nameWithType: ExcelChartExData.Formula
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData.Formula
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData.FormulaDirection
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData.FormulaDirection
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData
+  name: FormulaDirection
+  nameWithType: ExcelChartExData.FormulaDirection
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData.FormulaDirection
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData.NameFormula
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData.NameFormula
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData
+  name: NameFormula
+  nameWithType: ExcelChartExData.NameFormula
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData.NameFormula
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData.NameFormulaDirection
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData.NameFormulaDirection
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData
+  name: NameFormulaDirection
+  nameWithType: ExcelChartExData.NameFormulaDirection
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData.NameFormulaDirection
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExNumericData.Type*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExNumericData.Type
+  name: Type
+  nameWithType: ExcelChartExNumericData.Type
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExNumericData.Type
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eNumericDataType
+  nameWithType: eNumericDataType
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType

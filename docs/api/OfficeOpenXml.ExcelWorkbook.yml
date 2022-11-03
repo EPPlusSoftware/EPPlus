@@ -1,0 +1,2060 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelWorkbook
+  commentId: T:OfficeOpenXml.ExcelWorkbook
+  id: ExcelWorkbook
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelWorkbook.CalcMode
+  - OfficeOpenXml.ExcelWorkbook.ClearFormulas
+  - OfficeOpenXml.ExcelWorkbook.ClearFormulaValues
+  - OfficeOpenXml.ExcelWorkbook.CodeModule
+  - OfficeOpenXml.ExcelWorkbook.CreateHtmlExporter(OfficeOpenXml.ExcelRangeBase[])
+  - OfficeOpenXml.ExcelWorkbook.CreateVBAProject
+  - OfficeOpenXml.ExcelWorkbook.Date1904
+  - OfficeOpenXml.ExcelWorkbook.DefaultThemeVersion
+  - OfficeOpenXml.ExcelWorkbook.Dispose
+  - OfficeOpenXml.ExcelWorkbook.ExternalLinks
+  - OfficeOpenXml.ExcelWorkbook.FormulaParserManager
+  - OfficeOpenXml.ExcelWorkbook.FullCalcOnLoad
+  - OfficeOpenXml.ExcelWorkbook.HasLoadedPivotTables
+  - OfficeOpenXml.ExcelWorkbook.MaxFontWidth
+  - OfficeOpenXml.ExcelWorkbook.Names
+  - OfficeOpenXml.ExcelWorkbook.Properties
+  - OfficeOpenXml.ExcelWorkbook.Protection
+  - OfficeOpenXml.ExcelWorkbook.RemoveVBAProject
+  - OfficeOpenXml.ExcelWorkbook.Styles
+  - OfficeOpenXml.ExcelWorkbook.StylesXml
+  - OfficeOpenXml.ExcelWorkbook.ThemeManager
+  - OfficeOpenXml.ExcelWorkbook.ThreadedCommentPersons
+  - OfficeOpenXml.ExcelWorkbook.VbaProject
+  - OfficeOpenXml.ExcelWorkbook.View
+  - OfficeOpenXml.ExcelWorkbook.WorkbookXml
+  - OfficeOpenXml.ExcelWorkbook.Worksheets
+  langs:
+  - csharp
+  - vb
+  name: ExcelWorkbook
+  nameWithType: ExcelWorkbook
+  fullName: OfficeOpenXml.ExcelWorkbook
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelWorkbook
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 69
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRepresents the Excel workbook and provides access to all the \ndocument properties and worksheets within the workbook.\n"
+  example: []
+  syntax:
+    content: 'public sealed class ExcelWorkbook : XmlHelper, IDisposable'
+    content.vb: >-
+      Public NotInheritable Class ExcelWorkbook
+          Inherits XmlHelper
+          Implements IDisposable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - OfficeOpenXml.ExcelWorkbook.OfficeOpenXml.CalculationExtension.Calculate
+  - OfficeOpenXml.ExcelWorkbook.OfficeOpenXml.CalculationExtension.Calculate(System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  - OfficeOpenXml.ExcelWorkbook.OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.ExcelWorkbook.Worksheets
+  commentId: P:OfficeOpenXml.ExcelWorkbook.Worksheets
+  id: Worksheets
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: Worksheets
+  nameWithType: ExcelWorkbook.Worksheets
+  fullName: OfficeOpenXml.ExcelWorkbook.Worksheets
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Worksheets
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 516
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to all the worksheets in the workbook.\nNote: Worksheets index either starts by 0 or 1 depending on the Excelpackage.Compatibility.IsWorksheets1Based property.\nDefault is 1 for .Net 3.5 and .Net 4 and 0 for .Net Core.\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheets Worksheets { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorksheets
+    content.vb: Public ReadOnly Property Worksheets As ExcelWorksheets
+  overload: OfficeOpenXml.ExcelWorkbook.Worksheets*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbook.CreateHtmlExporter(OfficeOpenXml.ExcelRangeBase[])
+  commentId: M:OfficeOpenXml.ExcelWorkbook.CreateHtmlExporter(OfficeOpenXml.ExcelRangeBase[])
+  id: CreateHtmlExporter(OfficeOpenXml.ExcelRangeBase[])
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: CreateHtmlExporter(ExcelRangeBase[])
+  nameWithType: ExcelWorkbook.CreateHtmlExporter(ExcelRangeBase[])
+  fullName: OfficeOpenXml.ExcelWorkbook.CreateHtmlExporter(OfficeOpenXml.ExcelRangeBase[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateHtmlExporter
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 541
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreate an html exporter for the supplied ranges.\n"
+  example: []
+  syntax:
+    content: public IExcelHtmlRangeExporter CreateHtmlExporter(params ExcelRangeBase[] ranges)
+    parameters:
+    - id: ranges
+      type: OfficeOpenXml.ExcelRangeBase[]
+      description: 'The ranges to create the report from. All ranges must originate from the current workbook. '
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+      description: The HTML exporter.
+    content.vb: Public Function CreateHtmlExporter(ParamArray ranges As ExcelRangeBase()) As IExcelHtmlRangeExporter
+  overload: OfficeOpenXml.ExcelWorkbook.CreateHtmlExporter*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+  nameWithType.vb: ExcelWorkbook.CreateHtmlExporter(ExcelRangeBase())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ExcelWorkbook.CreateHtmlExporter(OfficeOpenXml.ExcelRangeBase())
+  name.vb: CreateHtmlExporter(ExcelRangeBase())
+- uid: OfficeOpenXml.ExcelWorkbook.Names
+  commentId: P:OfficeOpenXml.ExcelWorkbook.Names
+  id: Names
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: Names
+  nameWithType: ExcelWorkbook.Names
+  fullName: OfficeOpenXml.ExcelWorkbook.Names
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Names
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 567
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to named ranges\n"
+  example: []
+  syntax:
+    content: public ExcelNamedRangeCollection Names { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelNamedRangeCollection
+    content.vb: Public ReadOnly Property Names As ExcelNamedRangeCollection
+  overload: OfficeOpenXml.ExcelWorkbook.Names*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbook.ExternalLinks
+  commentId: P:OfficeOpenXml.ExcelWorkbook.ExternalLinks
+  id: ExternalLinks
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: ExternalLinks
+  nameWithType: ExcelWorkbook.ExternalLinks
+  fullName: OfficeOpenXml.ExcelWorkbook.ExternalLinks
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExternalLinks
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 579
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA collection of links to external workbooks and it&apos;s cached data.\nThis collection can also contain DDE and OLE links. DDE and OLE are readonly and cannot be added.\n"
+  example: []
+  syntax:
+    content: public ExcelExternalLinksCollection ExternalLinks { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+    content.vb: Public ReadOnly Property ExternalLinks As ExcelExternalLinksCollection
+  overload: OfficeOpenXml.ExcelWorkbook.ExternalLinks*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbook.FormulaParserManager
+  commentId: P:OfficeOpenXml.ExcelWorkbook.FormulaParserManager
+  id: FormulaParserManager
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: FormulaParserManager
+  nameWithType: ExcelWorkbook.FormulaParserManager
+  fullName: OfficeOpenXml.ExcelWorkbook.FormulaParserManager
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FormulaParserManager
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 610
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nManage the formula parser.\nAdd your own functions or replace native ones, parse formulas or attach a logger.\n"
+  example: []
+  syntax:
+    content: public FormulaParserManager FormulaParserManager { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaParserManager
+    content.vb: Public ReadOnly Property FormulaParserManager As FormulaParserManager
+  overload: OfficeOpenXml.ExcelWorkbook.FormulaParserManager*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbook.ThreadedCommentPersons
+  commentId: P:OfficeOpenXml.ExcelWorkbook.ThreadedCommentPersons
+  id: ThreadedCommentPersons
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: ThreadedCommentPersons
+  nameWithType: ExcelWorkbook.ThreadedCommentPersons
+  fullName: OfficeOpenXml.ExcelWorkbook.ThreadedCommentPersons
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThreadedCommentPersons
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 625
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRepresents a collection of <xref href=\"OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson\" data-throw-if-not-resolved=\"false\"></xref>s in the workbook.\n"
+  example: []
+  syntax:
+    content: public ExcelThreadedCommentPersonCollection ThreadedCommentPersons { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPersonCollection
+    content.vb: Public ReadOnly Property ThreadedCommentPersons As ExcelThreadedCommentPersonCollection
+  overload: OfficeOpenXml.ExcelWorkbook.ThreadedCommentPersons*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbook.MaxFontWidth
+  commentId: P:OfficeOpenXml.ExcelWorkbook.MaxFontWidth
+  id: MaxFontWidth
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: MaxFontWidth
+  nameWithType: ExcelWorkbook.MaxFontWidth
+  fullName: OfficeOpenXml.ExcelWorkbook.MaxFontWidth
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MaxFontWidth
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 640
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nMax font width for the workbook\n<remarks>This method uses GDI. If you use Azure or another environment that does not support GDI, you have to set this value manually if you don&apos;t use the standard Calibri font</remarks>\n"
+  example: []
+  syntax:
+    content: public decimal MaxFontWidth { get; set; }
+    parameters: []
+    return:
+      type: System.Decimal
+    content.vb: Public Property MaxFontWidth As Decimal
+  overload: OfficeOpenXml.ExcelWorkbook.MaxFontWidth*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbook.Protection
+  commentId: P:OfficeOpenXml.ExcelWorkbook.Protection
+  id: Protection
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: Protection
+  nameWithType: ExcelWorkbook.Protection
+  fullName: OfficeOpenXml.ExcelWorkbook.Protection
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Protection
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 706
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAccess properties to protect or unprotect a workbook\n"
+  example: []
+  syntax:
+    content: public ExcelProtection Protection { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelProtection
+    content.vb: Public ReadOnly Property Protection As ExcelProtection
+  overload: OfficeOpenXml.ExcelWorkbook.Protection*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbook.View
+  commentId: P:OfficeOpenXml.ExcelWorkbook.View
+  id: View
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: View
+  nameWithType: ExcelWorkbook.View
+  fullName: OfficeOpenXml.ExcelWorkbook.View
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: View
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 722
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAccess to workbook view properties\n"
+  example: []
+  syntax:
+    content: public ExcelWorkbookView View { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorkbookView
+    content.vb: Public ReadOnly Property View As ExcelWorkbookView
+  overload: OfficeOpenXml.ExcelWorkbook.View*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbook.VbaProject
+  commentId: P:OfficeOpenXml.ExcelWorkbook.VbaProject
+  id: VbaProject
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: VbaProject
+  nameWithType: ExcelWorkbook.VbaProject
+  fullName: OfficeOpenXml.ExcelWorkbook.VbaProject
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VbaProject
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 739
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA reference to the VBA project.\nNull if no project exists.\nUse Workbook.CreateVBAProject to create a new VBA-Project\n"
+  example: []
+  syntax:
+    content: public ExcelVbaProject VbaProject { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.VBA.ExcelVbaProject
+    content.vb: Public ReadOnly Property VbaProject As ExcelVbaProject
+  overload: OfficeOpenXml.ExcelWorkbook.VbaProject*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbook.RemoveVBAProject
+  commentId: M:OfficeOpenXml.ExcelWorkbook.RemoveVBAProject
+  id: RemoveVBAProject
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: RemoveVBAProject()
+  nameWithType: ExcelWorkbook.RemoveVBAProject()
+  fullName: OfficeOpenXml.ExcelWorkbook.RemoveVBAProject()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveVBAProject
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 760
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRemove the from the file VBA project.\n"
+  example: []
+  syntax:
+    content: public void RemoveVBAProject()
+    content.vb: Public Sub RemoveVBAProject
+  overload: OfficeOpenXml.ExcelWorkbook.RemoveVBAProject*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbook.CreateVBAProject
+  commentId: M:OfficeOpenXml.ExcelWorkbook.CreateVBAProject
+  id: CreateVBAProject
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: CreateVBAProject()
+  nameWithType: ExcelWorkbook.CreateVBAProject()
+  fullName: OfficeOpenXml.ExcelWorkbook.CreateVBAProject()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateVBAProject
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 773
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreate an empty VBA project.\n"
+  example: []
+  syntax:
+    content: public void CreateVBAProject()
+    content.vb: Public Sub CreateVBAProject
+  overload: OfficeOpenXml.ExcelWorkbook.CreateVBAProject*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbook.WorkbookXml
+  commentId: P:OfficeOpenXml.ExcelWorkbook.WorkbookXml
+  id: WorkbookXml
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: WorkbookXml
+  nameWithType: ExcelWorkbook.WorkbookXml
+  fullName: OfficeOpenXml.ExcelWorkbook.WorkbookXml
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WorkbookXml
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 811
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to the XML data representing the workbook in the package.\n"
+  example: []
+  syntax:
+    content: public XmlDocument WorkbookXml { get; }
+    parameters: []
+    return:
+      type: System.Xml.XmlDocument
+    content.vb: Public ReadOnly Property WorkbookXml As XmlDocument
+  overload: OfficeOpenXml.ExcelWorkbook.WorkbookXml*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbook.CodeModule
+  commentId: P:OfficeOpenXml.ExcelWorkbook.CodeModule
+  id: CodeModule
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: CodeModule
+  nameWithType: ExcelWorkbook.CodeModule
+  fullName: OfficeOpenXml.ExcelWorkbook.CodeModule
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CodeModule
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 842
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe VBA code module if the package has a VBA project. Otherwise this propery is null.\n<xref href=\"OfficeOpenXml.ExcelWorkbook.CreateVBAProject\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public ExcelVBAModule CodeModule { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.VBA.ExcelVBAModule
+    content.vb: Public ReadOnly Property CodeModule As ExcelVBAModule
+  overload: OfficeOpenXml.ExcelWorkbook.CodeModule*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbook.Date1904
+  commentId: P:OfficeOpenXml.ExcelWorkbook.Date1904
+  id: Date1904
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: Date1904
+  nameWithType: ExcelWorkbook.Date1904
+  fullName: OfficeOpenXml.ExcelWorkbook.Date1904
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Date1904
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 889
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe date systems used by Microsoft Excel can be based on one of two different dates. By default, a serial number of 1 in Microsoft Excel represents January 1, 1900.\nThe default for the serial number 1 can be changed to represent January 2, 1904.\nThis option was included in Microsoft Excel for Windows to make it compatible with Excel for the Macintosh, which defaults to January 2, 1904.\n"
+  example: []
+  syntax:
+    content: public bool Date1904 { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Date1904 As Boolean
+  overload: OfficeOpenXml.ExcelWorkbook.Date1904*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbook.StylesXml
+  commentId: P:OfficeOpenXml.ExcelWorkbook.StylesXml
+  id: StylesXml
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: StylesXml
+  nameWithType: ExcelWorkbook.StylesXml
+  fullName: OfficeOpenXml.ExcelWorkbook.StylesXml
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StylesXml
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 959
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to the XML data representing the styles in the package. \n"
+  example: []
+  syntax:
+    content: public XmlDocument StylesXml { get; set; }
+    parameters: []
+    return:
+      type: System.Xml.XmlDocument
+    content.vb: Public Property StylesXml As XmlDocument
+  overload: OfficeOpenXml.ExcelWorkbook.StylesXml*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbook.Styles
+  commentId: P:OfficeOpenXml.ExcelWorkbook.Styles
+  id: Styles
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: Styles
+  nameWithType: ExcelWorkbook.Styles
+  fullName: OfficeOpenXml.ExcelWorkbook.Styles
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Styles
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 1009
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPackage styles collection. Used internally to access style data.\n"
+  example: []
+  syntax:
+    content: public ExcelStyles Styles { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelStyles
+    content.vb: Public ReadOnly Property Styles As ExcelStyles
+  overload: OfficeOpenXml.ExcelWorkbook.Styles*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbook.Properties
+  commentId: P:OfficeOpenXml.ExcelWorkbook.Properties
+  id: Properties
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: Properties
+  nameWithType: ExcelWorkbook.Properties
+  fullName: OfficeOpenXml.ExcelWorkbook.Properties
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Properties
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 1026
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe office document properties\n"
+  example: []
+  syntax:
+    content: public OfficeProperties Properties { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.OfficeProperties
+    content.vb: Public ReadOnly Property Properties As OfficeProperties
+  overload: OfficeOpenXml.ExcelWorkbook.Properties*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbook.CalcMode
+  commentId: P:OfficeOpenXml.ExcelWorkbook.CalcMode
+  id: CalcMode
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: CalcMode
+  nameWithType: ExcelWorkbook.CalcMode
+  fullName: OfficeOpenXml.ExcelWorkbook.CalcMode
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CalcMode
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 1046
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCalculation mode for the workbook.\n"
+  example: []
+  syntax:
+    content: public ExcelCalcMode CalcMode { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelCalcMode
+    content.vb: Public Property CalcMode As ExcelCalcMode
+  overload: OfficeOpenXml.ExcelWorkbook.CalcMode*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbook.FullCalcOnLoad
+  commentId: P:OfficeOpenXml.ExcelWorkbook.FullCalcOnLoad
+  id: FullCalcOnLoad
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: FullCalcOnLoad
+  nameWithType: ExcelWorkbook.FullCalcOnLoad
+  fullName: OfficeOpenXml.ExcelWorkbook.FullCalcOnLoad
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FullCalcOnLoad
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 1086
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nShould Excel do a full calculation after the workbook has been loaded?\n<remarks>This property is always true for both new workbooks and loaded templates(on load). If this is not the wanted behavior set this property to false.</remarks>\n"
+  example: []
+  syntax:
+    content: public bool FullCalcOnLoad { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property FullCalcOnLoad As Boolean
+  overload: OfficeOpenXml.ExcelWorkbook.FullCalcOnLoad*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbook.ThemeManager
+  commentId: P:OfficeOpenXml.ExcelWorkbook.ThemeManager
+  id: ThemeManager
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: ThemeManager
+  nameWithType: ExcelWorkbook.ThemeManager
+  fullName: OfficeOpenXml.ExcelWorkbook.ThemeManager
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThemeManager
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 1102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreate and manage the theme for the workbook.\n"
+  example: []
+  syntax:
+    content: public ExcelThemeManager ThemeManager { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Theme.ExcelThemeManager
+    content.vb: Public ReadOnly Property ThemeManager As ExcelThemeManager
+  overload: OfficeOpenXml.ExcelWorkbook.ThemeManager*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbook.DefaultThemeVersion
+  commentId: P:OfficeOpenXml.ExcelWorkbook.DefaultThemeVersion
+  id: DefaultThemeVersion
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: DefaultThemeVersion
+  nameWithType: ExcelWorkbook.DefaultThemeVersion
+  fullName: OfficeOpenXml.ExcelWorkbook.DefaultThemeVersion
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DefaultThemeVersion
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 1117
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe default version of themes to apply in the workbook\n"
+  example: []
+  syntax:
+    content: public int? DefaultThemeVersion { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property DefaultThemeVersion As Integer?
+  overload: OfficeOpenXml.ExcelWorkbook.DefaultThemeVersion*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbook.ClearFormulas
+  commentId: M:OfficeOpenXml.ExcelWorkbook.ClearFormulas
+  id: ClearFormulas
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: ClearFormulas()
+  nameWithType: ExcelWorkbook.ClearFormulas()
+  fullName: OfficeOpenXml.ExcelWorkbook.ClearFormulas()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ClearFormulas
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 1540
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRemoves all formulas within the entire workbook, but keeps the calculated values.\n"
+  example: []
+  syntax:
+    content: public void ClearFormulas()
+    content.vb: Public Sub ClearFormulas
+  overload: OfficeOpenXml.ExcelWorkbook.ClearFormulas*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbook.ClearFormulaValues
+  commentId: M:OfficeOpenXml.ExcelWorkbook.ClearFormulaValues
+  id: ClearFormulaValues
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: ClearFormulaValues()
+  nameWithType: ExcelWorkbook.ClearFormulaValues()
+  fullName: OfficeOpenXml.ExcelWorkbook.ClearFormulaValues()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ClearFormulaValues
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 1552
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRemoves all values of cells with formulas in the entire workbook, but keeps the formulas.\n"
+  example: []
+  syntax:
+    content: public void ClearFormulaValues()
+    content.vb: Public Sub ClearFormulaValues
+  overload: OfficeOpenXml.ExcelWorkbook.ClearFormulaValues*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbook.Dispose
+  commentId: M:OfficeOpenXml.ExcelWorkbook.Dispose
+  id: Dispose
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: ExcelWorkbook.Dispose()
+  fullName: OfficeOpenXml.ExcelWorkbook.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dispose
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 1636
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDisposes the workbooks\n"
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose
+  overload: OfficeOpenXml.ExcelWorkbook.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbook.HasLoadedPivotTables
+  commentId: P:OfficeOpenXml.ExcelWorkbook.HasLoadedPivotTables
+  id: HasLoadedPivotTables
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: HasLoadedPivotTables
+  nameWithType: ExcelWorkbook.HasLoadedPivotTables
+  fullName: OfficeOpenXml.ExcelWorkbook.HasLoadedPivotTables
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasLoadedPivotTables
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 1666
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns true if the workbook has pivot tables in any worksheet.\n"
+  example: []
+  syntax:
+    content: public bool HasLoadedPivotTables { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property HasLoadedPivotTables As Boolean
+  overload: OfficeOpenXml.ExcelWorkbook.HasLoadedPivotTables*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorkbook.OfficeOpenXml.CalculationExtension.Calculate
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+  parent: OfficeOpenXml.CalculationExtension
+  definition: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+  name: Calculate()
+  nameWithType: CalculationExtension.Calculate()
+  fullName: OfficeOpenXml.CalculationExtension.Calculate()
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorkbook.OfficeOpenXml.CalculationExtension.Calculate(System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  parent: OfficeOpenXml.CalculationExtension
+  definition: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  name: Calculate(Action<ExcelCalculationOption>)
+  nameWithType: CalculationExtension.Calculate(Action<ExcelCalculationOption>)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(System.Action<OfficeOpenXml.FormulaParsing.ExcelCalculationOption>)
+  nameWithType.vb: CalculationExtension.Calculate(Action(Of ExcelCalculationOption))
+  fullName.vb: OfficeOpenXml.CalculationExtension.Calculate(System.Action(Of OfficeOpenXml.FormulaParsing.ExcelCalculationOption))
+  name.vb: Calculate(Action(Of ExcelCalculationOption))
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorkbook.OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  parent: OfficeOpenXml.CalculationExtension
+  definition: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  name: Calculate(ExcelCalculationOption)
+  nameWithType: CalculationExtension.Calculate(ExcelCalculationOption)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+  name: Calculate(ExcelWorkbook)
+  nameWithType: CalculationExtension.Calculate(ExcelWorkbook)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorkbook
+    name: ExcelWorkbook
+    nameWithType: ExcelWorkbook
+    fullName: OfficeOpenXml.ExcelWorkbook
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorkbook
+    name: ExcelWorkbook
+    nameWithType: ExcelWorkbook
+    fullName: OfficeOpenXml.ExcelWorkbook
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.CalculationExtension
+  commentId: T:OfficeOpenXml.CalculationExtension
+  parent: OfficeOpenXml
+  name: CalculationExtension
+  nameWithType: CalculationExtension
+  fullName: OfficeOpenXml.CalculationExtension
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  isExternal: true
+  name: Calculate(ExcelWorkbook, Action<ExcelCalculationOption>)
+  nameWithType: CalculationExtension.Calculate(ExcelWorkbook, Action<ExcelCalculationOption>)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook, System.Action<OfficeOpenXml.FormulaParsing.ExcelCalculationOption>)
+  nameWithType.vb: CalculationExtension.Calculate(ExcelWorkbook, Action(Of ExcelCalculationOption))
+  fullName.vb: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook, System.Action(Of OfficeOpenXml.FormulaParsing.ExcelCalculationOption))
+  name.vb: Calculate(ExcelWorkbook, Action(Of ExcelCalculationOption))
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorkbook
+    name: ExcelWorkbook
+    nameWithType: ExcelWorkbook
+    fullName: OfficeOpenXml.ExcelWorkbook
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorkbook
+    name: ExcelWorkbook
+    nameWithType: ExcelWorkbook
+    fullName: OfficeOpenXml.ExcelWorkbook
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  name: Calculate(ExcelWorkbook, ExcelCalculationOption)
+  nameWithType: CalculationExtension.Calculate(ExcelWorkbook, ExcelCalculationOption)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook, OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorkbook
+    name: ExcelWorkbook
+    nameWithType: ExcelWorkbook
+    fullName: OfficeOpenXml.ExcelWorkbook
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorkbook
+    name: ExcelWorkbook
+    nameWithType: ExcelWorkbook
+    fullName: OfficeOpenXml.ExcelWorkbook
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorkbook.Worksheets*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.Worksheets
+  name: Worksheets
+  nameWithType: ExcelWorkbook.Worksheets
+  fullName: OfficeOpenXml.ExcelWorkbook.Worksheets
+- uid: OfficeOpenXml.ExcelWorksheets
+  commentId: T:OfficeOpenXml.ExcelWorksheets
+  parent: OfficeOpenXml
+  name: ExcelWorksheets
+  nameWithType: ExcelWorksheets
+  fullName: OfficeOpenXml.ExcelWorksheets
+- uid: System.InvalidOperationException
+  commentId: T:System.InvalidOperationException
+  parent: System
+  isExternal: true
+  name: InvalidOperationException
+  nameWithType: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: OfficeOpenXml.ExcelWorkbook.CreateHtmlExporter*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.CreateHtmlExporter
+  name: CreateHtmlExporter
+  nameWithType: ExcelWorkbook.CreateHtmlExporter
+  fullName: OfficeOpenXml.ExcelWorkbook.CreateHtmlExporter
+- uid: OfficeOpenXml.ExcelRangeBase[]
+  isExternal: true
+  name: ExcelRangeBase[]
+  nameWithType: ExcelRangeBase[]
+  fullName: OfficeOpenXml.ExcelRangeBase[]
+  nameWithType.vb: ExcelRangeBase()
+  fullName.vb: OfficeOpenXml.ExcelRangeBase()
+  name.vb: ExcelRangeBase()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  commentId: T:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces
+  name: IExcelHtmlRangeExporter
+  nameWithType: IExcelHtmlRangeExporter
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlRangeExporter
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces
+  commentId: N:OfficeOpenXml.Export.HtmlExport.Interfaces
+  name: OfficeOpenXml.Export.HtmlExport.Interfaces
+  nameWithType: OfficeOpenXml.Export.HtmlExport.Interfaces
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces
+- uid: OfficeOpenXml.ExcelWorkbook.Names*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.Names
+  name: Names
+  nameWithType: ExcelWorkbook.Names
+  fullName: OfficeOpenXml.ExcelWorkbook.Names
+- uid: OfficeOpenXml.ExcelNamedRangeCollection
+  commentId: T:OfficeOpenXml.ExcelNamedRangeCollection
+  parent: OfficeOpenXml
+  name: ExcelNamedRangeCollection
+  nameWithType: ExcelNamedRangeCollection
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection
+- uid: OfficeOpenXml.ExcelWorkbook.ExternalLinks*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.ExternalLinks
+  name: ExternalLinks
+  nameWithType: ExcelWorkbook.ExternalLinks
+  fullName: OfficeOpenXml.ExcelWorkbook.ExternalLinks
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalLinksCollection
+  nameWithType: ExcelExternalLinksCollection
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+- uid: OfficeOpenXml.ExternalReferences
+  commentId: N:OfficeOpenXml.ExternalReferences
+  name: OfficeOpenXml.ExternalReferences
+  nameWithType: OfficeOpenXml.ExternalReferences
+  fullName: OfficeOpenXml.ExternalReferences
+- uid: OfficeOpenXml.ExcelWorkbook.FormulaParserManager*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.FormulaParserManager
+  name: FormulaParserManager
+  nameWithType: ExcelWorkbook.FormulaParserManager
+  fullName: OfficeOpenXml.ExcelWorkbook.FormulaParserManager
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaParserManager
+  parent: OfficeOpenXml.FormulaParsing
+  name: FormulaParserManager
+  nameWithType: FormulaParserManager
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+  commentId: T:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+  parent: OfficeOpenXml.ThreadedComments
+  name: ExcelThreadedCommentPerson
+  nameWithType: ExcelThreadedCommentPerson
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+- uid: OfficeOpenXml.ExcelWorkbook.ThreadedCommentPersons*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.ThreadedCommentPersons
+  name: ThreadedCommentPersons
+  nameWithType: ExcelWorkbook.ThreadedCommentPersons
+  fullName: OfficeOpenXml.ExcelWorkbook.ThreadedCommentPersons
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPersonCollection
+  commentId: T:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPersonCollection
+  parent: OfficeOpenXml.ThreadedComments
+  name: ExcelThreadedCommentPersonCollection
+  nameWithType: ExcelThreadedCommentPersonCollection
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPersonCollection
+- uid: OfficeOpenXml.ThreadedComments
+  commentId: N:OfficeOpenXml.ThreadedComments
+  name: OfficeOpenXml.ThreadedComments
+  nameWithType: OfficeOpenXml.ThreadedComments
+  fullName: OfficeOpenXml.ThreadedComments
+- uid: OfficeOpenXml.ExcelWorkbook.MaxFontWidth*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.MaxFontWidth
+  name: MaxFontWidth
+  nameWithType: ExcelWorkbook.MaxFontWidth
+  fullName: OfficeOpenXml.ExcelWorkbook.MaxFontWidth
+- uid: System.Decimal
+  commentId: T:System.Decimal
+  parent: System
+  isExternal: true
+  name: Decimal
+  nameWithType: Decimal
+  fullName: System.Decimal
+- uid: OfficeOpenXml.ExcelWorkbook.Protection*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.Protection
+  name: Protection
+  nameWithType: ExcelWorkbook.Protection
+  fullName: OfficeOpenXml.ExcelWorkbook.Protection
+- uid: OfficeOpenXml.ExcelProtection
+  commentId: T:OfficeOpenXml.ExcelProtection
+  parent: OfficeOpenXml
+  name: ExcelProtection
+  nameWithType: ExcelProtection
+  fullName: OfficeOpenXml.ExcelProtection
+- uid: OfficeOpenXml.ExcelWorkbook.View*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.View
+  name: View
+  nameWithType: ExcelWorkbook.View
+  fullName: OfficeOpenXml.ExcelWorkbook.View
+- uid: OfficeOpenXml.ExcelWorkbookView
+  commentId: T:OfficeOpenXml.ExcelWorkbookView
+  parent: OfficeOpenXml
+  name: ExcelWorkbookView
+  nameWithType: ExcelWorkbookView
+  fullName: OfficeOpenXml.ExcelWorkbookView
+- uid: OfficeOpenXml.ExcelWorkbook.VbaProject*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.VbaProject
+  name: VbaProject
+  nameWithType: ExcelWorkbook.VbaProject
+  fullName: OfficeOpenXml.ExcelWorkbook.VbaProject
+- uid: OfficeOpenXml.VBA.ExcelVbaProject
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaProject
+  parent: OfficeOpenXml.VBA
+  name: ExcelVbaProject
+  nameWithType: ExcelVbaProject
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject
+- uid: OfficeOpenXml.VBA
+  commentId: N:OfficeOpenXml.VBA
+  name: OfficeOpenXml.VBA
+  nameWithType: OfficeOpenXml.VBA
+  fullName: OfficeOpenXml.VBA
+- uid: OfficeOpenXml.ExcelWorkbook.RemoveVBAProject*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.RemoveVBAProject
+  name: RemoveVBAProject
+  nameWithType: ExcelWorkbook.RemoveVBAProject
+  fullName: OfficeOpenXml.ExcelWorkbook.RemoveVBAProject
+- uid: OfficeOpenXml.ExcelWorkbook.CreateVBAProject*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.CreateVBAProject
+  name: CreateVBAProject
+  nameWithType: ExcelWorkbook.CreateVBAProject
+  fullName: OfficeOpenXml.ExcelWorkbook.CreateVBAProject
+- uid: OfficeOpenXml.ExcelWorkbook.WorkbookXml*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.WorkbookXml
+  name: WorkbookXml
+  nameWithType: ExcelWorkbook.WorkbookXml
+  fullName: OfficeOpenXml.ExcelWorkbook.WorkbookXml
+- uid: System.Xml.XmlDocument
+  commentId: T:System.Xml.XmlDocument
+  parent: System.Xml
+  isExternal: true
+  name: XmlDocument
+  nameWithType: XmlDocument
+  fullName: System.Xml.XmlDocument
+- uid: System.Xml
+  commentId: N:System.Xml
+  isExternal: true
+  name: System.Xml
+  nameWithType: System.Xml
+  fullName: System.Xml
+- uid: OfficeOpenXml.ExcelWorkbook.CreateVBAProject
+  commentId: M:OfficeOpenXml.ExcelWorkbook.CreateVBAProject
+  isExternal: true
+- uid: OfficeOpenXml.ExcelWorkbook.CodeModule*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.CodeModule
+  name: CodeModule
+  nameWithType: ExcelWorkbook.CodeModule
+  fullName: OfficeOpenXml.ExcelWorkbook.CodeModule
+- uid: OfficeOpenXml.VBA.ExcelVBAModule
+  commentId: T:OfficeOpenXml.VBA.ExcelVBAModule
+  parent: OfficeOpenXml.VBA
+  name: ExcelVBAModule
+  nameWithType: ExcelVBAModule
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule
+- uid: OfficeOpenXml.ExcelWorkbook.Date1904*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.Date1904
+  name: Date1904
+  nameWithType: ExcelWorkbook.Date1904
+  fullName: OfficeOpenXml.ExcelWorkbook.Date1904
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExcelWorkbook.StylesXml*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.StylesXml
+  name: StylesXml
+  nameWithType: ExcelWorkbook.StylesXml
+  fullName: OfficeOpenXml.ExcelWorkbook.StylesXml
+- uid: OfficeOpenXml.ExcelWorkbook.Styles*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.Styles
+  name: Styles
+  nameWithType: ExcelWorkbook.Styles
+  fullName: OfficeOpenXml.ExcelWorkbook.Styles
+- uid: OfficeOpenXml.ExcelStyles
+  commentId: T:OfficeOpenXml.ExcelStyles
+  parent: OfficeOpenXml
+  name: ExcelStyles
+  nameWithType: ExcelStyles
+  fullName: OfficeOpenXml.ExcelStyles
+- uid: OfficeOpenXml.ExcelWorkbook.Properties*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.Properties
+  name: Properties
+  nameWithType: ExcelWorkbook.Properties
+  fullName: OfficeOpenXml.ExcelWorkbook.Properties
+- uid: OfficeOpenXml.OfficeProperties
+  commentId: T:OfficeOpenXml.OfficeProperties
+  parent: OfficeOpenXml
+  name: OfficeProperties
+  nameWithType: OfficeProperties
+  fullName: OfficeOpenXml.OfficeProperties
+- uid: OfficeOpenXml.ExcelWorkbook.CalcMode*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.CalcMode
+  name: CalcMode
+  nameWithType: ExcelWorkbook.CalcMode
+  fullName: OfficeOpenXml.ExcelWorkbook.CalcMode
+- uid: OfficeOpenXml.ExcelCalcMode
+  commentId: T:OfficeOpenXml.ExcelCalcMode
+  parent: OfficeOpenXml
+  name: ExcelCalcMode
+  nameWithType: ExcelCalcMode
+  fullName: OfficeOpenXml.ExcelCalcMode
+- uid: OfficeOpenXml.ExcelWorkbook.FullCalcOnLoad*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.FullCalcOnLoad
+  name: FullCalcOnLoad
+  nameWithType: ExcelWorkbook.FullCalcOnLoad
+  fullName: OfficeOpenXml.ExcelWorkbook.FullCalcOnLoad
+- uid: OfficeOpenXml.ExcelWorkbook.ThemeManager*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.ThemeManager
+  name: ThemeManager
+  nameWithType: ExcelWorkbook.ThemeManager
+  fullName: OfficeOpenXml.ExcelWorkbook.ThemeManager
+- uid: OfficeOpenXml.Drawing.Theme.ExcelThemeManager
+  commentId: T:OfficeOpenXml.Drawing.Theme.ExcelThemeManager
+  parent: OfficeOpenXml.Drawing.Theme
+  name: ExcelThemeManager
+  nameWithType: ExcelThemeManager
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelThemeManager
+- uid: OfficeOpenXml.Drawing.Theme
+  commentId: N:OfficeOpenXml.Drawing.Theme
+  name: OfficeOpenXml.Drawing.Theme
+  nameWithType: OfficeOpenXml.Drawing.Theme
+  fullName: OfficeOpenXml.Drawing.Theme
+- uid: OfficeOpenXml.ExcelWorkbook.DefaultThemeVersion*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.DefaultThemeVersion
+  name: DefaultThemeVersion
+  nameWithType: ExcelWorkbook.DefaultThemeVersion
+  fullName: OfficeOpenXml.ExcelWorkbook.DefaultThemeVersion
+- uid: System.Nullable{System.Int32}
+  commentId: T:System.Nullable{System.Int32}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Int32>
+  nameWithType: Nullable<Int32>
+  fullName: System.Nullable<System.Int32>
+  nameWithType.vb: Nullable(Of Int32)
+  fullName.vb: System.Nullable(Of System.Int32)
+  name.vb: Nullable(Of Int32)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorkbook.ClearFormulas*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.ClearFormulas
+  name: ClearFormulas
+  nameWithType: ExcelWorkbook.ClearFormulas
+  fullName: OfficeOpenXml.ExcelWorkbook.ClearFormulas
+- uid: OfficeOpenXml.ExcelWorkbook.ClearFormulaValues*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.ClearFormulaValues
+  name: ClearFormulaValues
+  nameWithType: ExcelWorkbook.ClearFormulaValues
+  fullName: OfficeOpenXml.ExcelWorkbook.ClearFormulaValues
+- uid: OfficeOpenXml.ExcelWorkbook.Dispose*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.Dispose
+  name: Dispose
+  nameWithType: ExcelWorkbook.Dispose
+  fullName: OfficeOpenXml.ExcelWorkbook.Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorkbook.HasLoadedPivotTables*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.HasLoadedPivotTables
+  name: HasLoadedPivotTables
+  nameWithType: ExcelWorkbook.HasLoadedPivotTables
+  fullName: OfficeOpenXml.ExcelWorkbook.HasLoadedPivotTables

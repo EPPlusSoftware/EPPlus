@@ -1,0 +1,111 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula2
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula2
+  id: IExcelConditionalFormattingWithFormula2
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  children:
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula2.Formula2
+  langs:
+  - csharp
+  - vb
+  name: IExcelConditionalFormattingWithFormula2
+  nameWithType: IExcelConditionalFormattingWithFormula2
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula2
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithFormula2.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelConditionalFormattingWithFormula2
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithFormula2.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nIExcelConditionalFormattingWithFormula2\n"
+  example: []
+  syntax:
+    content: 'public interface IExcelConditionalFormattingWithFormula2 : IExcelConditionalFormattingWithFormula'
+    content.vb: >-
+      Public Interface IExcelConditionalFormattingWithFormula2
+          Inherits IExcelConditionalFormattingWithFormula
+  inheritedMembers:
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula.Formula
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula2.Formula2
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula2.Formula2
+  id: Formula2
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula2
+  langs:
+  - csharp
+  - vb
+  name: Formula2
+  nameWithType: IExcelConditionalFormattingWithFormula2.Formula2
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula2.Formula2
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithFormula2.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Formula2
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithFormula2.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nFormula2 Attribute\n"
+  example: []
+  syntax:
+    content: string Formula2 { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Property Formula2 As String
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula2.Formula2*
+  modifiers.csharp:
+  - get
+  - set
+references:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts
+  commentId: N:OfficeOpenXml.ConditionalFormatting.Contracts
+  name: OfficeOpenXml.ConditionalFormatting.Contracts
+  nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula.Formula
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula.Formula
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula
+  name: Formula
+  nameWithType: IExcelConditionalFormattingWithFormula.Formula
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula.Formula
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingWithFormula
+  nameWithType: IExcelConditionalFormattingWithFormula
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula2.Formula2*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula2.Formula2
+  name: Formula2
+  nameWithType: IExcelConditionalFormattingWithFormula2.Formula2
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula2.Formula2
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

@@ -1,0 +1,668 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
+  id: ExcelAddressInfo
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  children:
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.AddressOnSheet
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.EndCell
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.IsMultipleCells
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Parse(System.String)
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.StartCell
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Worksheet
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.WorksheetIsSpecified
+  langs:
+  - csharp
+  - vb
+  name: ExcelAddressInfo
+  nameWithType: ExcelAddressInfo
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelAddressInfo
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nInformation about an address.\n"
+  example: []
+  syntax:
+    content: public class ExcelAddressInfo
+    content.vb: Public Class ExcelAddressInfo
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Parse(System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Parse(System.String)
+  id: Parse(System.String)
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
+  langs:
+  - csharp
+  - vb
+  name: Parse(String)
+  nameWithType: ExcelAddressInfo.Parse(String)
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Parse(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Parse
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  syntax:
+    content: public static ExcelAddressInfo Parse(string address)
+    parameters:
+    - id: address
+      type: System.String
+    return:
+      type: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
+    content.vb: Public Shared Function Parse(address As String) As ExcelAddressInfo
+  overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Parse*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Worksheet
+  commentId: P:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Worksheet
+  id: Worksheet
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
+  langs:
+  - csharp
+  - vb
+  name: Worksheet
+  nameWithType: ExcelAddressInfo.Worksheet
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Worksheet
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Worksheet
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
+    startLine: 57
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nThe worksheet name\n"
+  example: []
+  syntax:
+    content: public string Worksheet { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Worksheet As String
+  overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Worksheet*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.WorksheetIsSpecified
+  commentId: P:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.WorksheetIsSpecified
+  id: WorksheetIsSpecified
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
+  langs:
+  - csharp
+  - vb
+  name: WorksheetIsSpecified
+  nameWithType: ExcelAddressInfo.WorksheetIsSpecified
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.WorksheetIsSpecified
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WorksheetIsSpecified
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nReturns true if the <xref href=\"OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Worksheet\" data-throw-if-not-resolved=\"false\"></xref> is set\n"
+  example: []
+  syntax:
+    content: public bool WorksheetIsSpecified { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property WorksheetIsSpecified As Boolean
+  overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.WorksheetIsSpecified*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.IsMultipleCells
+  commentId: P:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.IsMultipleCells
+  id: IsMultipleCells
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
+  langs:
+  - csharp
+  - vb
+  name: IsMultipleCells
+  nameWithType: ExcelAddressInfo.IsMultipleCells
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.IsMultipleCells
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsMultipleCells
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
+    startLine: 73
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nIf the address reference multiple cells.\n"
+  example: []
+  syntax:
+    content: public bool IsMultipleCells { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsMultipleCells As Boolean
+  overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.IsMultipleCells*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.StartCell
+  commentId: P:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.StartCell
+  id: StartCell
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
+  langs:
+  - csharp
+  - vb
+  name: StartCell
+  nameWithType: ExcelAddressInfo.StartCell
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.StartCell
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StartCell
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
+    startLine: 84
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nThe start cell address\n"
+  example: []
+  syntax:
+    content: public string StartCell { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property StartCell As String
+  overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.StartCell*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.EndCell
+  commentId: P:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.EndCell
+  id: EndCell
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
+  langs:
+  - csharp
+  - vb
+  name: EndCell
+  nameWithType: ExcelAddressInfo.EndCell
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.EndCell
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EndCell
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
+    startLine: 89
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nThe end cell address\n"
+  example: []
+  syntax:
+    content: public string EndCell { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property EndCell As String
+  overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.EndCell*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.AddressOnSheet
+  commentId: P:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.AddressOnSheet
+  id: AddressOnSheet
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
+  langs:
+  - csharp
+  - vb
+  name: AddressOnSheet
+  nameWithType: ExcelAddressInfo.AddressOnSheet
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.AddressOnSheet
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddressOnSheet
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressInfo.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nThe address part if a worksheet is specified on the address. \n"
+  example: []
+  syntax:
+    content: public string AddressOnSheet { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property AddressOnSheet As String
+  overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.AddressOnSheet*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  commentId: N:OfficeOpenXml.FormulaParsing.ExcelUtilities
+  name: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  nameWithType: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Parse*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Parse
+  name: Parse
+  nameWithType: ExcelAddressInfo.Parse
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Parse
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  name: ExcelAddressInfo
+  nameWithType: ExcelAddressInfo
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Worksheet*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Worksheet
+  name: Worksheet
+  nameWithType: ExcelAddressInfo.Worksheet
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Worksheet
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Worksheet
+  commentId: P:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.Worksheet
+  isExternal: true
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.WorksheetIsSpecified*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.WorksheetIsSpecified
+  name: WorksheetIsSpecified
+  nameWithType: ExcelAddressInfo.WorksheetIsSpecified
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.WorksheetIsSpecified
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.IsMultipleCells*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.IsMultipleCells
+  name: IsMultipleCells
+  nameWithType: ExcelAddressInfo.IsMultipleCells
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.IsMultipleCells
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.StartCell*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.StartCell
+  name: StartCell
+  nameWithType: ExcelAddressInfo.StartCell
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.StartCell
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.EndCell*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.EndCell
+  name: EndCell
+  nameWithType: ExcelAddressInfo.EndCell
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.EndCell
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.AddressOnSheet*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.AddressOnSheet
+  name: AddressOnSheet
+  nameWithType: ExcelAddressInfo.AddressOnSheet
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo.AddressOnSheet

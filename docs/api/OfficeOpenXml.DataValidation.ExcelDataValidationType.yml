@@ -1,0 +1,863 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationType
+  id: ExcelDataValidationType
+  parent: OfficeOpenXml.DataValidation
+  children:
+  - OfficeOpenXml.DataValidation.ExcelDataValidationType.Any
+  - OfficeOpenXml.DataValidation.ExcelDataValidationType.Custom
+  - OfficeOpenXml.DataValidation.ExcelDataValidationType.DateTime
+  - OfficeOpenXml.DataValidation.ExcelDataValidationType.Decimal
+  - OfficeOpenXml.DataValidation.ExcelDataValidationType.Equals(System.Object)
+  - OfficeOpenXml.DataValidation.ExcelDataValidationType.GetHashCode
+  - OfficeOpenXml.DataValidation.ExcelDataValidationType.List
+  - OfficeOpenXml.DataValidation.ExcelDataValidationType.TextLength
+  - OfficeOpenXml.DataValidation.ExcelDataValidationType.Time
+  - OfficeOpenXml.DataValidation.ExcelDataValidationType.Type
+  - OfficeOpenXml.DataValidation.ExcelDataValidationType.Whole
+  langs:
+  - csharp
+  - vb
+  name: ExcelDataValidationType
+  nameWithType: ExcelDataValidationType
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDataValidationType
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nTypes of datavalidation\n"
+  example: []
+  syntax:
+    content: public class ExcelDataValidationType
+    content.vb: Public Class ExcelDataValidationType
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.Type
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidationType.Type
+  id: Type
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: ExcelDataValidationType.Type
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.Type
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Type
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nValidation type\n"
+  example: []
+  syntax:
+    content: public eDataValidationType Type { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.DataValidation.eDataValidationType
+    content.vb: Public ReadOnly Property Type As eDataValidationType
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationType.Type*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.Equals(System.Object)
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationType.Equals(System.Object)
+  id: Equals(System.Object)
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: Equals(Object)
+  nameWithType: ExcelDataValidationType.Equals(Object)
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.Equals(System.Object)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Equals
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 169
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nOverridden Equals, compares on internal validation type\n"
+  example: []
+  syntax:
+    content: public override bool Equals(object obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: ''
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: Public Overrides Function Equals(obj As Object) As Boolean
+  overridden: System.Object.Equals(System.Object)
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationType.Equals*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.GetHashCode
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationType.GetHashCode
+  id: GetHashCode
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: GetHashCode()
+  nameWithType: ExcelDataValidationType.GetHashCode()
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.GetHashCode()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetHashCode
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 182
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nOverrides GetHashCode()\n"
+  example: []
+  syntax:
+    content: public override int GetHashCode()
+    return:
+      type: System.Int32
+      description: ''
+    content.vb: Public Overrides Function GetHashCode As Integer
+  overridden: System.Object.GetHashCode
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationType.GetHashCode*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.Any
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidationType.Any
+  id: Any
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: Any
+  nameWithType: ExcelDataValidationType.Any
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.Any
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Any
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 192
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAny values\n"
+  example: []
+  syntax:
+    content: public static ExcelDataValidationType Any { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationType
+    content.vb: Public Shared ReadOnly Property Any As ExcelDataValidationType
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationType.Any*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.Whole
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidationType.Whole
+  id: Whole
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: Whole
+  nameWithType: ExcelDataValidationType.Whole
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.Whole
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Whole
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 211
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nWhole/Integer validation type.\n"
+  example: []
+  syntax:
+    content: public static ExcelDataValidationType Whole { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationType
+    content.vb: Public Shared ReadOnly Property Whole As ExcelDataValidationType
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationType.Whole*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.List
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidationType.List
+  id: List
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: List
+  nameWithType: ExcelDataValidationType.List
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.List
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: List
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 228
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nList validation type, a provided list of allowed values\n"
+  example: []
+  syntax:
+    content: public static ExcelDataValidationType List { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationType
+    content.vb: Public Shared ReadOnly Property List As ExcelDataValidationType
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationType.List*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.Decimal
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidationType.Decimal
+  id: Decimal
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: Decimal
+  nameWithType: ExcelDataValidationType.Decimal
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.Decimal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Decimal
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 244
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nDecimal validation type\n"
+  example: []
+  syntax:
+    content: public static ExcelDataValidationType Decimal { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationType
+    content.vb: Public Shared ReadOnly Property Decimal As ExcelDataValidationType
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationType.Decimal*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.TextLength
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidationType.TextLength
+  id: TextLength
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: TextLength
+  nameWithType: ExcelDataValidationType.TextLength
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.TextLength
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TextLength
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 260
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nText length validation type\n"
+  example: []
+  syntax:
+    content: public static ExcelDataValidationType TextLength { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationType
+    content.vb: Public Shared ReadOnly Property TextLength As ExcelDataValidationType
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationType.TextLength*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.DateTime
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidationType.DateTime
+  id: DateTime
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: DateTime
+  nameWithType: ExcelDataValidationType.DateTime
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.DateTime
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateTime
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 276
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nTime validation type\n"
+  example: []
+  syntax:
+    content: public static ExcelDataValidationType DateTime { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationType
+    content.vb: Public Shared ReadOnly Property DateTime As ExcelDataValidationType
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationType.DateTime*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.Time
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidationType.Time
+  id: Time
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: Time
+  nameWithType: ExcelDataValidationType.Time
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.Time
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Time
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 292
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nTime validation type\n"
+  example: []
+  syntax:
+    content: public static ExcelDataValidationType Time { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationType
+    content.vb: Public Shared ReadOnly Property Time As ExcelDataValidationType
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationType.Time*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.Custom
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidationType.Custom
+  id: Custom
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: Custom
+  nameWithType: ExcelDataValidationType.Custom
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.Custom
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Custom
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 308
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nCustom validation type\n"
+  example: []
+  syntax:
+    content: public static ExcelDataValidationType Custom { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationType
+    content.vb: Public Shared ReadOnly Property Custom As ExcelDataValidationType
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationType.Custom*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.DataValidation
+  commentId: N:OfficeOpenXml.DataValidation
+  name: OfficeOpenXml.DataValidation
+  nameWithType: OfficeOpenXml.DataValidation
+  fullName: OfficeOpenXml.DataValidation
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.Type*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationType.Type
+  name: Type
+  nameWithType: ExcelDataValidationType.Type
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.Type
+- uid: OfficeOpenXml.DataValidation.eDataValidationType
+  commentId: T:OfficeOpenXml.DataValidation.eDataValidationType
+  parent: OfficeOpenXml.DataValidation
+  name: eDataValidationType
+  nameWithType: eDataValidationType
+  fullName: OfficeOpenXml.DataValidation.eDataValidationType
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.Equals*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationType.Equals
+  name: Equals
+  nameWithType: ExcelDataValidationType.Equals
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.Equals
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.GetHashCode*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationType.GetHashCode
+  name: GetHashCode
+  nameWithType: ExcelDataValidationType.GetHashCode
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.GetHashCode
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.Any*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationType.Any
+  name: Any
+  nameWithType: ExcelDataValidationType.Any
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.Any
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationType
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidationType
+  nameWithType: ExcelDataValidationType
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.Whole*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationType.Whole
+  name: Whole
+  nameWithType: ExcelDataValidationType.Whole
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.Whole
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.List*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationType.List
+  name: List
+  nameWithType: ExcelDataValidationType.List
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.List
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.Decimal*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationType.Decimal
+  name: Decimal
+  nameWithType: ExcelDataValidationType.Decimal
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.Decimal
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.TextLength*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationType.TextLength
+  name: TextLength
+  nameWithType: ExcelDataValidationType.TextLength
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.TextLength
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.DateTime*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationType.DateTime
+  name: DateTime
+  nameWithType: ExcelDataValidationType.DateTime
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.DateTime
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.Time*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationType.Time
+  name: Time
+  nameWithType: ExcelDataValidationType.Time
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.Time
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType.Custom*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationType.Custom
+  name: Custom
+  nameWithType: ExcelDataValidationType.Custom
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType.Custom

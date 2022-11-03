@@ -1,0 +1,545 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+  commentId: T:OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+  id: ExcelWorksheetView.ExcelWorksheetPanes
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.ActiveCell
+  - OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.ActiveCellId
+  - OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.Position
+  - OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.SelectedRange
+  langs:
+  - csharp
+  - vb
+  name: ExcelWorksheetView.ExcelWorksheetPanes
+  nameWithType: ExcelWorksheetView.ExcelWorksheetPanes
+  fullName: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelWorksheetPanes
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 180
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe selection properties for panes after a freeze or split.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelWorksheetPanes : XmlHelper'
+    content.vb: >-
+      Public Class ExcelWorksheetPanes
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.ActiveCell
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.ActiveCell
+  id: ActiveCell
+  parent: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+  langs:
+  - csharp
+  - vb
+  name: ActiveCell
+  nameWithType: ExcelWorksheetView.ExcelWorksheetPanes.ActiveCell
+  fullName: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.ActiveCell
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActiveCell
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 196
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the active cell. Must be set within the SelectedRange.\n"
+  example: []
+  syntax:
+    content: public string ActiveCell { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ActiveCell As String
+  overload: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.ActiveCell*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.Position
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.Position
+  id: Position
+  parent: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+  langs:
+  - csharp
+  - vb
+  name: Position
+  nameWithType: ExcelWorksheetView.ExcelWorksheetPanes.Position
+  fullName: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.Position
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Position
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 227
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe position of the pane.\n"
+  example: []
+  syntax:
+    content: public ePanePosition Position { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ePanePosition
+    content.vb: Public ReadOnly Property Position As ePanePosition
+  overload: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.Position*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.ActiveCellId
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.ActiveCellId
+  id: ActiveCellId
+  parent: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+  langs:
+  - csharp
+  - vb
+  name: ActiveCellId
+  nameWithType: ExcelWorksheetView.ExcelWorksheetPanes.ActiveCellId
+  fullName: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.ActiveCellId
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActiveCellId
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 237
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\n\n"
+  example: []
+  syntax:
+    content: public int ActiveCellId { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ActiveCellId As Integer
+  overload: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.ActiveCellId*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.SelectedRange
+  commentId: P:OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.SelectedRange
+  id: SelectedRange
+  parent: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+  langs:
+  - csharp
+  - vb
+  name: SelectedRange
+  nameWithType: ExcelWorksheetView.ExcelWorksheetPanes.SelectedRange
+  fullName: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.SelectedRange
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SelectedRange
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 252
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSelected Cells. Used in combination with ActiveCell\n"
+  example: []
+  syntax:
+    content: public string SelectedRange { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property SelectedRange As String
+  overload: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.SelectedRange*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.ActiveCell*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.ActiveCell
+  name: ActiveCell
+  nameWithType: ExcelWorksheetView.ExcelWorksheetPanes.ActiveCell
+  fullName: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.ActiveCell
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.Position*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.Position
+  name: Position
+  nameWithType: ExcelWorksheetView.ExcelWorksheetPanes.Position
+  fullName: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.Position
+- uid: OfficeOpenXml.ePanePosition
+  commentId: T:OfficeOpenXml.ePanePosition
+  parent: OfficeOpenXml
+  name: ePanePosition
+  nameWithType: ePanePosition
+  fullName: OfficeOpenXml.ePanePosition
+- uid: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.ActiveCellId*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.ActiveCellId
+  name: ActiveCellId
+  nameWithType: ExcelWorksheetView.ExcelWorksheetPanes.ActiveCellId
+  fullName: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.ActiveCellId
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.SelectedRange*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.SelectedRange
+  name: SelectedRange
+  nameWithType: ExcelWorksheetView.ExcelWorksheetPanes.SelectedRange
+  fullName: OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes.SelectedRange

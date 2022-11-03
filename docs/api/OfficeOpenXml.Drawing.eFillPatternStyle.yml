@@ -1,0 +1,1938 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle
+  commentId: T:OfficeOpenXml.Drawing.eFillPatternStyle
+  id: eFillPatternStyle
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Cross
+  - OfficeOpenXml.Drawing.eFillPatternStyle.DashDnDiag
+  - OfficeOpenXml.Drawing.eFillPatternStyle.DashHorz
+  - OfficeOpenXml.Drawing.eFillPatternStyle.DashUpDiag
+  - OfficeOpenXml.Drawing.eFillPatternStyle.DashVert
+  - OfficeOpenXml.Drawing.eFillPatternStyle.DiagBrick
+  - OfficeOpenXml.Drawing.eFillPatternStyle.DiagCross
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Divot
+  - OfficeOpenXml.Drawing.eFillPatternStyle.DkDnDiag
+  - OfficeOpenXml.Drawing.eFillPatternStyle.DkHorz
+  - OfficeOpenXml.Drawing.eFillPatternStyle.DkUpDiag
+  - OfficeOpenXml.Drawing.eFillPatternStyle.DkVert
+  - OfficeOpenXml.Drawing.eFillPatternStyle.DnDiag
+  - OfficeOpenXml.Drawing.eFillPatternStyle.DotDmnd
+  - OfficeOpenXml.Drawing.eFillPatternStyle.DotGrid
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Horz
+  - OfficeOpenXml.Drawing.eFillPatternStyle.HorzBrick
+  - OfficeOpenXml.Drawing.eFillPatternStyle.LgCheck
+  - OfficeOpenXml.Drawing.eFillPatternStyle.LgConfetti
+  - OfficeOpenXml.Drawing.eFillPatternStyle.LgGrid
+  - OfficeOpenXml.Drawing.eFillPatternStyle.LtDnDiag
+  - OfficeOpenXml.Drawing.eFillPatternStyle.LtHorz
+  - OfficeOpenXml.Drawing.eFillPatternStyle.LtUpDiag
+  - OfficeOpenXml.Drawing.eFillPatternStyle.LtVert
+  - OfficeOpenXml.Drawing.eFillPatternStyle.NarHorz
+  - OfficeOpenXml.Drawing.eFillPatternStyle.NarVert
+  - OfficeOpenXml.Drawing.eFillPatternStyle.OpenDmnd
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Pct10
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Pct20
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Pct25
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Pct30
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Pct40
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Pct5
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Pct50
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Pct60
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Pct70
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Pct75
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Pct80
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Pct90
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Plaid
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Shingle
+  - OfficeOpenXml.Drawing.eFillPatternStyle.SmCheck
+  - OfficeOpenXml.Drawing.eFillPatternStyle.SmConfetti
+  - OfficeOpenXml.Drawing.eFillPatternStyle.SmGrid
+  - OfficeOpenXml.Drawing.eFillPatternStyle.SolidDmnd
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Sphere
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Trellis
+  - OfficeOpenXml.Drawing.eFillPatternStyle.UpDiag
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Vert
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Wave
+  - OfficeOpenXml.Drawing.eFillPatternStyle.WdDnDiag
+  - OfficeOpenXml.Drawing.eFillPatternStyle.WdUpDiag
+  - OfficeOpenXml.Drawing.eFillPatternStyle.Weave
+  - OfficeOpenXml.Drawing.eFillPatternStyle.ZigZag
+  langs:
+  - csharp
+  - vb
+  name: eFillPatternStyle
+  nameWithType: eFillPatternStyle
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eFillPatternStyle
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPattern styles for drawing fills\n"
+  example: []
+  syntax:
+    content: public enum eFillPatternStyle
+    content.vb: Public Enum eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Pct5
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Pct5
+  id: Pct5
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Pct5
+  nameWithType: eFillPatternStyle.Pct5
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Pct5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pct5
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n5 Percent\n"
+  example: []
+  syntax:
+    content: Pct5 = 0
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Pct10
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Pct10
+  id: Pct10
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Pct10
+  nameWithType: eFillPatternStyle.Pct10
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Pct10
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pct10
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n10 Percent\n"
+  example: []
+  syntax:
+    content: Pct10 = 1
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Pct20
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Pct20
+  id: Pct20
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Pct20
+  nameWithType: eFillPatternStyle.Pct20
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Pct20
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pct20
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n20 Percent\n"
+  example: []
+  syntax:
+    content: Pct20 = 2
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Pct25
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Pct25
+  id: Pct25
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Pct25
+  nameWithType: eFillPatternStyle.Pct25
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Pct25
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pct25
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n25 Percent\n"
+  example: []
+  syntax:
+    content: Pct25 = 3
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Pct30
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Pct30
+  id: Pct30
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Pct30
+  nameWithType: eFillPatternStyle.Pct30
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Pct30
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pct30
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n30 Percent\n"
+  example: []
+  syntax:
+    content: Pct30 = 4
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Pct40
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Pct40
+  id: Pct40
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Pct40
+  nameWithType: eFillPatternStyle.Pct40
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Pct40
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pct40
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n40 Percent\n"
+  example: []
+  syntax:
+    content: Pct40 = 5
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Pct50
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Pct50
+  id: Pct50
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Pct50
+  nameWithType: eFillPatternStyle.Pct50
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Pct50
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pct50
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n50 Percent\n"
+  example: []
+  syntax:
+    content: Pct50 = 6
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Pct60
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Pct60
+  id: Pct60
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Pct60
+  nameWithType: eFillPatternStyle.Pct60
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Pct60
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pct60
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n60 Percent\n"
+  example: []
+  syntax:
+    content: Pct60 = 7
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Pct70
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Pct70
+  id: Pct70
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Pct70
+  nameWithType: eFillPatternStyle.Pct70
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Pct70
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pct70
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n70 Percent\n"
+  example: []
+  syntax:
+    content: Pct70 = 8
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Pct75
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Pct75
+  id: Pct75
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Pct75
+  nameWithType: eFillPatternStyle.Pct75
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Pct75
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pct75
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n75 Percent\n"
+  example: []
+  syntax:
+    content: Pct75 = 9
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Pct80
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Pct80
+  id: Pct80
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Pct80
+  nameWithType: eFillPatternStyle.Pct80
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Pct80
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pct80
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n80 Percent\n"
+  example: []
+  syntax:
+    content: Pct80 = 10
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Pct90
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Pct90
+  id: Pct90
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Pct90
+  nameWithType: eFillPatternStyle.Pct90
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Pct90
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pct90
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n90 Percent\n"
+  example: []
+  syntax:
+    content: Pct90 = 11
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Horz
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Horz
+  id: Horz
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Horz
+  nameWithType: eFillPatternStyle.Horz
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Horz
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Horz
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHorizontal\n"
+  example: []
+  syntax:
+    content: Horz = 12
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Vert
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Vert
+  id: Vert
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Vert
+  nameWithType: eFillPatternStyle.Vert
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Vert
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Vert
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nVertical\n"
+  example: []
+  syntax:
+    content: Vert = 13
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.LtHorz
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.LtHorz
+  id: LtHorz
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: LtHorz
+  nameWithType: eFillPatternStyle.LtHorz
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.LtHorz
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LtHorz
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLight Horizontal\n"
+  example: []
+  syntax:
+    content: LtHorz = 14
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.LtVert
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.LtVert
+  id: LtVert
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: LtVert
+  nameWithType: eFillPatternStyle.LtVert
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.LtVert
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LtVert
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLight Vertical\n"
+  example: []
+  syntax:
+    content: LtVert = 15
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.DkHorz
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.DkHorz
+  id: DkHorz
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: DkHorz
+  nameWithType: eFillPatternStyle.DkHorz
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.DkHorz
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DkHorz
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Horizontal\n"
+  example: []
+  syntax:
+    content: DkHorz = 16
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.DkVert
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.DkVert
+  id: DkVert
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: DkVert
+  nameWithType: eFillPatternStyle.DkVert
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.DkVert
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DkVert
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Vertical\n"
+  example: []
+  syntax:
+    content: DkVert = 17
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.NarHorz
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.NarHorz
+  id: NarHorz
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: NarHorz
+  nameWithType: eFillPatternStyle.NarHorz
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.NarHorz
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NarHorz
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nNarrow Horizontal\n"
+  example: []
+  syntax:
+    content: NarHorz = 18
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.NarVert
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.NarVert
+  id: NarVert
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: NarVert
+  nameWithType: eFillPatternStyle.NarVert
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.NarVert
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NarVert
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nNarrow Vertical\n"
+  example: []
+  syntax:
+    content: NarVert = 19
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.DashHorz
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.DashHorz
+  id: DashHorz
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: DashHorz
+  nameWithType: eFillPatternStyle.DashHorz
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.DashHorz
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DashHorz
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDashed Horizontal\n"
+  example: []
+  syntax:
+    content: DashHorz = 20
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.DashVert
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.DashVert
+  id: DashVert
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: DashVert
+  nameWithType: eFillPatternStyle.DashVert
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.DashVert
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DashVert
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDashed Vertical\n"
+  example: []
+  syntax:
+    content: DashVert = 21
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Cross
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Cross
+  id: Cross
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Cross
+  nameWithType: eFillPatternStyle.Cross
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Cross
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Cross
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCross\n"
+  example: []
+  syntax:
+    content: Cross = 22
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.DnDiag
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.DnDiag
+  id: DnDiag
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: DnDiag
+  nameWithType: eFillPatternStyle.DnDiag
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.DnDiag
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DnDiag
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDownward Diagonal\n"
+  example: []
+  syntax:
+    content: DnDiag = 23
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.UpDiag
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.UpDiag
+  id: UpDiag
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: UpDiag
+  nameWithType: eFillPatternStyle.UpDiag
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.UpDiag
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UpDiag
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nUpward Diagonal\n"
+  example: []
+  syntax:
+    content: UpDiag = 24
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.LtDnDiag
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.LtDnDiag
+  id: LtDnDiag
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: LtDnDiag
+  nameWithType: eFillPatternStyle.LtDnDiag
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.LtDnDiag
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LtDnDiag
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 122
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLight Downward Diagonal\n"
+  example: []
+  syntax:
+    content: LtDnDiag = 25
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.LtUpDiag
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.LtUpDiag
+  id: LtUpDiag
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: LtUpDiag
+  nameWithType: eFillPatternStyle.LtUpDiag
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.LtUpDiag
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LtUpDiag
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLight Upward Diagonal\n"
+  example: []
+  syntax:
+    content: LtUpDiag = 26
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.DkDnDiag
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.DkDnDiag
+  id: DkDnDiag
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: DkDnDiag
+  nameWithType: eFillPatternStyle.DkDnDiag
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.DkDnDiag
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DkDnDiag
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Downward Diagonal\n"
+  example: []
+  syntax:
+    content: DkDnDiag = 27
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.DkUpDiag
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.DkUpDiag
+  id: DkUpDiag
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: DkUpDiag
+  nameWithType: eFillPatternStyle.DkUpDiag
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.DkUpDiag
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DkUpDiag
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 134
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Upward Diagonal\n"
+  example: []
+  syntax:
+    content: DkUpDiag = 28
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.WdDnDiag
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.WdDnDiag
+  id: WdDnDiag
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: WdDnDiag
+  nameWithType: eFillPatternStyle.WdDnDiag
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.WdDnDiag
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WdDnDiag
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nWide Downward Diagonal\n"
+  example: []
+  syntax:
+    content: WdDnDiag = 29
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.WdUpDiag
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.WdUpDiag
+  id: WdUpDiag
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: WdUpDiag
+  nameWithType: eFillPatternStyle.WdUpDiag
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.WdUpDiag
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WdUpDiag
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 142
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nWide Upward Diagonal\n"
+  example: []
+  syntax:
+    content: WdUpDiag = 30
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.DashDnDiag
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.DashDnDiag
+  id: DashDnDiag
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: DashDnDiag
+  nameWithType: eFillPatternStyle.DashDnDiag
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.DashDnDiag
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DashDnDiag
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 146
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDashed Downward Diagonal\n"
+  example: []
+  syntax:
+    content: DashDnDiag = 31
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.DashUpDiag
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.DashUpDiag
+  id: DashUpDiag
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: DashUpDiag
+  nameWithType: eFillPatternStyle.DashUpDiag
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.DashUpDiag
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DashUpDiag
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 150
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDashed Upward DIagonal\n"
+  example: []
+  syntax:
+    content: DashUpDiag = 32
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.DiagCross
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.DiagCross
+  id: DiagCross
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: DiagCross
+  nameWithType: eFillPatternStyle.DiagCross
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.DiagCross
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DiagCross
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 154
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDiagonal Cross\n"
+  example: []
+  syntax:
+    content: DiagCross = 33
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.SmCheck
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.SmCheck
+  id: SmCheck
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: SmCheck
+  nameWithType: eFillPatternStyle.SmCheck
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.SmCheck
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SmCheck
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 158
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSmall Checker Board\n"
+  example: []
+  syntax:
+    content: SmCheck = 34
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.LgCheck
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.LgCheck
+  id: LgCheck
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: LgCheck
+  nameWithType: eFillPatternStyle.LgCheck
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.LgCheck
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LgCheck
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 162
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLarge Checker Board\n"
+  example: []
+  syntax:
+    content: LgCheck = 35
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.SmGrid
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.SmGrid
+  id: SmGrid
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: SmGrid
+  nameWithType: eFillPatternStyle.SmGrid
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.SmGrid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SmGrid
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 166
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSmall Grid\n"
+  example: []
+  syntax:
+    content: SmGrid = 36
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.LgGrid
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.LgGrid
+  id: LgGrid
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: LgGrid
+  nameWithType: eFillPatternStyle.LgGrid
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.LgGrid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LgGrid
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 170
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLarge Grid\n"
+  example: []
+  syntax:
+    content: LgGrid = 37
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.DotGrid
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.DotGrid
+  id: DotGrid
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: DotGrid
+  nameWithType: eFillPatternStyle.DotGrid
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.DotGrid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DotGrid
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 174
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDotted Grid\n"
+  example: []
+  syntax:
+    content: DotGrid = 38
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.SmConfetti
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.SmConfetti
+  id: SmConfetti
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: SmConfetti
+  nameWithType: eFillPatternStyle.SmConfetti
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.SmConfetti
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SmConfetti
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 178
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSmall Confetti\n"
+  example: []
+  syntax:
+    content: SmConfetti = 39
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.LgConfetti
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.LgConfetti
+  id: LgConfetti
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: LgConfetti
+  nameWithType: eFillPatternStyle.LgConfetti
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.LgConfetti
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LgConfetti
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 182
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLarge Confetti\n"
+  example: []
+  syntax:
+    content: LgConfetti = 40
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.HorzBrick
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.HorzBrick
+  id: HorzBrick
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: HorzBrick
+  nameWithType: eFillPatternStyle.HorzBrick
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.HorzBrick
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HorzBrick
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 186
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHorizontal Brick\n"
+  example: []
+  syntax:
+    content: HorzBrick = 41
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.DiagBrick
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.DiagBrick
+  id: DiagBrick
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: DiagBrick
+  nameWithType: eFillPatternStyle.DiagBrick
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.DiagBrick
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DiagBrick
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 190
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDiagonal Brick\n"
+  example: []
+  syntax:
+    content: DiagBrick = 42
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.SolidDmnd
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.SolidDmnd
+  id: SolidDmnd
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: SolidDmnd
+  nameWithType: eFillPatternStyle.SolidDmnd
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.SolidDmnd
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SolidDmnd
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 194
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSolid Diamond\n"
+  example: []
+  syntax:
+    content: SolidDmnd = 43
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.OpenDmnd
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.OpenDmnd
+  id: OpenDmnd
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: OpenDmnd
+  nameWithType: eFillPatternStyle.OpenDmnd
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.OpenDmnd
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OpenDmnd
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 198
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOpen Diamond\n"
+  example: []
+  syntax:
+    content: OpenDmnd = 44
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.DotDmnd
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.DotDmnd
+  id: DotDmnd
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: DotDmnd
+  nameWithType: eFillPatternStyle.DotDmnd
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.DotDmnd
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DotDmnd
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 202
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDotted Diamond\n"
+  example: []
+  syntax:
+    content: DotDmnd = 45
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Plaid
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Plaid
+  id: Plaid
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Plaid
+  nameWithType: eFillPatternStyle.Plaid
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Plaid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Plaid
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 206
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPlaid\n"
+  example: []
+  syntax:
+    content: Plaid = 46
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Sphere
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Sphere
+  id: Sphere
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Sphere
+  nameWithType: eFillPatternStyle.Sphere
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Sphere
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Sphere
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 210
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSphere\n"
+  example: []
+  syntax:
+    content: Sphere = 47
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Weave
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Weave
+  id: Weave
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Weave
+  nameWithType: eFillPatternStyle.Weave
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Weave
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Weave
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 214
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nWeave\n"
+  example: []
+  syntax:
+    content: Weave = 48
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Divot
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Divot
+  id: Divot
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Divot
+  nameWithType: eFillPatternStyle.Divot
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Divot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Divot
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 218
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDivot\n"
+  example: []
+  syntax:
+    content: Divot = 49
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Shingle
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Shingle
+  id: Shingle
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Shingle
+  nameWithType: eFillPatternStyle.Shingle
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Shingle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Shingle
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 222
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nShingle\n"
+  example: []
+  syntax:
+    content: Shingle = 50
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Wave
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Wave
+  id: Wave
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Wave
+  nameWithType: eFillPatternStyle.Wave
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Wave
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Wave
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 226
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nWave\n"
+  example: []
+  syntax:
+    content: Wave = 51
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.Trellis
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.Trellis
+  id: Trellis
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: Trellis
+  nameWithType: eFillPatternStyle.Trellis
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.Trellis
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Trellis
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 230
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nTrellis\n"
+  example: []
+  syntax:
+    content: Trellis = 52
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle.ZigZag
+  commentId: F:OfficeOpenXml.Drawing.eFillPatternStyle.ZigZag
+  id: ZigZag
+  parent: OfficeOpenXml.Drawing.eFillPatternStyle
+  langs:
+  - csharp
+  - vb
+  name: ZigZag
+  nameWithType: eFillPatternStyle.ZigZag
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle.ZigZag
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ZigZag
+    path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
+    startLine: 234
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nZig Zag\n"
+  example: []
+  syntax:
+    content: ZigZag = 53
+    return:
+      type: OfficeOpenXml.Drawing.eFillPatternStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eFillPatternStyle
+  commentId: T:OfficeOpenXml.Drawing.eFillPatternStyle
+  parent: OfficeOpenXml.Drawing
+  name: eFillPatternStyle
+  nameWithType: eFillPatternStyle
+  fullName: OfficeOpenXml.Drawing.eFillPatternStyle

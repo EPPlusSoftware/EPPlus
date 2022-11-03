@@ -1,0 +1,1047 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  id: ExcelPivotArea
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Axis
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CacheIndex
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CollapsedLevelsAreSubtotals
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldPosition
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandColumn
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandRow
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.IsValuesField
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.LabelOnly
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Offset
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Outline
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.PivotAreaType
+  langs:
+  - csharp
+  - vb
+  name: ExcelPivotArea
+  nameWithType: ExcelPivotArea
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPivotArea
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nDefines a pivot table area of selection used for different purposes.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelPivotArea : XmlHelper'
+    content.vb: >-
+      Public Class ExcelPivotArea
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  derivedClasses:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaAutoSort
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
+  id: FieldIndex
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  langs:
+  - csharp
+  - vb
+  name: FieldIndex
+  nameWithType: ExcelPivotArea.FieldIndex
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FieldIndex
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe field referenced. -2 means refers to values.\n"
+  example: []
+  syntax:
+    content: public int? FieldIndex { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property FieldIndex As Integer?
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldPosition
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldPosition
+  id: FieldPosition
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  langs:
+  - csharp
+  - vb
+  name: FieldPosition
+  nameWithType: ExcelPivotArea.FieldPosition
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldPosition
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FieldPosition
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nPosition of the field within the axis to which this rule applies. \n"
+  example: []
+  syntax:
+    content: public int? FieldPosition { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property FieldPosition As Integer?
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldPosition*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.IsValuesField
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.IsValuesField
+  id: IsValuesField
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  langs:
+  - csharp
+  - vb
+  name: IsValuesField
+  nameWithType: ExcelPivotArea.IsValuesField
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.IsValuesField
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsValuesField
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+    startLine: 64
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the pivot area referes to the &quot;Σ Values&quot; field in the column or row fields.\n"
+  example: []
+  syntax:
+    content: public bool IsValuesField { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsValuesField As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.IsValuesField*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.PivotAreaType
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.PivotAreaType
+  id: PivotAreaType
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  langs:
+  - csharp
+  - vb
+  name: PivotAreaType
+  nameWithType: ExcelPivotArea.PivotAreaType
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.PivotAreaType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PivotAreaType
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivot area type that affecting the selection.\n"
+  example: []
+  syntax:
+    content: public ePivotAreaType PivotAreaType { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+    content.vb: Public ReadOnly Property PivotAreaType As ePivotAreaType
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.PivotAreaType*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Axis
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Axis
+  id: Axis
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  langs:
+  - csharp
+  - vb
+  name: Axis
+  nameWithType: ExcelPivotArea.Axis
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Axis
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Axis
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+    startLine: 99
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe region of the PivotTable affected.\n"
+  example: []
+  syntax:
+    content: public ePivotTableAxis Axis { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableAxis
+    content.vb: Public Property Axis As ePivotTableAxis
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Axis*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly
+  id: DataOnly
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  langs:
+  - csharp
+  - vb
+  name: DataOnly
+  nameWithType: ExcelPivotArea.DataOnly
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataOnly
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+    startLine: 115
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the data values in the data area are included. Setting this property to true will set <xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotArea.LabelOnly\" data-throw-if-not-resolved=\"false\"></xref> to false.\n<xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotArea.LabelOnly\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public bool DataOnly { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property DataOnly As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.LabelOnly
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.LabelOnly
+  id: LabelOnly
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  langs:
+  - csharp
+  - vb
+  name: LabelOnly
+  nameWithType: ExcelPivotArea.LabelOnly
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.LabelOnly
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LabelOnly
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the item labels are included. Setting this property to true will set <xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly\" data-throw-if-not-resolved=\"false\"></xref> to false.\n<xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public bool LabelOnly { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property LabelOnly As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.LabelOnly*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandRow
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandRow
+  id: GrandRow
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  langs:
+  - csharp
+  - vb
+  name: GrandRow
+  nameWithType: ExcelPivotArea.GrandRow
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandRow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GrandRow
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+    startLine: 156
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the row grand total is included\n"
+  example: []
+  syntax:
+    content: public bool GrandRow { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property GrandRow As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandRow*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandColumn
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandColumn
+  id: GrandColumn
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  langs:
+  - csharp
+  - vb
+  name: GrandColumn
+  nameWithType: ExcelPivotArea.GrandColumn
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandColumn
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GrandColumn
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+    startLine: 170
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf the column grand total is included\n"
+  example: []
+  syntax:
+    content: public bool GrandColumn { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property GrandColumn As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandColumn*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CacheIndex
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CacheIndex
+  id: CacheIndex
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  langs:
+  - csharp
+  - vb
+  name: CacheIndex
+  nameWithType: ExcelPivotArea.CacheIndex
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CacheIndex
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CacheIndex
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+    startLine: 184
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf any indexes refers to fields or items in the pivot cache and not the view.\n"
+  example: []
+  syntax:
+    content: public bool CacheIndex { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property CacheIndex As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CacheIndex*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Outline
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Outline
+  id: Outline
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  langs:
+  - csharp
+  - vb
+  name: Outline
+  nameWithType: ExcelPivotArea.Outline
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Outline
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Outline
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+    startLine: 198
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIndicating whether the pivot table area refers to an area that is in outline mode.\n"
+  example: []
+  syntax:
+    content: public bool Outline { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Outline As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Outline*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Offset
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Offset
+  id: Offset
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  langs:
+  - csharp
+  - vb
+  name: Offset
+  nameWithType: ExcelPivotArea.Offset
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Offset
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Offset
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+    startLine: 213
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA address in A1C1 format that specifies a subset of the selection area. Points are relative to the top left of the selection area.\nThe first cell is referenced as A1. For example, B1:C1 reference the second and third column of the first row of the pivot area.\n"
+  example: []
+  syntax:
+    content: public string Offset { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Offset As String
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Offset*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CollapsedLevelsAreSubtotals
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CollapsedLevelsAreSubtotals
+  id: CollapsedLevelsAreSubtotals
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  langs:
+  - csharp
+  - vb
+  name: CollapsedLevelsAreSubtotals
+  nameWithType: ExcelPivotArea.CollapsedLevelsAreSubtotals
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CollapsedLevelsAreSubtotals
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CollapsedLevelsAreSubtotals
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+    startLine: 227
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf collapsed levels/dimensions are considered subtotals\n"
+  example: []
+  syntax:
+    content: public bool CollapsedLevelsAreSubtotals { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property CollapsedLevelsAreSubtotals As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CollapsedLevelsAreSubtotals*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
+  name: FieldIndex
+  nameWithType: ExcelPivotArea.FieldIndex
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
+- uid: System.Nullable{System.Int32}
+  commentId: T:System.Nullable{System.Int32}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Int32>
+  nameWithType: Nullable<Int32>
+  fullName: System.Nullable<System.Int32>
+  nameWithType.vb: Nullable(Of Int32)
+  fullName.vb: System.Nullable(Of System.Int32)
+  name.vb: Nullable(Of Int32)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldPosition*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldPosition
+  name: FieldPosition
+  nameWithType: ExcelPivotArea.FieldPosition
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldPosition
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.IsValuesField*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.IsValuesField
+  name: IsValuesField
+  nameWithType: ExcelPivotArea.IsValuesField
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.IsValuesField
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.PivotAreaType*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.PivotAreaType
+  name: PivotAreaType
+  nameWithType: ExcelPivotArea.PivotAreaType
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.PivotAreaType
+- uid: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotAreaType
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ePivotAreaType
+  nameWithType: ePivotAreaType
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotAreaType
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Axis*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Axis
+  name: Axis
+  nameWithType: ExcelPivotArea.Axis
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Axis
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableAxis
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotTableAxis
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ePivotTableAxis
+  nameWithType: ePivotTableAxis
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableAxis
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.LabelOnly
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.LabelOnly
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: LabelOnly
+  nameWithType: ExcelPivotArea.LabelOnly
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.LabelOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly
+  name: DataOnly
+  nameWithType: ExcelPivotArea.DataOnly
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotArea
+  nameWithType: ExcelPivotArea
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: DataOnly
+  nameWithType: ExcelPivotArea.DataOnly
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.LabelOnly*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.LabelOnly
+  name: LabelOnly
+  nameWithType: ExcelPivotArea.LabelOnly
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.LabelOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandRow*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandRow
+  name: GrandRow
+  nameWithType: ExcelPivotArea.GrandRow
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandRow
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandColumn*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandColumn
+  name: GrandColumn
+  nameWithType: ExcelPivotArea.GrandColumn
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandColumn
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CacheIndex*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CacheIndex
+  name: CacheIndex
+  nameWithType: ExcelPivotArea.CacheIndex
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CacheIndex
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Outline*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Outline
+  name: Outline
+  nameWithType: ExcelPivotArea.Outline
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Outline
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Offset*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Offset
+  name: Offset
+  nameWithType: ExcelPivotArea.Offset
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Offset
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CollapsedLevelsAreSubtotals*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CollapsedLevelsAreSubtotals
+  name: CollapsedLevelsAreSubtotals
+  nameWithType: ExcelPivotArea.CollapsedLevelsAreSubtotals
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CollapsedLevelsAreSubtotals

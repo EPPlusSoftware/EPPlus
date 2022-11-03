@@ -1,0 +1,805 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelWorkbookView
+  commentId: T:OfficeOpenXml.ExcelWorkbookView
+  id: ExcelWorkbookView
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelWorkbookView.ActiveTab
+  - OfficeOpenXml.ExcelWorkbookView.Height
+  - OfficeOpenXml.ExcelWorkbookView.Left
+  - OfficeOpenXml.ExcelWorkbookView.Minimized
+  - OfficeOpenXml.ExcelWorkbookView.SetWindowSize(System.Int32,System.Int32,System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelWorkbookView.ShowHorizontalScrollBar
+  - OfficeOpenXml.ExcelWorkbookView.ShowSheetTabs
+  - OfficeOpenXml.ExcelWorkbookView.ShowVerticalScrollBar
+  - OfficeOpenXml.ExcelWorkbookView.Top
+  - OfficeOpenXml.ExcelWorkbookView.Width
+  langs:
+  - csharp
+  - vb
+  name: ExcelWorkbookView
+  nameWithType: ExcelWorkbookView
+  fullName: OfficeOpenXml.ExcelWorkbookView
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbookView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelWorkbookView
+    path: ../src/EPPlus/ExcelWorkbookView.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAccess to workbook view properties\n"
+  example: []
+  syntax:
+    content: 'public class ExcelWorkbookView : XmlHelper'
+    content.vb: >-
+      Public Class ExcelWorkbookView
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelWorkbookView.Left
+  commentId: P:OfficeOpenXml.ExcelWorkbookView.Left
+  id: Left
+  parent: OfficeOpenXml.ExcelWorkbookView
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: ExcelWorkbookView.Left
+  fullName: OfficeOpenXml.ExcelWorkbookView.Left
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbookView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Left
+    path: ../src/EPPlus/ExcelWorkbookView.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPosition of the upper left corner of the workbook window. In twips.\n"
+  example: []
+  syntax:
+    content: public int Left { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Left As Integer
+  overload: OfficeOpenXml.ExcelWorkbookView.Left*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbookView.Top
+  commentId: P:OfficeOpenXml.ExcelWorkbookView.Top
+  id: Top
+  parent: OfficeOpenXml.ExcelWorkbookView
+  langs:
+  - csharp
+  - vb
+  name: Top
+  nameWithType: ExcelWorkbookView.Top
+  fullName: OfficeOpenXml.ExcelWorkbookView.Top
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbookView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Top
+    path: ../src/EPPlus/ExcelWorkbookView.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPosition of the upper left corner of the workbook window. In twips.\n"
+  example: []
+  syntax:
+    content: public int Top { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Top As Integer
+  overload: OfficeOpenXml.ExcelWorkbookView.Top*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbookView.Width
+  commentId: P:OfficeOpenXml.ExcelWorkbookView.Width
+  id: Width
+  parent: OfficeOpenXml.ExcelWorkbookView
+  langs:
+  - csharp
+  - vb
+  name: Width
+  nameWithType: ExcelWorkbookView.Width
+  fullName: OfficeOpenXml.ExcelWorkbookView.Width
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbookView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Width
+    path: ../src/EPPlus/ExcelWorkbookView.cs
+    startLine: 75
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nWidth of the workbook window. In twips.\n"
+  example: []
+  syntax:
+    content: public int Width { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Width As Integer
+  overload: OfficeOpenXml.ExcelWorkbookView.Width*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbookView.Height
+  commentId: P:OfficeOpenXml.ExcelWorkbookView.Height
+  id: Height
+  parent: OfficeOpenXml.ExcelWorkbookView
+  langs:
+  - csharp
+  - vb
+  name: Height
+  nameWithType: ExcelWorkbookView.Height
+  fullName: OfficeOpenXml.ExcelWorkbookView.Height
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbookView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Height
+    path: ../src/EPPlus/ExcelWorkbookView.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nHeight of the workbook window. In twips.\n"
+  example: []
+  syntax:
+    content: public int Height { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Height As Integer
+  overload: OfficeOpenXml.ExcelWorkbookView.Height*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbookView.Minimized
+  commentId: P:OfficeOpenXml.ExcelWorkbookView.Minimized
+  id: Minimized
+  parent: OfficeOpenXml.ExcelWorkbookView
+  langs:
+  - csharp
+  - vb
+  name: Minimized
+  nameWithType: ExcelWorkbookView.Minimized
+  fullName: OfficeOpenXml.ExcelWorkbookView.Minimized
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbookView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Minimized
+    path: ../src/EPPlus/ExcelWorkbookView.cs
+    startLine: 105
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf true the the workbook window is minimized.\n"
+  example: []
+  syntax:
+    content: public bool Minimized { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Minimized As Boolean
+  overload: OfficeOpenXml.ExcelWorkbookView.Minimized*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbookView.ShowVerticalScrollBar
+  commentId: P:OfficeOpenXml.ExcelWorkbookView.ShowVerticalScrollBar
+  id: ShowVerticalScrollBar
+  parent: OfficeOpenXml.ExcelWorkbookView
+  langs:
+  - csharp
+  - vb
+  name: ShowVerticalScrollBar
+  nameWithType: ExcelWorkbookView.ShowVerticalScrollBar
+  fullName: OfficeOpenXml.ExcelWorkbookView.ShowVerticalScrollBar
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbookView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowVerticalScrollBar
+    path: ../src/EPPlus/ExcelWorkbookView.cs
+    startLine: 120
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nShow the vertical scrollbar\n"
+  example: []
+  syntax:
+    content: public bool ShowVerticalScrollBar { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowVerticalScrollBar As Boolean
+  overload: OfficeOpenXml.ExcelWorkbookView.ShowVerticalScrollBar*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbookView.ShowHorizontalScrollBar
+  commentId: P:OfficeOpenXml.ExcelWorkbookView.ShowHorizontalScrollBar
+  id: ShowHorizontalScrollBar
+  parent: OfficeOpenXml.ExcelWorkbookView
+  langs:
+  - csharp
+  - vb
+  name: ShowHorizontalScrollBar
+  nameWithType: ExcelWorkbookView.ShowHorizontalScrollBar
+  fullName: OfficeOpenXml.ExcelWorkbookView.ShowHorizontalScrollBar
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbookView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowHorizontalScrollBar
+    path: ../src/EPPlus/ExcelWorkbookView.cs
+    startLine: 135
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nShow the horizontal scrollbar\n"
+  example: []
+  syntax:
+    content: public bool ShowHorizontalScrollBar { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowHorizontalScrollBar As Boolean
+  overload: OfficeOpenXml.ExcelWorkbookView.ShowHorizontalScrollBar*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbookView.ShowSheetTabs
+  commentId: P:OfficeOpenXml.ExcelWorkbookView.ShowSheetTabs
+  id: ShowSheetTabs
+  parent: OfficeOpenXml.ExcelWorkbookView
+  langs:
+  - csharp
+  - vb
+  name: ShowSheetTabs
+  nameWithType: ExcelWorkbookView.ShowSheetTabs
+  fullName: OfficeOpenXml.ExcelWorkbookView.ShowSheetTabs
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbookView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowSheetTabs
+    path: ../src/EPPlus/ExcelWorkbookView.cs
+    startLine: 150
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nShow or hide the sheet tabs\n"
+  example: []
+  syntax:
+    content: public bool ShowSheetTabs { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowSheetTabs As Boolean
+  overload: OfficeOpenXml.ExcelWorkbookView.ShowSheetTabs*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbookView.SetWindowSize(System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelWorkbookView.SetWindowSize(System.Int32,System.Int32,System.Int32,System.Int32)
+  id: SetWindowSize(System.Int32,System.Int32,System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelWorkbookView
+  langs:
+  - csharp
+  - vb
+  name: SetWindowSize(Int32, Int32, Int32, Int32)
+  nameWithType: ExcelWorkbookView.SetWindowSize(Int32, Int32, Int32, Int32)
+  fullName: OfficeOpenXml.ExcelWorkbookView.SetWindowSize(System.Int32, System.Int32, System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbookView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetWindowSize
+    path: ../src/EPPlus/ExcelWorkbookView.cs
+    startLine: 168
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the window position in twips\n"
+  example: []
+  syntax:
+    content: public void SetWindowSize(int left, int top, int width, int height)
+    parameters:
+    - id: left
+      type: System.Int32
+      description: Left coordinat
+    - id: top
+      type: System.Int32
+      description: Top coordinat
+    - id: width
+      type: System.Int32
+      description: Width in twips
+    - id: height
+      type: System.Int32
+      description: Height in twips
+    content.vb: Public Sub SetWindowSize(left As Integer, top As Integer, width As Integer, height As Integer)
+  overload: OfficeOpenXml.ExcelWorkbookView.SetWindowSize*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbookView.ActiveTab
+  commentId: P:OfficeOpenXml.ExcelWorkbookView.ActiveTab
+  id: ActiveTab
+  parent: OfficeOpenXml.ExcelWorkbookView
+  langs:
+  - csharp
+  - vb
+  name: ActiveTab
+  nameWithType: ExcelWorkbookView.ActiveTab
+  fullName: OfficeOpenXml.ExcelWorkbookView.ActiveTab
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbookView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActiveTab
+    path: ../src/EPPlus/ExcelWorkbookView.cs
+    startLine: 180
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe active worksheet in the workbook. Zero based.\n"
+  example: []
+  syntax:
+    content: public int ActiveTab { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ActiveTab As Integer
+  overload: OfficeOpenXml.ExcelWorkbookView.ActiveTab*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelWorkbookView.Left*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbookView.Left
+  name: Left
+  nameWithType: ExcelWorkbookView.Left
+  fullName: OfficeOpenXml.ExcelWorkbookView.Left
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ExcelWorkbookView.Top*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbookView.Top
+  name: Top
+  nameWithType: ExcelWorkbookView.Top
+  fullName: OfficeOpenXml.ExcelWorkbookView.Top
+- uid: OfficeOpenXml.ExcelWorkbookView.Width*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbookView.Width
+  name: Width
+  nameWithType: ExcelWorkbookView.Width
+  fullName: OfficeOpenXml.ExcelWorkbookView.Width
+- uid: OfficeOpenXml.ExcelWorkbookView.Height*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbookView.Height
+  name: Height
+  nameWithType: ExcelWorkbookView.Height
+  fullName: OfficeOpenXml.ExcelWorkbookView.Height
+- uid: OfficeOpenXml.ExcelWorkbookView.Minimized*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbookView.Minimized
+  name: Minimized
+  nameWithType: ExcelWorkbookView.Minimized
+  fullName: OfficeOpenXml.ExcelWorkbookView.Minimized
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExcelWorkbookView.ShowVerticalScrollBar*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbookView.ShowVerticalScrollBar
+  name: ShowVerticalScrollBar
+  nameWithType: ExcelWorkbookView.ShowVerticalScrollBar
+  fullName: OfficeOpenXml.ExcelWorkbookView.ShowVerticalScrollBar
+- uid: OfficeOpenXml.ExcelWorkbookView.ShowHorizontalScrollBar*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbookView.ShowHorizontalScrollBar
+  name: ShowHorizontalScrollBar
+  nameWithType: ExcelWorkbookView.ShowHorizontalScrollBar
+  fullName: OfficeOpenXml.ExcelWorkbookView.ShowHorizontalScrollBar
+- uid: OfficeOpenXml.ExcelWorkbookView.ShowSheetTabs*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbookView.ShowSheetTabs
+  name: ShowSheetTabs
+  nameWithType: ExcelWorkbookView.ShowSheetTabs
+  fullName: OfficeOpenXml.ExcelWorkbookView.ShowSheetTabs
+- uid: OfficeOpenXml.ExcelWorkbookView.SetWindowSize*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbookView.SetWindowSize
+  name: SetWindowSize
+  nameWithType: ExcelWorkbookView.SetWindowSize
+  fullName: OfficeOpenXml.ExcelWorkbookView.SetWindowSize
+- uid: OfficeOpenXml.ExcelWorkbookView.ActiveTab*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbookView.ActiveTab
+  name: ActiveTab
+  nameWithType: ExcelWorkbookView.ActiveTab
+  fullName: OfficeOpenXml.ExcelWorkbookView.ActiveTab

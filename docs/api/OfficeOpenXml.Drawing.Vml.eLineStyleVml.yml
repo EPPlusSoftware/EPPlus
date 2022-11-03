@@ -1,0 +1,328 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  commentId: T:OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  id: eLineStyleVml
+  parent: OfficeOpenXml.Drawing.Vml
+  children:
+  - OfficeOpenXml.Drawing.Vml.eLineStyleVml.Dash
+  - OfficeOpenXml.Drawing.Vml.eLineStyleVml.DashDot
+  - OfficeOpenXml.Drawing.Vml.eLineStyleVml.LongDash
+  - OfficeOpenXml.Drawing.Vml.eLineStyleVml.LongDashDot
+  - OfficeOpenXml.Drawing.Vml.eLineStyleVml.LongDashDotDot
+  - OfficeOpenXml.Drawing.Vml.eLineStyleVml.Round
+  - OfficeOpenXml.Drawing.Vml.eLineStyleVml.Solid
+  - OfficeOpenXml.Drawing.Vml.eLineStyleVml.Square
+  langs:
+  - csharp
+  - vb
+  name: eLineStyleVml
+  nameWithType: eLineStyleVml
+  fullName: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eLineStyleVml
+    path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nLinestyle\n"
+  example: []
+  syntax:
+    content: public enum eLineStyleVml
+    content.vb: Public Enum eLineStyleVml
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Vml.eLineStyleVml.Solid
+  commentId: F:OfficeOpenXml.Drawing.Vml.eLineStyleVml.Solid
+  id: Solid
+  parent: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  langs:
+  - csharp
+  - vb
+  name: Solid
+  nameWithType: eLineStyleVml.Solid
+  fullName: OfficeOpenXml.Drawing.Vml.eLineStyleVml.Solid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Solid
+    path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nSolid\n"
+  example: []
+  syntax:
+    content: Solid = 0
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eLineStyleVml.Round
+  commentId: F:OfficeOpenXml.Drawing.Vml.eLineStyleVml.Round
+  id: Round
+  parent: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  langs:
+  - csharp
+  - vb
+  name: Round
+  nameWithType: eLineStyleVml.Round
+  fullName: OfficeOpenXml.Drawing.Vml.eLineStyleVml.Round
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Round
+    path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nRound\n"
+  example: []
+  syntax:
+    content: Round = 1
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eLineStyleVml.Square
+  commentId: F:OfficeOpenXml.Drawing.Vml.eLineStyleVml.Square
+  id: Square
+  parent: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  langs:
+  - csharp
+  - vb
+  name: Square
+  nameWithType: eLineStyleVml.Square
+  fullName: OfficeOpenXml.Drawing.Vml.eLineStyleVml.Square
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Square
+    path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nSquare\n"
+  example: []
+  syntax:
+    content: Square = 2
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eLineStyleVml.Dash
+  commentId: F:OfficeOpenXml.Drawing.Vml.eLineStyleVml.Dash
+  id: Dash
+  parent: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  langs:
+  - csharp
+  - vb
+  name: Dash
+  nameWithType: eLineStyleVml.Dash
+  fullName: OfficeOpenXml.Drawing.Vml.eLineStyleVml.Dash
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dash
+    path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nDash\n"
+  example: []
+  syntax:
+    content: Dash = 3
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eLineStyleVml.DashDot
+  commentId: F:OfficeOpenXml.Drawing.Vml.eLineStyleVml.DashDot
+  id: DashDot
+  parent: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  langs:
+  - csharp
+  - vb
+  name: DashDot
+  nameWithType: eLineStyleVml.DashDot
+  fullName: OfficeOpenXml.Drawing.Vml.eLineStyleVml.DashDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DashDot
+    path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nDash dot\n"
+  example: []
+  syntax:
+    content: DashDot = 4
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eLineStyleVml.LongDash
+  commentId: F:OfficeOpenXml.Drawing.Vml.eLineStyleVml.LongDash
+  id: LongDash
+  parent: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  langs:
+  - csharp
+  - vb
+  name: LongDash
+  nameWithType: eLineStyleVml.LongDash
+  fullName: OfficeOpenXml.Drawing.Vml.eLineStyleVml.LongDash
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LongDash
+    path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nLong dash\n"
+  example: []
+  syntax:
+    content: LongDash = 5
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eLineStyleVml.LongDashDot
+  commentId: F:OfficeOpenXml.Drawing.Vml.eLineStyleVml.LongDashDot
+  id: LongDashDot
+  parent: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  langs:
+  - csharp
+  - vb
+  name: LongDashDot
+  nameWithType: eLineStyleVml.LongDashDot
+  fullName: OfficeOpenXml.Drawing.Vml.eLineStyleVml.LongDashDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LongDashDot
+    path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nLong dash dot\n"
+  example: []
+  syntax:
+    content: LongDashDot = 6
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eLineStyleVml.LongDashDotDot
+  commentId: F:OfficeOpenXml.Drawing.Vml.eLineStyleVml.LongDashDotDot
+  id: LongDashDotDot
+  parent: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  langs:
+  - csharp
+  - vb
+  name: LongDashDotDot
+  nameWithType: eLineStyleVml.LongDashDotDot
+  fullName: OfficeOpenXml.Drawing.Vml.eLineStyleVml.LongDashDotDot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LongDashDotDot
+    path: ../src/EPPlus/Drawing/Enums/eLineStyleVml.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nLong dash dot dot\n"
+  example: []
+  syntax:
+    content: LongDashDotDot = 7
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+- uid: OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  commentId: T:OfficeOpenXml.Drawing.Vml.eLineStyleVml
+  parent: OfficeOpenXml.Drawing.Vml
+  name: eLineStyleVml
+  nameWithType: eLineStyleVml
+  fullName: OfficeOpenXml.Drawing.Vml.eLineStyleVml

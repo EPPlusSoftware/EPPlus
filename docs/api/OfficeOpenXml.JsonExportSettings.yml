@@ -1,0 +1,829 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.JsonExportSettings
+  commentId: T:OfficeOpenXml.JsonExportSettings
+  id: JsonExportSettings
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.JsonExportSettings.AddDataTypesOn
+  - OfficeOpenXml.JsonExportSettings.CellsElementName
+  - OfficeOpenXml.JsonExportSettings.ColumnsElementName
+  - OfficeOpenXml.JsonExportSettings.Culture
+  - OfficeOpenXml.JsonExportSettings.Encoding
+  - OfficeOpenXml.JsonExportSettings.Minify
+  - OfficeOpenXml.JsonExportSettings.RootElementName
+  - OfficeOpenXml.JsonExportSettings.RowsElementName
+  - OfficeOpenXml.JsonExportSettings.WriteComments
+  - OfficeOpenXml.JsonExportSettings.WriteHyperlinks
+  langs:
+  - csharp
+  - vb
+  name: JsonExportSettings
+  nameWithType: JsonExportSettings
+  fullName: OfficeOpenXml.JsonExportSettings
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: JsonExportSettings
+    path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nBase class for settings used when exporting a range or a table as Json.\n"
+  example: []
+  syntax:
+    content: public abstract class JsonExportSettings
+    content.vb: Public MustInherit Class JsonExportSettings
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - OfficeOpenXml.JsonRangeExportSettings
+  - OfficeOpenXml.JsonTableExportSettings
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - abstract
+  - class
+  modifiers.vb:
+  - Public
+  - MustInherit
+  - Class
+- uid: OfficeOpenXml.JsonExportSettings.Minify
+  commentId: P:OfficeOpenXml.JsonExportSettings.Minify
+  id: Minify
+  parent: OfficeOpenXml.JsonExportSettings
+  langs:
+  - csharp
+  - vb
+  name: Minify
+  nameWithType: JsonExportSettings.Minify
+  fullName: OfficeOpenXml.JsonExportSettings.Minify
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Minify
+    path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf the json is minified when written.\n"
+  example: []
+  syntax:
+    content: public bool Minify { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Minify As Boolean
+  overload: OfficeOpenXml.JsonExportSettings.Minify*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.JsonExportSettings.RootElementName
+  commentId: P:OfficeOpenXml.JsonExportSettings.RootElementName
+  id: RootElementName
+  parent: OfficeOpenXml.JsonExportSettings
+  langs:
+  - csharp
+  - vb
+  name: RootElementName
+  nameWithType: JsonExportSettings.RootElementName
+  fullName: OfficeOpenXml.JsonExportSettings.RootElementName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RootElementName
+    path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe name of the root element\n"
+  example: []
+  syntax:
+    content: public abstract string RootElementName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public MustOverride Property RootElementName As String
+  overload: OfficeOpenXml.JsonExportSettings.RootElementName*
+  modifiers.csharp:
+  - public
+  - abstract
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - MustOverride
+- uid: OfficeOpenXml.JsonExportSettings.AddDataTypesOn
+  commentId: P:OfficeOpenXml.JsonExportSettings.AddDataTypesOn
+  id: AddDataTypesOn
+  parent: OfficeOpenXml.JsonExportSettings
+  langs:
+  - csharp
+  - vb
+  name: AddDataTypesOn
+  nameWithType: JsonExportSettings.AddDataTypesOn
+  fullName: OfficeOpenXml.JsonExportSettings.AddDataTypesOn
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddDataTypesOn
+    path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the dataType attribute depending on the data. The attribute can be set per column or per cell.\n"
+  example: []
+  syntax:
+    content: public abstract eDataTypeOn AddDataTypesOn { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.eDataTypeOn
+    content.vb: Public MustOverride Property AddDataTypesOn As eDataTypeOn
+  overload: OfficeOpenXml.JsonExportSettings.AddDataTypesOn*
+  modifiers.csharp:
+  - public
+  - abstract
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - MustOverride
+- uid: OfficeOpenXml.JsonExportSettings.ColumnsElementName
+  commentId: P:OfficeOpenXml.JsonExportSettings.ColumnsElementName
+  id: ColumnsElementName
+  parent: OfficeOpenXml.JsonExportSettings
+  langs:
+  - csharp
+  - vb
+  name: ColumnsElementName
+  nameWithType: JsonExportSettings.ColumnsElementName
+  fullName: OfficeOpenXml.JsonExportSettings.ColumnsElementName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnsElementName
+    path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe name of the element containing the columns data\n"
+  example: []
+  syntax:
+    content: public string ColumnsElementName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ColumnsElementName As String
+  overload: OfficeOpenXml.JsonExportSettings.ColumnsElementName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.JsonExportSettings.RowsElementName
+  commentId: P:OfficeOpenXml.JsonExportSettings.RowsElementName
+  id: RowsElementName
+  parent: OfficeOpenXml.JsonExportSettings
+  langs:
+  - csharp
+  - vb
+  name: RowsElementName
+  nameWithType: JsonExportSettings.RowsElementName
+  fullName: OfficeOpenXml.JsonExportSettings.RowsElementName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RowsElementName
+    path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe name of the element containg the rows data\n"
+  example: []
+  syntax:
+    content: public string RowsElementName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property RowsElementName As String
+  overload: OfficeOpenXml.JsonExportSettings.RowsElementName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.JsonExportSettings.CellsElementName
+  commentId: P:OfficeOpenXml.JsonExportSettings.CellsElementName
+  id: CellsElementName
+  parent: OfficeOpenXml.JsonExportSettings
+  langs:
+  - csharp
+  - vb
+  name: CellsElementName
+  nameWithType: JsonExportSettings.CellsElementName
+  fullName: OfficeOpenXml.JsonExportSettings.CellsElementName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CellsElementName
+    path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe name of the element containg the cells data\n"
+  example: []
+  syntax:
+    content: public string CellsElementName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property CellsElementName As String
+  overload: OfficeOpenXml.JsonExportSettings.CellsElementName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.JsonExportSettings.WriteHyperlinks
+  commentId: P:OfficeOpenXml.JsonExportSettings.WriteHyperlinks
+  id: WriteHyperlinks
+  parent: OfficeOpenXml.JsonExportSettings
+  langs:
+  - csharp
+  - vb
+  name: WriteHyperlinks
+  nameWithType: JsonExportSettings.WriteHyperlinks
+  fullName: OfficeOpenXml.JsonExportSettings.WriteHyperlinks
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WriteHyperlinks
+    path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nWrite the uri attribute if an hyperlink exists in a cell\n"
+  example: []
+  syntax:
+    content: public bool WriteHyperlinks { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property WriteHyperlinks As Boolean
+  overload: OfficeOpenXml.JsonExportSettings.WriteHyperlinks*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.JsonExportSettings.WriteComments
+  commentId: P:OfficeOpenXml.JsonExportSettings.WriteComments
+  id: WriteComments
+  parent: OfficeOpenXml.JsonExportSettings
+  langs:
+  - csharp
+  - vb
+  name: WriteComments
+  nameWithType: JsonExportSettings.WriteComments
+  fullName: OfficeOpenXml.JsonExportSettings.WriteComments
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WriteComments
+    path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nWrite the comment attribute if an comment exists in a cell.\n"
+  example: []
+  syntax:
+    content: public bool WriteComments { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property WriteComments As Boolean
+  overload: OfficeOpenXml.JsonExportSettings.WriteComments*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.JsonExportSettings.Encoding
+  commentId: P:OfficeOpenXml.JsonExportSettings.Encoding
+  id: Encoding
+  parent: OfficeOpenXml.JsonExportSettings
+  langs:
+  - csharp
+  - vb
+  name: Encoding
+  nameWithType: JsonExportSettings.Encoding
+  fullName: OfficeOpenXml.JsonExportSettings.Encoding
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Encoding
+    path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+    startLine: 64
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nEncoding for the output\n"
+  example: []
+  syntax:
+    content: public Encoding Encoding { get; set; }
+    parameters: []
+    return:
+      type: System.Text.Encoding
+    content.vb: Public Property Encoding As Encoding
+  overload: OfficeOpenXml.JsonExportSettings.Encoding*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.JsonExportSettings.Culture
+  commentId: P:OfficeOpenXml.JsonExportSettings.Culture
+  id: Culture
+  parent: OfficeOpenXml.JsonExportSettings
+  langs:
+  - csharp
+  - vb
+  name: Culture
+  nameWithType: JsonExportSettings.Culture
+  fullName: OfficeOpenXml.JsonExportSettings.Culture
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Culture
+    path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+    startLine: 68
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe CulturInfo used when formatting values.\n"
+  example: []
+  syntax:
+    content: public CultureInfo Culture { get; set; }
+    parameters: []
+    return:
+      type: System.Globalization.CultureInfo
+    content.vb: Public Property Culture As CultureInfo
+  overload: OfficeOpenXml.JsonExportSettings.Culture*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.JsonExportSettings.Minify*
+  commentId: Overload:OfficeOpenXml.JsonExportSettings.Minify
+  name: Minify
+  nameWithType: JsonExportSettings.Minify
+  fullName: OfficeOpenXml.JsonExportSettings.Minify
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.JsonExportSettings.RootElementName*
+  commentId: Overload:OfficeOpenXml.JsonExportSettings.RootElementName
+  name: RootElementName
+  nameWithType: JsonExportSettings.RootElementName
+  fullName: OfficeOpenXml.JsonExportSettings.RootElementName
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.JsonExportSettings.AddDataTypesOn*
+  commentId: Overload:OfficeOpenXml.JsonExportSettings.AddDataTypesOn
+  name: AddDataTypesOn
+  nameWithType: JsonExportSettings.AddDataTypesOn
+  fullName: OfficeOpenXml.JsonExportSettings.AddDataTypesOn
+- uid: OfficeOpenXml.eDataTypeOn
+  commentId: T:OfficeOpenXml.eDataTypeOn
+  parent: OfficeOpenXml
+  name: eDataTypeOn
+  nameWithType: eDataTypeOn
+  fullName: OfficeOpenXml.eDataTypeOn
+- uid: OfficeOpenXml.JsonExportSettings.ColumnsElementName*
+  commentId: Overload:OfficeOpenXml.JsonExportSettings.ColumnsElementName
+  name: ColumnsElementName
+  nameWithType: JsonExportSettings.ColumnsElementName
+  fullName: OfficeOpenXml.JsonExportSettings.ColumnsElementName
+- uid: OfficeOpenXml.JsonExportSettings.RowsElementName*
+  commentId: Overload:OfficeOpenXml.JsonExportSettings.RowsElementName
+  name: RowsElementName
+  nameWithType: JsonExportSettings.RowsElementName
+  fullName: OfficeOpenXml.JsonExportSettings.RowsElementName
+- uid: OfficeOpenXml.JsonExportSettings.CellsElementName*
+  commentId: Overload:OfficeOpenXml.JsonExportSettings.CellsElementName
+  name: CellsElementName
+  nameWithType: JsonExportSettings.CellsElementName
+  fullName: OfficeOpenXml.JsonExportSettings.CellsElementName
+- uid: OfficeOpenXml.JsonExportSettings.WriteHyperlinks*
+  commentId: Overload:OfficeOpenXml.JsonExportSettings.WriteHyperlinks
+  name: WriteHyperlinks
+  nameWithType: JsonExportSettings.WriteHyperlinks
+  fullName: OfficeOpenXml.JsonExportSettings.WriteHyperlinks
+- uid: OfficeOpenXml.JsonExportSettings.WriteComments*
+  commentId: Overload:OfficeOpenXml.JsonExportSettings.WriteComments
+  name: WriteComments
+  nameWithType: JsonExportSettings.WriteComments
+  fullName: OfficeOpenXml.JsonExportSettings.WriteComments
+- uid: OfficeOpenXml.JsonExportSettings.Encoding*
+  commentId: Overload:OfficeOpenXml.JsonExportSettings.Encoding
+  name: Encoding
+  nameWithType: JsonExportSettings.Encoding
+  fullName: OfficeOpenXml.JsonExportSettings.Encoding
+- uid: System.Text.Encoding
+  commentId: T:System.Text.Encoding
+  parent: System.Text
+  isExternal: true
+  name: Encoding
+  nameWithType: Encoding
+  fullName: System.Text.Encoding
+- uid: System.Text
+  commentId: N:System.Text
+  isExternal: true
+  name: System.Text
+  nameWithType: System.Text
+  fullName: System.Text
+- uid: OfficeOpenXml.JsonExportSettings.Culture*
+  commentId: Overload:OfficeOpenXml.JsonExportSettings.Culture
+  name: Culture
+  nameWithType: JsonExportSettings.Culture
+  fullName: OfficeOpenXml.JsonExportSettings.Culture
+- uid: System.Globalization.CultureInfo
+  commentId: T:System.Globalization.CultureInfo
+  parent: System.Globalization
+  isExternal: true
+  name: CultureInfo
+  nameWithType: CultureInfo
+  fullName: System.Globalization.CultureInfo
+- uid: System.Globalization
+  commentId: N:System.Globalization
+  isExternal: true
+  name: System.Globalization
+  nameWithType: System.Globalization
+  fullName: System.Globalization

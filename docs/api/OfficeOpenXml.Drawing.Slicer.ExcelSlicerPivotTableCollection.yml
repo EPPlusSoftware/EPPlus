@@ -1,0 +1,873 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection
+  commentId: T:OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection
+  id: ExcelSlicerPivotTableCollection
+  parent: OfficeOpenXml.Drawing.Slicer
+  children:
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Add(OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Count
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.GetEnumerator
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Item(System.Int32)
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.System#Collections#IEnumerable#GetEnumerator
+  langs:
+  - csharp
+  - vb
+  name: ExcelSlicerPivotTableCollection
+  nameWithType: ExcelSlicerPivotTableCollection
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/ExcelSlicerPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelSlicerPivotTableCollection
+    path: ../src/EPPlus/Drawing/Slicer/ExcelSlicerPivotTableCollection.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer
+  summary: "\nA collection of pivot tables attached to a slicer \n"
+  example: []
+  syntax:
+    content: 'public class ExcelSlicerPivotTableCollection : IEnumerable<ExcelPivotTable>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelSlicerPivotTableCollection
+          Implements IEnumerable(Of ExcelPivotTable), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelSlicerPivotTableCollection.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/ExcelSlicerPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/Drawing/Slicer/ExcelSlicerPivotTableCollection.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer
+  summary: "\nGet an Enumerator for the collection.\n"
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelPivotTable> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}
+      description: The Enumerator
+    content.vb: Public Function GetEnumerator As IEnumerator(Of ExcelPivotTable)
+  overload: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}.GetEnumerator
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelSlicerPivotTableCollection.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/ExcelSlicerPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/Drawing/Slicer/ExcelSlicerPivotTableCollection.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer
+  summary: "\nGet an Enumerator for the collection.\n"
+  example: []
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+      description: The Enumerator
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelSlicerPivotTableCollection.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelSlicerPivotTableCollection.Item[Int32]
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/ExcelSlicerPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Drawing/Slicer/ExcelSlicerPivotTableCollection.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer
+  summary: "\nThe indexer for the collection\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTable this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivot table at the specified index
+    content.vb: Public ReadOnly Property Item(index As Integer) As ExcelPivotTable
+  overload: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Item*
+  nameWithType.vb: ExcelSlicerPivotTableCollection.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Add(OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  commentId: M:OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Add(OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  id: Add(OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(ExcelPivotTable)
+  nameWithType: ExcelSlicerPivotTableCollection.Add(ExcelPivotTable)
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Add(OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/ExcelSlicerPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Drawing/Slicer/ExcelSlicerPivotTableCollection.cs
+    startLine: 67
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer
+  summary: "\nAdds a new pivot table to the collection. All pivot table in this collection must share the same cache.\n"
+  example: []
+  syntax:
+    content: public void Add(ExcelPivotTable pivotTable)
+    parameters:
+    - id: pivotTable
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivot table to add
+    content.vb: Public Sub Add(pivotTable As ExcelPivotTable)
+  overload: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Count
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Count
+  id: Count
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelSlicerPivotTableCollection.Count
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/ExcelSlicerPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Drawing/Slicer/ExcelSlicerPivotTableCollection.cs
+    startLine: 79
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer
+  summary: "\nNumber of items in the collection\n"
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Count*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Slicer
+  commentId: N:OfficeOpenXml.Drawing.Slicer
+  name: OfficeOpenXml.Drawing.Slicer
+  nameWithType: OfficeOpenXml.Drawing.Slicer
+  fullName: OfficeOpenXml.Drawing.Slicer
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelPivotTable>
+  nameWithType: IEnumerable<ExcelPivotTable>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.PivotTable.ExcelPivotTable>
+  nameWithType.vb: IEnumerable(Of ExcelPivotTable)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  name.vb: IEnumerable(Of ExcelPivotTable)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+    name: ExcelPivotTable
+    nameWithType: ExcelPivotTable
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+    name: ExcelPivotTable
+    nameWithType: ExcelPivotTable
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelSlicerPivotTableCollection.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelPivotTable>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.PivotTable.ExcelPivotTable>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelPivotTable).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTable).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ExcelPivotTable>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.PivotTable.ExcelPivotTable>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ExcelPivotTable).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTable).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ExcelPivotTable>
+  nameWithType: IEnumerator<ExcelPivotTable>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.Table.PivotTable.ExcelPivotTable>
+  nameWithType.vb: IEnumerator(Of ExcelPivotTable)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  name.vb: IEnumerator(Of ExcelPivotTable)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+    name: ExcelPivotTable
+    nameWithType: ExcelPivotTable
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+    name: ExcelPivotTable
+    nameWithType: ExcelPivotTable
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelSlicerPivotTableCollection.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelSlicerPivotTableCollection.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Item*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Item
+  name: Item
+  nameWithType: ExcelSlicerPivotTableCollection.Item
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Item
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTable
+  nameWithType: ExcelPivotTable
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Add*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Add
+  name: Add
+  nameWithType: ExcelSlicerPivotTableCollection.Add
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Add
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Count*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Count
+  name: Count
+  nameWithType: ExcelSlicerPivotTableCollection.Count
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerPivotTableCollection.Count

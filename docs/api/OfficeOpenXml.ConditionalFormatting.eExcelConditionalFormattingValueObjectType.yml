@@ -1,0 +1,258 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  id: eExcelConditionalFormattingValueObjectType
+  parent: OfficeOpenXml.ConditionalFormatting
+  children:
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Formula
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Max
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Min
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Num
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Percent
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Percentile
+  langs:
+  - csharp
+  - vb
+  name: eExcelConditionalFormattingValueObjectType
+  nameWithType: eExcelConditionalFormattingValueObjectType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eExcelConditionalFormattingValueObjectType
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 355
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nEnum for Conditional Format Value Object Type ST_CfvoType §18.18.13\n"
+  example: []
+  syntax:
+    content: public enum eExcelConditionalFormattingValueObjectType
+    content.vb: Public Enum eExcelConditionalFormattingValueObjectType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Formula
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Formula
+  id: Formula
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  langs:
+  - csharp
+  - vb
+  name: Formula
+  nameWithType: eExcelConditionalFormattingValueObjectType.Formula
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Formula
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Formula
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 360
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nFormula\n"
+  example: []
+  syntax:
+    content: Formula = 0
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Max
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Max
+  id: Max
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  langs:
+  - csharp
+  - vb
+  name: Max
+  nameWithType: eExcelConditionalFormattingValueObjectType.Max
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Max
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Max
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 365
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nMaximum Value\n"
+  example: []
+  syntax:
+    content: Max = 1
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Min
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Min
+  id: Min
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  langs:
+  - csharp
+  - vb
+  name: Min
+  nameWithType: eExcelConditionalFormattingValueObjectType.Min
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Min
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Min
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 370
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nMinimum Value\n"
+  example: []
+  syntax:
+    content: Min = 2
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Num
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Num
+  id: Num
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  langs:
+  - csharp
+  - vb
+  name: Num
+  nameWithType: eExcelConditionalFormattingValueObjectType.Num
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Num
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Num
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 375
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nNumber Value\n"
+  example: []
+  syntax:
+    content: Num = 3
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Percent
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Percent
+  id: Percent
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  langs:
+  - csharp
+  - vb
+  name: Percent
+  nameWithType: eExcelConditionalFormattingValueObjectType.Percent
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Percent
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Percent
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 380
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nPercent\n"
+  example: []
+  syntax:
+    content: Percent = 4
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Percentile
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Percentile
+  id: Percentile
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  langs:
+  - csharp
+  - vb
+  name: Percentile
+  nameWithType: eExcelConditionalFormattingValueObjectType.Percentile
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType.Percentile
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Percentile
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 385
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nPercentile\n"
+  example: []
+  syntax:
+    content: Percentile = 5
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.ConditionalFormatting
+  commentId: N:OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  nameWithType: OfficeOpenXml.ConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelConditionalFormattingValueObjectType
+  nameWithType: eExcelConditionalFormattingValueObjectType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType

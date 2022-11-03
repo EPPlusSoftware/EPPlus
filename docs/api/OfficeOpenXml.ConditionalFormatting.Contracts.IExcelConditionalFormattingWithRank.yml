@@ -1,0 +1,95 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithRank
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithRank
+  id: IExcelConditionalFormattingWithRank
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  children:
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithRank.Rank
+  langs:
+  - csharp
+  - vb
+  name: IExcelConditionalFormattingWithRank
+  nameWithType: IExcelConditionalFormattingWithRank
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithRank
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithRank.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelConditionalFormattingWithRank
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithRank.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nIExcelConditionalFormattingWithRank\n"
+  example: []
+  syntax:
+    content: public interface IExcelConditionalFormattingWithRank
+    content.vb: Public Interface IExcelConditionalFormattingWithRank
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithRank.Rank
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithRank.Rank
+  id: Rank
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithRank
+  langs:
+  - csharp
+  - vb
+  name: Rank
+  nameWithType: IExcelConditionalFormattingWithRank.Rank
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithRank.Rank
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithRank.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Rank
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithRank.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nRank Attribute\n"
+  example: []
+  syntax:
+    content: ushort Rank { get; set; }
+    parameters: []
+    return:
+      type: System.UInt16
+    content.vb: Property Rank As UShort
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithRank.Rank*
+  modifiers.csharp:
+  - get
+  - set
+references:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts
+  commentId: N:OfficeOpenXml.ConditionalFormatting.Contracts
+  name: OfficeOpenXml.ConditionalFormatting.Contracts
+  nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithRank.Rank*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithRank.Rank
+  name: Rank
+  nameWithType: IExcelConditionalFormattingWithRank.Rank
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithRank.Rank
+- uid: System.UInt16
+  commentId: T:System.UInt16
+  parent: System
+  isExternal: true
+  name: UInt16
+  nameWithType: UInt16
+  fullName: System.UInt16
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

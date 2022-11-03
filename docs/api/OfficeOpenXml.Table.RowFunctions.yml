@@ -1,0 +1,398 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.RowFunctions
+  commentId: T:OfficeOpenXml.Table.RowFunctions
+  id: RowFunctions
+  parent: OfficeOpenXml.Table
+  children:
+  - OfficeOpenXml.Table.RowFunctions.Average
+  - OfficeOpenXml.Table.RowFunctions.Count
+  - OfficeOpenXml.Table.RowFunctions.CountNums
+  - OfficeOpenXml.Table.RowFunctions.Custom
+  - OfficeOpenXml.Table.RowFunctions.Max
+  - OfficeOpenXml.Table.RowFunctions.Min
+  - OfficeOpenXml.Table.RowFunctions.None
+  - OfficeOpenXml.Table.RowFunctions.StdDev
+  - OfficeOpenXml.Table.RowFunctions.Sum
+  - OfficeOpenXml.Table.RowFunctions.Var
+  langs:
+  - csharp
+  - vb
+  name: RowFunctions
+  nameWithType: RowFunctions
+  fullName: OfficeOpenXml.Table.RowFunctions
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/RowFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RowFunctions
+    path: ../src/EPPlus/Table/enums/RowFunctions.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nBuild-in table row functions\n"
+  example: []
+  syntax:
+    content: public enum RowFunctions
+    content.vb: Public Enum RowFunctions
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.RowFunctions.Average
+  commentId: F:OfficeOpenXml.Table.RowFunctions.Average
+  id: Average
+  parent: OfficeOpenXml.Table.RowFunctions
+  langs:
+  - csharp
+  - vb
+  name: Average
+  nameWithType: RowFunctions.Average
+  fullName: OfficeOpenXml.Table.RowFunctions.Average
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/RowFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Average
+    path: ../src/EPPlus/Table/enums/RowFunctions.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nAverage\n"
+  example: []
+  syntax:
+    content: Average = 0
+    return:
+      type: OfficeOpenXml.Table.RowFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.RowFunctions.Count
+  commentId: F:OfficeOpenXml.Table.RowFunctions.Count
+  id: Count
+  parent: OfficeOpenXml.Table.RowFunctions
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: RowFunctions.Count
+  fullName: OfficeOpenXml.Table.RowFunctions.Count
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/RowFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Table/enums/RowFunctions.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nCount\n"
+  example: []
+  syntax:
+    content: Count = 1
+    return:
+      type: OfficeOpenXml.Table.RowFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.RowFunctions.CountNums
+  commentId: F:OfficeOpenXml.Table.RowFunctions.CountNums
+  id: CountNums
+  parent: OfficeOpenXml.Table.RowFunctions
+  langs:
+  - csharp
+  - vb
+  name: CountNums
+  nameWithType: RowFunctions.CountNums
+  fullName: OfficeOpenXml.Table.RowFunctions.CountNums
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/RowFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CountNums
+    path: ../src/EPPlus/Table/enums/RowFunctions.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nCount, numbers\n"
+  example: []
+  syntax:
+    content: CountNums = 2
+    return:
+      type: OfficeOpenXml.Table.RowFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.RowFunctions.Custom
+  commentId: F:OfficeOpenXml.Table.RowFunctions.Custom
+  id: Custom
+  parent: OfficeOpenXml.Table.RowFunctions
+  langs:
+  - csharp
+  - vb
+  name: Custom
+  nameWithType: RowFunctions.Custom
+  fullName: OfficeOpenXml.Table.RowFunctions.Custom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/RowFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Custom
+    path: ../src/EPPlus/Table/enums/RowFunctions.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nCustum function\n"
+  example: []
+  syntax:
+    content: Custom = 3
+    return:
+      type: OfficeOpenXml.Table.RowFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.RowFunctions.Max
+  commentId: F:OfficeOpenXml.Table.RowFunctions.Max
+  id: Max
+  parent: OfficeOpenXml.Table.RowFunctions
+  langs:
+  - csharp
+  - vb
+  name: Max
+  nameWithType: RowFunctions.Max
+  fullName: OfficeOpenXml.Table.RowFunctions.Max
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/RowFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Max
+    path: ../src/EPPlus/Table/enums/RowFunctions.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMaximum\n"
+  example: []
+  syntax:
+    content: Max = 4
+    return:
+      type: OfficeOpenXml.Table.RowFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.RowFunctions.Min
+  commentId: F:OfficeOpenXml.Table.RowFunctions.Min
+  id: Min
+  parent: OfficeOpenXml.Table.RowFunctions
+  langs:
+  - csharp
+  - vb
+  name: Min
+  nameWithType: RowFunctions.Min
+  fullName: OfficeOpenXml.Table.RowFunctions.Min
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/RowFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Min
+    path: ../src/EPPlus/Table/enums/RowFunctions.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMinimum\n"
+  example: []
+  syntax:
+    content: Min = 5
+    return:
+      type: OfficeOpenXml.Table.RowFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.RowFunctions.None
+  commentId: F:OfficeOpenXml.Table.RowFunctions.None
+  id: None
+  parent: OfficeOpenXml.Table.RowFunctions
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: RowFunctions.None
+  fullName: OfficeOpenXml.Table.RowFunctions.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/RowFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Table/enums/RowFunctions.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nNone\n"
+  example: []
+  syntax:
+    content: None = 6
+    return:
+      type: OfficeOpenXml.Table.RowFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.RowFunctions.StdDev
+  commentId: F:OfficeOpenXml.Table.RowFunctions.StdDev
+  id: StdDev
+  parent: OfficeOpenXml.Table.RowFunctions
+  langs:
+  - csharp
+  - vb
+  name: StdDev
+  nameWithType: RowFunctions.StdDev
+  fullName: OfficeOpenXml.Table.RowFunctions.StdDev
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/RowFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StdDev
+    path: ../src/EPPlus/Table/enums/RowFunctions.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nStandard deviation\n"
+  example: []
+  syntax:
+    content: StdDev = 7
+    return:
+      type: OfficeOpenXml.Table.RowFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.RowFunctions.Sum
+  commentId: F:OfficeOpenXml.Table.RowFunctions.Sum
+  id: Sum
+  parent: OfficeOpenXml.Table.RowFunctions
+  langs:
+  - csharp
+  - vb
+  name: Sum
+  nameWithType: RowFunctions.Sum
+  fullName: OfficeOpenXml.Table.RowFunctions.Sum
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/RowFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Sum
+    path: ../src/EPPlus/Table/enums/RowFunctions.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nSummary\n"
+  example: []
+  syntax:
+    content: Sum = 8
+    return:
+      type: OfficeOpenXml.Table.RowFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.RowFunctions.Var
+  commentId: F:OfficeOpenXml.Table.RowFunctions.Var
+  id: Var
+  parent: OfficeOpenXml.Table.RowFunctions
+  langs:
+  - csharp
+  - vb
+  name: Var
+  nameWithType: RowFunctions.Var
+  fullName: OfficeOpenXml.Table.RowFunctions.Var
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/RowFunctions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Var
+    path: ../src/EPPlus/Table/enums/RowFunctions.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nVariation\n"
+  example: []
+  syntax:
+    content: Var = 9
+    return:
+      type: OfficeOpenXml.Table.RowFunctions
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: OfficeOpenXml.Table.RowFunctions
+  commentId: T:OfficeOpenXml.Table.RowFunctions
+  parent: OfficeOpenXml.Table
+  name: RowFunctions
+  nameWithType: RowFunctions
+  fullName: OfficeOpenXml.Table.RowFunctions

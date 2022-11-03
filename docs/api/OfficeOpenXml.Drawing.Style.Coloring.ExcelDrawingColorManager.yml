@@ -1,0 +1,918 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager
+  commentId: T:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager
+  id: ExcelDrawingColorManager
+  parent: OfficeOpenXml.Drawing.Style.Coloring
+  children:
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.ResetColors(System.String)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.SchemeColor
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.SetSchemeColor(OfficeOpenXml.Drawing.eSchemeColor)
+  langs:
+  - csharp
+  - vb
+  name: ExcelDrawingColorManager
+  nameWithType: ExcelDrawingColorManager
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingColorManager.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDrawingColorManager
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingColorManager.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nHandles colors for drawings\n"
+  example: []
+  syntax:
+    content: 'public class ExcelDrawingColorManager : ExcelDrawingThemeColorManager'
+    content.vb: >-
+      Public Class ExcelDrawingColorManager
+          Inherits ExcelDrawingThemeColorManager
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  derivedClasses:
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleColorManager
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._nameSpaceManager
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._topNode
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._pathNode
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._colorNode
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._initMethod
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._path
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._schemaNodeOrder
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.ColorType
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.Transforms
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.RgbColor
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.RgbPercentageColor
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.HslColor
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.PresetColor
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SystemColor
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetRgbColor(System.Drawing.Color,System.Boolean)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetRgbPercentageColor(System.Double,System.Double,System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetHslColor(System.Double,System.Double,System.Double)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetPresetColor(System.Drawing.Color)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetPresetColor(OfficeOpenXml.Drawing.ePresetColor)
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetSystemColor(OfficeOpenXml.Drawing.eSystemColor)
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.SchemeColor
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.SchemeColor
+  id: SchemeColor
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager
+  langs:
+  - csharp
+  - vb
+  name: SchemeColor
+  nameWithType: ExcelDrawingColorManager.SchemeColor
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.SchemeColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingColorManager.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SchemeColor
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingColorManager.cs
+    startLine: 40
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nIf <code>type</code> is set to SchemeColor, then this property contains the scheme color\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingSchemeColor SchemeColor { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingSchemeColor
+    content.vb: Public ReadOnly Property SchemeColor As ExcelDrawingSchemeColor
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.SchemeColor*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.SetSchemeColor(OfficeOpenXml.Drawing.eSchemeColor)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.SetSchemeColor(OfficeOpenXml.Drawing.eSchemeColor)
+  id: SetSchemeColor(OfficeOpenXml.Drawing.eSchemeColor)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager
+  langs:
+  - csharp
+  - vb
+  name: SetSchemeColor(eSchemeColor)
+  nameWithType: ExcelDrawingColorManager.SetSchemeColor(eSchemeColor)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.SetSchemeColor(OfficeOpenXml.Drawing.eSchemeColor)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingColorManager.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetSchemeColor
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingColorManager.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nSet the color to a scheme color\n"
+  example: []
+  syntax:
+    content: public void SetSchemeColor(eSchemeColor schemeColor)
+    parameters:
+    - id: schemeColor
+      type: OfficeOpenXml.Drawing.eSchemeColor
+      description: The scheme color
+    content.vb: Public Sub SetSchemeColor(schemeColor As eSchemeColor)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.SetSchemeColor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.ResetColors(System.String)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.ResetColors(System.String)
+  id: ResetColors(System.String)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager
+  langs:
+  - csharp
+  - vb
+  name: ResetColors(String)
+  nameWithType: ExcelDrawingColorManager.ResetColors(String)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.ResetColors(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingColorManager.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ResetColors
+    path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingColorManager.cs
+    startLine: 55
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nReset the colors on the object\n"
+  example: []
+  syntax:
+    content: protected void ResetColors(string newNodeName)
+    parameters:
+    - id: newNodeName
+      type: System.String
+      description: The new color new name
+    content.vb: Protected Sub ResetColors(newNodeName As String)
+  overload: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.ResetColors*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+references:
+- uid: OfficeOpenXml.Drawing.Style.Coloring
+  commentId: N:OfficeOpenXml.Drawing.Style.Coloring
+  name: OfficeOpenXml.Drawing.Style.Coloring
+  nameWithType: OfficeOpenXml.Drawing.Style.Coloring
+  fullName: OfficeOpenXml.Drawing.Style.Coloring
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  commentId: T:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  parent: OfficeOpenXml.Drawing.Style.Coloring
+  name: ExcelDrawingThemeColorManager
+  nameWithType: ExcelDrawingThemeColorManager
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._nameSpaceManager
+  commentId: F:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._nameSpaceManager
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  name: _nameSpaceManager
+  nameWithType: ExcelDrawingThemeColorManager._nameSpaceManager
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._nameSpaceManager
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._topNode
+  commentId: F:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._topNode
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  name: _topNode
+  nameWithType: ExcelDrawingThemeColorManager._topNode
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._topNode
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._pathNode
+  commentId: F:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._pathNode
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  name: _pathNode
+  nameWithType: ExcelDrawingThemeColorManager._pathNode
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._pathNode
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._colorNode
+  commentId: F:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._colorNode
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  name: _colorNode
+  nameWithType: ExcelDrawingThemeColorManager._colorNode
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._colorNode
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._initMethod
+  commentId: F:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._initMethod
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  name: _initMethod
+  nameWithType: ExcelDrawingThemeColorManager._initMethod
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._initMethod
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._path
+  commentId: F:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._path
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  name: _path
+  nameWithType: ExcelDrawingThemeColorManager._path
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._path
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._schemaNodeOrder
+  commentId: F:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._schemaNodeOrder
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  name: _schemaNodeOrder
+  nameWithType: ExcelDrawingThemeColorManager._schemaNodeOrder
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager._schemaNodeOrder
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.ColorType
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.ColorType
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  name: ColorType
+  nameWithType: ExcelDrawingThemeColorManager.ColorType
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.ColorType
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.Transforms
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.Transforms
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  name: Transforms
+  nameWithType: ExcelDrawingThemeColorManager.Transforms
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.Transforms
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.RgbColor
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.RgbColor
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  name: RgbColor
+  nameWithType: ExcelDrawingThemeColorManager.RgbColor
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.RgbColor
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.RgbPercentageColor
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.RgbPercentageColor
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  name: RgbPercentageColor
+  nameWithType: ExcelDrawingThemeColorManager.RgbPercentageColor
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.RgbPercentageColor
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.HslColor
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.HslColor
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  name: HslColor
+  nameWithType: ExcelDrawingThemeColorManager.HslColor
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.HslColor
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.PresetColor
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.PresetColor
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  name: PresetColor
+  nameWithType: ExcelDrawingThemeColorManager.PresetColor
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.PresetColor
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SystemColor
+  commentId: P:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SystemColor
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  name: SystemColor
+  nameWithType: ExcelDrawingThemeColorManager.SystemColor
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SystemColor
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetRgbColor(System.Drawing.Color,System.Boolean)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetRgbColor(System.Drawing.Color,System.Boolean)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  isExternal: true
+  name: SetRgbColor(Color, Boolean)
+  nameWithType: ExcelDrawingThemeColorManager.SetRgbColor(Color, Boolean)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetRgbColor(System.Drawing.Color, System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetRgbColor(System.Drawing.Color,System.Boolean)
+    name: SetRgbColor
+    nameWithType: ExcelDrawingThemeColorManager.SetRgbColor
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetRgbColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Drawing.Color
+    name: Color
+    nameWithType: Color
+    fullName: System.Drawing.Color
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetRgbColor(System.Drawing.Color,System.Boolean)
+    name: SetRgbColor
+    nameWithType: ExcelDrawingThemeColorManager.SetRgbColor
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetRgbColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Drawing.Color
+    name: Color
+    nameWithType: Color
+    fullName: System.Drawing.Color
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetRgbPercentageColor(System.Double,System.Double,System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetRgbPercentageColor(System.Double,System.Double,System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  isExternal: true
+  name: SetRgbPercentageColor(Double, Double, Double)
+  nameWithType: ExcelDrawingThemeColorManager.SetRgbPercentageColor(Double, Double, Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetRgbPercentageColor(System.Double, System.Double, System.Double)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetRgbPercentageColor(System.Double,System.Double,System.Double)
+    name: SetRgbPercentageColor
+    nameWithType: ExcelDrawingThemeColorManager.SetRgbPercentageColor
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetRgbPercentageColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetRgbPercentageColor(System.Double,System.Double,System.Double)
+    name: SetRgbPercentageColor
+    nameWithType: ExcelDrawingThemeColorManager.SetRgbPercentageColor
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetRgbPercentageColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetHslColor(System.Double,System.Double,System.Double)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetHslColor(System.Double,System.Double,System.Double)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  isExternal: true
+  name: SetHslColor(Double, Double, Double)
+  nameWithType: ExcelDrawingThemeColorManager.SetHslColor(Double, Double, Double)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetHslColor(System.Double, System.Double, System.Double)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetHslColor(System.Double,System.Double,System.Double)
+    name: SetHslColor
+    nameWithType: ExcelDrawingThemeColorManager.SetHslColor
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetHslColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetHslColor(System.Double,System.Double,System.Double)
+    name: SetHslColor
+    nameWithType: ExcelDrawingThemeColorManager.SetHslColor
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetHslColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetPresetColor(System.Drawing.Color)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetPresetColor(System.Drawing.Color)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  isExternal: true
+  name: SetPresetColor(Color)
+  nameWithType: ExcelDrawingThemeColorManager.SetPresetColor(Color)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetPresetColor(System.Drawing.Color)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetPresetColor(System.Drawing.Color)
+    name: SetPresetColor
+    nameWithType: ExcelDrawingThemeColorManager.SetPresetColor
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetPresetColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Drawing.Color
+    name: Color
+    nameWithType: Color
+    fullName: System.Drawing.Color
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetPresetColor(System.Drawing.Color)
+    name: SetPresetColor
+    nameWithType: ExcelDrawingThemeColorManager.SetPresetColor
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetPresetColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Drawing.Color
+    name: Color
+    nameWithType: Color
+    fullName: System.Drawing.Color
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetPresetColor(OfficeOpenXml.Drawing.ePresetColor)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetPresetColor(OfficeOpenXml.Drawing.ePresetColor)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  name: SetPresetColor(ePresetColor)
+  nameWithType: ExcelDrawingThemeColorManager.SetPresetColor(ePresetColor)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetPresetColor(OfficeOpenXml.Drawing.ePresetColor)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetPresetColor(OfficeOpenXml.Drawing.ePresetColor)
+    name: SetPresetColor
+    nameWithType: ExcelDrawingThemeColorManager.SetPresetColor
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetPresetColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.ePresetColor
+    name: ePresetColor
+    nameWithType: ePresetColor
+    fullName: OfficeOpenXml.Drawing.ePresetColor
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetPresetColor(OfficeOpenXml.Drawing.ePresetColor)
+    name: SetPresetColor
+    nameWithType: ExcelDrawingThemeColorManager.SetPresetColor
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetPresetColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.ePresetColor
+    name: ePresetColor
+    nameWithType: ePresetColor
+    fullName: OfficeOpenXml.Drawing.ePresetColor
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetSystemColor(OfficeOpenXml.Drawing.eSystemColor)
+  commentId: M:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetSystemColor(OfficeOpenXml.Drawing.eSystemColor)
+  parent: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  name: SetSystemColor(eSystemColor)
+  nameWithType: ExcelDrawingThemeColorManager.SetSystemColor(eSystemColor)
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetSystemColor(OfficeOpenXml.Drawing.eSystemColor)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetSystemColor(OfficeOpenXml.Drawing.eSystemColor)
+    name: SetSystemColor
+    nameWithType: ExcelDrawingThemeColorManager.SetSystemColor
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetSystemColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.eSystemColor
+    name: eSystemColor
+    nameWithType: eSystemColor
+    fullName: OfficeOpenXml.Drawing.eSystemColor
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetSystemColor(OfficeOpenXml.Drawing.eSystemColor)
+    name: SetSystemColor
+    nameWithType: ExcelDrawingThemeColorManager.SetSystemColor
+    fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager.SetSystemColor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.eSystemColor
+    name: eSystemColor
+    nameWithType: eSystemColor
+    fullName: OfficeOpenXml.Drawing.eSystemColor
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.SchemeColor*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.SchemeColor
+  name: SchemeColor
+  nameWithType: ExcelDrawingColorManager.SchemeColor
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.SchemeColor
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingSchemeColor
+  commentId: T:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingSchemeColor
+  parent: OfficeOpenXml.Drawing.Style.Coloring
+  name: ExcelDrawingSchemeColor
+  nameWithType: ExcelDrawingSchemeColor
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingSchemeColor
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.SetSchemeColor*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.SetSchemeColor
+  name: SetSchemeColor
+  nameWithType: ExcelDrawingColorManager.SetSchemeColor
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.SetSchemeColor
+- uid: OfficeOpenXml.Drawing.eSchemeColor
+  commentId: T:OfficeOpenXml.Drawing.eSchemeColor
+  parent: OfficeOpenXml.Drawing
+  name: eSchemeColor
+  nameWithType: eSchemeColor
+  fullName: OfficeOpenXml.Drawing.eSchemeColor
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.ResetColors*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.ResetColors
+  name: ResetColors
+  nameWithType: ExcelDrawingColorManager.ResetColors
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingColorManager.ResetColors
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

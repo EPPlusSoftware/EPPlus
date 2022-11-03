@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+  commentId: T:OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+  id: NameParsingStrategy
+  parent: OfficeOpenXml.Export.ToDataTable
+  children:
+  - OfficeOpenXml.Export.ToDataTable.NameParsingStrategy.Preserve
+  - OfficeOpenXml.Export.ToDataTable.NameParsingStrategy.RemoveSpace
+  - OfficeOpenXml.Export.ToDataTable.NameParsingStrategy.SpaceToUnderscore
+  langs:
+  - csharp
+  - vb
+  name: NameParsingStrategy
+  nameWithType: NameParsingStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/NameParsingStrategy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NameParsingStrategy
+    path: ../src/EPPlus/Export/ToDataTable/NameParsingStrategy.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nDefines options for how to build a valid property or DataTable column name out of a string\n"
+  example: []
+  syntax:
+    content: public enum NameParsingStrategy
+    content.vb: Public Enum NameParsingStrategy
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy.Preserve
+  commentId: F:OfficeOpenXml.Export.ToDataTable.NameParsingStrategy.Preserve
+  id: Preserve
+  parent: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+  langs:
+  - csharp
+  - vb
+  name: Preserve
+  nameWithType: NameParsingStrategy.Preserve
+  fullName: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy.Preserve
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/NameParsingStrategy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Preserve
+    path: ../src/EPPlus/Export/ToDataTable/NameParsingStrategy.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nPreserve the input string as it is\n"
+  example: []
+  syntax:
+    content: Preserve = 0
+    return:
+      type: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy.SpaceToUnderscore
+  commentId: F:OfficeOpenXml.Export.ToDataTable.NameParsingStrategy.SpaceToUnderscore
+  id: SpaceToUnderscore
+  parent: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+  langs:
+  - csharp
+  - vb
+  name: SpaceToUnderscore
+  nameWithType: NameParsingStrategy.SpaceToUnderscore
+  fullName: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy.SpaceToUnderscore
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/NameParsingStrategy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SpaceToUnderscore
+    path: ../src/EPPlus/Export/ToDataTable/NameParsingStrategy.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nReplace any spaces with underscore\n"
+  example: []
+  syntax:
+    content: SpaceToUnderscore = 1
+    return:
+      type: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy.RemoveSpace
+  commentId: F:OfficeOpenXml.Export.ToDataTable.NameParsingStrategy.RemoveSpace
+  id: RemoveSpace
+  parent: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+  langs:
+  - csharp
+  - vb
+  name: RemoveSpace
+  nameWithType: NameParsingStrategy.RemoveSpace
+  fullName: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy.RemoveSpace
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/NameParsingStrategy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveSpace
+    path: ../src/EPPlus/Export/ToDataTable/NameParsingStrategy.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nRemove all spaces\n"
+  example: []
+  syntax:
+    content: RemoveSpace = 2
+    return:
+      type: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Export.ToDataTable
+  commentId: N:OfficeOpenXml.Export.ToDataTable
+  name: OfficeOpenXml.Export.ToDataTable
+  nameWithType: OfficeOpenXml.Export.ToDataTable
+  fullName: OfficeOpenXml.Export.ToDataTable
+- uid: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+  commentId: T:OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+  parent: OfficeOpenXml.Export.ToDataTable
+  name: NameParsingStrategy
+  nameWithType: NameParsingStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy

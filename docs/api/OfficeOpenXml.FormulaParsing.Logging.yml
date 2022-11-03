@@ -1,0 +1,34 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Logging
+  commentId: N:OfficeOpenXml.FormulaParsing.Logging
+  id: OfficeOpenXml.FormulaParsing.Logging
+  children:
+  - OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+  - OfficeOpenXml.FormulaParsing.Logging.LoggerFactory
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.FormulaParsing.Logging
+  nameWithType: OfficeOpenXml.FormulaParsing.Logging
+  fullName: OfficeOpenXml.FormulaParsing.Logging
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+  commentId: T:OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+  parent: OfficeOpenXml.FormulaParsing.Logging
+  name: IFormulaParserLogger
+  nameWithType: IFormulaParserLogger
+  fullName: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+- uid: OfficeOpenXml.FormulaParsing.Logging.LoggerFactory
+  commentId: T:OfficeOpenXml.FormulaParsing.Logging.LoggerFactory
+  name: LoggerFactory
+  nameWithType: LoggerFactory
+  fullName: OfficeOpenXml.FormulaParsing.Logging.LoggerFactory
+- uid: OfficeOpenXml.FormulaParsing.Logging
+  commentId: N:OfficeOpenXml.FormulaParsing.Logging
+  name: OfficeOpenXml.FormulaParsing.Logging
+  nameWithType: OfficeOpenXml.FormulaParsing.Logging
+  fullName: OfficeOpenXml.FormulaParsing.Logging

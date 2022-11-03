@@ -1,0 +1,223 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+  commentId: T:OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+  id: eChartColorStyleMethod
+  parent: OfficeOpenXml.Drawing.Chart.Style
+  children:
+  - OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.AcrossLinear
+  - OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.AcrossLinearReversed
+  - OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.Cycle
+  - OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.WithinLinear
+  - OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.WithinLinearReversed
+  langs:
+  - csharp
+  - vb
+  name: eChartColorStyleMethod
+  nameWithType: eChartColorStyleMethod
+  fullName: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eChartColorStyleMethod
+    path: ../src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nMethod for how colors are picked from the Colors collection\n"
+  example: []
+  syntax:
+    content: public enum eChartColorStyleMethod
+    content.vb: Public Enum eChartColorStyleMethod
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.Cycle
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.Cycle
+  id: Cycle
+  parent: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+  langs:
+  - csharp
+  - vb
+  name: Cycle
+  nameWithType: eChartColorStyleMethod.Cycle
+  fullName: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.Cycle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Cycle
+    path: ../src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nThe color picked from Colors is the index modulus the total set of colors in the list.\n"
+  example: []
+  syntax:
+    content: Cycle = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.WithinLinear
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.WithinLinear
+  id: WithinLinear
+  parent: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+  langs:
+  - csharp
+  - vb
+  name: WithinLinear
+  nameWithType: eChartColorStyleMethod.WithinLinear
+  fullName: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.WithinLinear
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WithinLinear
+    path: ../src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nThe color picked from Colors is the first color with a brightness that varies from darker to lighter.\n"
+  example: []
+  syntax:
+    content: WithinLinear = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.AcrossLinear
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.AcrossLinear
+  id: AcrossLinear
+  parent: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+  langs:
+  - csharp
+  - vb
+  name: AcrossLinear
+  nameWithType: eChartColorStyleMethod.AcrossLinear
+  fullName: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.AcrossLinear
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AcrossLinear
+    path: ../src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nThe color picked from Colors is the index modulus the total set of colors in the list. The brightness varies from lighter to darker\n"
+  example: []
+  syntax:
+    content: AcrossLinear = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.WithinLinearReversed
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.WithinLinearReversed
+  id: WithinLinearReversed
+  parent: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+  langs:
+  - csharp
+  - vb
+  name: WithinLinearReversed
+  nameWithType: eChartColorStyleMethod.WithinLinearReversed
+  fullName: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.WithinLinearReversed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WithinLinearReversed
+    path: ../src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nThe color picked from Colors is the first color with a brightness that varies from lighter to darker. The brightness varies from darker to lighter. \n"
+  example: []
+  syntax:
+    content: WithinLinearReversed = 3
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.AcrossLinearReversed
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.AcrossLinearReversed
+  id: AcrossLinearReversed
+  parent: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+  langs:
+  - csharp
+  - vb
+  name: AcrossLinearReversed
+  nameWithType: eChartColorStyleMethod.AcrossLinearReversed
+  fullName: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod.AcrossLinearReversed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AcrossLinearReversed
+    path: ../src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nThe color picked from Colors is the index modulus the total set of colors in the list. The brightness varies from darkerlighter. \n"
+  example: []
+  syntax:
+    content: AcrossLinearReversed = 4
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart.Style
+  commentId: N:OfficeOpenXml.Drawing.Chart.Style
+  name: OfficeOpenXml.Drawing.Chart.Style
+  nameWithType: OfficeOpenXml.Drawing.Chart.Style
+  fullName: OfficeOpenXml.Drawing.Chart.Style
+- uid: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+  commentId: T:OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod
+  parent: OfficeOpenXml.Drawing.Chart.Style
+  name: eChartColorStyleMethod
+  nameWithType: eChartColorStyleMethod
+  fullName: OfficeOpenXml.Drawing.Chart.Style.eChartColorStyleMethod

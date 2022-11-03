@@ -1,0 +1,1670 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  id: ExcelDataValidationCollection
+  parent: OfficeOpenXml.DataValidation
+  children:
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddAnyValidation(System.String)
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddCustomValidation(System.String)
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddDateTimeValidation(System.String)
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddDecimalValidation(System.String)
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddIntegerValidation(System.String)
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddListValidation(System.String)
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddTextLengthValidation(System.String)
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddTimeValidation(System.String)
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Clear
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Count
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Find(System.Predicate{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation})
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.FindAll(System.Predicate{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation})
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.InternalValidationEnabled
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Item(System.Int32)
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Item(System.String)
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Remove(OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation)
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.RemoveAll(System.Predicate{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation})
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#DataValidation#Contracts#IExcelDataValidation}#GetEnumerator
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection.System#Collections#IEnumerable#GetEnumerator
+  langs:
+  - csharp
+  - vb
+  name: ExcelDataValidationCollection
+  nameWithType: ExcelDataValidationCollection
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDataValidationCollection
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\n<p>\nCollection of <xref href=\"OfficeOpenXml.DataValidation.ExcelDataValidation\" data-throw-if-not-resolved=\"false\"></xref>. This class is providing the API for EPPlus data validation.\n</p>\n<p>\nThe public methods of this class (Add[...]Validation) will create a datavalidation entry in the worksheet. When this\nvalidation has been created changes to the properties will affect the workbook immediately.\n</p>\n<p>\nEach type of validation has either a formula or a typed value/values, except for custom validation which has a formula only.\n</p>\n<pre><code>// Add a date time validation\nvar validation = worksheet.DataValidation.AddDateTimeValidation(&quot;A1&quot;);\n// set validation properties\nvalidation.ShowErrorMessage = true;\nvalidation.ErrorTitle = &quot;An invalid date was entered&quot;;\nvalidation.Error = &quot;The date must be between 2011-01-31 and 2011-12-31&quot;;\nvalidation.Prompt = &quot;Enter date here&quot;;\nvalidation.Formula.Value = DateTime.Parse(&quot;2011-01-01&quot;);\nvalidation.Formula2.Value = DateTime.Parse(&quot;2011-12-31&quot;);\nvalidation.Operator = ExcelDataValidationOperator.between;</code></pre>\n"
+  example: []
+  syntax:
+    content: 'public class ExcelDataValidationCollection : XmlHelper, IEnumerable<IExcelDataValidation>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelDataValidationCollection
+          Inherits XmlHelper
+          Implements IEnumerable(Of IExcelDataValidation), IEnumerable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddAnyValidation(System.String)
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddAnyValidation(System.String)
+  id: AddAnyValidation(System.String)
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: AddAnyValidation(String)
+  nameWithType: ExcelDataValidationCollection.AddAnyValidation(String)
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddAnyValidation(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddAnyValidation
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 238
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.ExcelDataValidationAny\" data-throw-if-not-resolved=\"false\"></xref> to the worksheet.\n"
+  example: []
+  syntax:
+    content: public IExcelDataValidationAny AddAnyValidation(string address)
+    parameters:
+    - id: address
+      type: System.String
+      description: The range/address to validate
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationAny
+      description: ''
+    content.vb: Public Function AddAnyValidation(address As String) As IExcelDataValidationAny
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddAnyValidation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddIntegerValidation(System.String)
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddIntegerValidation(System.String)
+  id: AddIntegerValidation(System.String)
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: AddIntegerValidation(String)
+  nameWithType: ExcelDataValidationCollection.AddIntegerValidation(String)
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddIntegerValidation(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddIntegerValidation
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 253
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAdds an <xref href=\"OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt\" data-throw-if-not-resolved=\"false\"></xref> to the worksheet. Whole means that the only accepted values\nare integer values.\n"
+  example: []
+  syntax:
+    content: public IExcelDataValidationInt AddIntegerValidation(string address)
+    parameters:
+    - id: address
+      type: System.String
+      description: the range/address to validate
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+    content.vb: Public Function AddIntegerValidation(address As String) As IExcelDataValidationInt
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddIntegerValidation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddDecimalValidation(System.String)
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddDecimalValidation(System.String)
+  id: AddDecimalValidation(System.String)
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: AddDecimalValidation(String)
+  nameWithType: ExcelDataValidationCollection.AddDecimalValidation(String)
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddDecimalValidation(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddDecimalValidation
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 269
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAddes an <xref href=\"OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal\" data-throw-if-not-resolved=\"false\"></xref> to the worksheet. The only accepted values are\ndecimal values.\n"
+  example: []
+  syntax:
+    content: public IExcelDataValidationDecimal AddDecimalValidation(string address)
+    parameters:
+    - id: address
+      type: System.String
+      description: The range/address to validate
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal
+      description: ''
+    content.vb: Public Function AddDecimalValidation(address As String) As IExcelDataValidationDecimal
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddDecimalValidation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddListValidation(System.String)
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddListValidation(System.String)
+  id: AddListValidation(System.String)
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: AddListValidation(String)
+  nameWithType: ExcelDataValidationCollection.AddListValidation(String)
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddListValidation(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddListValidation
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 285
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAdds an <xref href=\"OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList\" data-throw-if-not-resolved=\"false\"></xref> to the worksheet. The accepted values are defined\nin a list.\n"
+  example: []
+  syntax:
+    content: public IExcelDataValidationList AddListValidation(string address)
+    parameters:
+    - id: address
+      type: System.String
+      description: The range/address to validate
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList
+      description: ''
+    content.vb: Public Function AddListValidation(address As String) As IExcelDataValidationList
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddListValidation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddTextLengthValidation(System.String)
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddTextLengthValidation(System.String)
+  id: AddTextLengthValidation(System.String)
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: AddTextLengthValidation(String)
+  nameWithType: ExcelDataValidationCollection.AddTextLengthValidation(String)
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddTextLengthValidation(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTextLengthValidation
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 312
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAdds an <xref href=\"OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt\" data-throw-if-not-resolved=\"false\"></xref> regarding text length to the worksheet.\n"
+  example: []
+  syntax:
+    content: public IExcelDataValidationInt AddTextLengthValidation(string address)
+    parameters:
+    - id: address
+      type: System.String
+      description: The range/address to validate
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+      description: ''
+    content.vb: Public Function AddTextLengthValidation(address As String) As IExcelDataValidationInt
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddTextLengthValidation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddDateTimeValidation(System.String)
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddDateTimeValidation(System.String)
+  id: AddDateTimeValidation(System.String)
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: AddDateTimeValidation(String)
+  nameWithType: ExcelDataValidationCollection.AddDateTimeValidation(String)
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddDateTimeValidation(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddDateTimeValidation
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 327
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAdds an <xref href=\"OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDateTime\" data-throw-if-not-resolved=\"false\"></xref> to the worksheet.\n"
+  example: []
+  syntax:
+    content: public IExcelDataValidationDateTime AddDateTimeValidation(string address)
+    parameters:
+    - id: address
+      type: System.String
+      description: The range/address to validate
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDateTime
+      description: ''
+    content.vb: Public Function AddDateTimeValidation(address As String) As IExcelDataValidationDateTime
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddDateTimeValidation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddTimeValidation(System.String)
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddTimeValidation(System.String)
+  id: AddTimeValidation(System.String)
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: AddTimeValidation(String)
+  nameWithType: ExcelDataValidationCollection.AddTimeValidation(String)
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddTimeValidation(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTimeValidation
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 343
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAddes a <xref href=\"OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationTime\" data-throw-if-not-resolved=\"false\"></xref> to the worksheet\n"
+  example: []
+  syntax:
+    content: public IExcelDataValidationTime AddTimeValidation(string address)
+    parameters:
+    - id: address
+      type: System.String
+      description: The range/address to validate
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationTime
+      description: ''
+    content.vb: Public Function AddTimeValidation(address As String) As IExcelDataValidationTime
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddTimeValidation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddCustomValidation(System.String)
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddCustomValidation(System.String)
+  id: AddCustomValidation(System.String)
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: AddCustomValidation(String)
+  nameWithType: ExcelDataValidationCollection.AddCustomValidation(String)
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddCustomValidation(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddCustomValidation
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 357
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAdds a <xref href=\"OfficeOpenXml.DataValidation.ExcelDataValidationCustom\" data-throw-if-not-resolved=\"false\"></xref> to the worksheet.\n"
+  example: []
+  syntax:
+    content: public IExcelDataValidationCustom AddCustomValidation(string address)
+    parameters:
+    - id: address
+      type: System.String
+      description: The range/address to validate
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationCustom
+      description: ''
+    content.vb: Public Function AddCustomValidation(address As String) As IExcelDataValidationCustom
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddCustomValidation*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Remove(OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation)
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Remove(OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation)
+  id: Remove(OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation)
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: Remove(IExcelDataValidation)
+  nameWithType: ExcelDataValidationCollection.Remove(IExcelDataValidation)
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Remove(OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 385
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nRemoves an <xref href=\"OfficeOpenXml.DataValidation.ExcelDataValidation\" data-throw-if-not-resolved=\"false\"></xref> from the collection.\n"
+  example: []
+  syntax:
+    content: public bool Remove(IExcelDataValidation item)
+    parameters:
+    - id: item
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+      description: The item to remove
+    return:
+      type: System.Boolean
+      description: True if remove succeeds, otherwise false
+    content.vb: Public Function Remove(item As IExcelDataValidation) As Boolean
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Remove*
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: if <code data-dev-comment-type="paramref" class="paramref">item</code> is null
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Count
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Count
+  id: Count
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelDataValidationCollection.Count
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 413
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nNumber of validations\n"
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Count*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.InternalValidationEnabled
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.InternalValidationEnabled
+  id: InternalValidationEnabled
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: InternalValidationEnabled
+  nameWithType: ExcelDataValidationCollection.InternalValidationEnabled
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.InternalValidationEnabled
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InternalValidationEnabled
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 424
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nEpplus validates that all data validations are consistend and valid\nwhen they are added and when a workbook is saved. Since this takes some\nresources, it can be disabled for improve performance. \n"
+  example: []
+  syntax:
+    content: public bool InternalValidationEnabled { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property InternalValidationEnabled As Boolean
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.InternalValidationEnabled*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelDataValidationCollection.Item[Int32]
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 435
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nIndex operator, returns by 0-based index\n"
+  example: []
+  syntax:
+    content: public IExcelDataValidation this[int index] { get; set; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: ''
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+      description: ''
+    content.vb: Public Property Item(index As Integer) As IExcelDataValidation
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Item*
+  nameWithType.vb: ExcelDataValidationCollection.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Item(System.String)
+  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Item(System.String)
+  id: Item(System.String)
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[String]
+  nameWithType: ExcelDataValidationCollection.Item[String]
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Item[System.String]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 446
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nIndex operator, returns a data validation which address partly or exactly matches the searched address.\n"
+  example: []
+  syntax:
+    content: public IExcelDataValidation this[string address] { get; }
+    parameters:
+    - id: address
+      type: System.String
+      description: A cell address or range
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+      description: A <xref href="OfficeOpenXml.DataValidation.ExcelDataValidation" data-throw-if-not-resolved="false"></xref> or null if no match
+    content.vb: Public ReadOnly Property Item(address As String) As IExcelDataValidation
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Item*
+  nameWithType.vb: ExcelDataValidationCollection.Item(String)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Item(System.String)
+  name.vb: Item(String)
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.FindAll(System.Predicate{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation})
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.FindAll(System.Predicate{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation})
+  id: FindAll(System.Predicate{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation})
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: FindAll(Predicate<IExcelDataValidation>)
+  nameWithType: ExcelDataValidationCollection.FindAll(Predicate<IExcelDataValidation>)
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.FindAll(System.Predicate<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FindAll
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 460
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nReturns all validations that matches the supplied predicate <code data-dev-comment-type=\"paramref\" class=\"paramref\">match</code>.\n"
+  example: []
+  syntax:
+    content: public IEnumerable<IExcelDataValidation> FindAll(Predicate<IExcelDataValidation> match)
+    parameters:
+    - id: match
+      type: System.Predicate{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation}
+      description: predicate to filter out matching validations
+    return:
+      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation}
+      description: ''
+    content.vb: Public Function FindAll(match As Predicate(Of IExcelDataValidation)) As IEnumerable(Of IExcelDataValidation)
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.FindAll*
+  nameWithType.vb: ExcelDataValidationCollection.FindAll(Predicate(Of IExcelDataValidation))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.FindAll(System.Predicate(Of OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation))
+  name.vb: FindAll(Predicate(Of IExcelDataValidation))
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Find(System.Predicate{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation})
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Find(System.Predicate{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation})
+  id: Find(System.Predicate{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation})
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: Find(Predicate<IExcelDataValidation>)
+  nameWithType: ExcelDataValidationCollection.Find(Predicate<IExcelDataValidation>)
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Find(System.Predicate<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Find
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 470
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nReturns the first matching validation.\n"
+  example: []
+  syntax:
+    content: public IExcelDataValidation Find(Predicate<IExcelDataValidation> match)
+    parameters:
+    - id: match
+      type: System.Predicate{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation}
+      description: ''
+    return:
+      type: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+      description: ''
+    content.vb: Public Function Find(match As Predicate(Of IExcelDataValidation)) As IExcelDataValidation
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Find*
+  nameWithType.vb: ExcelDataValidationCollection.Find(Predicate(Of IExcelDataValidation))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Find(System.Predicate(Of OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation))
+  name.vb: Find(Predicate(Of IExcelDataValidation))
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Clear
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Clear
+  id: Clear
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: ExcelDataValidationCollection.Clear()
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clear
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 478
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nRemoves all validations from the collection.\n"
+  example: []
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Clear*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.RemoveAll(System.Predicate{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation})
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.RemoveAll(System.Predicate{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation})
+  id: RemoveAll(System.Predicate{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation})
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: RemoveAll(Predicate<IExcelDataValidation>)
+  nameWithType: ExcelDataValidationCollection.RemoveAll(Predicate<IExcelDataValidation>)
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.RemoveAll(System.Predicate<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveAll
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 493
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nRemoves the validations that matches the predicate\n"
+  example: []
+  syntax:
+    content: public void RemoveAll(Predicate<IExcelDataValidation> match)
+    parameters:
+    - id: match
+      type: System.Predicate{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation}
+      description: ''
+    content.vb: Public Sub RemoveAll(match As Predicate(Of IExcelDataValidation))
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.RemoveAll*
+  nameWithType.vb: ExcelDataValidationCollection.RemoveAll(Predicate(Of IExcelDataValidation))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.RemoveAll(System.Predicate(Of OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation))
+  name.vb: RemoveAll(Predicate(Of IExcelDataValidation))
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#DataValidation#Contracts#IExcelDataValidation}#GetEnumerator
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#DataValidation#Contracts#IExcelDataValidation}#GetEnumerator
+  id: System#Collections#Generic#IEnumerable{OfficeOpenXml#DataValidation#Contracts#IExcelDataValidation}#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable<IExcelDataValidation>.GetEnumerator()
+  nameWithType: ExcelDataValidationCollection.IEnumerable<IExcelDataValidation>.GetEnumerator()
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.Generic.IEnumerable<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>.GetEnumerator
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 513
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  syntax:
+    content: IEnumerator<IExcelDataValidation> IEnumerable<IExcelDataValidation>.GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation}
+    content.vb: Function System.Collections.Generic.IEnumerable<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>.GetEnumerator As IEnumerator(Of IExcelDataValidation) Implements IEnumerable(Of IExcelDataValidation).GetEnumerator
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#DataValidation#Contracts#IExcelDataValidation}#GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation}.GetEnumerator
+  nameWithType.vb: ExcelDataValidationCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>.GetEnumerator()
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelDataValidationCollection.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
+    startLine: 518
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelDataValidationCollection.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+references:
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidation
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidation
+  nameWithType: ExcelDataValidation
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation
+- uid: OfficeOpenXml.DataValidation
+  commentId: N:OfficeOpenXml.DataValidation
+  name: OfficeOpenXml.DataValidation
+  nameWithType: OfficeOpenXml.DataValidation
+  fullName: OfficeOpenXml.DataValidation
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<IExcelDataValidation>
+  nameWithType: IEnumerable<IExcelDataValidation>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>
+  nameWithType.vb: IEnumerable(Of IExcelDataValidation)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation)
+  name.vb: IEnumerable(Of IExcelDataValidation)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+    name: IExcelDataValidation
+    nameWithType: IExcelDataValidation
+    fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+    name: IExcelDataValidation
+    nameWithType: IExcelDataValidation
+    fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationAny
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationAny
+  name: ExcelDataValidationAny
+  nameWithType: ExcelDataValidationAny
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationAny
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddAnyValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddAnyValidation
+  name: AddAnyValidation
+  nameWithType: ExcelDataValidationCollection.AddAnyValidation
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddAnyValidation
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationAny
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationAny
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationAny
+  nameWithType: IExcelDataValidationAny
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationAny
+- uid: OfficeOpenXml.DataValidation.Contracts
+  commentId: N:OfficeOpenXml.DataValidation.Contracts
+  name: OfficeOpenXml.DataValidation.Contracts
+  nameWithType: OfficeOpenXml.DataValidation.Contracts
+  fullName: OfficeOpenXml.DataValidation.Contracts
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationInt
+  nameWithType: IExcelDataValidationInt
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddIntegerValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddIntegerValidation
+  name: AddIntegerValidation
+  nameWithType: ExcelDataValidationCollection.AddIntegerValidation
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddIntegerValidation
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationDecimal
+  nameWithType: IExcelDataValidationDecimal
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddDecimalValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddDecimalValidation
+  name: AddDecimalValidation
+  nameWithType: ExcelDataValidationCollection.AddDecimalValidation
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddDecimalValidation
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationList
+  nameWithType: IExcelDataValidationList
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddListValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddListValidation
+  name: AddListValidation
+  nameWithType: ExcelDataValidationCollection.AddListValidation
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddListValidation
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddTextLengthValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddTextLengthValidation
+  name: AddTextLengthValidation
+  nameWithType: ExcelDataValidationCollection.AddTextLengthValidation
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddTextLengthValidation
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDateTime
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDateTime
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationDateTime
+  nameWithType: IExcelDataValidationDateTime
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDateTime
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddDateTimeValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddDateTimeValidation
+  name: AddDateTimeValidation
+  nameWithType: ExcelDataValidationCollection.AddDateTimeValidation
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddDateTimeValidation
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationTime
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationTime
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationTime
+  nameWithType: IExcelDataValidationTime
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationTime
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddTimeValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddTimeValidation
+  name: AddTimeValidation
+  nameWithType: ExcelDataValidationCollection.AddTimeValidation
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddTimeValidation
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCustom
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationCustom
+  name: ExcelDataValidationCustom
+  nameWithType: ExcelDataValidationCustom
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCustom
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddCustomValidation*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddCustomValidation
+  name: AddCustomValidation
+  nameWithType: ExcelDataValidationCollection.AddCustomValidation
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.AddCustomValidation
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationCustom
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationCustom
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationCustom
+  nameWithType: IExcelDataValidationCustom
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationCustom
+- uid: System.ArgumentNullException
+  commentId: T:System.ArgumentNullException
+  isExternal: true
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Remove*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Remove
+  name: Remove
+  nameWithType: ExcelDataValidationCollection.Remove
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Remove
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidation
+  nameWithType: IExcelDataValidation
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Count*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Count
+  name: Count
+  nameWithType: ExcelDataValidationCollection.Count
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.InternalValidationEnabled*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.InternalValidationEnabled
+  name: InternalValidationEnabled
+  nameWithType: ExcelDataValidationCollection.InternalValidationEnabled
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.InternalValidationEnabled
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Item*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Item
+  name: Item
+  nameWithType: ExcelDataValidationCollection.Item
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Item
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.FindAll*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.FindAll
+  name: FindAll
+  nameWithType: ExcelDataValidationCollection.FindAll
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.FindAll
+- uid: System.Predicate{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation}
+  commentId: T:System.Predicate{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation}
+  parent: System
+  definition: System.Predicate`1
+  name: Predicate<IExcelDataValidation>
+  nameWithType: Predicate<IExcelDataValidation>
+  fullName: System.Predicate<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>
+  nameWithType.vb: Predicate(Of IExcelDataValidation)
+  fullName.vb: System.Predicate(Of OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation)
+  name.vb: Predicate(Of IExcelDataValidation)
+  spec.csharp:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+    name: IExcelDataValidation
+    nameWithType: IExcelDataValidation
+    fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+    name: IExcelDataValidation
+    nameWithType: IExcelDataValidation
+    fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Predicate`1
+  commentId: T:System.Predicate`1
+  isExternal: true
+  name: Predicate<T>
+  nameWithType: Predicate<T>
+  fullName: System.Predicate<T>
+  nameWithType.vb: Predicate(Of T)
+  fullName.vb: System.Predicate(Of T)
+  name.vb: Predicate(Of T)
+  spec.csharp:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Find*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Find
+  name: Find
+  nameWithType: ExcelDataValidationCollection.Find
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Find
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Clear*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Clear
+  name: Clear
+  nameWithType: ExcelDataValidationCollection.Clear
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.Clear
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.RemoveAll*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.RemoveAll
+  name: RemoveAll
+  nameWithType: ExcelDataValidationCollection.RemoveAll
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.RemoveAll
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#DataValidation#Contracts#IExcelDataValidation}#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#DataValidation#Contracts#IExcelDataValidation}#GetEnumerator
+  name: IEnumerable<IExcelDataValidation>.GetEnumerator
+  nameWithType: ExcelDataValidationCollection.IEnumerable<IExcelDataValidation>.GetEnumerator
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>.GetEnumerator
+  nameWithType.vb: ExcelDataValidationCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>.GetEnumerator
+  name.vb: System.Collections.Generic.IEnumerable<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<IExcelDataValidation>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of IExcelDataValidation).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<IExcelDataValidation>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of IExcelDataValidation).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<IExcelDataValidation>
+  nameWithType: IEnumerator<IExcelDataValidation>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>
+  nameWithType.vb: IEnumerator(Of IExcelDataValidation)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation)
+  name.vb: IEnumerator(Of IExcelDataValidation)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+    name: IExcelDataValidation
+    nameWithType: IExcelDataValidation
+    fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+    name: IExcelDataValidation
+    nameWithType: IExcelDataValidation
+    fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelDataValidationCollection.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelDataValidationCollection.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelDataValidationCollection.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator

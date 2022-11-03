@@ -1,0 +1,831 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  commentId: T:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  id: TableAccessibilitySettings
+  parent: OfficeOpenXml.Export.HtmlExport.Accessibility
+  children:
+  - OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AddAccessibilityAttributes
+  - OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaDescribedBy
+  - OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaLabel
+  - OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaLabelledBy
+  - OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.Copy(OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings)
+  - OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.ResetToDefault
+  - OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TableHeaderCellRole
+  - OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TableRole
+  - OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TbodyRole
+  - OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TfootRole
+  - OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TheadRole
+  langs:
+  - csharp
+  - vb
+  name: TableAccessibilitySettings
+  nameWithType: TableAccessibilitySettings
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableAccessibilitySettings
+    path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Accessibility
+  summary: "\nThis class controls how accessibility attributes will be set in the exported html.\n"
+  example: []
+  syntax:
+    content: public class TableAccessibilitySettings
+    content.vb: Public Class TableAccessibilitySettings
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.ResetToDefault
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.ResetToDefault
+  id: ResetToDefault
+  parent: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  langs:
+  - csharp
+  - vb
+  name: ResetToDefault()
+  nameWithType: TableAccessibilitySettings.ResetToDefault()
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.ResetToDefault()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ResetToDefault
+    path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Accessibility
+  summary: "\nReset all properties to their default value\n"
+  example: []
+  syntax:
+    content: public void ResetToDefault()
+    content.vb: Public Sub ResetToDefault
+  overload: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.ResetToDefault*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.Copy(OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.Copy(OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings)
+  id: Copy(OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings)
+  parent: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  langs:
+  - csharp
+  - vb
+  name: Copy(TableAccessibilitySettings)
+  nameWithType: TableAccessibilitySettings.Copy(TableAccessibilitySettings)
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.Copy(OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Copy
+    path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Accessibility
+  summary: "\nCopies all properties from one instance to another.\n"
+  example: []
+  syntax:
+    content: public void Copy(TableAccessibilitySettings copy)
+    parameters:
+    - id: copy
+      type: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+      description: ''
+    content.vb: Public Sub Copy(copy As TableAccessibilitySettings)
+  overload: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.Copy*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AddAccessibilityAttributes
+  commentId: P:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AddAccessibilityAttributes
+  id: AddAccessibilityAttributes
+  parent: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  langs:
+  - csharp
+  - vb
+  name: AddAccessibilityAttributes
+  nameWithType: TableAccessibilitySettings.AddAccessibilityAttributes
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AddAccessibilityAttributes
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddAccessibilityAttributes
+    path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Accessibility
+  summary: "\nControls whether accessibility attributes will be added to the html.\n"
+  example: []
+  syntax:
+    content: public bool AddAccessibilityAttributes { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AddAccessibilityAttributes As Boolean
+  overload: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AddAccessibilityAttributes*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaLabel
+  commentId: P:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaLabel
+  id: AriaLabel
+  parent: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  langs:
+  - csharp
+  - vb
+  name: AriaLabel
+  nameWithType: TableAccessibilitySettings.AriaLabel
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaLabel
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AriaLabel
+    path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Accessibility
+  summary: "\nValue of the aria-label attribute\n"
+  example: []
+  syntax:
+    content: public string AriaLabel { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property AriaLabel As String
+  overload: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaLabel*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaLabelledBy
+  commentId: P:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaLabelledBy
+  id: AriaLabelledBy
+  parent: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  langs:
+  - csharp
+  - vb
+  name: AriaLabelledBy
+  nameWithType: TableAccessibilitySettings.AriaLabelledBy
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaLabelledBy
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AriaLabelledBy
+    path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+    startLine: 68
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Accessibility
+  summary: "\nValue of the aria-labelledby attribute\n"
+  example: []
+  syntax:
+    content: public string AriaLabelledBy { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property AriaLabelledBy As String
+  overload: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaLabelledBy*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaDescribedBy
+  commentId: P:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaDescribedBy
+  id: AriaDescribedBy
+  parent: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  langs:
+  - csharp
+  - vb
+  name: AriaDescribedBy
+  nameWithType: TableAccessibilitySettings.AriaDescribedBy
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaDescribedBy
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AriaDescribedBy
+    path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+    startLine: 73
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Accessibility
+  summary: "\nValue of the aria-describedby attribute\n"
+  example: []
+  syntax:
+    content: public string AriaDescribedBy { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property AriaDescribedBy As String
+  overload: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaDescribedBy*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TableRole
+  commentId: P:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TableRole
+  id: TableRole
+  parent: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  langs:
+  - csharp
+  - vb
+  name: TableRole
+  nameWithType: TableAccessibilitySettings.TableRole
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TableRole
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableRole
+    path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Accessibility
+  summary: "\nValue of the role attribute on the table element. Default value: table\n"
+  example: []
+  syntax:
+    content: public string TableRole { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property TableRole As String
+  overload: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TableRole*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TheadRole
+  commentId: P:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TheadRole
+  id: TheadRole
+  parent: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  langs:
+  - csharp
+  - vb
+  name: TheadRole
+  nameWithType: TableAccessibilitySettings.TheadRole
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TheadRole
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TheadRole
+    path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Accessibility
+  summary: "\nValue of the role attribute on the thead element. Default value: rowgroup\n"
+  example: []
+  syntax:
+    content: public string TheadRole { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property TheadRole As String
+  overload: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TheadRole*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TbodyRole
+  commentId: P:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TbodyRole
+  id: TbodyRole
+  parent: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  langs:
+  - csharp
+  - vb
+  name: TbodyRole
+  nameWithType: TableAccessibilitySettings.TbodyRole
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TbodyRole
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TbodyRole
+    path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Accessibility
+  summary: "\nValue of the role attribute on the tbody element. Default value: rowgroup\n"
+  example: []
+  syntax:
+    content: public string TbodyRole { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property TbodyRole As String
+  overload: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TbodyRole*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TfootRole
+  commentId: P:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TfootRole
+  id: TfootRole
+  parent: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  langs:
+  - csharp
+  - vb
+  name: TfootRole
+  nameWithType: TableAccessibilitySettings.TfootRole
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TfootRole
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TfootRole
+    path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Accessibility
+  summary: "\nValue of the role attribute on the tfoot element. Default value: rowgroup\n"
+  example: []
+  syntax:
+    content: public string TfootRole { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property TfootRole As String
+  overload: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TfootRole*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TableHeaderCellRole
+  commentId: P:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TableHeaderCellRole
+  id: TableHeaderCellRole
+  parent: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  langs:
+  - csharp
+  - vb
+  name: TableHeaderCellRole
+  nameWithType: TableAccessibilitySettings.TableHeaderCellRole
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TableHeaderCellRole
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableHeaderCellRole
+    path: ../src/EPPlus/Export/HtmlExport/Accessibility/TableAccessibilitySettings.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Accessibility
+  summary: "\nValue of the role attribute on the thead.tr.td element. Default value: columnheader\n"
+  example: []
+  syntax:
+    content: public string TableHeaderCellRole { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property TableHeaderCellRole As String
+  overload: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TableHeaderCellRole*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility
+  commentId: N:OfficeOpenXml.Export.HtmlExport.Accessibility
+  name: OfficeOpenXml.Export.HtmlExport.Accessibility
+  nameWithType: OfficeOpenXml.Export.HtmlExport.Accessibility
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.ResetToDefault*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.ResetToDefault
+  name: ResetToDefault
+  nameWithType: TableAccessibilitySettings.ResetToDefault
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.ResetToDefault
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.Copy*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.Copy
+  name: Copy
+  nameWithType: TableAccessibilitySettings.Copy
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.Copy
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  commentId: T:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  parent: OfficeOpenXml.Export.HtmlExport.Accessibility
+  name: TableAccessibilitySettings
+  nameWithType: TableAccessibilitySettings
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AddAccessibilityAttributes*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AddAccessibilityAttributes
+  name: AddAccessibilityAttributes
+  nameWithType: TableAccessibilitySettings.AddAccessibilityAttributes
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AddAccessibilityAttributes
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaLabel*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaLabel
+  name: AriaLabel
+  nameWithType: TableAccessibilitySettings.AriaLabel
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaLabel
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaLabelledBy*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaLabelledBy
+  name: AriaLabelledBy
+  nameWithType: TableAccessibilitySettings.AriaLabelledBy
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaLabelledBy
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaDescribedBy*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaDescribedBy
+  name: AriaDescribedBy
+  nameWithType: TableAccessibilitySettings.AriaDescribedBy
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.AriaDescribedBy
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TableRole*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TableRole
+  name: TableRole
+  nameWithType: TableAccessibilitySettings.TableRole
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TableRole
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TheadRole*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TheadRole
+  name: TheadRole
+  nameWithType: TableAccessibilitySettings.TheadRole
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TheadRole
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TbodyRole*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TbodyRole
+  name: TbodyRole
+  nameWithType: TableAccessibilitySettings.TbodyRole
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TbodyRole
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TfootRole*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TfootRole
+  name: TfootRole
+  nameWithType: TableAccessibilitySettings.TfootRole
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TfootRole
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TableHeaderCellRole*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TableHeaderCellRole
+  name: TableHeaderCellRole
+  nameWithType: TableAccessibilitySettings.TableHeaderCellRole
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings.TableHeaderCellRole

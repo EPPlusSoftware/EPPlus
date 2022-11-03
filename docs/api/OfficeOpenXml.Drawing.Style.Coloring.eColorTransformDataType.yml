@@ -1,0 +1,293 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  commentId: T:OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  id: eColorTransformDataType
+  parent: OfficeOpenXml.Drawing.Style.Coloring
+  children:
+  - OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.Angle
+  - OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.Boolean
+  - OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.FixedAngle90
+  - OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.FixedPercentage
+  - OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.FixedPositivePercentage
+  - OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.Percentage
+  - OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.PositivePercentage
+  langs:
+  - csharp
+  - vb
+  name: eColorTransformDataType
+  nameWithType: eColorTransformDataType
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eColorTransformDataType
+    path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nDatatypes for color transformation types\n"
+  example: []
+  syntax:
+    content: public enum eColorTransformDataType
+    content.vb: Public Enum eColorTransformDataType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.Percentage
+  commentId: F:OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.Percentage
+  id: Percentage
+  parent: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  langs:
+  - csharp
+  - vb
+  name: Percentage
+  nameWithType: eColorTransformDataType.Percentage
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.Percentage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Percentage
+    path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nPercentage\n"
+  example: []
+  syntax:
+    content: Percentage = 0
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.PositivePercentage
+  commentId: F:OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.PositivePercentage
+  id: PositivePercentage
+  parent: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  langs:
+  - csharp
+  - vb
+  name: PositivePercentage
+  nameWithType: eColorTransformDataType.PositivePercentage
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.PositivePercentage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PositivePercentage
+    path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nPositive percentage\n"
+  example: []
+  syntax:
+    content: PositivePercentage = 1
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.FixedPercentage
+  commentId: F:OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.FixedPercentage
+  id: FixedPercentage
+  parent: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  langs:
+  - csharp
+  - vb
+  name: FixedPercentage
+  nameWithType: eColorTransformDataType.FixedPercentage
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.FixedPercentage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FixedPercentage
+    path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nFixed percentage\n"
+  example: []
+  syntax:
+    content: FixedPercentage = 2
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.FixedPositivePercentage
+  commentId: F:OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.FixedPositivePercentage
+  id: FixedPositivePercentage
+  parent: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  langs:
+  - csharp
+  - vb
+  name: FixedPositivePercentage
+  nameWithType: eColorTransformDataType.FixedPositivePercentage
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.FixedPositivePercentage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FixedPositivePercentage
+    path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nFixed positive percentage\n"
+  example: []
+  syntax:
+    content: FixedPositivePercentage = 3
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.Angle
+  commentId: F:OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.Angle
+  id: Angle
+  parent: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  langs:
+  - csharp
+  - vb
+  name: Angle
+  nameWithType: eColorTransformDataType.Angle
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.Angle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Angle
+    path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nAn angel \n"
+  example: []
+  syntax:
+    content: Angle = 4
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.FixedAngle90
+  commentId: F:OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.FixedAngle90
+  id: FixedAngle90
+  parent: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  langs:
+  - csharp
+  - vb
+  name: FixedAngle90
+  nameWithType: eColorTransformDataType.FixedAngle90
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.FixedAngle90
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FixedAngle90
+    path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nFixed angle, ranges from -90 to 90   \n"
+  example: []
+  syntax:
+    content: FixedAngle90 = 5
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.Boolean
+  commentId: F:OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.Boolean
+  id: Boolean
+  parent: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  langs:
+  - csharp
+  - vb
+  name: Boolean
+  nameWithType: eColorTransformDataType.Boolean
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType.Boolean
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Boolean
+    path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Coloring
+  summary: "\nA booleans\n"
+  example: []
+  syntax:
+    content: Boolean = 6
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Style.Coloring
+  commentId: N:OfficeOpenXml.Drawing.Style.Coloring
+  name: OfficeOpenXml.Drawing.Style.Coloring
+  nameWithType: OfficeOpenXml.Drawing.Style.Coloring
+  fullName: OfficeOpenXml.Drawing.Style.Coloring
+- uid: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  commentId: T:OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType
+  parent: OfficeOpenXml.Drawing.Style.Coloring
+  name: eColorTransformDataType
+  nameWithType: eColorTransformDataType
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.eColorTransformDataType

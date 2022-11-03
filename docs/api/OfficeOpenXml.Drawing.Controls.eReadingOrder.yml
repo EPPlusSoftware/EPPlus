@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Controls.eReadingOrder
+  commentId: T:OfficeOpenXml.Drawing.Controls.eReadingOrder
+  id: eReadingOrder
+  parent: OfficeOpenXml.Drawing.Controls
+  children:
+  - OfficeOpenXml.Drawing.Controls.eReadingOrder.ContextDependent
+  - OfficeOpenXml.Drawing.Controls.eReadingOrder.LeftToRight
+  - OfficeOpenXml.Drawing.Controls.eReadingOrder.RightToLeft
+  langs:
+  - csharp
+  - vb
+  name: eReadingOrder
+  nameWithType: eReadingOrder
+  fullName: OfficeOpenXml.Drawing.Controls.eReadingOrder
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eReadingOrder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eReadingOrder
+    path: ../src/EPPlus/Drawing/Controls/enums/eReadingOrder.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nThe reading order\n"
+  example: []
+  syntax:
+    content: public enum eReadingOrder
+    content.vb: Public Enum eReadingOrder
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Controls.eReadingOrder.ContextDependent
+  commentId: F:OfficeOpenXml.Drawing.Controls.eReadingOrder.ContextDependent
+  id: ContextDependent
+  parent: OfficeOpenXml.Drawing.Controls.eReadingOrder
+  langs:
+  - csharp
+  - vb
+  name: ContextDependent
+  nameWithType: eReadingOrder.ContextDependent
+  fullName: OfficeOpenXml.Drawing.Controls.eReadingOrder.ContextDependent
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eReadingOrder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ContextDependent
+    path: ../src/EPPlus/Drawing/Controls/enums/eReadingOrder.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nReading order is determined by the first non-whitespace character\n"
+  example: []
+  syntax:
+    content: ContextDependent = 0
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eReadingOrder
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eReadingOrder.LeftToRight
+  commentId: F:OfficeOpenXml.Drawing.Controls.eReadingOrder.LeftToRight
+  id: LeftToRight
+  parent: OfficeOpenXml.Drawing.Controls.eReadingOrder
+  langs:
+  - csharp
+  - vb
+  name: LeftToRight
+  nameWithType: eReadingOrder.LeftToRight
+  fullName: OfficeOpenXml.Drawing.Controls.eReadingOrder.LeftToRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eReadingOrder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftToRight
+    path: ../src/EPPlus/Drawing/Controls/enums/eReadingOrder.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nLeft to Right\n"
+  example: []
+  syntax:
+    content: LeftToRight = 1
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eReadingOrder
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eReadingOrder.RightToLeft
+  commentId: F:OfficeOpenXml.Drawing.Controls.eReadingOrder.RightToLeft
+  id: RightToLeft
+  parent: OfficeOpenXml.Drawing.Controls.eReadingOrder
+  langs:
+  - csharp
+  - vb
+  name: RightToLeft
+  nameWithType: eReadingOrder.RightToLeft
+  fullName: OfficeOpenXml.Drawing.Controls.eReadingOrder.RightToLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eReadingOrder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RightToLeft
+    path: ../src/EPPlus/Drawing/Controls/enums/eReadingOrder.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nRight to Left\n"
+  example: []
+  syntax:
+    content: RightToLeft = 2
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eReadingOrder
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Controls
+  commentId: N:OfficeOpenXml.Drawing.Controls
+  name: OfficeOpenXml.Drawing.Controls
+  nameWithType: OfficeOpenXml.Drawing.Controls
+  fullName: OfficeOpenXml.Drawing.Controls
+- uid: OfficeOpenXml.Drawing.Controls.eReadingOrder
+  commentId: T:OfficeOpenXml.Drawing.Controls.eReadingOrder
+  parent: OfficeOpenXml.Drawing.Controls
+  name: eReadingOrder
+  nameWithType: eReadingOrder
+  fullName: OfficeOpenXml.Drawing.Controls.eReadingOrder

@@ -1,0 +1,2358 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  id: ePivotTableFilterType
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionBeginsWith
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionBetween
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionContains
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionEndsWith
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionGreaterThan
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionGreaterThanOrEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionLessThan
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionLessThanOrEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotBeginsWith
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotBetween
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotContains
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotEndsWith
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Count
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateBetween
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateNewerThan
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateNewerThanOrEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateNotBetween
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateNotEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateOlderThan
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateOlderThanOrEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.LastMonth
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.LastQuarter
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.LastWeek
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.LastYear
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M1
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M10
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M11
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M12
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M2
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M3
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M4
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M5
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M6
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M7
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M8
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M9
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.NextMonth
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.NextQuarter
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.NextWeek
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.NextYear
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Percent
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Q1
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Q2
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Q3
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Q4
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Sum
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ThisMonth
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ThisQuarter
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ThisWeek
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ThisYear
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Today
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Tomorrow
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Unknown
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueBetween
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueGreaterThan
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueGreaterThanOrEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueLessThan
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueLessThanOrEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueNotBetween
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueNotEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.YearToDate
+  - OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Yesterday
+  langs:
+  - csharp
+  - vb
+  name: ePivotTableFilterType
+  nameWithType: ePivotTableFilterType
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePivotTableFilterType
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nDefines a pivot table filter type\n"
+  example: []
+  syntax:
+    content: public enum ePivotTableFilterType
+    content.vb: Public Enum ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionBeginsWith
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionBeginsWith
+  id: CaptionBeginsWith
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionBeginsWith
+  nameWithType: ePivotTableFilterType.CaptionBeginsWith
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionBeginsWith
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionBeginsWith
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Begins With\n"
+  example: []
+  syntax:
+    content: CaptionBeginsWith = 0
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionBetween
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionBetween
+  id: CaptionBetween
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionBetween
+  nameWithType: ePivotTableFilterType.CaptionBetween
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionBetween
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionBetween
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Between\n"
+  example: []
+  syntax:
+    content: CaptionBetween = 1
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionContains
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionContains
+  id: CaptionContains
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionContains
+  nameWithType: ePivotTableFilterType.CaptionContains
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionContains
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionContains
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Contains\n"
+  example: []
+  syntax:
+    content: CaptionContains = 2
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionEndsWith
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionEndsWith
+  id: CaptionEndsWith
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionEndsWith
+  nameWithType: ePivotTableFilterType.CaptionEndsWith
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionEndsWith
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionEndsWith
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Ends With\n"
+  example: []
+  syntax:
+    content: CaptionEndsWith = 3
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionEqual
+  id: CaptionEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionEqual
+  nameWithType: ePivotTableFilterType.CaptionEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Equal\n"
+  example: []
+  syntax:
+    content: CaptionEqual = 4
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionGreaterThan
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionGreaterThan
+  id: CaptionGreaterThan
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionGreaterThan
+  nameWithType: ePivotTableFilterType.CaptionGreaterThan
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionGreaterThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionGreaterThan
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Greater Than\n"
+  example: []
+  syntax:
+    content: CaptionGreaterThan = 5
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionGreaterThanOrEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionGreaterThanOrEqual
+  id: CaptionGreaterThanOrEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionGreaterThanOrEqual
+  nameWithType: ePivotTableFilterType.CaptionGreaterThanOrEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionGreaterThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionGreaterThanOrEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Greater Than Or Equal\n"
+  example: []
+  syntax:
+    content: CaptionGreaterThanOrEqual = 6
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionLessThan
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionLessThan
+  id: CaptionLessThan
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionLessThan
+  nameWithType: ePivotTableFilterType.CaptionLessThan
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionLessThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionLessThan
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Less Than\n"
+  example: []
+  syntax:
+    content: CaptionLessThan = 7
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionLessThanOrEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionLessThanOrEqual
+  id: CaptionLessThanOrEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionLessThanOrEqual
+  nameWithType: ePivotTableFilterType.CaptionLessThanOrEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionLessThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionLessThanOrEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Less Than Or Equal\n"
+  example: []
+  syntax:
+    content: CaptionLessThanOrEqual = 8
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotBeginsWith
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotBeginsWith
+  id: CaptionNotBeginsWith
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionNotBeginsWith
+  nameWithType: ePivotTableFilterType.CaptionNotBeginsWith
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotBeginsWith
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionNotBeginsWith
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Not Begins With\n"
+  example: []
+  syntax:
+    content: CaptionNotBeginsWith = 9
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotBetween
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotBetween
+  id: CaptionNotBetween
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionNotBetween
+  nameWithType: ePivotTableFilterType.CaptionNotBetween
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotBetween
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionNotBetween
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Not Between\n"
+  example: []
+  syntax:
+    content: CaptionNotBetween = 10
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotContains
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotContains
+  id: CaptionNotContains
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionNotContains
+  nameWithType: ePivotTableFilterType.CaptionNotContains
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotContains
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionNotContains
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Not Contains\n"
+  example: []
+  syntax:
+    content: CaptionNotContains = 11
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotEndsWith
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotEndsWith
+  id: CaptionNotEndsWith
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionNotEndsWith
+  nameWithType: ePivotTableFilterType.CaptionNotEndsWith
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotEndsWith
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionNotEndsWith
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Not Ends With\n"
+  example: []
+  syntax:
+    content: CaptionNotEndsWith = 12
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotEqual
+  id: CaptionNotEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: CaptionNotEqual
+  nameWithType: ePivotTableFilterType.CaptionNotEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.CaptionNotEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaptionNotEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA caption filter - Not Equal\n"
+  example: []
+  syntax:
+    content: CaptionNotEqual = 13
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateBetween
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateBetween
+  id: DateBetween
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: DateBetween
+  nameWithType: ePivotTableFilterType.DateBetween
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateBetween
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateBetween
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Between\n"
+  example: []
+  syntax:
+    content: DateBetween = 100
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateEqual
+  id: DateEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: DateEqual
+  nameWithType: ePivotTableFilterType.DateEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Equal\n"
+  example: []
+  syntax:
+    content: DateEqual = 101
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateNewerThan
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateNewerThan
+  id: DateNewerThan
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: DateNewerThan
+  nameWithType: ePivotTableFilterType.DateNewerThan
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateNewerThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateNewerThan
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Newer Than\n"
+  example: []
+  syntax:
+    content: DateNewerThan = 102
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateNewerThanOrEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateNewerThanOrEqual
+  id: DateNewerThanOrEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: DateNewerThanOrEqual
+  nameWithType: ePivotTableFilterType.DateNewerThanOrEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateNewerThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateNewerThanOrEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Newer Than Or Equal\n"
+  example: []
+  syntax:
+    content: DateNewerThanOrEqual = 103
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateNotBetween
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateNotBetween
+  id: DateNotBetween
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: DateNotBetween
+  nameWithType: ePivotTableFilterType.DateNotBetween
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateNotBetween
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateNotBetween
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Not Between\n"
+  example: []
+  syntax:
+    content: DateNotBetween = 104
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateNotEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateNotEqual
+  id: DateNotEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: DateNotEqual
+  nameWithType: ePivotTableFilterType.DateNotEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateNotEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateNotEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Not Equal\n"
+  example: []
+  syntax:
+    content: DateNotEqual = 105
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateOlderThan
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateOlderThan
+  id: DateOlderThan
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: DateOlderThan
+  nameWithType: ePivotTableFilterType.DateOlderThan
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateOlderThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateOlderThan
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Older Than\n"
+  example: []
+  syntax:
+    content: DateOlderThan = 106
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateOlderThanOrEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateOlderThanOrEqual
+  id: DateOlderThanOrEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: DateOlderThanOrEqual
+  nameWithType: ePivotTableFilterType.DateOlderThanOrEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.DateOlderThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateOlderThanOrEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Older Than Or Equal\n"
+  example: []
+  syntax:
+    content: DateOlderThanOrEqual = 107
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.LastMonth
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.LastMonth
+  id: LastMonth
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: LastMonth
+  nameWithType: ePivotTableFilterType.LastMonth
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.LastMonth
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LastMonth
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Last Month\n"
+  example: []
+  syntax:
+    content: LastMonth = 200
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.LastQuarter
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.LastQuarter
+  id: LastQuarter
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: LastQuarter
+  nameWithType: ePivotTableFilterType.LastQuarter
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.LastQuarter
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LastQuarter
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Last Quarter\n"
+  example: []
+  syntax:
+    content: LastQuarter = 201
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.LastWeek
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.LastWeek
+  id: LastWeek
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: LastWeek
+  nameWithType: ePivotTableFilterType.LastWeek
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.LastWeek
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LastWeek
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Last Week\n"
+  example: []
+  syntax:
+    content: LastWeek = 202
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.LastYear
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.LastYear
+  id: LastYear
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: LastYear
+  nameWithType: ePivotTableFilterType.LastYear
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.LastYear
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LastYear
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 122
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Last Year\n"
+  example: []
+  syntax:
+    content: LastYear = 203
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M1
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M1
+  id: M1
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: M1
+  nameWithType: ePivotTableFilterType.M1
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M1
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Januari\n"
+  example: []
+  syntax:
+    content: M1 = 204
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M2
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M2
+  id: M2
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: M2
+  nameWithType: ePivotTableFilterType.M2
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M2
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Februari\n"
+  example: []
+  syntax:
+    content: M2 = 205
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M3
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M3
+  id: M3
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: M3
+  nameWithType: ePivotTableFilterType.M3
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M3
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 134
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - March\n"
+  example: []
+  syntax:
+    content: M3 = 206
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M4
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M4
+  id: M4
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: M4
+  nameWithType: ePivotTableFilterType.M4
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M4
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - April\n"
+  example: []
+  syntax:
+    content: M4 = 207
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M5
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M5
+  id: M5
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: M5
+  nameWithType: ePivotTableFilterType.M5
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M5
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 142
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - May\n"
+  example: []
+  syntax:
+    content: M5 = 208
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M6
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M6
+  id: M6
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: M6
+  nameWithType: ePivotTableFilterType.M6
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M6
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 146
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - June\n"
+  example: []
+  syntax:
+    content: M6 = 209
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M7
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M7
+  id: M7
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: M7
+  nameWithType: ePivotTableFilterType.M7
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M7
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M7
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 150
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - July\n"
+  example: []
+  syntax:
+    content: M7 = 210
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M8
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M8
+  id: M8
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: M8
+  nameWithType: ePivotTableFilterType.M8
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M8
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M8
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 154
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - August\n"
+  example: []
+  syntax:
+    content: M8 = 211
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M9
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M9
+  id: M9
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: M9
+  nameWithType: ePivotTableFilterType.M9
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M9
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M9
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 158
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - September\n"
+  example: []
+  syntax:
+    content: M9 = 212
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M10
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M10
+  id: M10
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: M10
+  nameWithType: ePivotTableFilterType.M10
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M10
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M10
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 162
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - October\n"
+  example: []
+  syntax:
+    content: M10 = 213
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M11
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M11
+  id: M11
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: M11
+  nameWithType: ePivotTableFilterType.M11
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M11
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M11
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 166
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - November\n"
+  example: []
+  syntax:
+    content: M11 = 214
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M12
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M12
+  id: M12
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: M12
+  nameWithType: ePivotTableFilterType.M12
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.M12
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: M12
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 170
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - December\n"
+  example: []
+  syntax:
+    content: M12 = 215
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.NextMonth
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.NextMonth
+  id: NextMonth
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: NextMonth
+  nameWithType: ePivotTableFilterType.NextMonth
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.NextMonth
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NextMonth
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 174
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Next Month\n"
+  example: []
+  syntax:
+    content: NextMonth = 216
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.NextQuarter
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.NextQuarter
+  id: NextQuarter
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: NextQuarter
+  nameWithType: ePivotTableFilterType.NextQuarter
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.NextQuarter
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NextQuarter
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 178
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Next Quarter\n"
+  example: []
+  syntax:
+    content: NextQuarter = 217
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.NextWeek
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.NextWeek
+  id: NextWeek
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: NextWeek
+  nameWithType: ePivotTableFilterType.NextWeek
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.NextWeek
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NextWeek
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 182
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Next Week\n"
+  example: []
+  syntax:
+    content: NextWeek = 218
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.NextYear
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.NextYear
+  id: NextYear
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: NextYear
+  nameWithType: ePivotTableFilterType.NextYear
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.NextYear
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NextYear
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 186
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Next Year\n"
+  example: []
+  syntax:
+    content: NextYear = 219
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Q1
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Q1
+  id: Q1
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: Q1
+  nameWithType: ePivotTableFilterType.Q1
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Q1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Q1
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 190
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - The First Quarter\n"
+  example: []
+  syntax:
+    content: Q1 = 220
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Q2
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Q2
+  id: Q2
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: Q2
+  nameWithType: ePivotTableFilterType.Q2
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Q2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Q2
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 194
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - The Second Quarter\n"
+  example: []
+  syntax:
+    content: Q2 = 221
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Q3
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Q3
+  id: Q3
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: Q3
+  nameWithType: ePivotTableFilterType.Q3
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Q3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Q3
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 198
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - The Third Quarter\n"
+  example: []
+  syntax:
+    content: Q3 = 222
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Q4
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Q4
+  id: Q4
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: Q4
+  nameWithType: ePivotTableFilterType.Q4
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Q4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Q4
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 202
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - The Forth Quarter\n"
+  example: []
+  syntax:
+    content: Q4 = 223
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ThisMonth
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ThisMonth
+  id: ThisMonth
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: ThisMonth
+  nameWithType: ePivotTableFilterType.ThisMonth
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ThisMonth
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThisMonth
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 206
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - This Month\n"
+  example: []
+  syntax:
+    content: ThisMonth = 224
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ThisQuarter
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ThisQuarter
+  id: ThisQuarter
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: ThisQuarter
+  nameWithType: ePivotTableFilterType.ThisQuarter
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ThisQuarter
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThisQuarter
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 210
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - This Quarter\n"
+  example: []
+  syntax:
+    content: ThisQuarter = 225
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ThisWeek
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ThisWeek
+  id: ThisWeek
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: ThisWeek
+  nameWithType: ePivotTableFilterType.ThisWeek
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ThisWeek
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThisWeek
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 214
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - This Week\n"
+  example: []
+  syntax:
+    content: ThisWeek = 226
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ThisYear
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ThisYear
+  id: ThisYear
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: ThisYear
+  nameWithType: ePivotTableFilterType.ThisYear
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ThisYear
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThisYear
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 218
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - This Year\n"
+  example: []
+  syntax:
+    content: ThisYear = 227
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Today
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Today
+  id: Today
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: Today
+  nameWithType: ePivotTableFilterType.Today
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Today
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Today
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 222
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Today\n"
+  example: []
+  syntax:
+    content: Today = 228
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Tomorrow
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Tomorrow
+  id: Tomorrow
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: Tomorrow
+  nameWithType: ePivotTableFilterType.Tomorrow
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Tomorrow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Tomorrow
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 226
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Tomorrow\n"
+  example: []
+  syntax:
+    content: Tomorrow = 229
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.YearToDate
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.YearToDate
+  id: YearToDate
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: YearToDate
+  nameWithType: ePivotTableFilterType.YearToDate
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.YearToDate
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: YearToDate
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 230
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Year to date\n"
+  example: []
+  syntax:
+    content: YearToDate = 230
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Yesterday
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Yesterday
+  id: Yesterday
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: Yesterday
+  nameWithType: ePivotTableFilterType.Yesterday
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Yesterday
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Yesterday
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 234
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Yesterday\n"
+  example: []
+  syntax:
+    content: Yesterday = 231
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Unknown
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Unknown
+  id: Unknown
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: Unknown
+  nameWithType: ePivotTableFilterType.Unknown
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Unknown
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Unknown
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 238
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIndicates that the filter is unknown\n"
+  example: []
+  syntax:
+    content: Unknown = -1
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueBetween
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueBetween
+  id: ValueBetween
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: ValueBetween
+  nameWithType: ePivotTableFilterType.ValueBetween
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueBetween
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueBetween
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 242
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA numeric or string filter - Value Between\n"
+  example: []
+  syntax:
+    content: ValueBetween = 300
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueEqual
+  id: ValueEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: ValueEqual
+  nameWithType: ePivotTableFilterType.ValueEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 246
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA numeric or string filter - Equal\n"
+  example: []
+  syntax:
+    content: ValueEqual = 301
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueGreaterThan
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueGreaterThan
+  id: ValueGreaterThan
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: ValueGreaterThan
+  nameWithType: ePivotTableFilterType.ValueGreaterThan
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueGreaterThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueGreaterThan
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 250
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA numeric or string filter - GreaterThan\n"
+  example: []
+  syntax:
+    content: ValueGreaterThan = 302
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueGreaterThanOrEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueGreaterThanOrEqual
+  id: ValueGreaterThanOrEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: ValueGreaterThanOrEqual
+  nameWithType: ePivotTableFilterType.ValueGreaterThanOrEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueGreaterThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueGreaterThanOrEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 254
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA numeric or string filter - Greater Than Or Equal\n"
+  example: []
+  syntax:
+    content: ValueGreaterThanOrEqual = 303
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueLessThan
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueLessThan
+  id: ValueLessThan
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: ValueLessThan
+  nameWithType: ePivotTableFilterType.ValueLessThan
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueLessThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueLessThan
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 258
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA numeric or string filter - Less Than \n"
+  example: []
+  syntax:
+    content: ValueLessThan = 304
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueLessThanOrEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueLessThanOrEqual
+  id: ValueLessThanOrEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: ValueLessThanOrEqual
+  nameWithType: ePivotTableFilterType.ValueLessThanOrEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueLessThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueLessThanOrEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 262
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA numeric or string filter - Less Than Or Equal\n"
+  example: []
+  syntax:
+    content: ValueLessThanOrEqual = 305
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueNotBetween
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueNotBetween
+  id: ValueNotBetween
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: ValueNotBetween
+  nameWithType: ePivotTableFilterType.ValueNotBetween
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueNotBetween
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueNotBetween
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 266
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA numeric or string filter - Not Between\n"
+  example: []
+  syntax:
+    content: ValueNotBetween = 306
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueNotEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueNotEqual
+  id: ValueNotEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: ValueNotEqual
+  nameWithType: ePivotTableFilterType.ValueNotEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.ValueNotEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueNotEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 270
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA numeric or string filter - Not Equal\n"
+  example: []
+  syntax:
+    content: ValueNotEqual = 307
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Count
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Count
+  id: Count
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ePivotTableFilterType.Count
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Count
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 274
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA top/bottom filter - Count\n"
+  example: []
+  syntax:
+    content: Count = 400
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Sum
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Sum
+  id: Sum
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: Sum
+  nameWithType: ePivotTableFilterType.Sum
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Sum
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Sum
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 278
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA top/bottom filter - Sum\n"
+  example: []
+  syntax:
+    content: Sum = 401
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Percent
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Percent
+  id: Percent
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  langs:
+  - csharp
+  - vb
+  name: Percent
+  nameWithType: ePivotTableFilterType.Percent
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType.Percent
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Percent
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
+    startLine: 282
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA top/bottom filter - Percent\n"
+  example: []
+  syntax:
+    content: Percent = 402
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotTableFilterType
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ePivotTableFilterType
+  nameWithType: ePivotTableFilterType
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableFilterType

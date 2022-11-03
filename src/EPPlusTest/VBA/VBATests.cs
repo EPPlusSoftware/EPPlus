@@ -190,6 +190,7 @@ namespace EPPlusTest.VBA
                 Assert.IsTrue(ctx.SourceHash.SequenceEqual(hash));
             }
         }
+        
         [TestMethod]
         public void Verify_SignedWorkbook1_Hash_Agile()
         {

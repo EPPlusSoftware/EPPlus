@@ -1,0 +1,293 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eLineChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eLineChartType
+  id: eLineChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eLineChartType.Line
+  - OfficeOpenXml.Drawing.Chart.eLineChartType.Line3D
+  - OfficeOpenXml.Drawing.Chart.eLineChartType.LineMarkers
+  - OfficeOpenXml.Drawing.Chart.eLineChartType.LineMarkersStacked
+  - OfficeOpenXml.Drawing.Chart.eLineChartType.LineMarkersStacked100
+  - OfficeOpenXml.Drawing.Chart.eLineChartType.LineStacked
+  - OfficeOpenXml.Drawing.Chart.eLineChartType.LineStacked100
+  langs:
+  - csharp
+  - vb
+  name: eLineChartType
+  nameWithType: eLineChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eLineChartType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eLineChartType
+    path: ../src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nLine chart type\n"
+  example: []
+  syntax:
+    content: public enum eLineChartType
+    content.vb: Public Enum eLineChartType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eLineChartType.Line3D
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLineChartType.Line3D
+  id: Line3D
+  parent: OfficeOpenXml.Drawing.Chart.eLineChartType
+  langs:
+  - csharp
+  - vb
+  name: Line3D
+  nameWithType: eLineChartType.Line3D
+  fullName: OfficeOpenXml.Drawing.Chart.eLineChartType.Line3D
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Line3D
+    path: ../src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA 3D line chart\n"
+  example: []
+  syntax:
+    content: Line3D = -4101
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLineChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLineChartType.Line
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLineChartType.Line
+  id: Line
+  parent: OfficeOpenXml.Drawing.Chart.eLineChartType
+  langs:
+  - csharp
+  - vb
+  name: Line
+  nameWithType: eLineChartType.Line
+  fullName: OfficeOpenXml.Drawing.Chart.eLineChartType.Line
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Line
+    path: ../src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA line chart\n"
+  example: []
+  syntax:
+    content: Line = 4
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLineChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLineChartType.LineMarkers
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLineChartType.LineMarkers
+  id: LineMarkers
+  parent: OfficeOpenXml.Drawing.Chart.eLineChartType
+  langs:
+  - csharp
+  - vb
+  name: LineMarkers
+  nameWithType: eLineChartType.LineMarkers
+  fullName: OfficeOpenXml.Drawing.Chart.eLineChartType.LineMarkers
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LineMarkers
+    path: ../src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA line chart with markers\n"
+  example: []
+  syntax:
+    content: LineMarkers = 65
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLineChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLineChartType.LineMarkersStacked
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLineChartType.LineMarkersStacked
+  id: LineMarkersStacked
+  parent: OfficeOpenXml.Drawing.Chart.eLineChartType
+  langs:
+  - csharp
+  - vb
+  name: LineMarkersStacked
+  nameWithType: eLineChartType.LineMarkersStacked
+  fullName: OfficeOpenXml.Drawing.Chart.eLineChartType.LineMarkersStacked
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LineMarkersStacked
+    path: ../src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked line chart with markers\n"
+  example: []
+  syntax:
+    content: LineMarkersStacked = 66
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLineChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLineChartType.LineMarkersStacked100
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLineChartType.LineMarkersStacked100
+  id: LineMarkersStacked100
+  parent: OfficeOpenXml.Drawing.Chart.eLineChartType
+  langs:
+  - csharp
+  - vb
+  name: LineMarkersStacked100
+  nameWithType: eLineChartType.LineMarkersStacked100
+  fullName: OfficeOpenXml.Drawing.Chart.eLineChartType.LineMarkersStacked100
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LineMarkersStacked100
+    path: ../src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA 100% stacked line chart with markers\n"
+  example: []
+  syntax:
+    content: LineMarkersStacked100 = 67
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLineChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLineChartType.LineStacked
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLineChartType.LineStacked
+  id: LineStacked
+  parent: OfficeOpenXml.Drawing.Chart.eLineChartType
+  langs:
+  - csharp
+  - vb
+  name: LineStacked
+  nameWithType: eLineChartType.LineStacked
+  fullName: OfficeOpenXml.Drawing.Chart.eLineChartType.LineStacked
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LineStacked
+    path: ../src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA stacked line chart\n"
+  example: []
+  syntax:
+    content: LineStacked = 63
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLineChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eLineChartType.LineStacked100
+  commentId: F:OfficeOpenXml.Drawing.Chart.eLineChartType.LineStacked100
+  id: LineStacked100
+  parent: OfficeOpenXml.Drawing.Chart.eLineChartType
+  langs:
+  - csharp
+  - vb
+  name: LineStacked100
+  nameWithType: eLineChartType.LineStacked100
+  fullName: OfficeOpenXml.Drawing.Chart.eLineChartType.LineStacked100
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LineStacked100
+    path: ../src/EPPlus/Drawing/Chart/enums/eLineChartType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA 100% stacked line chart\n"
+  example: []
+  syntax:
+    content: LineStacked100 = 64
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eLineChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eLineChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eLineChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eLineChartType
+  nameWithType: eLineChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eLineChartType

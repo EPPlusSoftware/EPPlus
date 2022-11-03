@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs
+  commentId: T:OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs
+  id: eDisplayBlanksAs
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs.Gap
+  - OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs.Span
+  - OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs.Zero
+  langs:
+  - csharp
+  - vb
+  name: eDisplayBlanksAs
+  nameWithType: eDisplayBlanksAs
+  fullName: OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eDisplayBlanksAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eDisplayBlanksAs
+    path: ../src/EPPlus/Drawing/Chart/enums/eDisplayBlanksAs.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nHow to display blanks in a chart\n"
+  example: []
+  syntax:
+    content: public enum eDisplayBlanksAs
+    content.vb: Public Enum eDisplayBlanksAs
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs.Gap
+  commentId: F:OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs.Gap
+  id: Gap
+  parent: OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs
+  langs:
+  - csharp
+  - vb
+  name: Gap
+  nameWithType: eDisplayBlanksAs.Gap
+  fullName: OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs.Gap
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eDisplayBlanksAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Gap
+    path: ../src/EPPlus/Drawing/Chart/enums/eDisplayBlanksAs.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nBlank values will be left as a gap\n"
+  example: []
+  syntax:
+    content: Gap = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs.Span
+  commentId: F:OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs.Span
+  id: Span
+  parent: OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs
+  langs:
+  - csharp
+  - vb
+  name: Span
+  nameWithType: eDisplayBlanksAs.Span
+  fullName: OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs.Span
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eDisplayBlanksAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Span
+    path: ../src/EPPlus/Drawing/Chart/enums/eDisplayBlanksAs.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nBlank values will be spanned with a line for line charts\n"
+  example: []
+  syntax:
+    content: Span = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs.Zero
+  commentId: F:OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs.Zero
+  id: Zero
+  parent: OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs
+  langs:
+  - csharp
+  - vb
+  name: Zero
+  nameWithType: eDisplayBlanksAs.Zero
+  fullName: OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs.Zero
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eDisplayBlanksAs.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Zero
+    path: ../src/EPPlus/Drawing/Chart/enums/eDisplayBlanksAs.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nBlank values will be treated as zero\n"
+  example: []
+  syntax:
+    content: Zero = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs
+  commentId: T:OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eDisplayBlanksAs
+  nameWithType: eDisplayBlanksAs
+  fullName: OfficeOpenXml.Drawing.Chart.eDisplayBlanksAs

@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Controls.eCheckState
+  commentId: T:OfficeOpenXml.Drawing.Controls.eCheckState
+  id: eCheckState
+  parent: OfficeOpenXml.Drawing.Controls
+  children:
+  - OfficeOpenXml.Drawing.Controls.eCheckState.Checked
+  - OfficeOpenXml.Drawing.Controls.eCheckState.Mixed
+  - OfficeOpenXml.Drawing.Controls.eCheckState.Unchecked
+  langs:
+  - csharp
+  - vb
+  name: eCheckState
+  nameWithType: eCheckState
+  fullName: OfficeOpenXml.Drawing.Controls.eCheckState
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eCheckState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eCheckState
+    path: ../src/EPPlus/Drawing/Controls/enums/eCheckState.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nThe state of a check box form control\n"
+  example: []
+  syntax:
+    content: public enum eCheckState
+    content.vb: Public Enum eCheckState
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Controls.eCheckState.Unchecked
+  commentId: F:OfficeOpenXml.Drawing.Controls.eCheckState.Unchecked
+  id: Unchecked
+  parent: OfficeOpenXml.Drawing.Controls.eCheckState
+  langs:
+  - csharp
+  - vb
+  name: Unchecked
+  nameWithType: eCheckState.Unchecked
+  fullName: OfficeOpenXml.Drawing.Controls.eCheckState.Unchecked
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eCheckState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Unchecked
+    path: ../src/EPPlus/Drawing/Controls/enums/eCheckState.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nThe checkbox is unchecked\n"
+  example: []
+  syntax:
+    content: Unchecked = 0
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eCheckState
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eCheckState.Checked
+  commentId: F:OfficeOpenXml.Drawing.Controls.eCheckState.Checked
+  id: Checked
+  parent: OfficeOpenXml.Drawing.Controls.eCheckState
+  langs:
+  - csharp
+  - vb
+  name: Checked
+  nameWithType: eCheckState.Checked
+  fullName: OfficeOpenXml.Drawing.Controls.eCheckState.Checked
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eCheckState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Checked
+    path: ../src/EPPlus/Drawing/Controls/enums/eCheckState.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nThe checkbox is checked\n"
+  example: []
+  syntax:
+    content: Checked = 1
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eCheckState
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eCheckState.Mixed
+  commentId: F:OfficeOpenXml.Drawing.Controls.eCheckState.Mixed
+  id: Mixed
+  parent: OfficeOpenXml.Drawing.Controls.eCheckState
+  langs:
+  - csharp
+  - vb
+  name: Mixed
+  nameWithType: eCheckState.Mixed
+  fullName: OfficeOpenXml.Drawing.Controls.eCheckState.Mixed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eCheckState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Mixed
+    path: ../src/EPPlus/Drawing/Controls/enums/eCheckState.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nThe checkbox is greyed out, neither checked or unchecked\n"
+  example: []
+  syntax:
+    content: Mixed = 2
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eCheckState
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Controls
+  commentId: N:OfficeOpenXml.Drawing.Controls
+  name: OfficeOpenXml.Drawing.Controls
+  nameWithType: OfficeOpenXml.Drawing.Controls
+  fullName: OfficeOpenXml.Drawing.Controls
+- uid: OfficeOpenXml.Drawing.Controls.eCheckState
+  commentId: T:OfficeOpenXml.Drawing.Controls.eCheckState
+  parent: OfficeOpenXml.Drawing.Controls
+  name: eCheckState
+  nameWithType: eCheckState
+  fullName: OfficeOpenXml.Drawing.Controls.eCheckState

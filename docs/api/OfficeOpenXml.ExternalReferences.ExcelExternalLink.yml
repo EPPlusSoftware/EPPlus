@@ -1,0 +1,683 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  id: ExcelExternalLink
+  parent: OfficeOpenXml.ExternalReferences
+  children:
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLink.As
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLink.ExternalLinkType
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLink.Index
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLink.ToString
+  langs:
+  - csharp
+  - vb
+  name: ExcelExternalLink
+  nameWithType: ExcelExternalLink
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelExternalLink
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nBase class for external references\n"
+  example: []
+  syntax:
+    content: public abstract class ExcelExternalLink
+    content.vb: Public MustInherit Class ExcelExternalLink
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - OfficeOpenXml.ExternalReferences.ExcelExternalDdeLink
+  - OfficeOpenXml.ExternalReferences.ExcelExternalOleLink
+  - OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  modifiers.csharp:
+  - public
+  - abstract
+  - class
+  modifiers.vb:
+  - Public
+  - MustInherit
+  - Class
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ExternalLinkType
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalLink.ExternalLinkType
+  id: ExternalLinkType
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  langs:
+  - csharp
+  - vb
+  name: ExternalLinkType
+  nameWithType: ExcelExternalLink.ExternalLinkType
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ExternalLinkType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExternalLinkType
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe type of external link\n"
+  example: []
+  syntax:
+    content: public abstract eExternalLinkType ExternalLinkType { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExternalReferences.eExternalLinkType
+    content.vb: Public MustOverride ReadOnly Property ExternalLinkType As eExternalLinkType
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ExternalLinkType*
+  modifiers.csharp:
+  - public
+  - abstract
+  - get
+  modifiers.vb:
+  - Public
+  - MustOverride
+  - ReadOnly
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.As
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalLink.As
+  id: As
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  langs:
+  - csharp
+  - vb
+  name: As
+  nameWithType: ExcelExternalLink.As
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.As
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: As
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nProvides an easy way to type cast the object to it&apos;s top level class\n"
+  example: []
+  syntax:
+    content: public ExcelExternalLinkAsType As { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExternalReferences.ExcelExternalLinkAsType
+    content.vb: Public ReadOnly Property As As ExcelExternalLinkAsType
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalLink.As*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ToString
+  commentId: M:OfficeOpenXml.ExternalReferences.ExcelExternalLink.ToString
+  id: ToString
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: ExcelExternalLink.ToString()
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToString
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nReturns the string representation of the object.\n"
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Overrides Function ToString As String
+  overridden: System.Object.ToString
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ToString*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.Index
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalLink.Index
+  id: Index
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  langs:
+  - csharp
+  - vb
+  name: Index
+  nameWithType: ExcelExternalLink.Index
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.Index
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Index
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs
+    startLine: 80
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe index of the external link. The index can be used in formulas between brackets to reference this link.\n"
+  example:
+  - "\n<pre><code>worksheet.Cells[&quot;A1&quot;].Formula=&quot;&apos;[1]Sheet1&apos;!A1&quot;</code></pre>\n"
+  syntax:
+    content: public int Index { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Index As Integer
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalLink.Index*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog
+  id: ErrorLog
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  langs:
+  - csharp
+  - vb
+  name: ErrorLog
+  nameWithType: ExcelExternalLink.ErrorLog
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ErrorLog
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs
+    startLine: 95
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nA list of errors that occured during load or update of the external workbook.\n"
+  example: []
+  syntax:
+    content: public List<string> ErrorLog { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{System.String}
+    content.vb: Public ReadOnly Property ErrorLog As List(Of String)
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.ExternalReferences
+  commentId: N:OfficeOpenXml.ExternalReferences
+  name: OfficeOpenXml.ExternalReferences
+  nameWithType: OfficeOpenXml.ExternalReferences
+  fullName: OfficeOpenXml.ExternalReferences
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ExternalLinkType*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalLink.ExternalLinkType
+  name: ExternalLinkType
+  nameWithType: ExcelExternalLink.ExternalLinkType
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ExternalLinkType
+- uid: OfficeOpenXml.ExternalReferences.eExternalLinkType
+  commentId: T:OfficeOpenXml.ExternalReferences.eExternalLinkType
+  parent: OfficeOpenXml.ExternalReferences
+  name: eExternalLinkType
+  nameWithType: eExternalLinkType
+  fullName: OfficeOpenXml.ExternalReferences.eExternalLinkType
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.As*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalLink.As
+  name: As
+  nameWithType: ExcelExternalLink.As
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.As
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinkAsType
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalLinkAsType
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalLinkAsType
+  nameWithType: ExcelExternalLinkAsType
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinkAsType
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ToString*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalLink.ToString
+  name: ToString
+  nameWithType: ExcelExternalLink.ToString
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ToString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.Index*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalLink.Index
+  name: Index
+  nameWithType: ExcelExternalLink.Index
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.Index
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog
+  name: ErrorLog
+  nameWithType: ExcelExternalLink.ErrorLog
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog
+- uid: System.Collections.Generic.List{System.String}
+  commentId: T:System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<String>
+  nameWithType: List<String>
+  fullName: System.Collections.Generic.List<System.String>
+  nameWithType.vb: List(Of String)
+  fullName.vb: System.Collections.Generic.List(Of System.String)
+  name.vb: List(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic

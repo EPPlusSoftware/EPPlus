@@ -1,0 +1,34 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  id: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  name: ExcelFunctionCategory
+  nameWithType: ExcelFunctionCategory
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.ExcelFunctionCategory
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute
+  name: FunctionMetadataAttribute
+  nameWithType: FunctionMetadataAttribute
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata.FunctionMetadataAttribute
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata

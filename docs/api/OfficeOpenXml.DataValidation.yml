@@ -1,0 +1,217 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DataValidation
+  commentId: N:OfficeOpenXml.DataValidation
+  id: OfficeOpenXml.DataValidation
+  children:
+  - OfficeOpenXml.DataValidation.eDataValidationType
+  - OfficeOpenXml.DataValidation.ExcelDataValidation
+  - OfficeOpenXml.DataValidation.ExcelDataValidationAny
+  - OfficeOpenXml.DataValidation.ExcelDataValidationAsType
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCustom
+  - OfficeOpenXml.DataValidation.ExcelDataValidationDateTime
+  - OfficeOpenXml.DataValidation.ExcelDataValidationDecimal
+  - OfficeOpenXml.DataValidation.ExcelDataValidationExtCustom
+  - OfficeOpenXml.DataValidation.ExcelDataValidationExtList
+  - OfficeOpenXml.DataValidation.ExcelDataValidationInt
+  - OfficeOpenXml.DataValidation.ExcelDataValidationList
+  - OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  - OfficeOpenXml.DataValidation.ExcelDataValidationTime
+  - OfficeOpenXml.DataValidation.ExcelDataValidationType
+  - OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  - OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula`1
+  - OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula2`1
+  - OfficeOpenXml.DataValidation.ExcelExLstDataValidationCollection
+  - OfficeOpenXml.DataValidation.ExcelTime
+  - OfficeOpenXml.DataValidation.IRangeDataValidation
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.DataValidation
+  nameWithType: OfficeOpenXml.DataValidation
+  fullName: OfficeOpenXml.DataValidation
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidation
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidation
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidation
+  nameWithType: ExcelDataValidation
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationAny
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationAny
+  name: ExcelDataValidationAny
+  nameWithType: ExcelDataValidationAny
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationAny
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationAsType
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationAsType
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidationAsType
+  nameWithType: ExcelDataValidationAsType
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationAsType
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidationCollection
+  nameWithType: ExcelDataValidationCollection
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationCustom
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationCustom
+  name: ExcelDataValidationCustom
+  nameWithType: ExcelDataValidationCustom
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationCustom
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationDateTime
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationDateTime
+  name: ExcelDataValidationDateTime
+  nameWithType: ExcelDataValidationDateTime
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationDateTime
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationDecimal
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationDecimal
+  name: ExcelDataValidationDecimal
+  nameWithType: ExcelDataValidationDecimal
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationDecimal
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationExtCustom
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationExtCustom
+  name: ExcelDataValidationExtCustom
+  nameWithType: ExcelDataValidationExtCustom
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationExtCustom
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationExtList
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationExtList
+  name: ExcelDataValidationExtList
+  nameWithType: ExcelDataValidationExtList
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationExtList
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationInt
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationInt
+  name: ExcelDataValidationInt
+  nameWithType: ExcelDataValidationInt
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationInt
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationList
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationList
+  name: ExcelDataValidationList
+  nameWithType: ExcelDataValidationList
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationList
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidationOperator
+  nameWithType: ExcelDataValidationOperator
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationOperator
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationTime
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationTime
+  name: ExcelDataValidationTime
+  nameWithType: ExcelDataValidationTime
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationTime
+- uid: OfficeOpenXml.DataValidation.eDataValidationType
+  commentId: T:OfficeOpenXml.DataValidation.eDataValidationType
+  parent: OfficeOpenXml.DataValidation
+  name: eDataValidationType
+  nameWithType: eDataValidationType
+  fullName: OfficeOpenXml.DataValidation.eDataValidationType
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationType
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationType
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidationType
+  nameWithType: ExcelDataValidationType
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationType
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidationWarningStyle
+  nameWithType: ExcelDataValidationWarningStyle
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula`1
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula`1
+  name: ExcelDataValidationWithFormula<T>
+  nameWithType: ExcelDataValidationWithFormula<T>
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula<T>
+  nameWithType.vb: ExcelDataValidationWithFormula(Of T)
+  fullName.vb: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula(Of T)
+  name.vb: ExcelDataValidationWithFormula(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula`1
+    name: ExcelDataValidationWithFormula
+    nameWithType: ExcelDataValidationWithFormula
+    fullName: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula`1
+    name: ExcelDataValidationWithFormula
+    nameWithType: ExcelDataValidationWithFormula
+    fullName: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula2`1
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula2`1
+  name: ExcelDataValidationWithFormula2<T>
+  nameWithType: ExcelDataValidationWithFormula2<T>
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula2<T>
+  nameWithType.vb: ExcelDataValidationWithFormula2(Of T)
+  fullName.vb: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula2(Of T)
+  name.vb: ExcelDataValidationWithFormula2(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula2`1
+    name: ExcelDataValidationWithFormula2
+    nameWithType: ExcelDataValidationWithFormula2
+    fullName: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula2
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula2`1
+    name: ExcelDataValidationWithFormula2
+    nameWithType: ExcelDataValidationWithFormula2
+    fullName: OfficeOpenXml.DataValidation.ExcelDataValidationWithFormula2
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.DataValidation.ExcelExLstDataValidationCollection
+  commentId: T:OfficeOpenXml.DataValidation.ExcelExLstDataValidationCollection
+  name: ExcelExLstDataValidationCollection
+  nameWithType: ExcelExLstDataValidationCollection
+  fullName: OfficeOpenXml.DataValidation.ExcelExLstDataValidationCollection
+- uid: OfficeOpenXml.DataValidation.ExcelTime
+  commentId: T:OfficeOpenXml.DataValidation.ExcelTime
+  name: ExcelTime
+  nameWithType: ExcelTime
+  fullName: OfficeOpenXml.DataValidation.ExcelTime
+- uid: OfficeOpenXml.DataValidation.IRangeDataValidation
+  commentId: T:OfficeOpenXml.DataValidation.IRangeDataValidation
+  parent: OfficeOpenXml.DataValidation
+  name: IRangeDataValidation
+  nameWithType: IRangeDataValidation
+  fullName: OfficeOpenXml.DataValidation.IRangeDataValidation
+- uid: OfficeOpenXml.DataValidation
+  commentId: N:OfficeOpenXml.DataValidation
+  name: OfficeOpenXml.DataValidation
+  nameWithType: OfficeOpenXml.DataValidation
+  fullName: OfficeOpenXml.DataValidation

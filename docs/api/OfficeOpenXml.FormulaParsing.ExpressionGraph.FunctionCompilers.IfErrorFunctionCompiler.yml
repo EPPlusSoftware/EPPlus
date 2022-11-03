@@ -1,0 +1,803 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler
+  id: IfErrorFunctionCompiler
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
+  children:
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction,OfficeOpenXml.FormulaParsing.ParsingContext)
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler.Compile(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression})
+  langs:
+  - csharp
+  - vb
+  name: IfErrorFunctionCompiler
+  nameWithType: IfErrorFunctionCompiler
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExpressionGraph/FunctionCompilers/IfErrorFunctionCompiler.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IfErrorFunctionCompiler
+    path: ../src/EPPlus/FormulaParsing/ExpressionGraph/FunctionCompilers/IfErrorFunctionCompiler.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
+  syntax:
+    content: 'public class IfErrorFunctionCompiler : FunctionCompiler'
+    content.vb: >-
+      Public Class IfErrorFunctionCompiler
+          Inherits FunctionCompiler
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+  inheritedMembers:
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.Function
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.Context
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType,System.Collections.Generic.List{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,System.Collections.Generic.List{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction,OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler.#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction,OfficeOpenXml.FormulaParsing.ParsingContext)
+  id: '#ctor(OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction,OfficeOpenXml.FormulaParsing.ParsingContext)'
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler
+  langs:
+  - csharp
+  - vb
+  name: IfErrorFunctionCompiler(ExcelFunction, ParsingContext)
+  nameWithType: IfErrorFunctionCompiler.IfErrorFunctionCompiler(ExcelFunction, ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler.IfErrorFunctionCompiler(OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction, OfficeOpenXml.FormulaParsing.ParsingContext)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExpressionGraph/FunctionCompilers/IfErrorFunctionCompiler.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/ExpressionGraph/FunctionCompilers/IfErrorFunctionCompiler.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
+  syntax:
+    content: public IfErrorFunctionCompiler(ExcelFunction function, ParsingContext context)
+    parameters:
+    - id: function
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+    - id: context
+      type: OfficeOpenXml.FormulaParsing.ParsingContext
+    content.vb: Public Sub New(function As ExcelFunction, context As ParsingContext)
+  overload: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler.Compile(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression})
+  commentId: M:OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler.Compile(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression})
+  id: Compile(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression})
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler
+  langs:
+  - csharp
+  - vb
+  name: Compile(IEnumerable<Expression>)
+  nameWithType: IfErrorFunctionCompiler.Compile(IEnumerable<Expression>)
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler.Compile(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExpressionGraph/FunctionCompilers/IfErrorFunctionCompiler.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Compile
+    path: ../src/EPPlus/FormulaParsing/ExpressionGraph/FunctionCompilers/IfErrorFunctionCompiler.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
+  syntax:
+    content: public override CompileResult Compile(IEnumerable<Expression> children)
+    parameters:
+    - id: children
+      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression}
+    return:
+      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+    content.vb: Public Overrides Function Compile(children As IEnumerable(Of Expression)) As CompileResult
+  overridden: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.Compile(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression})
+  overload: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler.Compile*
+  nameWithType.vb: IfErrorFunctionCompiler.Compile(IEnumerable(Of Expression))
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+  fullName.vb: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler.Compile(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression))
+  name.vb: Compile(IEnumerable(Of Expression))
+references:
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
+  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
+  name: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
+  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers
+  name: FunctionCompiler
+  nameWithType: FunctionCompiler
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.Function
+  commentId: P:OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.Function
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+  name: Function
+  nameWithType: FunctionCompiler.Function
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.Function
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.Context
+  commentId: P:OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.Context
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+  name: Context
+  nameWithType: FunctionCompiler.Context
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.Context
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType,System.Collections.Generic.List{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+  commentId: M:OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType,System.Collections.Generic.List{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+  isExternal: true
+  name: BuildFunctionArguments(CompileResult, DataType, List<FunctionArgument>)
+  nameWithType: FunctionCompiler.BuildFunctionArguments(CompileResult, DataType, List<FunctionArgument>)
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult, OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType, System.Collections.Generic.List<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>)
+  nameWithType.vb: FunctionCompiler.BuildFunctionArguments(CompileResult, DataType, List(Of FunctionArgument))
+  fullName.vb: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult, OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType, System.Collections.Generic.List(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument))
+  name.vb: BuildFunctionArguments(CompileResult, DataType, List(Of FunctionArgument))
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType,System.Collections.Generic.List{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+    name: BuildFunctionArguments
+    nameWithType: FunctionCompiler.BuildFunctionArguments
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+    name: CompileResult
+    nameWithType: CompileResult
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+    name: DataType
+    nameWithType: DataType
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType,System.Collections.Generic.List{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+    name: BuildFunctionArguments
+    nameWithType: FunctionCompiler.BuildFunctionArguments
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+    name: CompileResult
+    nameWithType: CompileResult
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+    name: DataType
+    nameWithType: DataType
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,System.Collections.Generic.List{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+  commentId: M:OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,System.Collections.Generic.List{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+  isExternal: true
+  name: BuildFunctionArguments(CompileResult, List<FunctionArgument>)
+  nameWithType: FunctionCompiler.BuildFunctionArguments(CompileResult, List<FunctionArgument>)
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult, System.Collections.Generic.List<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>)
+  nameWithType.vb: FunctionCompiler.BuildFunctionArguments(CompileResult, List(Of FunctionArgument))
+  fullName.vb: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult, System.Collections.Generic.List(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument))
+  name.vb: BuildFunctionArguments(CompileResult, List(Of FunctionArgument))
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,System.Collections.Generic.List{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+    name: BuildFunctionArguments
+    nameWithType: FunctionCompiler.BuildFunctionArguments
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+    name: CompileResult
+    nameWithType: CompileResult
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments(OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult,System.Collections.Generic.List{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+    name: BuildFunctionArguments
+    nameWithType: FunctionCompiler.BuildFunctionArguments
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.BuildFunctionArguments
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+    name: CompileResult
+    nameWithType: CompileResult
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler.#ctor
+  name: IfErrorFunctionCompiler
+  nameWithType: IfErrorFunctionCompiler.IfErrorFunctionCompiler
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler.IfErrorFunctionCompiler
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: ExcelFunction
+  nameWithType: ExcelFunction
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+- uid: OfficeOpenXml.FormulaParsing.ParsingContext
+  commentId: T:OfficeOpenXml.FormulaParsing.ParsingContext
+  parent: OfficeOpenXml.FormulaParsing
+  name: ParsingContext
+  nameWithType: ParsingContext
+  fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.Compile(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression})
+  commentId: M:OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.Compile(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression})
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+  isExternal: true
+  name: Compile(IEnumerable<Expression>)
+  nameWithType: FunctionCompiler.Compile(IEnumerable<Expression>)
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.Compile(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression>)
+  nameWithType.vb: FunctionCompiler.Compile(IEnumerable(Of Expression))
+  fullName.vb: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.Compile(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression))
+  name.vb: Compile(IEnumerable(Of Expression))
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.Compile(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression})
+    name: Compile
+    nameWithType: FunctionCompiler.Compile
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.Compile
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+    name: Expression
+    nameWithType: Expression
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.Compile(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression})
+    name: Compile
+    nameWithType: FunctionCompiler.Compile
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler.Compile
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+    name: Expression
+    nameWithType: Expression
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler.Compile*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler.Compile
+  name: Compile
+  nameWithType: IfErrorFunctionCompiler.Compile
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.IfErrorFunctionCompiler.Compile
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<Expression>
+  nameWithType: IEnumerable<Expression>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression>
+  nameWithType.vb: IEnumerable(Of Expression)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression)
+  name.vb: IEnumerable(Of Expression)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+    name: Expression
+    nameWithType: Expression
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+    name: Expression
+    nameWithType: Expression
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: CompileResult
+  nameWithType: CompileResult
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph

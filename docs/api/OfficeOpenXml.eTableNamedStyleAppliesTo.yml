@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eTableNamedStyleAppliesTo
+  commentId: T:OfficeOpenXml.eTableNamedStyleAppliesTo
+  id: eTableNamedStyleAppliesTo
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eTableNamedStyleAppliesTo.PivotTables
+  - OfficeOpenXml.eTableNamedStyleAppliesTo.Tables
+  - OfficeOpenXml.eTableNamedStyleAppliesTo.TablesAndPivotTables
+  langs:
+  - csharp
+  - vb
+  name: eTableNamedStyleAppliesTo
+  nameWithType: eTableNamedStyleAppliesTo
+  fullName: OfficeOpenXml.eTableNamedStyleAppliesTo
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableNamedStyleAppliesTo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eTableNamedStyleAppliesTo
+    path: ../src/EPPlus/Style/enums/eTableNamedStyleAppliesTo.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDefines if a table style applies to a Table / PivotTable or Both\n"
+  example: []
+  syntax:
+    content: public enum eTableNamedStyleAppliesTo
+    content.vb: Public Enum eTableNamedStyleAppliesTo
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eTableNamedStyleAppliesTo.Tables
+  commentId: F:OfficeOpenXml.eTableNamedStyleAppliesTo.Tables
+  id: Tables
+  parent: OfficeOpenXml.eTableNamedStyleAppliesTo
+  langs:
+  - csharp
+  - vb
+  name: Tables
+  nameWithType: eTableNamedStyleAppliesTo.Tables
+  fullName: OfficeOpenXml.eTableNamedStyleAppliesTo.Tables
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableNamedStyleAppliesTo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Tables
+    path: ../src/EPPlus/Style/enums/eTableNamedStyleAppliesTo.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe named style applies to tables only\n"
+  example: []
+  syntax:
+    content: Tables = 0
+    return:
+      type: OfficeOpenXml.eTableNamedStyleAppliesTo
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eTableNamedStyleAppliesTo.PivotTables
+  commentId: F:OfficeOpenXml.eTableNamedStyleAppliesTo.PivotTables
+  id: PivotTables
+  parent: OfficeOpenXml.eTableNamedStyleAppliesTo
+  langs:
+  - csharp
+  - vb
+  name: PivotTables
+  nameWithType: eTableNamedStyleAppliesTo.PivotTables
+  fullName: OfficeOpenXml.eTableNamedStyleAppliesTo.PivotTables
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableNamedStyleAppliesTo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PivotTables
+    path: ../src/EPPlus/Style/enums/eTableNamedStyleAppliesTo.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe named style applies to pivot tables only\n"
+  example: []
+  syntax:
+    content: PivotTables = 1
+    return:
+      type: OfficeOpenXml.eTableNamedStyleAppliesTo
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eTableNamedStyleAppliesTo.TablesAndPivotTables
+  commentId: F:OfficeOpenXml.eTableNamedStyleAppliesTo.TablesAndPivotTables
+  id: TablesAndPivotTables
+  parent: OfficeOpenXml.eTableNamedStyleAppliesTo
+  langs:
+  - csharp
+  - vb
+  name: TablesAndPivotTables
+  nameWithType: eTableNamedStyleAppliesTo.TablesAndPivotTables
+  fullName: OfficeOpenXml.eTableNamedStyleAppliesTo.TablesAndPivotTables
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eTableNamedStyleAppliesTo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TablesAndPivotTables
+    path: ../src/EPPlus/Style/enums/eTableNamedStyleAppliesTo.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe named style can be applied to both tables and pivot tables\n"
+  example: []
+  syntax:
+    content: TablesAndPivotTables = 2
+    return:
+      type: OfficeOpenXml.eTableNamedStyleAppliesTo
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eTableNamedStyleAppliesTo
+  commentId: T:OfficeOpenXml.eTableNamedStyleAppliesTo
+  parent: OfficeOpenXml
+  name: eTableNamedStyleAppliesTo
+  nameWithType: eTableNamedStyleAppliesTo
+  fullName: OfficeOpenXml.eTableNamedStyleAppliesTo

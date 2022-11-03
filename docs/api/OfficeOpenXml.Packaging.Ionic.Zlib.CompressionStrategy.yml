@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+  id: CompressionStrategy
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  children:
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy.Default
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy.Filtered
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy.HuffmanOnly
+  langs:
+  - csharp
+  - vb
+  name: CompressionStrategy
+  nameWithType: CompressionStrategy
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CompressionStrategy
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 221
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nDescribes options for how the compression algorithm is executed.  Different strategies\nwork better on different sorts of data.  The strategy parameter can affect the compression\nratio and the speed of compression but not the correctness of the compresssion.\n"
+  example: []
+  syntax:
+    content: public enum CompressionStrategy
+    content.vb: Public Enum CompressionStrategy
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy.Default
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy.Default
+  id: Default
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+  langs:
+  - csharp
+  - vb
+  name: Default
+  nameWithType: CompressionStrategy.Default
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy.Default
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Default
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 226
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe default strategy is probably the best for normal data.\n"
+  example: []
+  syntax:
+    content: Default = 0
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy.Filtered
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy.Filtered
+  id: Filtered
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+  langs:
+  - csharp
+  - vb
+  name: Filtered
+  nameWithType: CompressionStrategy.Filtered
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy.Filtered
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Filtered
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 235
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe <code>Filtered</code> strategy is intended to be used most effectively with data produced by a\nfilter or predictor.  By this definition, filtered data consists mostly of small\nvalues with a somewhat random distribution.  In this case, the compression algorithm\nis tuned to compress them better.  The effect of <code>Filtered</code> is to force more Huffman\ncoding and less string matching; it is a half-step between <code>Default</code> and <code>HuffmanOnly</code>.\n"
+  example: []
+  syntax:
+    content: Filtered = 1
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy.HuffmanOnly
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy.HuffmanOnly
+  id: HuffmanOnly
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+  langs:
+  - csharp
+  - vb
+  name: HuffmanOnly
+  nameWithType: CompressionStrategy.HuffmanOnly
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy.HuffmanOnly
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HuffmanOnly
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 241
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nUsing <code>HuffmanOnly</code> will force the compressor to do Huffman encoding only, with no\nstring matching.\n"
+  example: []
+  syntax:
+    content: HuffmanOnly = 2
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib
+  commentId: N:OfficeOpenXml.Packaging.Ionic.Zlib
+  name: OfficeOpenXml.Packaging.Ionic.Zlib
+  nameWithType: OfficeOpenXml.Packaging.Ionic.Zlib
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  name: CompressionStrategy
+  nameWithType: CompressionStrategy
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionStrategy

@@ -1,0 +1,754 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams
+  commentId: T:OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams
+  id: LoadFromDictionariesParams
+  parent: OfficeOpenXml.LoadFunctions.Params
+  children:
+  - OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.Culture
+  - OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.DataTypes
+  - OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.HeaderParsingType
+  - OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.Keys
+  - OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.SetKeys(System.String[])
+  langs:
+  - csharp
+  - vb
+  name: LoadFromDictionariesParams
+  nameWithType: LoadFromDictionariesParams
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadFromDictionariesParams
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nParameters for the LoadFromDictionaries method\n"
+  example: []
+  syntax:
+    content: 'public class LoadFromDictionariesParams : LoadFunctionFunctionParamsBase'
+    content.vb: >-
+      Public Class LoadFromDictionariesParams
+          Inherits LoadFunctionFunctionParamsBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  inheritedMembers:
+  - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.PrintHeaders
+  - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableName
+  - OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableStyle
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.Keys
+  commentId: P:OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.Keys
+  id: Keys
+  parent: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams
+  langs:
+  - csharp
+  - vb
+  name: Keys
+  nameWithType: LoadFromDictionariesParams.Keys
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.Keys
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Keys
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nIf set, only these keys will be included in the dataset\n"
+  example: []
+  syntax:
+    content: public IEnumerable<string> Keys { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IEnumerable{System.String}
+    content.vb: Public ReadOnly Property Keys As IEnumerable(Of String)
+  overload: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.Keys*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.SetKeys(System.String[])
+  commentId: M:OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.SetKeys(System.String[])
+  id: SetKeys(System.String[])
+  parent: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams
+  langs:
+  - csharp
+  - vb
+  name: SetKeys(String[])
+  nameWithType: LoadFromDictionariesParams.SetKeys(String[])
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.SetKeys(System.String[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetKeys
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nThe keys supplied to this function will be included in the dataset, all others will be ignored.\n"
+  example: []
+  syntax:
+    content: public void SetKeys(params string[] keys)
+    parameters:
+    - id: keys
+      type: System.String[]
+      description: The keys to include
+    content.vb: Public Sub SetKeys(ParamArray keys As String())
+  overload: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.SetKeys*
+  nameWithType.vb: LoadFromDictionariesParams.SetKeys(String())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.SetKeys(System.String())
+  name.vb: SetKeys(String())
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.Culture
+  commentId: P:OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.Culture
+  id: Culture
+  parent: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams
+  langs:
+  - csharp
+  - vb
+  name: Culture
+  nameWithType: LoadFromDictionariesParams.Culture
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.Culture
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Culture
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nCulture to be used when reading numbers/dates.\n"
+  example: []
+  syntax:
+    content: public CultureInfo Culture { get; set; }
+    parameters: []
+    return:
+      type: System.Globalization.CultureInfo
+    content.vb: Public Property Culture As CultureInfo
+  overload: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.Culture*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.HeaderParsingType
+  commentId: P:OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.HeaderParsingType
+  id: HeaderParsingType
+  parent: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams
+  langs:
+  - csharp
+  - vb
+  name: HeaderParsingType
+  nameWithType: LoadFromDictionariesParams.HeaderParsingType
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.HeaderParsingType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HeaderParsingType
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nSets how headers should be parsed before added to the worksheet, see <xref href=\"OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public HeaderParsingTypes HeaderParsingType { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+    content.vb: Public Property HeaderParsingType As HeaderParsingTypes
+  overload: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.HeaderParsingType*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.DataTypes
+  commentId: P:OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.DataTypes
+  id: DataTypes
+  parent: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams
+  langs:
+  - csharp
+  - vb
+  name: DataTypes
+  nameWithType: LoadFromDictionariesParams.DataTypes
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.DataTypes
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataTypes
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFromDictionariesParams.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nData types used when setting data in the spreadsheet range (defined from left to right per column).\n"
+  example: []
+  syntax:
+    content: public eDataTypes[] DataTypes { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.eDataTypes[]
+    content.vb: Public Property DataTypes As eDataTypes()
+  overload: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.DataTypes*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.LoadFunctions.Params
+  commentId: N:OfficeOpenXml.LoadFunctions.Params
+  name: OfficeOpenXml.LoadFunctions.Params
+  nameWithType: OfficeOpenXml.LoadFunctions.Params
+  fullName: OfficeOpenXml.LoadFunctions.Params
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  commentId: T:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  parent: OfficeOpenXml.LoadFunctions
+  name: LoadFunctionFunctionParamsBase
+  nameWithType: LoadFunctionFunctionParamsBase
+  fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+- uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.PrintHeaders
+  commentId: P:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.PrintHeaders
+  parent: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  name: PrintHeaders
+  nameWithType: LoadFunctionFunctionParamsBase.PrintHeaders
+  fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.PrintHeaders
+- uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableName
+  commentId: P:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableName
+  parent: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  name: TableName
+  nameWithType: LoadFunctionFunctionParamsBase.TableName
+  fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableName
+- uid: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableStyle
+  commentId: P:OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableStyle
+  parent: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase
+  name: TableStyle
+  nameWithType: LoadFunctionFunctionParamsBase.TableStyle
+  fullName: OfficeOpenXml.LoadFunctions.LoadFunctionFunctionParamsBase.TableStyle
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.LoadFunctions
+  commentId: N:OfficeOpenXml.LoadFunctions
+  name: OfficeOpenXml.LoadFunctions
+  nameWithType: OfficeOpenXml.LoadFunctions
+  fullName: OfficeOpenXml.LoadFunctions
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.Keys*
+  commentId: Overload:OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.Keys
+  name: Keys
+  nameWithType: LoadFromDictionariesParams.Keys
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.Keys
+- uid: System.Collections.Generic.IEnumerable{System.String}
+  commentId: T:System.Collections.Generic.IEnumerable{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<String>
+  nameWithType: IEnumerable<String>
+  fullName: System.Collections.Generic.IEnumerable<System.String>
+  nameWithType.vb: IEnumerable(Of String)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of System.String)
+  name.vb: IEnumerable(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.SetKeys*
+  commentId: Overload:OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.SetKeys
+  name: SetKeys
+  nameWithType: LoadFromDictionariesParams.SetKeys
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.SetKeys
+- uid: System.String[]
+  isExternal: true
+  name: String[]
+  nameWithType: String[]
+  fullName: System.String[]
+  nameWithType.vb: String()
+  fullName.vb: System.String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.Culture*
+  commentId: Overload:OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.Culture
+  name: Culture
+  nameWithType: LoadFromDictionariesParams.Culture
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.Culture
+- uid: System.Globalization.CultureInfo
+  commentId: T:System.Globalization.CultureInfo
+  parent: System.Globalization
+  isExternal: true
+  name: CultureInfo
+  nameWithType: CultureInfo
+  fullName: System.Globalization.CultureInfo
+- uid: System.Globalization
+  commentId: N:System.Globalization
+  isExternal: true
+  name: System.Globalization
+  nameWithType: System.Globalization
+  fullName: System.Globalization
+- uid: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  commentId: T:OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  parent: OfficeOpenXml.LoadFunctions.Params
+  name: HeaderParsingTypes
+  nameWithType: HeaderParsingTypes
+  fullName: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.HeaderParsingType*
+  commentId: Overload:OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.HeaderParsingType
+  name: HeaderParsingType
+  nameWithType: LoadFromDictionariesParams.HeaderParsingType
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.HeaderParsingType
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.DataTypes*
+  commentId: Overload:OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.DataTypes
+  name: DataTypes
+  nameWithType: LoadFromDictionariesParams.DataTypes
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDictionariesParams.DataTypes
+- uid: OfficeOpenXml.eDataTypes[]
+  isExternal: true
+  name: eDataTypes[]
+  nameWithType: eDataTypes[]
+  fullName: OfficeOpenXml.eDataTypes[]
+  nameWithType.vb: eDataTypes()
+  fullName.vb: OfficeOpenXml.eDataTypes()
+  name.vb: eDataTypes()
+  spec.csharp:
+  - uid: OfficeOpenXml.eDataTypes
+    name: eDataTypes
+    nameWithType: eDataTypes
+    fullName: OfficeOpenXml.eDataTypes
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: OfficeOpenXml.eDataTypes
+    name: eDataTypes
+    nameWithType: eDataTypes
+    fullName: OfficeOpenXml.eDataTypes
+  - name: ()
+    nameWithType: ()
+    fullName: ()

@@ -1,0 +1,3058 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTableStyles
+  commentId: T:OfficeOpenXml.Table.PivotTableStyles
+  id: PivotTableStyles
+  parent: OfficeOpenXml.Table
+  children:
+  - OfficeOpenXml.Table.PivotTableStyles.Custom
+  - OfficeOpenXml.Table.PivotTableStyles.Dark1
+  - OfficeOpenXml.Table.PivotTableStyles.Dark10
+  - OfficeOpenXml.Table.PivotTableStyles.Dark11
+  - OfficeOpenXml.Table.PivotTableStyles.Dark12
+  - OfficeOpenXml.Table.PivotTableStyles.Dark13
+  - OfficeOpenXml.Table.PivotTableStyles.Dark14
+  - OfficeOpenXml.Table.PivotTableStyles.Dark15
+  - OfficeOpenXml.Table.PivotTableStyles.Dark16
+  - OfficeOpenXml.Table.PivotTableStyles.Dark17
+  - OfficeOpenXml.Table.PivotTableStyles.Dark18
+  - OfficeOpenXml.Table.PivotTableStyles.Dark19
+  - OfficeOpenXml.Table.PivotTableStyles.Dark2
+  - OfficeOpenXml.Table.PivotTableStyles.Dark20
+  - OfficeOpenXml.Table.PivotTableStyles.Dark21
+  - OfficeOpenXml.Table.PivotTableStyles.Dark22
+  - OfficeOpenXml.Table.PivotTableStyles.Dark23
+  - OfficeOpenXml.Table.PivotTableStyles.Dark24
+  - OfficeOpenXml.Table.PivotTableStyles.Dark25
+  - OfficeOpenXml.Table.PivotTableStyles.Dark26
+  - OfficeOpenXml.Table.PivotTableStyles.Dark27
+  - OfficeOpenXml.Table.PivotTableStyles.Dark28
+  - OfficeOpenXml.Table.PivotTableStyles.Dark3
+  - OfficeOpenXml.Table.PivotTableStyles.Dark4
+  - OfficeOpenXml.Table.PivotTableStyles.Dark5
+  - OfficeOpenXml.Table.PivotTableStyles.Dark6
+  - OfficeOpenXml.Table.PivotTableStyles.Dark7
+  - OfficeOpenXml.Table.PivotTableStyles.Dark8
+  - OfficeOpenXml.Table.PivotTableStyles.Dark9
+  - OfficeOpenXml.Table.PivotTableStyles.Light1
+  - OfficeOpenXml.Table.PivotTableStyles.Light10
+  - OfficeOpenXml.Table.PivotTableStyles.Light11
+  - OfficeOpenXml.Table.PivotTableStyles.Light12
+  - OfficeOpenXml.Table.PivotTableStyles.Light13
+  - OfficeOpenXml.Table.PivotTableStyles.Light14
+  - OfficeOpenXml.Table.PivotTableStyles.Light15
+  - OfficeOpenXml.Table.PivotTableStyles.Light16
+  - OfficeOpenXml.Table.PivotTableStyles.Light17
+  - OfficeOpenXml.Table.PivotTableStyles.Light18
+  - OfficeOpenXml.Table.PivotTableStyles.Light19
+  - OfficeOpenXml.Table.PivotTableStyles.Light2
+  - OfficeOpenXml.Table.PivotTableStyles.Light20
+  - OfficeOpenXml.Table.PivotTableStyles.Light21
+  - OfficeOpenXml.Table.PivotTableStyles.Light22
+  - OfficeOpenXml.Table.PivotTableStyles.Light23
+  - OfficeOpenXml.Table.PivotTableStyles.Light24
+  - OfficeOpenXml.Table.PivotTableStyles.Light25
+  - OfficeOpenXml.Table.PivotTableStyles.Light26
+  - OfficeOpenXml.Table.PivotTableStyles.Light27
+  - OfficeOpenXml.Table.PivotTableStyles.Light28
+  - OfficeOpenXml.Table.PivotTableStyles.Light3
+  - OfficeOpenXml.Table.PivotTableStyles.Light4
+  - OfficeOpenXml.Table.PivotTableStyles.Light5
+  - OfficeOpenXml.Table.PivotTableStyles.Light6
+  - OfficeOpenXml.Table.PivotTableStyles.Light7
+  - OfficeOpenXml.Table.PivotTableStyles.Light8
+  - OfficeOpenXml.Table.PivotTableStyles.Light9
+  - OfficeOpenXml.Table.PivotTableStyles.Medium1
+  - OfficeOpenXml.Table.PivotTableStyles.Medium10
+  - OfficeOpenXml.Table.PivotTableStyles.Medium11
+  - OfficeOpenXml.Table.PivotTableStyles.Medium12
+  - OfficeOpenXml.Table.PivotTableStyles.Medium13
+  - OfficeOpenXml.Table.PivotTableStyles.Medium14
+  - OfficeOpenXml.Table.PivotTableStyles.Medium15
+  - OfficeOpenXml.Table.PivotTableStyles.Medium16
+  - OfficeOpenXml.Table.PivotTableStyles.Medium17
+  - OfficeOpenXml.Table.PivotTableStyles.Medium18
+  - OfficeOpenXml.Table.PivotTableStyles.Medium19
+  - OfficeOpenXml.Table.PivotTableStyles.Medium2
+  - OfficeOpenXml.Table.PivotTableStyles.Medium20
+  - OfficeOpenXml.Table.PivotTableStyles.Medium21
+  - OfficeOpenXml.Table.PivotTableStyles.Medium22
+  - OfficeOpenXml.Table.PivotTableStyles.Medium23
+  - OfficeOpenXml.Table.PivotTableStyles.Medium24
+  - OfficeOpenXml.Table.PivotTableStyles.Medium25
+  - OfficeOpenXml.Table.PivotTableStyles.Medium26
+  - OfficeOpenXml.Table.PivotTableStyles.Medium27
+  - OfficeOpenXml.Table.PivotTableStyles.Medium28
+  - OfficeOpenXml.Table.PivotTableStyles.Medium3
+  - OfficeOpenXml.Table.PivotTableStyles.Medium4
+  - OfficeOpenXml.Table.PivotTableStyles.Medium5
+  - OfficeOpenXml.Table.PivotTableStyles.Medium6
+  - OfficeOpenXml.Table.PivotTableStyles.Medium7
+  - OfficeOpenXml.Table.PivotTableStyles.Medium8
+  - OfficeOpenXml.Table.PivotTableStyles.Medium9
+  - OfficeOpenXml.Table.PivotTableStyles.None
+  langs:
+  - csharp
+  - vb
+  name: PivotTableStyles
+  nameWithType: PivotTableStyles
+  fullName: OfficeOpenXml.Table.PivotTableStyles
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PivotTableStyles
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nPivot table style Enum\n"
+  example: []
+  syntax:
+    content: public enum PivotTableStyles
+    content.vb: Public Enum PivotTableStyles
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTableStyles.None
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.None
+  id: None
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: PivotTableStyles.None
+  fullName: OfficeOpenXml.Table.PivotTableStyles.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nNo table style\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Custom
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Custom
+  id: Custom
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Custom
+  nameWithType: PivotTableStyles.Custom
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Custom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Custom
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nCustom table style\n"
+  example: []
+  syntax:
+    content: Custom = 1
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light1
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light1
+  id: Light1
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light1
+  nameWithType: PivotTableStyles.Light1
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light1
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 1\n"
+  example: []
+  syntax:
+    content: Light1 = 2
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light2
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light2
+  id: Light2
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light2
+  nameWithType: PivotTableStyles.Light2
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light2
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 2\n"
+  example: []
+  syntax:
+    content: Light2 = 3
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light3
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light3
+  id: Light3
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light3
+  nameWithType: PivotTableStyles.Light3
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light3
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 3\n"
+  example: []
+  syntax:
+    content: Light3 = 4
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light4
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light4
+  id: Light4
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light4
+  nameWithType: PivotTableStyles.Light4
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light4
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 4\n"
+  example: []
+  syntax:
+    content: Light4 = 5
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light5
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light5
+  id: Light5
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light5
+  nameWithType: PivotTableStyles.Light5
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light5
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 5\n"
+  example: []
+  syntax:
+    content: Light5 = 6
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light6
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light6
+  id: Light6
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light6
+  nameWithType: PivotTableStyles.Light6
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light6
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 6\n"
+  example: []
+  syntax:
+    content: Light6 = 7
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light7
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light7
+  id: Light7
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light7
+  nameWithType: PivotTableStyles.Light7
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light7
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light7
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 7\n"
+  example: []
+  syntax:
+    content: Light7 = 8
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light8
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light8
+  id: Light8
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light8
+  nameWithType: PivotTableStyles.Light8
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light8
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light8
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 8\n"
+  example: []
+  syntax:
+    content: Light8 = 9
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light9
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light9
+  id: Light9
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light9
+  nameWithType: PivotTableStyles.Light9
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light9
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light9
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 9\n"
+  example: []
+  syntax:
+    content: Light9 = 10
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light10
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light10
+  id: Light10
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light10
+  nameWithType: PivotTableStyles.Light10
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light10
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light10
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 10\n"
+  example: []
+  syntax:
+    content: Light10 = 11
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light11
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light11
+  id: Light11
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light11
+  nameWithType: PivotTableStyles.Light11
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light11
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light11
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 11\n"
+  example: []
+  syntax:
+    content: Light11 = 12
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light12
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light12
+  id: Light12
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light12
+  nameWithType: PivotTableStyles.Light12
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light12
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light12
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 12\n"
+  example: []
+  syntax:
+    content: Light12 = 13
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light13
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light13
+  id: Light13
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light13
+  nameWithType: PivotTableStyles.Light13
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light13
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light13
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 13\n"
+  example: []
+  syntax:
+    content: Light13 = 14
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light14
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light14
+  id: Light14
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light14
+  nameWithType: PivotTableStyles.Light14
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light14
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light14
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 14\n"
+  example: []
+  syntax:
+    content: Light14 = 15
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light15
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light15
+  id: Light15
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light15
+  nameWithType: PivotTableStyles.Light15
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light15
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light15
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 15\n"
+  example: []
+  syntax:
+    content: Light15 = 16
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light16
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light16
+  id: Light16
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light16
+  nameWithType: PivotTableStyles.Light16
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light16
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light16
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 16\n"
+  example: []
+  syntax:
+    content: Light16 = 17
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light17
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light17
+  id: Light17
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light17
+  nameWithType: PivotTableStyles.Light17
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light17
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light17
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 17\n"
+  example: []
+  syntax:
+    content: Light17 = 18
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light18
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light18
+  id: Light18
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light18
+  nameWithType: PivotTableStyles.Light18
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light18
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light18
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 18\n"
+  example: []
+  syntax:
+    content: Light18 = 19
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light19
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light19
+  id: Light19
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light19
+  nameWithType: PivotTableStyles.Light19
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light19
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light19
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 19\n"
+  example: []
+  syntax:
+    content: Light19 = 20
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light20
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light20
+  id: Light20
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light20
+  nameWithType: PivotTableStyles.Light20
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light20
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light20
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 20\n"
+  example: []
+  syntax:
+    content: Light20 = 21
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light21
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light21
+  id: Light21
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light21
+  nameWithType: PivotTableStyles.Light21
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light21
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light21
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 21\n"
+  example: []
+  syntax:
+    content: Light21 = 22
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light22
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light22
+  id: Light22
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light22
+  nameWithType: PivotTableStyles.Light22
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light22
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light22
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 22\n"
+  example: []
+  syntax:
+    content: Light22 = 23
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light23
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light23
+  id: Light23
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light23
+  nameWithType: PivotTableStyles.Light23
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light23
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light23
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 23\n"
+  example: []
+  syntax:
+    content: Light23 = 24
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light24
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light24
+  id: Light24
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light24
+  nameWithType: PivotTableStyles.Light24
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light24
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light24
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 122
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 24\n"
+  example: []
+  syntax:
+    content: Light24 = 25
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light25
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light25
+  id: Light25
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light25
+  nameWithType: PivotTableStyles.Light25
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light25
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light25
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 25\n"
+  example: []
+  syntax:
+    content: Light25 = 26
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light26
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light26
+  id: Light26
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light26
+  nameWithType: PivotTableStyles.Light26
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light26
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light26
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 26\n"
+  example: []
+  syntax:
+    content: Light26 = 27
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light27
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light27
+  id: Light27
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light27
+  nameWithType: PivotTableStyles.Light27
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light27
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light27
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 134
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 27\n"
+  example: []
+  syntax:
+    content: Light27 = 28
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Light28
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Light28
+  id: Light28
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Light28
+  nameWithType: PivotTableStyles.Light28
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Light28
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light28
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nLight style 28\n"
+  example: []
+  syntax:
+    content: Light28 = 29
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium1
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium1
+  id: Medium1
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium1
+  nameWithType: PivotTableStyles.Medium1
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium1
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 142
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 1\n"
+  example: []
+  syntax:
+    content: Medium1 = 30
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium2
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium2
+  id: Medium2
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium2
+  nameWithType: PivotTableStyles.Medium2
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium2
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 146
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 2\n"
+  example: []
+  syntax:
+    content: Medium2 = 31
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium3
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium3
+  id: Medium3
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium3
+  nameWithType: PivotTableStyles.Medium3
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium3
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 150
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 3\n"
+  example: []
+  syntax:
+    content: Medium3 = 32
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium4
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium4
+  id: Medium4
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium4
+  nameWithType: PivotTableStyles.Medium4
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium4
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 154
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 4\n"
+  example: []
+  syntax:
+    content: Medium4 = 33
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium5
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium5
+  id: Medium5
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium5
+  nameWithType: PivotTableStyles.Medium5
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium5
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 158
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 5\n"
+  example: []
+  syntax:
+    content: Medium5 = 34
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium6
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium6
+  id: Medium6
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium6
+  nameWithType: PivotTableStyles.Medium6
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium6
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 162
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 6\n"
+  example: []
+  syntax:
+    content: Medium6 = 35
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium7
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium7
+  id: Medium7
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium7
+  nameWithType: PivotTableStyles.Medium7
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium7
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium7
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 166
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 7\n"
+  example: []
+  syntax:
+    content: Medium7 = 36
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium8
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium8
+  id: Medium8
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium8
+  nameWithType: PivotTableStyles.Medium8
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium8
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium8
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 170
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 8\n"
+  example: []
+  syntax:
+    content: Medium8 = 37
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium9
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium9
+  id: Medium9
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium9
+  nameWithType: PivotTableStyles.Medium9
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium9
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium9
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 174
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 9\n"
+  example: []
+  syntax:
+    content: Medium9 = 38
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium10
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium10
+  id: Medium10
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium10
+  nameWithType: PivotTableStyles.Medium10
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium10
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium10
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 178
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 10\n"
+  example: []
+  syntax:
+    content: Medium10 = 39
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium11
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium11
+  id: Medium11
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium11
+  nameWithType: PivotTableStyles.Medium11
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium11
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium11
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 182
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 11\n"
+  example: []
+  syntax:
+    content: Medium11 = 40
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium12
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium12
+  id: Medium12
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium12
+  nameWithType: PivotTableStyles.Medium12
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium12
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium12
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 186
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 12\n"
+  example: []
+  syntax:
+    content: Medium12 = 41
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium13
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium13
+  id: Medium13
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium13
+  nameWithType: PivotTableStyles.Medium13
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium13
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium13
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 190
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 13\n"
+  example: []
+  syntax:
+    content: Medium13 = 42
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium14
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium14
+  id: Medium14
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium14
+  nameWithType: PivotTableStyles.Medium14
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium14
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium14
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 194
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 14\n"
+  example: []
+  syntax:
+    content: Medium14 = 43
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium15
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium15
+  id: Medium15
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium15
+  nameWithType: PivotTableStyles.Medium15
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium15
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium15
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 198
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 15\n"
+  example: []
+  syntax:
+    content: Medium15 = 44
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium16
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium16
+  id: Medium16
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium16
+  nameWithType: PivotTableStyles.Medium16
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium16
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium16
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 202
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 16\n"
+  example: []
+  syntax:
+    content: Medium16 = 45
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium17
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium17
+  id: Medium17
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium17
+  nameWithType: PivotTableStyles.Medium17
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium17
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium17
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 206
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 17\n"
+  example: []
+  syntax:
+    content: Medium17 = 46
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium18
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium18
+  id: Medium18
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium18
+  nameWithType: PivotTableStyles.Medium18
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium18
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium18
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 210
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 18\n"
+  example: []
+  syntax:
+    content: Medium18 = 47
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium19
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium19
+  id: Medium19
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium19
+  nameWithType: PivotTableStyles.Medium19
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium19
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium19
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 214
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 19\n"
+  example: []
+  syntax:
+    content: Medium19 = 48
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium20
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium20
+  id: Medium20
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium20
+  nameWithType: PivotTableStyles.Medium20
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium20
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium20
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 218
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 20\n"
+  example: []
+  syntax:
+    content: Medium20 = 49
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium21
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium21
+  id: Medium21
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium21
+  nameWithType: PivotTableStyles.Medium21
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium21
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium21
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 222
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 21\n"
+  example: []
+  syntax:
+    content: Medium21 = 50
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium22
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium22
+  id: Medium22
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium22
+  nameWithType: PivotTableStyles.Medium22
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium22
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium22
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 226
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 22\n"
+  example: []
+  syntax:
+    content: Medium22 = 51
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium23
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium23
+  id: Medium23
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium23
+  nameWithType: PivotTableStyles.Medium23
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium23
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium23
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 230
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 23\n"
+  example: []
+  syntax:
+    content: Medium23 = 52
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium24
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium24
+  id: Medium24
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium24
+  nameWithType: PivotTableStyles.Medium24
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium24
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium24
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 234
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 24\n"
+  example: []
+  syntax:
+    content: Medium24 = 53
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium25
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium25
+  id: Medium25
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium25
+  nameWithType: PivotTableStyles.Medium25
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium25
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium25
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 238
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 25\n"
+  example: []
+  syntax:
+    content: Medium25 = 54
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium26
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium26
+  id: Medium26
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium26
+  nameWithType: PivotTableStyles.Medium26
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium26
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium26
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 242
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 26\n"
+  example: []
+  syntax:
+    content: Medium26 = 55
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium27
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium27
+  id: Medium27
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium27
+  nameWithType: PivotTableStyles.Medium27
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium27
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium27
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 246
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 27\n"
+  example: []
+  syntax:
+    content: Medium27 = 56
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Medium28
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Medium28
+  id: Medium28
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Medium28
+  nameWithType: PivotTableStyles.Medium28
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Medium28
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Medium28
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 250
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nMedium style 28\n"
+  example: []
+  syntax:
+    content: Medium28 = 57
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark1
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark1
+  id: Dark1
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark1
+  nameWithType: PivotTableStyles.Dark1
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark1
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 254
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 1\n"
+  example: []
+  syntax:
+    content: Dark1 = 58
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark2
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark2
+  id: Dark2
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark2
+  nameWithType: PivotTableStyles.Dark2
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark2
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 258
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 2\n"
+  example: []
+  syntax:
+    content: Dark2 = 59
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark3
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark3
+  id: Dark3
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark3
+  nameWithType: PivotTableStyles.Dark3
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark3
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 262
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 3\n"
+  example: []
+  syntax:
+    content: Dark3 = 60
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark4
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark4
+  id: Dark4
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark4
+  nameWithType: PivotTableStyles.Dark4
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark4
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 266
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 4\n"
+  example: []
+  syntax:
+    content: Dark4 = 61
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark5
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark5
+  id: Dark5
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark5
+  nameWithType: PivotTableStyles.Dark5
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark5
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 270
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 5\n"
+  example: []
+  syntax:
+    content: Dark5 = 62
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark6
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark6
+  id: Dark6
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark6
+  nameWithType: PivotTableStyles.Dark6
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark6
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 274
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 6\n"
+  example: []
+  syntax:
+    content: Dark6 = 63
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark7
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark7
+  id: Dark7
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark7
+  nameWithType: PivotTableStyles.Dark7
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark7
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark7
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 278
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 7\n"
+  example: []
+  syntax:
+    content: Dark7 = 64
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark8
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark8
+  id: Dark8
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark8
+  nameWithType: PivotTableStyles.Dark8
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark8
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark8
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 282
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 8\n"
+  example: []
+  syntax:
+    content: Dark8 = 65
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark9
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark9
+  id: Dark9
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark9
+  nameWithType: PivotTableStyles.Dark9
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark9
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark9
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 286
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 9\n"
+  example: []
+  syntax:
+    content: Dark9 = 66
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark10
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark10
+  id: Dark10
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark10
+  nameWithType: PivotTableStyles.Dark10
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark10
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark10
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 290
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 10\n"
+  example: []
+  syntax:
+    content: Dark10 = 67
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark11
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark11
+  id: Dark11
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark11
+  nameWithType: PivotTableStyles.Dark11
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark11
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark11
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 294
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 11\n"
+  example: []
+  syntax:
+    content: Dark11 = 68
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark12
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark12
+  id: Dark12
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark12
+  nameWithType: PivotTableStyles.Dark12
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark12
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark12
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 298
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 12\n"
+  example: []
+  syntax:
+    content: Dark12 = 69
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark13
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark13
+  id: Dark13
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark13
+  nameWithType: PivotTableStyles.Dark13
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark13
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark13
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 302
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 13\n"
+  example: []
+  syntax:
+    content: Dark13 = 70
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark14
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark14
+  id: Dark14
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark14
+  nameWithType: PivotTableStyles.Dark14
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark14
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark14
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 306
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 14\n"
+  example: []
+  syntax:
+    content: Dark14 = 71
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark15
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark15
+  id: Dark15
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark15
+  nameWithType: PivotTableStyles.Dark15
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark15
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark15
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 310
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 15\n"
+  example: []
+  syntax:
+    content: Dark15 = 72
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark16
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark16
+  id: Dark16
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark16
+  nameWithType: PivotTableStyles.Dark16
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark16
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark16
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 314
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 16\n"
+  example: []
+  syntax:
+    content: Dark16 = 73
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark17
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark17
+  id: Dark17
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark17
+  nameWithType: PivotTableStyles.Dark17
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark17
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark17
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 318
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 17\n"
+  example: []
+  syntax:
+    content: Dark17 = 74
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark18
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark18
+  id: Dark18
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark18
+  nameWithType: PivotTableStyles.Dark18
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark18
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark18
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 322
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 18\n"
+  example: []
+  syntax:
+    content: Dark18 = 75
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark19
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark19
+  id: Dark19
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark19
+  nameWithType: PivotTableStyles.Dark19
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark19
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark19
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 326
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 19\n"
+  example: []
+  syntax:
+    content: Dark19 = 76
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark20
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark20
+  id: Dark20
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark20
+  nameWithType: PivotTableStyles.Dark20
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark20
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark20
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 330
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 20\n"
+  example: []
+  syntax:
+    content: Dark20 = 77
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark21
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark21
+  id: Dark21
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark21
+  nameWithType: PivotTableStyles.Dark21
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark21
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark21
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 334
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 21\n"
+  example: []
+  syntax:
+    content: Dark21 = 78
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark22
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark22
+  id: Dark22
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark22
+  nameWithType: PivotTableStyles.Dark22
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark22
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark22
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 338
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 22\n"
+  example: []
+  syntax:
+    content: Dark22 = 79
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark23
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark23
+  id: Dark23
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark23
+  nameWithType: PivotTableStyles.Dark23
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark23
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark23
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 342
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 23\n"
+  example: []
+  syntax:
+    content: Dark23 = 80
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark24
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark24
+  id: Dark24
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark24
+  nameWithType: PivotTableStyles.Dark24
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark24
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark24
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 346
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 24\n"
+  example: []
+  syntax:
+    content: Dark24 = 81
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark25
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark25
+  id: Dark25
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark25
+  nameWithType: PivotTableStyles.Dark25
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark25
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark25
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 350
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 25\n"
+  example: []
+  syntax:
+    content: Dark25 = 82
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark26
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark26
+  id: Dark26
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark26
+  nameWithType: PivotTableStyles.Dark26
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark26
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark26
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 354
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 26\n"
+  example: []
+  syntax:
+    content: Dark26 = 83
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark27
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark27
+  id: Dark27
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark27
+  nameWithType: PivotTableStyles.Dark27
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark27
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark27
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 358
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 27\n"
+  example: []
+  syntax:
+    content: Dark27 = 84
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTableStyles.Dark28
+  commentId: F:OfficeOpenXml.Table.PivotTableStyles.Dark28
+  id: Dark28
+  parent: OfficeOpenXml.Table.PivotTableStyles
+  langs:
+  - csharp
+  - vb
+  name: Dark28
+  nameWithType: PivotTableStyles.Dark28
+  fullName: OfficeOpenXml.Table.PivotTableStyles.Dark28
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/enums/ePivotTableStyles.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark28
+    path: ../src/EPPlus/Table/enums/ePivotTableStyles.cs
+    startLine: 362
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDark style 28\n"
+  example: []
+  syntax:
+    content: Dark28 = 85
+    return:
+      type: OfficeOpenXml.Table.PivotTableStyles
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: OfficeOpenXml.Table.PivotTableStyles
+  commentId: T:OfficeOpenXml.Table.PivotTableStyles
+  parent: OfficeOpenXml.Table
+  name: PivotTableStyles
+  nameWithType: PivotTableStyles
+  fullName: OfficeOpenXml.Table.PivotTableStyles

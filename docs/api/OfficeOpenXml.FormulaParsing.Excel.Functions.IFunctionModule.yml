@@ -1,0 +1,295 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule
+  id: IFunctionModule
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.Functions
+  langs:
+  - csharp
+  - vb
+  name: IFunctionModule
+  nameWithType: IFunctionModule
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/IFunctionModule.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IFunctionModule
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/IFunctionModule.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  syntax:
+    content: public interface IFunctionModule
+    content.vb: Public Interface IFunctionModule
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.Functions
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.Functions
+  id: Functions
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule
+  langs:
+  - csharp
+  - vb
+  name: Functions
+  nameWithType: IFunctionModule.Functions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.Functions
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/IFunctionModule.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Functions
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/IFunctionModule.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nGets a dictionary of custom function implementations.\n"
+  example: []
+  syntax:
+    content: IDictionary<string, ExcelFunction> Functions { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IDictionary{System.String,OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction}
+    content.vb: ReadOnly Property Functions As IDictionary(Of String, ExcelFunction)
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.Functions*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers
+  id: CustomCompilers
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule
+  langs:
+  - csharp
+  - vb
+  name: CustomCompilers
+  nameWithType: IFunctionModule.CustomCompilers
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/IFunctionModule.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CustomCompilers
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/IFunctionModule.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nGets a dictionary of custom function compilers. A function compiler is not \nnecessary for a custom function, unless the default expression evaluation is not\nsufficient for the implementation of the custom function. When a FunctionCompiler instance\nis created, it should be given a reference to the same function instance that exists\nin the Functions collection of this module.\n"
+  example: []
+  syntax:
+    content: IDictionary<Type, FunctionCompiler> CustomCompilers { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IDictionary{System.Type,OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler}
+    content.vb: ReadOnly Property CustomCompilers As IDictionary(Of Type, FunctionCompiler)
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.Functions*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.Functions
+  name: Functions
+  nameWithType: IFunctionModule.Functions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.Functions
+- uid: System.Collections.Generic.IDictionary{System.String,OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction}
+  commentId: T:System.Collections.Generic.IDictionary{System.String,OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IDictionary`2
+  name: IDictionary<String, ExcelFunction>
+  nameWithType: IDictionary<String, ExcelFunction>
+  fullName: System.Collections.Generic.IDictionary<System.String, OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction>
+  nameWithType.vb: IDictionary(Of String, ExcelFunction)
+  fullName.vb: System.Collections.Generic.IDictionary(Of System.String, OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction)
+  name.vb: IDictionary(Of String, ExcelFunction)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    nameWithType: IDictionary
+    fullName: System.Collections.Generic.IDictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+    name: ExcelFunction
+    nameWithType: ExcelFunction
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    nameWithType: IDictionary
+    fullName: System.Collections.Generic.IDictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+    name: ExcelFunction
+    nameWithType: ExcelFunction
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IDictionary`2
+  commentId: T:System.Collections.Generic.IDictionary`2
+  isExternal: true
+  name: IDictionary<TKey, TValue>
+  nameWithType: IDictionary<TKey, TValue>
+  fullName: System.Collections.Generic.IDictionary<TKey, TValue>
+  nameWithType.vb: IDictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.IDictionary(Of TKey, TValue)
+  name.vb: IDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    nameWithType: IDictionary
+    fullName: System.Collections.Generic.IDictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    nameWithType: IDictionary
+    fullName: System.Collections.Generic.IDictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers
+  name: CustomCompilers
+  nameWithType: IFunctionModule.CustomCompilers
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule.CustomCompilers
+- uid: System.Collections.Generic.IDictionary{System.Type,OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler}
+  commentId: T:System.Collections.Generic.IDictionary{System.Type,OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IDictionary`2
+  name: IDictionary<Type, FunctionCompiler>
+  nameWithType: IDictionary<Type, FunctionCompiler>
+  fullName: System.Collections.Generic.IDictionary<System.Type, OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler>
+  nameWithType.vb: IDictionary(Of Type, FunctionCompiler)
+  fullName.vb: System.Collections.Generic.IDictionary(Of System.Type, OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler)
+  name.vb: IDictionary(Of Type, FunctionCompiler)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    nameWithType: IDictionary
+    fullName: System.Collections.Generic.IDictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+    name: FunctionCompiler
+    nameWithType: FunctionCompiler
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    nameWithType: IDictionary
+    fullName: System.Collections.Generic.IDictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+    name: FunctionCompiler
+    nameWithType: FunctionCompiler
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.FunctionCompilers.FunctionCompiler
+  - name: )
+    nameWithType: )
+    fullName: )

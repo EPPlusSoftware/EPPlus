@@ -1,0 +1,573 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingControl
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingControl
+  id: ExcelVmlDrawingControl
+  parent: OfficeOpenXml.Drawing.Vml
+  children:
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingControl.Text
+  langs:
+  - csharp
+  - vb
+  name: ExcelVmlDrawingControl
+  nameWithType: ExcelVmlDrawingControl
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingControl
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingControl.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelVmlDrawingControl
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingControl.cs
+    startLine: 10
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nBase class for vml form controls\n"
+  example: []
+  syntax:
+    content: 'public class ExcelVmlDrawingControl : ExcelVmlDrawingBase'
+    content.vb: >-
+      Public Class ExcelVmlDrawingControl
+          Inherits ExcelVmlDrawingBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.Id
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.AlternativeText
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingControl.Text
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingControl.Text
+  id: Text
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingControl
+  langs:
+  - csharp
+  - vb
+  name: Text
+  nameWithType: ExcelVmlDrawingControl.Text
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingControl.Text
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingControl.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Text
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingControl.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nThe Text\n"
+  example: []
+  syntax:
+    content: public string Text { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Text As String
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingControl.Text*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  parent: OfficeOpenXml.Drawing.Vml
+  name: ExcelVmlDrawingBase
+  nameWithType: ExcelVmlDrawingBase
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.Id
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.Id
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  name: Id
+  nameWithType: ExcelVmlDrawingBase.Id
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.Id
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.AlternativeText
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.AlternativeText
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  name: AlternativeText
+  nameWithType: ExcelVmlDrawingBase.AlternativeText
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.AlternativeText
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  isExternal: true
+  name: GetStyle(String, String, String)
+  nameWithType: ExcelVmlDrawingBase.GetStyle(String, String, String)
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String, System.String, System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+    name: GetStyle
+    nameWithType: ExcelVmlDrawingBase.GetStyle
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle(System.String,System.String,System.String@)
+    name: GetStyle
+    nameWithType: ExcelVmlDrawingBase.GetStyle
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.GetStyle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  isExternal: true
+  name: SetStyle(String, String, String)
+  nameWithType: ExcelVmlDrawingBase.SetStyle(String, String, String)
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String, System.String, System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+    name: SetStyle
+    nameWithType: ExcelVmlDrawingBase.SetStyle
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle(System.String,System.String,System.String)
+    name: SetStyle
+    nameWithType: ExcelVmlDrawingBase.SetStyle
+    fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase.SetStyle
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingControl.Text*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingControl.Text
+  name: Text
+  nameWithType: ExcelVmlDrawingControl.Text
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingControl.Text
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

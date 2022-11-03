@@ -1,0 +1,1151 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelColumn
+  commentId: T:OfficeOpenXml.ExcelColumn
+  id: ExcelColumn
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelColumn.#ctor(OfficeOpenXml.ExcelWorksheet,System.Int32)
+  - OfficeOpenXml.ExcelColumn.AutoFit
+  - OfficeOpenXml.ExcelColumn.AutoFit(System.Double)
+  - OfficeOpenXml.ExcelColumn.AutoFit(System.Double,System.Double)
+  - OfficeOpenXml.ExcelColumn.BestFit
+  - OfficeOpenXml.ExcelColumn.Collapsed
+  - OfficeOpenXml.ExcelColumn.ColumnMax
+  - OfficeOpenXml.ExcelColumn.ColumnMin
+  - OfficeOpenXml.ExcelColumn.Hidden
+  - OfficeOpenXml.ExcelColumn.Merged
+  - OfficeOpenXml.ExcelColumn.OutlineLevel
+  - OfficeOpenXml.ExcelColumn.PageBreak
+  - OfficeOpenXml.ExcelColumn.Phonetic
+  - OfficeOpenXml.ExcelColumn.Style
+  - OfficeOpenXml.ExcelColumn.StyleID
+  - OfficeOpenXml.ExcelColumn.StyleName
+  - OfficeOpenXml.ExcelColumn.ToString
+  - OfficeOpenXml.ExcelColumn.Width
+  langs:
+  - csharp
+  - vb
+  name: ExcelColumn
+  nameWithType: ExcelColumn
+  fullName: OfficeOpenXml.ExcelColumn
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelColumn
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRepresents one or more columns within the worksheet\n"
+  example: []
+  syntax:
+    content: public class ExcelColumn
+    content.vb: Public Class ExcelColumn
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelColumn.#ctor(OfficeOpenXml.ExcelWorksheet,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelColumn.#ctor(OfficeOpenXml.ExcelWorksheet,System.Int32)
+  id: '#ctor(OfficeOpenXml.ExcelWorksheet,System.Int32)'
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: ExcelColumn(ExcelWorksheet, Int32)
+  nameWithType: ExcelColumn.ExcelColumn(ExcelWorksheet, Int32)
+  fullName: OfficeOpenXml.ExcelColumn.ExcelColumn(OfficeOpenXml.ExcelWorksheet, System.Int32)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreates a new instance of the ExcelColumn class.  \nFor internal use only!\n"
+  example: []
+  syntax:
+    content: protected ExcelColumn(ExcelWorksheet Worksheet, int col)
+    parameters:
+    - id: Worksheet
+      type: OfficeOpenXml.ExcelWorksheet
+      description: ''
+    - id: col
+      type: System.Int32
+      description: ''
+    content.vb: Protected Sub New(Worksheet As ExcelWorksheet, col As Integer)
+  overload: OfficeOpenXml.ExcelColumn.#ctor*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: OfficeOpenXml.ExcelColumn.ColumnMin
+  commentId: P:OfficeOpenXml.ExcelColumn.ColumnMin
+  id: ColumnMin
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: ColumnMin
+  nameWithType: ExcelColumn.ColumnMin
+  fullName: OfficeOpenXml.ExcelColumn.ColumnMin
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnMin
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSets the first column the definition refers to.\n"
+  example: []
+  syntax:
+    content: public int ColumnMin { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property ColumnMin As Integer
+  overload: OfficeOpenXml.ExcelColumn.ColumnMin*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelColumn.ColumnMax
+  commentId: P:OfficeOpenXml.ExcelColumn.ColumnMax
+  id: ColumnMax
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: ColumnMax
+  nameWithType: ExcelColumn.ColumnMax
+  fullName: OfficeOpenXml.ExcelColumn.ColumnMax
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnMax
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSets the last column the definition refers to.\n"
+  example: []
+  syntax:
+    content: public int ColumnMax { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ColumnMax As Integer
+  overload: OfficeOpenXml.ExcelColumn.ColumnMax*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelColumn.Hidden
+  commentId: P:OfficeOpenXml.ExcelColumn.Hidden
+  id: Hidden
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: Hidden
+  nameWithType: ExcelColumn.Hidden
+  fullName: OfficeOpenXml.ExcelColumn.Hidden
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hidden
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDefines if the column is visible or hidden\n"
+  example: []
+  syntax:
+    content: public bool Hidden { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Hidden As Boolean
+  overload: OfficeOpenXml.ExcelColumn.Hidden*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelColumn.Width
+  commentId: P:OfficeOpenXml.ExcelColumn.Width
+  id: Width
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: Width
+  nameWithType: ExcelColumn.Width
+  fullName: OfficeOpenXml.ExcelColumn.Width
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Width
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 135
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSets the width of the column in the worksheet\n"
+  example: []
+  syntax:
+    content: public double Width { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property Width As Double
+  overload: OfficeOpenXml.ExcelColumn.Width*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelColumn.BestFit
+  commentId: P:OfficeOpenXml.ExcelColumn.BestFit
+  id: BestFit
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: BestFit
+  nameWithType: ExcelColumn.BestFit
+  fullName: OfficeOpenXml.ExcelColumn.BestFit
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BestFit
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 163
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf set to true a column automaticlly resize(grow wider) when a user inputs numbers in a cell. \n"
+  example: []
+  syntax:
+    content: public bool BestFit { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property BestFit As Boolean
+  overload: OfficeOpenXml.ExcelColumn.BestFit*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelColumn.Collapsed
+  commentId: P:OfficeOpenXml.ExcelColumn.Collapsed
+  id: Collapsed
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: Collapsed
+  nameWithType: ExcelColumn.Collapsed
+  fullName: OfficeOpenXml.ExcelColumn.Collapsed
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Collapsed
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 171
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf the column is collapsed in outline mode\n"
+  example: []
+  syntax:
+    content: public bool Collapsed { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Collapsed As Boolean
+  overload: OfficeOpenXml.ExcelColumn.Collapsed*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelColumn.OutlineLevel
+  commentId: P:OfficeOpenXml.ExcelColumn.OutlineLevel
+  id: OutlineLevel
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: OutlineLevel
+  nameWithType: ExcelColumn.OutlineLevel
+  fullName: OfficeOpenXml.ExcelColumn.OutlineLevel
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OutlineLevel
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 175
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nOutline level. Zero if no outline\n"
+  example: []
+  syntax:
+    content: public int OutlineLevel { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property OutlineLevel As Integer
+  overload: OfficeOpenXml.ExcelColumn.OutlineLevel*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelColumn.Phonetic
+  commentId: P:OfficeOpenXml.ExcelColumn.Phonetic
+  id: Phonetic
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: Phonetic
+  nameWithType: ExcelColumn.Phonetic
+  fullName: OfficeOpenXml.ExcelColumn.Phonetic
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Phonetic
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 183
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPhonetic\n"
+  example: []
+  syntax:
+    content: public bool Phonetic { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Phonetic As Boolean
+  overload: OfficeOpenXml.ExcelColumn.Phonetic*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelColumn.Style
+  commentId: P:OfficeOpenXml.ExcelColumn.Style
+  id: Style
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: Style
+  nameWithType: ExcelColumn.Style
+  fullName: OfficeOpenXml.ExcelColumn.Style
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 191
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe Style applied to the whole column. Only effects cells with no individual style set. \nUse Range object if you want to set specific styles.\n"
+  example: []
+  syntax:
+    content: public ExcelStyle Style { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelStyle
+    content.vb: Public ReadOnly Property Style As ExcelStyle
+  overload: OfficeOpenXml.ExcelColumn.Style*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelColumn.StyleName
+  commentId: P:OfficeOpenXml.ExcelColumn.StyleName
+  id: StyleName
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: StyleName
+  nameWithType: ExcelColumn.StyleName
+  fullName: OfficeOpenXml.ExcelColumn.StyleName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StyleName
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 204
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSets the style for the entire column using a style name.\n"
+  example: []
+  syntax:
+    content: public string StyleName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property StyleName As String
+  overload: OfficeOpenXml.ExcelColumn.StyleName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelColumn.StyleID
+  commentId: P:OfficeOpenXml.ExcelColumn.StyleID
+  id: StyleID
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: StyleID
+  nameWithType: ExcelColumn.StyleID
+  fullName: OfficeOpenXml.ExcelColumn.StyleID
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StyleID
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 219
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSets the style for the entire column using the style ID.           \n"
+  example: []
+  syntax:
+    content: public int StyleID { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property StyleID As Integer
+  overload: OfficeOpenXml.ExcelColumn.StyleID*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelColumn.PageBreak
+  commentId: P:OfficeOpenXml.ExcelColumn.PageBreak
+  id: PageBreak
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: PageBreak
+  nameWithType: ExcelColumn.PageBreak
+  fullName: OfficeOpenXml.ExcelColumn.PageBreak
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PageBreak
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 233
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdds a manual page break after the column.\n"
+  example: []
+  syntax:
+    content: public bool PageBreak { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property PageBreak As Boolean
+  overload: OfficeOpenXml.ExcelColumn.PageBreak*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelColumn.Merged
+  commentId: P:OfficeOpenXml.ExcelColumn.Merged
+  id: Merged
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: Merged
+  nameWithType: ExcelColumn.Merged
+  fullName: OfficeOpenXml.ExcelColumn.Merged
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Merged
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 241
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nMerges all cells of the column\n"
+  example: []
+  syntax:
+    content: public bool Merged { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Merged As Boolean
+  overload: OfficeOpenXml.ExcelColumn.Merged*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelColumn.ToString
+  commentId: M:OfficeOpenXml.ExcelColumn.ToString
+  id: ToString
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: ExcelColumn.ToString()
+  fullName: OfficeOpenXml.ExcelColumn.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToString
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 258
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns the range of columns covered by the column definition.\n"
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: A string describing the range of columns covered by the column definition.
+    content.vb: Public Overrides Function ToString As String
+  overridden: System.Object.ToString
+  overload: OfficeOpenXml.ExcelColumn.ToString*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.ExcelColumn.AutoFit
+  commentId: M:OfficeOpenXml.ExcelColumn.AutoFit
+  id: AutoFit
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: AutoFit()
+  nameWithType: ExcelColumn.AutoFit()
+  fullName: OfficeOpenXml.ExcelColumn.AutoFit()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AutoFit
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 267
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the column width from the content of the range. The minimum width is the value of the ExcelWorksheet.defaultColumnWidth property.\nNote: Cells containing formulas are ignored unless a calculation is performed.\n  Wrapped and merged cells are also ignored.\n"
+  example: []
+  syntax:
+    content: public void AutoFit()
+    content.vb: Public Sub AutoFit
+  overload: OfficeOpenXml.ExcelColumn.AutoFit*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelColumn.AutoFit(System.Double)
+  commentId: M:OfficeOpenXml.ExcelColumn.AutoFit(System.Double)
+  id: AutoFit(System.Double)
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: AutoFit(Double)
+  nameWithType: ExcelColumn.AutoFit(Double)
+  fullName: OfficeOpenXml.ExcelColumn.AutoFit(System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AutoFit
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 278
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the column width from the content.\nNote: Cells containing formulas are ignored unless a calculation is performed.\n  Wrapped and merged cells are also ignored.\n"
+  example: []
+  syntax:
+    content: public void AutoFit(double MinimumWidth)
+    parameters:
+    - id: MinimumWidth
+      type: System.Double
+      description: Minimum column width
+    content.vb: Public Sub AutoFit(MinimumWidth As Double)
+  overload: OfficeOpenXml.ExcelColumn.AutoFit*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelColumn.AutoFit(System.Double,System.Double)
+  commentId: M:OfficeOpenXml.ExcelColumn.AutoFit(System.Double,System.Double)
+  id: AutoFit(System.Double,System.Double)
+  parent: OfficeOpenXml.ExcelColumn
+  langs:
+  - csharp
+  - vb
+  name: AutoFit(Double, Double)
+  nameWithType: ExcelColumn.AutoFit(Double, Double)
+  fullName: OfficeOpenXml.ExcelColumn.AutoFit(System.Double, System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AutoFit
+    path: ../src/EPPlus/ExcelColumn.cs
+    startLine: 290
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the column width from the content.\nNote: Cells containing formulas are ignored unless a calculation is performed.\n  Wrapped and merged cells are also ignored.\n"
+  example: []
+  syntax:
+    content: public void AutoFit(double MinimumWidth, double MaximumWidth)
+    parameters:
+    - id: MinimumWidth
+      type: System.Double
+      description: Minimum column width
+    - id: MaximumWidth
+      type: System.Double
+      description: Maximum column width
+    content.vb: Public Sub AutoFit(MinimumWidth As Double, MaximumWidth As Double)
+  overload: OfficeOpenXml.ExcelColumn.AutoFit*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelColumn.#ctor*
+  commentId: Overload:OfficeOpenXml.ExcelColumn.#ctor
+  name: ExcelColumn
+  nameWithType: ExcelColumn.ExcelColumn
+  fullName: OfficeOpenXml.ExcelColumn.ExcelColumn
+- uid: OfficeOpenXml.ExcelWorksheet
+  commentId: T:OfficeOpenXml.ExcelWorksheet
+  parent: OfficeOpenXml
+  name: ExcelWorksheet
+  nameWithType: ExcelWorksheet
+  fullName: OfficeOpenXml.ExcelWorksheet
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ExcelColumn.ColumnMin*
+  commentId: Overload:OfficeOpenXml.ExcelColumn.ColumnMin
+  name: ColumnMin
+  nameWithType: ExcelColumn.ColumnMin
+  fullName: OfficeOpenXml.ExcelColumn.ColumnMin
+- uid: OfficeOpenXml.ExcelColumn.ColumnMax*
+  commentId: Overload:OfficeOpenXml.ExcelColumn.ColumnMax
+  name: ColumnMax
+  nameWithType: ExcelColumn.ColumnMax
+  fullName: OfficeOpenXml.ExcelColumn.ColumnMax
+- uid: OfficeOpenXml.ExcelColumn.Hidden*
+  commentId: Overload:OfficeOpenXml.ExcelColumn.Hidden
+  name: Hidden
+  nameWithType: ExcelColumn.Hidden
+  fullName: OfficeOpenXml.ExcelColumn.Hidden
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExcelColumn.Width*
+  commentId: Overload:OfficeOpenXml.ExcelColumn.Width
+  name: Width
+  nameWithType: ExcelColumn.Width
+  fullName: OfficeOpenXml.ExcelColumn.Width
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.ExcelColumn.BestFit*
+  commentId: Overload:OfficeOpenXml.ExcelColumn.BestFit
+  name: BestFit
+  nameWithType: ExcelColumn.BestFit
+  fullName: OfficeOpenXml.ExcelColumn.BestFit
+- uid: OfficeOpenXml.ExcelColumn.Collapsed*
+  commentId: Overload:OfficeOpenXml.ExcelColumn.Collapsed
+  name: Collapsed
+  nameWithType: ExcelColumn.Collapsed
+  fullName: OfficeOpenXml.ExcelColumn.Collapsed
+- uid: OfficeOpenXml.ExcelColumn.OutlineLevel*
+  commentId: Overload:OfficeOpenXml.ExcelColumn.OutlineLevel
+  name: OutlineLevel
+  nameWithType: ExcelColumn.OutlineLevel
+  fullName: OfficeOpenXml.ExcelColumn.OutlineLevel
+- uid: OfficeOpenXml.ExcelColumn.Phonetic*
+  commentId: Overload:OfficeOpenXml.ExcelColumn.Phonetic
+  name: Phonetic
+  nameWithType: ExcelColumn.Phonetic
+  fullName: OfficeOpenXml.ExcelColumn.Phonetic
+- uid: OfficeOpenXml.ExcelColumn.Style*
+  commentId: Overload:OfficeOpenXml.ExcelColumn.Style
+  name: Style
+  nameWithType: ExcelColumn.Style
+  fullName: OfficeOpenXml.ExcelColumn.Style
+- uid: OfficeOpenXml.Style.ExcelStyle
+  commentId: T:OfficeOpenXml.Style.ExcelStyle
+  parent: OfficeOpenXml.Style
+  name: ExcelStyle
+  nameWithType: ExcelStyle
+  fullName: OfficeOpenXml.Style.ExcelStyle
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.ExcelColumn.StyleName*
+  commentId: Overload:OfficeOpenXml.ExcelColumn.StyleName
+  name: StyleName
+  nameWithType: ExcelColumn.StyleName
+  fullName: OfficeOpenXml.ExcelColumn.StyleName
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExcelColumn.StyleID*
+  commentId: Overload:OfficeOpenXml.ExcelColumn.StyleID
+  name: StyleID
+  nameWithType: ExcelColumn.StyleID
+  fullName: OfficeOpenXml.ExcelColumn.StyleID
+- uid: OfficeOpenXml.ExcelColumn.PageBreak*
+  commentId: Overload:OfficeOpenXml.ExcelColumn.PageBreak
+  name: PageBreak
+  nameWithType: ExcelColumn.PageBreak
+  fullName: OfficeOpenXml.ExcelColumn.PageBreak
+- uid: OfficeOpenXml.ExcelColumn.Merged*
+  commentId: Overload:OfficeOpenXml.ExcelColumn.Merged
+  name: Merged
+  nameWithType: ExcelColumn.Merged
+  fullName: OfficeOpenXml.ExcelColumn.Merged
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelColumn.ToString*
+  commentId: Overload:OfficeOpenXml.ExcelColumn.ToString
+  name: ToString
+  nameWithType: ExcelColumn.ToString
+  fullName: OfficeOpenXml.ExcelColumn.ToString
+- uid: OfficeOpenXml.ExcelColumn.AutoFit*
+  commentId: Overload:OfficeOpenXml.ExcelColumn.AutoFit
+  name: AutoFit
+  nameWithType: ExcelColumn.AutoFit
+  fullName: OfficeOpenXml.ExcelColumn.AutoFit

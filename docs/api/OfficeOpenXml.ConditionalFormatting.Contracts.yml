@@ -1,0 +1,382 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts
+  commentId: N:OfficeOpenXml.ConditionalFormatting.Contracts
+  id: OfficeOpenXml.ConditionalFormatting.Contracts
+  children:
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBeginsWith
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBetween
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingColorScaleGroup
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsBlanks
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsErrors
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsText
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDuplicateValues
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEndsWith
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEqual
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingExpression
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFiveIconSet
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThan
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThanOrEqual
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThan
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThanOrEqual
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotBetween
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsBlanks
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsErrors
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsText
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotEqual
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingStdDevGroup
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeColorScale
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingUniqueValues
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula2
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithRank
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithReverse
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithShowValue
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithStdDev
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.ConditionalFormatting.Contracts
+  nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingAverageGroup
+  nameWithType: IExcelConditionalFormattingAverageGroup
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBeginsWith
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBeginsWith
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingBeginsWith
+  nameWithType: IExcelConditionalFormattingBeginsWith
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBeginsWith
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBetween
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBetween
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingBetween
+  nameWithType: IExcelConditionalFormattingBetween
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBetween
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingColorScaleGroup
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingColorScaleGroup
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingColorScaleGroup
+  nameWithType: IExcelConditionalFormattingColorScaleGroup
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingColorScaleGroup
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsBlanks
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsBlanks
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingContainsBlanks
+  nameWithType: IExcelConditionalFormattingContainsBlanks
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsBlanks
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsErrors
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsErrors
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingContainsErrors
+  nameWithType: IExcelConditionalFormattingContainsErrors
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsErrors
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsText
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsText
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingContainsText
+  nameWithType: IExcelConditionalFormattingContainsText
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsText
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingDataBarGroup
+  nameWithType: IExcelConditionalFormattingDataBarGroup
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDuplicateValues
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDuplicateValues
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingDuplicateValues
+  nameWithType: IExcelConditionalFormattingDuplicateValues
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDuplicateValues
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEndsWith
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEndsWith
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingEndsWith
+  nameWithType: IExcelConditionalFormattingEndsWith
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEndsWith
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEqual
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEqual
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingEqual
+  nameWithType: IExcelConditionalFormattingEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEqual
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingExpression
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingExpression
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingExpression
+  nameWithType: IExcelConditionalFormattingExpression
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingExpression
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFiveIconSet
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFiveIconSet
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingFiveIconSet
+  nameWithType: IExcelConditionalFormattingFiveIconSet
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFiveIconSet
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+  name: IExcelConditionalFormattingFourIconSet<T>
+  nameWithType: IExcelConditionalFormattingFourIconSet<T>
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet<T>
+  nameWithType.vb: IExcelConditionalFormattingFourIconSet(Of T)
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet(Of T)
+  name.vb: IExcelConditionalFormattingFourIconSet(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+    name: IExcelConditionalFormattingFourIconSet
+    nameWithType: IExcelConditionalFormattingFourIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+    name: IExcelConditionalFormattingFourIconSet
+    nameWithType: IExcelConditionalFormattingFourIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThan
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThan
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingGreaterThan
+  nameWithType: IExcelConditionalFormattingGreaterThan
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThan
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThanOrEqual
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThanOrEqual
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingGreaterThanOrEqual
+  nameWithType: IExcelConditionalFormattingGreaterThanOrEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThanOrEqual
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1
+  name: IExcelConditionalFormattingIconSetGroup<T>
+  nameWithType: IExcelConditionalFormattingIconSetGroup<T>
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup<T>
+  nameWithType.vb: IExcelConditionalFormattingIconSetGroup(Of T)
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup(Of T)
+  name.vb: IExcelConditionalFormattingIconSetGroup(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1
+    name: IExcelConditionalFormattingIconSetGroup
+    nameWithType: IExcelConditionalFormattingIconSetGroup
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup`1
+    name: IExcelConditionalFormattingIconSetGroup
+    nameWithType: IExcelConditionalFormattingIconSetGroup
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingIconSetGroup
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThan
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThan
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingLessThan
+  nameWithType: IExcelConditionalFormattingLessThan
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThan
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThanOrEqual
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThanOrEqual
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingLessThanOrEqual
+  nameWithType: IExcelConditionalFormattingLessThanOrEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThanOrEqual
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotBetween
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotBetween
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingNotBetween
+  nameWithType: IExcelConditionalFormattingNotBetween
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotBetween
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsBlanks
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsBlanks
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingNotContainsBlanks
+  nameWithType: IExcelConditionalFormattingNotContainsBlanks
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsBlanks
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsErrors
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsErrors
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingNotContainsErrors
+  nameWithType: IExcelConditionalFormattingNotContainsErrors
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsErrors
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsText
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsText
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingNotContainsText
+  nameWithType: IExcelConditionalFormattingNotContainsText
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsText
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotEqual
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotEqual
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingNotEqual
+  nameWithType: IExcelConditionalFormattingNotEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotEqual
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingRule
+  nameWithType: IExcelConditionalFormattingRule
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingStdDevGroup
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingStdDevGroup
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingStdDevGroup
+  nameWithType: IExcelConditionalFormattingStdDevGroup
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingStdDevGroup
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeColorScale
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeColorScale
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingThreeColorScale
+  nameWithType: IExcelConditionalFormattingThreeColorScale
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeColorScale
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+  name: IExcelConditionalFormattingThreeIconSet<T>
+  nameWithType: IExcelConditionalFormattingThreeIconSet<T>
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet<T>
+  nameWithType.vb: IExcelConditionalFormattingThreeIconSet(Of T)
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet(Of T)
+  name.vb: IExcelConditionalFormattingThreeIconSet(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+    name: IExcelConditionalFormattingThreeIconSet
+    nameWithType: IExcelConditionalFormattingThreeIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+    name: IExcelConditionalFormattingThreeIconSet
+    nameWithType: IExcelConditionalFormattingThreeIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingTimePeriodGroup
+  nameWithType: IExcelConditionalFormattingTimePeriodGroup
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingTopBottomGroup
+  nameWithType: IExcelConditionalFormattingTopBottomGroup
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingTwoColorScale
+  nameWithType: IExcelConditionalFormattingTwoColorScale
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingUniqueValues
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingUniqueValues
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingUniqueValues
+  nameWithType: IExcelConditionalFormattingUniqueValues
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingUniqueValues
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingWithFormula
+  nameWithType: IExcelConditionalFormattingWithFormula
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula2
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula2
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingWithFormula2
+  nameWithType: IExcelConditionalFormattingWithFormula2
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithFormula2
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithRank
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithRank
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingWithRank
+  nameWithType: IExcelConditionalFormattingWithRank
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithRank
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithReverse
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithReverse
+  name: IExcelConditionalFormattingWithReverse
+  nameWithType: IExcelConditionalFormattingWithReverse
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithReverse
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithShowValue
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithShowValue
+  name: IExcelConditionalFormattingWithShowValue
+  nameWithType: IExcelConditionalFormattingWithShowValue
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithShowValue
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithStdDev
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithStdDev
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingWithStdDev
+  nameWithType: IExcelConditionalFormattingWithStdDev
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithStdDev
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingWithText
+  nameWithType: IExcelConditionalFormattingWithText
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingWithText
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts
+  commentId: N:OfficeOpenXml.ConditionalFormatting.Contracts
+  name: OfficeOpenXml.ConditionalFormatting.Contracts
+  nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts

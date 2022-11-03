@@ -1,0 +1,758 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelErrorValue
+  commentId: T:OfficeOpenXml.ExcelErrorValue
+  id: ExcelErrorValue
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelErrorValue.Create(OfficeOpenXml.eErrorType)
+  - OfficeOpenXml.ExcelErrorValue.Equals(System.Object)
+  - OfficeOpenXml.ExcelErrorValue.GetHashCode
+  - OfficeOpenXml.ExcelErrorValue.op_Addition(OfficeOpenXml.ExcelErrorValue,OfficeOpenXml.ExcelErrorValue)
+  - OfficeOpenXml.ExcelErrorValue.op_Addition(System.Object,OfficeOpenXml.ExcelErrorValue)
+  - OfficeOpenXml.ExcelErrorValue.Parse(System.String)
+  - OfficeOpenXml.ExcelErrorValue.ToString
+  - OfficeOpenXml.ExcelErrorValue.Type
+  langs:
+  - csharp
+  - vb
+  name: ExcelErrorValue
+  nameWithType: ExcelErrorValue
+  fullName: OfficeOpenXml.ExcelErrorValue
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelErrorValue
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 59
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRepresents an Excel error.\n"
+  example: []
+  syntax:
+    content: public class ExcelErrorValue
+    content.vb: Public Class ExcelErrorValue
+  seealso:
+  - linkId: OfficeOpenXml.eErrorType
+    commentId: T:OfficeOpenXml.eErrorType
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelErrorValue.Create(OfficeOpenXml.eErrorType)
+  commentId: M:OfficeOpenXml.ExcelErrorValue.Create(OfficeOpenXml.eErrorType)
+  id: Create(OfficeOpenXml.eErrorType)
+  parent: OfficeOpenXml.ExcelErrorValue
+  langs:
+  - csharp
+  - vb
+  name: Create(eErrorType)
+  nameWithType: ExcelErrorValue.Create(eErrorType)
+  fullName: OfficeOpenXml.ExcelErrorValue.Create(OfficeOpenXml.eErrorType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Create
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 150
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreates an <xref href=\"OfficeOpenXml.ExcelErrorValue\" data-throw-if-not-resolved=\"false\"></xref> from a <xref href=\"OfficeOpenXml.ExcelErrorValue\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public static ExcelErrorValue Create(eErrorType errorType)
+    parameters:
+    - id: errorType
+      type: OfficeOpenXml.eErrorType
+      description: The type of error to create
+    return:
+      type: OfficeOpenXml.ExcelErrorValue
+      description: The <xref href="OfficeOpenXml.ExcelErrorValue" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Shared Function Create(errorType As eErrorType) As ExcelErrorValue
+  overload: OfficeOpenXml.ExcelErrorValue.Create*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelErrorValue.Parse(System.String)
+  commentId: M:OfficeOpenXml.ExcelErrorValue.Parse(System.String)
+  id: Parse(System.String)
+  parent: OfficeOpenXml.ExcelErrorValue
+  langs:
+  - csharp
+  - vb
+  name: Parse(String)
+  nameWithType: ExcelErrorValue.Parse(String)
+  fullName: OfficeOpenXml.ExcelErrorValue.Parse(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Parse
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 162
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nParses a error value string and returns the <xref href=\"OfficeOpenXml.ExcelErrorValue\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public static ExcelErrorValue Parse(string val)
+    parameters:
+    - id: val
+      type: System.String
+      description: The error code
+    return:
+      type: OfficeOpenXml.ExcelErrorValue
+      description: ''
+    content.vb: Public Shared Function Parse(val As String) As ExcelErrorValue
+  overload: OfficeOpenXml.ExcelErrorValue.Parse*
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: Is thrown when <code data-dev-comment-type="paramref" class="paramref">val</code> is empty
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: Is thrown when <code data-dev-comment-type="paramref" class="paramref">val</code> is not a valid Excel error.
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelErrorValue.Type
+  commentId: P:OfficeOpenXml.ExcelErrorValue.Type
+  id: Type
+  parent: OfficeOpenXml.ExcelErrorValue
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: ExcelErrorValue.Type
+  fullName: OfficeOpenXml.ExcelErrorValue.Type
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Type
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 180
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe error type\n"
+  example: []
+  syntax:
+    content: public eErrorType Type { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.eErrorType
+    content.vb: Public ReadOnly Property Type As eErrorType
+  overload: OfficeOpenXml.ExcelErrorValue.Type*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelErrorValue.ToString
+  commentId: M:OfficeOpenXml.ExcelErrorValue.ToString
+  id: ToString
+  parent: OfficeOpenXml.ExcelErrorValue
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: ExcelErrorValue.ToString()
+  fullName: OfficeOpenXml.ExcelErrorValue.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToString
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 186
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns the string representation of the error type\n"
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Overrides Function ToString As String
+  overridden: System.Object.ToString
+  overload: OfficeOpenXml.ExcelErrorValue.ToString*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.ExcelErrorValue.op_Addition(System.Object,OfficeOpenXml.ExcelErrorValue)
+  commentId: M:OfficeOpenXml.ExcelErrorValue.op_Addition(System.Object,OfficeOpenXml.ExcelErrorValue)
+  id: op_Addition(System.Object,OfficeOpenXml.ExcelErrorValue)
+  parent: OfficeOpenXml.ExcelErrorValue
+  langs:
+  - csharp
+  - vb
+  name: Addition(Object, ExcelErrorValue)
+  nameWithType: ExcelErrorValue.Addition(Object, ExcelErrorValue)
+  fullName: OfficeOpenXml.ExcelErrorValue.Addition(System.Object, OfficeOpenXml.ExcelErrorValue)
+  type: Operator
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: op_Addition
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 214
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nOperator for addition.\n"
+  example: []
+  syntax:
+    content: public static ExcelErrorValue operator +(object v1, ExcelErrorValue v2)
+    parameters:
+    - id: v1
+      type: System.Object
+      description: Left side
+    - id: v2
+      type: OfficeOpenXml.ExcelErrorValue
+      description: Right side
+    return:
+      type: OfficeOpenXml.ExcelErrorValue
+      description: Return the error value in V2
+    content.vb: Public Shared Operator +(v1 As Object, v2 As ExcelErrorValue) As ExcelErrorValue
+  overload: OfficeOpenXml.ExcelErrorValue.op_Addition*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelErrorValue.op_Addition(OfficeOpenXml.ExcelErrorValue,OfficeOpenXml.ExcelErrorValue)
+  commentId: M:OfficeOpenXml.ExcelErrorValue.op_Addition(OfficeOpenXml.ExcelErrorValue,OfficeOpenXml.ExcelErrorValue)
+  id: op_Addition(OfficeOpenXml.ExcelErrorValue,OfficeOpenXml.ExcelErrorValue)
+  parent: OfficeOpenXml.ExcelErrorValue
+  langs:
+  - csharp
+  - vb
+  name: Addition(ExcelErrorValue, ExcelErrorValue)
+  nameWithType: ExcelErrorValue.Addition(ExcelErrorValue, ExcelErrorValue)
+  fullName: OfficeOpenXml.ExcelErrorValue.Addition(OfficeOpenXml.ExcelErrorValue, OfficeOpenXml.ExcelErrorValue)
+  type: Operator
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: op_Addition
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 224
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nOperator for addition.\n"
+  example: []
+  syntax:
+    content: public static ExcelErrorValue operator +(ExcelErrorValue v1, ExcelErrorValue v2)
+    parameters:
+    - id: v1
+      type: OfficeOpenXml.ExcelErrorValue
+      description: Left side
+    - id: v2
+      type: OfficeOpenXml.ExcelErrorValue
+      description: Right side
+    return:
+      type: OfficeOpenXml.ExcelErrorValue
+      description: Return the error value in V1
+    content.vb: Public Shared Operator +(v1 As ExcelErrorValue, v2 As ExcelErrorValue) As ExcelErrorValue
+  overload: OfficeOpenXml.ExcelErrorValue.op_Addition*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelErrorValue.GetHashCode
+  commentId: M:OfficeOpenXml.ExcelErrorValue.GetHashCode
+  id: GetHashCode
+  parent: OfficeOpenXml.ExcelErrorValue
+  langs:
+  - csharp
+  - vb
+  name: GetHashCode()
+  nameWithType: ExcelErrorValue.GetHashCode()
+  fullName: OfficeOpenXml.ExcelErrorValue.GetHashCode()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetHashCode
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 233
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCalculates a hash code for the object\n"
+  example: []
+  syntax:
+    content: public override int GetHashCode()
+    return:
+      type: System.Int32
+      description: ''
+    content.vb: Public Overrides Function GetHashCode As Integer
+  overridden: System.Object.GetHashCode
+  overload: OfficeOpenXml.ExcelErrorValue.GetHashCode*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.ExcelErrorValue.Equals(System.Object)
+  commentId: M:OfficeOpenXml.ExcelErrorValue.Equals(System.Object)
+  id: Equals(System.Object)
+  parent: OfficeOpenXml.ExcelErrorValue
+  langs:
+  - csharp
+  - vb
+  name: Equals(Object)
+  nameWithType: ExcelErrorValue.Equals(Object)
+  fullName: OfficeOpenXml.ExcelErrorValue.Equals(System.Object)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelValues.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Equals
+    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
+    startLine: 242
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nChecks if the object is equals to another\n"
+  example: []
+  syntax:
+    content: public override bool Equals(object obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: The object to compare
+    return:
+      type: System.Boolean
+      description: True if equals
+    content.vb: Public Overrides Function Equals(obj As Object) As Boolean
+  overridden: System.Object.Equals(System.Object)
+  overload: OfficeOpenXml.ExcelErrorValue.Equals*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: OfficeOpenXml.eErrorType
+  commentId: T:OfficeOpenXml.eErrorType
+  parent: OfficeOpenXml
+  name: eErrorType
+  nameWithType: eErrorType
+  fullName: OfficeOpenXml.eErrorType
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelErrorValue
+  commentId: T:OfficeOpenXml.ExcelErrorValue
+  parent: OfficeOpenXml
+  name: ExcelErrorValue
+  nameWithType: ExcelErrorValue
+  fullName: OfficeOpenXml.ExcelErrorValue
+- uid: OfficeOpenXml.ExcelErrorValue.Create*
+  commentId: Overload:OfficeOpenXml.ExcelErrorValue.Create
+  name: Create
+  nameWithType: ExcelErrorValue.Create
+  fullName: OfficeOpenXml.ExcelErrorValue.Create
+- uid: System.ArgumentNullException
+  commentId: T:System.ArgumentNullException
+  isExternal: true
+- uid: System.ArgumentException
+  commentId: T:System.ArgumentException
+  isExternal: true
+- uid: OfficeOpenXml.ExcelErrorValue.Parse*
+  commentId: Overload:OfficeOpenXml.ExcelErrorValue.Parse
+  name: Parse
+  nameWithType: ExcelErrorValue.Parse
+  fullName: OfficeOpenXml.ExcelErrorValue.Parse
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExcelErrorValue.Type*
+  commentId: Overload:OfficeOpenXml.ExcelErrorValue.Type
+  name: Type
+  nameWithType: ExcelErrorValue.Type
+  fullName: OfficeOpenXml.ExcelErrorValue.Type
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelErrorValue.ToString*
+  commentId: Overload:OfficeOpenXml.ExcelErrorValue.ToString
+  name: ToString
+  nameWithType: ExcelErrorValue.ToString
+  fullName: OfficeOpenXml.ExcelErrorValue.ToString
+- uid: OfficeOpenXml.ExcelErrorValue.op_Addition*
+  commentId: Overload:OfficeOpenXml.ExcelErrorValue.op_Addition
+  name: Addition
+  nameWithType: ExcelErrorValue.Addition
+  fullName: OfficeOpenXml.ExcelErrorValue.Addition
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelErrorValue.GetHashCode*
+  commentId: Overload:OfficeOpenXml.ExcelErrorValue.GetHashCode
+  name: GetHashCode
+  nameWithType: ExcelErrorValue.GetHashCode
+  fullName: OfficeOpenXml.ExcelErrorValue.GetHashCode
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelErrorValue.Equals*
+  commentId: Overload:OfficeOpenXml.ExcelErrorValue.Equals
+  name: Equals
+  nameWithType: ExcelErrorValue.Equals
+  fullName: OfficeOpenXml.ExcelErrorValue.Equals
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

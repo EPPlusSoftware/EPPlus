@@ -1,0 +1,557 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
+  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
+  id: ExcelConditionalFormattingIconDataBarValue
+  parent: OfficeOpenXml.ConditionalFormatting
+  children:
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Formula
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.GreaterThanOrEqualTo
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Type
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Value
+  langs:
+  - csharp
+  - vb
+  name: ExcelConditionalFormattingIconDataBarValue
+  nameWithType: ExcelConditionalFormattingIconDataBarValue
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelConditionalFormattingIconDataBarValue
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\n18.3.1.11 cfvo (Conditional Format Value Object)\nDescribes the values of the interpolation points in a gradient scale.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelConditionalFormattingIconDataBarValue : XmlHelper'
+    content.vb: >-
+      Public Class ExcelConditionalFormattingIconDataBarValue
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Type
+  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Type
+  id: Type
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: ExcelConditionalFormattingIconDataBarValue.Type
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Type
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Type
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
+    startLine: 254
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nValue type\n"
+  example: []
+  syntax:
+    content: public eExcelConditionalFormattingValueObjectType Type { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+    content.vb: Public Property Type As eExcelConditionalFormattingValueObjectType
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Type*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.GreaterThanOrEqualTo
+  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.GreaterThanOrEqualTo
+  id: GreaterThanOrEqualTo
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
+  langs:
+  - csharp
+  - vb
+  name: GreaterThanOrEqualTo
+  nameWithType: ExcelConditionalFormattingIconDataBarValue.GreaterThanOrEqualTo
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.GreaterThanOrEqualTo
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GreaterThanOrEqualTo
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
+    startLine: 276
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGreater Than Or Equal \n"
+  example: []
+  syntax:
+    content: public bool GreaterThanOrEqualTo { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property GreaterThanOrEqualTo As Boolean
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.GreaterThanOrEqualTo*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Value
+  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Value
+  id: Value
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: ExcelConditionalFormattingIconDataBarValue.Value
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Value
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
+    startLine: 297
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nThe value\n"
+  example: []
+  syntax:
+    content: public double Value { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property Value As Double
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Value*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Formula
+  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Formula
+  id: Formula
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
+  langs:
+  - csharp
+  - vb
+  name: Formula
+  nameWithType: ExcelConditionalFormattingIconDataBarValue.Formula
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Formula
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Formula
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
+    startLine: 331
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nThe Formula of the Object Value (uses the same attribute as the Value)\n"
+  example: []
+  syntax:
+    content: public string Formula { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Formula As String
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Formula*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.ConditionalFormatting
+  commentId: N:OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  nameWithType: OfficeOpenXml.ConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Type*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Type
+  name: Type
+  nameWithType: ExcelConditionalFormattingIconDataBarValue.Type
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Type
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelConditionalFormattingValueObjectType
+  nameWithType: eExcelConditionalFormattingValueObjectType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.GreaterThanOrEqualTo*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.GreaterThanOrEqualTo
+  name: GreaterThanOrEqualTo
+  nameWithType: ExcelConditionalFormattingIconDataBarValue.GreaterThanOrEqualTo
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.GreaterThanOrEqualTo
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Value*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Value
+  name: Value
+  nameWithType: ExcelConditionalFormattingIconDataBarValue.Value
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Value
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Formula*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Formula
+  name: Formula
+  nameWithType: ExcelConditionalFormattingIconDataBarValue.Formula
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue.Formula
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

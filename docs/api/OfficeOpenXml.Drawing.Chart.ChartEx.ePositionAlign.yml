@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+  id: ePositionAlign
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign.Center
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign.Max
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign.Min
+  langs:
+  - csharp
+  - vb
+  name: ePositionAlign
+  nameWithType: ePositionAlign
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/ePositionAlign.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePositionAlign
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/ePositionAlign.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe side position alignment of a chart element\n"
+  example: []
+  syntax:
+    content: public enum ePositionAlign
+    content.vb: Public Enum ePositionAlign
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign.Min
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign.Min
+  id: Min
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+  langs:
+  - csharp
+  - vb
+  name: Min
+  nameWithType: ePositionAlign.Min
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign.Min
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/ePositionAlign.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Min
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/ePositionAlign.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe chart element is positioned at the top of the side.\n"
+  example: []
+  syntax:
+    content: Min = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign.Center
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign.Center
+  id: Center
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+  langs:
+  - csharp
+  - vb
+  name: Center
+  nameWithType: ePositionAlign.Center
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign.Center
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/ePositionAlign.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Center
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/ePositionAlign.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe chart element is positioned at the center of the side.\n"
+  example: []
+  syntax:
+    content: Center = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign.Max
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign.Max
+  id: Max
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+  langs:
+  - csharp
+  - vb
+  name: Max
+  nameWithType: ePositionAlign.Max
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign.Max
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/ePositionAlign.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Max
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/ePositionAlign.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe chart element is positioned at the bottom of the side.\n"
+  example: []
+  syntax:
+    content: Max = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ePositionAlign
+  nameWithType: ePositionAlign
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign

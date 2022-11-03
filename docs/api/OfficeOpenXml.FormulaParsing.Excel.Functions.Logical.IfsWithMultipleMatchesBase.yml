@@ -1,0 +1,3558 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical.IfsWithMultipleMatchesBase
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Logical.IfsWithMultipleMatchesBase
+  id: IfsWithMultipleMatchesBase
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Logical.IfsWithMultipleMatchesBase.GetMatches(System.String,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult@)
+  langs:
+  - csharp
+  - vb
+  name: IfsWithMultipleMatchesBase
+  nameWithType: IfsWithMultipleMatchesBase
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical.IfsWithMultipleMatchesBase
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Logical/IfsWithMultipleMatchesBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IfsWithMultipleMatchesBase
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Logical/IfsWithMultipleMatchesBase.cs
+    startLine: 10
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
+  syntax:
+    content: 'public abstract class IfsWithMultipleMatchesBase : ExcelFunction'
+    content.vb: >-
+      Public MustInherit Class IfsWithMultipleMatchesBase
+          Inherits ExcelFunction
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  inheritedMembers:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.NumberOfSignificantFigures
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsLookupFuction
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsErrorHandlingFunction
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.eErrorType)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.ParsingContext)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,System.Boolean)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToString(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Object)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Object,OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToRangeInfo(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Divide(System.Double,System.Double)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsNumericString(System.Object)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsInteger(System.Object)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf(System.Func{System.Boolean},System.String)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf(System.Func{System.Boolean},System.String,System.Object[])
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueException(OfficeOpenXml.eErrorType)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueException(OfficeOpenXml.ExcelErrorValue)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueExceptionIf(System.Func{System.Boolean},OfficeOpenXml.eErrorType)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsNumeric(System.Object)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsBool(System.Object)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsString(System.Object,System.Boolean)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.AreEqual(System.Double,System.Double)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerableZeroPadded(System.Boolean,OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.ParsingContext)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToObjectEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(OfficeOpenXml.eErrorType)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CalculateCollection(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Double,System.Func{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument,System.Double,System.Double})
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError(OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError(OfficeOpenXml.FormulaParsing.ICellInfo)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetResultByObject(System.Object)
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - abstract
+  - class
+  modifiers.vb:
+  - Public
+  - MustInherit
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical.IfsWithMultipleMatchesBase.GetMatches(System.String,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult@)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Logical.IfsWithMultipleMatchesBase.GetMatches(System.String,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult@)
+  id: GetMatches(System.String,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult@)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical.IfsWithMultipleMatchesBase
+  langs:
+  - csharp
+  - vb
+  name: GetMatches(String, IEnumerable<FunctionArgument>, out CompileResult)
+  nameWithType: IfsWithMultipleMatchesBase.GetMatches(String, IEnumerable<FunctionArgument>, out CompileResult)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical.IfsWithMultipleMatchesBase.GetMatches(System.String, System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, out OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Logical/IfsWithMultipleMatchesBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetMatches
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Logical/IfsWithMultipleMatchesBase.cs
+    startLine: 13
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
+  syntax:
+    content: protected IEnumerable<double> GetMatches(string functionName, IEnumerable<FunctionArgument> arguments, out CompileResult errorResult)
+    parameters:
+    - id: functionName
+      type: System.String
+    - id: arguments
+      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
+    - id: errorResult
+      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+    return:
+      type: System.Collections.Generic.IEnumerable{System.Double}
+    content.vb: Protected Function GetMatches(functionName As String, arguments As IEnumerable(Of FunctionArgument), ByRef errorResult As CompileResult) As IEnumerable(Of Double)
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical.IfsWithMultipleMatchesBase.GetMatches*
+  nameWithType.vb: IfsWithMultipleMatchesBase.GetMatches(String, IEnumerable(Of FunctionArgument), ByRef CompileResult)
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical.IfsWithMultipleMatchesBase.GetMatches(System.String, System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), ByRef OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult)
+  name.vb: GetMatches(String, IEnumerable(Of FunctionArgument), ByRef CompileResult)
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: ExcelFunction
+  nameWithType: ExcelFunction
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.NumberOfSignificantFigures
+  commentId: F:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.NumberOfSignificantFigures
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: NumberOfSignificantFigures
+  nameWithType: ExcelFunction.NumberOfSignificantFigures
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.NumberOfSignificantFigures
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: Execute(IEnumerable<FunctionArgument>, ParsingContext)
+  nameWithType: ExcelFunction.Execute(IEnumerable<FunctionArgument>, ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, OfficeOpenXml.FormulaParsing.ParsingContext)
+  nameWithType.vb: ExcelFunction.Execute(IEnumerable(Of FunctionArgument), ParsingContext)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), OfficeOpenXml.FormulaParsing.ParsingContext)
+  name.vb: Execute(IEnumerable(Of FunctionArgument), ParsingContext)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: Execute
+    nameWithType: ExcelFunction.Execute
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: Execute
+    nameWithType: ExcelFunction.Execute
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: BeforeInvoke(ParsingContext)
+  nameWithType: ExcelFunction.BeforeInvoke(ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: BeforeInvoke
+    nameWithType: ExcelFunction.BeforeInvoke
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke(OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: BeforeInvoke
+    nameWithType: ExcelFunction.BeforeInvoke
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.BeforeInvoke
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsLookupFuction
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsLookupFuction
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: IsLookupFuction
+  nameWithType: ExcelFunction.IsLookupFuction
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsLookupFuction
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsErrorHandlingFunction
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsErrorHandlingFunction
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: IsErrorHandlingFunction
+  nameWithType: ExcelFunction.IsErrorHandlingFunction
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsErrorHandlingFunction
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: GetFirstValue(IEnumerable<FunctionArgument>)
+  nameWithType: ExcelFunction.GetFirstValue(IEnumerable<FunctionArgument>)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>)
+  nameWithType.vb: ExcelFunction.GetFirstValue(IEnumerable(Of FunctionArgument))
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument))
+  name.vb: GetFirstValue(IEnumerable(Of FunctionArgument))
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+    name: GetFirstValue
+    nameWithType: ExcelFunction.GetFirstValue
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
+    name: GetFirstValue
+    nameWithType: ExcelFunction.GetFirstValue
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.eErrorType)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.eErrorType)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ValidateArguments(IEnumerable<FunctionArgument>, Int32, eErrorType)
+  nameWithType: ExcelFunction.ValidateArguments(IEnumerable<FunctionArgument>, Int32, eErrorType)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Int32, OfficeOpenXml.eErrorType)
+  nameWithType.vb: ExcelFunction.ValidateArguments(IEnumerable(Of FunctionArgument), Int32, eErrorType)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Int32, OfficeOpenXml.eErrorType)
+  name.vb: ValidateArguments(IEnumerable(Of FunctionArgument), Int32, eErrorType)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.eErrorType)
+    name: ValidateArguments
+    nameWithType: ExcelFunction.ValidateArguments
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.eErrorType
+    name: eErrorType
+    nameWithType: eErrorType
+    fullName: OfficeOpenXml.eErrorType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.eErrorType)
+    name: ValidateArguments
+    nameWithType: ExcelFunction.ValidateArguments
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.eErrorType
+    name: eErrorType
+    nameWithType: eErrorType
+    fullName: OfficeOpenXml.eErrorType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ValidateArguments(IEnumerable<FunctionArgument>, Int32)
+  nameWithType: ExcelFunction.ValidateArguments(IEnumerable<FunctionArgument>, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Int32)
+  nameWithType.vb: ExcelFunction.ValidateArguments(IEnumerable(Of FunctionArgument), Int32)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Int32)
+  name.vb: ValidateArguments(IEnumerable(Of FunctionArgument), Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+    name: ValidateArguments
+    nameWithType: ExcelFunction.ValidateArguments
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+    name: ValidateArguments
+    nameWithType: ExcelFunction.ValidateArguments
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgToAddress(IEnumerable<FunctionArgument>, Int32)
+  nameWithType: ExcelFunction.ArgToAddress(IEnumerable<FunctionArgument>, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Int32)
+  nameWithType.vb: ExcelFunction.ArgToAddress(IEnumerable(Of FunctionArgument), Int32)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Int32)
+  name.vb: ArgToAddress(IEnumerable(Of FunctionArgument), Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+    name: ArgToAddress
+    nameWithType: ExcelFunction.ArgToAddress
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+    name: ArgToAddress
+    nameWithType: ExcelFunction.ArgToAddress
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.ParsingContext)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgToAddress(IEnumerable<FunctionArgument>, Int32, ParsingContext)
+  nameWithType: ExcelFunction.ArgToAddress(IEnumerable<FunctionArgument>, Int32, ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Int32, OfficeOpenXml.FormulaParsing.ParsingContext)
+  nameWithType.vb: ExcelFunction.ArgToAddress(IEnumerable(Of FunctionArgument), Int32, ParsingContext)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Int32, OfficeOpenXml.FormulaParsing.ParsingContext)
+  name.vb: ArgToAddress(IEnumerable(Of FunctionArgument), Int32, ParsingContext)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: ArgToAddress
+    nameWithType: ExcelFunction.ArgToAddress
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: ArgToAddress
+    nameWithType: ExcelFunction.ArgToAddress
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToAddress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgToInt(IEnumerable<FunctionArgument>, Int32)
+  nameWithType: ExcelFunction.ArgToInt(IEnumerable<FunctionArgument>, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Int32)
+  nameWithType.vb: ExcelFunction.ArgToInt(IEnumerable(Of FunctionArgument), Int32)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Int32)
+  name.vb: ArgToInt(IEnumerable(Of FunctionArgument), Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+    name: ArgToInt
+    nameWithType: ExcelFunction.ArgToInt
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+    name: ArgToInt
+    nameWithType: ExcelFunction.ArgToInt
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,System.Boolean)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgToInt(IEnumerable<FunctionArgument>, Int32, Boolean)
+  nameWithType: ExcelFunction.ArgToInt(IEnumerable<FunctionArgument>, Int32, Boolean)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Int32, System.Boolean)
+  nameWithType.vb: ExcelFunction.ArgToInt(IEnumerable(Of FunctionArgument), Int32, Boolean)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Int32, System.Boolean)
+  name.vb: ArgToInt(IEnumerable(Of FunctionArgument), Int32, Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,System.Boolean)
+    name: ArgToInt
+    nameWithType: ExcelFunction.ArgToInt
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,System.Boolean)
+    name: ArgToInt
+    nameWithType: ExcelFunction.ArgToInt
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgToInt(IEnumerable<FunctionArgument>, Int32, RoundingMethod)
+  nameWithType: ExcelFunction.ArgToInt(IEnumerable<FunctionArgument>, Int32, RoundingMethod)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Int32, OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
+  nameWithType.vb: ExcelFunction.ArgToInt(IEnumerable(Of FunctionArgument), Int32, RoundingMethod)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Int32, OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
+  name.vb: ArgToInt(IEnumerable(Of FunctionArgument), Int32, RoundingMethod)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
+    name: ArgToInt
+    nameWithType: ExcelFunction.ArgToInt
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+    name: RoundingMethod
+    nameWithType: RoundingMethod
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod)
+    name: ArgToInt
+    nameWithType: ExcelFunction.ArgToInt
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToInt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+    name: RoundingMethod
+    nameWithType: RoundingMethod
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToString(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToString(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgToString(IEnumerable<FunctionArgument>, Int32)
+  nameWithType: ExcelFunction.ArgToString(IEnumerable<FunctionArgument>, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToString(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Int32)
+  nameWithType.vb: ExcelFunction.ArgToString(IEnumerable(Of FunctionArgument), Int32)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToString(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Int32)
+  name.vb: ArgToString(IEnumerable(Of FunctionArgument), Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToString(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+    name: ArgToString
+    nameWithType: ExcelFunction.ArgToString
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToString
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToString(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+    name: ArgToString
+    nameWithType: ExcelFunction.ArgToString
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToString
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Object)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Object)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgToDecimal(Object)
+  nameWithType: ExcelFunction.ArgToDecimal(Object)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Object)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Object)
+    name: ArgToDecimal
+    nameWithType: ExcelFunction.ArgToDecimal
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Object)
+    name: ArgToDecimal
+    nameWithType: ExcelFunction.ArgToDecimal
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Object,OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Object,OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgToDecimal(Object, PrecisionAndRoundingStrategy)
+  nameWithType: ExcelFunction.ArgToDecimal(Object, PrecisionAndRoundingStrategy)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Object, OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Object,OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy)
+    name: ArgToDecimal
+    nameWithType: ExcelFunction.ArgToDecimal
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+    name: PrecisionAndRoundingStrategy
+    nameWithType: PrecisionAndRoundingStrategy
+    fullName: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Object,OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy)
+    name: ArgToDecimal
+    nameWithType: ExcelFunction.ArgToDecimal
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+    name: PrecisionAndRoundingStrategy
+    nameWithType: PrecisionAndRoundingStrategy
+    fullName: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgToDecimal(IEnumerable<FunctionArgument>, Int32)
+  nameWithType: ExcelFunction.ArgToDecimal(IEnumerable<FunctionArgument>, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Int32)
+  nameWithType.vb: ExcelFunction.ArgToDecimal(IEnumerable(Of FunctionArgument), Int32)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Int32)
+  name.vb: ArgToDecimal(IEnumerable(Of FunctionArgument), Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+    name: ArgToDecimal
+    nameWithType: ExcelFunction.ArgToDecimal
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+    name: ArgToDecimal
+    nameWithType: ExcelFunction.ArgToDecimal
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgToDecimal(IEnumerable<FunctionArgument>, Int32, PrecisionAndRoundingStrategy)
+  nameWithType: ExcelFunction.ArgToDecimal(IEnumerable<FunctionArgument>, Int32, PrecisionAndRoundingStrategy)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Int32, OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy)
+  nameWithType.vb: ExcelFunction.ArgToDecimal(IEnumerable(Of FunctionArgument), Int32, PrecisionAndRoundingStrategy)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Int32, OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy)
+  name.vb: ArgToDecimal(IEnumerable(Of FunctionArgument), Int32, PrecisionAndRoundingStrategy)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy)
+    name: ArgToDecimal
+    nameWithType: ExcelFunction.ArgToDecimal
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+    name: PrecisionAndRoundingStrategy
+    nameWithType: PrecisionAndRoundingStrategy
+    fullName: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy)
+    name: ArgToDecimal
+    nameWithType: ExcelFunction.ArgToDecimal
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToDecimal
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+    name: PrecisionAndRoundingStrategy
+    nameWithType: PrecisionAndRoundingStrategy
+    fullName: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToRangeInfo(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToRangeInfo(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgToRangeInfo(IEnumerable<FunctionArgument>, Int32)
+  nameWithType: ExcelFunction.ArgToRangeInfo(IEnumerable<FunctionArgument>, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToRangeInfo(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Int32)
+  nameWithType.vb: ExcelFunction.ArgToRangeInfo(IEnumerable(Of FunctionArgument), Int32)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToRangeInfo(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Int32)
+  name.vb: ArgToRangeInfo(IEnumerable(Of FunctionArgument), Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToRangeInfo(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+    name: ArgToRangeInfo
+    nameWithType: ExcelFunction.ArgToRangeInfo
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToRangeInfo
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToRangeInfo(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+    name: ArgToRangeInfo
+    nameWithType: ExcelFunction.ArgToRangeInfo
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToRangeInfo
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Divide(System.Double,System.Double)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Divide(System.Double,System.Double)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: Divide(Double, Double)
+  nameWithType: ExcelFunction.Divide(Double, Double)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Divide(System.Double, System.Double)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Divide(System.Double,System.Double)
+    name: Divide
+    nameWithType: ExcelFunction.Divide
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Divide
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Divide(System.Double,System.Double)
+    name: Divide
+    nameWithType: ExcelFunction.Divide
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Divide
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsNumericString(System.Object)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsNumericString(System.Object)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: IsNumericString(Object)
+  nameWithType: ExcelFunction.IsNumericString(Object)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsNumericString(System.Object)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsNumericString(System.Object)
+    name: IsNumericString
+    nameWithType: ExcelFunction.IsNumericString
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsNumericString
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsNumericString(System.Object)
+    name: IsNumericString
+    nameWithType: ExcelFunction.IsNumericString
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsNumericString
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsInteger(System.Object)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsInteger(System.Object)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: IsInteger(Object)
+  nameWithType: ExcelFunction.IsInteger(Object)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsInteger(System.Object)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsInteger(System.Object)
+    name: IsInteger
+    nameWithType: ExcelFunction.IsInteger
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsInteger
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsInteger(System.Object)
+    name: IsInteger
+    nameWithType: ExcelFunction.IsInteger
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsInteger
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgToBool(IEnumerable<FunctionArgument>, Int32)
+  nameWithType: ExcelFunction.ArgToBool(IEnumerable<FunctionArgument>, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Int32)
+  nameWithType.vb: ExcelFunction.ArgToBool(IEnumerable(Of FunctionArgument), Int32)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Int32)
+  name.vb: ArgToBool(IEnumerable(Of FunctionArgument), Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+    name: ArgToBool
+    nameWithType: ExcelFunction.ArgToBool
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
+    name: ArgToBool
+    nameWithType: ExcelFunction.ArgToBool
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgToBool
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf(System.Func{System.Boolean},System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf(System.Func{System.Boolean},System.String)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ThrowArgumentExceptionIf(Func<Boolean>, String)
+  nameWithType: ExcelFunction.ThrowArgumentExceptionIf(Func<Boolean>, String)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf(System.Func<System.Boolean>, System.String)
+  nameWithType.vb: ExcelFunction.ThrowArgumentExceptionIf(Func(Of Boolean), String)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf(System.Func(Of System.Boolean), System.String)
+  name.vb: ThrowArgumentExceptionIf(Func(Of Boolean), String)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf(System.Func{System.Boolean},System.String)
+    name: ThrowArgumentExceptionIf
+    nameWithType: ExcelFunction.ThrowArgumentExceptionIf
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Func`1
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf(System.Func{System.Boolean},System.String)
+    name: ThrowArgumentExceptionIf
+    nameWithType: ExcelFunction.ThrowArgumentExceptionIf
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Func`1
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf(System.Func{System.Boolean},System.String,System.Object[])
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf(System.Func{System.Boolean},System.String,System.Object[])
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ThrowArgumentExceptionIf(Func<Boolean>, String, Object[])
+  nameWithType: ExcelFunction.ThrowArgumentExceptionIf(Func<Boolean>, String, Object[])
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf(System.Func<System.Boolean>, System.String, System.Object[])
+  nameWithType.vb: ExcelFunction.ThrowArgumentExceptionIf(Func(Of Boolean), String, Object())
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf(System.Func(Of System.Boolean), System.String, System.Object())
+  name.vb: ThrowArgumentExceptionIf(Func(Of Boolean), String, Object())
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf(System.Func{System.Boolean},System.String,System.Object[])
+    name: ThrowArgumentExceptionIf
+    nameWithType: ExcelFunction.ThrowArgumentExceptionIf
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Func`1
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf(System.Func{System.Boolean},System.String,System.Object[])
+    name: ThrowArgumentExceptionIf
+    nameWithType: ExcelFunction.ThrowArgumentExceptionIf
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowArgumentExceptionIf
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Func`1
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueException(OfficeOpenXml.eErrorType)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueException(OfficeOpenXml.eErrorType)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: ThrowExcelErrorValueException(eErrorType)
+  nameWithType: ExcelFunction.ThrowExcelErrorValueException(eErrorType)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueException(OfficeOpenXml.eErrorType)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueException(OfficeOpenXml.eErrorType)
+    name: ThrowExcelErrorValueException
+    nameWithType: ExcelFunction.ThrowExcelErrorValueException
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueException
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.eErrorType
+    name: eErrorType
+    nameWithType: eErrorType
+    fullName: OfficeOpenXml.eErrorType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueException(OfficeOpenXml.eErrorType)
+    name: ThrowExcelErrorValueException
+    nameWithType: ExcelFunction.ThrowExcelErrorValueException
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueException
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.eErrorType
+    name: eErrorType
+    nameWithType: eErrorType
+    fullName: OfficeOpenXml.eErrorType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueException(OfficeOpenXml.ExcelErrorValue)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueException(OfficeOpenXml.ExcelErrorValue)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: ThrowExcelErrorValueException(ExcelErrorValue)
+  nameWithType: ExcelFunction.ThrowExcelErrorValueException(ExcelErrorValue)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueException(OfficeOpenXml.ExcelErrorValue)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueException(OfficeOpenXml.ExcelErrorValue)
+    name: ThrowExcelErrorValueException
+    nameWithType: ExcelFunction.ThrowExcelErrorValueException
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueException
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelErrorValue
+    name: ExcelErrorValue
+    nameWithType: ExcelErrorValue
+    fullName: OfficeOpenXml.ExcelErrorValue
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueException(OfficeOpenXml.ExcelErrorValue)
+    name: ThrowExcelErrorValueException
+    nameWithType: ExcelFunction.ThrowExcelErrorValueException
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueException
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelErrorValue
+    name: ExcelErrorValue
+    nameWithType: ExcelErrorValue
+    fullName: OfficeOpenXml.ExcelErrorValue
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueExceptionIf(System.Func{System.Boolean},OfficeOpenXml.eErrorType)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueExceptionIf(System.Func{System.Boolean},OfficeOpenXml.eErrorType)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ThrowExcelErrorValueExceptionIf(Func<Boolean>, eErrorType)
+  nameWithType: ExcelFunction.ThrowExcelErrorValueExceptionIf(Func<Boolean>, eErrorType)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueExceptionIf(System.Func<System.Boolean>, OfficeOpenXml.eErrorType)
+  nameWithType.vb: ExcelFunction.ThrowExcelErrorValueExceptionIf(Func(Of Boolean), eErrorType)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueExceptionIf(System.Func(Of System.Boolean), OfficeOpenXml.eErrorType)
+  name.vb: ThrowExcelErrorValueExceptionIf(Func(Of Boolean), eErrorType)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueExceptionIf(System.Func{System.Boolean},OfficeOpenXml.eErrorType)
+    name: ThrowExcelErrorValueExceptionIf
+    nameWithType: ExcelFunction.ThrowExcelErrorValueExceptionIf
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueExceptionIf
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Func`1
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.eErrorType
+    name: eErrorType
+    nameWithType: eErrorType
+    fullName: OfficeOpenXml.eErrorType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueExceptionIf(System.Func{System.Boolean},OfficeOpenXml.eErrorType)
+    name: ThrowExcelErrorValueExceptionIf
+    nameWithType: ExcelFunction.ThrowExcelErrorValueExceptionIf
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ThrowExcelErrorValueExceptionIf
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Func`1
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.eErrorType
+    name: eErrorType
+    nameWithType: eErrorType
+    fullName: OfficeOpenXml.eErrorType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsNumeric(System.Object)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsNumeric(System.Object)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: IsNumeric(Object)
+  nameWithType: ExcelFunction.IsNumeric(Object)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsNumeric(System.Object)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsNumeric(System.Object)
+    name: IsNumeric
+    nameWithType: ExcelFunction.IsNumeric
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsNumeric
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsNumeric(System.Object)
+    name: IsNumeric
+    nameWithType: ExcelFunction.IsNumeric
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsNumeric
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsBool(System.Object)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsBool(System.Object)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: IsBool(Object)
+  nameWithType: ExcelFunction.IsBool(Object)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsBool(System.Object)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsBool(System.Object)
+    name: IsBool
+    nameWithType: ExcelFunction.IsBool
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsBool
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsBool(System.Object)
+    name: IsBool
+    nameWithType: ExcelFunction.IsBool
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsBool
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsString(System.Object,System.Boolean)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsString(System.Object,System.Boolean)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: IsString(Object, Boolean)
+  nameWithType: ExcelFunction.IsString(Object, Boolean)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsString(System.Object, System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsString(System.Object,System.Boolean)
+    name: IsString
+    nameWithType: ExcelFunction.IsString
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsString
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsString(System.Object,System.Boolean)
+    name: IsString
+    nameWithType: ExcelFunction.IsString
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsString
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.AreEqual(System.Double,System.Double)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.AreEqual(System.Double,System.Double)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: AreEqual(Double, Double)
+  nameWithType: ExcelFunction.AreEqual(Double, Double)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.AreEqual(System.Double, System.Double)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.AreEqual(System.Double,System.Double)
+    name: AreEqual
+    nameWithType: ExcelFunction.AreEqual
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.AreEqual
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.AreEqual(System.Double,System.Double)
+    name: AreEqual
+    nameWithType: ExcelFunction.AreEqual
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.AreEqual
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgsToDoubleEnumerable(IEnumerable<FunctionArgument>, ParsingContext)
+  nameWithType: ExcelFunction.ArgsToDoubleEnumerable(IEnumerable<FunctionArgument>, ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, OfficeOpenXml.FormulaParsing.ParsingContext)
+  nameWithType.vb: ExcelFunction.ArgsToDoubleEnumerable(IEnumerable(Of FunctionArgument), ParsingContext)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), OfficeOpenXml.FormulaParsing.ParsingContext)
+  name.vb: ArgsToDoubleEnumerable(IEnumerable(Of FunctionArgument), ParsingContext)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: ArgsToDoubleEnumerable
+    nameWithType: ExcelFunction.ArgsToDoubleEnumerable
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: ArgsToDoubleEnumerable
+    nameWithType: ExcelFunction.ArgsToDoubleEnumerable
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgsToDoubleEnumerable(Boolean, Boolean, IEnumerable<FunctionArgument>, ParsingContext)
+  nameWithType: ExcelFunction.ArgsToDoubleEnumerable(Boolean, Boolean, IEnumerable<FunctionArgument>, ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean, System.Boolean, System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, OfficeOpenXml.FormulaParsing.ParsingContext)
+  nameWithType.vb: ExcelFunction.ArgsToDoubleEnumerable(Boolean, Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean, System.Boolean, System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), OfficeOpenXml.FormulaParsing.ParsingContext)
+  name.vb: ArgsToDoubleEnumerable(Boolean, Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: ArgsToDoubleEnumerable
+    nameWithType: ExcelFunction.ArgsToDoubleEnumerable
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: ArgsToDoubleEnumerable
+    nameWithType: ExcelFunction.ArgsToDoubleEnumerable
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgsToDoubleEnumerable(Boolean, Boolean, IEnumerable<FunctionArgument>, ParsingContext, Boolean)
+  nameWithType: ExcelFunction.ArgsToDoubleEnumerable(Boolean, Boolean, IEnumerable<FunctionArgument>, ParsingContext, Boolean)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean, System.Boolean, System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, OfficeOpenXml.FormulaParsing.ParsingContext, System.Boolean)
+  nameWithType.vb: ExcelFunction.ArgsToDoubleEnumerable(Boolean, Boolean, IEnumerable(Of FunctionArgument), ParsingContext, Boolean)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean, System.Boolean, System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), OfficeOpenXml.FormulaParsing.ParsingContext, System.Boolean)
+  name.vb: ArgsToDoubleEnumerable(Boolean, Boolean, IEnumerable(Of FunctionArgument), ParsingContext, Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
+    name: ArgsToDoubleEnumerable
+    nameWithType: ExcelFunction.ArgsToDoubleEnumerable
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
+    name: ArgsToDoubleEnumerable
+    nameWithType: ExcelFunction.ArgsToDoubleEnumerable
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgsToDoubleEnumerable(Boolean, IEnumerable<FunctionArgument>, ParsingContext, Boolean)
+  nameWithType: ExcelFunction.ArgsToDoubleEnumerable(Boolean, IEnumerable<FunctionArgument>, ParsingContext, Boolean)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean, System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, OfficeOpenXml.FormulaParsing.ParsingContext, System.Boolean)
+  nameWithType.vb: ExcelFunction.ArgsToDoubleEnumerable(Boolean, IEnumerable(Of FunctionArgument), ParsingContext, Boolean)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean, System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), OfficeOpenXml.FormulaParsing.ParsingContext, System.Boolean)
+  name.vb: ArgsToDoubleEnumerable(Boolean, IEnumerable(Of FunctionArgument), ParsingContext, Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
+    name: ArgsToDoubleEnumerable
+    nameWithType: ExcelFunction.ArgsToDoubleEnumerable
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext,System.Boolean)
+    name: ArgsToDoubleEnumerable
+    nameWithType: ExcelFunction.ArgsToDoubleEnumerable
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgsToDoubleEnumerable(Boolean, IEnumerable<FunctionArgument>, ParsingContext)
+  nameWithType: ExcelFunction.ArgsToDoubleEnumerable(Boolean, IEnumerable<FunctionArgument>, ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean, System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, OfficeOpenXml.FormulaParsing.ParsingContext)
+  nameWithType.vb: ExcelFunction.ArgsToDoubleEnumerable(Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean, System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), OfficeOpenXml.FormulaParsing.ParsingContext)
+  name.vb: ArgsToDoubleEnumerable(Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: ArgsToDoubleEnumerable
+    nameWithType: ExcelFunction.ArgsToDoubleEnumerable
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: ArgsToDoubleEnumerable
+    nameWithType: ExcelFunction.ArgsToDoubleEnumerable
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerableZeroPadded(System.Boolean,OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerableZeroPadded(System.Boolean,OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.ParsingContext)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgsToDoubleEnumerableZeroPadded(Boolean, IRangeInfo, ParsingContext)
+  nameWithType: ExcelFunction.ArgsToDoubleEnumerableZeroPadded(Boolean, IRangeInfo, ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerableZeroPadded(System.Boolean, OfficeOpenXml.FormulaParsing.IRangeInfo, OfficeOpenXml.FormulaParsing.ParsingContext)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerableZeroPadded(System.Boolean,OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: ArgsToDoubleEnumerableZeroPadded
+    nameWithType: ExcelFunction.ArgsToDoubleEnumerableZeroPadded
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerableZeroPadded
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo
+    name: IRangeInfo
+    nameWithType: IRangeInfo
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerableZeroPadded(System.Boolean,OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: ArgsToDoubleEnumerableZeroPadded
+    nameWithType: ExcelFunction.ArgsToDoubleEnumerableZeroPadded
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToDoubleEnumerableZeroPadded
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.IRangeInfo
+    name: IRangeInfo
+    nameWithType: IRangeInfo
+    fullName: OfficeOpenXml.FormulaParsing.IRangeInfo
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToObjectEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToObjectEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: ArgsToObjectEnumerable(Boolean, IEnumerable<FunctionArgument>, ParsingContext)
+  nameWithType: ExcelFunction.ArgsToObjectEnumerable(Boolean, IEnumerable<FunctionArgument>, ParsingContext)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToObjectEnumerable(System.Boolean, System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, OfficeOpenXml.FormulaParsing.ParsingContext)
+  nameWithType.vb: ExcelFunction.ArgsToObjectEnumerable(Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToObjectEnumerable(System.Boolean, System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), OfficeOpenXml.FormulaParsing.ParsingContext)
+  name.vb: ArgsToObjectEnumerable(Boolean, IEnumerable(Of FunctionArgument), ParsingContext)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToObjectEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: ArgsToObjectEnumerable
+    nameWithType: ExcelFunction.ArgsToObjectEnumerable
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToObjectEnumerable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToObjectEnumerable(System.Boolean,System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
+    name: ArgsToObjectEnumerable
+    nameWithType: ExcelFunction.ArgsToObjectEnumerable
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArgsToObjectEnumerable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ParsingContext
+    name: ParsingContext
+    nameWithType: ParsingContext
+    fullName: OfficeOpenXml.FormulaParsing.ParsingContext
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: CreateResult(Object, DataType)
+  nameWithType: ExcelFunction.CreateResult(Object, DataType)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object, OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+    name: CreateResult
+    nameWithType: ExcelFunction.CreateResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+    name: DataType
+    nameWithType: DataType
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(System.Object,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+    name: CreateResult
+    nameWithType: ExcelFunction.CreateResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+    name: DataType
+    nameWithType: DataType
+    fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(OfficeOpenXml.eErrorType)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(OfficeOpenXml.eErrorType)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: CreateResult(eErrorType)
+  nameWithType: ExcelFunction.CreateResult(eErrorType)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(OfficeOpenXml.eErrorType)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(OfficeOpenXml.eErrorType)
+    name: CreateResult
+    nameWithType: ExcelFunction.CreateResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.eErrorType
+    name: eErrorType
+    nameWithType: eErrorType
+    fullName: OfficeOpenXml.eErrorType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult(OfficeOpenXml.eErrorType)
+    name: CreateResult
+    nameWithType: ExcelFunction.CreateResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CreateResult
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.eErrorType
+    name: eErrorType
+    nameWithType: eErrorType
+    fullName: OfficeOpenXml.eErrorType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CalculateCollection(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Double,System.Func{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument,System.Double,System.Double})
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CalculateCollection(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Double,System.Func{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument,System.Double,System.Double})
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: CalculateCollection(IEnumerable<FunctionArgument>, Double, Func<FunctionArgument, Double, Double>)
+  nameWithType: ExcelFunction.CalculateCollection(IEnumerable<FunctionArgument>, Double, Func<FunctionArgument, Double, Double>)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CalculateCollection(System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>, System.Double, System.Func<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument, System.Double, System.Double>)
+  nameWithType.vb: ExcelFunction.CalculateCollection(IEnumerable(Of FunctionArgument), Double, Func(Of FunctionArgument, Double, Double))
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CalculateCollection(System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument), System.Double, System.Func(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument, System.Double, System.Double))
+  name.vb: CalculateCollection(IEnumerable(Of FunctionArgument), Double, Func(Of FunctionArgument, Double, Double))
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CalculateCollection(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Double,System.Func{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument,System.Double,System.Double})
+    name: CalculateCollection
+    nameWithType: ExcelFunction.CalculateCollection
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CalculateCollection
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Func`3
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CalculateCollection(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Double,System.Func{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument,System.Double,System.Double})
+    name: CalculateCollection
+    nameWithType: ExcelFunction.CalculateCollection
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CalculateCollection
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Func`3
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError(OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError(OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: CheckForAndHandleExcelError(FunctionArgument)
+  nameWithType: ExcelFunction.CheckForAndHandleExcelError(FunctionArgument)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError(OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError(OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument)
+    name: CheckForAndHandleExcelError
+    nameWithType: ExcelFunction.CheckForAndHandleExcelError
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError(OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument)
+    name: CheckForAndHandleExcelError
+    nameWithType: ExcelFunction.CheckForAndHandleExcelError
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError(OfficeOpenXml.FormulaParsing.ICellInfo)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError(OfficeOpenXml.FormulaParsing.ICellInfo)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: CheckForAndHandleExcelError(ICellInfo)
+  nameWithType: ExcelFunction.CheckForAndHandleExcelError(ICellInfo)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError(OfficeOpenXml.FormulaParsing.ICellInfo)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError(OfficeOpenXml.FormulaParsing.ICellInfo)
+    name: CheckForAndHandleExcelError
+    nameWithType: ExcelFunction.CheckForAndHandleExcelError
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.ICellInfo
+    name: ICellInfo
+    nameWithType: ICellInfo
+    fullName: OfficeOpenXml.FormulaParsing.ICellInfo
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError(OfficeOpenXml.FormulaParsing.ICellInfo)
+    name: CheckForAndHandleExcelError
+    nameWithType: ExcelFunction.CheckForAndHandleExcelError
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.CheckForAndHandleExcelError
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.FormulaParsing.ICellInfo
+    name: ICellInfo
+    nameWithType: ICellInfo
+    fullName: OfficeOpenXml.FormulaParsing.ICellInfo
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetResultByObject(System.Object)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetResultByObject(System.Object)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  isExternal: true
+  name: GetResultByObject(Object)
+  nameWithType: ExcelFunction.GetResultByObject(Object)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetResultByObject(System.Object)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetResultByObject(System.Object)
+    name: GetResultByObject
+    nameWithType: ExcelFunction.GetResultByObject
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetResultByObject
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetResultByObject(System.Object)
+    name: GetResultByObject
+    nameWithType: ExcelFunction.GetResultByObject
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetResultByObject
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical.IfsWithMultipleMatchesBase.GetMatches*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Logical.IfsWithMultipleMatchesBase.GetMatches
+  name: GetMatches
+  nameWithType: IfsWithMultipleMatchesBase.GetMatches
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical.IfsWithMultipleMatchesBase.GetMatches
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<FunctionArgument>
+  nameWithType: IEnumerable<FunctionArgument>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument>
+  nameWithType.vb: IEnumerable(Of FunctionArgument)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument)
+  name.vb: IEnumerable(Of FunctionArgument)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+    name: FunctionArgument
+    nameWithType: FunctionArgument
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: CompileResult
+  nameWithType: CompileResult
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileResult
+- uid: System.Collections.Generic.IEnumerable{System.Double}
+  commentId: T:System.Collections.Generic.IEnumerable{System.Double}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<Double>
+  nameWithType: IEnumerable<Double>
+  fullName: System.Collections.Generic.IEnumerable<System.Double>
+  nameWithType.vb: IEnumerable(Of Double)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of System.Double)
+  name.vb: IEnumerable(Of Double)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph

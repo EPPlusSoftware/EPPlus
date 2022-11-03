@@ -1,0 +1,651 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.ExcelDrawingAsType
+  commentId: T:OfficeOpenXml.Drawing.ExcelDrawingAsType
+  id: ExcelDrawingAsType
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.ExcelDrawingAsType.Chart
+  - OfficeOpenXml.Drawing.ExcelDrawingAsType.Control
+  - OfficeOpenXml.Drawing.ExcelDrawingAsType.Picture
+  - OfficeOpenXml.Drawing.ExcelDrawingAsType.Shape
+  - OfficeOpenXml.Drawing.ExcelDrawingAsType.Slicer
+  - OfficeOpenXml.Drawing.ExcelDrawingAsType.Type``1
+  langs:
+  - csharp
+  - vb
+  name: ExcelDrawingAsType
+  nameWithType: ExcelDrawingAsType
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingAsType
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDrawingAsType
+    path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nProvides a simple way to type cast drawing object top its top level class.\n"
+  example: []
+  syntax:
+    content: public class ExcelDrawingAsType
+    content.vb: Public Class ExcelDrawingAsType
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.ExcelDrawingAsType.Type``1
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawingAsType.Type``1
+  id: Type``1
+  parent: OfficeOpenXml.Drawing.ExcelDrawingAsType
+  langs:
+  - csharp
+  - vb
+  name: Type<T>()
+  nameWithType: ExcelDrawingAsType.Type<T>()
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingAsType.Type<T>()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Type
+    path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nConverts the drawing to it&apos;s top level or other nested drawing class.        \n"
+  example: []
+  syntax:
+    content: >-
+      public T Type<T>()
+          where T : ExcelDrawing
+    typeParameters:
+    - id: T
+      description: The type of drawing. T must be inherited from ExcelDrawing
+    return:
+      type: '{T}'
+      description: The drawing as type T
+    content.vb: Public Function Type(Of T As ExcelDrawing) As T
+  overload: OfficeOpenXml.Drawing.ExcelDrawingAsType.Type*
+  nameWithType.vb: ExcelDrawingAsType.Type(Of T)()
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Drawing.ExcelDrawingAsType.Type(Of T)()
+  name.vb: Type(Of T)()
+- uid: OfficeOpenXml.Drawing.ExcelDrawingAsType.Shape
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingAsType.Shape
+  id: Shape
+  parent: OfficeOpenXml.Drawing.ExcelDrawingAsType
+  langs:
+  - csharp
+  - vb
+  name: Shape
+  nameWithType: ExcelDrawingAsType.Shape
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingAsType.Shape
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Shape
+    path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a shape. \nIf this drawing is not a shape, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelShape Shape { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.ExcelShape
+      description: The drawing as a shape
+    content.vb: Public ReadOnly Property Shape As ExcelShape
+  overload: OfficeOpenXml.Drawing.ExcelDrawingAsType.Shape*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelDrawingAsType.Picture
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingAsType.Picture
+  id: Picture
+  parent: OfficeOpenXml.Drawing.ExcelDrawingAsType
+  langs:
+  - csharp
+  - vb
+  name: Picture
+  nameWithType: ExcelDrawingAsType.Picture
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingAsType.Picture
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Picture
+    path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing as a picture/image. \nIf this drawing is not a picture, null will be returned\n"
+  example: []
+  syntax:
+    content: public ExcelPicture Picture { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.ExcelPicture
+      description: The drawing as a picture
+    content.vb: Public ReadOnly Property Picture As ExcelPicture
+  overload: OfficeOpenXml.Drawing.ExcelDrawingAsType.Picture*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelDrawingAsType.Chart
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingAsType.Chart
+  id: Chart
+  parent: OfficeOpenXml.Drawing.ExcelDrawingAsType
+  langs:
+  - csharp
+  - vb
+  name: Chart
+  nameWithType: ExcelDrawingAsType.Chart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingAsType.Chart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Chart
+    path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
+    startLine: 67
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAn object that containing properties that type-casts the drawing to a chart.\n"
+  example: []
+  syntax:
+    content: public ExcelChartAsType Chart { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.ExcelChartAsType
+    content.vb: Public ReadOnly Property Chart As ExcelChartAsType
+  overload: OfficeOpenXml.Drawing.ExcelDrawingAsType.Chart*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelDrawingAsType.Slicer
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingAsType.Slicer
+  id: Slicer
+  parent: OfficeOpenXml.Drawing.ExcelDrawingAsType
+  langs:
+  - csharp
+  - vb
+  name: Slicer
+  nameWithType: ExcelDrawingAsType.Slicer
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingAsType.Slicer
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Slicer
+    path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
+    startLine: 83
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAn object that containing properties that type-casts the drawing to a slicer.\n"
+  example: []
+  syntax:
+    content: public ExcelSlicerAsType Slicer { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.ExcelSlicerAsType
+    content.vb: Public ReadOnly Property Slicer As ExcelSlicerAsType
+  overload: OfficeOpenXml.Drawing.ExcelDrawingAsType.Slicer*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelDrawingAsType.Control
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingAsType.Control
+  id: Control
+  parent: OfficeOpenXml.Drawing.ExcelDrawingAsType
+  langs:
+  - csharp
+  - vb
+  name: Control
+  nameWithType: ExcelDrawingAsType.Control
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingAsType.Control
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Control
+    path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
+    startLine: 101
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHelps to cast drawings to controls. Use the properties of this class to cast to the various specific control types.\n"
+  example: []
+  syntax:
+    content: public ExcelControlAsType Control { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.ExcelControlAsType
+      description: ''
+    content.vb: Public ReadOnly Property Control As ExcelControlAsType
+  overload: OfficeOpenXml.Drawing.ExcelDrawingAsType.Control*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Drawing.ExcelDrawingAsType.Type*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingAsType.Type
+  name: Type
+  nameWithType: ExcelDrawingAsType.Type
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingAsType.Type
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: OfficeOpenXml.Drawing.ExcelDrawingAsType.Shape*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingAsType.Shape
+  name: Shape
+  nameWithType: ExcelDrawingAsType.Shape
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingAsType.Shape
+- uid: OfficeOpenXml.Drawing.ExcelShape
+  commentId: T:OfficeOpenXml.Drawing.ExcelShape
+  parent: OfficeOpenXml.Drawing
+  name: ExcelShape
+  nameWithType: ExcelShape
+  fullName: OfficeOpenXml.Drawing.ExcelShape
+- uid: OfficeOpenXml.Drawing.ExcelDrawingAsType.Picture*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingAsType.Picture
+  name: Picture
+  nameWithType: ExcelDrawingAsType.Picture
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingAsType.Picture
+- uid: OfficeOpenXml.Drawing.ExcelPicture
+  commentId: T:OfficeOpenXml.Drawing.ExcelPicture
+  parent: OfficeOpenXml.Drawing
+  name: ExcelPicture
+  nameWithType: ExcelPicture
+  fullName: OfficeOpenXml.Drawing.ExcelPicture
+- uid: OfficeOpenXml.Drawing.ExcelDrawingAsType.Chart*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingAsType.Chart
+  name: Chart
+  nameWithType: ExcelDrawingAsType.Chart
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingAsType.Chart
+- uid: OfficeOpenXml.Drawing.ExcelChartAsType
+  commentId: T:OfficeOpenXml.Drawing.ExcelChartAsType
+  parent: OfficeOpenXml.Drawing
+  name: ExcelChartAsType
+  nameWithType: ExcelChartAsType
+  fullName: OfficeOpenXml.Drawing.ExcelChartAsType
+- uid: OfficeOpenXml.Drawing.ExcelDrawingAsType.Slicer*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingAsType.Slicer
+  name: Slicer
+  nameWithType: ExcelDrawingAsType.Slicer
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingAsType.Slicer
+- uid: OfficeOpenXml.Drawing.ExcelSlicerAsType
+  commentId: T:OfficeOpenXml.Drawing.ExcelSlicerAsType
+  parent: OfficeOpenXml.Drawing
+  name: ExcelSlicerAsType
+  nameWithType: ExcelSlicerAsType
+  fullName: OfficeOpenXml.Drawing.ExcelSlicerAsType
+- uid: OfficeOpenXml.Drawing.ExcelDrawingAsType.Control*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingAsType.Control
+  name: Control
+  nameWithType: ExcelDrawingAsType.Control
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingAsType.Control
+- uid: OfficeOpenXml.Drawing.ExcelControlAsType
+  commentId: T:OfficeOpenXml.Drawing.ExcelControlAsType
+  parent: OfficeOpenXml.Drawing
+  name: ExcelControlAsType
+  nameWithType: ExcelControlAsType
+  fullName: OfficeOpenXml.Drawing.ExcelControlAsType

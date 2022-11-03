@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed
+  id: eIntervalClosed
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed.Left
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed.None
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed.Right
+  langs:
+  - csharp
+  - vb
+  name: eIntervalClosed
+  nameWithType: eIntervalClosed
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eIntervalClosed.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eIntervalClosed
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eIntervalClosed.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe interval closed side.\n"
+  example: []
+  syntax:
+    content: public enum eIntervalClosed
+    content.vb: Public Enum eIntervalClosed
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed.None
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed.None
+  id: None
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eIntervalClosed.None
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eIntervalClosed.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eIntervalClosed.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe IntervalClosed is not specified.\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed.Left
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed.Left
+  id: Left
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: eIntervalClosed.Left
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed.Left
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eIntervalClosed.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Left
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eIntervalClosed.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe interval is closed on the left side\n"
+  example: []
+  syntax:
+    content: Left = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed.Right
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed.Right
+  id: Right
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed
+  langs:
+  - csharp
+  - vb
+  name: Right
+  nameWithType: eIntervalClosed.Right
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed.Right
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eIntervalClosed.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Right
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eIntervalClosed.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe interval is closed on the right side\n"
+  example: []
+  syntax:
+    content: Right = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eIntervalClosed
+  nameWithType: eIntervalClosed
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed

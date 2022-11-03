@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.ePenAlignment
+  commentId: T:OfficeOpenXml.Drawing.ePenAlignment
+  id: ePenAlignment
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.ePenAlignment.Center
+  - OfficeOpenXml.Drawing.ePenAlignment.Inset
+  langs:
+  - csharp
+  - vb
+  name: ePenAlignment
+  nameWithType: ePenAlignment
+  fullName: OfficeOpenXml.Drawing.ePenAlignment
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePenAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePenAlignment
+    path: ../src/EPPlus/Drawing/Enums/ePenAlignment.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe pen alignment type\n"
+  example: []
+  syntax:
+    content: public enum ePenAlignment
+    content.vb: Public Enum ePenAlignment
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.ePenAlignment.Center
+  commentId: F:OfficeOpenXml.Drawing.ePenAlignment.Center
+  id: Center
+  parent: OfficeOpenXml.Drawing.ePenAlignment
+  langs:
+  - csharp
+  - vb
+  name: Center
+  nameWithType: ePenAlignment.Center
+  fullName: OfficeOpenXml.Drawing.ePenAlignment.Center
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePenAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Center
+    path: ../src/EPPlus/Drawing/Enums/ePenAlignment.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCenter pen\n"
+  example: []
+  syntax:
+    content: Center = 0
+    return:
+      type: OfficeOpenXml.Drawing.ePenAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePenAlignment.Inset
+  commentId: F:OfficeOpenXml.Drawing.ePenAlignment.Inset
+  id: Inset
+  parent: OfficeOpenXml.Drawing.ePenAlignment
+  langs:
+  - csharp
+  - vb
+  name: Inset
+  nameWithType: ePenAlignment.Inset
+  fullName: OfficeOpenXml.Drawing.ePenAlignment.Inset
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePenAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Inset
+    path: ../src/EPPlus/Drawing/Enums/ePenAlignment.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nInset pen \n"
+  example: []
+  syntax:
+    content: Inset = 1
+    return:
+      type: OfficeOpenXml.Drawing.ePenAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.ePenAlignment
+  commentId: T:OfficeOpenXml.Drawing.ePenAlignment
+  parent: OfficeOpenXml.Drawing
+  name: ePenAlignment
+  nameWithType: ePenAlignment
+  fullName: OfficeOpenXml.Drawing.ePenAlignment

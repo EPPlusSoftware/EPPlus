@@ -1,0 +1,46 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Exceptions
+  commentId: N:OfficeOpenXml.FormulaParsing.Exceptions
+  id: OfficeOpenXml.FormulaParsing.Exceptions
+  children:
+  - OfficeOpenXml.FormulaParsing.Exceptions.CircularReferenceException
+  - OfficeOpenXml.FormulaParsing.Exceptions.ExcelErrorCodes
+  - OfficeOpenXml.FormulaParsing.Exceptions.ExcelErrorValueException
+  - OfficeOpenXml.FormulaParsing.Exceptions.UnrecognizedTokenException
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.FormulaParsing.Exceptions
+  nameWithType: OfficeOpenXml.FormulaParsing.Exceptions
+  fullName: OfficeOpenXml.FormulaParsing.Exceptions
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.FormulaParsing.Exceptions.CircularReferenceException
+  commentId: T:OfficeOpenXml.FormulaParsing.Exceptions.CircularReferenceException
+  name: CircularReferenceException
+  nameWithType: CircularReferenceException
+  fullName: OfficeOpenXml.FormulaParsing.Exceptions.CircularReferenceException
+- uid: OfficeOpenXml.FormulaParsing.Exceptions.ExcelErrorCodes
+  commentId: T:OfficeOpenXml.FormulaParsing.Exceptions.ExcelErrorCodes
+  parent: OfficeOpenXml.FormulaParsing.Exceptions
+  name: ExcelErrorCodes
+  nameWithType: ExcelErrorCodes
+  fullName: OfficeOpenXml.FormulaParsing.Exceptions.ExcelErrorCodes
+- uid: OfficeOpenXml.FormulaParsing.Exceptions.ExcelErrorValueException
+  commentId: T:OfficeOpenXml.FormulaParsing.Exceptions.ExcelErrorValueException
+  name: ExcelErrorValueException
+  nameWithType: ExcelErrorValueException
+  fullName: OfficeOpenXml.FormulaParsing.Exceptions.ExcelErrorValueException
+- uid: OfficeOpenXml.FormulaParsing.Exceptions.UnrecognizedTokenException
+  commentId: T:OfficeOpenXml.FormulaParsing.Exceptions.UnrecognizedTokenException
+  name: UnrecognizedTokenException
+  nameWithType: UnrecognizedTokenException
+  fullName: OfficeOpenXml.FormulaParsing.Exceptions.UnrecognizedTokenException
+- uid: OfficeOpenXml.FormulaParsing.Exceptions
+  commentId: N:OfficeOpenXml.FormulaParsing.Exceptions
+  name: OfficeOpenXml.FormulaParsing.Exceptions
+  nameWithType: OfficeOpenXml.FormulaParsing.Exceptions
+  fullName: OfficeOpenXml.FormulaParsing.Exceptions

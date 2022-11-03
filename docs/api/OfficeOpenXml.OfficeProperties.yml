@@ -1,0 +1,1565 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.OfficeProperties
+  commentId: T:OfficeOpenXml.OfficeProperties
+  id: OfficeProperties
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.OfficeProperties.Application
+  - OfficeOpenXml.OfficeProperties.AppVersion
+  - OfficeOpenXml.OfficeProperties.Author
+  - OfficeOpenXml.OfficeProperties.Category
+  - OfficeOpenXml.OfficeProperties.Comments
+  - OfficeOpenXml.OfficeProperties.Company
+  - OfficeOpenXml.OfficeProperties.CorePropertiesXml
+  - OfficeOpenXml.OfficeProperties.Created
+  - OfficeOpenXml.OfficeProperties.CustomPropertiesXml
+  - OfficeOpenXml.OfficeProperties.ExtendedPropertiesXml
+  - OfficeOpenXml.OfficeProperties.GetCustomPropertyValue(System.String)
+  - OfficeOpenXml.OfficeProperties.GetExtendedPropertyValue(System.String)
+  - OfficeOpenXml.OfficeProperties.HyperlinkBase
+  - OfficeOpenXml.OfficeProperties.HyperlinksChanged
+  - OfficeOpenXml.OfficeProperties.Keywords
+  - OfficeOpenXml.OfficeProperties.LastModifiedBy
+  - OfficeOpenXml.OfficeProperties.LastPrinted
+  - OfficeOpenXml.OfficeProperties.LinksUpToDate
+  - OfficeOpenXml.OfficeProperties.Manager
+  - OfficeOpenXml.OfficeProperties.Modified
+  - OfficeOpenXml.OfficeProperties.ScaleCrop
+  - OfficeOpenXml.OfficeProperties.SetCustomPropertyValue(System.String,System.Object)
+  - OfficeOpenXml.OfficeProperties.SetExtendedPropertyValue(System.String,System.String)
+  - OfficeOpenXml.OfficeProperties.SharedDoc
+  - OfficeOpenXml.OfficeProperties.Status
+  - OfficeOpenXml.OfficeProperties.Subject
+  - OfficeOpenXml.OfficeProperties.Title
+  langs:
+  - csharp
+  - vb
+  name: OfficeProperties
+  nameWithType: OfficeProperties
+  fullName: OfficeOpenXml.OfficeProperties
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OfficeProperties
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to the properties bag of the package\n"
+  example: []
+  syntax:
+    content: 'public sealed class OfficeProperties : XmlHelper'
+    content.vb: >-
+      Public NotInheritable Class OfficeProperties
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.OfficeProperties.CorePropertiesXml
+  commentId: P:OfficeOpenXml.OfficeProperties.CorePropertiesXml
+  id: CorePropertiesXml
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: CorePropertiesXml
+  nameWithType: OfficeProperties.CorePropertiesXml
+  fullName: OfficeOpenXml.OfficeProperties.CorePropertiesXml
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CorePropertiesXml
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 84
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to the XML document that holds all the code \ndocument properties.\n"
+  example: []
+  syntax:
+    content: public XmlDocument CorePropertiesXml { get; }
+    parameters: []
+    return:
+      type: System.Xml.XmlDocument
+    content.vb: Public ReadOnly Property CorePropertiesXml As XmlDocument
+  overload: OfficeOpenXml.OfficeProperties.CorePropertiesXml*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.OfficeProperties.Title
+  commentId: P:OfficeOpenXml.OfficeProperties.Title
+  id: Title
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: Title
+  nameWithType: OfficeProperties.Title
+  fullName: OfficeOpenXml.OfficeProperties.Title
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Title
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 134
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets/sets the title property of the document (core property)\n"
+  example: []
+  syntax:
+    content: public string Title { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Title As String
+  overload: OfficeOpenXml.OfficeProperties.Title*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.Subject
+  commentId: P:OfficeOpenXml.OfficeProperties.Subject
+  id: Subject
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: Subject
+  nameWithType: OfficeProperties.Subject
+  fullName: OfficeOpenXml.OfficeProperties.Subject
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Subject
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 144
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets/sets the subject property of the document (core property)\n"
+  example: []
+  syntax:
+    content: public string Subject { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Subject As String
+  overload: OfficeOpenXml.OfficeProperties.Subject*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.Author
+  commentId: P:OfficeOpenXml.OfficeProperties.Author
+  id: Author
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: Author
+  nameWithType: OfficeProperties.Author
+  fullName: OfficeOpenXml.OfficeProperties.Author
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Author
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 154
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets/sets the author property of the document (core property)\n"
+  example: []
+  syntax:
+    content: public string Author { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Author As String
+  overload: OfficeOpenXml.OfficeProperties.Author*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.Comments
+  commentId: P:OfficeOpenXml.OfficeProperties.Comments
+  id: Comments
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: Comments
+  nameWithType: OfficeProperties.Comments
+  fullName: OfficeOpenXml.OfficeProperties.Comments
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Comments
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 164
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets/sets the comments property of the document (core property)\n"
+  example: []
+  syntax:
+    content: public string Comments { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Comments As String
+  overload: OfficeOpenXml.OfficeProperties.Comments*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.Keywords
+  commentId: P:OfficeOpenXml.OfficeProperties.Keywords
+  id: Keywords
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: Keywords
+  nameWithType: OfficeProperties.Keywords
+  fullName: OfficeOpenXml.OfficeProperties.Keywords
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Keywords
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 174
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets/sets the keywords property of the document (core property)\n"
+  example: []
+  syntax:
+    content: public string Keywords { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Keywords As String
+  overload: OfficeOpenXml.OfficeProperties.Keywords*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.LastModifiedBy
+  commentId: P:OfficeOpenXml.OfficeProperties.LastModifiedBy
+  id: LastModifiedBy
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: LastModifiedBy
+  nameWithType: OfficeProperties.LastModifiedBy
+  fullName: OfficeOpenXml.OfficeProperties.LastModifiedBy
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LastModifiedBy
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 184
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets/sets the lastModifiedBy property of the document (core property)\n"
+  example: []
+  syntax:
+    content: public string LastModifiedBy { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property LastModifiedBy As String
+  overload: OfficeOpenXml.OfficeProperties.LastModifiedBy*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.LastPrinted
+  commentId: P:OfficeOpenXml.OfficeProperties.LastPrinted
+  id: LastPrinted
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: LastPrinted
+  nameWithType: OfficeProperties.LastPrinted
+  fullName: OfficeOpenXml.OfficeProperties.LastPrinted
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LastPrinted
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 197
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets/sets the lastPrinted property of the document (core property)\n"
+  example: []
+  syntax:
+    content: public string LastPrinted { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property LastPrinted As String
+  overload: OfficeOpenXml.OfficeProperties.LastPrinted*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.Created
+  commentId: P:OfficeOpenXml.OfficeProperties.Created
+  id: Created
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: Created
+  nameWithType: OfficeProperties.Created
+  fullName: OfficeOpenXml.OfficeProperties.Created
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Created
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 208
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets/sets the created property of the document (core property)\n"
+  example: []
+  syntax:
+    content: public DateTime Created { get; set; }
+    parameters: []
+    return:
+      type: System.DateTime
+    content.vb: Public Property Created As Date
+  overload: OfficeOpenXml.OfficeProperties.Created*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.Category
+  commentId: P:OfficeOpenXml.OfficeProperties.Category
+  id: Category
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: Category
+  nameWithType: OfficeProperties.Category
+  fullName: OfficeOpenXml.OfficeProperties.Category
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Category
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 227
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets/sets the category property of the document (core property)\n"
+  example: []
+  syntax:
+    content: public string Category { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Category As String
+  overload: OfficeOpenXml.OfficeProperties.Category*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.Status
+  commentId: P:OfficeOpenXml.OfficeProperties.Status
+  id: Status
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: Status
+  nameWithType: OfficeProperties.Status
+  fullName: OfficeOpenXml.OfficeProperties.Status
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Status
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 237
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets/sets the status property of the document (core property)\n"
+  example: []
+  syntax:
+    content: public string Status { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Status As String
+  overload: OfficeOpenXml.OfficeProperties.Status*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.ExtendedPropertiesXml
+  commentId: P:OfficeOpenXml.OfficeProperties.ExtendedPropertiesXml
+  id: ExtendedPropertiesXml
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: ExtendedPropertiesXml
+  nameWithType: OfficeProperties.ExtendedPropertiesXml
+  fullName: OfficeOpenXml.OfficeProperties.ExtendedPropertiesXml
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExtendedPropertiesXml
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 248
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to the XML document that holds the extended properties of the document (app.xml)\n"
+  example: []
+  syntax:
+    content: public XmlDocument ExtendedPropertiesXml { get; }
+    parameters: []
+    return:
+      type: System.Xml.XmlDocument
+    content.vb: Public ReadOnly Property ExtendedPropertiesXml As XmlDocument
+  overload: OfficeOpenXml.OfficeProperties.ExtendedPropertiesXml*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.OfficeProperties.Application
+  commentId: P:OfficeOpenXml.OfficeProperties.Application
+  id: Application
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: Application
+  nameWithType: OfficeProperties.Application
+  fullName: OfficeOpenXml.OfficeProperties.Application
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Application
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 270
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets/Set the Application property of the document (extended property)\n"
+  example: []
+  syntax:
+    content: public string Application { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Application As String
+  overload: OfficeOpenXml.OfficeProperties.Application*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.HyperlinkBase
+  commentId: P:OfficeOpenXml.OfficeProperties.HyperlinkBase
+  id: HyperlinkBase
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: HyperlinkBase
+  nameWithType: OfficeProperties.HyperlinkBase
+  fullName: OfficeOpenXml.OfficeProperties.HyperlinkBase
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HyperlinkBase
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 280
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets/sets the HyperlinkBase property of the document (extended property)\n"
+  example: []
+  syntax:
+    content: public Uri HyperlinkBase { get; set; }
+    parameters: []
+    return:
+      type: System.Uri
+    content.vb: Public Property HyperlinkBase As Uri
+  overload: OfficeOpenXml.OfficeProperties.HyperlinkBase*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.AppVersion
+  commentId: P:OfficeOpenXml.OfficeProperties.AppVersion
+  id: AppVersion
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: AppVersion
+  nameWithType: OfficeProperties.AppVersion
+  fullName: OfficeOpenXml.OfficeProperties.AppVersion
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AppVersion
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 290
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets/Set the AppVersion property of the document (extended property)\n"
+  example: []
+  syntax:
+    content: public string AppVersion { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property AppVersion As String
+  overload: OfficeOpenXml.OfficeProperties.AppVersion*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.Company
+  commentId: P:OfficeOpenXml.OfficeProperties.Company
+  id: Company
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: Company
+  nameWithType: OfficeProperties.Company
+  fullName: OfficeOpenXml.OfficeProperties.Company
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Company
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 308
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets/sets the Company property of the document (extended property)\n"
+  example: []
+  syntax:
+    content: public string Company { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Company As String
+  overload: OfficeOpenXml.OfficeProperties.Company*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.Manager
+  commentId: P:OfficeOpenXml.OfficeProperties.Manager
+  id: Manager
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: Manager
+  nameWithType: OfficeProperties.Manager
+  fullName: OfficeOpenXml.OfficeProperties.Manager
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Manager
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 318
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets/sets the Manager property of the document (extended property)\n"
+  example: []
+  syntax:
+    content: public string Manager { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Manager As String
+  overload: OfficeOpenXml.OfficeProperties.Manager*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.Modified
+  commentId: P:OfficeOpenXml.OfficeProperties.Modified
+  id: Modified
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: Modified
+  nameWithType: OfficeProperties.Modified
+  fullName: OfficeOpenXml.OfficeProperties.Modified
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Modified
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 328
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets/sets the modified property of the document (core property)\n"
+  example: []
+  syntax:
+    content: public DateTime Modified { get; set; }
+    parameters: []
+    return:
+      type: System.DateTime
+    content.vb: Public Property Modified As Date
+  overload: OfficeOpenXml.OfficeProperties.Modified*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.LinksUpToDate
+  commentId: P:OfficeOpenXml.OfficeProperties.LinksUpToDate
+  id: LinksUpToDate
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: LinksUpToDate
+  nameWithType: OfficeProperties.LinksUpToDate
+  fullName: OfficeOpenXml.OfficeProperties.LinksUpToDate
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LinksUpToDate
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 346
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIndicates whether hyperlinks in a document are up-to-date\n"
+  example: []
+  syntax:
+    content: public bool LinksUpToDate { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property LinksUpToDate As Boolean
+  overload: OfficeOpenXml.OfficeProperties.LinksUpToDate*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.HyperlinksChanged
+  commentId: P:OfficeOpenXml.OfficeProperties.HyperlinksChanged
+  id: HyperlinksChanged
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: HyperlinksChanged
+  nameWithType: OfficeProperties.HyperlinksChanged
+  fullName: OfficeOpenXml.OfficeProperties.HyperlinksChanged
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HyperlinksChanged
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 355
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nHyperlinks need update\n"
+  example: []
+  syntax:
+    content: public bool HyperlinksChanged { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property HyperlinksChanged As Boolean
+  overload: OfficeOpenXml.OfficeProperties.HyperlinksChanged*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.ScaleCrop
+  commentId: P:OfficeOpenXml.OfficeProperties.ScaleCrop
+  id: ScaleCrop
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: ScaleCrop
+  nameWithType: OfficeProperties.ScaleCrop
+  fullName: OfficeOpenXml.OfficeProperties.ScaleCrop
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ScaleCrop
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 364
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDisplay mode of the document thumbnail. True to enable scaling. False to enable cropping.\n"
+  example: []
+  syntax:
+    content: public bool ScaleCrop { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ScaleCrop As Boolean
+  overload: OfficeOpenXml.OfficeProperties.ScaleCrop*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.SharedDoc
+  commentId: P:OfficeOpenXml.OfficeProperties.SharedDoc
+  id: SharedDoc
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: SharedDoc
+  nameWithType: OfficeProperties.SharedDoc
+  fullName: OfficeOpenXml.OfficeProperties.SharedDoc
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SharedDoc
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 375
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf true, document is shared between multiple producers.\n"
+  example: []
+  syntax:
+    content: public bool SharedDoc { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property SharedDoc As Boolean
+  overload: OfficeOpenXml.OfficeProperties.SharedDoc*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.GetExtendedPropertyValue(System.String)
+  commentId: M:OfficeOpenXml.OfficeProperties.GetExtendedPropertyValue(System.String)
+  id: GetExtendedPropertyValue(System.String)
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: GetExtendedPropertyValue(String)
+  nameWithType: OfficeProperties.GetExtendedPropertyValue(String)
+  fullName: OfficeOpenXml.OfficeProperties.GetExtendedPropertyValue(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetExtendedPropertyValue
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 387
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGet the value of an extended property \n"
+  example: []
+  syntax:
+    content: public string GetExtendedPropertyValue(string propertyName)
+    parameters:
+    - id: propertyName
+      type: System.String
+      description: The name of the property
+    return:
+      type: System.String
+      description: The value
+    content.vb: Public Function GetExtendedPropertyValue(propertyName As String) As String
+  overload: OfficeOpenXml.OfficeProperties.GetExtendedPropertyValue*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.SetExtendedPropertyValue(System.String,System.String)
+  commentId: M:OfficeOpenXml.OfficeProperties.SetExtendedPropertyValue(System.String,System.String)
+  id: SetExtendedPropertyValue(System.String,System.String)
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: SetExtendedPropertyValue(String, String)
+  nameWithType: OfficeProperties.SetExtendedPropertyValue(String, String)
+  fullName: OfficeOpenXml.OfficeProperties.SetExtendedPropertyValue(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetExtendedPropertyValue
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 403
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the value for an extended property\n"
+  example: []
+  syntax:
+    content: public void SetExtendedPropertyValue(string propertyName, string value)
+    parameters:
+    - id: propertyName
+      type: System.String
+      description: The name of the property
+    - id: value
+      type: System.String
+      description: The value
+    content.vb: Public Sub SetExtendedPropertyValue(propertyName As String, value As String)
+  overload: OfficeOpenXml.OfficeProperties.SetExtendedPropertyValue*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.CustomPropertiesXml
+  commentId: P:OfficeOpenXml.OfficeProperties.CustomPropertiesXml
+  id: CustomPropertiesXml
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: CustomPropertiesXml
+  nameWithType: OfficeProperties.CustomPropertiesXml
+  fullName: OfficeOpenXml.OfficeProperties.CustomPropertiesXml
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CustomPropertiesXml
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 416
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to the XML document which holds the document&apos;s custom properties\n"
+  example: []
+  syntax:
+    content: public XmlDocument CustomPropertiesXml { get; }
+    parameters: []
+    return:
+      type: System.Xml.XmlDocument
+    content.vb: Public ReadOnly Property CustomPropertiesXml As XmlDocument
+  overload: OfficeOpenXml.OfficeProperties.CustomPropertiesXml*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.OfficeProperties.GetCustomPropertyValue(System.String)
+  commentId: M:OfficeOpenXml.OfficeProperties.GetCustomPropertyValue(System.String)
+  id: GetCustomPropertyValue(System.String)
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: GetCustomPropertyValue(String)
+  nameWithType: OfficeProperties.GetCustomPropertyValue(String)
+  fullName: OfficeOpenXml.OfficeProperties.GetCustomPropertyValue(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetCustomPropertyValue
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 440
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets the value of a custom property\n"
+  example: []
+  syntax:
+    content: public object GetCustomPropertyValue(string propertyName)
+    parameters:
+    - id: propertyName
+      type: System.String
+      description: The name of the property
+    return:
+      type: System.Object
+      description: The current value of the property
+    content.vb: Public Function GetCustomPropertyValue(propertyName As String) As Object
+  overload: OfficeOpenXml.OfficeProperties.GetCustomPropertyValue*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.OfficeProperties.SetCustomPropertyValue(System.String,System.Object)
+  commentId: M:OfficeOpenXml.OfficeProperties.SetCustomPropertyValue(System.String,System.Object)
+  id: SetCustomPropertyValue(System.String,System.Object)
+  parent: OfficeOpenXml.OfficeProperties
+  langs:
+  - csharp
+  - vb
+  name: SetCustomPropertyValue(String, Object)
+  nameWithType: OfficeProperties.SetCustomPropertyValue(String, Object)
+  fullName: OfficeOpenXml.OfficeProperties.SetCustomPropertyValue(System.String, System.Object)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/OfficeProperties.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetCustomPropertyValue
+    path: ../src/EPPlus/OfficeProperties.cs
+    startLine: 506
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAllows you to set the value of a current custom property or create your own custom property.  \n"
+  example: []
+  syntax:
+    content: public void SetCustomPropertyValue(string propertyName, object value)
+    parameters:
+    - id: propertyName
+      type: System.String
+      description: The name of the property
+    - id: value
+      type: System.Object
+      description: The value of the property
+    content.vb: Public Sub SetCustomPropertyValue(propertyName As String, value As Object)
+  overload: OfficeOpenXml.OfficeProperties.SetCustomPropertyValue*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.OfficeProperties.CorePropertiesXml*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.CorePropertiesXml
+  name: CorePropertiesXml
+  nameWithType: OfficeProperties.CorePropertiesXml
+  fullName: OfficeOpenXml.OfficeProperties.CorePropertiesXml
+- uid: System.Xml.XmlDocument
+  commentId: T:System.Xml.XmlDocument
+  parent: System.Xml
+  isExternal: true
+  name: XmlDocument
+  nameWithType: XmlDocument
+  fullName: System.Xml.XmlDocument
+- uid: System.Xml
+  commentId: N:System.Xml
+  isExternal: true
+  name: System.Xml
+  nameWithType: System.Xml
+  fullName: System.Xml
+- uid: OfficeOpenXml.OfficeProperties.Title*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.Title
+  name: Title
+  nameWithType: OfficeProperties.Title
+  fullName: OfficeOpenXml.OfficeProperties.Title
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.OfficeProperties.Subject*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.Subject
+  name: Subject
+  nameWithType: OfficeProperties.Subject
+  fullName: OfficeOpenXml.OfficeProperties.Subject
+- uid: OfficeOpenXml.OfficeProperties.Author*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.Author
+  name: Author
+  nameWithType: OfficeProperties.Author
+  fullName: OfficeOpenXml.OfficeProperties.Author
+- uid: OfficeOpenXml.OfficeProperties.Comments*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.Comments
+  name: Comments
+  nameWithType: OfficeProperties.Comments
+  fullName: OfficeOpenXml.OfficeProperties.Comments
+- uid: OfficeOpenXml.OfficeProperties.Keywords*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.Keywords
+  name: Keywords
+  nameWithType: OfficeProperties.Keywords
+  fullName: OfficeOpenXml.OfficeProperties.Keywords
+- uid: OfficeOpenXml.OfficeProperties.LastModifiedBy*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.LastModifiedBy
+  name: LastModifiedBy
+  nameWithType: OfficeProperties.LastModifiedBy
+  fullName: OfficeOpenXml.OfficeProperties.LastModifiedBy
+- uid: OfficeOpenXml.OfficeProperties.LastPrinted*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.LastPrinted
+  name: LastPrinted
+  nameWithType: OfficeProperties.LastPrinted
+  fullName: OfficeOpenXml.OfficeProperties.LastPrinted
+- uid: OfficeOpenXml.OfficeProperties.Created*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.Created
+  name: Created
+  nameWithType: OfficeProperties.Created
+  fullName: OfficeOpenXml.OfficeProperties.Created
+- uid: System.DateTime
+  commentId: T:System.DateTime
+  parent: System
+  isExternal: true
+  name: DateTime
+  nameWithType: DateTime
+  fullName: System.DateTime
+- uid: OfficeOpenXml.OfficeProperties.Category*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.Category
+  name: Category
+  nameWithType: OfficeProperties.Category
+  fullName: OfficeOpenXml.OfficeProperties.Category
+- uid: OfficeOpenXml.OfficeProperties.Status*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.Status
+  name: Status
+  nameWithType: OfficeProperties.Status
+  fullName: OfficeOpenXml.OfficeProperties.Status
+- uid: OfficeOpenXml.OfficeProperties.ExtendedPropertiesXml*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.ExtendedPropertiesXml
+  name: ExtendedPropertiesXml
+  nameWithType: OfficeProperties.ExtendedPropertiesXml
+  fullName: OfficeOpenXml.OfficeProperties.ExtendedPropertiesXml
+- uid: OfficeOpenXml.OfficeProperties.Application*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.Application
+  name: Application
+  nameWithType: OfficeProperties.Application
+  fullName: OfficeOpenXml.OfficeProperties.Application
+- uid: OfficeOpenXml.OfficeProperties.HyperlinkBase*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.HyperlinkBase
+  name: HyperlinkBase
+  nameWithType: OfficeProperties.HyperlinkBase
+  fullName: OfficeOpenXml.OfficeProperties.HyperlinkBase
+- uid: System.Uri
+  commentId: T:System.Uri
+  parent: System
+  isExternal: true
+  name: Uri
+  nameWithType: Uri
+  fullName: System.Uri
+- uid: OfficeOpenXml.OfficeProperties.AppVersion*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.AppVersion
+  name: AppVersion
+  nameWithType: OfficeProperties.AppVersion
+  fullName: OfficeOpenXml.OfficeProperties.AppVersion
+- uid: OfficeOpenXml.OfficeProperties.Company*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.Company
+  name: Company
+  nameWithType: OfficeProperties.Company
+  fullName: OfficeOpenXml.OfficeProperties.Company
+- uid: OfficeOpenXml.OfficeProperties.Manager*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.Manager
+  name: Manager
+  nameWithType: OfficeProperties.Manager
+  fullName: OfficeOpenXml.OfficeProperties.Manager
+- uid: OfficeOpenXml.OfficeProperties.Modified*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.Modified
+  name: Modified
+  nameWithType: OfficeProperties.Modified
+  fullName: OfficeOpenXml.OfficeProperties.Modified
+- uid: OfficeOpenXml.OfficeProperties.LinksUpToDate*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.LinksUpToDate
+  name: LinksUpToDate
+  nameWithType: OfficeProperties.LinksUpToDate
+  fullName: OfficeOpenXml.OfficeProperties.LinksUpToDate
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.OfficeProperties.HyperlinksChanged*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.HyperlinksChanged
+  name: HyperlinksChanged
+  nameWithType: OfficeProperties.HyperlinksChanged
+  fullName: OfficeOpenXml.OfficeProperties.HyperlinksChanged
+- uid: OfficeOpenXml.OfficeProperties.ScaleCrop*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.ScaleCrop
+  name: ScaleCrop
+  nameWithType: OfficeProperties.ScaleCrop
+  fullName: OfficeOpenXml.OfficeProperties.ScaleCrop
+- uid: OfficeOpenXml.OfficeProperties.SharedDoc*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.SharedDoc
+  name: SharedDoc
+  nameWithType: OfficeProperties.SharedDoc
+  fullName: OfficeOpenXml.OfficeProperties.SharedDoc
+- uid: OfficeOpenXml.OfficeProperties.GetExtendedPropertyValue*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.GetExtendedPropertyValue
+  name: GetExtendedPropertyValue
+  nameWithType: OfficeProperties.GetExtendedPropertyValue
+  fullName: OfficeOpenXml.OfficeProperties.GetExtendedPropertyValue
+- uid: OfficeOpenXml.OfficeProperties.SetExtendedPropertyValue*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.SetExtendedPropertyValue
+  name: SetExtendedPropertyValue
+  nameWithType: OfficeProperties.SetExtendedPropertyValue
+  fullName: OfficeOpenXml.OfficeProperties.SetExtendedPropertyValue
+- uid: OfficeOpenXml.OfficeProperties.CustomPropertiesXml*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.CustomPropertiesXml
+  name: CustomPropertiesXml
+  nameWithType: OfficeProperties.CustomPropertiesXml
+  fullName: OfficeOpenXml.OfficeProperties.CustomPropertiesXml
+- uid: OfficeOpenXml.OfficeProperties.GetCustomPropertyValue*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.GetCustomPropertyValue
+  name: GetCustomPropertyValue
+  nameWithType: OfficeProperties.GetCustomPropertyValue
+  fullName: OfficeOpenXml.OfficeProperties.GetCustomPropertyValue
+- uid: OfficeOpenXml.OfficeProperties.SetCustomPropertyValue*
+  commentId: Overload:OfficeOpenXml.OfficeProperties.SetCustomPropertyValue
+  name: SetCustomPropertyValue
+  nameWithType: OfficeProperties.SetCustomPropertyValue
+  fullName: OfficeOpenXml.OfficeProperties.SetCustomPropertyValue

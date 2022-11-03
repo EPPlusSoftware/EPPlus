@@ -1,0 +1,109 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider
+  id: IFvProvider
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider.GetFv(System.Double,System.Double,System.Double,System.Double,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue)
+  langs:
+  - csharp
+  - vb
+  name: IFvProvider
+  nameWithType: IFvProvider
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IFvProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IFvProvider
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IFvProvider.cs
+    startLine: 16
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+  syntax:
+    content: public interface IFvProvider
+    content.vb: Public Interface IFvProvider
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider.GetFv(System.Double,System.Double,System.Double,System.Double,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider.GetFv(System.Double,System.Double,System.Double,System.Double,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue)
+  id: GetFv(System.Double,System.Double,System.Double,System.Double,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider
+  langs:
+  - csharp
+  - vb
+  name: GetFv(Double, Double, Double, Double, PmtDue)
+  nameWithType: IFvProvider.GetFv(Double, Double, Double, Double, PmtDue)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider.GetFv(System.Double, System.Double, System.Double, System.Double, OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IFvProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetFv
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IFvProvider.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+  syntax:
+    content: double GetFv(double Rate, double NPer, double Pmt, double PV = 0, PmtDue Due = PmtDue.EndOfPeriod)
+    parameters:
+    - id: Rate
+      type: System.Double
+    - id: NPer
+      type: System.Double
+    - id: Pmt
+      type: System.Double
+    - id: PV
+      type: System.Double
+    - id: Due
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+    return:
+      type: System.Double
+    content.vb: Function GetFv(Rate As Double, NPer As Double, Pmt As Double, PV As Double = 0, Due As PmtDue = PmtDue.EndOfPeriod) As Double
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider.GetFv*
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider.GetFv*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider.GetFv
+  name: GetFv
+  nameWithType: IFvProvider.GetFv
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider.GetFv
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  name: PmtDue
+  nameWithType: PmtDue
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations

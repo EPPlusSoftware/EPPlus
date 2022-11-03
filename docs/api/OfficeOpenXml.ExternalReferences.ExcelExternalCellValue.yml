@@ -1,0 +1,573 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalCellValue
+  id: ExcelExternalCellValue
+  parent: OfficeOpenXml.ExternalReferences
+  children:
+  - OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Address
+  - OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Column
+  - OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.MetaDataReference
+  - OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Row
+  - OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Value
+  langs:
+  - csharp
+  - vb
+  name: ExcelExternalCellValue
+  nameWithType: ExcelExternalCellValue
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelExternalCellValue
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nRepresents a cell value of an external worksheets cell.\n"
+  example: []
+  syntax:
+    content: public class ExcelExternalCellValue
+    content.vb: Public Class ExcelExternalCellValue
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Address
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Address
+  id: Address
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue
+  langs:
+  - csharp
+  - vb
+  name: Address
+  nameWithType: ExcelExternalCellValue.Address
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Address
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Address
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe address of the cell\n"
+  example: []
+  syntax:
+    content: public string Address { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Address As String
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Address*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Row
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Row
+  id: Row
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue
+  langs:
+  - csharp
+  - vb
+  name: Row
+  nameWithType: ExcelExternalCellValue.Row
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Row
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Row
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe row of the cell\n"
+  example: []
+  syntax:
+    content: public int Row { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Row As Integer
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Row*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Column
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Column
+  id: Column
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue
+  langs:
+  - csharp
+  - vb
+  name: Column
+  nameWithType: ExcelExternalCellValue.Column
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Column
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Column
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe column of the cell\n"
+  example: []
+  syntax:
+    content: public int Column { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Column As Integer
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Column*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Value
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Value
+  id: Value
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: ExcelExternalCellValue.Value
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Value
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
+    startLine: 40
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe value of the cell\n"
+  example: []
+  syntax:
+    content: public object Value { get; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: Public ReadOnly Property Value As Object
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Value*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.MetaDataReference
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.MetaDataReference
+  id: MetaDataReference
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue
+  langs:
+  - csharp
+  - vb
+  name: MetaDataReference
+  nameWithType: ExcelExternalCellValue.MetaDataReference
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.MetaDataReference
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MetaDataReference
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nA reference index to meta data for the cell\n"
+  example: []
+  syntax:
+    content: public int MetaDataReference { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property MetaDataReference As Integer
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.MetaDataReference*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.ExternalReferences
+  commentId: N:OfficeOpenXml.ExternalReferences
+  name: OfficeOpenXml.ExternalReferences
+  nameWithType: OfficeOpenXml.ExternalReferences
+  fullName: OfficeOpenXml.ExternalReferences
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Address*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Address
+  name: Address
+  nameWithType: ExcelExternalCellValue.Address
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Address
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Row*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Row
+  name: Row
+  nameWithType: ExcelExternalCellValue.Row
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Row
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Column*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Column
+  name: Column
+  nameWithType: ExcelExternalCellValue.Column
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Column
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Value*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Value
+  name: Value
+  nameWithType: ExcelExternalCellValue.Value
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.Value
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.MetaDataReference*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.MetaDataReference
+  name: MetaDataReference
+  nameWithType: ExcelExternalCellValue.MetaDataReference
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue.MetaDataReference

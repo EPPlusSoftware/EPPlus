@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.VBA.eSyskind
+  commentId: T:OfficeOpenXml.VBA.eSyskind
+  id: eSyskind
+  parent: OfficeOpenXml.VBA
+  children:
+  - OfficeOpenXml.VBA.eSyskind.Macintosh
+  - OfficeOpenXml.VBA.eSyskind.Win16
+  - OfficeOpenXml.VBA.eSyskind.Win32
+  - OfficeOpenXml.VBA.eSyskind.Win64
+  langs:
+  - csharp
+  - vb
+  name: eSyskind
+  nameWithType: eSyskind
+  fullName: OfficeOpenXml.VBA.eSyskind
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/eSyskind.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eSyskind
+    path: ../src/EPPlus/Vba/enums/eSyskind.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nType of system where the VBA project was created.\n"
+  example: []
+  syntax:
+    content: public enum eSyskind
+    content.vb: Public Enum eSyskind
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.VBA.eSyskind.Win16
+  commentId: F:OfficeOpenXml.VBA.eSyskind.Win16
+  id: Win16
+  parent: OfficeOpenXml.VBA.eSyskind
+  langs:
+  - csharp
+  - vb
+  name: Win16
+  nameWithType: eSyskind.Win16
+  fullName: OfficeOpenXml.VBA.eSyskind.Win16
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/eSyskind.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Win16
+    path: ../src/EPPlus/Vba/enums/eSyskind.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nWindows 16-bit\n"
+  example: []
+  syntax:
+    content: Win16 = 0
+    return:
+      type: OfficeOpenXml.VBA.eSyskind
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.VBA.eSyskind.Win32
+  commentId: F:OfficeOpenXml.VBA.eSyskind.Win32
+  id: Win32
+  parent: OfficeOpenXml.VBA.eSyskind
+  langs:
+  - csharp
+  - vb
+  name: Win32
+  nameWithType: eSyskind.Win32
+  fullName: OfficeOpenXml.VBA.eSyskind.Win32
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/eSyskind.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Win32
+    path: ../src/EPPlus/Vba/enums/eSyskind.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nWindows 32-bit\n"
+  example: []
+  syntax:
+    content: Win32 = 1
+    return:
+      type: OfficeOpenXml.VBA.eSyskind
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.VBA.eSyskind.Macintosh
+  commentId: F:OfficeOpenXml.VBA.eSyskind.Macintosh
+  id: Macintosh
+  parent: OfficeOpenXml.VBA.eSyskind
+  langs:
+  - csharp
+  - vb
+  name: Macintosh
+  nameWithType: eSyskind.Macintosh
+  fullName: OfficeOpenXml.VBA.eSyskind.Macintosh
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/eSyskind.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Macintosh
+    path: ../src/EPPlus/Vba/enums/eSyskind.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nMac\n"
+  example: []
+  syntax:
+    content: Macintosh = 2
+    return:
+      type: OfficeOpenXml.VBA.eSyskind
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.VBA.eSyskind.Win64
+  commentId: F:OfficeOpenXml.VBA.eSyskind.Win64
+  id: Win64
+  parent: OfficeOpenXml.VBA.eSyskind
+  langs:
+  - csharp
+  - vb
+  name: Win64
+  nameWithType: eSyskind.Win64
+  fullName: OfficeOpenXml.VBA.eSyskind.Win64
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Vba/enums/eSyskind.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Win64
+    path: ../src/EPPlus/Vba/enums/eSyskind.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nWindows 64-bit\n"
+  example: []
+  syntax:
+    content: Win64 = 3
+    return:
+      type: OfficeOpenXml.VBA.eSyskind
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.VBA
+  commentId: N:OfficeOpenXml.VBA
+  name: OfficeOpenXml.VBA
+  nameWithType: OfficeOpenXml.VBA
+  fullName: OfficeOpenXml.VBA
+- uid: OfficeOpenXml.VBA.eSyskind
+  commentId: T:OfficeOpenXml.VBA.eSyskind
+  parent: OfficeOpenXml.VBA
+  name: eSyskind
+  nameWithType: eSyskind
+  fullName: OfficeOpenXml.VBA.eSyskind

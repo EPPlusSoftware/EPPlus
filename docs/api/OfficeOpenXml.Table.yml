@@ -1,0 +1,77 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  id: OfficeOpenXml.Table
+  children:
+  - OfficeOpenXml.Table.ExcelTable
+  - OfficeOpenXml.Table.ExcelTableCollection
+  - OfficeOpenXml.Table.ExcelTableColumn
+  - OfficeOpenXml.Table.ExcelTableColumnCollection
+  - OfficeOpenXml.Table.ExcelTableDxfBase
+  - OfficeOpenXml.Table.PivotTableStyles
+  - OfficeOpenXml.Table.RowFunctions
+  - OfficeOpenXml.Table.TableStyles
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Table.PivotTableStyles
+  commentId: T:OfficeOpenXml.Table.PivotTableStyles
+  parent: OfficeOpenXml.Table
+  name: PivotTableStyles
+  nameWithType: PivotTableStyles
+  fullName: OfficeOpenXml.Table.PivotTableStyles
+- uid: OfficeOpenXml.Table.RowFunctions
+  commentId: T:OfficeOpenXml.Table.RowFunctions
+  parent: OfficeOpenXml.Table
+  name: RowFunctions
+  nameWithType: RowFunctions
+  fullName: OfficeOpenXml.Table.RowFunctions
+- uid: OfficeOpenXml.Table.TableStyles
+  commentId: T:OfficeOpenXml.Table.TableStyles
+  parent: OfficeOpenXml.Table
+  name: TableStyles
+  nameWithType: TableStyles
+  fullName: OfficeOpenXml.Table.TableStyles
+- uid: OfficeOpenXml.Table.ExcelTable
+  commentId: T:OfficeOpenXml.Table.ExcelTable
+  parent: OfficeOpenXml.Table
+  name: ExcelTable
+  nameWithType: ExcelTable
+  fullName: OfficeOpenXml.Table.ExcelTable
+- uid: OfficeOpenXml.Table.ExcelTableCollection
+  commentId: T:OfficeOpenXml.Table.ExcelTableCollection
+  parent: OfficeOpenXml.Table
+  name: ExcelTableCollection
+  nameWithType: ExcelTableCollection
+  fullName: OfficeOpenXml.Table.ExcelTableCollection
+- uid: OfficeOpenXml.Table.ExcelTableColumn
+  commentId: T:OfficeOpenXml.Table.ExcelTableColumn
+  parent: OfficeOpenXml.Table
+  name: ExcelTableColumn
+  nameWithType: ExcelTableColumn
+  fullName: OfficeOpenXml.Table.ExcelTableColumn
+- uid: OfficeOpenXml.Table.ExcelTableColumnCollection
+  commentId: T:OfficeOpenXml.Table.ExcelTableColumnCollection
+  parent: OfficeOpenXml.Table
+  name: ExcelTableColumnCollection
+  nameWithType: ExcelTableColumnCollection
+  fullName: OfficeOpenXml.Table.ExcelTableColumnCollection
+- uid: OfficeOpenXml.Table.ExcelTableDxfBase
+  commentId: T:OfficeOpenXml.Table.ExcelTableDxfBase
+  parent: OfficeOpenXml.Table
+  name: ExcelTableDxfBase
+  nameWithType: ExcelTableDxfBase
+  fullName: OfficeOpenXml.Table.ExcelTableDxfBase
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table

@@ -1,0 +1,513 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+  commentId: T:OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+  id: ExcelFillXml
+  parent: OfficeOpenXml.Style.XmlAccess
+  children:
+  - OfficeOpenXml.Style.XmlAccess.ExcelFillXml.BackgroundColor
+  - OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternColor
+  - OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternType
+  langs:
+  - csharp
+  - vb
+  name: ExcelFillXml
+  nameWithType: ExcelFillXml
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelFillXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelFillXml
+    path: ../src/EPPlus/Style/XmlAccess/ExcelFillXml.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nXml access class for fills\n"
+  example: []
+  syntax:
+    content: 'public class ExcelFillXml : StyleXmlHelper'
+    content.vb: >-
+      Public Class ExcelFillXml
+          Inherits StyleXmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Style.XmlAccess.StyleXmlHelper
+  derivedClasses:
+  - OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternType
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternType
+  id: PatternType
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+  langs:
+  - csharp
+  - vb
+  name: PatternType
+  nameWithType: ExcelFillXml.PatternType
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelFillXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PatternType
+    path: ../src/EPPlus/Style/XmlAccess/ExcelFillXml.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nCell fill pattern style\n"
+  example: []
+  syntax:
+    content: public ExcelFillStyle PatternType { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelFillStyle
+    content.vb: Public Property PatternType As ExcelFillStyle
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternType*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternColor
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternColor
+  id: PatternColor
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+  langs:
+  - csharp
+  - vb
+  name: PatternColor
+  nameWithType: ExcelFillXml.PatternColor
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelFillXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PatternColor
+    path: ../src/EPPlus/Style/XmlAccess/ExcelFillXml.cs
+    startLine: 81
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nPattern color\n"
+  example: []
+  syntax:
+    content: public ExcelColorXml PatternColor { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.XmlAccess.ExcelColorXml
+    content.vb: Public ReadOnly Property PatternColor As ExcelColorXml
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternColor*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.BackgroundColor
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelFillXml.BackgroundColor
+  id: BackgroundColor
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+  langs:
+  - csharp
+  - vb
+  name: BackgroundColor
+  nameWithType: ExcelFillXml.BackgroundColor
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.BackgroundColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelFillXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BackgroundColor
+    path: ../src/EPPlus/Style/XmlAccess/ExcelFillXml.cs
+    startLine: 97
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nCell background color \n"
+  example: []
+  syntax:
+    content: public ExcelColorXml BackgroundColor { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.XmlAccess.ExcelColorXml
+    content.vb: Public ReadOnly Property BackgroundColor As ExcelColorXml
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.BackgroundColor*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Style.XmlAccess
+  commentId: N:OfficeOpenXml.Style.XmlAccess
+  name: OfficeOpenXml.Style.XmlAccess
+  nameWithType: OfficeOpenXml.Style.XmlAccess
+  fullName: OfficeOpenXml.Style.XmlAccess
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Style.XmlAccess.StyleXmlHelper
+  commentId: T:OfficeOpenXml.Style.XmlAccess.StyleXmlHelper
+  parent: OfficeOpenXml.Style.XmlAccess
+  name: StyleXmlHelper
+  nameWithType: StyleXmlHelper
+  fullName: OfficeOpenXml.Style.XmlAccess.StyleXmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternType*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternType
+  name: PatternType
+  nameWithType: ExcelFillXml.PatternType
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternType
+- uid: OfficeOpenXml.Style.ExcelFillStyle
+  commentId: T:OfficeOpenXml.Style.ExcelFillStyle
+  parent: OfficeOpenXml.Style
+  name: ExcelFillStyle
+  nameWithType: ExcelFillStyle
+  fullName: OfficeOpenXml.Style.ExcelFillStyle
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternColor*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternColor
+  name: PatternColor
+  nameWithType: ExcelFillXml.PatternColor
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternColor
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelColorXml
+  commentId: T:OfficeOpenXml.Style.XmlAccess.ExcelColorXml
+  parent: OfficeOpenXml.Style.XmlAccess
+  name: ExcelColorXml
+  nameWithType: ExcelColorXml
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelColorXml
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.BackgroundColor*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelFillXml.BackgroundColor
+  name: BackgroundColor
+  nameWithType: ExcelFillXml.BackgroundColor
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.BackgroundColor

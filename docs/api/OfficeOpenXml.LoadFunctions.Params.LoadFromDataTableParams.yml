@@ -1,0 +1,607 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams
+  commentId: T:OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams
+  id: LoadFromDataTableParams
+  parent: OfficeOpenXml.LoadFunctions.Params
+  children:
+  - OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.PrintHeaders
+  - OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.TableStyle
+  langs:
+  - csharp
+  - vb
+  name: LoadFromDataTableParams
+  nameWithType: LoadFromDataTableParams
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFromDataTableParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadFromDataTableParams
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFromDataTableParams.cs
+    startLine: 10
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nParameters from the <xref href=\"OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable%2cSystem.Action%7bOfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams%7d)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public class LoadFromDataTableParams
+    content.vb: Public Class LoadFromDataTableParams
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.PrintHeaders
+  commentId: P:OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.PrintHeaders
+  id: PrintHeaders
+  parent: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams
+  langs:
+  - csharp
+  - vb
+  name: PrintHeaders
+  nameWithType: LoadFromDataTableParams.PrintHeaders
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.PrintHeaders
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFromDataTableParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PrintHeaders
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFromDataTableParams.cs
+    startLine: 15
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nIf the Caption of the DataColumn should be used as header.\n"
+  example: []
+  syntax:
+    content: public bool PrintHeaders { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property PrintHeaders As Boolean
+  overload: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.PrintHeaders*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.TableStyle
+  commentId: P:OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.TableStyle
+  id: TableStyle
+  parent: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams
+  langs:
+  - csharp
+  - vb
+  name: TableStyle
+  nameWithType: LoadFromDataTableParams.TableStyle
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.TableStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/LoadFromDataTableParams.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableStyle
+    path: ../src/EPPlus/LoadFunctions/Params/LoadFromDataTableParams.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nThe table style to use on the table created for the imported data.\nnull means that no table is created.\n"
+  example: []
+  syntax:
+    content: public TableStyles? TableStyle { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.Table.TableStyles}
+    content.vb: Public Property TableStyle As TableStyles?
+  overload: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.TableStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Action{OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams})
+  commentId: M:OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Action{OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams})
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: LoadFromDataTable(DataTable, Action<LoadFromDataTableParams>)
+  nameWithType: ExcelRangeBase.LoadFromDataTable(DataTable, Action<LoadFromDataTableParams>)
+  fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable, System.Action<OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams>)
+  nameWithType.vb: ExcelRangeBase.LoadFromDataTable(DataTable, Action(Of LoadFromDataTableParams))
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable, System.Action(Of OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams))
+  name.vb: LoadFromDataTable(DataTable, Action(Of LoadFromDataTableParams))
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Action{OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams})
+    name: LoadFromDataTable
+    nameWithType: ExcelRangeBase.LoadFromDataTable
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Data.DataTable
+    name: DataTable
+    nameWithType: DataTable
+    fullName: System.Data.DataTable
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams
+    name: LoadFromDataTableParams
+    nameWithType: LoadFromDataTableParams
+    fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable(System.Data.DataTable,System.Action{OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams})
+    name: LoadFromDataTable
+    nameWithType: ExcelRangeBase.LoadFromDataTable
+    fullName: OfficeOpenXml.ExcelRangeBase.LoadFromDataTable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Data.DataTable
+    name: DataTable
+    nameWithType: DataTable
+    fullName: System.Data.DataTable
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams
+    name: LoadFromDataTableParams
+    nameWithType: LoadFromDataTableParams
+    fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.LoadFunctions.Params
+  commentId: N:OfficeOpenXml.LoadFunctions.Params
+  name: OfficeOpenXml.LoadFunctions.Params
+  nameWithType: OfficeOpenXml.LoadFunctions.Params
+  fullName: OfficeOpenXml.LoadFunctions.Params
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.PrintHeaders*
+  commentId: Overload:OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.PrintHeaders
+  name: PrintHeaders
+  nameWithType: LoadFromDataTableParams.PrintHeaders
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.PrintHeaders
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.TableStyle*
+  commentId: Overload:OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.TableStyle
+  name: TableStyle
+  nameWithType: LoadFromDataTableParams.TableStyle
+  fullName: OfficeOpenXml.LoadFunctions.Params.LoadFromDataTableParams.TableStyle
+- uid: System.Nullable{OfficeOpenXml.Table.TableStyles}
+  commentId: T:System.Nullable{OfficeOpenXml.Table.TableStyles}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<TableStyles>
+  nameWithType: Nullable<TableStyles>
+  fullName: System.Nullable<OfficeOpenXml.Table.TableStyles>
+  nameWithType.vb: Nullable(Of TableStyles)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.Table.TableStyles)
+  name.vb: Nullable(Of TableStyles)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )

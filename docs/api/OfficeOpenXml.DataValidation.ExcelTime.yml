@@ -1,0 +1,813 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DataValidation.ExcelTime
+  commentId: T:OfficeOpenXml.DataValidation.ExcelTime
+  id: ExcelTime
+  parent: OfficeOpenXml.DataValidation
+  children:
+  - OfficeOpenXml.DataValidation.ExcelTime.#ctor
+  - OfficeOpenXml.DataValidation.ExcelTime.#ctor(System.Decimal)
+  - OfficeOpenXml.DataValidation.ExcelTime.Hour
+  - OfficeOpenXml.DataValidation.ExcelTime.Minute
+  - OfficeOpenXml.DataValidation.ExcelTime.NumberOfDecimals
+  - OfficeOpenXml.DataValidation.ExcelTime.Second
+  - OfficeOpenXml.DataValidation.ExcelTime.ToExcelString
+  - OfficeOpenXml.DataValidation.ExcelTime.ToExcelTime
+  - OfficeOpenXml.DataValidation.ExcelTime.ToString
+  langs:
+  - csharp
+  - vb
+  name: ExcelTime
+  nameWithType: ExcelTime
+  fullName: OfficeOpenXml.DataValidation.ExcelTime
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelTime.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelTime
+    path: ../src/EPPlus/DataValidation/ExcelTime.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nRepresents a time between 00:00:00 and 23:59:59\n"
+  example: []
+  syntax:
+    content: public class ExcelTime
+    content.vb: Public Class ExcelTime
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.DataValidation.ExcelTime.NumberOfDecimals
+  commentId: F:OfficeOpenXml.DataValidation.ExcelTime.NumberOfDecimals
+  id: NumberOfDecimals
+  parent: OfficeOpenXml.DataValidation.ExcelTime
+  langs:
+  - csharp
+  - vb
+  name: NumberOfDecimals
+  nameWithType: ExcelTime.NumberOfDecimals
+  fullName: OfficeOpenXml.DataValidation.ExcelTime.NumberOfDecimals
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelTime.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NumberOfDecimals
+    path: ../src/EPPlus/DataValidation/ExcelTime.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nMax number of decimals when rounding.\n"
+  example: []
+  syntax:
+    content: public const int NumberOfDecimals = 15
+    return:
+      type: System.Int32
+    content.vb: Public Const NumberOfDecimals As Integer = 15
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelTime.#ctor
+  commentId: M:OfficeOpenXml.DataValidation.ExcelTime.#ctor
+  id: '#ctor'
+  parent: OfficeOpenXml.DataValidation.ExcelTime
+  langs:
+  - csharp
+  - vb
+  name: ExcelTime()
+  nameWithType: ExcelTime.ExcelTime()
+  fullName: OfficeOpenXml.DataValidation.ExcelTime.ExcelTime()
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelTime.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/DataValidation/ExcelTime.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nDefault constructor\n"
+  example: []
+  syntax:
+    content: public ExcelTime()
+    content.vb: Public Sub New
+  overload: OfficeOpenXml.DataValidation.ExcelTime.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelTime.#ctor(System.Decimal)
+  commentId: M:OfficeOpenXml.DataValidation.ExcelTime.#ctor(System.Decimal)
+  id: '#ctor(System.Decimal)'
+  parent: OfficeOpenXml.DataValidation.ExcelTime
+  langs:
+  - csharp
+  - vb
+  name: ExcelTime(Decimal)
+  nameWithType: ExcelTime.ExcelTime(Decimal)
+  fullName: OfficeOpenXml.DataValidation.ExcelTime.ExcelTime(System.Decimal)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelTime.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/DataValidation/ExcelTime.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public ExcelTime(decimal value)
+    parameters:
+    - id: value
+      type: System.Decimal
+      description: An existing time for initialization
+    content.vb: Public Sub New(value As Decimal)
+  overload: OfficeOpenXml.DataValidation.ExcelTime.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelTime.Hour
+  commentId: P:OfficeOpenXml.DataValidation.ExcelTime.Hour
+  id: Hour
+  parent: OfficeOpenXml.DataValidation.ExcelTime
+  langs:
+  - csharp
+  - vb
+  name: Hour
+  nameWithType: ExcelTime.Hour
+  fullName: OfficeOpenXml.DataValidation.ExcelTime.Hour
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelTime.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hour
+    path: ../src/EPPlus/DataValidation/ExcelTime.cs
+    startLine: 136
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nHour between 0 and 23\n"
+  example: []
+  syntax:
+    content: public int Hour { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Hour As Integer
+  overload: OfficeOpenXml.DataValidation.ExcelTime.Hour*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelTime.Minute
+  commentId: P:OfficeOpenXml.DataValidation.ExcelTime.Minute
+  id: Minute
+  parent: OfficeOpenXml.DataValidation.ExcelTime
+  langs:
+  - csharp
+  - vb
+  name: Minute
+  nameWithType: ExcelTime.Minute
+  fullName: OfficeOpenXml.DataValidation.ExcelTime.Minute
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelTime.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Minute
+    path: ../src/EPPlus/DataValidation/ExcelTime.cs
+    startLine: 161
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nMinute between 0 and 59\n"
+  example: []
+  syntax:
+    content: public int Minute { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Minute As Integer
+  overload: OfficeOpenXml.DataValidation.ExcelTime.Minute*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelTime.Second
+  commentId: P:OfficeOpenXml.DataValidation.ExcelTime.Second
+  id: Second
+  parent: OfficeOpenXml.DataValidation.ExcelTime
+  langs:
+  - csharp
+  - vb
+  name: Second
+  nameWithType: ExcelTime.Second
+  fullName: OfficeOpenXml.DataValidation.ExcelTime.Second
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelTime.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Second
+    path: ../src/EPPlus/DataValidation/ExcelTime.cs
+    startLine: 186
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nSecond between 0 and 59\n"
+  example: []
+  syntax:
+    content: public int? Second { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property Second As Integer?
+  overload: OfficeOpenXml.DataValidation.ExcelTime.Second*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelTime.ToExcelTime
+  commentId: M:OfficeOpenXml.DataValidation.ExcelTime.ToExcelTime
+  id: ToExcelTime
+  parent: OfficeOpenXml.DataValidation.ExcelTime
+  langs:
+  - csharp
+  - vb
+  name: ToExcelTime()
+  nameWithType: ExcelTime.ToExcelTime()
+  fullName: OfficeOpenXml.DataValidation.ExcelTime.ToExcelTime()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelTime.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToExcelTime
+    path: ../src/EPPlus/DataValidation/ExcelTime.cs
+    startLine: 224
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nReturns the excel decimal representation of a time.\n"
+  example: []
+  syntax:
+    content: public decimal ToExcelTime()
+    return:
+      type: System.Decimal
+      description: ''
+    content.vb: Public Function ToExcelTime As Decimal
+  overload: OfficeOpenXml.DataValidation.ExcelTime.ToExcelTime*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelTime.ToExcelString
+  commentId: M:OfficeOpenXml.DataValidation.ExcelTime.ToExcelString
+  id: ToExcelString
+  parent: OfficeOpenXml.DataValidation.ExcelTime
+  langs:
+  - csharp
+  - vb
+  name: ToExcelString()
+  nameWithType: ExcelTime.ToExcelString()
+  fullName: OfficeOpenXml.DataValidation.ExcelTime.ToExcelString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelTime.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToExcelString
+    path: ../src/EPPlus/DataValidation/ExcelTime.cs
+    startLine: 234
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nReturns the excel decimal representation of a time as a string.\n"
+  example: []
+  syntax:
+    content: public string ToExcelString()
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Function ToExcelString As String
+  overload: OfficeOpenXml.DataValidation.ExcelTime.ToExcelString*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DataValidation.ExcelTime.ToString
+  commentId: M:OfficeOpenXml.DataValidation.ExcelTime.ToString
+  id: ToString
+  parent: OfficeOpenXml.DataValidation.ExcelTime
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: ExcelTime.ToString()
+  fullName: OfficeOpenXml.DataValidation.ExcelTime.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelTime.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToString
+    path: ../src/EPPlus/DataValidation/ExcelTime.cs
+    startLine: 242
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nConverts the object to a string\n"
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: The string
+    content.vb: Public Overrides Function ToString As String
+  overridden: System.Object.ToString
+  overload: OfficeOpenXml.DataValidation.ExcelTime.ToString*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: OfficeOpenXml.DataValidation
+  commentId: N:OfficeOpenXml.DataValidation
+  name: OfficeOpenXml.DataValidation
+  nameWithType: OfficeOpenXml.DataValidation
+  fullName: OfficeOpenXml.DataValidation
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.DataValidation.ExcelTime.#ctor*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelTime.#ctor
+  name: ExcelTime
+  nameWithType: ExcelTime.ExcelTime
+  fullName: OfficeOpenXml.DataValidation.ExcelTime.ExcelTime
+- uid: System.Decimal
+  commentId: T:System.Decimal
+  parent: System
+  isExternal: true
+  name: Decimal
+  nameWithType: Decimal
+  fullName: System.Decimal
+- uid: OfficeOpenXml.DataValidation.ExcelTime.Hour*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelTime.Hour
+  name: Hour
+  nameWithType: ExcelTime.Hour
+  fullName: OfficeOpenXml.DataValidation.ExcelTime.Hour
+- uid: OfficeOpenXml.DataValidation.ExcelTime.Minute*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelTime.Minute
+  name: Minute
+  nameWithType: ExcelTime.Minute
+  fullName: OfficeOpenXml.DataValidation.ExcelTime.Minute
+- uid: OfficeOpenXml.DataValidation.ExcelTime.Second*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelTime.Second
+  name: Second
+  nameWithType: ExcelTime.Second
+  fullName: OfficeOpenXml.DataValidation.ExcelTime.Second
+- uid: System.Nullable{System.Int32}
+  commentId: T:System.Nullable{System.Int32}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Int32>
+  nameWithType: Nullable<Int32>
+  fullName: System.Nullable<System.Int32>
+  nameWithType.vb: Nullable(Of Int32)
+  fullName.vb: System.Nullable(Of System.Int32)
+  name.vb: Nullable(Of Int32)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.DataValidation.ExcelTime.ToExcelTime*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelTime.ToExcelTime
+  name: ToExcelTime
+  nameWithType: ExcelTime.ToExcelTime
+  fullName: OfficeOpenXml.DataValidation.ExcelTime.ToExcelTime
+- uid: OfficeOpenXml.DataValidation.ExcelTime.ToExcelString*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelTime.ToExcelString
+  name: ToExcelString
+  nameWithType: ExcelTime.ToExcelString
+  fullName: OfficeOpenXml.DataValidation.ExcelTime.ToExcelString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.DataValidation.ExcelTime.ToString*
+  commentId: Overload:OfficeOpenXml.DataValidation.ExcelTime.ToString
+  name: ToString
+  nameWithType: ExcelTime.ToString
+  fullName: OfficeOpenXml.DataValidation.ExcelTime.ToString

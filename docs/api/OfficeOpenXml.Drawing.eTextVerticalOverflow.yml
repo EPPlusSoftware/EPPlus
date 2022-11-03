@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eTextVerticalOverflow
+  commentId: T:OfficeOpenXml.Drawing.eTextVerticalOverflow
+  id: eTextVerticalOverflow
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eTextVerticalOverflow.Clip
+  - OfficeOpenXml.Drawing.eTextVerticalOverflow.Ellipsis
+  - OfficeOpenXml.Drawing.eTextVerticalOverflow.Overflow
+  langs:
+  - csharp
+  - vb
+  name: eTextVerticalOverflow
+  nameWithType: eTextVerticalOverflow
+  fullName: OfficeOpenXml.Drawing.eTextVerticalOverflow
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextVerticalOverflow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eTextVerticalOverflow
+    path: ../src/EPPlus/Drawing/Enums/eTextVerticalOverflow.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHow text vertical overflows\n"
+  example: []
+  syntax:
+    content: public enum eTextVerticalOverflow
+    content.vb: Public Enum eTextVerticalOverflow
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eTextVerticalOverflow.Clip
+  commentId: F:OfficeOpenXml.Drawing.eTextVerticalOverflow.Clip
+  id: Clip
+  parent: OfficeOpenXml.Drawing.eTextVerticalOverflow
+  langs:
+  - csharp
+  - vb
+  name: Clip
+  nameWithType: eTextVerticalOverflow.Clip
+  fullName: OfficeOpenXml.Drawing.eTextVerticalOverflow.Clip
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextVerticalOverflow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clip
+    path: ../src/EPPlus/Drawing/Enums/eTextVerticalOverflow.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nClip the text and give no indication that there is text that is not visible at the top and bottom.\n"
+  example: []
+  syntax:
+    content: Clip = 0
+    return:
+      type: OfficeOpenXml.Drawing.eTextVerticalOverflow
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextVerticalOverflow.Ellipsis
+  commentId: F:OfficeOpenXml.Drawing.eTextVerticalOverflow.Ellipsis
+  id: Ellipsis
+  parent: OfficeOpenXml.Drawing.eTextVerticalOverflow
+  langs:
+  - csharp
+  - vb
+  name: Ellipsis
+  nameWithType: eTextVerticalOverflow.Ellipsis
+  fullName: OfficeOpenXml.Drawing.eTextVerticalOverflow.Ellipsis
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextVerticalOverflow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Ellipsis
+    path: ../src/EPPlus/Drawing/Enums/eTextVerticalOverflow.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nUse an ellipse to highlight text that is not visible at the top and bottom.\n"
+  example: []
+  syntax:
+    content: Ellipsis = 1
+    return:
+      type: OfficeOpenXml.Drawing.eTextVerticalOverflow
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextVerticalOverflow.Overflow
+  commentId: F:OfficeOpenXml.Drawing.eTextVerticalOverflow.Overflow
+  id: Overflow
+  parent: OfficeOpenXml.Drawing.eTextVerticalOverflow
+  langs:
+  - csharp
+  - vb
+  name: Overflow
+  nameWithType: eTextVerticalOverflow.Overflow
+  fullName: OfficeOpenXml.Drawing.eTextVerticalOverflow.Overflow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextVerticalOverflow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Overflow
+    path: ../src/EPPlus/Drawing/Enums/eTextVerticalOverflow.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOverflow the text.\n"
+  example: []
+  syntax:
+    content: Overflow = 2
+    return:
+      type: OfficeOpenXml.Drawing.eTextVerticalOverflow
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eTextVerticalOverflow
+  commentId: T:OfficeOpenXml.Drawing.eTextVerticalOverflow
+  parent: OfficeOpenXml.Drawing
+  name: eTextVerticalOverflow
+  nameWithType: eTextVerticalOverflow
+  fullName: OfficeOpenXml.Drawing.eTextVerticalOverflow

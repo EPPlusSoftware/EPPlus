@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eWorkSheetHidden
+  commentId: T:OfficeOpenXml.eWorkSheetHidden
+  id: eWorkSheetHidden
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eWorkSheetHidden.Hidden
+  - OfficeOpenXml.eWorkSheetHidden.VeryHidden
+  - OfficeOpenXml.eWorkSheetHidden.Visible
+  langs:
+  - csharp
+  - vb
+  name: eWorkSheetHidden
+  nameWithType: eWorkSheetHidden
+  fullName: OfficeOpenXml.eWorkSheetHidden
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/eWorkSheetHidden.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eWorkSheetHidden
+    path: ../src/EPPlus/eWorkSheetHidden.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nWorksheet hidden enumeration\n"
+  example: []
+  syntax:
+    content: public enum eWorkSheetHidden
+    content.vb: Public Enum eWorkSheetHidden
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eWorkSheetHidden.Visible
+  commentId: F:OfficeOpenXml.eWorkSheetHidden.Visible
+  id: Visible
+  parent: OfficeOpenXml.eWorkSheetHidden
+  langs:
+  - csharp
+  - vb
+  name: Visible
+  nameWithType: eWorkSheetHidden.Visible
+  fullName: OfficeOpenXml.eWorkSheetHidden.Visible
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/eWorkSheetHidden.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Visible
+    path: ../src/EPPlus/eWorkSheetHidden.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe worksheet is visible\n"
+  example: []
+  syntax:
+    content: Visible = 0
+    return:
+      type: OfficeOpenXml.eWorkSheetHidden
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eWorkSheetHidden.Hidden
+  commentId: F:OfficeOpenXml.eWorkSheetHidden.Hidden
+  id: Hidden
+  parent: OfficeOpenXml.eWorkSheetHidden
+  langs:
+  - csharp
+  - vb
+  name: Hidden
+  nameWithType: eWorkSheetHidden.Hidden
+  fullName: OfficeOpenXml.eWorkSheetHidden.Hidden
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/eWorkSheetHidden.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hidden
+    path: ../src/EPPlus/eWorkSheetHidden.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe worksheet is hidden but can be shown by the user via the user interface\n"
+  example: []
+  syntax:
+    content: Hidden = 1
+    return:
+      type: OfficeOpenXml.eWorkSheetHidden
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eWorkSheetHidden.VeryHidden
+  commentId: F:OfficeOpenXml.eWorkSheetHidden.VeryHidden
+  id: VeryHidden
+  parent: OfficeOpenXml.eWorkSheetHidden
+  langs:
+  - csharp
+  - vb
+  name: VeryHidden
+  nameWithType: eWorkSheetHidden.VeryHidden
+  fullName: OfficeOpenXml.eWorkSheetHidden.VeryHidden
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/eWorkSheetHidden.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VeryHidden
+    path: ../src/EPPlus/eWorkSheetHidden.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe worksheet is hidden and cannot be shown by the user via the user interface\n"
+  example: []
+  syntax:
+    content: VeryHidden = 2
+    return:
+      type: OfficeOpenXml.eWorkSheetHidden
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eWorkSheetHidden
+  commentId: T:OfficeOpenXml.eWorkSheetHidden
+  parent: OfficeOpenXml
+  name: eWorkSheetHidden
+  nameWithType: eWorkSheetHidden
+  fullName: OfficeOpenXml.eWorkSheetHidden

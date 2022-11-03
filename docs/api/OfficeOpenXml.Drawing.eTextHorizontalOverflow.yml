@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eTextHorizontalOverflow
+  commentId: T:OfficeOpenXml.Drawing.eTextHorizontalOverflow
+  id: eTextHorizontalOverflow
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eTextHorizontalOverflow.Clip
+  - OfficeOpenXml.Drawing.eTextHorizontalOverflow.Overflow
+  langs:
+  - csharp
+  - vb
+  name: eTextHorizontalOverflow
+  nameWithType: eTextHorizontalOverflow
+  fullName: OfficeOpenXml.Drawing.eTextHorizontalOverflow
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextHorizontalOverflow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eTextHorizontalOverflow
+    path: ../src/EPPlus/Drawing/Enums/eTextHorizontalOverflow.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSpecifies the text vertical overflow\n"
+  example: []
+  syntax:
+    content: public enum eTextHorizontalOverflow
+    content.vb: Public Enum eTextHorizontalOverflow
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eTextHorizontalOverflow.Clip
+  commentId: F:OfficeOpenXml.Drawing.eTextHorizontalOverflow.Clip
+  id: Clip
+  parent: OfficeOpenXml.Drawing.eTextHorizontalOverflow
+  langs:
+  - csharp
+  - vb
+  name: Clip
+  nameWithType: eTextHorizontalOverflow.Clip
+  fullName: OfficeOpenXml.Drawing.eTextHorizontalOverflow.Clip
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextHorizontalOverflow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clip
+    path: ../src/EPPlus/Drawing/Enums/eTextHorizontalOverflow.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nWhen a character doesn&apos;t fit into a line, clip it at the end.\n"
+  example: []
+  syntax:
+    content: Clip = 0
+    return:
+      type: OfficeOpenXml.Drawing.eTextHorizontalOverflow
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextHorizontalOverflow.Overflow
+  commentId: F:OfficeOpenXml.Drawing.eTextHorizontalOverflow.Overflow
+  id: Overflow
+  parent: OfficeOpenXml.Drawing.eTextHorizontalOverflow
+  langs:
+  - csharp
+  - vb
+  name: Overflow
+  nameWithType: eTextHorizontalOverflow.Overflow
+  fullName: OfficeOpenXml.Drawing.eTextHorizontalOverflow.Overflow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextHorizontalOverflow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Overflow
+    path: ../src/EPPlus/Drawing/Enums/eTextHorizontalOverflow.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nWhen a character doesn&apos;t fit into a line, allow an overflow.\n"
+  example: []
+  syntax:
+    content: Overflow = 1
+    return:
+      type: OfficeOpenXml.Drawing.eTextHorizontalOverflow
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eTextHorizontalOverflow
+  commentId: T:OfficeOpenXml.Drawing.eTextHorizontalOverflow
+  parent: OfficeOpenXml.Drawing
+  name: eTextHorizontalOverflow
+  nameWithType: eTextHorizontalOverflow
+  fullName: OfficeOpenXml.Drawing.eTextHorizontalOverflow

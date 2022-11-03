@@ -1,0 +1,569 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache
+  commentId: T:OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache
+  id: ExcelSlicerCache
+  parent: OfficeOpenXml.Drawing.Slicer
+  children:
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.Name
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SlicerCacheXml
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SourceName
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SourceType
+  langs:
+  - csharp
+  - vb
+  name: ExcelSlicerCache
+  nameWithType: ExcelSlicerCache
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelSlicerCache
+    path: ../src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer
+  summary: "\nBase class for table and pivot table slicer caches\n"
+  example: []
+  syntax:
+    content: 'public abstract class ExcelSlicerCache : XmlHelper'
+    content.vb: >-
+      Public MustInherit Class ExcelSlicerCache
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  derivedClasses:
+  - OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCache
+  - OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - abstract
+  - class
+  modifiers.vb:
+  - Public
+  - MustInherit
+  - Class
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SlicerCacheXml
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SlicerCacheXml
+  id: SlicerCacheXml
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache
+  langs:
+  - csharp
+  - vb
+  name: SlicerCacheXml
+  nameWithType: ExcelSlicerCache.SlicerCacheXml
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SlicerCacheXml
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SlicerCacheXml
+    path: ../src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer
+  summary: "\nThe slicer cache xml document\n"
+  example: []
+  syntax:
+    content: public XmlDocument SlicerCacheXml { get; protected set; }
+    parameters: []
+    return:
+      type: System.Xml.XmlDocument
+    content.vb: Public Property SlicerCacheXml As XmlDocument
+  overload: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SlicerCacheXml*
+  modifiers.csharp:
+  - public
+  - get
+  - protected set
+  modifiers.vb:
+  - Public
+  - Get
+  - Protected Set
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.Name
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.Name
+  id: Name
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ExcelSlicerCache.Name
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer
+  summary: "\nThe name of the slicer cache\n"
+  example: []
+  syntax:
+    content: public string Name { get; protected set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.Name*
+  modifiers.csharp:
+  - public
+  - get
+  - protected set
+  modifiers.vb:
+  - Public
+  - Get
+  - Protected Set
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SourceName
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SourceName
+  id: SourceName
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache
+  langs:
+  - csharp
+  - vb
+  name: SourceName
+  nameWithType: ExcelSlicerCache.SourceName
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SourceName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SourceName
+    path: ../src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
+    startLine: 64
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer
+  summary: "\nThe name of the source field or column.\n"
+  example: []
+  syntax:
+    content: public string SourceName { get; protected set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property SourceName As String
+  overload: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SourceName*
+  modifiers.csharp:
+  - public
+  - get
+  - protected set
+  modifiers.vb:
+  - Public
+  - Get
+  - Protected Set
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SourceType
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SourceType
+  id: SourceType
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache
+  langs:
+  - csharp
+  - vb
+  name: SourceType
+  nameWithType: ExcelSlicerCache.SourceType
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SourceType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SourceType
+    path: ../src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer
+  summary: "\nThe source of the slicer.\n"
+  example: []
+  syntax:
+    content: public abstract eSlicerSourceType SourceType { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.eSlicerSourceType
+    content.vb: Public MustOverride ReadOnly Property SourceType As eSlicerSourceType
+  overload: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SourceType*
+  modifiers.csharp:
+  - public
+  - abstract
+  - get
+  modifiers.vb:
+  - Public
+  - MustOverride
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Slicer
+  commentId: N:OfficeOpenXml.Drawing.Slicer
+  name: OfficeOpenXml.Drawing.Slicer
+  nameWithType: OfficeOpenXml.Drawing.Slicer
+  fullName: OfficeOpenXml.Drawing.Slicer
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SlicerCacheXml*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SlicerCacheXml
+  name: SlicerCacheXml
+  nameWithType: ExcelSlicerCache.SlicerCacheXml
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SlicerCacheXml
+- uid: System.Xml.XmlDocument
+  commentId: T:System.Xml.XmlDocument
+  parent: System.Xml
+  isExternal: true
+  name: XmlDocument
+  nameWithType: XmlDocument
+  fullName: System.Xml.XmlDocument
+- uid: System.Xml
+  commentId: N:System.Xml
+  isExternal: true
+  name: System.Xml
+  nameWithType: System.Xml
+  fullName: System.Xml
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.Name*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.Name
+  name: Name
+  nameWithType: ExcelSlicerCache.Name
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SourceName*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SourceName
+  name: SourceName
+  nameWithType: ExcelSlicerCache.SourceName
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SourceName
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SourceType*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SourceType
+  name: SourceType
+  nameWithType: ExcelSlicerCache.SourceType
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache.SourceType
+- uid: OfficeOpenXml.eSlicerSourceType
+  commentId: T:OfficeOpenXml.eSlicerSourceType
+  parent: OfficeOpenXml
+  name: eSlicerSourceType
+  nameWithType: eSlicerSourceType
+  fullName: OfficeOpenXml.eSlicerSourceType

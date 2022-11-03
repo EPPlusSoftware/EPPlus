@@ -1,0 +1,468 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  id: eExcelConditionalFormattingOperatorType
+  parent: OfficeOpenXml.ConditionalFormatting
+  children:
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.BeginsWith
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.Between
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.ContainsText
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.EndsWith
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.Equal
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.GreaterThan
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.GreaterThanOrEqual
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.LessThan
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.LessThanOrEqual
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.NotBetween
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.NotContains
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.NotEqual
+  langs:
+  - csharp
+  - vb
+  name: eExcelConditionalFormattingOperatorType
+  nameWithType: eExcelConditionalFormattingOperatorType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eExcelConditionalFormattingOperatorType
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 428
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nEnum for Conditional Formatting Operartor Type ST_ConditionalFormattingOperator §18.18.15\n"
+  example: []
+  syntax:
+    content: public enum eExcelConditionalFormattingOperatorType
+    content.vb: Public Enum eExcelConditionalFormattingOperatorType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.BeginsWith
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.BeginsWith
+  id: BeginsWith
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  langs:
+  - csharp
+  - vb
+  name: BeginsWith
+  nameWithType: eExcelConditionalFormattingOperatorType.BeginsWith
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.BeginsWith
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BeginsWith
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 433
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nBegins With. &apos;Begins with&apos; operator\n"
+  example: []
+  syntax:
+    content: BeginsWith = 0
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.Between
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.Between
+  id: Between
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  langs:
+  - csharp
+  - vb
+  name: Between
+  nameWithType: eExcelConditionalFormattingOperatorType.Between
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.Between
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Between
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 438
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nBetween. &apos;Between&apos; operator\n"
+  example: []
+  syntax:
+    content: Between = 1
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.ContainsText
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.ContainsText
+  id: ContainsText
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  langs:
+  - csharp
+  - vb
+  name: ContainsText
+  nameWithType: eExcelConditionalFormattingOperatorType.ContainsText
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.ContainsText
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ContainsText
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 443
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nContains. &apos;Contains&apos; operator\n"
+  example: []
+  syntax:
+    content: ContainsText = 2
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.EndsWith
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.EndsWith
+  id: EndsWith
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  langs:
+  - csharp
+  - vb
+  name: EndsWith
+  nameWithType: eExcelConditionalFormattingOperatorType.EndsWith
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.EndsWith
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EndsWith
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 448
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nEnds With. &apos;Ends with&apos; operator\n"
+  example: []
+  syntax:
+    content: EndsWith = 3
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.Equal
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.Equal
+  id: Equal
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  langs:
+  - csharp
+  - vb
+  name: Equal
+  nameWithType: eExcelConditionalFormattingOperatorType.Equal
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.Equal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Equal
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 453
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nEqual. &apos;Equal to&apos; operator\n"
+  example: []
+  syntax:
+    content: Equal = 4
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.GreaterThan
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.GreaterThan
+  id: GreaterThan
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  langs:
+  - csharp
+  - vb
+  name: GreaterThan
+  nameWithType: eExcelConditionalFormattingOperatorType.GreaterThan
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.GreaterThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GreaterThan
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 458
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGreater Than. &apos;Greater than&apos; operator\n"
+  example: []
+  syntax:
+    content: GreaterThan = 5
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.GreaterThanOrEqual
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.GreaterThanOrEqual
+  id: GreaterThanOrEqual
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  langs:
+  - csharp
+  - vb
+  name: GreaterThanOrEqual
+  nameWithType: eExcelConditionalFormattingOperatorType.GreaterThanOrEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.GreaterThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GreaterThanOrEqual
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 463
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGreater Than Or Equal. &apos;Greater than or equal to&apos; operator\n"
+  example: []
+  syntax:
+    content: GreaterThanOrEqual = 6
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.LessThan
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.LessThan
+  id: LessThan
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  langs:
+  - csharp
+  - vb
+  name: LessThan
+  nameWithType: eExcelConditionalFormattingOperatorType.LessThan
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.LessThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LessThan
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 468
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nLess Than. &apos;Less than&apos; operator\n"
+  example: []
+  syntax:
+    content: LessThan = 7
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.LessThanOrEqual
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.LessThanOrEqual
+  id: LessThanOrEqual
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  langs:
+  - csharp
+  - vb
+  name: LessThanOrEqual
+  nameWithType: eExcelConditionalFormattingOperatorType.LessThanOrEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.LessThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LessThanOrEqual
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 473
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nLess Than Or Equal. &apos;Less than or equal to&apos; operator\n"
+  example: []
+  syntax:
+    content: LessThanOrEqual = 8
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.NotBetween
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.NotBetween
+  id: NotBetween
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  langs:
+  - csharp
+  - vb
+  name: NotBetween
+  nameWithType: eExcelConditionalFormattingOperatorType.NotBetween
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.NotBetween
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NotBetween
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 478
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nNot Between. &apos;Not between&apos; operator\n"
+  example: []
+  syntax:
+    content: NotBetween = 9
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.NotContains
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.NotContains
+  id: NotContains
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  langs:
+  - csharp
+  - vb
+  name: NotContains
+  nameWithType: eExcelConditionalFormattingOperatorType.NotContains
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.NotContains
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NotContains
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 483
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nDoes Not Contain. &apos;Does not contain&apos; operator\n"
+  example: []
+  syntax:
+    content: NotContains = 10
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.NotEqual
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.NotEqual
+  id: NotEqual
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  langs:
+  - csharp
+  - vb
+  name: NotEqual
+  nameWithType: eExcelConditionalFormattingOperatorType.NotEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType.NotEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NotEqual
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 488
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nNot Equal. &apos;Not equal to&apos; operator\n"
+  example: []
+  syntax:
+    content: NotEqual = 11
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.ConditionalFormatting
+  commentId: N:OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  nameWithType: OfficeOpenXml.ConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelConditionalFormattingOperatorType
+  nameWithType: eExcelConditionalFormattingOperatorType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingOperatorType

@@ -1,0 +1,383 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.INameInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.INameInfo
+  id: INameInfo
+  parent: OfficeOpenXml.FormulaParsing
+  children:
+  - OfficeOpenXml.FormulaParsing.INameInfo.Formula
+  - OfficeOpenXml.FormulaParsing.INameInfo.Id
+  - OfficeOpenXml.FormulaParsing.INameInfo.Name
+  - OfficeOpenXml.FormulaParsing.INameInfo.Tokens
+  - OfficeOpenXml.FormulaParsing.INameInfo.Value
+  - OfficeOpenXml.FormulaParsing.INameInfo.Worksheet
+  langs:
+  - csharp
+  - vb
+  name: INameInfo
+  nameWithType: INameInfo
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/INameInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: INameInfo
+    path: ../src/EPPlus/FormulaParsing/INameInfo.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  syntax:
+    content: public interface INameInfo
+    content.vb: Public Interface INameInfo
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.Id
+  commentId: P:OfficeOpenXml.FormulaParsing.INameInfo.Id
+  id: Id
+  parent: OfficeOpenXml.FormulaParsing.INameInfo
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: INameInfo.Id
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.Id
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/INameInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Id
+    path: ../src/EPPlus/FormulaParsing/INameInfo.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  syntax:
+    content: ulong Id { get; set; }
+    parameters: []
+    return:
+      type: System.UInt64
+    content.vb: Property Id As ULong
+  overload: OfficeOpenXml.FormulaParsing.INameInfo.Id*
+  modifiers.csharp:
+  - get
+  - set
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.Worksheet
+  commentId: P:OfficeOpenXml.FormulaParsing.INameInfo.Worksheet
+  id: Worksheet
+  parent: OfficeOpenXml.FormulaParsing.INameInfo
+  langs:
+  - csharp
+  - vb
+  name: Worksheet
+  nameWithType: INameInfo.Worksheet
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.Worksheet
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/INameInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Worksheet
+    path: ../src/EPPlus/FormulaParsing/INameInfo.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  syntax:
+    content: string Worksheet { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Property Worksheet As String
+  overload: OfficeOpenXml.FormulaParsing.INameInfo.Worksheet*
+  modifiers.csharp:
+  - get
+  - set
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.Name
+  commentId: P:OfficeOpenXml.FormulaParsing.INameInfo.Name
+  id: Name
+  parent: OfficeOpenXml.FormulaParsing.INameInfo
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: INameInfo.Name
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/INameInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/FormulaParsing/INameInfo.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  syntax:
+    content: string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Property Name As String
+  overload: OfficeOpenXml.FormulaParsing.INameInfo.Name*
+  modifiers.csharp:
+  - get
+  - set
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.Formula
+  commentId: P:OfficeOpenXml.FormulaParsing.INameInfo.Formula
+  id: Formula
+  parent: OfficeOpenXml.FormulaParsing.INameInfo
+  langs:
+  - csharp
+  - vb
+  name: Formula
+  nameWithType: INameInfo.Formula
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.Formula
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/INameInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Formula
+    path: ../src/EPPlus/FormulaParsing/INameInfo.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  syntax:
+    content: string Formula { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Property Formula As String
+  overload: OfficeOpenXml.FormulaParsing.INameInfo.Formula*
+  modifiers.csharp:
+  - get
+  - set
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.Tokens
+  commentId: P:OfficeOpenXml.FormulaParsing.INameInfo.Tokens
+  id: Tokens
+  parent: OfficeOpenXml.FormulaParsing.INameInfo
+  langs:
+  - csharp
+  - vb
+  name: Tokens
+  nameWithType: INameInfo.Tokens
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.Tokens
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/INameInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Tokens
+    path: ../src/EPPlus/FormulaParsing/INameInfo.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  syntax:
+    content: IList<Token> Tokens { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+    content.vb: ReadOnly Property Tokens As IList(Of Token)
+  overload: OfficeOpenXml.FormulaParsing.INameInfo.Tokens*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.Value
+  commentId: P:OfficeOpenXml.FormulaParsing.INameInfo.Value
+  id: Value
+  parent: OfficeOpenXml.FormulaParsing.INameInfo
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: INameInfo.Value
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.Value
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/INameInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value
+    path: ../src/EPPlus/FormulaParsing/INameInfo.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  syntax:
+    content: object Value { get; set; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: Property Value As Object
+  overload: OfficeOpenXml.FormulaParsing.INameInfo.Value*
+  modifiers.csharp:
+  - get
+  - set
+references:
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.Id*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.INameInfo.Id
+  name: Id
+  nameWithType: INameInfo.Id
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.Id
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  name: UInt64
+  nameWithType: UInt64
+  fullName: System.UInt64
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.Worksheet*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.INameInfo.Worksheet
+  name: Worksheet
+  nameWithType: INameInfo.Worksheet
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.Worksheet
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.Name*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.INameInfo.Name
+  name: Name
+  nameWithType: INameInfo.Name
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.Name
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.Formula*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.INameInfo.Formula
+  name: Formula
+  nameWithType: INameInfo.Formula
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.Formula
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.Tokens*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.INameInfo.Tokens
+  name: Tokens
+  nameWithType: INameInfo.Tokens
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.Tokens
+- uid: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+  commentId: T:System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IList`1
+  name: IList<Token>
+  nameWithType: IList<Token>
+  fullName: System.Collections.Generic.IList<OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token>
+  nameWithType.vb: IList(Of Token)
+  fullName.vb: System.Collections.Generic.IList(Of OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token)
+  name.vb: IList(Of Token)
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+    name: Token
+    nameWithType: Token
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+    name: Token
+    nameWithType: Token
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IList`1
+  commentId: T:System.Collections.Generic.IList`1
+  isExternal: true
+  name: IList<T>
+  nameWithType: IList<T>
+  fullName: System.Collections.Generic.IList<T>
+  nameWithType.vb: IList(Of T)
+  fullName.vb: System.Collections.Generic.IList(Of T)
+  name.vb: IList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: OfficeOpenXml.FormulaParsing.INameInfo.Value*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.INameInfo.Value
+  name: Value
+  nameWithType: INameInfo.Value
+  fullName: OfficeOpenXml.FormulaParsing.INameInfo.Value
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object

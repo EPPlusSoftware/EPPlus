@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eScatterStyle
+  commentId: T:OfficeOpenXml.Drawing.Chart.eScatterStyle
+  id: eScatterStyle
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eScatterStyle.LineMarker
+  - OfficeOpenXml.Drawing.Chart.eScatterStyle.SmoothMarker
+  langs:
+  - csharp
+  - vb
+  name: eScatterStyle
+  nameWithType: eScatterStyle
+  fullName: OfficeOpenXml.Drawing.Chart.eScatterStyle
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eScatterStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eScatterStyle
+    path: ../src/EPPlus/Drawing/Chart/enums/eScatterStyle.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nSmooth or lines markers\n"
+  example: []
+  syntax:
+    content: public enum eScatterStyle
+    content.vb: Public Enum eScatterStyle
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eScatterStyle.LineMarker
+  commentId: F:OfficeOpenXml.Drawing.Chart.eScatterStyle.LineMarker
+  id: LineMarker
+  parent: OfficeOpenXml.Drawing.Chart.eScatterStyle
+  langs:
+  - csharp
+  - vb
+  name: LineMarker
+  nameWithType: eScatterStyle.LineMarker
+  fullName: OfficeOpenXml.Drawing.Chart.eScatterStyle.LineMarker
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eScatterStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LineMarker
+    path: ../src/EPPlus/Drawing/Chart/enums/eScatterStyle.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nLine and markers\n"
+  example: []
+  syntax:
+    content: LineMarker = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eScatterStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eScatterStyle.SmoothMarker
+  commentId: F:OfficeOpenXml.Drawing.Chart.eScatterStyle.SmoothMarker
+  id: SmoothMarker
+  parent: OfficeOpenXml.Drawing.Chart.eScatterStyle
+  langs:
+  - csharp
+  - vb
+  name: SmoothMarker
+  nameWithType: eScatterStyle.SmoothMarker
+  fullName: OfficeOpenXml.Drawing.Chart.eScatterStyle.SmoothMarker
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eScatterStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SmoothMarker
+    path: ../src/EPPlus/Drawing/Chart/enums/eScatterStyle.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nSmooth lines and markers\n"
+  example: []
+  syntax:
+    content: SmoothMarker = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eScatterStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eScatterStyle
+  commentId: T:OfficeOpenXml.Drawing.Chart.eScatterStyle
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eScatterStyle
+  nameWithType: eScatterStyle
+  fullName: OfficeOpenXml.Drawing.Chart.eScatterStyle

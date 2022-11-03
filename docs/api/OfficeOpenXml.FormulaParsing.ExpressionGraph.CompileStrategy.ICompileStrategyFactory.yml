@@ -1,0 +1,94 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory
+  id: ICompileStrategyFactory
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  children:
+  - OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory.Create(OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression)
+  langs:
+  - csharp
+  - vb
+  name: ICompileStrategyFactory
+  nameWithType: ICompileStrategyFactory
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExpressionGraph/CompileStrategy/ICompileStrategyFactory.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ICompileStrategyFactory
+    path: ../src/EPPlus/FormulaParsing/ExpressionGraph/CompileStrategy/ICompileStrategyFactory.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  syntax:
+    content: public interface ICompileStrategyFactory
+    content.vb: Public Interface ICompileStrategyFactory
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory.Create(OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory.Create(OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression)
+  id: Create(OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression)
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory
+  langs:
+  - csharp
+  - vb
+  name: Create(Expression)
+  nameWithType: ICompileStrategyFactory.Create(Expression)
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory.Create(OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExpressionGraph/CompileStrategy/ICompileStrategyFactory.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Create
+    path: ../src/EPPlus/FormulaParsing/ExpressionGraph/CompileStrategy/ICompileStrategyFactory.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  syntax:
+    content: CompileStrategy Create(Expression expression)
+    parameters:
+    - id: expression
+      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+    return:
+      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy
+    content.vb: Function Create(expression As Expression) As CompileStrategy
+  overload: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory.Create*
+references:
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  name: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory.Create*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory.Create
+  name: Create
+  nameWithType: ICompileStrategyFactory.Create
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.ICompileStrategyFactory.Create
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: Expression
+  nameWithType: Expression
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.Expression
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy
+  name: CompileStrategy
+  nameWithType: CompileStrategy
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.CompileStrategy.CompileStrategy
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph

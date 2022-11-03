@@ -61,15 +61,9 @@ namespace OfficeOpenXml.Drawing
                     return;
                 }
 
-                var ms = ((MemoryStream)Part.GetStream());
-                var pt = ImageReader.GetPictureType(ms, false);
-                if(pt == null)
-                {
-                    pt = PictureStore.GetPictureType(extension);
-                }
-                byte[] iby = ms.ToArray();
+                byte[] iby = ((MemoryStream)Part.GetStream()).ToArray();
                 Image = new ExcelImage(this);
-                Image.SetImage(iby, pt.Value);
+                Image.SetImage(iby, PictureStore.GetPictureType(extension));
 
                 var ii = _drawings._package.PictureStore.LoadImage(iby, container.UriPic, Part);
                 container.ImageHash = ii.Hash;
@@ -79,6 +73,7 @@ namespace OfficeOpenXml.Drawing
         {
             //Create relationship
             node.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relID;
+            
             if (type == ePictureType.Svg)
             {
                 node.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager).Value = relID;

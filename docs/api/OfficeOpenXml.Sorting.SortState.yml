@@ -1,0 +1,588 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Sorting.SortState
+  commentId: T:OfficeOpenXml.Sorting.SortState
+  id: SortState
+  parent: OfficeOpenXml.Sorting
+  children:
+  - OfficeOpenXml.Sorting.SortState.CaseSensitive
+  - OfficeOpenXml.Sorting.SortState.Clear
+  - OfficeOpenXml.Sorting.SortState.ColumnSort
+  - OfficeOpenXml.Sorting.SortState.Ref
+  - OfficeOpenXml.Sorting.SortState.SortConditions
+  langs:
+  - csharp
+  - vb
+  name: SortState
+  nameWithType: SortState
+  fullName: OfficeOpenXml.Sorting.SortState
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Sorting/SortState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SortState
+    path: ../src/EPPlus/Sorting/SortState.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nPreserves the AutoFilter sort state.\n"
+  example: []
+  syntax:
+    content: 'public class SortState : XmlHelper'
+    content.vb: >-
+      Public Class SortState
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Sorting.SortState.Clear
+  commentId: M:OfficeOpenXml.Sorting.SortState.Clear
+  id: Clear
+  parent: OfficeOpenXml.Sorting.SortState
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: SortState.Clear()
+  fullName: OfficeOpenXml.Sorting.SortState.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Sorting/SortState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clear
+    path: ../src/EPPlus/Sorting/SortState.cs
+    startLine: 73
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nRemoves all sort conditions\n"
+  example: []
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear
+  overload: OfficeOpenXml.Sorting.SortState.Clear*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Sorting.SortState.SortConditions
+  commentId: P:OfficeOpenXml.Sorting.SortState.SortConditions
+  id: SortConditions
+  parent: OfficeOpenXml.Sorting.SortState
+  langs:
+  - csharp
+  - vb
+  name: SortConditions
+  nameWithType: SortState.SortConditions
+  fullName: OfficeOpenXml.Sorting.SortState.SortConditions
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sorting/SortState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SortConditions
+    path: ../src/EPPlus/Sorting/SortState.cs
+    startLine: 81
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nThe preserved sort conditions of the sort state.\n"
+  example: []
+  syntax:
+    content: public SortConditionCollection SortConditions { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sorting.SortConditionCollection
+    content.vb: Public ReadOnly Property SortConditions As SortConditionCollection
+  overload: OfficeOpenXml.Sorting.SortState.SortConditions*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Sorting.SortState.CaseSensitive
+  commentId: P:OfficeOpenXml.Sorting.SortState.CaseSensitive
+  id: CaseSensitive
+  parent: OfficeOpenXml.Sorting.SortState
+  langs:
+  - csharp
+  - vb
+  name: CaseSensitive
+  nameWithType: SortState.CaseSensitive
+  fullName: OfficeOpenXml.Sorting.SortState.CaseSensitive
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sorting/SortState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CaseSensitive
+    path: ../src/EPPlus/Sorting/SortState.cs
+    startLine: 92
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nIndicates whether or not the sort is case-sensitive\n"
+  example: []
+  syntax:
+    content: public bool CaseSensitive { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property CaseSensitive As Boolean
+  overload: OfficeOpenXml.Sorting.SortState.CaseSensitive*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Sorting.SortState.ColumnSort
+  commentId: P:OfficeOpenXml.Sorting.SortState.ColumnSort
+  id: ColumnSort
+  parent: OfficeOpenXml.Sorting.SortState
+  langs:
+  - csharp
+  - vb
+  name: ColumnSort
+  nameWithType: SortState.ColumnSort
+  fullName: OfficeOpenXml.Sorting.SortState.ColumnSort
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sorting/SortState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnSort
+    path: ../src/EPPlus/Sorting/SortState.cs
+    startLine: 107
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nIndicates whether or not to sort by columns.\n"
+  example: []
+  syntax:
+    content: public bool ColumnSort { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property ColumnSort As Boolean
+  overload: OfficeOpenXml.Sorting.SortState.ColumnSort*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Sorting.SortState.Ref
+  commentId: P:OfficeOpenXml.Sorting.SortState.Ref
+  id: Ref
+  parent: OfficeOpenXml.Sorting.SortState
+  langs:
+  - csharp
+  - vb
+  name: Ref
+  nameWithType: SortState.Ref
+  fullName: OfficeOpenXml.Sorting.SortState.Ref
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Sorting/SortState.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Ref
+    path: ../src/EPPlus/Sorting/SortState.cs
+    startLine: 122
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nThe whole range of data to sort (not only the sort-by column)\n"
+  example: []
+  syntax:
+    content: public string Ref { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Ref As String
+  overload: OfficeOpenXml.Sorting.SortState.Ref*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Sorting
+  commentId: N:OfficeOpenXml.Sorting
+  name: OfficeOpenXml.Sorting
+  nameWithType: OfficeOpenXml.Sorting
+  fullName: OfficeOpenXml.Sorting
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Sorting.SortState.Clear*
+  commentId: Overload:OfficeOpenXml.Sorting.SortState.Clear
+  name: Clear
+  nameWithType: SortState.Clear
+  fullName: OfficeOpenXml.Sorting.SortState.Clear
+- uid: OfficeOpenXml.Sorting.SortState.SortConditions*
+  commentId: Overload:OfficeOpenXml.Sorting.SortState.SortConditions
+  name: SortConditions
+  nameWithType: SortState.SortConditions
+  fullName: OfficeOpenXml.Sorting.SortState.SortConditions
+- uid: OfficeOpenXml.Sorting.SortConditionCollection
+  commentId: T:OfficeOpenXml.Sorting.SortConditionCollection
+  parent: OfficeOpenXml.Sorting
+  name: SortConditionCollection
+  nameWithType: SortConditionCollection
+  fullName: OfficeOpenXml.Sorting.SortConditionCollection
+- uid: OfficeOpenXml.Sorting.SortState.CaseSensitive*
+  commentId: Overload:OfficeOpenXml.Sorting.SortState.CaseSensitive
+  name: CaseSensitive
+  nameWithType: SortState.CaseSensitive
+  fullName: OfficeOpenXml.Sorting.SortState.CaseSensitive
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Sorting.SortState.ColumnSort*
+  commentId: Overload:OfficeOpenXml.Sorting.SortState.ColumnSort
+  name: ColumnSort
+  nameWithType: SortState.ColumnSort
+  fullName: OfficeOpenXml.Sorting.SortState.ColumnSort
+- uid: OfficeOpenXml.Sorting.SortState.Ref*
+  commentId: Overload:OfficeOpenXml.Sorting.SortState.Ref
+  name: Ref
+  nameWithType: SortState.Ref
+  fullName: OfficeOpenXml.Sorting.SortState.Ref
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

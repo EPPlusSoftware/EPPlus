@@ -1,0 +1,83 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Packaging.Ionic.Zip.WriteDelegate
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zip.WriteDelegate
+  id: WriteDelegate
+  parent: OfficeOpenXml.Packaging.Ionic.Zip
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: WriteDelegate
+  nameWithType: WriteDelegate
+  fullName: OfficeOpenXml.Packaging.Ionic.Zip.WriteDelegate
+  type: Delegate
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Events.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WriteDelegate
+    path: ../src/EPPlus/Packaging/DotNetZip/Events.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zip
+  summary: "\nDelegate in which the application writes the <code>ZipEntry</code> content for the named entry.\n"
+  remarks: "\nWhen you add an entry and specify a <code>WriteDelegate</code>, via <xref href=\"OfficeOpenXml.Packaging.Ionic.Zip.ZipFile.AddEntry(System.String%2cOfficeOpenXml.Packaging.Ionic.Zip.WriteDelegate)\" data-throw-if-not-resolved=\"false\"></xref>, the application\ncode provides the logic that writes the entry data directly into the zip file.\n"
+  example:
+  - "\n\nThis example shows how to define a WriteDelegate that obtains a DataSet, and then\nwrites the XML for the DataSet into the zip archive.  There&apos;s no need to\nsave the XML to a disk file first.\n\n<pre><code>private void WriteEntry (String filename, Stream output)\n{\n    DataSet ds1 = ObtainDataSet();\n    ds1.WriteXml(output);\n}\n\nprivate void Run()\n{\n    using (var zip = new ZipFile())\n    {\n        zip.AddEntry(zipEntryName, WriteEntry);\n        zip.Save(zipFileName);\n    }\n}</code></pre>\n\n<pre><code>Private Sub WriteEntry (ByVal filename As String, ByVal output As Stream)\n    DataSet ds1 = ObtainDataSet()\n    ds1.WriteXml(stream)\nEnd Sub\n\nPublic Sub Run()\n    Using zip = New ZipFile\n        zip.AddEntry(zipEntryName, New WriteDelegate(AddressOf WriteEntry))\n        zip.Save(zipFileName)\n    End Using\nEnd Sub</code></pre>\n"
+  syntax:
+    content: public delegate void WriteDelegate(string entryName, Stream stream);
+    parameters:
+    - id: entryName
+      type: System.String
+      description: The name of the entry that must be written.
+    - id: stream
+      type: System.IO.Stream
+      description: The stream to which the entry data should be written.
+    content.vb: Public Delegate Sub WriteDelegate(entryName As String, stream As Stream)
+  seealso:
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zip.ZipFile.AddEntry(System.String,OfficeOpenXml.Packaging.Ionic.Zip.WriteDelegate)
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zip.ZipFile.AddEntry(System.String,OfficeOpenXml.Packaging.Ionic.Zip.WriteDelegate)
+  modifiers.csharp:
+  - public
+  - delegate
+  modifiers.vb:
+  - Public
+  - Delegate
+references:
+- uid: OfficeOpenXml.Packaging.Ionic.Zip.ZipFile.AddEntry(System.String,OfficeOpenXml.Packaging.Ionic.Zip.WriteDelegate)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zip.ZipFile.AddEntry(System.String,OfficeOpenXml.Packaging.Ionic.Zip.WriteDelegate)
+  isExternal: true
+- uid: OfficeOpenXml.Packaging.Ionic.Zip
+  commentId: N:OfficeOpenXml.Packaging.Ionic.Zip
+  name: OfficeOpenXml.Packaging.Ionic.Zip
+  nameWithType: OfficeOpenXml.Packaging.Ionic.Zip
+  fullName: OfficeOpenXml.Packaging.Ionic.Zip
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.IO.Stream
+  commentId: T:System.IO.Stream
+  parent: System.IO
+  isExternal: true
+  name: Stream
+  nameWithType: Stream
+  fullName: System.IO.Stream
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO

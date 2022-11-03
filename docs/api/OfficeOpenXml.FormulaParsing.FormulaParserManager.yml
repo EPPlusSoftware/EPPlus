@@ -1,0 +1,1138 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaParserManager
+  id: FormulaParserManager
+  parent: OfficeOpenXml.FormulaParsing
+  children:
+  - OfficeOpenXml.FormulaParsing.FormulaParserManager.AddOrReplaceFunction(System.String,OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction)
+  - OfficeOpenXml.FormulaParsing.FormulaParserManager.AttachLogger(OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger)
+  - OfficeOpenXml.FormulaParsing.FormulaParserManager.AttachLogger(System.IO.FileInfo)
+  - OfficeOpenXml.FormulaParsing.FormulaParserManager.CopyFunctionsFrom(OfficeOpenXml.ExcelWorkbook)
+  - OfficeOpenXml.FormulaParsing.FormulaParserManager.DetachLogger
+  - OfficeOpenXml.FormulaParsing.FormulaParserManager.GetCalculationChain(OfficeOpenXml.ExcelRangeBase)
+  - OfficeOpenXml.FormulaParsing.FormulaParserManager.GetCalculationChain(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  - OfficeOpenXml.FormulaParsing.FormulaParserManager.GetImplementedFunctionNames
+  - OfficeOpenXml.FormulaParsing.FormulaParserManager.GetImplementedFunctions
+  - OfficeOpenXml.FormulaParsing.FormulaParserManager.LoadFunctionModule(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule)
+  - OfficeOpenXml.FormulaParsing.FormulaParserManager.Parse(System.String)
+  - OfficeOpenXml.FormulaParsing.FormulaParserManager.Parse(System.String,System.String)
+  langs:
+  - csharp
+  - vb
+  name: FormulaParserManager
+  nameWithType: FormulaParserManager
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FormulaParserManager
+    path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nProvides access to various functionality regarding \nexcel formula evaluation.\n"
+  example: []
+  syntax:
+    content: public class FormulaParserManager
+    content.vb: Public Class FormulaParserManager
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.LoadFunctionModule(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParserManager.LoadFunctionModule(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule)
+  id: LoadFunctionModule(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule)
+  parent: OfficeOpenXml.FormulaParsing.FormulaParserManager
+  langs:
+  - csharp
+  - vb
+  name: LoadFunctionModule(IFunctionModule)
+  nameWithType: FormulaParserManager.LoadFunctionModule(IFunctionModule)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.LoadFunctionModule(OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadFunctionModule
+    path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nLoads a module containing custom functions to the formula parser. By using\nthis method you can add your own implementations of Excel functions, by\nimplementing a <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public void LoadFunctionModule(IFunctionModule module)
+    parameters:
+    - id: module
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule
+      description: A <xref href="OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule" data-throw-if-not-resolved="false"></xref> containing <xref href="OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction" data-throw-if-not-resolved="false"></xref>s.
+    content.vb: Public Sub LoadFunctionModule(module As IFunctionModule)
+  overload: OfficeOpenXml.FormulaParsing.FormulaParserManager.LoadFunctionModule*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.AddOrReplaceFunction(System.String,OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParserManager.AddOrReplaceFunction(System.String,OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction)
+  id: AddOrReplaceFunction(System.String,OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction)
+  parent: OfficeOpenXml.FormulaParsing.FormulaParserManager
+  langs:
+  - csharp
+  - vb
+  name: AddOrReplaceFunction(String, ExcelFunction)
+  nameWithType: FormulaParserManager.AddOrReplaceFunction(String, ExcelFunction)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.AddOrReplaceFunction(System.String, OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddOrReplaceFunction
+    path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nIf the supplied <code data-dev-comment-type=\"paramref\" class=\"paramref\">functionName</code> does not exist, the supplied\n<code data-dev-comment-type=\"paramref\" class=\"paramref\">functionImpl</code> implementation will be added to the formula parser.\nIf it exists, the existing function will be replaced by the supplied <code data-dev-comment-type=\"paramref\" class=\"paramref\">functionImpl</code>\n"
+  example: []
+  syntax:
+    content: public void AddOrReplaceFunction(string functionName, ExcelFunction functionImpl)
+    parameters:
+    - id: functionName
+      type: System.String
+      description: ''
+    - id: functionImpl
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+      description: ''
+    content.vb: Public Sub AddOrReplaceFunction(functionName As String, functionImpl As ExcelFunction)
+  overload: OfficeOpenXml.FormulaParsing.FormulaParserManager.AddOrReplaceFunction*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.CopyFunctionsFrom(OfficeOpenXml.ExcelWorkbook)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParserManager.CopyFunctionsFrom(OfficeOpenXml.ExcelWorkbook)
+  id: CopyFunctionsFrom(OfficeOpenXml.ExcelWorkbook)
+  parent: OfficeOpenXml.FormulaParsing.FormulaParserManager
+  langs:
+  - csharp
+  - vb
+  name: CopyFunctionsFrom(ExcelWorkbook)
+  nameWithType: FormulaParserManager.CopyFunctionsFrom(ExcelWorkbook)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.CopyFunctionsFrom(OfficeOpenXml.ExcelWorkbook)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CopyFunctionsFrom
+    path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nCopies existing <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction\" data-throw-if-not-resolved=\"false\"></xref>´s from one workbook to another.\n"
+  example: []
+  syntax:
+    content: public void CopyFunctionsFrom(ExcelWorkbook otherWorkbook)
+    parameters:
+    - id: otherWorkbook
+      type: OfficeOpenXml.ExcelWorkbook
+      description: The workbook containing the forumulas to be copied.
+    content.vb: Public Sub CopyFunctionsFrom(otherWorkbook As ExcelWorkbook)
+  overload: OfficeOpenXml.FormulaParsing.FormulaParserManager.CopyFunctionsFrom*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetImplementedFunctionNames
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParserManager.GetImplementedFunctionNames
+  id: GetImplementedFunctionNames
+  parent: OfficeOpenXml.FormulaParsing.FormulaParserManager
+  langs:
+  - csharp
+  - vb
+  name: GetImplementedFunctionNames()
+  nameWithType: FormulaParserManager.GetImplementedFunctionNames()
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetImplementedFunctionNames()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetImplementedFunctionNames
+    path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
+    startLine: 79
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nReturns an enumeration of the names of all functions implemented, both the built in functions\nand functions added using the LoadFunctionModule method of this class.\n"
+  example: []
+  syntax:
+    content: public IEnumerable<string> GetImplementedFunctionNames()
+    return:
+      type: System.Collections.Generic.IEnumerable{System.String}
+      description: Function names in lower case
+    content.vb: Public Function GetImplementedFunctionNames As IEnumerable(Of String)
+  overload: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetImplementedFunctionNames*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetImplementedFunctions
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParserManager.GetImplementedFunctions
+  id: GetImplementedFunctions
+  parent: OfficeOpenXml.FormulaParsing.FormulaParserManager
+  langs:
+  - csharp
+  - vb
+  name: GetImplementedFunctions()
+  nameWithType: FormulaParserManager.GetImplementedFunctions()
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetImplementedFunctions()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetImplementedFunctions
+    path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nReturns an enumeration of all implemented functions, including the implementing <xref href=\"OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction\" data-throw-if-not-resolved=\"false\"></xref> instance.\n"
+  example: []
+  syntax:
+    content: public IEnumerable<KeyValuePair<string, ExcelFunction>> GetImplementedFunctions()
+    return:
+      type: System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction}}
+      description: An enumeration of <xref href="System.Collections.Generic.KeyValuePair%602" data-throw-if-not-resolved="false"></xref>, where the key is the function name
+    content.vb: Public Function GetImplementedFunctions As IEnumerable(Of KeyValuePair(Of String, ExcelFunction))
+  overload: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetImplementedFunctions*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.Parse(System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParserManager.Parse(System.String)
+  id: Parse(System.String)
+  parent: OfficeOpenXml.FormulaParsing.FormulaParserManager
+  langs:
+  - csharp
+  - vb
+  name: Parse(String)
+  nameWithType: FormulaParserManager.Parse(String)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.Parse(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Parse
+    path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
+    startLine: 108
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nParses the supplied <code data-dev-comment-type=\"paramref\" class=\"paramref\">formula</code> and returns the result.\n"
+  example: []
+  syntax:
+    content: public object Parse(string formula)
+    parameters:
+    - id: formula
+      type: System.String
+      description: The formula to parse
+    return:
+      type: System.Object
+      description: The result of the parsed formula
+    content.vb: Public Function Parse(formula As String) As Object
+  overload: OfficeOpenXml.FormulaParsing.FormulaParserManager.Parse*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.Parse(System.String,System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParserManager.Parse(System.String,System.String)
+  id: Parse(System.String,System.String)
+  parent: OfficeOpenXml.FormulaParsing.FormulaParserManager
+  langs:
+  - csharp
+  - vb
+  name: Parse(String, String)
+  nameWithType: FormulaParserManager.Parse(String, String)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.Parse(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Parse
+    path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
+    startLine: 119
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nParses the supplied <code data-dev-comment-type=\"paramref\" class=\"paramref\">formula</code> and returns the result.\n"
+  example: []
+  syntax:
+    content: public object Parse(string formula, string address)
+    parameters:
+    - id: formula
+      type: System.String
+      description: The formula to parse
+    - id: address
+      type: System.String
+      description: 'The full address in the workbook where the <code data-dev-comment-type="paramref" class="paramref">formula</code> should be parsed. Example: you might want to parse the formula of a conditional format, then this should be the address of the cell where the conditional format resides.'
+    return:
+      type: System.Object
+      description: The result of the parsed formula
+    content.vb: Public Function Parse(formula As String, address As String) As Object
+  overload: OfficeOpenXml.FormulaParsing.FormulaParserManager.Parse*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.AttachLogger(OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParserManager.AttachLogger(OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger)
+  id: AttachLogger(OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger)
+  parent: OfficeOpenXml.FormulaParsing.FormulaParserManager
+  langs:
+  - csharp
+  - vb
+  name: AttachLogger(IFormulaParserLogger)
+  nameWithType: FormulaParserManager.AttachLogger(IFormulaParserLogger)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.AttachLogger(OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AttachLogger
+    path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
+    startLine: 129
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nAttaches a logger to the <xref href=\"OfficeOpenXml.FormulaParsing.FormulaParser\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public void AttachLogger(IFormulaParserLogger logger)
+    parameters:
+    - id: logger
+      type: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+      description: An instance of <xref href="OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Sub AttachLogger(logger As IFormulaParserLogger)
+  overload: OfficeOpenXml.FormulaParsing.FormulaParserManager.AttachLogger*
+  see:
+  - linkId: OfficeOpenXml.FormulaParsing.Logging.LoggerFactory
+    commentId: T:OfficeOpenXml.FormulaParsing.Logging.LoggerFactory
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.AttachLogger(System.IO.FileInfo)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParserManager.AttachLogger(System.IO.FileInfo)
+  id: AttachLogger(System.IO.FileInfo)
+  parent: OfficeOpenXml.FormulaParsing.FormulaParserManager
+  langs:
+  - csharp
+  - vb
+  name: AttachLogger(FileInfo)
+  nameWithType: FormulaParserManager.AttachLogger(FileInfo)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.AttachLogger(System.IO.FileInfo)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AttachLogger
+    path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nAttaches a logger to the formula parser that produces output to the supplied logfile.\n"
+  example: []
+  syntax:
+    content: public void AttachLogger(FileInfo logfile)
+    parameters:
+    - id: logfile
+      type: System.IO.FileInfo
+      description: ''
+    content.vb: Public Sub AttachLogger(logfile As FileInfo)
+  overload: OfficeOpenXml.FormulaParsing.FormulaParserManager.AttachLogger*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.DetachLogger
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParserManager.DetachLogger
+  id: DetachLogger
+  parent: OfficeOpenXml.FormulaParsing.FormulaParserManager
+  langs:
+  - csharp
+  - vb
+  name: DetachLogger()
+  nameWithType: FormulaParserManager.DetachLogger()
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.DetachLogger()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DetachLogger
+    path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
+    startLine: 145
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nDetaches any attached logger from the formula parser.\n"
+  example: []
+  syntax:
+    content: public void DetachLogger()
+    content.vb: Public Sub DetachLogger
+  overload: OfficeOpenXml.FormulaParsing.FormulaParserManager.DetachLogger*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetCalculationChain(OfficeOpenXml.ExcelRangeBase)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParserManager.GetCalculationChain(OfficeOpenXml.ExcelRangeBase)
+  id: GetCalculationChain(OfficeOpenXml.ExcelRangeBase)
+  parent: OfficeOpenXml.FormulaParsing.FormulaParserManager
+  langs:
+  - csharp
+  - vb
+  name: GetCalculationChain(ExcelRangeBase)
+  nameWithType: FormulaParserManager.GetCalculationChain(ExcelRangeBase)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetCalculationChain(OfficeOpenXml.ExcelRangeBase)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetCalculationChain
+    path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
+    startLine: 150
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  syntax:
+    content: public IEnumerable<IFormulaCellInfo> GetCalculationChain(ExcelRangeBase range)
+    parameters:
+    - id: range
+      type: OfficeOpenXml.ExcelRangeBase
+    return:
+      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.IFormulaCellInfo}
+    content.vb: Public Function GetCalculationChain(range As ExcelRangeBase) As IEnumerable(Of IFormulaCellInfo)
+  overload: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetCalculationChain*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetCalculationChain(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParserManager.GetCalculationChain(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  id: GetCalculationChain(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  parent: OfficeOpenXml.FormulaParsing.FormulaParserManager
+  langs:
+  - csharp
+  - vb
+  name: GetCalculationChain(ExcelRangeBase, ExcelCalculationOption)
+  nameWithType: FormulaParserManager.GetCalculationChain(ExcelRangeBase, ExcelCalculationOption)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetCalculationChain(OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParserManager.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetCalculationChain
+    path: ../src/EPPlus/FormulaParsing/FormulaParserManager.cs
+    startLine: 156
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  syntax:
+    content: public IEnumerable<IFormulaCellInfo> GetCalculationChain(ExcelRangeBase range, ExcelCalculationOption options)
+    parameters:
+    - id: range
+      type: OfficeOpenXml.ExcelRangeBase
+    - id: options
+      type: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    return:
+      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.IFormulaCellInfo}
+    content.vb: Public Function GetCalculationChain(range As ExcelRangeBase, options As ExcelCalculationOption) As IEnumerable(Of IFormulaCellInfo)
+  overload: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetCalculationChain*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: IFunctionModule
+  nameWithType: IFunctionModule
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: ExcelFunction
+  nameWithType: ExcelFunction
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.LoadFunctionModule*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaParserManager.LoadFunctionModule
+  name: LoadFunctionModule
+  nameWithType: FormulaParserManager.LoadFunctionModule
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.LoadFunctionModule
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.AddOrReplaceFunction*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaParserManager.AddOrReplaceFunction
+  name: AddOrReplaceFunction
+  nameWithType: FormulaParserManager.AddOrReplaceFunction
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.AddOrReplaceFunction
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.CopyFunctionsFrom*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaParserManager.CopyFunctionsFrom
+  name: CopyFunctionsFrom
+  nameWithType: FormulaParserManager.CopyFunctionsFrom
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.CopyFunctionsFrom
+- uid: OfficeOpenXml.ExcelWorkbook
+  commentId: T:OfficeOpenXml.ExcelWorkbook
+  parent: OfficeOpenXml
+  name: ExcelWorkbook
+  nameWithType: ExcelWorkbook
+  fullName: OfficeOpenXml.ExcelWorkbook
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetImplementedFunctionNames*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaParserManager.GetImplementedFunctionNames
+  name: GetImplementedFunctionNames
+  nameWithType: FormulaParserManager.GetImplementedFunctionNames
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetImplementedFunctionNames
+- uid: System.Collections.Generic.IEnumerable{System.String}
+  commentId: T:System.Collections.Generic.IEnumerable{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<String>
+  nameWithType: IEnumerable<String>
+  fullName: System.Collections.Generic.IEnumerable<System.String>
+  nameWithType.vb: IEnumerable(Of String)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of System.String)
+  name.vb: IEnumerable(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections.Generic.KeyValuePair`2
+  commentId: T:System.Collections.Generic.KeyValuePair`2
+  isExternal: true
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetImplementedFunctions*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaParserManager.GetImplementedFunctions
+  name: GetImplementedFunctions
+  nameWithType: FormulaParserManager.GetImplementedFunctions
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetImplementedFunctions
+- uid: System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction}}
+  commentId: T:System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<KeyValuePair<String, ExcelFunction>>
+  nameWithType: IEnumerable<KeyValuePair<String, ExcelFunction>>
+  fullName: System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<System.String, OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction>>
+  nameWithType.vb: IEnumerable(Of KeyValuePair(Of String, ExcelFunction))
+  fullName.vb: System.Collections.Generic.IEnumerable(Of System.Collections.Generic.KeyValuePair(Of System.String, OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction))
+  name.vb: IEnumerable(Of KeyValuePair(Of String, ExcelFunction))
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Collections.Generic.KeyValuePair`2
+    name: KeyValuePair
+    nameWithType: KeyValuePair
+    fullName: System.Collections.Generic.KeyValuePair
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+    name: ExcelFunction
+    nameWithType: ExcelFunction
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Collections.Generic.KeyValuePair`2
+    name: KeyValuePair
+    nameWithType: KeyValuePair
+    fullName: System.Collections.Generic.KeyValuePair
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+    name: ExcelFunction
+    nameWithType: ExcelFunction
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.Parse*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaParserManager.Parse
+  name: Parse
+  nameWithType: FormulaParserManager.Parse
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.Parse
+- uid: OfficeOpenXml.FormulaParsing.FormulaParser
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaParser
+  parent: OfficeOpenXml.FormulaParsing
+  name: FormulaParser
+  nameWithType: FormulaParser
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParser
+- uid: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+  commentId: T:OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+  parent: OfficeOpenXml.FormulaParsing.Logging
+  name: IFormulaParserLogger
+  nameWithType: IFormulaParserLogger
+  fullName: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+- uid: OfficeOpenXml.FormulaParsing.Logging.LoggerFactory
+  commentId: T:OfficeOpenXml.FormulaParsing.Logging.LoggerFactory
+  name: LoggerFactory
+  nameWithType: LoggerFactory
+  fullName: OfficeOpenXml.FormulaParsing.Logging.LoggerFactory
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.AttachLogger*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaParserManager.AttachLogger
+  name: AttachLogger
+  nameWithType: FormulaParserManager.AttachLogger
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.AttachLogger
+- uid: OfficeOpenXml.FormulaParsing.Logging
+  commentId: N:OfficeOpenXml.FormulaParsing.Logging
+  name: OfficeOpenXml.FormulaParsing.Logging
+  nameWithType: OfficeOpenXml.FormulaParsing.Logging
+  fullName: OfficeOpenXml.FormulaParsing.Logging
+- uid: System.IO.FileInfo
+  commentId: T:System.IO.FileInfo
+  parent: System.IO
+  isExternal: true
+  name: FileInfo
+  nameWithType: FileInfo
+  fullName: System.IO.FileInfo
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.DetachLogger*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaParserManager.DetachLogger
+  name: DetachLogger
+  nameWithType: FormulaParserManager.DetachLogger
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.DetachLogger
+- uid: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetCalculationChain*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaParserManager.GetCalculationChain
+  name: GetCalculationChain
+  nameWithType: FormulaParserManager.GetCalculationChain
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParserManager.GetCalculationChain
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.IFormulaCellInfo}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.IFormulaCellInfo}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<IFormulaCellInfo>
+  nameWithType: IEnumerable<IFormulaCellInfo>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.IFormulaCellInfo>
+  nameWithType.vb: IEnumerable(Of IFormulaCellInfo)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.IFormulaCellInfo)
+  name.vb: IEnumerable(Of IFormulaCellInfo)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+    name: IFormulaCellInfo
+    nameWithType: IFormulaCellInfo
+    fullName: OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+    name: IFormulaCellInfo
+    nameWithType: IFormulaCellInfo
+    fullName: OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  commentId: T:OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  parent: OfficeOpenXml.FormulaParsing
+  name: ExcelCalculationOption
+  nameWithType: ExcelCalculationOption
+  fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption

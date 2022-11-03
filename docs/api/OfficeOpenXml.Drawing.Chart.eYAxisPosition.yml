@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eYAxisPosition
+  commentId: T:OfficeOpenXml.Drawing.Chart.eYAxisPosition
+  id: eYAxisPosition
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eYAxisPosition.Left
+  - OfficeOpenXml.Drawing.Chart.eYAxisPosition.Right
+  langs:
+  - csharp
+  - vb
+  name: eYAxisPosition
+  nameWithType: eYAxisPosition
+  fullName: OfficeOpenXml.Drawing.Chart.eYAxisPosition
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eYAxisPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eYAxisPosition
+    path: ../src/EPPlus/Drawing/Chart/enums/eYAxisPosition.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nPosition of the Y-Axis\n"
+  example: []
+  syntax:
+    content: public enum eYAxisPosition
+    content.vb: Public Enum eYAxisPosition
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eYAxisPosition.Left
+  commentId: F:OfficeOpenXml.Drawing.Chart.eYAxisPosition.Left
+  id: Left
+  parent: OfficeOpenXml.Drawing.Chart.eYAxisPosition
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: eYAxisPosition.Left
+  fullName: OfficeOpenXml.Drawing.Chart.eYAxisPosition.Left
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eYAxisPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Left
+    path: ../src/EPPlus/Drawing/Chart/enums/eYAxisPosition.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nTo the left\n"
+  example: []
+  syntax:
+    content: Left = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eYAxisPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eYAxisPosition.Right
+  commentId: F:OfficeOpenXml.Drawing.Chart.eYAxisPosition.Right
+  id: Right
+  parent: OfficeOpenXml.Drawing.Chart.eYAxisPosition
+  langs:
+  - csharp
+  - vb
+  name: Right
+  nameWithType: eYAxisPosition.Right
+  fullName: OfficeOpenXml.Drawing.Chart.eYAxisPosition.Right
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eYAxisPosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Right
+    path: ../src/EPPlus/Drawing/Chart/enums/eYAxisPosition.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nTo the right\n"
+  example: []
+  syntax:
+    content: Right = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eYAxisPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eYAxisPosition
+  commentId: T:OfficeOpenXml.Drawing.Chart.eYAxisPosition
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eYAxisPosition
+  nameWithType: eYAxisPosition
+  fullName: OfficeOpenXml.Drawing.Chart.eYAxisPosition

@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Packaging.TargetMode
+  commentId: T:OfficeOpenXml.Packaging.TargetMode
+  id: TargetMode
+  parent: OfficeOpenXml.Packaging
+  children:
+  - OfficeOpenXml.Packaging.TargetMode.External
+  - OfficeOpenXml.Packaging.TargetMode.Internal
+  langs:
+  - csharp
+  - vb
+  name: TargetMode
+  nameWithType: TargetMode
+  fullName: OfficeOpenXml.Packaging.TargetMode
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Packaging/TargetMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TargetMode
+    path: ../src/EPPlus/Packaging/TargetMode.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging
+  summary: "\nSpecifies whether the target is inside or outside the Package.\n"
+  example: []
+  syntax:
+    content: public enum TargetMode
+    content.vb: Public Enum TargetMode
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Packaging.TargetMode.Internal
+  commentId: F:OfficeOpenXml.Packaging.TargetMode.Internal
+  id: Internal
+  parent: OfficeOpenXml.Packaging.TargetMode
+  langs:
+  - csharp
+  - vb
+  name: Internal
+  nameWithType: TargetMode.Internal
+  fullName: OfficeOpenXml.Packaging.TargetMode.Internal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/TargetMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Internal
+    path: ../src/EPPlus/Packaging/TargetMode.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging
+  summary: "\nThe relationship references a part that is inside the package.\n"
+  example: []
+  syntax:
+    content: Internal = 0
+    return:
+      type: OfficeOpenXml.Packaging.TargetMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.TargetMode.External
+  commentId: F:OfficeOpenXml.Packaging.TargetMode.External
+  id: External
+  parent: OfficeOpenXml.Packaging.TargetMode
+  langs:
+  - csharp
+  - vb
+  name: External
+  nameWithType: TargetMode.External
+  fullName: OfficeOpenXml.Packaging.TargetMode.External
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/TargetMode.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: External
+    path: ../src/EPPlus/Packaging/TargetMode.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging
+  summary: "\nThe relationship references a resource that is external to the package.\n"
+  example: []
+  syntax:
+    content: External = 1
+    return:
+      type: OfficeOpenXml.Packaging.TargetMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Packaging
+  commentId: N:OfficeOpenXml.Packaging
+  name: OfficeOpenXml.Packaging
+  nameWithType: OfficeOpenXml.Packaging
+  fullName: OfficeOpenXml.Packaging
+- uid: OfficeOpenXml.Packaging.TargetMode
+  commentId: T:OfficeOpenXml.Packaging.TargetMode
+  parent: OfficeOpenXml.Packaging
+  name: TargetMode
+  nameWithType: TargetMode
+  fullName: OfficeOpenXml.Packaging.TargetMode

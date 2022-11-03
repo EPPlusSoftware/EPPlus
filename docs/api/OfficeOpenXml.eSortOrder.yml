@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eSortOrder
+  commentId: T:OfficeOpenXml.eSortOrder
+  id: eSortOrder
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eSortOrder.Ascending
+  - OfficeOpenXml.eSortOrder.Descending
+  langs:
+  - csharp
+  - vb
+  name: eSortOrder
+  nameWithType: eSortOrder
+  fullName: OfficeOpenXml.eSortOrder
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSortOrder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eSortOrder
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSortOrder.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSorting\n"
+  example: []
+  syntax:
+    content: public enum eSortOrder
+    content.vb: Public Enum eSortOrder
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eSortOrder.Ascending
+  commentId: F:OfficeOpenXml.eSortOrder.Ascending
+  id: Ascending
+  parent: OfficeOpenXml.eSortOrder
+  langs:
+  - csharp
+  - vb
+  name: Ascending
+  nameWithType: eSortOrder.Ascending
+  fullName: OfficeOpenXml.eSortOrder.Ascending
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSortOrder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Ascending
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSortOrder.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSort ascending, default\n"
+  example: []
+  syntax:
+    content: Ascending = 0
+    return:
+      type: OfficeOpenXml.eSortOrder
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eSortOrder.Descending
+  commentId: F:OfficeOpenXml.eSortOrder.Descending
+  id: Descending
+  parent: OfficeOpenXml.eSortOrder
+  langs:
+  - csharp
+  - vb
+  name: Descending
+  nameWithType: eSortOrder.Descending
+  fullName: OfficeOpenXml.eSortOrder.Descending
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSortOrder.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Descending
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSortOrder.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSort descending\n"
+  example: []
+  syntax:
+    content: Descending = 1
+    return:
+      type: OfficeOpenXml.eSortOrder
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eSortOrder
+  commentId: T:OfficeOpenXml.eSortOrder
+  parent: OfficeOpenXml
+  name: eSortOrder
+  nameWithType: eSortOrder
+  fullName: OfficeOpenXml.eSortOrder

@@ -1,0 +1,293 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Vml.eVmlFillType
+  commentId: T:OfficeOpenXml.Drawing.Vml.eVmlFillType
+  id: eVmlFillType
+  parent: OfficeOpenXml.Drawing.Vml
+  children:
+  - OfficeOpenXml.Drawing.Vml.eVmlFillType.Frame
+  - OfficeOpenXml.Drawing.Vml.eVmlFillType.Gradient
+  - OfficeOpenXml.Drawing.Vml.eVmlFillType.GradientRadial
+  - OfficeOpenXml.Drawing.Vml.eVmlFillType.NoFill
+  - OfficeOpenXml.Drawing.Vml.eVmlFillType.Pattern
+  - OfficeOpenXml.Drawing.Vml.eVmlFillType.Solid
+  - OfficeOpenXml.Drawing.Vml.eVmlFillType.Tile
+  langs:
+  - csharp
+  - vb
+  name: eVmlFillType
+  nameWithType: eVmlFillType
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlFillType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eVmlFillType
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nType of fill style for a vml drawing.\n"
+  example: []
+  syntax:
+    content: public enum eVmlFillType
+    content.vb: Public Enum eVmlFillType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Vml.eVmlFillType.NoFill
+  commentId: F:OfficeOpenXml.Drawing.Vml.eVmlFillType.NoFill
+  id: NoFill
+  parent: OfficeOpenXml.Drawing.Vml.eVmlFillType
+  langs:
+  - csharp
+  - vb
+  name: NoFill
+  nameWithType: eVmlFillType.NoFill
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlFillType.NoFill
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NoFill
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nNo fill is applied.\n"
+  example: []
+  syntax:
+    content: NoFill = 0
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eVmlFillType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eVmlFillType.Solid
+  commentId: F:OfficeOpenXml.Drawing.Vml.eVmlFillType.Solid
+  id: Solid
+  parent: OfficeOpenXml.Drawing.Vml.eVmlFillType
+  langs:
+  - csharp
+  - vb
+  name: Solid
+  nameWithType: eVmlFillType.Solid
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlFillType.Solid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Solid
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nThe fill pattern is solid.Default\n"
+  example: []
+  syntax:
+    content: Solid = 1
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eVmlFillType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eVmlFillType.Gradient
+  commentId: F:OfficeOpenXml.Drawing.Vml.eVmlFillType.Gradient
+  id: Gradient
+  parent: OfficeOpenXml.Drawing.Vml.eVmlFillType
+  langs:
+  - csharp
+  - vb
+  name: Gradient
+  nameWithType: eVmlFillType.Gradient
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlFillType.Gradient
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Gradient
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nThe fill colors blend together in a linear gradient from bottom to top.\n"
+  example: []
+  syntax:
+    content: Gradient = 2
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eVmlFillType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eVmlFillType.GradientRadial
+  commentId: F:OfficeOpenXml.Drawing.Vml.eVmlFillType.GradientRadial
+  id: GradientRadial
+  parent: OfficeOpenXml.Drawing.Vml.eVmlFillType
+  langs:
+  - csharp
+  - vb
+  name: GradientRadial
+  nameWithType: eVmlFillType.GradientRadial
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlFillType.GradientRadial
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GradientRadial
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nThe fill colors blend together in a radial gradient.\n"
+  example: []
+  syntax:
+    content: GradientRadial = 3
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eVmlFillType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eVmlFillType.Tile
+  commentId: F:OfficeOpenXml.Drawing.Vml.eVmlFillType.Tile
+  id: Tile
+  parent: OfficeOpenXml.Drawing.Vml.eVmlFillType
+  langs:
+  - csharp
+  - vb
+  name: Tile
+  nameWithType: eVmlFillType.Tile
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlFillType.Tile
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Tile
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nThe fill image is tiled.\n"
+  example: []
+  syntax:
+    content: Tile = 4
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eVmlFillType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eVmlFillType.Pattern
+  commentId: F:OfficeOpenXml.Drawing.Vml.eVmlFillType.Pattern
+  id: Pattern
+  parent: OfficeOpenXml.Drawing.Vml.eVmlFillType
+  langs:
+  - csharp
+  - vb
+  name: Pattern
+  nameWithType: eVmlFillType.Pattern
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlFillType.Pattern
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pattern
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nThe image is used to create a pattern using the fill colors.\n"
+  example: []
+  syntax:
+    content: Pattern = 5
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eVmlFillType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eVmlFillType.Frame
+  commentId: F:OfficeOpenXml.Drawing.Vml.eVmlFillType.Frame
+  id: Frame
+  parent: OfficeOpenXml.Drawing.Vml.eVmlFillType
+  langs:
+  - csharp
+  - vb
+  name: Frame
+  nameWithType: eVmlFillType.Frame
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlFillType.Frame
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Frame
+    path: ../src/EPPlus/Drawing/Vml/enum/eVmlFillType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nThe image is stretched to fill the shape.\n"
+  example: []
+  syntax:
+    content: Frame = 6
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eVmlFillType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+- uid: OfficeOpenXml.Drawing.Vml.eVmlFillType
+  commentId: T:OfficeOpenXml.Drawing.Vml.eVmlFillType
+  parent: OfficeOpenXml.Drawing.Vml
+  name: eVmlFillType
+  nameWithType: eVmlFillType
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlFillType

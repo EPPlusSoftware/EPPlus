@@ -1,0 +1,178 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
+  commentId: T:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
+  id: ExcelReferenceType
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  children:
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.AbsoluteRowAndColumn
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.AbsoluteRowRelativeColumn
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.RelativeRowAbsolutColumn
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.RelativeRowAndColumn
+  langs:
+  - csharp
+  - vb
+  name: ExcelReferenceType
+  nameWithType: ExcelReferenceType
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelReferenceType
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  syntax:
+    content: public enum ExcelReferenceType
+    content.vb: Public Enum ExcelReferenceType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.AbsoluteRowAndColumn
+  commentId: F:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.AbsoluteRowAndColumn
+  id: AbsoluteRowAndColumn
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
+  langs:
+  - csharp
+  - vb
+  name: AbsoluteRowAndColumn
+  nameWithType: ExcelReferenceType.AbsoluteRowAndColumn
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.AbsoluteRowAndColumn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AbsoluteRowAndColumn
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  syntax:
+    content: AbsoluteRowAndColumn = 1
+    return:
+      type: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.AbsoluteRowRelativeColumn
+  commentId: F:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.AbsoluteRowRelativeColumn
+  id: AbsoluteRowRelativeColumn
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
+  langs:
+  - csharp
+  - vb
+  name: AbsoluteRowRelativeColumn
+  nameWithType: ExcelReferenceType.AbsoluteRowRelativeColumn
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.AbsoluteRowRelativeColumn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AbsoluteRowRelativeColumn
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  syntax:
+    content: AbsoluteRowRelativeColumn = 2
+    return:
+      type: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.RelativeRowAbsolutColumn
+  commentId: F:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.RelativeRowAbsolutColumn
+  id: RelativeRowAbsolutColumn
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
+  langs:
+  - csharp
+  - vb
+  name: RelativeRowAbsolutColumn
+  nameWithType: ExcelReferenceType.RelativeRowAbsolutColumn
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.RelativeRowAbsolutColumn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RelativeRowAbsolutColumn
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  syntax:
+    content: RelativeRowAbsolutColumn = 3
+    return:
+      type: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.RelativeRowAndColumn
+  commentId: F:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.RelativeRowAndColumn
+  id: RelativeRowAndColumn
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
+  langs:
+  - csharp
+  - vb
+  name: RelativeRowAndColumn
+  nameWithType: ExcelReferenceType.RelativeRowAndColumn
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType.RelativeRowAndColumn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RelativeRowAndColumn
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelReferenceType.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  syntax:
+    content: RelativeRowAndColumn = 4
+    return:
+      type: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  commentId: N:OfficeOpenXml.FormulaParsing.ExcelUtilities
+  name: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  nameWithType: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
+  commentId: T:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  name: ExcelReferenceType
+  nameWithType: ExcelReferenceType
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType

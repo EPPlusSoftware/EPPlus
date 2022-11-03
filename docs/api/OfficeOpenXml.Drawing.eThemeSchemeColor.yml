@@ -1,0 +1,468 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eThemeSchemeColor
+  commentId: T:OfficeOpenXml.Drawing.eThemeSchemeColor
+  id: eThemeSchemeColor
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eThemeSchemeColor.Accent1
+  - OfficeOpenXml.Drawing.eThemeSchemeColor.Accent2
+  - OfficeOpenXml.Drawing.eThemeSchemeColor.Accent3
+  - OfficeOpenXml.Drawing.eThemeSchemeColor.Accent4
+  - OfficeOpenXml.Drawing.eThemeSchemeColor.Accent5
+  - OfficeOpenXml.Drawing.eThemeSchemeColor.Accent6
+  - OfficeOpenXml.Drawing.eThemeSchemeColor.Background1
+  - OfficeOpenXml.Drawing.eThemeSchemeColor.Background2
+  - OfficeOpenXml.Drawing.eThemeSchemeColor.FollowedHyperlink
+  - OfficeOpenXml.Drawing.eThemeSchemeColor.Hyperlink
+  - OfficeOpenXml.Drawing.eThemeSchemeColor.Text1
+  - OfficeOpenXml.Drawing.eThemeSchemeColor.Text2
+  langs:
+  - csharp
+  - vb
+  name: eThemeSchemeColor
+  nameWithType: eThemeSchemeColor
+  fullName: OfficeOpenXml.Drawing.eThemeSchemeColor
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eThemeSchemeColor
+    path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA color bound to a user&apos;s theme.\n"
+  example: []
+  syntax:
+    content: public enum eThemeSchemeColor
+    content.vb: Public Enum eThemeSchemeColor
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eThemeSchemeColor.Background1
+  commentId: F:OfficeOpenXml.Drawing.eThemeSchemeColor.Background1
+  id: Background1
+  parent: OfficeOpenXml.Drawing.eThemeSchemeColor
+  langs:
+  - csharp
+  - vb
+  name: Background1
+  nameWithType: eThemeSchemeColor.Background1
+  fullName: OfficeOpenXml.Drawing.eThemeSchemeColor.Background1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Background1
+    path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMain Dark Color 1\n"
+  example: []
+  syntax:
+    content: Background1 = 0
+    return:
+      type: OfficeOpenXml.Drawing.eThemeSchemeColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eThemeSchemeColor.Text1
+  commentId: F:OfficeOpenXml.Drawing.eThemeSchemeColor.Text1
+  id: Text1
+  parent: OfficeOpenXml.Drawing.eThemeSchemeColor
+  langs:
+  - csharp
+  - vb
+  name: Text1
+  nameWithType: eThemeSchemeColor.Text1
+  fullName: OfficeOpenXml.Drawing.eThemeSchemeColor.Text1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Text1
+    path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMain Light Color 1\n"
+  example: []
+  syntax:
+    content: Text1 = 1
+    return:
+      type: OfficeOpenXml.Drawing.eThemeSchemeColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eThemeSchemeColor.Background2
+  commentId: F:OfficeOpenXml.Drawing.eThemeSchemeColor.Background2
+  id: Background2
+  parent: OfficeOpenXml.Drawing.eThemeSchemeColor
+  langs:
+  - csharp
+  - vb
+  name: Background2
+  nameWithType: eThemeSchemeColor.Background2
+  fullName: OfficeOpenXml.Drawing.eThemeSchemeColor.Background2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Background2
+    path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMain Dark Color 2\n"
+  example: []
+  syntax:
+    content: Background2 = 2
+    return:
+      type: OfficeOpenXml.Drawing.eThemeSchemeColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eThemeSchemeColor.Text2
+  commentId: F:OfficeOpenXml.Drawing.eThemeSchemeColor.Text2
+  id: Text2
+  parent: OfficeOpenXml.Drawing.eThemeSchemeColor
+  langs:
+  - csharp
+  - vb
+  name: Text2
+  nameWithType: eThemeSchemeColor.Text2
+  fullName: OfficeOpenXml.Drawing.eThemeSchemeColor.Text2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Text2
+    path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMain Light Color 2\n"
+  example: []
+  syntax:
+    content: Text2 = 3
+    return:
+      type: OfficeOpenXml.Drawing.eThemeSchemeColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eThemeSchemeColor.Accent1
+  commentId: F:OfficeOpenXml.Drawing.eThemeSchemeColor.Accent1
+  id: Accent1
+  parent: OfficeOpenXml.Drawing.eThemeSchemeColor
+  langs:
+  - csharp
+  - vb
+  name: Accent1
+  nameWithType: eThemeSchemeColor.Accent1
+  fullName: OfficeOpenXml.Drawing.eThemeSchemeColor.Accent1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Accent1
+    path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nExtra scheme color 1\n"
+  example: []
+  syntax:
+    content: Accent1 = 4
+    return:
+      type: OfficeOpenXml.Drawing.eThemeSchemeColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eThemeSchemeColor.Accent2
+  commentId: F:OfficeOpenXml.Drawing.eThemeSchemeColor.Accent2
+  id: Accent2
+  parent: OfficeOpenXml.Drawing.eThemeSchemeColor
+  langs:
+  - csharp
+  - vb
+  name: Accent2
+  nameWithType: eThemeSchemeColor.Accent2
+  fullName: OfficeOpenXml.Drawing.eThemeSchemeColor.Accent2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Accent2
+    path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nExtra scheme color 2\n"
+  example: []
+  syntax:
+    content: Accent2 = 5
+    return:
+      type: OfficeOpenXml.Drawing.eThemeSchemeColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eThemeSchemeColor.Accent3
+  commentId: F:OfficeOpenXml.Drawing.eThemeSchemeColor.Accent3
+  id: Accent3
+  parent: OfficeOpenXml.Drawing.eThemeSchemeColor
+  langs:
+  - csharp
+  - vb
+  name: Accent3
+  nameWithType: eThemeSchemeColor.Accent3
+  fullName: OfficeOpenXml.Drawing.eThemeSchemeColor.Accent3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Accent3
+    path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nExtra scheme color 3\n"
+  example: []
+  syntax:
+    content: Accent3 = 6
+    return:
+      type: OfficeOpenXml.Drawing.eThemeSchemeColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eThemeSchemeColor.Accent4
+  commentId: F:OfficeOpenXml.Drawing.eThemeSchemeColor.Accent4
+  id: Accent4
+  parent: OfficeOpenXml.Drawing.eThemeSchemeColor
+  langs:
+  - csharp
+  - vb
+  name: Accent4
+  nameWithType: eThemeSchemeColor.Accent4
+  fullName: OfficeOpenXml.Drawing.eThemeSchemeColor.Accent4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Accent4
+    path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nExtra scheme color 4\n"
+  example: []
+  syntax:
+    content: Accent4 = 7
+    return:
+      type: OfficeOpenXml.Drawing.eThemeSchemeColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eThemeSchemeColor.Accent5
+  commentId: F:OfficeOpenXml.Drawing.eThemeSchemeColor.Accent5
+  id: Accent5
+  parent: OfficeOpenXml.Drawing.eThemeSchemeColor
+  langs:
+  - csharp
+  - vb
+  name: Accent5
+  nameWithType: eThemeSchemeColor.Accent5
+  fullName: OfficeOpenXml.Drawing.eThemeSchemeColor.Accent5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Accent5
+    path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nExtra scheme color 5\n"
+  example: []
+  syntax:
+    content: Accent5 = 8
+    return:
+      type: OfficeOpenXml.Drawing.eThemeSchemeColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eThemeSchemeColor.Accent6
+  commentId: F:OfficeOpenXml.Drawing.eThemeSchemeColor.Accent6
+  id: Accent6
+  parent: OfficeOpenXml.Drawing.eThemeSchemeColor
+  langs:
+  - csharp
+  - vb
+  name: Accent6
+  nameWithType: eThemeSchemeColor.Accent6
+  fullName: OfficeOpenXml.Drawing.eThemeSchemeColor.Accent6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Accent6
+    path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nExtra scheme color 6\n"
+  example: []
+  syntax:
+    content: Accent6 = 9
+    return:
+      type: OfficeOpenXml.Drawing.eThemeSchemeColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eThemeSchemeColor.Hyperlink
+  commentId: F:OfficeOpenXml.Drawing.eThemeSchemeColor.Hyperlink
+  id: Hyperlink
+  parent: OfficeOpenXml.Drawing.eThemeSchemeColor
+  langs:
+  - csharp
+  - vb
+  name: Hyperlink
+  nameWithType: eThemeSchemeColor.Hyperlink
+  fullName: OfficeOpenXml.Drawing.eThemeSchemeColor.Hyperlink
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hyperlink
+    path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRegular Hyperlink Color\n"
+  example: []
+  syntax:
+    content: Hyperlink = 10
+    return:
+      type: OfficeOpenXml.Drawing.eThemeSchemeColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eThemeSchemeColor.FollowedHyperlink
+  commentId: F:OfficeOpenXml.Drawing.eThemeSchemeColor.FollowedHyperlink
+  id: FollowedHyperlink
+  parent: OfficeOpenXml.Drawing.eThemeSchemeColor
+  langs:
+  - csharp
+  - vb
+  name: FollowedHyperlink
+  nameWithType: eThemeSchemeColor.FollowedHyperlink
+  fullName: OfficeOpenXml.Drawing.eThemeSchemeColor.FollowedHyperlink
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FollowedHyperlink
+    path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFollowed Hyperlink Color\n"
+  example: []
+  syntax:
+    content: FollowedHyperlink = 11
+    return:
+      type: OfficeOpenXml.Drawing.eThemeSchemeColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eThemeSchemeColor
+  commentId: T:OfficeOpenXml.Drawing.eThemeSchemeColor
+  parent: OfficeOpenXml.Drawing
+  name: eThemeSchemeColor
+  nameWithType: eThemeSchemeColor
+  fullName: OfficeOpenXml.Drawing.eThemeSchemeColor

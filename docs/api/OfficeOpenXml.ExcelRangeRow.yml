@@ -1,0 +1,1906 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelRangeRow
+  commentId: T:OfficeOpenXml.ExcelRangeRow
+  id: ExcelRangeRow
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelRangeRow.CollapseChildren(System.Boolean)
+  - OfficeOpenXml.ExcelRangeRow.Collapsed
+  - OfficeOpenXml.ExcelRangeRow.Current
+  - OfficeOpenXml.ExcelRangeRow.CustomHeight
+  - OfficeOpenXml.ExcelRangeRow.Dispose
+  - OfficeOpenXml.ExcelRangeRow.EndRow
+  - OfficeOpenXml.ExcelRangeRow.ExpandChildren(System.Boolean)
+  - OfficeOpenXml.ExcelRangeRow.GetEnumerator
+  - OfficeOpenXml.ExcelRangeRow.Group
+  - OfficeOpenXml.ExcelRangeRow.Height
+  - OfficeOpenXml.ExcelRangeRow.Hidden
+  - OfficeOpenXml.ExcelRangeRow.MoveNext
+  - OfficeOpenXml.ExcelRangeRow.OutlineLevel
+  - OfficeOpenXml.ExcelRangeRow.PageBreak
+  - OfficeOpenXml.ExcelRangeRow.Phonetic
+  - OfficeOpenXml.ExcelRangeRow.Range
+  - OfficeOpenXml.ExcelRangeRow.Reset
+  - OfficeOpenXml.ExcelRangeRow.SetVisibleOutlineLevel(System.Int32,System.Boolean)
+  - OfficeOpenXml.ExcelRangeRow.StartRow
+  - OfficeOpenXml.ExcelRangeRow.Style
+  - OfficeOpenXml.ExcelRangeRow.StyleID
+  - OfficeOpenXml.ExcelRangeRow.StyleName
+  - OfficeOpenXml.ExcelRangeRow.System#Collections#IEnumerable#GetEnumerator
+  - OfficeOpenXml.ExcelRangeRow.System#Collections#IEnumerator#Current
+  - OfficeOpenXml.ExcelRangeRow.Ungroup
+  langs:
+  - csharp
+  - vb
+  name: ExcelRangeRow
+  nameWithType: ExcelRangeRow
+  fullName: OfficeOpenXml.ExcelRangeRow
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelRangeRow
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 91
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRepresents a range of rows\n"
+  example: []
+  syntax:
+    content: 'public class ExcelRangeRow : IEnumerable<ExcelRangeRow>, IEnumerable, IEnumerator<ExcelRangeRow>, IEnumerator, IDisposable'
+    content.vb: >-
+      Public Class ExcelRangeRow
+          Implements IEnumerable(Of ExcelRangeRow), IEnumerable, IEnumerator(Of ExcelRangeRow), IEnumerator, IDisposable
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - OfficeOpenXml.ExcelRowsCollection
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelRangeRow}
+  - System.Collections.IEnumerable
+  - System.Collections.Generic.IEnumerator{OfficeOpenXml.ExcelRangeRow}
+  - System.Collections.IEnumerator
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelRangeRow.StartRow
+  commentId: P:OfficeOpenXml.ExcelRangeRow.StartRow
+  id: StartRow
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: StartRow
+  nameWithType: ExcelRangeRow.StartRow
+  fullName: OfficeOpenXml.ExcelRangeRow.StartRow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StartRow
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 104
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe first row in the collection\n"
+  example: []
+  syntax:
+    content: public int StartRow { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property StartRow As Integer
+  overload: OfficeOpenXml.ExcelRangeRow.StartRow*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelRangeRow.EndRow
+  commentId: P:OfficeOpenXml.ExcelRangeRow.EndRow
+  id: EndRow
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: EndRow
+  nameWithType: ExcelRangeRow.EndRow
+  fullName: OfficeOpenXml.ExcelRangeRow.EndRow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EndRow
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe last row in the collection\n"
+  example: []
+  syntax:
+    content: public int EndRow { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property EndRow As Integer
+  overload: OfficeOpenXml.ExcelRangeRow.EndRow*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelRangeRow.Collapsed
+  commentId: P:OfficeOpenXml.ExcelRangeRow.Collapsed
+  id: Collapsed
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: Collapsed
+  nameWithType: ExcelRangeRow.Collapsed
+  fullName: OfficeOpenXml.ExcelRangeRow.Collapsed
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Collapsed
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 124
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf the row is collapsed in outline mode\n"
+  example: []
+  syntax:
+    content: public bool Collapsed { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Collapsed As Boolean
+  overload: OfficeOpenXml.ExcelRangeRow.Collapsed*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeRow.OutlineLevel
+  commentId: P:OfficeOpenXml.ExcelRangeRow.OutlineLevel
+  id: OutlineLevel
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: OutlineLevel
+  nameWithType: ExcelRangeRow.OutlineLevel
+  fullName: OfficeOpenXml.ExcelRangeRow.OutlineLevel
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OutlineLevel
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nOutline level. Zero if no outline\n"
+  example: []
+  syntax:
+    content: public int OutlineLevel { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property OutlineLevel As Integer
+  overload: OfficeOpenXml.ExcelRangeRow.OutlineLevel*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeRow.Phonetic
+  commentId: P:OfficeOpenXml.ExcelRangeRow.Phonetic
+  id: Phonetic
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: Phonetic
+  nameWithType: ExcelRangeRow.Phonetic
+  fullName: OfficeOpenXml.ExcelRangeRow.Phonetic
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Phonetic
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 153
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nTrue if the row should show phonetic\n"
+  example: []
+  syntax:
+    content: public bool Phonetic { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Phonetic As Boolean
+  overload: OfficeOpenXml.ExcelRangeRow.Phonetic*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeRow.Hidden
+  commentId: P:OfficeOpenXml.ExcelRangeRow.Hidden
+  id: Hidden
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: Hidden
+  nameWithType: ExcelRangeRow.Hidden
+  fullName: OfficeOpenXml.ExcelRangeRow.Hidden
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hidden
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 167
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf the row is hidden.\n"
+  example: []
+  syntax:
+    content: public bool Hidden { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Hidden As Boolean
+  overload: OfficeOpenXml.ExcelRangeRow.Hidden*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeRow.Height
+  commentId: P:OfficeOpenXml.ExcelRangeRow.Height
+  id: Height
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: Height
+  nameWithType: ExcelRangeRow.Height
+  fullName: OfficeOpenXml.ExcelRangeRow.Height
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Height
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 181
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRow height in points. Setting this property will also set <xref href=\"OfficeOpenXml.ExcelRangeRow.CustomHeight\" data-throw-if-not-resolved=\"false\"></xref> to true.\n"
+  example: []
+  syntax:
+    content: public double Height { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property Height As Double
+  overload: OfficeOpenXml.ExcelRangeRow.Height*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeRow.CustomHeight
+  commentId: P:OfficeOpenXml.ExcelRangeRow.CustomHeight
+  id: CustomHeight
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: CustomHeight
+  nameWithType: ExcelRangeRow.CustomHeight
+  fullName: OfficeOpenXml.ExcelRangeRow.CustomHeight
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CustomHeight
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 199
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nTrue if the row <xref href=\"OfficeOpenXml.ExcelRangeRow.Height\" data-throw-if-not-resolved=\"false\"></xref> has been manually set.\n"
+  example: []
+  syntax:
+    content: public bool CustomHeight { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property CustomHeight As Boolean
+  overload: OfficeOpenXml.ExcelRangeRow.CustomHeight*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeRow.PageBreak
+  commentId: P:OfficeOpenXml.ExcelRangeRow.PageBreak
+  id: PageBreak
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: PageBreak
+  nameWithType: ExcelRangeRow.PageBreak
+  fullName: OfficeOpenXml.ExcelRangeRow.PageBreak
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PageBreak
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 214
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdds a manual page break after the column.\n"
+  example: []
+  syntax:
+    content: public bool PageBreak { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property PageBreak As Boolean
+  overload: OfficeOpenXml.ExcelRangeRow.PageBreak*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeRow.Style
+  commentId: P:OfficeOpenXml.ExcelRangeRow.Style
+  id: Style
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: Style
+  nameWithType: ExcelRangeRow.Style
+  fullName: OfficeOpenXml.ExcelRangeRow.Style
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Style
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 230
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe Style applied to the whole row(s). Only effects cells with no individual style set. \nUse the Range object if you want to set specific styles.\n"
+  example: []
+  syntax:
+    content: public ExcelStyle Style { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelStyle
+    content.vb: Public ReadOnly Property Style As ExcelStyle
+  overload: OfficeOpenXml.ExcelRangeRow.Style*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelRangeRow.StyleName
+  commentId: P:OfficeOpenXml.ExcelRangeRow.StyleName
+  id: StyleName
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: StyleName
+  nameWithType: ExcelRangeRow.StyleName
+  fullName: OfficeOpenXml.ExcelRangeRow.StyleName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StyleName
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 241
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSets the style for the entire row using a style name.\n"
+  example: []
+  syntax:
+    content: public string StyleName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property StyleName As String
+  overload: OfficeOpenXml.ExcelRangeRow.StyleName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeRow.StyleID
+  commentId: P:OfficeOpenXml.ExcelRangeRow.StyleID
+  id: StyleID
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: StyleID
+  nameWithType: ExcelRangeRow.StyleID
+  fullName: OfficeOpenXml.ExcelRangeRow.StyleID
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StyleID
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 265
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSets the style for the entire column using the style ID.           \n"
+  example: []
+  syntax:
+    content: public int StyleID { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property StyleID As Integer
+  overload: OfficeOpenXml.ExcelRangeRow.StyleID*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeRow.Range
+  commentId: P:OfficeOpenXml.ExcelRangeRow.Range
+  id: Range
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: Range
+  nameWithType: ExcelRangeRow.Range
+  fullName: OfficeOpenXml.ExcelRangeRow.Range
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Range
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 282
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReference to the cell range of the row(s)\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase Range { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+    content.vb: Public ReadOnly Property Range As ExcelRangeBase
+  overload: OfficeOpenXml.ExcelRangeRow.Range*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelRangeRow.Current
+  commentId: P:OfficeOpenXml.ExcelRangeRow.Current
+  id: Current
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: Current
+  nameWithType: ExcelRangeRow.Current
+  fullName: OfficeOpenXml.ExcelRangeRow.Current
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Current
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 292
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe current row object in the iteration\n"
+  example: []
+  syntax:
+    content: public ExcelRangeRow Current { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelRangeRow
+    content.vb: Public ReadOnly Property Current As ExcelRangeRow
+  overload: OfficeOpenXml.ExcelRangeRow.Current*
+  implements:
+  - System.Collections.Generic.IEnumerator{OfficeOpenXml.ExcelRangeRow}.Current
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelRangeRow.System#Collections#IEnumerator#Current
+  commentId: P:OfficeOpenXml.ExcelRangeRow.System#Collections#IEnumerator#Current
+  id: System#Collections#IEnumerator#Current
+  isEii: true
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: IEnumerator.Current
+  nameWithType: ExcelRangeRow.IEnumerator.Current
+  fullName: OfficeOpenXml.ExcelRangeRow.System.Collections.IEnumerator.Current
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerator.Current
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 303
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe current row object in the iteration\n"
+  example: []
+  syntax:
+    content: object IEnumerator.Current { get; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: ReadOnly WriteOnly Property System.Collections.IEnumerator.Current As Object Implements IEnumerator.Current
+  overload: OfficeOpenXml.ExcelRangeRow.System#Collections#IEnumerator#Current*
+  implements:
+  - System.Collections.IEnumerator.Current
+  nameWithType.vb: ExcelRangeRow.System.Collections.IEnumerator.Current
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  name.vb: System.Collections.IEnumerator.Current
+- uid: OfficeOpenXml.ExcelRangeRow.GetEnumerator
+  commentId: M:OfficeOpenXml.ExcelRangeRow.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelRangeRow.GetEnumerator()
+  fullName: OfficeOpenXml.ExcelRangeRow.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 344
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets the enumerator\n"
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelRangeRow> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.ExcelRangeRow}
+    content.vb: Public Function GetEnumerator As IEnumerator(Of ExcelRangeRow)
+  overload: OfficeOpenXml.ExcelRangeRow.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelRangeRow}.GetEnumerator
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeRow.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.ExcelRangeRow.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelRangeRow.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.ExcelRangeRow.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 352
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets the enumerator\n"
+  example: []
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.ExcelRangeRow.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelRangeRow.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+- uid: OfficeOpenXml.ExcelRangeRow.MoveNext
+  commentId: M:OfficeOpenXml.ExcelRangeRow.MoveNext
+  id: MoveNext
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: MoveNext()
+  nameWithType: ExcelRangeRow.MoveNext()
+  fullName: OfficeOpenXml.ExcelRangeRow.MoveNext()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MoveNext
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 365
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIterate to the next row\n"
+  example: []
+  syntax:
+    content: public bool MoveNext()
+    return:
+      type: System.Boolean
+      description: False if no more row exists
+    content.vb: Public Function MoveNext As Boolean
+  overload: OfficeOpenXml.ExcelRangeRow.MoveNext*
+  implements:
+  - System.Collections.IEnumerator.MoveNext
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeRow.Reset
+  commentId: M:OfficeOpenXml.ExcelRangeRow.Reset
+  id: Reset
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: Reset()
+  nameWithType: ExcelRangeRow.Reset()
+  fullName: OfficeOpenXml.ExcelRangeRow.Reset()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Reset
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 379
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReset the enumerator\n"
+  example: []
+  syntax:
+    content: public void Reset()
+    content.vb: Public Sub Reset
+  overload: OfficeOpenXml.ExcelRangeRow.Reset*
+  implements:
+  - System.Collections.IEnumerator.Reset
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeRow.Dispose
+  commentId: M:OfficeOpenXml.ExcelRangeRow.Dispose
+  id: Dispose
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: ExcelRangeRow.Dispose()
+  fullName: OfficeOpenXml.ExcelRangeRow.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dispose
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 388
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDisposes this object\n"
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose
+  overload: OfficeOpenXml.ExcelRangeRow.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeRow.Group
+  commentId: M:OfficeOpenXml.ExcelRangeRow.Group
+  id: Group
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: Group()
+  nameWithType: ExcelRangeRow.Group()
+  fullName: OfficeOpenXml.ExcelRangeRow.Group()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Group
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 395
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGroups the rows using an outline. \nAdds one to <xref href=\"OfficeOpenXml.ExcelRangeRow.OutlineLevel\" data-throw-if-not-resolved=\"false\"></xref> for each row if the outline level is less than 8.\n"
+  example: []
+  syntax:
+    content: public void Group()
+    content.vb: Public Sub Group
+  overload: OfficeOpenXml.ExcelRangeRow.Group*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeRow.Ungroup
+  commentId: M:OfficeOpenXml.ExcelRangeRow.Ungroup
+  id: Ungroup
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: Ungroup()
+  nameWithType: ExcelRangeRow.Ungroup()
+  fullName: OfficeOpenXml.ExcelRangeRow.Ungroup()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Ungroup
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 403
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nUngroups the rows from the outline. \nSubtracts one from <xref href=\"OfficeOpenXml.ExcelRangeRow.OutlineLevel\" data-throw-if-not-resolved=\"false\"></xref> for each row if the outline level is larger that zero. \n"
+  example: []
+  syntax:
+    content: public void Ungroup()
+    content.vb: Public Sub Ungroup
+  overload: OfficeOpenXml.ExcelRangeRow.Ungroup*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeRow.CollapseChildren(System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeRow.CollapseChildren(System.Boolean)
+  id: CollapseChildren(System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: CollapseChildren(Boolean)
+  nameWithType: ExcelRangeRow.CollapseChildren(Boolean)
+  fullName: OfficeOpenXml.ExcelRangeRow.CollapseChildren(System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CollapseChildren
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 411
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCollapses and hides the rows&apos;s children. Children are rows immegetaly below or top of the row depending on the <xref href=\"OfficeOpenXml.ExcelWorksheet.OutLineSummaryBelow\" data-throw-if-not-resolved=\"false\"></xref>\n<code data-dev-comment-type=\"paramref\" class=\"paramref\">allLevels</code>\n"
+  example: []
+  syntax:
+    content: public void CollapseChildren(bool allLevels = true)
+    parameters:
+    - id: allLevels
+      type: System.Boolean
+    content.vb: Public Sub CollapseChildren(allLevels As Boolean = True)
+  overload: OfficeOpenXml.ExcelRangeRow.CollapseChildren*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeRow.ExpandChildren(System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeRow.ExpandChildren(System.Boolean)
+  id: ExpandChildren(System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: ExpandChildren(Boolean)
+  nameWithType: ExcelRangeRow.ExpandChildren(Boolean)
+  fullName: OfficeOpenXml.ExcelRangeRow.ExpandChildren(System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExpandChildren
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 433
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nExpands and shows the rows&apos;s children. Children are columns immegetaly below or top of the row depending on the <xref href=\"OfficeOpenXml.ExcelWorksheet.OutLineSummaryBelow\" data-throw-if-not-resolved=\"false\"></xref>\n<code data-dev-comment-type=\"paramref\" class=\"paramref\">allLevels</code>\n"
+  example: []
+  syntax:
+    content: public void ExpandChildren(bool allLevels = true)
+    parameters:
+    - id: allLevels
+      type: System.Boolean
+    content.vb: Public Sub ExpandChildren(allLevels As Boolean = True)
+  overload: OfficeOpenXml.ExcelRangeRow.ExpandChildren*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelRangeRow.SetVisibleOutlineLevel(System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeRow.SetVisibleOutlineLevel(System.Int32,System.Boolean)
+  id: SetVisibleOutlineLevel(System.Int32,System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeRow
+  langs:
+  - csharp
+  - vb
+  name: SetVisibleOutlineLevel(Int32, Boolean)
+  nameWithType: ExcelRangeRow.SetVisibleOutlineLevel(Int32, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeRow.SetVisibleOutlineLevel(System.Int32, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeRow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetVisibleOutlineLevel
+    path: ../src/EPPlus/ExcelRangeRow.cs
+    startLine: 456
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nExpands the rows to the <xref href=\"OfficeOpenXml.ExcelRangeRow.OutlineLevel\" data-throw-if-not-resolved=\"false\"></xref> supplied. \n"
+  example: []
+  syntax:
+    content: public void SetVisibleOutlineLevel(int level, bool collapseChildren = true)
+    parameters:
+    - id: level
+      type: System.Int32
+      description: Expand all rows with a <xref href="OfficeOpenXml.ExcelRangeRow.OutlineLevel" data-throw-if-not-resolved="false"></xref> Equal or Greater than this number.
+    - id: collapseChildren
+      type: System.Boolean
+      description: Collapse all children with a greater <xref href="OfficeOpenXml.ExcelRangeRow.OutlineLevel" data-throw-if-not-resolved="false"></xref> than <code data-dev-comment-type="paramref" class="paramref">level</code>
+    content.vb: Public Sub SetVisibleOutlineLevel(level As Integer, collapseChildren As Boolean = True)
+  overload: OfficeOpenXml.ExcelRangeRow.SetVisibleOutlineLevel*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelRangeRow}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelRangeRow}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelRangeRow>
+  nameWithType: IEnumerable<ExcelRangeRow>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ExcelRangeRow>
+  nameWithType.vb: IEnumerable(Of ExcelRangeRow)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ExcelRangeRow)
+  name.vb: IEnumerable(Of ExcelRangeRow)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExcelRangeRow
+    name: ExcelRangeRow
+    nameWithType: ExcelRangeRow
+    fullName: OfficeOpenXml.ExcelRangeRow
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExcelRangeRow
+    name: ExcelRangeRow
+    nameWithType: ExcelRangeRow
+    fullName: OfficeOpenXml.ExcelRangeRow
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.ExcelRangeRow}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.ExcelRangeRow}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ExcelRangeRow>
+  nameWithType: IEnumerator<ExcelRangeRow>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.ExcelRangeRow>
+  nameWithType.vb: IEnumerator(Of ExcelRangeRow)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.ExcelRangeRow)
+  name.vb: IEnumerator(Of ExcelRangeRow)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExcelRangeRow
+    name: ExcelRangeRow
+    nameWithType: ExcelRangeRow
+    fullName: OfficeOpenXml.ExcelRangeRow
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExcelRangeRow
+    name: ExcelRangeRow
+    nameWithType: ExcelRangeRow
+    fullName: OfficeOpenXml.ExcelRangeRow
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeRow.StartRow*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.StartRow
+  name: StartRow
+  nameWithType: ExcelRangeRow.StartRow
+  fullName: OfficeOpenXml.ExcelRangeRow.StartRow
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ExcelRangeRow.EndRow*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.EndRow
+  name: EndRow
+  nameWithType: ExcelRangeRow.EndRow
+  fullName: OfficeOpenXml.ExcelRangeRow.EndRow
+- uid: OfficeOpenXml.ExcelRangeRow.Collapsed*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.Collapsed
+  name: Collapsed
+  nameWithType: ExcelRangeRow.Collapsed
+  fullName: OfficeOpenXml.ExcelRangeRow.Collapsed
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExcelRangeRow.OutlineLevel*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.OutlineLevel
+  name: OutlineLevel
+  nameWithType: ExcelRangeRow.OutlineLevel
+  fullName: OfficeOpenXml.ExcelRangeRow.OutlineLevel
+- uid: OfficeOpenXml.ExcelRangeRow.Phonetic*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.Phonetic
+  name: Phonetic
+  nameWithType: ExcelRangeRow.Phonetic
+  fullName: OfficeOpenXml.ExcelRangeRow.Phonetic
+- uid: OfficeOpenXml.ExcelRangeRow.Hidden*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.Hidden
+  name: Hidden
+  nameWithType: ExcelRangeRow.Hidden
+  fullName: OfficeOpenXml.ExcelRangeRow.Hidden
+- uid: OfficeOpenXml.ExcelRangeRow.CustomHeight
+  commentId: P:OfficeOpenXml.ExcelRangeRow.CustomHeight
+  parent: OfficeOpenXml.ExcelRangeRow
+  name: CustomHeight
+  nameWithType: ExcelRangeRow.CustomHeight
+  fullName: OfficeOpenXml.ExcelRangeRow.CustomHeight
+- uid: OfficeOpenXml.ExcelRangeRow.Height*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.Height
+  name: Height
+  nameWithType: ExcelRangeRow.Height
+  fullName: OfficeOpenXml.ExcelRangeRow.Height
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.ExcelRangeRow
+  commentId: T:OfficeOpenXml.ExcelRangeRow
+  parent: OfficeOpenXml
+  name: ExcelRangeRow
+  nameWithType: ExcelRangeRow
+  fullName: OfficeOpenXml.ExcelRangeRow
+- uid: OfficeOpenXml.ExcelRangeRow.Height
+  commentId: P:OfficeOpenXml.ExcelRangeRow.Height
+  parent: OfficeOpenXml.ExcelRangeRow
+  name: Height
+  nameWithType: ExcelRangeRow.Height
+  fullName: OfficeOpenXml.ExcelRangeRow.Height
+- uid: OfficeOpenXml.ExcelRangeRow.CustomHeight*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.CustomHeight
+  name: CustomHeight
+  nameWithType: ExcelRangeRow.CustomHeight
+  fullName: OfficeOpenXml.ExcelRangeRow.CustomHeight
+- uid: OfficeOpenXml.ExcelRangeRow.PageBreak*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.PageBreak
+  name: PageBreak
+  nameWithType: ExcelRangeRow.PageBreak
+  fullName: OfficeOpenXml.ExcelRangeRow.PageBreak
+- uid: OfficeOpenXml.ExcelRangeRow.Style*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.Style
+  name: Style
+  nameWithType: ExcelRangeRow.Style
+  fullName: OfficeOpenXml.ExcelRangeRow.Style
+- uid: OfficeOpenXml.Style.ExcelStyle
+  commentId: T:OfficeOpenXml.Style.ExcelStyle
+  parent: OfficeOpenXml.Style
+  name: ExcelStyle
+  nameWithType: ExcelStyle
+  fullName: OfficeOpenXml.Style.ExcelStyle
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.ExcelRangeRow.StyleName*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.StyleName
+  name: StyleName
+  nameWithType: ExcelRangeRow.StyleName
+  fullName: OfficeOpenXml.ExcelRangeRow.StyleName
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExcelRangeRow.StyleID*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.StyleID
+  name: StyleID
+  nameWithType: ExcelRangeRow.StyleID
+  fullName: OfficeOpenXml.ExcelRangeRow.StyleID
+- uid: OfficeOpenXml.ExcelRangeRow.Range*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.Range
+  name: Range
+  nameWithType: ExcelRangeRow.Range
+  fullName: OfficeOpenXml.ExcelRangeRow.Range
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: OfficeOpenXml.ExcelRangeRow.Current*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.Current
+  name: Current
+  nameWithType: ExcelRangeRow.Current
+  fullName: OfficeOpenXml.ExcelRangeRow.Current
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.ExcelRangeRow}.Current
+  commentId: P:System.Collections.Generic.IEnumerator{OfficeOpenXml.ExcelRangeRow}.Current
+  parent: System.Collections.Generic.IEnumerator{OfficeOpenXml.ExcelRangeRow}
+  definition: System.Collections.Generic.IEnumerator`1.Current
+  name: Current
+  nameWithType: IEnumerator<ExcelRangeRow>.Current
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.ExcelRangeRow>.Current
+  nameWithType.vb: IEnumerator(Of ExcelRangeRow).Current
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.ExcelRangeRow).Current
+- uid: System.Collections.Generic.IEnumerator`1.Current
+  commentId: P:System.Collections.Generic.IEnumerator`1.Current
+  isExternal: true
+  name: Current
+  nameWithType: IEnumerator<T>.Current
+  fullName: System.Collections.Generic.IEnumerator<T>.Current
+  nameWithType.vb: IEnumerator(Of T).Current
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T).Current
+- uid: OfficeOpenXml.ExcelRangeRow.System#Collections#IEnumerator#Current*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.System#Collections#IEnumerator#Current
+  name: IEnumerator.Current
+  nameWithType: ExcelRangeRow.IEnumerator.Current
+  fullName: OfficeOpenXml.ExcelRangeRow.System.Collections.IEnumerator.Current
+  nameWithType.vb: ExcelRangeRow.System.Collections.IEnumerator.Current
+  name.vb: System.Collections.IEnumerator.Current
+- uid: System.Collections.IEnumerator.Current
+  commentId: P:System.Collections.IEnumerator.Current
+  parent: System.Collections.IEnumerator
+  isExternal: true
+  name: Current
+  nameWithType: IEnumerator.Current
+  fullName: System.Collections.IEnumerator.Current
+- uid: OfficeOpenXml.ExcelRangeRow.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelRangeRow.GetEnumerator
+  fullName: OfficeOpenXml.ExcelRangeRow.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelRangeRow}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelRangeRow}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelRangeRow}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelRangeRow>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ExcelRangeRow>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelRangeRow).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ExcelRangeRow).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ExcelRangeRow>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ExcelRangeRow>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ExcelRangeRow).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ExcelRangeRow).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeRow.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelRangeRow.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.ExcelRangeRow.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelRangeRow.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeRow.MoveNext*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.MoveNext
+  name: MoveNext
+  nameWithType: ExcelRangeRow.MoveNext
+  fullName: OfficeOpenXml.ExcelRangeRow.MoveNext
+- uid: System.Collections.IEnumerator.MoveNext
+  commentId: M:System.Collections.IEnumerator.MoveNext
+  parent: System.Collections.IEnumerator
+  isExternal: true
+  name: MoveNext()
+  nameWithType: IEnumerator.MoveNext()
+  fullName: System.Collections.IEnumerator.MoveNext()
+  spec.csharp:
+  - uid: System.Collections.IEnumerator.MoveNext
+    name: MoveNext
+    nameWithType: IEnumerator.MoveNext
+    fullName: System.Collections.IEnumerator.MoveNext
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerator.MoveNext
+    name: MoveNext
+    nameWithType: IEnumerator.MoveNext
+    fullName: System.Collections.IEnumerator.MoveNext
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeRow.Reset*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.Reset
+  name: Reset
+  nameWithType: ExcelRangeRow.Reset
+  fullName: OfficeOpenXml.ExcelRangeRow.Reset
+- uid: System.Collections.IEnumerator.Reset
+  commentId: M:System.Collections.IEnumerator.Reset
+  parent: System.Collections.IEnumerator
+  isExternal: true
+  name: Reset()
+  nameWithType: IEnumerator.Reset()
+  fullName: System.Collections.IEnumerator.Reset()
+  spec.csharp:
+  - uid: System.Collections.IEnumerator.Reset
+    name: Reset
+    nameWithType: IEnumerator.Reset
+    fullName: System.Collections.IEnumerator.Reset
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerator.Reset
+    name: Reset
+    nameWithType: IEnumerator.Reset
+    fullName: System.Collections.IEnumerator.Reset
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeRow.Dispose*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.Dispose
+  name: Dispose
+  nameWithType: ExcelRangeRow.Dispose
+  fullName: OfficeOpenXml.ExcelRangeRow.Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeRow.OutlineLevel
+  commentId: P:OfficeOpenXml.ExcelRangeRow.OutlineLevel
+  parent: OfficeOpenXml.ExcelRangeRow
+  name: OutlineLevel
+  nameWithType: ExcelRangeRow.OutlineLevel
+  fullName: OfficeOpenXml.ExcelRangeRow.OutlineLevel
+- uid: OfficeOpenXml.ExcelRangeRow.Group*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.Group
+  name: Group
+  nameWithType: ExcelRangeRow.Group
+  fullName: OfficeOpenXml.ExcelRangeRow.Group
+- uid: OfficeOpenXml.ExcelRangeRow.Ungroup*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.Ungroup
+  name: Ungroup
+  nameWithType: ExcelRangeRow.Ungroup
+  fullName: OfficeOpenXml.ExcelRangeRow.Ungroup
+- uid: OfficeOpenXml.ExcelWorksheet.OutLineSummaryBelow
+  commentId: P:OfficeOpenXml.ExcelWorksheet.OutLineSummaryBelow
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: OutLineSummaryBelow
+  nameWithType: ExcelWorksheet.OutLineSummaryBelow
+  fullName: OfficeOpenXml.ExcelWorksheet.OutLineSummaryBelow
+- uid: OfficeOpenXml.ExcelRangeRow.CollapseChildren*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.CollapseChildren
+  name: CollapseChildren
+  nameWithType: ExcelRangeRow.CollapseChildren
+  fullName: OfficeOpenXml.ExcelRangeRow.CollapseChildren
+- uid: OfficeOpenXml.ExcelWorksheet
+  commentId: T:OfficeOpenXml.ExcelWorksheet
+  parent: OfficeOpenXml
+  name: ExcelWorksheet
+  nameWithType: ExcelWorksheet
+  fullName: OfficeOpenXml.ExcelWorksheet
+- uid: OfficeOpenXml.ExcelRangeRow.ExpandChildren*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.ExpandChildren
+  name: ExpandChildren
+  nameWithType: ExcelRangeRow.ExpandChildren
+  fullName: OfficeOpenXml.ExcelRangeRow.ExpandChildren
+- uid: OfficeOpenXml.ExcelRangeRow.SetVisibleOutlineLevel*
+  commentId: Overload:OfficeOpenXml.ExcelRangeRow.SetVisibleOutlineLevel
+  name: SetVisibleOutlineLevel
+  nameWithType: ExcelRangeRow.SetVisibleOutlineLevel
+  fullName: OfficeOpenXml.ExcelRangeRow.SetVisibleOutlineLevel

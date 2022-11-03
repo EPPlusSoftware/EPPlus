@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eShiftTypeInsert
+  commentId: T:OfficeOpenXml.eShiftTypeInsert
+  id: eShiftTypeInsert
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eShiftTypeInsert.Down
+  - OfficeOpenXml.eShiftTypeInsert.EntireColumn
+  - OfficeOpenXml.eShiftTypeInsert.EntireRow
+  - OfficeOpenXml.eShiftTypeInsert.Right
+  langs:
+  - csharp
+  - vb
+  name: eShiftTypeInsert
+  nameWithType: eShiftTypeInsert
+  fullName: OfficeOpenXml.eShiftTypeInsert
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eShiftTypeInsert
+    path: ../src/EPPlus/Enums.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nTells how cells should be shifted in a insert operation\n"
+  example: []
+  syntax:
+    content: public enum eShiftTypeInsert
+    content.vb: Public Enum eShiftTypeInsert
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eShiftTypeInsert.Right
+  commentId: F:OfficeOpenXml.eShiftTypeInsert.Right
+  id: Right
+  parent: OfficeOpenXml.eShiftTypeInsert
+  langs:
+  - csharp
+  - vb
+  name: Right
+  nameWithType: eShiftTypeInsert.Right
+  fullName: OfficeOpenXml.eShiftTypeInsert.Right
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Right
+    path: ../src/EPPlus/Enums.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCells in the range are shifted to the right\n"
+  example: []
+  syntax:
+    content: Right = 0
+    return:
+      type: OfficeOpenXml.eShiftTypeInsert
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eShiftTypeInsert.Down
+  commentId: F:OfficeOpenXml.eShiftTypeInsert.Down
+  id: Down
+  parent: OfficeOpenXml.eShiftTypeInsert
+  langs:
+  - csharp
+  - vb
+  name: Down
+  nameWithType: eShiftTypeInsert.Down
+  fullName: OfficeOpenXml.eShiftTypeInsert.Down
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Down
+    path: ../src/EPPlus/Enums.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCells in the range are shifted downwards\n"
+  example: []
+  syntax:
+    content: Down = 1
+    return:
+      type: OfficeOpenXml.eShiftTypeInsert
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eShiftTypeInsert.EntireRow
+  commentId: F:OfficeOpenXml.eShiftTypeInsert.EntireRow
+  id: EntireRow
+  parent: OfficeOpenXml.eShiftTypeInsert
+  langs:
+  - csharp
+  - vb
+  name: EntireRow
+  nameWithType: eShiftTypeInsert.EntireRow
+  fullName: OfficeOpenXml.eShiftTypeInsert.EntireRow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EntireRow
+    path: ../src/EPPlus/Enums.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe range for the entire row is used in the shift operation\n"
+  example: []
+  syntax:
+    content: EntireRow = 2
+    return:
+      type: OfficeOpenXml.eShiftTypeInsert
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eShiftTypeInsert.EntireColumn
+  commentId: F:OfficeOpenXml.eShiftTypeInsert.EntireColumn
+  id: EntireColumn
+  parent: OfficeOpenXml.eShiftTypeInsert
+  langs:
+  - csharp
+  - vb
+  name: EntireColumn
+  nameWithType: eShiftTypeInsert.EntireColumn
+  fullName: OfficeOpenXml.eShiftTypeInsert.EntireColumn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EntireColumn
+    path: ../src/EPPlus/Enums.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe range for the entire column is used in the shift operation\n"
+  example: []
+  syntax:
+    content: EntireColumn = 3
+    return:
+      type: OfficeOpenXml.eShiftTypeInsert
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eShiftTypeInsert
+  commentId: T:OfficeOpenXml.eShiftTypeInsert
+  parent: OfficeOpenXml
+  name: eShiftTypeInsert
+  nameWithType: eShiftTypeInsert
+  fullName: OfficeOpenXml.eShiftTypeInsert

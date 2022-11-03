@@ -1,0 +1,707 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill
+  id: ExcelVmlDrawingGradientFill
+  parent: OfficeOpenXml.Drawing.Vml
+  children:
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Angle
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.ColorsString
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Focus
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Method
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.SetGradientColors(OfficeOpenXml.Drawing.Vml.VmlGradiantColor[])
+  langs:
+  - csharp
+  - vb
+  name: ExcelVmlDrawingGradientFill
+  nameWithType: ExcelVmlDrawingGradientFill
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelVmlDrawingGradientFill
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
+    startLine: 8
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nFill settings for a vml gradient fill\n"
+  example: []
+  syntax:
+    content: 'public class ExcelVmlDrawingGradientFill : XmlHelper'
+    content.vb: >-
+      Public Class ExcelVmlDrawingGradientFill
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.ColorsString
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.ColorsString
+  id: ColorsString
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill
+  langs:
+  - csharp
+  - vb
+  name: ColorsString
+  nameWithType: ExcelVmlDrawingGradientFill.ColorsString
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.ColorsString
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorsString
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nA semicolon separated list of colors used for gradient fill. \nEach color item starts with a percent and a color. Starting from 0% and ending and 100%.\nUse <xref href=\"OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.SetGradientColors(OfficeOpenXml.Drawing.Vml.VmlGradiantColor%5b%5d)\" data-throw-if-not-resolved=\"false\"></xref>  to set this property.\n"
+  example: []
+  syntax:
+    content: public string ColorsString { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ColorsString As String
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.ColorsString*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.SetGradientColors(OfficeOpenXml.Drawing.Vml.VmlGradiantColor[])
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.SetGradientColors(OfficeOpenXml.Drawing.Vml.VmlGradiantColor[])
+  id: SetGradientColors(OfficeOpenXml.Drawing.Vml.VmlGradiantColor[])
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill
+  langs:
+  - csharp
+  - vb
+  name: SetGradientColors(VmlGradiantColor[])
+  nameWithType: ExcelVmlDrawingGradientFill.SetGradientColors(VmlGradiantColor[])
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.SetGradientColors(OfficeOpenXml.Drawing.Vml.VmlGradiantColor[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetGradientColors
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
+    startLine: 40
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nSets the <xref href=\"OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.ColorsString\" data-throw-if-not-resolved=\"false\"></xref> with the colors supplied and optionally \n<xref href=\"OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingFill.Color\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingFill.SecondColor\" data-throw-if-not-resolved=\"false\"></xref>.\nEach color item starts with a percent and a color. \nPercent values must be sorted, starting from 0% and ending and 100%.\nIf 0% is omitted, <xref href=\"OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingFill.Color\" data-throw-if-not-resolved=\"false\"></xref> is used.\nIf 100% is omitted, <xref href=\"OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingFill.SecondColor\" data-throw-if-not-resolved=\"false\"></xref> is used.\n"
+  example: []
+  syntax:
+    content: public void SetGradientColors(params VmlGradiantColor[] colors)
+    parameters:
+    - id: colors
+      type: OfficeOpenXml.Drawing.Vml.VmlGradiantColor[]
+      description: The colors with a percent value for the gradient fill
+    content.vb: Public Sub SetGradientColors(ParamArray colors As VmlGradiantColor())
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.SetGradientColors*
+  nameWithType.vb: ExcelVmlDrawingGradientFill.SetGradientColors(VmlGradiantColor())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.SetGradientColors(OfficeOpenXml.Drawing.Vml.VmlGradiantColor())
+  name.vb: SetGradientColors(VmlGradiantColor())
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Angle
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Angle
+  id: Angle
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill
+  langs:
+  - csharp
+  - vb
+  name: Angle
+  nameWithType: ExcelVmlDrawingGradientFill.Angle
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Angle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Angle
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
+    startLine: 89
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nGradient angle\n"
+  example: []
+  syntax:
+    content: public double? Angle { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property Angle As Double?
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Angle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Focus
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Focus
+  id: Focus
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill
+  langs:
+  - csharp
+  - vb
+  name: Focus
+  nameWithType: ExcelVmlDrawingGradientFill.Focus
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Focus
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Focus
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
+    startLine: 104
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nGradient center\n"
+  example: []
+  syntax:
+    content: public double? Focus { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property Focus As Double?
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Focus*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Method
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Method
+  id: Method
+  parent: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill
+  langs:
+  - csharp
+  - vb
+  name: Method
+  nameWithType: ExcelVmlDrawingGradientFill.Method
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Method
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Method
+    path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nGradient method\n"
+  example: []
+  syntax:
+    content: public eVmlGradientMethod Method { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+    content.vb: Public Property Method As eVmlGradientMethod
+  overload: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Method*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.SetGradientColors(OfficeOpenXml.Drawing.Vml.VmlGradiantColor[])
+  commentId: M:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.SetGradientColors(OfficeOpenXml.Drawing.Vml.VmlGradiantColor[])
+  isExternal: true
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.ColorsString*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.ColorsString
+  name: ColorsString
+  nameWithType: ExcelVmlDrawingGradientFill.ColorsString
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.ColorsString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.ColorsString
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.ColorsString
+  isExternal: true
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingFill.Color
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingFill.Color
+  isExternal: true
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingFill.SecondColor
+  commentId: P:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingFill.SecondColor
+  isExternal: true
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.SetGradientColors*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.SetGradientColors
+  name: SetGradientColors
+  nameWithType: ExcelVmlDrawingGradientFill.SetGradientColors
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.SetGradientColors
+- uid: OfficeOpenXml.Drawing.Vml.VmlGradiantColor[]
+  isExternal: true
+  name: VmlGradiantColor[]
+  nameWithType: VmlGradiantColor[]
+  fullName: OfficeOpenXml.Drawing.Vml.VmlGradiantColor[]
+  nameWithType.vb: VmlGradiantColor()
+  fullName.vb: OfficeOpenXml.Drawing.Vml.VmlGradiantColor()
+  name.vb: VmlGradiantColor()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Vml.VmlGradiantColor
+    name: VmlGradiantColor
+    nameWithType: VmlGradiantColor
+    fullName: OfficeOpenXml.Drawing.Vml.VmlGradiantColor
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Vml.VmlGradiantColor
+    name: VmlGradiantColor
+    nameWithType: VmlGradiantColor
+    fullName: OfficeOpenXml.Drawing.Vml.VmlGradiantColor
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Angle*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Angle
+  name: Angle
+  nameWithType: ExcelVmlDrawingGradientFill.Angle
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Angle
+- uid: System.Nullable{System.Double}
+  commentId: T:System.Nullable{System.Double}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Double>
+  nameWithType: Nullable<Double>
+  fullName: System.Nullable<System.Double>
+  nameWithType.vb: Nullable(Of Double)
+  fullName.vb: System.Nullable(Of System.Double)
+  name.vb: Nullable(Of Double)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Focus*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Focus
+  name: Focus
+  nameWithType: ExcelVmlDrawingGradientFill.Focus
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Focus
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Method*
+  commentId: Overload:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Method
+  name: Method
+  nameWithType: ExcelVmlDrawingGradientFill.Method
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill.Method
+- uid: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  commentId: T:OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  parent: OfficeOpenXml.Drawing.Vml
+  name: eVmlGradientMethod
+  nameWithType: eVmlGradientMethod
+  fullName: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod

@@ -1,0 +1,532 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Sorting.SortLayerBase
+  commentId: T:OfficeOpenXml.Sorting.SortLayerBase
+  id: SortLayerBase
+  parent: OfficeOpenXml.Sorting
+  children:
+  - OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32)
+  - OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32,OfficeOpenXml.eSortOrder)
+  - OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32)
+  - OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32,OfficeOpenXml.eSortOrder)
+  langs:
+  - csharp
+  - vb
+  name: SortLayerBase
+  nameWithType: SortLayerBase
+  fullName: OfficeOpenXml.Sorting.SortLayerBase
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Sorting/SortLayerBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SortLayerBase
+    path: ../src/EPPlus/Sorting/SortLayerBase.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nBase class for sort layers\n"
+  example: []
+  syntax:
+    content: public abstract class SortLayerBase
+    content.vb: Public MustInherit Class SortLayerBase
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - OfficeOpenXml.Sorting.RangeLeftToRightSortLayer
+  - OfficeOpenXml.Sorting.RangeSortLayer
+  - OfficeOpenXml.Sorting.TableSortLayer
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - abstract
+  - class
+  modifiers.vb:
+  - Public
+  - MustInherit
+  - Class
+- uid: OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32)
+  commentId: M:OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32)
+  id: SetColumn(System.Int32)
+  parent: OfficeOpenXml.Sorting.SortLayerBase
+  langs:
+  - csharp
+  - vb
+  name: SetColumn(Int32)
+  nameWithType: SortLayerBase.SetColumn(Int32)
+  fullName: OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Sorting/SortLayerBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetColumn
+    path: ../src/EPPlus/Sorting/SortLayerBase.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nSets the column\n"
+  example: []
+  syntax:
+    content: protected void SetColumn(int column)
+    parameters:
+    - id: column
+      type: System.Int32
+      description: ''
+    content.vb: Protected Sub SetColumn(column As Integer)
+  overload: OfficeOpenXml.Sorting.SortLayerBase.SetColumn*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32,OfficeOpenXml.eSortOrder)
+  commentId: M:OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32,OfficeOpenXml.eSortOrder)
+  id: SetColumn(System.Int32,OfficeOpenXml.eSortOrder)
+  parent: OfficeOpenXml.Sorting.SortLayerBase
+  langs:
+  - csharp
+  - vb
+  name: SetColumn(Int32, eSortOrder)
+  nameWithType: SortLayerBase.SetColumn(Int32, eSortOrder)
+  fullName: OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32, OfficeOpenXml.eSortOrder)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Sorting/SortLayerBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetColumn
+    path: ../src/EPPlus/Sorting/SortLayerBase.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nSets the column\n"
+  example: []
+  syntax:
+    content: protected void SetColumn(int column, eSortOrder sortOrder)
+    parameters:
+    - id: column
+      type: System.Int32
+      description: Column to sort
+    - id: sortOrder
+      type: OfficeOpenXml.eSortOrder
+      description: Sort order
+    content.vb: Protected Sub SetColumn(column As Integer, sortOrder As eSortOrder)
+  overload: OfficeOpenXml.Sorting.SortLayerBase.SetColumn*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32)
+  commentId: M:OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32)
+  id: SetRow(System.Int32)
+  parent: OfficeOpenXml.Sorting.SortLayerBase
+  langs:
+  - csharp
+  - vb
+  name: SetRow(Int32)
+  nameWithType: SortLayerBase.SetRow(Int32)
+  fullName: OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Sorting/SortLayerBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetRow
+    path: ../src/EPPlus/Sorting/SortLayerBase.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nSets the row\n"
+  example: []
+  syntax:
+    content: protected void SetRow(int row)
+    parameters:
+    - id: row
+      type: System.Int32
+      description: ''
+    content.vb: Protected Sub SetRow(row As Integer)
+  overload: OfficeOpenXml.Sorting.SortLayerBase.SetRow*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+- uid: OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32,OfficeOpenXml.eSortOrder)
+  commentId: M:OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32,OfficeOpenXml.eSortOrder)
+  id: SetRow(System.Int32,OfficeOpenXml.eSortOrder)
+  parent: OfficeOpenXml.Sorting.SortLayerBase
+  langs:
+  - csharp
+  - vb
+  name: SetRow(Int32, eSortOrder)
+  nameWithType: SortLayerBase.SetRow(Int32, eSortOrder)
+  fullName: OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32, OfficeOpenXml.eSortOrder)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Sorting/SortLayerBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetRow
+    path: ../src/EPPlus/Sorting/SortLayerBase.cs
+    startLine: 72
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nSets the row\n"
+  example: []
+  syntax:
+    content: protected void SetRow(int row, eSortOrder sortOrder)
+    parameters:
+    - id: row
+      type: System.Int32
+      description: ''
+    - id: sortOrder
+      type: OfficeOpenXml.eSortOrder
+      description: ''
+    content.vb: Protected Sub SetRow(row As Integer, sortOrder As eSortOrder)
+  overload: OfficeOpenXml.Sorting.SortLayerBase.SetRow*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
+references:
+- uid: OfficeOpenXml.Sorting
+  commentId: N:OfficeOpenXml.Sorting
+  name: OfficeOpenXml.Sorting
+  nameWithType: OfficeOpenXml.Sorting
+  fullName: OfficeOpenXml.Sorting
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Sorting.SortLayerBase.SetColumn*
+  commentId: Overload:OfficeOpenXml.Sorting.SortLayerBase.SetColumn
+  name: SetColumn
+  nameWithType: SortLayerBase.SetColumn
+  fullName: OfficeOpenXml.Sorting.SortLayerBase.SetColumn
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.eSortOrder
+  commentId: T:OfficeOpenXml.eSortOrder
+  parent: OfficeOpenXml
+  name: eSortOrder
+  nameWithType: eSortOrder
+  fullName: OfficeOpenXml.eSortOrder
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Sorting.SortLayerBase.SetRow*
+  commentId: Overload:OfficeOpenXml.Sorting.SortLayerBase.SetRow
+  name: SetRow
+  nameWithType: SortLayerBase.SetRow
+  fullName: OfficeOpenXml.Sorting.SortLayerBase.SetRow

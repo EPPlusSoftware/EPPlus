@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod
+  id: eQuartileMethod
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod.Exclusive
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod.Inclusive
+  langs:
+  - csharp
+  - vb
+  name: eQuartileMethod
+  nameWithType: eQuartileMethod
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eQuartileMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eQuartileMethod
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eQuartileMethod.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe quartile calculation methods\n"
+  example: []
+  syntax:
+    content: public enum eQuartileMethod
+    content.vb: Public Enum eQuartileMethod
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod.Inclusive
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod.Inclusive
+  id: Inclusive
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod
+  langs:
+  - csharp
+  - vb
+  name: Inclusive
+  nameWithType: eQuartileMethod.Inclusive
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod.Inclusive
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eQuartileMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Inclusive
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eQuartileMethod.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe quartile calculation includes the median when splitting the dataset into quartiles\n"
+  example: []
+  syntax:
+    content: Inclusive = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod.Exclusive
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod.Exclusive
+  id: Exclusive
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod
+  langs:
+  - csharp
+  - vb
+  name: Exclusive
+  nameWithType: eQuartileMethod.Exclusive
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod.Exclusive
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eQuartileMethod.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Exclusive
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eQuartileMethod.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe quartile calculation excludes the median when splitting the dataset into quartiles\n"
+  example: []
+  syntax:
+    content: Exclusive = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eQuartileMethod
+  nameWithType: eQuartileMethod
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eQuartileMethod

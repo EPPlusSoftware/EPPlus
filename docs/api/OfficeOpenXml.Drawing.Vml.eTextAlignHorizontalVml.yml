@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml
+  commentId: T:OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml
+  id: eTextAlignHorizontalVml
+  parent: OfficeOpenXml.Drawing.Vml
+  children:
+  - OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml.Center
+  - OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml.Left
+  - OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml.Right
+  langs:
+  - csharp
+  - vb
+  name: eTextAlignHorizontalVml
+  nameWithType: eTextAlignHorizontalVml
+  fullName: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAlignHorizontalVml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eTextAlignHorizontalVml
+    path: ../src/EPPlus/Drawing/Enums/eTextAlignHorizontalVml.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nHorizontal Alingment\n"
+  example: []
+  syntax:
+    content: public enum eTextAlignHorizontalVml
+    content.vb: Public Enum eTextAlignHorizontalVml
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml.Left
+  commentId: F:OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml.Left
+  id: Left
+  parent: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: eTextAlignHorizontalVml.Left
+  fullName: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml.Left
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAlignHorizontalVml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Left
+    path: ../src/EPPlus/Drawing/Enums/eTextAlignHorizontalVml.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nLeft alignment\n"
+  example: []
+  syntax:
+    content: Left = 0
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml.Center
+  commentId: F:OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml.Center
+  id: Center
+  parent: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml
+  langs:
+  - csharp
+  - vb
+  name: Center
+  nameWithType: eTextAlignHorizontalVml.Center
+  fullName: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml.Center
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAlignHorizontalVml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Center
+    path: ../src/EPPlus/Drawing/Enums/eTextAlignHorizontalVml.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nCenter alignment\n"
+  example: []
+  syntax:
+    content: Center = 1
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml.Right
+  commentId: F:OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml.Right
+  id: Right
+  parent: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml
+  langs:
+  - csharp
+  - vb
+  name: Right
+  nameWithType: eTextAlignHorizontalVml.Right
+  fullName: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml.Right
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAlignHorizontalVml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Right
+    path: ../src/EPPlus/Drawing/Enums/eTextAlignHorizontalVml.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nRight alignment\n"
+  example: []
+  syntax:
+    content: Right = 2
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+- uid: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml
+  commentId: T:OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml
+  parent: OfficeOpenXml.Drawing.Vml
+  name: eTextAlignHorizontalVml
+  nameWithType: eTextAlignHorizontalVml
+  fullName: OfficeOpenXml.Drawing.Vml.eTextAlignHorizontalVml

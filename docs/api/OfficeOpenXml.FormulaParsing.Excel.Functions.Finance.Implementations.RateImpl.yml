@@ -1,0 +1,540 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl
+  id: RateImpl
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.LEvalRate(System.Double,System.Double,System.Double,System.Double,System.Double,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.Rate(System.Double,System.Double,System.Double,System.Double,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue,System.Double)
+  langs:
+  - csharp
+  - vb
+  name: RateImpl
+  nameWithType: RateImpl
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/RateImpl.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RateImpl
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/RateImpl.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: public static class RateImpl
+    content.vb: Public Module RateImpl
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - static
+  - class
+  modifiers.vb:
+  - Public
+  - Module
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.Rate(System.Double,System.Double,System.Double,System.Double,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue,System.Double)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.Rate(System.Double,System.Double,System.Double,System.Double,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue,System.Double)
+  id: Rate(System.Double,System.Double,System.Double,System.Double,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue,System.Double)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl
+  langs:
+  - csharp
+  - vb
+  name: Rate(Double, Double, Double, Double, PmtDue, Double)
+  nameWithType: RateImpl.Rate(Double, Double, Double, Double, PmtDue, Double)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.Rate(System.Double, System.Double, System.Double, System.Double, OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue, System.Double)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/RateImpl.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Rate
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/RateImpl.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: public static FinanceCalcResult<double> Rate(double NPer, double Pmt, double PV, double FV = 0, PmtDue Due = PmtDue.EndOfPeriod, double Guess = 0.1)
+    parameters:
+    - id: NPer
+      type: System.Double
+    - id: Pmt
+      type: System.Double
+    - id: PV
+      type: System.Double
+    - id: FV
+      type: System.Double
+    - id: Due
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+    - id: Guess
+      type: System.Double
+    return:
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult{System.Double}
+    content.vb: Public Shared Function Rate(NPer As Double, Pmt As Double, PV As Double, FV As Double = 0, Due As PmtDue = PmtDue.EndOfPeriod, Guess As Double = 0.1) As FinanceCalcResult(Of Double)
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.Rate*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.LEvalRate(System.Double,System.Double,System.Double,System.Double,System.Double,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.LEvalRate(System.Double,System.Double,System.Double,System.Double,System.Double,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue)
+  id: LEvalRate(System.Double,System.Double,System.Double,System.Double,System.Double,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl
+  langs:
+  - csharp
+  - vb
+  name: LEvalRate(Double, Double, Double, Double, Double, PmtDue)
+  nameWithType: RateImpl.LEvalRate(Double, Double, Double, Double, Double, PmtDue)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.LEvalRate(System.Double, System.Double, System.Double, System.Double, System.Double, OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/RateImpl.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LEvalRate
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/RateImpl.cs
+    startLine: 76
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: public static double LEvalRate(double Rate, double NPer, double Pmt, double PV, double dFv, PmtDue Due)
+    parameters:
+    - id: Rate
+      type: System.Double
+    - id: NPer
+      type: System.Double
+    - id: Pmt
+      type: System.Double
+    - id: PV
+      type: System.Double
+    - id: dFv
+      type: System.Double
+    - id: Due
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+    return:
+      type: System.Double
+    content.vb: Public Shared Function LEvalRate(Rate As Double, NPer As Double, Pmt As Double, PV As Double, dFv As Double, Due As PmtDue) As Double
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.LEvalRate*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.Rate*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.Rate
+  name: Rate
+  nameWithType: RateImpl.Rate
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.Rate
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  name: PmtDue
+  nameWithType: PmtDue
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult{System.Double}
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult{System.Double}
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  definition: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+  name: FinanceCalcResult<Double>
+  nameWithType: FinanceCalcResult<Double>
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<System.Double>
+  nameWithType.vb: FinanceCalcResult(Of Double)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of System.Double)
+  name.vb: FinanceCalcResult(Of Double)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+    name: FinanceCalcResult
+    nameWithType: FinanceCalcResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+    name: FinanceCalcResult
+    nameWithType: FinanceCalcResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+  name: FinanceCalcResult<T>
+  nameWithType: FinanceCalcResult<T>
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<T>
+  nameWithType.vb: FinanceCalcResult(Of T)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T)
+  name.vb: FinanceCalcResult(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+    name: FinanceCalcResult
+    nameWithType: FinanceCalcResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+    name: FinanceCalcResult
+    nameWithType: FinanceCalcResult
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.LEvalRate*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.LEvalRate
+  name: LEvalRate
+  nameWithType: RateImpl.LEvalRate
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.RateImpl.LEvalRate

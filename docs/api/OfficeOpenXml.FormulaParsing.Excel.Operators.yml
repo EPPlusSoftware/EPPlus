@@ -1,0 +1,47 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Operators
+  id: OfficeOpenXml.FormulaParsing.Excel.Operators
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.Operator
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
+  - OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsDict
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.FormulaParsing.Excel.Operators
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Operators
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators
+  name: IOperator
+  nameWithType: IOperator
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Operators.Operator
+  name: Operator
+  nameWithType: Operator
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
+  parent: OfficeOpenXml.FormulaParsing.Excel.Operators
+  name: Operators
+  nameWithType: Operators
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsDict
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsDict
+  name: OperatorsDict
+  nameWithType: OperatorsDict
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsDict
+- uid: OfficeOpenXml.FormulaParsing.Excel.Operators
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Operators
+  name: OfficeOpenXml.FormulaParsing.Excel.Operators
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Operators
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Operators

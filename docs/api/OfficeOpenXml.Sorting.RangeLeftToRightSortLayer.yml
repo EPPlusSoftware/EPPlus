@@ -1,0 +1,655 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Sorting.RangeLeftToRightSortLayer
+  commentId: T:OfficeOpenXml.Sorting.RangeLeftToRightSortLayer
+  id: RangeLeftToRightSortLayer
+  parent: OfficeOpenXml.Sorting
+  children:
+  - OfficeOpenXml.Sorting.RangeLeftToRightSortLayer.Row(System.Int32)
+  - OfficeOpenXml.Sorting.RangeLeftToRightSortLayer.Row(System.Int32,OfficeOpenXml.eSortOrder)
+  langs:
+  - csharp
+  - vb
+  name: RangeLeftToRightSortLayer
+  nameWithType: RangeLeftToRightSortLayer
+  fullName: OfficeOpenXml.Sorting.RangeLeftToRightSortLayer
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Sorting/RangeLeftToRightSortLayer.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RangeLeftToRightSortLayer
+    path: ../src/EPPlus/Sorting/RangeLeftToRightSortLayer.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nCritieras for sorting a range left to right\n"
+  example: []
+  syntax:
+    content: 'public class RangeLeftToRightSortLayer : SortLayerBase'
+    content.vb: >-
+      Public Class RangeLeftToRightSortLayer
+          Inherits SortLayerBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Sorting.SortLayerBase
+  inheritedMembers:
+  - OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32)
+  - OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32,OfficeOpenXml.eSortOrder)
+  - OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32)
+  - OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32,OfficeOpenXml.eSortOrder)
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Sorting.RangeLeftToRightSortLayer.Row(System.Int32)
+  commentId: M:OfficeOpenXml.Sorting.RangeLeftToRightSortLayer.Row(System.Int32)
+  id: Row(System.Int32)
+  parent: OfficeOpenXml.Sorting.RangeLeftToRightSortLayer
+  langs:
+  - csharp
+  - vb
+  name: Row(Int32)
+  nameWithType: RangeLeftToRightSortLayer.Row(Int32)
+  fullName: OfficeOpenXml.Sorting.RangeLeftToRightSortLayer.Row(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Sorting/RangeLeftToRightSortLayer.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Row
+    path: ../src/EPPlus/Sorting/RangeLeftToRightSortLayer.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nSorts by the column that corresponds to the <code data-dev-comment-type=\"paramref\" class=\"paramref\">row</code> (zerobased) with ascending sort direction\n"
+  example: []
+  syntax:
+    content: public virtual RangeLeftToRightSortLayerBuilder Row(int row)
+    parameters:
+    - id: row
+      type: System.Int32
+      description: The row to sort on
+    return:
+      type: OfficeOpenXml.Sorting.RangeLeftToRightSortLayerBuilder
+      description: A <xref href="OfficeOpenXml.Sorting.RangeLeftToRightSortLayerBuilder" data-throw-if-not-resolved="false"></xref> for adding more sort criterias
+    content.vb: Public Overridable Function Row(row As Integer) As RangeLeftToRightSortLayerBuilder
+  overload: OfficeOpenXml.Sorting.RangeLeftToRightSortLayer.Row*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+- uid: OfficeOpenXml.Sorting.RangeLeftToRightSortLayer.Row(System.Int32,OfficeOpenXml.eSortOrder)
+  commentId: M:OfficeOpenXml.Sorting.RangeLeftToRightSortLayer.Row(System.Int32,OfficeOpenXml.eSortOrder)
+  id: Row(System.Int32,OfficeOpenXml.eSortOrder)
+  parent: OfficeOpenXml.Sorting.RangeLeftToRightSortLayer
+  langs:
+  - csharp
+  - vb
+  name: Row(Int32, eSortOrder)
+  nameWithType: RangeLeftToRightSortLayer.Row(Int32, eSortOrder)
+  fullName: OfficeOpenXml.Sorting.RangeLeftToRightSortLayer.Row(System.Int32, OfficeOpenXml.eSortOrder)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Sorting/RangeLeftToRightSortLayer.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Row
+    path: ../src/EPPlus/Sorting/RangeLeftToRightSortLayer.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sorting
+  summary: "\nSorts by the column that corresponds to the <code data-dev-comment-type=\"paramref\" class=\"paramref\">row</code> (zerobased) using the supplied sort direction.\n"
+  example: []
+  syntax:
+    content: public RangeLeftToRightSortLayerBuilder Row(int row, eSortOrder sortOrder)
+    parameters:
+    - id: row
+      type: System.Int32
+      description: The column to sort on
+    - id: sortOrder
+      type: OfficeOpenXml.eSortOrder
+      description: Ascending or Descending sort
+    return:
+      type: OfficeOpenXml.Sorting.RangeLeftToRightSortLayerBuilder
+      description: A <xref href="OfficeOpenXml.Sorting.RangeLeftToRightSortLayerBuilder" data-throw-if-not-resolved="false"></xref> for adding more sort criterias
+    content.vb: Public Function Row(row As Integer, sortOrder As eSortOrder) As RangeLeftToRightSortLayerBuilder
+  overload: OfficeOpenXml.Sorting.RangeLeftToRightSortLayer.Row*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Sorting
+  commentId: N:OfficeOpenXml.Sorting
+  name: OfficeOpenXml.Sorting
+  nameWithType: OfficeOpenXml.Sorting
+  fullName: OfficeOpenXml.Sorting
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Sorting.SortLayerBase
+  commentId: T:OfficeOpenXml.Sorting.SortLayerBase
+  parent: OfficeOpenXml.Sorting
+  name: SortLayerBase
+  nameWithType: SortLayerBase
+  fullName: OfficeOpenXml.Sorting.SortLayerBase
+- uid: OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32)
+  commentId: M:OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32)
+  parent: OfficeOpenXml.Sorting.SortLayerBase
+  isExternal: true
+  name: SetColumn(Int32)
+  nameWithType: SortLayerBase.SetColumn(Int32)
+  fullName: OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32)
+    name: SetColumn
+    nameWithType: SortLayerBase.SetColumn
+    fullName: OfficeOpenXml.Sorting.SortLayerBase.SetColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32)
+    name: SetColumn
+    nameWithType: SortLayerBase.SetColumn
+    fullName: OfficeOpenXml.Sorting.SortLayerBase.SetColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32,OfficeOpenXml.eSortOrder)
+  commentId: M:OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32,OfficeOpenXml.eSortOrder)
+  parent: OfficeOpenXml.Sorting.SortLayerBase
+  isExternal: true
+  name: SetColumn(Int32, eSortOrder)
+  nameWithType: SortLayerBase.SetColumn(Int32, eSortOrder)
+  fullName: OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32, OfficeOpenXml.eSortOrder)
+  spec.csharp:
+  - uid: OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32,OfficeOpenXml.eSortOrder)
+    name: SetColumn
+    nameWithType: SortLayerBase.SetColumn
+    fullName: OfficeOpenXml.Sorting.SortLayerBase.SetColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.eSortOrder
+    name: eSortOrder
+    nameWithType: eSortOrder
+    fullName: OfficeOpenXml.eSortOrder
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Sorting.SortLayerBase.SetColumn(System.Int32,OfficeOpenXml.eSortOrder)
+    name: SetColumn
+    nameWithType: SortLayerBase.SetColumn
+    fullName: OfficeOpenXml.Sorting.SortLayerBase.SetColumn
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.eSortOrder
+    name: eSortOrder
+    nameWithType: eSortOrder
+    fullName: OfficeOpenXml.eSortOrder
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32)
+  commentId: M:OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32)
+  parent: OfficeOpenXml.Sorting.SortLayerBase
+  isExternal: true
+  name: SetRow(Int32)
+  nameWithType: SortLayerBase.SetRow(Int32)
+  fullName: OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32)
+    name: SetRow
+    nameWithType: SortLayerBase.SetRow
+    fullName: OfficeOpenXml.Sorting.SortLayerBase.SetRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32)
+    name: SetRow
+    nameWithType: SortLayerBase.SetRow
+    fullName: OfficeOpenXml.Sorting.SortLayerBase.SetRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32,OfficeOpenXml.eSortOrder)
+  commentId: M:OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32,OfficeOpenXml.eSortOrder)
+  parent: OfficeOpenXml.Sorting.SortLayerBase
+  isExternal: true
+  name: SetRow(Int32, eSortOrder)
+  nameWithType: SortLayerBase.SetRow(Int32, eSortOrder)
+  fullName: OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32, OfficeOpenXml.eSortOrder)
+  spec.csharp:
+  - uid: OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32,OfficeOpenXml.eSortOrder)
+    name: SetRow
+    nameWithType: SortLayerBase.SetRow
+    fullName: OfficeOpenXml.Sorting.SortLayerBase.SetRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.eSortOrder
+    name: eSortOrder
+    nameWithType: eSortOrder
+    fullName: OfficeOpenXml.eSortOrder
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Sorting.SortLayerBase.SetRow(System.Int32,OfficeOpenXml.eSortOrder)
+    name: SetRow
+    nameWithType: SortLayerBase.SetRow
+    fullName: OfficeOpenXml.Sorting.SortLayerBase.SetRow
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.eSortOrder
+    name: eSortOrder
+    nameWithType: eSortOrder
+    fullName: OfficeOpenXml.eSortOrder
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Sorting.RangeLeftToRightSortLayerBuilder
+  commentId: T:OfficeOpenXml.Sorting.RangeLeftToRightSortLayerBuilder
+  parent: OfficeOpenXml.Sorting
+  name: RangeLeftToRightSortLayerBuilder
+  nameWithType: RangeLeftToRightSortLayerBuilder
+  fullName: OfficeOpenXml.Sorting.RangeLeftToRightSortLayerBuilder
+- uid: OfficeOpenXml.Sorting.RangeLeftToRightSortLayer.Row*
+  commentId: Overload:OfficeOpenXml.Sorting.RangeLeftToRightSortLayer.Row
+  name: Row
+  nameWithType: RangeLeftToRightSortLayer.Row
+  fullName: OfficeOpenXml.Sorting.RangeLeftToRightSortLayer.Row
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.eSortOrder
+  commentId: T:OfficeOpenXml.eSortOrder
+  parent: OfficeOpenXml
+  name: eSortOrder
+  nameWithType: eSortOrder
+  fullName: OfficeOpenXml.eSortOrder
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml

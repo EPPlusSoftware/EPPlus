@@ -1,0 +1,764 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.VBA.ExcelVBAModule
+  commentId: T:OfficeOpenXml.VBA.ExcelVBAModule
+  id: ExcelVBAModule
+  parent: OfficeOpenXml.VBA
+  children:
+  - OfficeOpenXml.VBA.ExcelVBAModule.Attributes
+  - OfficeOpenXml.VBA.ExcelVBAModule.Code
+  - OfficeOpenXml.VBA.ExcelVBAModule.Description
+  - OfficeOpenXml.VBA.ExcelVBAModule.HelpContext
+  - OfficeOpenXml.VBA.ExcelVBAModule.Name
+  - OfficeOpenXml.VBA.ExcelVBAModule.Private
+  - OfficeOpenXml.VBA.ExcelVBAModule.ReadOnly
+  - OfficeOpenXml.VBA.ExcelVBAModule.ToString
+  - OfficeOpenXml.VBA.ExcelVBAModule.Type
+  langs:
+  - csharp
+  - vb
+  name: ExcelVBAModule
+  nameWithType: ExcelVBAModule
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaModule.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelVBAModule
+    path: ../src/EPPlus/Vba/ExcelVbaModule.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nA VBA code module. \n"
+  example: []
+  syntax:
+    content: public class ExcelVBAModule
+    content.vb: Public Class ExcelVBAModule
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.Name
+  commentId: P:OfficeOpenXml.VBA.ExcelVBAModule.Name
+  id: Name
+  parent: OfficeOpenXml.VBA.ExcelVBAModule
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ExcelVBAModule.Name
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaModule.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/Vba/ExcelVbaModule.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nThe name of the module\n"
+  example: []
+  syntax:
+    content: public string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: OfficeOpenXml.VBA.ExcelVBAModule.Name*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.Description
+  commentId: P:OfficeOpenXml.VBA.ExcelVBAModule.Description
+  id: Description
+  parent: OfficeOpenXml.VBA.ExcelVBAModule
+  langs:
+  - csharp
+  - vb
+  name: Description
+  nameWithType: ExcelVBAModule.Description
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.Description
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaModule.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Description
+    path: ../src/EPPlus/Vba/ExcelVbaModule.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nA description of the module\n"
+  example: []
+  syntax:
+    content: public string Description { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Description As String
+  overload: OfficeOpenXml.VBA.ExcelVBAModule.Description*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.Code
+  commentId: P:OfficeOpenXml.VBA.ExcelVBAModule.Code
+  id: Code
+  parent: OfficeOpenXml.VBA.ExcelVBAModule
+  langs:
+  - csharp
+  - vb
+  name: Code
+  nameWithType: ExcelVBAModule.Code
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.Code
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaModule.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Code
+    path: ../src/EPPlus/Vba/ExcelVbaModule.cs
+    startLine: 96
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nThe code without any module level attributes.\n<remarks>Can contain function level attributes.</remarks> \n"
+  example: []
+  syntax:
+    content: public string Code { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Code As String
+  overload: OfficeOpenXml.VBA.ExcelVBAModule.Code*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.HelpContext
+  commentId: P:OfficeOpenXml.VBA.ExcelVBAModule.HelpContext
+  id: HelpContext
+  parent: OfficeOpenXml.VBA.ExcelVBAModule
+  langs:
+  - csharp
+  - vb
+  name: HelpContext
+  nameWithType: ExcelVBAModule.HelpContext
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.HelpContext
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaModule.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HelpContext
+    path: ../src/EPPlus/Vba/ExcelVbaModule.cs
+    startLine: 113
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nA reference to the helpfile\n"
+  example: []
+  syntax:
+    content: public int HelpContext { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property HelpContext As Integer
+  overload: OfficeOpenXml.VBA.ExcelVBAModule.HelpContext*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.Attributes
+  commentId: P:OfficeOpenXml.VBA.ExcelVBAModule.Attributes
+  id: Attributes
+  parent: OfficeOpenXml.VBA.ExcelVBAModule
+  langs:
+  - csharp
+  - vb
+  name: Attributes
+  nameWithType: ExcelVBAModule.Attributes
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.Attributes
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaModule.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Attributes
+    path: ../src/EPPlus/Vba/ExcelVbaModule.cs
+    startLine: 117
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nModule level attributes.\n"
+  example: []
+  syntax:
+    content: public ExcelVbaModuleAttributesCollection Attributes { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.VBA.ExcelVbaModuleAttributesCollection
+    content.vb: Public ReadOnly Property Attributes As ExcelVbaModuleAttributesCollection
+  overload: OfficeOpenXml.VBA.ExcelVBAModule.Attributes*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.Type
+  commentId: P:OfficeOpenXml.VBA.ExcelVBAModule.Type
+  id: Type
+  parent: OfficeOpenXml.VBA.ExcelVBAModule
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: ExcelVBAModule.Type
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.Type
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaModule.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Type
+    path: ../src/EPPlus/Vba/ExcelVbaModule.cs
+    startLine: 121
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nType of module\n"
+  example: []
+  syntax:
+    content: public eModuleType Type { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.VBA.eModuleType
+    content.vb: Public ReadOnly Property Type As eModuleType
+  overload: OfficeOpenXml.VBA.ExcelVBAModule.Type*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.ReadOnly
+  commentId: P:OfficeOpenXml.VBA.ExcelVBAModule.ReadOnly
+  id: ReadOnly
+  parent: OfficeOpenXml.VBA.ExcelVBAModule
+  langs:
+  - csharp
+  - vb
+  name: ReadOnly
+  nameWithType: ExcelVBAModule.ReadOnly
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.ReadOnly
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaModule.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ReadOnly
+    path: ../src/EPPlus/Vba/ExcelVbaModule.cs
+    startLine: 125
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nIf the module is readonly\n"
+  example: []
+  syntax:
+    content: public bool ReadOnly { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ReadOnly As Boolean
+  overload: OfficeOpenXml.VBA.ExcelVBAModule.ReadOnly*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.Private
+  commentId: P:OfficeOpenXml.VBA.ExcelVBAModule.Private
+  id: Private
+  parent: OfficeOpenXml.VBA.ExcelVBAModule
+  langs:
+  - csharp
+  - vb
+  name: Private
+  nameWithType: ExcelVBAModule.Private
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.Private
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaModule.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Private
+    path: ../src/EPPlus/Vba/ExcelVbaModule.cs
+    startLine: 129
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nIf the module is private\n"
+  example: []
+  syntax:
+    content: public bool Private { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Private As Boolean
+  overload: OfficeOpenXml.VBA.ExcelVBAModule.Private*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.ToString
+  commentId: M:OfficeOpenXml.VBA.ExcelVBAModule.ToString
+  id: ToString
+  parent: OfficeOpenXml.VBA.ExcelVBAModule
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: ExcelVBAModule.ToString()
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaModule.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToString
+    path: ../src/EPPlus/Vba/ExcelVbaModule.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nConverts the object to a string\n"
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: The name of the VBA module
+    content.vb: Public Overrides Function ToString As String
+  overridden: System.Object.ToString
+  overload: OfficeOpenXml.VBA.ExcelVBAModule.ToString*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: OfficeOpenXml.VBA
+  commentId: N:OfficeOpenXml.VBA
+  name: OfficeOpenXml.VBA
+  nameWithType: OfficeOpenXml.VBA
+  fullName: OfficeOpenXml.VBA
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.Name*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVBAModule.Name
+  name: Name
+  nameWithType: ExcelVBAModule.Name
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.Description*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVBAModule.Description
+  name: Description
+  nameWithType: ExcelVBAModule.Description
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.Description
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.Code*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVBAModule.Code
+  name: Code
+  nameWithType: ExcelVBAModule.Code
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.Code
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.HelpContext*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVBAModule.HelpContext
+  name: HelpContext
+  nameWithType: ExcelVBAModule.HelpContext
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.HelpContext
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.Attributes*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVBAModule.Attributes
+  name: Attributes
+  nameWithType: ExcelVBAModule.Attributes
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.Attributes
+- uid: OfficeOpenXml.VBA.ExcelVbaModuleAttributesCollection
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaModuleAttributesCollection
+  parent: OfficeOpenXml.VBA
+  name: ExcelVbaModuleAttributesCollection
+  nameWithType: ExcelVbaModuleAttributesCollection
+  fullName: OfficeOpenXml.VBA.ExcelVbaModuleAttributesCollection
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.Type*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVBAModule.Type
+  name: Type
+  nameWithType: ExcelVBAModule.Type
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.Type
+- uid: OfficeOpenXml.VBA.eModuleType
+  commentId: T:OfficeOpenXml.VBA.eModuleType
+  parent: OfficeOpenXml.VBA
+  name: eModuleType
+  nameWithType: eModuleType
+  fullName: OfficeOpenXml.VBA.eModuleType
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.ReadOnly*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVBAModule.ReadOnly
+  name: ReadOnly
+  nameWithType: ExcelVBAModule.ReadOnly
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.ReadOnly
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.Private*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVBAModule.Private
+  name: Private
+  nameWithType: ExcelVBAModule.Private
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.Private
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.VBA.ExcelVBAModule.ToString*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVBAModule.ToString
+  name: ToString
+  nameWithType: ExcelVBAModule.ToString
+  fullName: OfficeOpenXml.VBA.ExcelVBAModule.ToString

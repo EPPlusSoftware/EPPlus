@@ -1,0 +1,639 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.ExcelView3D
+  commentId: T:OfficeOpenXml.Drawing.ExcelView3D
+  id: ExcelView3D
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.ExcelView3D.DepthPercent
+  - OfficeOpenXml.Drawing.ExcelView3D.HeightPercent
+  - OfficeOpenXml.Drawing.ExcelView3D.Perspective
+  - OfficeOpenXml.Drawing.ExcelView3D.RightAngleAxes
+  - OfficeOpenXml.Drawing.ExcelView3D.RotX
+  - OfficeOpenXml.Drawing.ExcelView3D.RotY
+  langs:
+  - csharp
+  - vb
+  name: ExcelView3D
+  nameWithType: ExcelView3D
+  fullName: OfficeOpenXml.Drawing.ExcelView3D
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelView3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelView3D
+    path: ../src/EPPlus/Drawing/ExcelView3D.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n3D settings\n"
+  example: []
+  syntax:
+    content: 'public sealed class ExcelView3D : XmlHelper'
+    content.vb: >-
+      Public NotInheritable Class ExcelView3D
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.Drawing.ExcelView3D.Perspective
+  commentId: P:OfficeOpenXml.Drawing.ExcelView3D.Perspective
+  id: Perspective
+  parent: OfficeOpenXml.Drawing.ExcelView3D
+  langs:
+  - csharp
+  - vb
+  name: Perspective
+  nameWithType: ExcelView3D.Perspective
+  fullName: OfficeOpenXml.Drawing.ExcelView3D.Perspective
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelView3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Perspective
+    path: ../src/EPPlus/Drawing/ExcelView3D.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDegree of perspective \n"
+  example: []
+  syntax:
+    content: public decimal Perspective { get; set; }
+    parameters: []
+    return:
+      type: System.Decimal
+    content.vb: Public Property Perspective As Decimal
+  overload: OfficeOpenXml.Drawing.ExcelView3D.Perspective*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelView3D.RotX
+  commentId: P:OfficeOpenXml.Drawing.ExcelView3D.RotX
+  id: RotX
+  parent: OfficeOpenXml.Drawing.ExcelView3D
+  langs:
+  - csharp
+  - vb
+  name: RotX
+  nameWithType: ExcelView3D.RotX
+  fullName: OfficeOpenXml.Drawing.ExcelView3D.RotX
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelView3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RotX
+    path: ../src/EPPlus/Drawing/ExcelView3D.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRotation X-axis\n"
+  example: []
+  syntax:
+    content: public decimal RotX { get; set; }
+    parameters: []
+    return:
+      type: System.Decimal
+    content.vb: Public Property RotX As Decimal
+  overload: OfficeOpenXml.Drawing.ExcelView3D.RotX*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelView3D.RotY
+  commentId: P:OfficeOpenXml.Drawing.ExcelView3D.RotY
+  id: RotY
+  parent: OfficeOpenXml.Drawing.ExcelView3D
+  langs:
+  - csharp
+  - vb
+  name: RotY
+  nameWithType: ExcelView3D.RotY
+  fullName: OfficeOpenXml.Drawing.ExcelView3D.RotY
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelView3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RotY
+    path: ../src/EPPlus/Drawing/ExcelView3D.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRotation Y-axis\n"
+  example: []
+  syntax:
+    content: public decimal RotY { get; set; }
+    parameters: []
+    return:
+      type: System.Decimal
+    content.vb: Public Property RotY As Decimal
+  overload: OfficeOpenXml.Drawing.ExcelView3D.RotY*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelView3D.RightAngleAxes
+  commentId: P:OfficeOpenXml.Drawing.ExcelView3D.RightAngleAxes
+  id: RightAngleAxes
+  parent: OfficeOpenXml.Drawing.ExcelView3D
+  langs:
+  - csharp
+  - vb
+  name: RightAngleAxes
+  nameWithType: ExcelView3D.RightAngleAxes
+  fullName: OfficeOpenXml.Drawing.ExcelView3D.RightAngleAxes
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelView3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RightAngleAxes
+    path: ../src/EPPlus/Drawing/ExcelView3D.cs
+    startLine: 81
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRight Angle Axes\n"
+  example: []
+  syntax:
+    content: public bool RightAngleAxes { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property RightAngleAxes As Boolean
+  overload: OfficeOpenXml.Drawing.ExcelView3D.RightAngleAxes*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelView3D.DepthPercent
+  commentId: P:OfficeOpenXml.Drawing.ExcelView3D.DepthPercent
+  id: DepthPercent
+  parent: OfficeOpenXml.Drawing.ExcelView3D
+  langs:
+  - csharp
+  - vb
+  name: DepthPercent
+  nameWithType: ExcelView3D.DepthPercent
+  fullName: OfficeOpenXml.Drawing.ExcelView3D.DepthPercent
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelView3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DepthPercent
+    path: ../src/EPPlus/Drawing/ExcelView3D.cs
+    startLine: 96
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDepth % of base\n"
+  example: []
+  syntax:
+    content: public int DepthPercent { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property DepthPercent As Integer
+  overload: OfficeOpenXml.Drawing.ExcelView3D.DepthPercent*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelView3D.HeightPercent
+  commentId: P:OfficeOpenXml.Drawing.ExcelView3D.HeightPercent
+  id: HeightPercent
+  parent: OfficeOpenXml.Drawing.ExcelView3D
+  langs:
+  - csharp
+  - vb
+  name: HeightPercent
+  nameWithType: ExcelView3D.HeightPercent
+  fullName: OfficeOpenXml.Drawing.ExcelView3D.HeightPercent
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelView3D.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HeightPercent
+    path: ../src/EPPlus/Drawing/ExcelView3D.cs
+    startLine: 115
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHeight % of base\n"
+  example: []
+  syntax:
+    content: public int HeightPercent { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property HeightPercent As Integer
+  overload: OfficeOpenXml.Drawing.ExcelView3D.HeightPercent*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.ExcelView3D.Perspective*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelView3D.Perspective
+  name: Perspective
+  nameWithType: ExcelView3D.Perspective
+  fullName: OfficeOpenXml.Drawing.ExcelView3D.Perspective
+- uid: System.Decimal
+  commentId: T:System.Decimal
+  parent: System
+  isExternal: true
+  name: Decimal
+  nameWithType: Decimal
+  fullName: System.Decimal
+- uid: OfficeOpenXml.Drawing.ExcelView3D.RotX*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelView3D.RotX
+  name: RotX
+  nameWithType: ExcelView3D.RotX
+  fullName: OfficeOpenXml.Drawing.ExcelView3D.RotX
+- uid: OfficeOpenXml.Drawing.ExcelView3D.RotY*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelView3D.RotY
+  name: RotY
+  nameWithType: ExcelView3D.RotY
+  fullName: OfficeOpenXml.Drawing.ExcelView3D.RotY
+- uid: OfficeOpenXml.Drawing.ExcelView3D.RightAngleAxes*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelView3D.RightAngleAxes
+  name: RightAngleAxes
+  nameWithType: ExcelView3D.RightAngleAxes
+  fullName: OfficeOpenXml.Drawing.ExcelView3D.RightAngleAxes
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Drawing.ExcelView3D.DepthPercent*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelView3D.DepthPercent
+  name: DepthPercent
+  nameWithType: ExcelView3D.DepthPercent
+  fullName: OfficeOpenXml.Drawing.ExcelView3D.DepthPercent
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Drawing.ExcelView3D.HeightPercent*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelView3D.HeightPercent
+  name: HeightPercent
+  nameWithType: ExcelView3D.HeightPercent
+  fullName: OfficeOpenXml.Drawing.ExcelView3D.HeightPercent

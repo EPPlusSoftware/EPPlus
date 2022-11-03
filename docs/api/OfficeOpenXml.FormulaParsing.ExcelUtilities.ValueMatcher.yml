@@ -1,0 +1,573 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher
+  commentId: T:OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher
+  id: ValueMatcher
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  children:
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareObjectToString(System.Object,System.String)
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject(System.String,System.Object)
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToString(System.String,System.String)
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IncompatibleOperands
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch(System.Object,System.Object)
+  langs:
+  - csharp
+  - vb
+  name: ValueMatcher
+  nameWithType: ValueMatcher
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ValueMatcher
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  syntax:
+    content: public class ValueMatcher
+    content.vb: Public Class ValueMatcher
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.LookupValueMatcher
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.WildCardValueMatcher
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IncompatibleOperands
+  commentId: F:OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IncompatibleOperands
+  id: IncompatibleOperands
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher
+  langs:
+  - csharp
+  - vb
+  name: IncompatibleOperands
+  nameWithType: ValueMatcher.IncompatibleOperands
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IncompatibleOperands
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IncompatibleOperands
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  syntax:
+    content: public const int IncompatibleOperands = -2
+    return:
+      type: System.Int32
+    content.vb: Public Const IncompatibleOperands As Integer = -2
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch(System.Object,System.Object)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch(System.Object,System.Object)
+  id: IsMatch(System.Object,System.Object)
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher
+  langs:
+  - csharp
+  - vb
+  name: IsMatch(Object, Object)
+  nameWithType: ValueMatcher.IsMatch(Object, Object)
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch(System.Object, System.Object)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsMatch
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  syntax:
+    content: public virtual int IsMatch(object searchedValue, object candidate)
+    parameters:
+    - id: searchedValue
+      type: System.Object
+    - id: candidate
+      type: System.Object
+    return:
+      type: System.Int32
+    content.vb: Public Overridable Function IsMatch(searchedValue As Object, candidate As Object) As Integer
+  overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToString(System.String,System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToString(System.String,System.String)
+  id: CompareStringToString(System.String,System.String)
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher
+  langs:
+  - csharp
+  - vb
+  name: CompareStringToString(String, String)
+  nameWithType: ValueMatcher.CompareStringToString(String, String)
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToString(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CompareStringToString
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
+    startLine: 79
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  syntax:
+    content: protected virtual int CompareStringToString(string searchedValue, string candidate)
+    parameters:
+    - id: searchedValue
+      type: System.String
+    - id: candidate
+      type: System.String
+    return:
+      type: System.Int32
+    content.vb: Protected Overridable Function CompareStringToString(searchedValue As String, candidate As String) As Integer
+  overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToString*
+  modifiers.csharp:
+  - protected
+  - virtual
+  modifiers.vb:
+  - Protected
+  - Overridable
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject(System.String,System.Object)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject(System.String,System.Object)
+  id: CompareStringToObject(System.String,System.Object)
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher
+  langs:
+  - csharp
+  - vb
+  name: CompareStringToObject(String, Object)
+  nameWithType: ValueMatcher.CompareStringToObject(String, Object)
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject(System.String, System.Object)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CompareStringToObject
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
+    startLine: 84
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  syntax:
+    content: protected virtual int CompareStringToObject(string searchedValue, object candidate)
+    parameters:
+    - id: searchedValue
+      type: System.String
+    - id: candidate
+      type: System.Object
+    return:
+      type: System.Int32
+    content.vb: Protected Overridable Function CompareStringToObject(searchedValue As String, candidate As Object) As Integer
+  overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject*
+  modifiers.csharp:
+  - protected
+  - virtual
+  modifiers.vb:
+  - Protected
+  - Overridable
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareObjectToString(System.Object,System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareObjectToString(System.Object,System.String)
+  id: CompareObjectToString(System.Object,System.String)
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher
+  langs:
+  - csharp
+  - vb
+  name: CompareObjectToString(Object, String)
+  nameWithType: ValueMatcher.CompareObjectToString(Object, String)
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareObjectToString(System.Object, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CompareObjectToString
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
+    startLine: 101
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  syntax:
+    content: protected virtual int CompareObjectToString(object searchedValue, string candidate)
+    parameters:
+    - id: searchedValue
+      type: System.Object
+    - id: candidate
+      type: System.String
+    return:
+      type: System.Int32
+    content.vb: Protected Overridable Function CompareObjectToString(searchedValue As Object, candidate As String) As Integer
+  overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareObjectToString*
+  modifiers.csharp:
+  - protected
+  - virtual
+  modifiers.vb:
+  - Protected
+  - Overridable
+references:
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  commentId: N:OfficeOpenXml.FormulaParsing.ExcelUtilities
+  name: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  nameWithType: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch
+  name: IsMatch
+  nameWithType: ValueMatcher.IsMatch
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToString*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToString
+  name: CompareStringToString
+  nameWithType: ValueMatcher.CompareStringToString
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject
+  name: CompareStringToObject
+  nameWithType: ValueMatcher.CompareStringToObject
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareObjectToString*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareObjectToString
+  name: CompareObjectToString
+  nameWithType: ValueMatcher.CompareObjectToString
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareObjectToString

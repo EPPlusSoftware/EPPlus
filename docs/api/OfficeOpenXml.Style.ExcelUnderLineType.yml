@@ -1,0 +1,223 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.ExcelUnderLineType
+  commentId: T:OfficeOpenXml.Style.ExcelUnderLineType
+  id: ExcelUnderLineType
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.ExcelUnderLineType.Double
+  - OfficeOpenXml.Style.ExcelUnderLineType.DoubleAccounting
+  - OfficeOpenXml.Style.ExcelUnderLineType.None
+  - OfficeOpenXml.Style.ExcelUnderLineType.Single
+  - OfficeOpenXml.Style.ExcelUnderLineType.SingleAccounting
+  langs:
+  - csharp
+  - vb
+  name: ExcelUnderLineType
+  nameWithType: ExcelUnderLineType
+  fullName: OfficeOpenXml.Style.ExcelUnderLineType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelUnderLineType
+    path: ../src/EPPlus/Style/enums/ExcelUnderLineType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nFont-Underlinestyle for \n"
+  example: []
+  syntax:
+    content: public enum ExcelUnderLineType
+    content.vb: Public Enum ExcelUnderLineType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Style.ExcelUnderLineType.None
+  commentId: F:OfficeOpenXml.Style.ExcelUnderLineType.None
+  id: None
+  parent: OfficeOpenXml.Style.ExcelUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: ExcelUnderLineType.None
+  fullName: OfficeOpenXml.Style.ExcelUnderLineType.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Style/enums/ExcelUnderLineType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nNo underline\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Style.ExcelUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelUnderLineType.Single
+  commentId: F:OfficeOpenXml.Style.ExcelUnderLineType.Single
+  id: Single
+  parent: OfficeOpenXml.Style.ExcelUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: Single
+  nameWithType: ExcelUnderLineType.Single
+  fullName: OfficeOpenXml.Style.ExcelUnderLineType.Single
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Single
+    path: ../src/EPPlus/Style/enums/ExcelUnderLineType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSingle underline\n"
+  example: []
+  syntax:
+    content: Single = 1
+    return:
+      type: OfficeOpenXml.Style.ExcelUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelUnderLineType.Double
+  commentId: F:OfficeOpenXml.Style.ExcelUnderLineType.Double
+  id: Double
+  parent: OfficeOpenXml.Style.ExcelUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: Double
+  nameWithType: ExcelUnderLineType.Double
+  fullName: OfficeOpenXml.Style.ExcelUnderLineType.Double
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Double
+    path: ../src/EPPlus/Style/enums/ExcelUnderLineType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDouble underline\n"
+  example: []
+  syntax:
+    content: Double = 2
+    return:
+      type: OfficeOpenXml.Style.ExcelUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelUnderLineType.SingleAccounting
+  commentId: F:OfficeOpenXml.Style.ExcelUnderLineType.SingleAccounting
+  id: SingleAccounting
+  parent: OfficeOpenXml.Style.ExcelUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: SingleAccounting
+  nameWithType: ExcelUnderLineType.SingleAccounting
+  fullName: OfficeOpenXml.Style.ExcelUnderLineType.SingleAccounting
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SingleAccounting
+    path: ../src/EPPlus/Style/enums/ExcelUnderLineType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSingle line accounting. The underline is drawn under characters such as j and g\n"
+  example: []
+  syntax:
+    content: SingleAccounting = 3
+    return:
+      type: OfficeOpenXml.Style.ExcelUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelUnderLineType.DoubleAccounting
+  commentId: F:OfficeOpenXml.Style.ExcelUnderLineType.DoubleAccounting
+  id: DoubleAccounting
+  parent: OfficeOpenXml.Style.ExcelUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: DoubleAccounting
+  nameWithType: ExcelUnderLineType.DoubleAccounting
+  fullName: OfficeOpenXml.Style.ExcelUnderLineType.DoubleAccounting
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DoubleAccounting
+    path: ../src/EPPlus/Style/enums/ExcelUnderLineType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDouble line accounting. The underline is drawn under of characters such as j and g\n"
+  example: []
+  syntax:
+    content: DoubleAccounting = 4
+    return:
+      type: OfficeOpenXml.Style.ExcelUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.ExcelUnderLineType
+  commentId: T:OfficeOpenXml.Style.ExcelUnderLineType
+  parent: OfficeOpenXml.Style
+  name: ExcelUnderLineType
+  nameWithType: ExcelUnderLineType
+  fullName: OfficeOpenXml.Style.ExcelUnderLineType

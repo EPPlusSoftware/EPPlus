@@ -1,0 +1,3311 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelPackage
+  commentId: T:OfficeOpenXml.ExcelPackage
+  id: ExcelPackage
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelPackage.#ctor
+  - OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo)
+  - OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo,System.Boolean)
+  - OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo,System.Boolean,System.String)
+  - OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo,System.IO.FileInfo)
+  - OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo,System.IO.FileInfo,System.String)
+  - OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo,System.String)
+  - OfficeOpenXml.ExcelPackage.#ctor(System.IO.Stream)
+  - OfficeOpenXml.ExcelPackage.#ctor(System.IO.Stream,System.IO.Stream)
+  - OfficeOpenXml.ExcelPackage.#ctor(System.IO.Stream,System.IO.Stream,System.String)
+  - OfficeOpenXml.ExcelPackage.#ctor(System.IO.Stream,System.String)
+  - OfficeOpenXml.ExcelPackage.#ctor(System.String)
+  - OfficeOpenXml.ExcelPackage.#ctor(System.String,System.String)
+  - OfficeOpenXml.ExcelPackage.#ctor(System.String,System.String,System.String)
+  - OfficeOpenXml.ExcelPackage.Compatibility
+  - OfficeOpenXml.ExcelPackage.Compression
+  - OfficeOpenXml.ExcelPackage.Configure(System.Action{OfficeOpenXml.Configuration.ExcelPackageConfiguration})
+  - OfficeOpenXml.ExcelPackage.Dispose
+  - OfficeOpenXml.ExcelPackage.DoAdjustDrawings
+  - OfficeOpenXml.ExcelPackage.Encryption
+  - OfficeOpenXml.ExcelPackage.File
+  - OfficeOpenXml.ExcelPackage.GetAsByteArray
+  - OfficeOpenXml.ExcelPackage.GetAsByteArray(System.String)
+  - OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync(System.String,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync(System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.InitializationErrors
+  - OfficeOpenXml.ExcelPackage.LicenseContext
+  - OfficeOpenXml.ExcelPackage.Load(System.IO.Stream)
+  - OfficeOpenXml.ExcelPackage.Load(System.IO.Stream,System.String)
+  - OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.FileInfo,System.IO.Stream,System.String,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.FileInfo,System.String,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.FileInfo,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.Stream,System.String,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.Stream,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.LoadAsync(System.String,System.IO.Stream,System.String,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.LoadAsync(System.String,System.String,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.LoadAsync(System.String,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.MaxColumns
+  - OfficeOpenXml.ExcelPackage.MaxRows
+  - OfficeOpenXml.ExcelPackage.Save
+  - OfficeOpenXml.ExcelPackage.Save(System.String)
+  - OfficeOpenXml.ExcelPackage.SaveAs(System.IO.FileInfo)
+  - OfficeOpenXml.ExcelPackage.SaveAs(System.IO.FileInfo,System.String)
+  - OfficeOpenXml.ExcelPackage.SaveAs(System.IO.Stream)
+  - OfficeOpenXml.ExcelPackage.SaveAs(System.IO.Stream,System.String)
+  - OfficeOpenXml.ExcelPackage.SaveAs(System.String)
+  - OfficeOpenXml.ExcelPackage.SaveAs(System.String,System.String)
+  - OfficeOpenXml.ExcelPackage.SaveAsAsync(System.IO.FileInfo,System.String,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.SaveAsAsync(System.IO.FileInfo,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.SaveAsAsync(System.IO.Stream,System.String,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.SaveAsAsync(System.IO.Stream,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.SaveAsAsync(System.String,System.String,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.SaveAsAsync(System.String,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.SaveAsync(System.String,System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.SaveAsync(System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.Settings
+  - OfficeOpenXml.ExcelPackage.Stream
+  - OfficeOpenXml.ExcelPackage.Workbook
+  langs:
+  - csharp
+  - vb
+  name: ExcelPackage
+  nameWithType: ExcelPackage
+  fullName: OfficeOpenXml.ExcelPackage
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPackage
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRepresents an Excel XLSX file package.  \nThis is the top-level object to access all parts of the document.\n"
+  remarks: "\n<example>\n<pre><code>    FileInfo newFile = new FileInfo(outputDir.FullName + @&quot;\\sample1.xlsx&quot;);\n	if (newFile.Exists)\n	{\n		newFile.Delete();  // ensures we create a new workbook\n		newFile = new FileInfo(outputDir.FullName + @&quot;\\sample1.xlsx&quot;);\n	}\n	using (ExcelPackage package = new ExcelPackage(newFile))\n    {\n        // add a new worksheet to the empty workbook\n        ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(&quot;Inventory&quot;);\n        //Add the headers\n        worksheet.Cells[1, 1].Value = &quot;ID&quot;;\n        worksheet.Cells[1, 2].Value = &quot;Product&quot;;\n        worksheet.Cells[1, 3].Value = &quot;Quantity&quot;;\n        worksheet.Cells[1, 4].Value = &quot;Price&quot;;\n        worksheet.Cells[1, 5].Value = &quot;Value&quot;;\n\n        //Add some items...\n        worksheet.Cells[&quot;A2&quot;].Value = &quot;12001&quot;;\n        worksheet.Cells[&quot;B2&quot;].Value = &quot;Nails&quot;;\n        worksheet.Cells[&quot;C2&quot;].Value = 37;\n        worksheet.Cells[&quot;D2&quot;].Value = 3.99;\n\n        worksheet.Cells[&quot;A3&quot;].Value = &quot;12002&quot;;\n        worksheet.Cells[&quot;B3&quot;].Value = &quot;Hammer&quot;;\n        worksheet.Cells[&quot;C3&quot;].Value = 5;\n        worksheet.Cells[&quot;D3&quot;].Value = 12.10;\n\n        worksheet.Cells[&quot;A4&quot;].Value = &quot;12003&quot;;\n        worksheet.Cells[&quot;B4&quot;].Value = &quot;Saw&quot;;\n        worksheet.Cells[&quot;C4&quot;].Value = 12;\n        worksheet.Cells[&quot;D4&quot;].Value = 15.37;\n\n        //Add a formula for the value-column\n        worksheet.Cells[&quot;E2:E4&quot;].Formula = &quot;C2*D2&quot;;\n\n           //Ok now format the values;\n        using (var range = worksheet.Cells[1, 1, 1, 5]) \n         {\n            range.Style.Font.Bold = true;\n            range.Style.Fill.PatternType = ExcelFillStyle.Solid;\n            range.Style.Fill.BackgroundColor.SetColor(Color.DarkBlue);\n            range.Style.Font.Color.SetColor(Color.White);\n        }\n\n        worksheet.Cells[&quot;A5:E5&quot;].Style.Border.Top.Style = ExcelBorderStyle.Thin;\n        worksheet.Cells[&quot;A5:E5&quot;].Style.Font.Bold = true;\n\n        worksheet.Cells[5, 3, 5, 5].Formula = string.Format(&quot;SUBTOTAL(9,{0})&quot;, new ExcelAddress(2,3,4,3).Address);\n        worksheet.Cells[&quot;C2:C5&quot;].Style.Numberformat.Format = &quot;#,##0&quot;;\n        worksheet.Cells[&quot;D2:E5&quot;].Style.Numberformat.Format = &quot;#,##0.00&quot;;\n\n        //Create an autofilter for the range\n        worksheet.Cells[&quot;A1:E4&quot;].AutoFilter = true;\n\n        worksheet.Cells[&quot;A1:E5&quot;].AutoFitColumns(0);\n\n        // lets set the header text \n        worksheet.HeaderFooter.oddHeader.CenteredText = &quot;&amp;24&amp;U&amp;\\&quot;Arial,Regular Bold\\&quot; Inventory&quot;;\n        // add the page number to the footer plus the total number of pages\n        worksheet.HeaderFooter.oddFooter.RightAlignedText =\n        string.Format(&quot;Page {0} of {1}&quot;, ExcelHeaderFooter.PageNumber, ExcelHeaderFooter.NumberOfPages);\n        // add the sheet name to the footer\n        worksheet.HeaderFooter.oddFooter.CenteredText = ExcelHeaderFooter.SheetName;\n        // add the file path to the footer\n        worksheet.HeaderFooter.oddFooter.LeftAlignedText = ExcelHeaderFooter.FilePath + ExcelHeaderFooter.FileName;\n\n        worksheet.PrinterSettings.RepeatRows = worksheet.Cells[&quot;1:2&quot;];\n        worksheet.PrinterSettings.RepeatColumns = worksheet.Cells[&quot;A:G&quot;];\n\n         // Change the sheet view to show it in page layout mode\n          worksheet.View.PageLayoutView = true;\n\n        // set some document properties\n        package.Workbook.Properties.Title = &quot;Invertory&quot;;\n        package.Workbook.Properties.Author = &quot;Jan Källman&quot;;\n        package.Workbook.Properties.Comments = &quot;This sample demonstrates how to create an Excel 2007 workbook using EPPlus&quot;;\n\n        // set some extended property values\n        package.Workbook.Properties.Company = &quot;AdventureWorks Inc.&quot;;\n\n        // set some custom property values\n        package.Workbook.Properties.SetCustomPropertyValue(&quot;Checked by&quot;, &quot;Jan Källman&quot;);\n        package.Workbook.Properties.SetCustomPropertyValue(&quot;AssemblyName&quot;, &quot;EPPlus&quot;);\n\n        // save our new workbook and we are done!\n        package.Save();\n\n      }\n\n      return newFile.FullName;</code></pre>\nMore samples can be found at  <a href=\"https://github.com/EPPlusSoftware/EPPlus/\">https://github.com/EPPlusSoftware/EPPlus/</a>\n</example>\n"
+  example: []
+  syntax:
+    content: 'public sealed class ExcelPackage : IDisposable'
+    content.vb: >-
+      Public NotInheritable Class ExcelPackage
+          Implements IDisposable
+  inheritance:
+  - System.Object
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.ExcelPackage.MaxColumns
+  commentId: F:OfficeOpenXml.ExcelPackage.MaxColumns
+  id: MaxColumns
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: MaxColumns
+  nameWithType: ExcelPackage.MaxColumns
+  fullName: OfficeOpenXml.ExcelPackage.MaxColumns
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MaxColumns
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 228
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nMaximum number of columns in a worksheet (16384). \n"
+  example: []
+  syntax:
+    content: public const int MaxColumns = 16384
+    return:
+      type: System.Int32
+    content.vb: Public Const MaxColumns As Integer = 16384
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelPackage.MaxRows
+  commentId: F:OfficeOpenXml.ExcelPackage.MaxRows
+  id: MaxRows
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: MaxRows
+  nameWithType: ExcelPackage.MaxRows
+  fullName: OfficeOpenXml.ExcelPackage.MaxRows
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MaxRows
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 232
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nMaximum number of rows in a worksheet (1048576). \n"
+  example: []
+  syntax:
+    content: public const int MaxRows = 1048576
+    return:
+      type: System.Int32
+    content.vb: Public Const MaxRows As Integer = 1048576
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelPackage.#ctor
+  commentId: M:OfficeOpenXml.ExcelPackage.#ctor
+  id: '#ctor'
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: ExcelPackage()
+  nameWithType: ExcelPackage.ExcelPackage()
+  fullName: OfficeOpenXml.ExcelPackage.ExcelPackage()
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 243
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreate a new instance of the ExcelPackage. \nOutput is accessed through the Stream property, using the <xref href=\"OfficeOpenXml.ExcelPackage.SaveAs(System.IO.FileInfo)\" data-throw-if-not-resolved=\"false\"></xref> method or later set the <xref href=\"OfficeOpenXml.ExcelPackage.File\" data-throw-if-not-resolved=\"false\"></xref> property.\n"
+  example: []
+  syntax:
+    content: public ExcelPackage()
+    content.vb: Public Sub New
+  overload: OfficeOpenXml.ExcelPackage.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo)
+  commentId: M:OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo)
+  id: '#ctor(System.IO.FileInfo)'
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: ExcelPackage(FileInfo)
+  nameWithType: ExcelPackage.ExcelPackage(FileInfo)
+  fullName: OfficeOpenXml.ExcelPackage.ExcelPackage(System.IO.FileInfo)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 252
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreate a new instance of the ExcelPackage class based on a existing file or creates a new file. \n"
+  example: []
+  syntax:
+    content: public ExcelPackage(FileInfo newFile)
+    parameters:
+    - id: newFile
+      type: System.IO.FileInfo
+      description: If newFile exists, it is opened.  Otherwise it is created from scratch.
+    content.vb: Public Sub New(newFile As FileInfo)
+  overload: OfficeOpenXml.ExcelPackage.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.#ctor(System.String)
+  commentId: M:OfficeOpenXml.ExcelPackage.#ctor(System.String)
+  id: '#ctor(System.String)'
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: ExcelPackage(String)
+  nameWithType: ExcelPackage.ExcelPackage(String)
+  fullName: OfficeOpenXml.ExcelPackage.ExcelPackage(System.String)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 262
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreate a new instance of the ExcelPackage class based on a existing file or creates a new file. \n"
+  example: []
+  syntax:
+    content: public ExcelPackage(string path)
+    parameters:
+    - id: path
+      type: System.String
+      description: If newFile exists, it is opened.  Otherwise it is created from scratch.
+    content.vb: Public Sub New(path As String)
+  overload: OfficeOpenXml.ExcelPackage.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo,System.String)
+  commentId: M:OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo,System.String)
+  id: '#ctor(System.IO.FileInfo,System.String)'
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: ExcelPackage(FileInfo, String)
+  nameWithType: ExcelPackage.ExcelPackage(FileInfo, String)
+  fullName: OfficeOpenXml.ExcelPackage.ExcelPackage(System.IO.FileInfo, System.String)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 270
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreate a new instance of the ExcelPackage class based on a existing file or creates a new file. \n"
+  example: []
+  syntax:
+    content: public ExcelPackage(FileInfo newFile, string password)
+    parameters:
+    - id: newFile
+      type: System.IO.FileInfo
+      description: If newFile exists, it is opened.  Otherwise it is created from scratch.
+    - id: password
+      type: System.String
+      description: Password for an encrypted package
+    content.vb: Public Sub New(newFile As FileInfo, password As String)
+  overload: OfficeOpenXml.ExcelPackage.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.#ctor(System.String,System.String)
+  commentId: M:OfficeOpenXml.ExcelPackage.#ctor(System.String,System.String)
+  id: '#ctor(System.String,System.String)'
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: ExcelPackage(String, String)
+  nameWithType: ExcelPackage.ExcelPackage(String, String)
+  fullName: OfficeOpenXml.ExcelPackage.ExcelPackage(System.String, System.String)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 281
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreate a new instance of the ExcelPackage class based on a existing file or creates a new file. \n"
+  example: []
+  syntax:
+    content: public ExcelPackage(string path, string password)
+    parameters:
+    - id: path
+      type: System.String
+      description: If newFile exists, it is opened.  Otherwise it is created from scratch.
+    - id: password
+      type: System.String
+      description: Password for an encrypted package
+    content.vb: Public Sub New(path As String, password As String)
+  overload: OfficeOpenXml.ExcelPackage.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo,System.IO.FileInfo)
+  commentId: M:OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo,System.IO.FileInfo)
+  id: '#ctor(System.IO.FileInfo,System.IO.FileInfo)'
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: ExcelPackage(FileInfo, FileInfo)
+  nameWithType: ExcelPackage.ExcelPackage(FileInfo, FileInfo)
+  fullName: OfficeOpenXml.ExcelPackage.ExcelPackage(System.IO.FileInfo, System.IO.FileInfo)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 290
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreate a new instance of the ExcelPackage class based on a existing template.\nIf newFile exists, it will be overwritten when the Save method is called\n"
+  example: []
+  syntax:
+    content: public ExcelPackage(FileInfo newFile, FileInfo template)
+    parameters:
+    - id: newFile
+      type: System.IO.FileInfo
+      description: The name of the Excel file to be created
+    - id: template
+      type: System.IO.FileInfo
+      description: The name of the Excel template to use as the basis of the new Excel file
+    content.vb: Public Sub New(newFile As FileInfo, template As FileInfo)
+  overload: OfficeOpenXml.ExcelPackage.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo,System.IO.FileInfo,System.String)
+  commentId: M:OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo,System.IO.FileInfo,System.String)
+  id: '#ctor(System.IO.FileInfo,System.IO.FileInfo,System.String)'
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: ExcelPackage(FileInfo, FileInfo, String)
+  nameWithType: ExcelPackage.ExcelPackage(FileInfo, FileInfo, String)
+  fullName: OfficeOpenXml.ExcelPackage.ExcelPackage(System.IO.FileInfo, System.IO.FileInfo, System.String)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 303
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreate a new instance of the ExcelPackage class based on a existing template.\nIf newFile exists, it will be overwritten when the Save method is called\n"
+  example: []
+  syntax:
+    content: public ExcelPackage(FileInfo newFile, FileInfo template, string password)
+    parameters:
+    - id: newFile
+      type: System.IO.FileInfo
+      description: The name of the Excel file to be created
+    - id: template
+      type: System.IO.FileInfo
+      description: The name of the Excel template to use as the basis of the new Excel file
+    - id: password
+      type: System.String
+      description: Password to decrypted the template
+    content.vb: Public Sub New(newFile As FileInfo, template As FileInfo, password As String)
+  overload: OfficeOpenXml.ExcelPackage.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.#ctor(System.String,System.String,System.String)
+  commentId: M:OfficeOpenXml.ExcelPackage.#ctor(System.String,System.String,System.String)
+  id: '#ctor(System.String,System.String,System.String)'
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: ExcelPackage(String, String, String)
+  nameWithType: ExcelPackage.ExcelPackage(String, String, String)
+  fullName: OfficeOpenXml.ExcelPackage.ExcelPackage(System.String, System.String, System.String)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 316
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreate a new instance of the ExcelPackage class based on a existing template.\nIf newFile exists, it will be overwritten when the Save method is called\n"
+  example: []
+  syntax:
+    content: public ExcelPackage(string newFilePath, string templatePath, string password)
+    parameters:
+    - id: newFilePath
+      type: System.String
+      description: The name of the Excel file to be created
+    - id: templatePath
+      type: System.String
+      description: The name of the Excel template to use as the basis of the new Excel file
+    - id: password
+      type: System.String
+      description: Password to decrypted the template
+    content.vb: Public Sub New(newFilePath As String, templatePath As String, password As String)
+  overload: OfficeOpenXml.ExcelPackage.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo,System.Boolean)
+  id: '#ctor(System.IO.FileInfo,System.Boolean)'
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: ExcelPackage(FileInfo, Boolean)
+  nameWithType: ExcelPackage.ExcelPackage(FileInfo, Boolean)
+  fullName: OfficeOpenXml.ExcelPackage.ExcelPackage(System.IO.FileInfo, System.Boolean)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 324
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreate a new instance of the ExcelPackage class based on a existing template.\n"
+  example: []
+  syntax:
+    content: public ExcelPackage(FileInfo template, bool useStream)
+    parameters:
+    - id: template
+      type: System.IO.FileInfo
+      description: The name of the Excel template to use as the basis of the new Excel file
+    - id: useStream
+      type: System.Boolean
+      description: if true use a stream. If false create a file in the temp dir with a random name
+    content.vb: Public Sub New(template As FileInfo, useStream As Boolean)
+  overload: OfficeOpenXml.ExcelPackage.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo,System.Boolean,System.String)
+  commentId: M:OfficeOpenXml.ExcelPackage.#ctor(System.IO.FileInfo,System.Boolean,System.String)
+  id: '#ctor(System.IO.FileInfo,System.Boolean,System.String)'
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: ExcelPackage(FileInfo, Boolean, String)
+  nameWithType: ExcelPackage.ExcelPackage(FileInfo, Boolean, String)
+  fullName: OfficeOpenXml.ExcelPackage.ExcelPackage(System.IO.FileInfo, System.Boolean, System.String)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 339
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreate a new instance of the ExcelPackage class based on a existing template.\n"
+  example: []
+  syntax:
+    content: public ExcelPackage(FileInfo template, bool useStream, string password)
+    parameters:
+    - id: template
+      type: System.IO.FileInfo
+      description: The name of the Excel template to use as the basis of the new Excel file
+    - id: useStream
+      type: System.Boolean
+      description: if true use a stream. If false create a file in the temp dir with a random name
+    - id: password
+      type: System.String
+      description: Password to decrypted the template
+    content.vb: Public Sub New(template As FileInfo, useStream As Boolean, password As String)
+  overload: OfficeOpenXml.ExcelPackage.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.#ctor(System.IO.Stream)
+  commentId: M:OfficeOpenXml.ExcelPackage.#ctor(System.IO.Stream)
+  id: '#ctor(System.IO.Stream)'
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: ExcelPackage(Stream)
+  nameWithType: ExcelPackage.ExcelPackage(Stream)
+  fullName: OfficeOpenXml.ExcelPackage.ExcelPackage(System.IO.Stream)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 352
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreate a new instance of the ExcelPackage class based on a stream\n"
+  example: []
+  syntax:
+    content: public ExcelPackage(Stream newStream)
+    parameters:
+    - id: newStream
+      type: System.IO.Stream
+      description: The stream object can be empty or contain a package. The stream must be Read/Write
+    content.vb: Public Sub New(newStream As Stream)
+  overload: OfficeOpenXml.ExcelPackage.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.#ctor(System.IO.Stream,System.String)
+  commentId: M:OfficeOpenXml.ExcelPackage.#ctor(System.IO.Stream,System.String)
+  id: '#ctor(System.IO.Stream,System.String)'
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: ExcelPackage(Stream, String)
+  nameWithType: ExcelPackage.ExcelPackage(Stream, String)
+  fullName: OfficeOpenXml.ExcelPackage.ExcelPackage(System.IO.Stream, System.String)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 371
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreate a new instance of the ExcelPackage class based on a stream\n"
+  example: []
+  syntax:
+    content: public ExcelPackage(Stream newStream, string Password)
+    parameters:
+    - id: newStream
+      type: System.IO.Stream
+      description: The stream object can be empty or contain a package. The stream must be Read/Write
+    - id: Password
+      type: System.String
+      description: The password to decrypt the document
+    content.vb: Public Sub New(newStream As Stream, Password As String)
+  overload: OfficeOpenXml.ExcelPackage.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.#ctor(System.IO.Stream,System.IO.Stream)
+  commentId: M:OfficeOpenXml.ExcelPackage.#ctor(System.IO.Stream,System.IO.Stream)
+  id: '#ctor(System.IO.Stream,System.IO.Stream)'
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: ExcelPackage(Stream, Stream)
+  nameWithType: ExcelPackage.ExcelPackage(Stream, Stream)
+  fullName: OfficeOpenXml.ExcelPackage.ExcelPackage(System.IO.Stream, System.IO.Stream)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 396
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreate a new instance of the ExcelPackage class based on a stream\n"
+  example: []
+  syntax:
+    content: public ExcelPackage(Stream newStream, Stream templateStream)
+    parameters:
+    - id: newStream
+      type: System.IO.Stream
+      description: The output stream. Must be an empty read/write stream.
+    - id: templateStream
+      type: System.IO.Stream
+      description: This stream is copied to the output stream at load
+    content.vb: Public Sub New(newStream As Stream, templateStream As Stream)
+  overload: OfficeOpenXml.ExcelPackage.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.#ctor(System.IO.Stream,System.IO.Stream,System.String)
+  commentId: M:OfficeOpenXml.ExcelPackage.#ctor(System.IO.Stream,System.IO.Stream,System.String)
+  id: '#ctor(System.IO.Stream,System.IO.Stream,System.String)'
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: ExcelPackage(Stream, Stream, String)
+  nameWithType: ExcelPackage.ExcelPackage(Stream, Stream, String)
+  fullName: OfficeOpenXml.ExcelPackage.ExcelPackage(System.IO.Stream, System.IO.Stream, System.String)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 415
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCreate a new instance of the ExcelPackage class based on a stream\n"
+  example: []
+  syntax:
+    content: public ExcelPackage(Stream newStream, Stream templateStream, string Password)
+    parameters:
+    - id: newStream
+      type: System.IO.Stream
+      description: The output stream. Must be an empty read/write stream.
+    - id: templateStream
+      type: System.IO.Stream
+      description: This stream is copied to the output stream at load
+    - id: Password
+      type: System.String
+      description: Password to decrypted the template
+    content.vb: Public Sub New(newStream As Stream, templateStream As Stream, Password As String)
+  overload: OfficeOpenXml.ExcelPackage.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.Encryption
+  commentId: P:OfficeOpenXml.ExcelPackage.Encryption
+  id: Encryption
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: Encryption
+  nameWithType: ExcelPackage.Encryption
+  fullName: OfficeOpenXml.ExcelPackage.Encryption
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Encryption
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 598
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nInformation how and if the package is encrypted\n"
+  example: []
+  syntax:
+    content: public ExcelEncryption Encryption { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelEncryption
+    content.vb: Public ReadOnly Property Encryption As ExcelEncryption
+  overload: OfficeOpenXml.ExcelPackage.Encryption*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelPackage.LicenseContext
+  commentId: P:OfficeOpenXml.ExcelPackage.LicenseContext
+  id: LicenseContext
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: LicenseContext
+  nameWithType: ExcelPackage.LicenseContext
+  fullName: OfficeOpenXml.ExcelPackage.LicenseContext
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LicenseContext
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 617
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nTo use the EPPlus library in debug mode a Licensetype must be specified.\nUse LicenseContext.NonCommercial if you use EPPlus in an non commercial context.\nUse LicenseContext.Commercial if you have purchased an license to use EPPlus\nSee https://epplussoftware.com/developers/licenseexception\n"
+  example: []
+  syntax:
+    content: public static LicenseContext? LicenseContext { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.LicenseContext}
+    content.vb: Public Shared Property LicenseContext As LicenseContext?
+  overload: OfficeOpenXml.ExcelPackage.LicenseContext*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelPackage.Workbook
+  commentId: P:OfficeOpenXml.ExcelPackage.Workbook
+  id: Workbook
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: Workbook
+  nameWithType: ExcelPackage.Workbook
+  fullName: OfficeOpenXml.ExcelPackage.Workbook
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Workbook
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 699
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns a reference to the workbook component within the package.\nAll worksheets and cells can be accessed through the workbook.\n"
+  example: []
+  syntax:
+    content: public ExcelWorkbook Workbook { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorkbook
+    content.vb: Public ReadOnly Property Workbook As ExcelWorkbook
+  overload: OfficeOpenXml.ExcelPackage.Workbook*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelPackage.Configure(System.Action{OfficeOpenXml.Configuration.ExcelPackageConfiguration})
+  commentId: M:OfficeOpenXml.ExcelPackage.Configure(System.Action{OfficeOpenXml.Configuration.ExcelPackageConfiguration})
+  id: Configure(System.Action{OfficeOpenXml.Configuration.ExcelPackageConfiguration})
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: Configure(Action<ExcelPackageConfiguration>)
+  nameWithType: ExcelPackage.Configure(Action<ExcelPackageConfiguration>)
+  fullName: OfficeOpenXml.ExcelPackage.Configure(System.Action<OfficeOpenXml.Configuration.ExcelPackageConfiguration>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Configure
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 726
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGlobal configuration for the ExcelPackage class\n"
+  example: []
+  syntax:
+    content: public static void Configure(Action<ExcelPackageConfiguration> configHandler)
+    parameters:
+    - id: configHandler
+      type: System.Action{OfficeOpenXml.Configuration.ExcelPackageConfiguration}
+      description: ''
+    content.vb: Public Shared Sub Configure(configHandler As Action(Of ExcelPackageConfiguration))
+  overload: OfficeOpenXml.ExcelPackage.Configure*
+  nameWithType.vb: ExcelPackage.Configure(Action(Of ExcelPackageConfiguration))
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: OfficeOpenXml.ExcelPackage.Configure(System.Action(Of OfficeOpenXml.Configuration.ExcelPackageConfiguration))
+  name.vb: Configure(Action(Of ExcelPackageConfiguration))
+- uid: OfficeOpenXml.ExcelPackage.InitializationErrors
+  commentId: P:OfficeOpenXml.ExcelPackage.InitializationErrors
+  id: InitializationErrors
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: InitializationErrors
+  nameWithType: ExcelPackage.InitializationErrors
+  fullName: OfficeOpenXml.ExcelPackage.InitializationErrors
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InitializationErrors
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 734
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nErrors that has been logged during initialization of the ExcelPackage class.\n"
+  example: []
+  syntax:
+    content: public IEnumerable<ExcelInitializationError> InitializationErrors { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelInitializationError}
+    content.vb: Public ReadOnly Property InitializationErrors As IEnumerable(Of ExcelInitializationError)
+  overload: OfficeOpenXml.ExcelPackage.InitializationErrors*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelPackage.DoAdjustDrawings
+  commentId: P:OfficeOpenXml.ExcelPackage.DoAdjustDrawings
+  id: DoAdjustDrawings
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: DoAdjustDrawings
+  nameWithType: ExcelPackage.DoAdjustDrawings
+  fullName: OfficeOpenXml.ExcelPackage.DoAdjustDrawings
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DoAdjustDrawings
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 745
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAutomaticlly adjust drawing size when column width/row height are adjusted, depending on the drawings editBy property.\nDefault True\n"
+  example: []
+  syntax:
+    content: public bool DoAdjustDrawings { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property DoAdjustDrawings As Boolean
+  overload: OfficeOpenXml.ExcelPackage.DoAdjustDrawings*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.Dispose
+  commentId: M:OfficeOpenXml.ExcelPackage.Dispose
+  id: Dispose
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: ExcelPackage.Dispose()
+  fullName: OfficeOpenXml.ExcelPackage.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dispose
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 841
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCloses the package.\n"
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose
+  overload: OfficeOpenXml.ExcelPackage.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.Save
+  commentId: M:OfficeOpenXml.ExcelPackage.Save
+  id: Save
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: Save()
+  nameWithType: ExcelPackage.Save()
+  fullName: OfficeOpenXml.ExcelPackage.Save()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Save
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 876
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSaves all the components back into the package.\nThis method recursively calls the Save method on all sub-components.\nWe close the package after the save is done.\n"
+  example: []
+  syntax:
+    content: public void Save()
+    content.vb: Public Sub Save
+  overload: OfficeOpenXml.ExcelPackage.Save*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.Save(System.String)
+  commentId: M:OfficeOpenXml.ExcelPackage.Save(System.String)
+  id: Save(System.String)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: Save(String)
+  nameWithType: ExcelPackage.Save(String)
+  fullName: OfficeOpenXml.ExcelPackage.Save(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Save
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 982
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSaves all the components back into the package.\nThis method recursively calls the Save method on all sub-components.\nThe package is closed after it has ben saved\nSupply a password to encrypt the workbook with. \n"
+  example: []
+  syntax:
+    content: public void Save(string password)
+    parameters:
+    - id: password
+      type: System.String
+      description: This parameter overrides the Workbook.Encryption.Password.
+    content.vb: Public Sub Save(password As String)
+  overload: OfficeOpenXml.ExcelPackage.Save*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.SaveAs(System.IO.FileInfo)
+  commentId: M:OfficeOpenXml.ExcelPackage.SaveAs(System.IO.FileInfo)
+  id: SaveAs(System.IO.FileInfo)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: SaveAs(FileInfo)
+  nameWithType: ExcelPackage.SaveAs(FileInfo)
+  fullName: OfficeOpenXml.ExcelPackage.SaveAs(System.IO.FileInfo)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveAs
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 992
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSaves the workbook to a new file\nThe package is closed after it has been saved        \n"
+  example: []
+  syntax:
+    content: public void SaveAs(FileInfo file)
+    parameters:
+    - id: file
+      type: System.IO.FileInfo
+      description: The file location
+    content.vb: Public Sub SaveAs(file As FileInfo)
+  overload: OfficeOpenXml.ExcelPackage.SaveAs*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.SaveAs(System.String)
+  commentId: M:OfficeOpenXml.ExcelPackage.SaveAs(System.String)
+  id: SaveAs(System.String)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: SaveAs(String)
+  nameWithType: ExcelPackage.SaveAs(String)
+  fullName: OfficeOpenXml.ExcelPackage.SaveAs(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveAs
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 1002
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSaves the workbook to a new file\nThe package is closed after it has been saved        \n"
+  example: []
+  syntax:
+    content: public void SaveAs(string filePath)
+    parameters:
+    - id: filePath
+      type: System.String
+      description: The file location
+    content.vb: Public Sub SaveAs(filePath As String)
+  overload: OfficeOpenXml.ExcelPackage.SaveAs*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.SaveAs(System.IO.FileInfo,System.String)
+  commentId: M:OfficeOpenXml.ExcelPackage.SaveAs(System.IO.FileInfo,System.String)
+  id: SaveAs(System.IO.FileInfo,System.String)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: SaveAs(FileInfo, String)
+  nameWithType: ExcelPackage.SaveAs(FileInfo, String)
+  fullName: OfficeOpenXml.ExcelPackage.SaveAs(System.IO.FileInfo, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveAs
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 1013
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSaves the workbook to a new file\nThe package is closed after it has been saved\n"
+  example: []
+  syntax:
+    content: public void SaveAs(FileInfo file, string password)
+    parameters:
+    - id: file
+      type: System.IO.FileInfo
+      description: The file
+    - id: password
+      type: System.String
+      description: "The password to encrypt the workbook with. \nThis parameter overrides the Encryption.Password."
+    content.vb: Public Sub SaveAs(file As FileInfo, password As String)
+  overload: OfficeOpenXml.ExcelPackage.SaveAs*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.SaveAs(System.String,System.String)
+  commentId: M:OfficeOpenXml.ExcelPackage.SaveAs(System.String,System.String)
+  id: SaveAs(System.String,System.String)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: SaveAs(String, String)
+  nameWithType: ExcelPackage.SaveAs(String, String)
+  fullName: OfficeOpenXml.ExcelPackage.SaveAs(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveAs
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 1026
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSaves the workbook to a new file\nThe package is closed after it has been saved\n"
+  example: []
+  syntax:
+    content: public void SaveAs(string filePath, string password)
+    parameters:
+    - id: filePath
+      type: System.String
+      description: The file
+    - id: password
+      type: System.String
+      description: "The password to encrypt the workbook with. \nThis parameter overrides the Encryption.Password."
+    content.vb: Public Sub SaveAs(filePath As String, password As String)
+  overload: OfficeOpenXml.ExcelPackage.SaveAs*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.SaveAs(System.IO.Stream)
+  commentId: M:OfficeOpenXml.ExcelPackage.SaveAs(System.IO.Stream)
+  id: SaveAs(System.IO.Stream)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: SaveAs(Stream)
+  nameWithType: ExcelPackage.SaveAs(Stream)
+  fullName: OfficeOpenXml.ExcelPackage.SaveAs(System.IO.Stream)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveAs
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 1035
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCopies the Package to the Outstream\nThe package is closed after it has been saved\n"
+  example: []
+  syntax:
+    content: public void SaveAs(Stream OutputStream)
+    parameters:
+    - id: OutputStream
+      type: System.IO.Stream
+      description: The stream to copy the package to
+    content.vb: Public Sub SaveAs(OutputStream As Stream)
+  overload: OfficeOpenXml.ExcelPackage.SaveAs*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.SaveAs(System.IO.Stream,System.String)
+  commentId: M:OfficeOpenXml.ExcelPackage.SaveAs(System.IO.Stream,System.String)
+  id: SaveAs(System.IO.Stream,System.String)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: SaveAs(Stream, String)
+  nameWithType: ExcelPackage.SaveAs(Stream, String)
+  fullName: OfficeOpenXml.ExcelPackage.SaveAs(System.IO.Stream, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveAs
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 1052
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCopies the Package to the Outstream\nThe package is closed after it has been saved\n"
+  example: []
+  syntax:
+    content: public void SaveAs(Stream OutputStream, string password)
+    parameters:
+    - id: OutputStream
+      type: System.IO.Stream
+      description: The stream to copy the package to
+    - id: password
+      type: System.String
+      description: "The password to encrypt the workbook with. \nThis parameter overrides the Encryption.Password."
+    content.vb: Public Sub SaveAs(OutputStream As Stream, password As String)
+  overload: OfficeOpenXml.ExcelPackage.SaveAs*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.File
+  commentId: P:OfficeOpenXml.ExcelPackage.File
+  id: File
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: File
+  nameWithType: ExcelPackage.File
+  fullName: OfficeOpenXml.ExcelPackage.File
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: File
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 1061
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe output file. Null if no file is used\n"
+  example: []
+  syntax:
+    content: public FileInfo File { get; set; }
+    parameters: []
+    return:
+      type: System.IO.FileInfo
+    content.vb: Public Property File As FileInfo
+  overload: OfficeOpenXml.ExcelPackage.File*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.Stream
+  commentId: P:OfficeOpenXml.ExcelPackage.Stream
+  id: Stream
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: Stream
+  nameWithType: ExcelPackage.Stream
+  fullName: OfficeOpenXml.ExcelPackage.Stream
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Stream
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 1080
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe output stream. This stream is the not the encrypted package.\nTo get the encrypted package use the SaveAs(stream) method.\n"
+  example: []
+  syntax:
+    content: public Stream Stream { get; }
+    parameters: []
+    return:
+      type: System.IO.Stream
+    content.vb: Public ReadOnly Property Stream As Stream
+  overload: OfficeOpenXml.ExcelPackage.Stream*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelPackage.Compression
+  commentId: P:OfficeOpenXml.ExcelPackage.Compression
+  id: Compression
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: Compression
+  nameWithType: ExcelPackage.Compression
+  fullName: OfficeOpenXml.ExcelPackage.Compression
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Compression
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 1091
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCompression option for the package\n"
+  example: []
+  syntax:
+    content: public CompressionLevel Compression { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.CompressionLevel
+    content.vb: Public Property Compression As CompressionLevel
+  overload: OfficeOpenXml.ExcelPackage.Compression*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.Compatibility
+  commentId: P:OfficeOpenXml.ExcelPackage.Compatibility
+  id: Compatibility
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: Compatibility
+  nameWithType: ExcelPackage.Compatibility
+  fullName: OfficeOpenXml.ExcelPackage.Compatibility
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Compatibility
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 1106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCompatibility settings for older versions of EPPlus.\n"
+  example: []
+  syntax:
+    content: public CompatibilitySettings Compatibility { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Compatibility.CompatibilitySettings
+    content.vb: Public ReadOnly Property Compatibility As CompatibilitySettings
+  overload: OfficeOpenXml.ExcelPackage.Compatibility*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelPackage.Settings
+  commentId: P:OfficeOpenXml.ExcelPackage.Settings
+  id: Settings
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: Settings
+  nameWithType: ExcelPackage.Settings
+  fullName: OfficeOpenXml.ExcelPackage.Settings
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Settings
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 1120
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPackage generic settings\n"
+  example: []
+  syntax:
+    content: public ExcelPackageSettings Settings { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelPackageSettings
+    content.vb: Public ReadOnly Property Settings As ExcelPackageSettings
+  overload: OfficeOpenXml.ExcelPackage.Settings*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelPackage.GetAsByteArray
+  commentId: M:OfficeOpenXml.ExcelPackage.GetAsByteArray
+  id: GetAsByteArray
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: GetAsByteArray()
+  nameWithType: ExcelPackage.GetAsByteArray()
+  fullName: OfficeOpenXml.ExcelPackage.GetAsByteArray()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetAsByteArray
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 1156
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSaves and returns the Excel files as a bytearray.\nNote that the package is closed upon save\n"
+  example:
+  - "\nExample how to return a document from a Webserver...\n<pre><code> \n ExcelPackage package=new ExcelPackage();\n /**** ... Create the document ****/\n Byte[] bin = package.GetAsByteArray();\n Response.ContentType = &quot;Application/vnd.ms-Excel&quot;;\n Response.AddHeader(&quot;content-disposition&quot;, &quot;attachment;  filename=TheFile.xlsx&quot;);\n Response.BinaryWrite(bin);</code></pre>\n"
+  syntax:
+    content: public byte[] GetAsByteArray()
+    return:
+      type: System.Byte[]
+      description: ''
+    content.vb: Public Function GetAsByteArray As Byte()
+  overload: OfficeOpenXml.ExcelPackage.GetAsByteArray*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.GetAsByteArray(System.String)
+  commentId: M:OfficeOpenXml.ExcelPackage.GetAsByteArray(System.String)
+  id: GetAsByteArray(System.String)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: GetAsByteArray(String)
+  nameWithType: ExcelPackage.GetAsByteArray(String)
+  fullName: OfficeOpenXml.ExcelPackage.GetAsByteArray(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetAsByteArray
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 1178
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSaves and returns the Excel files as a bytearray\nNote that the package is closed upon save\n"
+  example:
+  - "\nExample how to return a document from a Webserver...\n<pre><code> \n ExcelPackage package=new ExcelPackage();\n /**** ... Create the document ****/\n Byte[] bin = package.GetAsByteArray();\n Response.ContentType = &quot;Application/vnd.ms-Excel&quot;;\n Response.AddHeader(&quot;content-disposition&quot;, &quot;attachment;  filename=TheFile.xlsx&quot;);\n Response.BinaryWrite(bin);</code></pre>\n"
+  syntax:
+    content: public byte[] GetAsByteArray(string password)
+    parameters:
+    - id: password
+      type: System.String
+      description: "The password to encrypt the workbook with. \nThis parameter overrides the Encryption.Password."
+    return:
+      type: System.Byte[]
+      description: ''
+    content.vb: Public Function GetAsByteArray(password As String) As Byte()
+  overload: OfficeOpenXml.ExcelPackage.GetAsByteArray*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.Load(System.IO.Stream)
+  commentId: M:OfficeOpenXml.ExcelPackage.Load(System.IO.Stream)
+  id: Load(System.IO.Stream)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: Load(Stream)
+  nameWithType: ExcelPackage.Load(Stream)
+  fullName: OfficeOpenXml.ExcelPackage.Load(System.IO.Stream)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Load
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 1231
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoads the specified package data from a stream.\n"
+  example: []
+  syntax:
+    content: public void Load(Stream input)
+    parameters:
+    - id: input
+      type: System.IO.Stream
+      description: The input.
+    content.vb: Public Sub Load(input As Stream)
+  overload: OfficeOpenXml.ExcelPackage.Load*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.Load(System.IO.Stream,System.String)
+  commentId: M:OfficeOpenXml.ExcelPackage.Load(System.IO.Stream,System.String)
+  id: Load(System.IO.Stream,System.String)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: Load(Stream, String)
+  nameWithType: ExcelPackage.Load(Stream, String)
+  fullName: OfficeOpenXml.ExcelPackage.Load(System.IO.Stream, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Load
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 1240
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoads the specified package data from a stream.\n"
+  example: []
+  syntax:
+    content: public void Load(Stream input, string Password)
+    parameters:
+    - id: input
+      type: System.IO.Stream
+      description: The input.
+    - id: Password
+      type: System.String
+      description: The password to decrypt the document
+    content.vb: Public Sub Load(input As Stream, Password As String)
+  overload: OfficeOpenXml.ExcelPackage.Load*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.FileInfo,System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.FileInfo,System.Threading.CancellationToken)
+  id: LoadAsync(System.IO.FileInfo,System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: LoadAsync(FileInfo, CancellationToken)
+  nameWithType: ExcelPackage.LoadAsync(FileInfo, CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.FileInfo, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoads the specified package data from a stream.\n"
+  example: []
+  syntax:
+    content: public async Task LoadAsync(FileInfo fileInfo, CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: fileInfo
+      type: System.IO.FileInfo
+      description: The input file.
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function LoadAsync(fileInfo As FileInfo, cancellationToken As CancellationToken = Nothing) As Task
+  overload: OfficeOpenXml.ExcelPackage.LoadAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.LoadAsync(System.String,System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.LoadAsync(System.String,System.Threading.CancellationToken)
+  id: LoadAsync(System.String,System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: LoadAsync(String, CancellationToken)
+  nameWithType: ExcelPackage.LoadAsync(String, CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.LoadAsync(System.String, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoads the specified package data from a stream.\n"
+  example: []
+  syntax:
+    content: public async Task LoadAsync(string filePath, CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: filePath
+      type: System.String
+      description: The input file.
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function LoadAsync(filePath As String, cancellationToken As CancellationToken = Nothing) As Task
+  overload: OfficeOpenXml.ExcelPackage.LoadAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.FileInfo,System.String,System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.FileInfo,System.String,System.Threading.CancellationToken)
+  id: LoadAsync(System.IO.FileInfo,System.String,System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: LoadAsync(FileInfo, String, CancellationToken)
+  nameWithType: ExcelPackage.LoadAsync(FileInfo, String, CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.FileInfo, System.String, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoads the specified package data from a stream.\n"
+  example: []
+  syntax:
+    content: public async Task LoadAsync(FileInfo fileInfo, string Password, CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: fileInfo
+      type: System.IO.FileInfo
+      description: The input file.
+    - id: Password
+      type: System.String
+      description: The password
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function LoadAsync(fileInfo As FileInfo, Password As String, cancellationToken As CancellationToken = Nothing) As Task
+  overload: OfficeOpenXml.ExcelPackage.LoadAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.LoadAsync(System.String,System.String,System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.LoadAsync(System.String,System.String,System.Threading.CancellationToken)
+  id: LoadAsync(System.String,System.String,System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: LoadAsync(String, String, CancellationToken)
+  nameWithType: ExcelPackage.LoadAsync(String, String, CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.LoadAsync(System.String, System.String, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoads the specified package data from a stream.\n"
+  example: []
+  syntax:
+    content: public async Task LoadAsync(string filePath, string password, CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: filePath
+      type: System.String
+      description: The input file.
+    - id: password
+      type: System.String
+      description: The password
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function LoadAsync(filePath As String, password As String, cancellationToken As CancellationToken = Nothing) As Task
+  overload: OfficeOpenXml.ExcelPackage.LoadAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.FileInfo,System.IO.Stream,System.String,System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.FileInfo,System.IO.Stream,System.String,System.Threading.CancellationToken)
+  id: LoadAsync(System.IO.FileInfo,System.IO.Stream,System.String,System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: LoadAsync(FileInfo, Stream, String, CancellationToken)
+  nameWithType: ExcelPackage.LoadAsync(FileInfo, Stream, String, CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.FileInfo, System.IO.Stream, System.String, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoads the specified package data from a stream.\n"
+  example: []
+  syntax:
+    content: public async Task LoadAsync(FileInfo fileInfo, Stream output, string Password, CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: fileInfo
+      type: System.IO.FileInfo
+      description: The input file.
+    - id: output
+      type: System.IO.Stream
+      description: The out stream. Sets the Stream property
+    - id: Password
+      type: System.String
+      description: The password
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function LoadAsync(fileInfo As FileInfo, output As Stream, Password As String, cancellationToken As CancellationToken = Nothing) As Task
+  overload: OfficeOpenXml.ExcelPackage.LoadAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.LoadAsync(System.String,System.IO.Stream,System.String,System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.LoadAsync(System.String,System.IO.Stream,System.String,System.Threading.CancellationToken)
+  id: LoadAsync(System.String,System.IO.Stream,System.String,System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: LoadAsync(String, Stream, String, CancellationToken)
+  nameWithType: ExcelPackage.LoadAsync(String, Stream, String, CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.LoadAsync(System.String, System.IO.Stream, System.String, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 97
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoads the specified package data from a stream.\n"
+  example: []
+  syntax:
+    content: public async Task LoadAsync(string filePath, Stream output, string password, CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: filePath
+      type: System.String
+      description: The input file.
+    - id: output
+      type: System.IO.Stream
+      description: The out stream. Sets the Stream property
+    - id: password
+      type: System.String
+      description: The password
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function LoadAsync(filePath As String, output As Stream, password As String, cancellationToken As CancellationToken = Nothing) As Task
+  overload: OfficeOpenXml.ExcelPackage.LoadAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.Stream,System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.Stream,System.Threading.CancellationToken)
+  id: LoadAsync(System.IO.Stream,System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: LoadAsync(Stream, CancellationToken)
+  nameWithType: ExcelPackage.LoadAsync(Stream, CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.Stream, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 107
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoads the specified package data from a stream.\n"
+  example: []
+  syntax:
+    content: public async Task LoadAsync(Stream input, CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: input
+      type: System.IO.Stream
+      description: The input.
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function LoadAsync(input As Stream, cancellationToken As CancellationToken = Nothing) As Task
+  overload: OfficeOpenXml.ExcelPackage.LoadAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.Stream,System.String,System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.Stream,System.String,System.Threading.CancellationToken)
+  id: LoadAsync(System.IO.Stream,System.String,System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: LoadAsync(Stream, String, CancellationToken)
+  nameWithType: ExcelPackage.LoadAsync(Stream, String, CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.Stream, System.String, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLoads the specified package data from a stream.\n"
+  example: []
+  syntax:
+    content: public async Task LoadAsync(Stream input, string Password, CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: input
+      type: System.IO.Stream
+      description: The input.
+    - id: Password
+      type: System.String
+      description: The password to decrypt the document
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function LoadAsync(input As Stream, Password As String, cancellationToken As CancellationToken = Nothing) As Task
+  overload: OfficeOpenXml.ExcelPackage.LoadAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.SaveAsync(System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.SaveAsync(System.Threading.CancellationToken)
+  id: SaveAsync(System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: SaveAsync(CancellationToken)
+  nameWithType: ExcelPackage.SaveAsync(CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.SaveAsync(System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 190
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSaves all the components back into the package.\nThis method recursively calls the Save method on all sub-components.\nThe package is closed after it has ben saved\nd to encrypt the workbook with. \n"
+  example: []
+  syntax:
+    content: public async Task SaveAsync(CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+    return:
+      type: System.Threading.Tasks.Task
+      description: ''
+    content.vb: Public Function SaveAsync(cancellationToken As CancellationToken = Nothing) As Task
+  overload: OfficeOpenXml.ExcelPackage.SaveAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.SaveAsync(System.String,System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.SaveAsync(System.String,System.Threading.CancellationToken)
+  id: SaveAsync(System.String,System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: SaveAsync(String, CancellationToken)
+  nameWithType: ExcelPackage.SaveAsync(String, CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.SaveAsync(System.String, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 306
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSaves all the components back into the package.\nThis method recursively calls the Save method on all sub-components.\nThe package is closed after it has ben saved\nSupply a password to encrypt the workbook package. \n"
+  example: []
+  syntax:
+    content: public async Task SaveAsync(string password, CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: password
+      type: System.String
+      description: This parameter overrides the Workbook.Encryption.Password.
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function SaveAsync(password As String, cancellationToken As CancellationToken = Nothing) As Task
+  overload: OfficeOpenXml.ExcelPackage.SaveAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.SaveAsAsync(System.IO.FileInfo,System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.SaveAsAsync(System.IO.FileInfo,System.Threading.CancellationToken)
+  id: SaveAsAsync(System.IO.FileInfo,System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: SaveAsAsync(FileInfo, CancellationToken)
+  nameWithType: ExcelPackage.SaveAsAsync(FileInfo, CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.SaveAsAsync(System.IO.FileInfo, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveAsAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 322
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSaves the workbook to a new file\nThe package is closed after it has been saved        \n"
+  example: []
+  syntax:
+    content: public async Task SaveAsAsync(FileInfo file, CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: file
+      type: System.IO.FileInfo
+      description: The file location
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function SaveAsAsync(file As FileInfo, cancellationToken As CancellationToken = Nothing) As Task
+  overload: OfficeOpenXml.ExcelPackage.SaveAsAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.SaveAsAsync(System.String,System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.SaveAsAsync(System.String,System.Threading.CancellationToken)
+  id: SaveAsAsync(System.String,System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: SaveAsAsync(String, CancellationToken)
+  nameWithType: ExcelPackage.SaveAsAsync(String, CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.SaveAsAsync(System.String, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveAsAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 333
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSaves the workbook to a new file\nThe package is closed after it has been saved        \n"
+  example: []
+  syntax:
+    content: public async Task SaveAsAsync(string filePath, CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: filePath
+      type: System.String
+      description: The file location
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function SaveAsAsync(filePath As String, cancellationToken As CancellationToken = Nothing) As Task
+  overload: OfficeOpenXml.ExcelPackage.SaveAsAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.SaveAsAsync(System.IO.FileInfo,System.String,System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.SaveAsAsync(System.IO.FileInfo,System.String,System.Threading.CancellationToken)
+  id: SaveAsAsync(System.IO.FileInfo,System.String,System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: SaveAsAsync(FileInfo, String, CancellationToken)
+  nameWithType: ExcelPackage.SaveAsAsync(FileInfo, String, CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.SaveAsAsync(System.IO.FileInfo, System.String, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveAsAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 346
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSaves the workbook to a new file\nThe package is closed after it has been saved\n"
+  example: []
+  syntax:
+    content: public async Task SaveAsAsync(FileInfo file, string password, CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: file
+      type: System.IO.FileInfo
+      description: The file
+    - id: password
+      type: System.String
+      description: "The password to encrypt the workbook with. \nThis parameter overrides the Encryption.Password."
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function SaveAsAsync(file As FileInfo, password As String, cancellationToken As CancellationToken = Nothing) As Task
+  overload: OfficeOpenXml.ExcelPackage.SaveAsAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.SaveAsAsync(System.String,System.String,System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.SaveAsAsync(System.String,System.String,System.Threading.CancellationToken)
+  id: SaveAsAsync(System.String,System.String,System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: SaveAsAsync(String, String, CancellationToken)
+  nameWithType: ExcelPackage.SaveAsAsync(String, String, CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.SaveAsAsync(System.String, System.String, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveAsAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 360
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSaves the workbook to a new file\nThe package is closed after it has been saved\n"
+  example: []
+  syntax:
+    content: public async Task SaveAsAsync(string filePath, string password, CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: filePath
+      type: System.String
+      description: The file
+    - id: password
+      type: System.String
+      description: "The password to encrypt the workbook with. \nThis parameter overrides the Encryption.Password."
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function SaveAsAsync(filePath As String, password As String, cancellationToken As CancellationToken = Nothing) As Task
+  overload: OfficeOpenXml.ExcelPackage.SaveAsAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.SaveAsAsync(System.IO.Stream,System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.SaveAsAsync(System.IO.Stream,System.Threading.CancellationToken)
+  id: SaveAsAsync(System.IO.Stream,System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: SaveAsAsync(Stream, CancellationToken)
+  nameWithType: ExcelPackage.SaveAsAsync(Stream, CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.SaveAsAsync(System.IO.Stream, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveAsAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 371
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCopies the Package to the Outstream\nThe package is closed after it has been saved\n"
+  example: []
+  syntax:
+    content: public async Task SaveAsAsync(Stream OutputStream, CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: OutputStream
+      type: System.IO.Stream
+      description: The stream to copy the package to
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function SaveAsAsync(OutputStream As Stream, cancellationToken As CancellationToken = Nothing) As Task
+  overload: OfficeOpenXml.ExcelPackage.SaveAsAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.SaveAsAsync(System.IO.Stream,System.String,System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.SaveAsAsync(System.IO.Stream,System.String,System.Threading.CancellationToken)
+  id: SaveAsAsync(System.IO.Stream,System.String,System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: SaveAsAsync(Stream, String, CancellationToken)
+  nameWithType: ExcelPackage.SaveAsAsync(Stream, String, CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.SaveAsAsync(System.IO.Stream, System.String, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveAsAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 390
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCopies the Package to the Outstream\nThe package is closed after it has been saved\n"
+  example: []
+  syntax:
+    content: public async Task SaveAsAsync(Stream OutputStream, string password, CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: OutputStream
+      type: System.IO.Stream
+      description: The stream to copy the package to
+    - id: password
+      type: System.String
+      description: "The password to encrypt the workbook with. \nThis parameter overrides the Encryption.Password."
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function SaveAsAsync(OutputStream As Stream, password As String, cancellationToken As CancellationToken = Nothing) As Task
+  overload: OfficeOpenXml.ExcelPackage.SaveAsAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync(System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync(System.Threading.CancellationToken)
+  id: GetAsByteArrayAsync(System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: GetAsByteArrayAsync(CancellationToken)
+  nameWithType: ExcelPackage.GetAsByteArrayAsync(CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync(System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetAsByteArrayAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 455
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSaves and returns the Excel files as a bytearray.\nNote that the package is closed upon save\n"
+  example:
+  - "\nExample how to return a document from a Webserver...\n<pre><code> \n ExcelPackage package=new ExcelPackage();\n /**** ... Create the document ****/\n Byte[] bin = package.GetAsByteArray();\n Response.ContentType = &quot;Application/vnd.ms-Excel&quot;;\n Response.AddHeader(&quot;content-disposition&quot;, &quot;attachment;  filename=TheFile.xlsx&quot;);\n Response.BinaryWrite(bin);</code></pre>\n"
+  syntax:
+    content: public async Task<byte[]> GetAsByteArrayAsync(CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token
+    return:
+      type: System.Threading.Tasks.Task{System.Byte[]}
+      description: ''
+    content.vb: Public Function GetAsByteArrayAsync(cancellationToken As CancellationToken = Nothing) As Task(Of Byte())
+  overload: OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync(System.String,System.Threading.CancellationToken)
+  commentId: M:OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync(System.String,System.Threading.CancellationToken)
+  id: GetAsByteArrayAsync(System.String,System.Threading.CancellationToken)
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: GetAsByteArrayAsync(String, CancellationToken)
+  nameWithType: ExcelPackage.GetAsByteArrayAsync(String, CancellationToken)
+  fullName: OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync(System.String, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetAsByteArrayAsync
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 479
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSaves and returns the Excel files as a bytearray\nNote that the package is closed upon save\n"
+  example:
+  - "\nExample how to return a document from a Webserver...\n<pre><code> \n ExcelPackage package=new ExcelPackage();\n /**** ... Create the document ****/\n Byte[] bin = package.GetAsByteArray();\n Response.ContentType = &quot;Application/vnd.ms-Excel&quot;;\n Response.AddHeader(&quot;content-disposition&quot;, &quot;attachment;  filename=TheFile.xlsx&quot;);\n Response.BinaryWrite(bin);</code></pre>\n"
+  syntax:
+    content: public async Task<byte[]> GetAsByteArrayAsync(string password, CancellationToken cancellationToken = default(CancellationToken))
+    parameters:
+    - id: password
+      type: System.String
+      description: "The password to encrypt the workbook with. \nThis parameter overrides the Encryption.Password."
+    - id: cancellationToken
+      type: System.Threading.CancellationToken
+      description: The cancellation token
+    return:
+      type: System.Threading.Tasks.Task{System.Byte[]}
+      description: ''
+    content.vb: Public Function GetAsByteArrayAsync(password As String, cancellationToken As CancellationToken = Nothing) As Task(Of Byte())
+  overload: OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ExcelPackage.SaveAs(System.IO.FileInfo)
+  commentId: M:OfficeOpenXml.ExcelPackage.SaveAs(System.IO.FileInfo)
+  isExternal: true
+- uid: OfficeOpenXml.ExcelPackage.File
+  commentId: P:OfficeOpenXml.ExcelPackage.File
+  isExternal: true
+- uid: OfficeOpenXml.ExcelPackage.#ctor*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.#ctor
+  name: ExcelPackage
+  nameWithType: ExcelPackage.ExcelPackage
+  fullName: OfficeOpenXml.ExcelPackage.ExcelPackage
+- uid: System.IO.FileInfo
+  commentId: T:System.IO.FileInfo
+  parent: System.IO
+  isExternal: true
+  name: FileInfo
+  nameWithType: FileInfo
+  fullName: System.IO.FileInfo
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System.IO.Stream
+  commentId: T:System.IO.Stream
+  parent: System.IO
+  isExternal: true
+  name: Stream
+  nameWithType: Stream
+  fullName: System.IO.Stream
+- uid: OfficeOpenXml.ExcelPackage.Encryption*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.Encryption
+  name: Encryption
+  nameWithType: ExcelPackage.Encryption
+  fullName: OfficeOpenXml.ExcelPackage.Encryption
+- uid: OfficeOpenXml.ExcelEncryption
+  commentId: T:OfficeOpenXml.ExcelEncryption
+  parent: OfficeOpenXml
+  name: ExcelEncryption
+  nameWithType: ExcelEncryption
+  fullName: OfficeOpenXml.ExcelEncryption
+- uid: OfficeOpenXml.ExcelPackage.LicenseContext*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.LicenseContext
+  name: LicenseContext
+  nameWithType: ExcelPackage.LicenseContext
+  fullName: OfficeOpenXml.ExcelPackage.LicenseContext
+- uid: System.Nullable{OfficeOpenXml.LicenseContext}
+  commentId: T:System.Nullable{OfficeOpenXml.LicenseContext}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<LicenseContext>
+  nameWithType: Nullable<LicenseContext>
+  fullName: System.Nullable<OfficeOpenXml.LicenseContext>
+  nameWithType.vb: Nullable(Of LicenseContext)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.LicenseContext)
+  name.vb: Nullable(Of LicenseContext)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.LicenseContext
+    name: LicenseContext
+    nameWithType: LicenseContext
+    fullName: OfficeOpenXml.LicenseContext
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.LicenseContext
+    name: LicenseContext
+    nameWithType: LicenseContext
+    fullName: OfficeOpenXml.LicenseContext
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelPackage.Workbook*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.Workbook
+  name: Workbook
+  nameWithType: ExcelPackage.Workbook
+  fullName: OfficeOpenXml.ExcelPackage.Workbook
+- uid: OfficeOpenXml.ExcelWorkbook
+  commentId: T:OfficeOpenXml.ExcelWorkbook
+  parent: OfficeOpenXml
+  name: ExcelWorkbook
+  nameWithType: ExcelWorkbook
+  fullName: OfficeOpenXml.ExcelWorkbook
+- uid: OfficeOpenXml.ExcelPackage.Configure*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.Configure
+  name: Configure
+  nameWithType: ExcelPackage.Configure
+  fullName: OfficeOpenXml.ExcelPackage.Configure
+- uid: System.Action{OfficeOpenXml.Configuration.ExcelPackageConfiguration}
+  commentId: T:System.Action{OfficeOpenXml.Configuration.ExcelPackageConfiguration}
+  parent: System
+  definition: System.Action`1
+  name: Action<ExcelPackageConfiguration>
+  nameWithType: Action<ExcelPackageConfiguration>
+  fullName: System.Action<OfficeOpenXml.Configuration.ExcelPackageConfiguration>
+  nameWithType.vb: Action(Of ExcelPackageConfiguration)
+  fullName.vb: System.Action(Of OfficeOpenXml.Configuration.ExcelPackageConfiguration)
+  name.vb: Action(Of ExcelPackageConfiguration)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Configuration.ExcelPackageConfiguration
+    name: ExcelPackageConfiguration
+    nameWithType: ExcelPackageConfiguration
+    fullName: OfficeOpenXml.Configuration.ExcelPackageConfiguration
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Configuration.ExcelPackageConfiguration
+    name: ExcelPackageConfiguration
+    nameWithType: ExcelPackageConfiguration
+    fullName: OfficeOpenXml.Configuration.ExcelPackageConfiguration
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelPackage.InitializationErrors*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.InitializationErrors
+  name: InitializationErrors
+  nameWithType: ExcelPackage.InitializationErrors
+  fullName: OfficeOpenXml.ExcelPackage.InitializationErrors
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelInitializationError}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelInitializationError}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelInitializationError>
+  nameWithType: IEnumerable<ExcelInitializationError>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ExcelInitializationError>
+  nameWithType.vb: IEnumerable(Of ExcelInitializationError)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ExcelInitializationError)
+  name.vb: IEnumerable(Of ExcelInitializationError)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExcelInitializationError
+    name: ExcelInitializationError
+    nameWithType: ExcelInitializationError
+    fullName: OfficeOpenXml.ExcelInitializationError
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExcelInitializationError
+    name: ExcelInitializationError
+    nameWithType: ExcelInitializationError
+    fullName: OfficeOpenXml.ExcelInitializationError
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: OfficeOpenXml.ExcelPackage.DoAdjustDrawings*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.DoAdjustDrawings
+  name: DoAdjustDrawings
+  nameWithType: ExcelPackage.DoAdjustDrawings
+  fullName: OfficeOpenXml.ExcelPackage.DoAdjustDrawings
+- uid: OfficeOpenXml.ExcelPackage.Dispose*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.Dispose
+  name: Dispose
+  nameWithType: ExcelPackage.Dispose
+  fullName: OfficeOpenXml.ExcelPackage.Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelPackage.Save*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.Save
+  name: Save
+  nameWithType: ExcelPackage.Save
+  fullName: OfficeOpenXml.ExcelPackage.Save
+- uid: OfficeOpenXml.ExcelPackage.SaveAs*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.SaveAs
+  name: SaveAs
+  nameWithType: ExcelPackage.SaveAs
+  fullName: OfficeOpenXml.ExcelPackage.SaveAs
+- uid: OfficeOpenXml.ExcelPackage.File*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.File
+  name: File
+  nameWithType: ExcelPackage.File
+  fullName: OfficeOpenXml.ExcelPackage.File
+- uid: OfficeOpenXml.ExcelPackage.Stream*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.Stream
+  name: Stream
+  nameWithType: ExcelPackage.Stream
+  fullName: OfficeOpenXml.ExcelPackage.Stream
+- uid: OfficeOpenXml.ExcelPackage.Compression*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.Compression
+  name: Compression
+  nameWithType: ExcelPackage.Compression
+  fullName: OfficeOpenXml.ExcelPackage.Compression
+- uid: OfficeOpenXml.CompressionLevel
+  commentId: T:OfficeOpenXml.CompressionLevel
+  parent: OfficeOpenXml
+  name: CompressionLevel
+  nameWithType: CompressionLevel
+  fullName: OfficeOpenXml.CompressionLevel
+- uid: OfficeOpenXml.ExcelPackage.Compatibility*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.Compatibility
+  name: Compatibility
+  nameWithType: ExcelPackage.Compatibility
+  fullName: OfficeOpenXml.ExcelPackage.Compatibility
+- uid: OfficeOpenXml.Compatibility.CompatibilitySettings
+  commentId: T:OfficeOpenXml.Compatibility.CompatibilitySettings
+  parent: OfficeOpenXml.Compatibility
+  name: CompatibilitySettings
+  nameWithType: CompatibilitySettings
+  fullName: OfficeOpenXml.Compatibility.CompatibilitySettings
+- uid: OfficeOpenXml.Compatibility
+  commentId: N:OfficeOpenXml.Compatibility
+  name: OfficeOpenXml.Compatibility
+  nameWithType: OfficeOpenXml.Compatibility
+  fullName: OfficeOpenXml.Compatibility
+- uid: OfficeOpenXml.ExcelPackage.Settings*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.Settings
+  name: Settings
+  nameWithType: ExcelPackage.Settings
+  fullName: OfficeOpenXml.ExcelPackage.Settings
+- uid: OfficeOpenXml.ExcelPackageSettings
+  commentId: T:OfficeOpenXml.ExcelPackageSettings
+  parent: OfficeOpenXml
+  name: ExcelPackageSettings
+  nameWithType: ExcelPackageSettings
+  fullName: OfficeOpenXml.ExcelPackageSettings
+- uid: OfficeOpenXml.ExcelPackage.GetAsByteArray*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.GetAsByteArray
+  name: GetAsByteArray
+  nameWithType: ExcelPackage.GetAsByteArray
+  fullName: OfficeOpenXml.ExcelPackage.GetAsByteArray
+- uid: System.Byte[]
+  isExternal: true
+  name: Byte[]
+  nameWithType: Byte[]
+  fullName: System.Byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: System.Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: OfficeOpenXml.ExcelPackage.Load*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.Load
+  name: Load
+  nameWithType: ExcelPackage.Load
+  fullName: OfficeOpenXml.ExcelPackage.Load
+- uid: OfficeOpenXml.ExcelPackage.LoadAsync*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.LoadAsync
+  name: LoadAsync
+  nameWithType: ExcelPackage.LoadAsync
+  fullName: OfficeOpenXml.ExcelPackage.LoadAsync
+- uid: System.Threading.CancellationToken
+  commentId: T:System.Threading.CancellationToken
+  parent: System.Threading
+  isExternal: true
+  name: CancellationToken
+  nameWithType: CancellationToken
+  fullName: System.Threading.CancellationToken
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading
+  commentId: N:System.Threading
+  isExternal: true
+  name: System.Threading
+  nameWithType: System.Threading
+  fullName: System.Threading
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+- uid: OfficeOpenXml.ExcelPackage.SaveAsync*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.SaveAsync
+  name: SaveAsync
+  nameWithType: ExcelPackage.SaveAsync
+  fullName: OfficeOpenXml.ExcelPackage.SaveAsync
+- uid: OfficeOpenXml.ExcelPackage.SaveAsAsync*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.SaveAsAsync
+  name: SaveAsAsync
+  nameWithType: ExcelPackage.SaveAsAsync
+  fullName: OfficeOpenXml.ExcelPackage.SaveAsAsync
+- uid: OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync
+  name: GetAsByteArrayAsync
+  nameWithType: ExcelPackage.GetAsByteArrayAsync
+  fullName: OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync
+- uid: System.Threading.Tasks.Task{System.Byte[]}
+  commentId: T:System.Threading.Tasks.Task{System.Byte[]}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  name: Task<Byte[]>
+  nameWithType: Task<Byte[]>
+  fullName: System.Threading.Tasks.Task<System.Byte[]>
+  nameWithType.vb: Task(Of Byte())
+  fullName.vb: System.Threading.Tasks.Task(Of System.Byte())
+  name.vb: Task(Of Byte())
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: )
+    nameWithType: )
+    fullName: )

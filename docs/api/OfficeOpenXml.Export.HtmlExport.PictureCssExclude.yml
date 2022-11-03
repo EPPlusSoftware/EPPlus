@@ -1,0 +1,523 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.PictureCssExclude
+  commentId: T:OfficeOpenXml.Export.HtmlExport.PictureCssExclude
+  id: PictureCssExclude
+  parent: OfficeOpenXml.Export.HtmlExport
+  children:
+  - OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Alignment
+  - OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Border
+  - OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Copy(OfficeOpenXml.Export.HtmlExport.PictureCssExclude)
+  - OfficeOpenXml.Export.HtmlExport.PictureCssExclude.ResetToDefault
+  langs:
+  - csharp
+  - vb
+  name: PictureCssExclude
+  nameWithType: PictureCssExclude
+  fullName: OfficeOpenXml.Export.HtmlExport.PictureCssExclude
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PictureCssExclude
+    path: ../src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nHTML Settings for excluding picture css settings.\n"
+  example: []
+  syntax:
+    content: public class PictureCssExclude
+    content.vb: Public Class PictureCssExclude
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Border
+  commentId: P:OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Border
+  id: Border
+  parent: OfficeOpenXml.Export.HtmlExport.PictureCssExclude
+  langs:
+  - csharp
+  - vb
+  name: Border
+  nameWithType: PictureCssExclude.Border
+  fullName: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Border
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Border
+    path: ../src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude image border CSS\n"
+  example: []
+  syntax:
+    content: public bool Border { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Border As Boolean
+  overload: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Border*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Alignment
+  commentId: P:OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Alignment
+  id: Alignment
+  parent: OfficeOpenXml.Export.HtmlExport.PictureCssExclude
+  langs:
+  - csharp
+  - vb
+  name: Alignment
+  nameWithType: PictureCssExclude.Alignment
+  fullName: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Alignment
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Alignment
+    path: ../src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude image alignment CSS\n"
+  example: []
+  syntax:
+    content: public bool Alignment { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Alignment As Boolean
+  overload: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Alignment*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.ResetToDefault
+  commentId: M:OfficeOpenXml.Export.HtmlExport.PictureCssExclude.ResetToDefault
+  id: ResetToDefault
+  parent: OfficeOpenXml.Export.HtmlExport.PictureCssExclude
+  langs:
+  - csharp
+  - vb
+  name: ResetToDefault()
+  nameWithType: PictureCssExclude.ResetToDefault()
+  fullName: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.ResetToDefault()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ResetToDefault
+    path: ../src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nReset the setting to it&apos;s default values.\n"
+  example: []
+  syntax:
+    content: public void ResetToDefault()
+    content.vb: Public Sub ResetToDefault
+  overload: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.ResetToDefault*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Copy(OfficeOpenXml.Export.HtmlExport.PictureCssExclude)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Copy(OfficeOpenXml.Export.HtmlExport.PictureCssExclude)
+  id: Copy(OfficeOpenXml.Export.HtmlExport.PictureCssExclude)
+  parent: OfficeOpenXml.Export.HtmlExport.PictureCssExclude
+  langs:
+  - csharp
+  - vb
+  name: Copy(PictureCssExclude)
+  nameWithType: PictureCssExclude.Copy(PictureCssExclude)
+  fullName: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Copy(OfficeOpenXml.Export.HtmlExport.PictureCssExclude)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Copy
+    path: ../src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nCopy the values from another settings object.\n"
+  example: []
+  syntax:
+    content: public void Copy(PictureCssExclude copy)
+    parameters:
+    - id: copy
+      type: OfficeOpenXml.Export.HtmlExport.PictureCssExclude
+      description: The object to copy.
+    content.vb: Public Sub Copy(copy As PictureCssExclude)
+  overload: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Copy*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Export.HtmlExport
+  commentId: N:OfficeOpenXml.Export.HtmlExport
+  name: OfficeOpenXml.Export.HtmlExport
+  nameWithType: OfficeOpenXml.Export.HtmlExport
+  fullName: OfficeOpenXml.Export.HtmlExport
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Border*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Border
+  name: Border
+  nameWithType: PictureCssExclude.Border
+  fullName: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Border
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Alignment*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Alignment
+  name: Alignment
+  nameWithType: PictureCssExclude.Alignment
+  fullName: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Alignment
+- uid: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.ResetToDefault*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.PictureCssExclude.ResetToDefault
+  name: ResetToDefault
+  nameWithType: PictureCssExclude.ResetToDefault
+  fullName: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.ResetToDefault
+- uid: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Copy*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Copy
+  name: Copy
+  nameWithType: PictureCssExclude.Copy
+  fullName: OfficeOpenXml.Export.HtmlExport.PictureCssExclude.Copy
+- uid: OfficeOpenXml.Export.HtmlExport.PictureCssExclude
+  commentId: T:OfficeOpenXml.Export.HtmlExport.PictureCssExclude
+  parent: OfficeOpenXml.Export.HtmlExport
+  name: PictureCssExclude
+  nameWithType: PictureCssExclude
+  fullName: OfficeOpenXml.Export.HtmlExport.PictureCssExclude

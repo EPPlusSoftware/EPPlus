@@ -1,0 +1,56 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.Table
+  commentId: N:OfficeOpenXml.Style.Table
+  id: OfficeOpenXml.Style.Table
+  children:
+  - OfficeOpenXml.Style.Table.ExcelPivotTableNamedStyle
+  - OfficeOpenXml.Style.Table.ExcelTableAndPivotTableNamedStyle
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Style.Table
+  nameWithType: OfficeOpenXml.Style.Table
+  fullName: OfficeOpenXml.Style.Table
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Style.Table.ExcelPivotTableNamedStyle
+  commentId: T:OfficeOpenXml.Style.Table.ExcelPivotTableNamedStyle
+  parent: OfficeOpenXml.Style.Table
+  name: ExcelPivotTableNamedStyle
+  nameWithType: ExcelPivotTableNamedStyle
+  fullName: OfficeOpenXml.Style.Table.ExcelPivotTableNamedStyle
+- uid: OfficeOpenXml.Style.Table.ExcelTableAndPivotTableNamedStyle
+  commentId: T:OfficeOpenXml.Style.Table.ExcelTableAndPivotTableNamedStyle
+  parent: OfficeOpenXml.Style.Table
+  name: ExcelTableAndPivotTableNamedStyle
+  nameWithType: ExcelTableAndPivotTableNamedStyle
+  fullName: OfficeOpenXml.Style.Table.ExcelTableAndPivotTableNamedStyle
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+  commentId: T:OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+  parent: OfficeOpenXml.Style.Table
+  name: ExcelTableNamedStyle
+  nameWithType: ExcelTableNamedStyle
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType
+  commentId: T:OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType
+  parent: OfficeOpenXml.Style.Table
+  name: ExcelTableNamedStyleAsType
+  nameWithType: ExcelTableNamedStyleAsType
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  commentId: T:OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  parent: OfficeOpenXml.Style.Table
+  name: ExcelTableNamedStyleBase
+  nameWithType: ExcelTableNamedStyleBase
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+- uid: OfficeOpenXml.Style.Table
+  commentId: N:OfficeOpenXml.Style.Table
+  name: OfficeOpenXml.Style.Table
+  nameWithType: OfficeOpenXml.Style.Table
+  fullName: OfficeOpenXml.Style.Table

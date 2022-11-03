@@ -1,0 +1,223 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+  id: eNumericDataType
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.ColorValue
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.Size
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.Value
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.X
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.Y
+  langs:
+  - csharp
+  - vb
+  name: eNumericDataType
+  nameWithType: eNumericDataType
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eNumericDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eNumericDataType
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eNumericDataType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nSide positions for a chart element\n"
+  example: []
+  syntax:
+    content: public enum eNumericDataType
+    content.vb: Public Enum eNumericDataType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.Value
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.Value
+  id: Value
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: eNumericDataType.Value
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.Value
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eNumericDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eNumericDataType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe dimension is a value.\n"
+  example: []
+  syntax:
+    content: Value = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.X
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.X
+  id: X
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+  langs:
+  - csharp
+  - vb
+  name: X
+  nameWithType: eNumericDataType.X
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.X
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eNumericDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: X
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eNumericDataType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe dimension is an x-coordinate.\n"
+  example: []
+  syntax:
+    content: X = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.Y
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.Y
+  id: Y
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+  langs:
+  - csharp
+  - vb
+  name: Y
+  nameWithType: eNumericDataType.Y
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.Y
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eNumericDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Y
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eNumericDataType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe dimension is a y-coordinate.\n"
+  example: []
+  syntax:
+    content: Y = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.Size
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.Size
+  id: Size
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+  langs:
+  - csharp
+  - vb
+  name: Size
+  nameWithType: eNumericDataType.Size
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.Size
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eNumericDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Size
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eNumericDataType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe dimension is a size.\n"
+  example: []
+  syntax:
+    content: Size = 3
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.ColorValue
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.ColorValue
+  id: ColorValue
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+  langs:
+  - csharp
+  - vb
+  name: ColorValue
+  nameWithType: eNumericDataType.ColorValue
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType.ColorValue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eNumericDataType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorValue
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eNumericDataType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe dimension is a value determining a color.        \n"
+  example: []
+  syntax:
+    content: ColorValue = 4
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eNumericDataType
+  nameWithType: eNumericDataType
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eNumericDataType

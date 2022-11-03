@@ -1,0 +1,791 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelCellAddress
+  commentId: T:OfficeOpenXml.ExcelCellAddress
+  id: ExcelCellAddress
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelCellAddress.#ctor
+  - OfficeOpenXml.ExcelCellAddress.#ctor(System.Int32,System.Int32,System.Boolean,System.Boolean)
+  - OfficeOpenXml.ExcelCellAddress.#ctor(System.String)
+  - OfficeOpenXml.ExcelCellAddress.Address
+  - OfficeOpenXml.ExcelCellAddress.Column
+  - OfficeOpenXml.ExcelCellAddress.GetColumnLetter(System.Int32)
+  - OfficeOpenXml.ExcelCellAddress.IsColumnFixed
+  - OfficeOpenXml.ExcelCellAddress.IsRef
+  - OfficeOpenXml.ExcelCellAddress.IsRowFixed
+  - OfficeOpenXml.ExcelCellAddress.Row
+  langs:
+  - csharp
+  - vb
+  name: ExcelCellAddress
+  nameWithType: ExcelCellAddress
+  fullName: OfficeOpenXml.ExcelCellAddress
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelCellAddress
+    path: ../src/EPPlus/ExcelCellAddress.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA single cell address \n"
+  example: []
+  syntax:
+    content: public class ExcelCellAddress
+    content.vb: Public Class ExcelCellAddress
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelCellAddress.#ctor
+  commentId: M:OfficeOpenXml.ExcelCellAddress.#ctor
+  id: '#ctor'
+  parent: OfficeOpenXml.ExcelCellAddress
+  langs:
+  - csharp
+  - vb
+  name: ExcelCellAddress()
+  nameWithType: ExcelCellAddress.ExcelCellAddress()
+  fullName: OfficeOpenXml.ExcelCellAddress.ExcelCellAddress()
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelCellAddress.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nInitializes a new instance of the ExcelCellAddress class.\n"
+  example: []
+  syntax:
+    content: public ExcelCellAddress()
+    content.vb: Public Sub New
+  overload: OfficeOpenXml.ExcelCellAddress.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelCellAddress.#ctor(System.Int32,System.Int32,System.Boolean,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelCellAddress.#ctor(System.Int32,System.Int32,System.Boolean,System.Boolean)
+  id: '#ctor(System.Int32,System.Int32,System.Boolean,System.Boolean)'
+  parent: OfficeOpenXml.ExcelCellAddress
+  langs:
+  - csharp
+  - vb
+  name: ExcelCellAddress(Int32, Int32, Boolean, Boolean)
+  nameWithType: ExcelCellAddress.ExcelCellAddress(Int32, Int32, Boolean, Boolean)
+  fullName: OfficeOpenXml.ExcelCellAddress.ExcelCellAddress(System.Int32, System.Int32, System.Boolean, System.Boolean)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelCellAddress.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nInitializes a new instance of the ExcelCellAddress class.\n"
+  example: []
+  syntax:
+    content: public ExcelCellAddress(int row, int column, bool isRowFixed = false, bool isColumnFixed = false)
+    parameters:
+    - id: row
+      type: System.Int32
+      description: The row.
+    - id: column
+      type: System.Int32
+      description: The column.
+    - id: isRowFixed
+      type: System.Boolean
+      description: If the row is fixed, prefixed with $
+    - id: isColumnFixed
+      type: System.Boolean
+      description: If the column is fixed, prefixed with $
+    content.vb: Public Sub New(row As Integer, column As Integer, isRowFixed As Boolean = False, isColumnFixed As Boolean = False)
+  overload: OfficeOpenXml.ExcelCellAddress.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelCellAddress.#ctor(System.String)
+  commentId: M:OfficeOpenXml.ExcelCellAddress.#ctor(System.String)
+  id: '#ctor(System.String)'
+  parent: OfficeOpenXml.ExcelCellAddress
+  langs:
+  - csharp
+  - vb
+  name: ExcelCellAddress(String)
+  nameWithType: ExcelCellAddress.ExcelCellAddress(String)
+  fullName: OfficeOpenXml.ExcelCellAddress.ExcelCellAddress(System.String)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelCellAddress.cs
+    startLine: 64
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nInitializes a new instance of the ExcelCellAddress class.\n"
+  example: []
+  syntax:
+    content: public ExcelCellAddress(string address)
+    parameters:
+    - id: address
+      type: System.String
+      description: The address
+    content.vb: Public Sub New(address As String)
+  overload: OfficeOpenXml.ExcelCellAddress.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelCellAddress.Row
+  commentId: P:OfficeOpenXml.ExcelCellAddress.Row
+  id: Row
+  parent: OfficeOpenXml.ExcelCellAddress
+  langs:
+  - csharp
+  - vb
+  name: Row
+  nameWithType: ExcelCellAddress.Row
+  fullName: OfficeOpenXml.ExcelCellAddress.Row
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Row
+    path: ../src/EPPlus/ExcelCellAddress.cs
+    startLine: 71
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRow\n"
+  example: []
+  syntax:
+    content: public int Row { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Row As Integer
+  overload: OfficeOpenXml.ExcelCellAddress.Row*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelCellAddress.Column
+  commentId: P:OfficeOpenXml.ExcelCellAddress.Column
+  id: Column
+  parent: OfficeOpenXml.ExcelCellAddress
+  langs:
+  - csharp
+  - vb
+  name: Column
+  nameWithType: ExcelCellAddress.Column
+  fullName: OfficeOpenXml.ExcelCellAddress.Column
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Column
+    path: ../src/EPPlus/ExcelCellAddress.cs
+    startLine: 93
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nColumn\n"
+  example: []
+  syntax:
+    content: public int Column { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Column As Integer
+  overload: OfficeOpenXml.ExcelCellAddress.Column*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelCellAddress.Address
+  commentId: P:OfficeOpenXml.ExcelCellAddress.Address
+  id: Address
+  parent: OfficeOpenXml.ExcelCellAddress
+  langs:
+  - csharp
+  - vb
+  name: Address
+  nameWithType: ExcelCellAddress.Address
+  fullName: OfficeOpenXml.ExcelCellAddress.Address
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Address
+    path: ../src/EPPlus/ExcelCellAddress.cs
+    startLine: 115
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCelladdress\n"
+  example: []
+  syntax:
+    content: public string Address { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Address As String
+  overload: OfficeOpenXml.ExcelCellAddress.Address*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelCellAddress.IsRowFixed
+  commentId: P:OfficeOpenXml.ExcelCellAddress.IsRowFixed
+  id: IsRowFixed
+  parent: OfficeOpenXml.ExcelCellAddress
+  langs:
+  - csharp
+  - vb
+  name: IsRowFixed
+  nameWithType: ExcelCellAddress.IsRowFixed
+  fullName: OfficeOpenXml.ExcelCellAddress.IsRowFixed
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsRowFixed
+    path: ../src/EPPlus/ExcelCellAddress.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns true if the row is fixed \n"
+  example: []
+  syntax:
+    content: public bool IsRowFixed { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsRowFixed As Boolean
+  overload: OfficeOpenXml.ExcelCellAddress.IsRowFixed*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelCellAddress.IsColumnFixed
+  commentId: P:OfficeOpenXml.ExcelCellAddress.IsColumnFixed
+  id: IsColumnFixed
+  parent: OfficeOpenXml.ExcelCellAddress
+  langs:
+  - csharp
+  - vb
+  name: IsColumnFixed
+  nameWithType: ExcelCellAddress.IsColumnFixed
+  fullName: OfficeOpenXml.ExcelCellAddress.IsColumnFixed
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsColumnFixed
+    path: ../src/EPPlus/ExcelCellAddress.cs
+    startLine: 140
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns true if the column is fixed\n"
+  example: []
+  syntax:
+    content: public bool IsColumnFixed { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsColumnFixed As Boolean
+  overload: OfficeOpenXml.ExcelCellAddress.IsColumnFixed*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelCellAddress.IsRef
+  commentId: P:OfficeOpenXml.ExcelCellAddress.IsRef
+  id: IsRef
+  parent: OfficeOpenXml.ExcelCellAddress
+  langs:
+  - csharp
+  - vb
+  name: IsRef
+  nameWithType: ExcelCellAddress.IsRef
+  fullName: OfficeOpenXml.ExcelCellAddress.IsRef
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsRef
+    path: ../src/EPPlus/ExcelCellAddress.cs
+    startLine: 151
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf the address is an invalid reference (#REF!)\n"
+  example: []
+  syntax:
+    content: public bool IsRef { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsRef As Boolean
+  overload: OfficeOpenXml.ExcelCellAddress.IsRef*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelCellAddress.GetColumnLetter(System.Int32)
+  commentId: M:OfficeOpenXml.ExcelCellAddress.GetColumnLetter(System.Int32)
+  id: GetColumnLetter(System.Int32)
+  parent: OfficeOpenXml.ExcelCellAddress
+  langs:
+  - csharp
+  - vb
+  name: GetColumnLetter(Int32)
+  nameWithType: ExcelCellAddress.GetColumnLetter(Int32)
+  fullName: OfficeOpenXml.ExcelCellAddress.GetColumnLetter(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellAddress.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetColumnLetter
+    path: ../src/EPPlus/ExcelCellAddress.cs
+    startLine: 164
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns the letter corresponding to the supplied 1-based column index.\n"
+  example: []
+  syntax:
+    content: public static string GetColumnLetter(int column)
+    parameters:
+    - id: column
+      type: System.Int32
+      description: Index of the column (1-based)
+    return:
+      type: System.String
+      description: The corresponding letter, like A for 1.
+    content.vb: Public Shared Function GetColumnLetter(column As Integer) As String
+  overload: OfficeOpenXml.ExcelCellAddress.GetColumnLetter*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelCellAddress.#ctor*
+  commentId: Overload:OfficeOpenXml.ExcelCellAddress.#ctor
+  name: ExcelCellAddress
+  nameWithType: ExcelCellAddress.ExcelCellAddress
+  fullName: OfficeOpenXml.ExcelCellAddress.ExcelCellAddress
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExcelCellAddress.Row*
+  commentId: Overload:OfficeOpenXml.ExcelCellAddress.Row
+  name: Row
+  nameWithType: ExcelCellAddress.Row
+  fullName: OfficeOpenXml.ExcelCellAddress.Row
+- uid: OfficeOpenXml.ExcelCellAddress.Column*
+  commentId: Overload:OfficeOpenXml.ExcelCellAddress.Column
+  name: Column
+  nameWithType: ExcelCellAddress.Column
+  fullName: OfficeOpenXml.ExcelCellAddress.Column
+- uid: OfficeOpenXml.ExcelCellAddress.Address*
+  commentId: Overload:OfficeOpenXml.ExcelCellAddress.Address
+  name: Address
+  nameWithType: ExcelCellAddress.Address
+  fullName: OfficeOpenXml.ExcelCellAddress.Address
+- uid: OfficeOpenXml.ExcelCellAddress.IsRowFixed*
+  commentId: Overload:OfficeOpenXml.ExcelCellAddress.IsRowFixed
+  name: IsRowFixed
+  nameWithType: ExcelCellAddress.IsRowFixed
+  fullName: OfficeOpenXml.ExcelCellAddress.IsRowFixed
+- uid: OfficeOpenXml.ExcelCellAddress.IsColumnFixed*
+  commentId: Overload:OfficeOpenXml.ExcelCellAddress.IsColumnFixed
+  name: IsColumnFixed
+  nameWithType: ExcelCellAddress.IsColumnFixed
+  fullName: OfficeOpenXml.ExcelCellAddress.IsColumnFixed
+- uid: OfficeOpenXml.ExcelCellAddress.IsRef*
+  commentId: Overload:OfficeOpenXml.ExcelCellAddress.IsRef
+  name: IsRef
+  nameWithType: ExcelCellAddress.IsRef
+  fullName: OfficeOpenXml.ExcelCellAddress.IsRef
+- uid: OfficeOpenXml.ExcelCellAddress.GetColumnLetter*
+  commentId: Overload:OfficeOpenXml.ExcelCellAddress.GetColumnLetter
+  name: GetColumnLetter
+  nameWithType: ExcelCellAddress.GetColumnLetter
+  fullName: OfficeOpenXml.ExcelCellAddress.GetColumnLetter

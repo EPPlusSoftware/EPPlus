@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.EncryptionAlgorithm
+  commentId: T:OfficeOpenXml.EncryptionAlgorithm
+  id: EncryptionAlgorithm
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.EncryptionAlgorithm.AES128
+  - OfficeOpenXml.EncryptionAlgorithm.AES192
+  - OfficeOpenXml.EncryptionAlgorithm.AES256
+  langs:
+  - csharp
+  - vb
+  name: EncryptionAlgorithm
+  nameWithType: EncryptionAlgorithm
+  fullName: OfficeOpenXml.EncryptionAlgorithm
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ExcelEncryption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EncryptionAlgorithm
+    path: ../src/EPPlus/ExcelEncryption.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nEncryption Algorithm\n"
+  example: []
+  syntax:
+    content: public enum EncryptionAlgorithm
+    content.vb: Public Enum EncryptionAlgorithm
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.EncryptionAlgorithm.AES128
+  commentId: F:OfficeOpenXml.EncryptionAlgorithm.AES128
+  id: AES128
+  parent: OfficeOpenXml.EncryptionAlgorithm
+  langs:
+  - csharp
+  - vb
+  name: AES128
+  nameWithType: EncryptionAlgorithm.AES128
+  fullName: OfficeOpenXml.EncryptionAlgorithm.AES128
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelEncryption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AES128
+    path: ../src/EPPlus/ExcelEncryption.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\n128-bit AES. Default\n"
+  example: []
+  syntax:
+    content: AES128 = 0
+    return:
+      type: OfficeOpenXml.EncryptionAlgorithm
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.EncryptionAlgorithm.AES192
+  commentId: F:OfficeOpenXml.EncryptionAlgorithm.AES192
+  id: AES192
+  parent: OfficeOpenXml.EncryptionAlgorithm
+  langs:
+  - csharp
+  - vb
+  name: AES192
+  nameWithType: EncryptionAlgorithm.AES192
+  fullName: OfficeOpenXml.EncryptionAlgorithm.AES192
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelEncryption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AES192
+    path: ../src/EPPlus/ExcelEncryption.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\n192-bit AES.\n"
+  example: []
+  syntax:
+    content: AES192 = 1
+    return:
+      type: OfficeOpenXml.EncryptionAlgorithm
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.EncryptionAlgorithm.AES256
+  commentId: F:OfficeOpenXml.EncryptionAlgorithm.AES256
+  id: AES256
+  parent: OfficeOpenXml.EncryptionAlgorithm
+  langs:
+  - csharp
+  - vb
+  name: AES256
+  nameWithType: EncryptionAlgorithm.AES256
+  fullName: OfficeOpenXml.EncryptionAlgorithm.AES256
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelEncryption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AES256
+    path: ../src/EPPlus/ExcelEncryption.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\n256-bit AES. \n"
+  example: []
+  syntax:
+    content: AES256 = 2
+    return:
+      type: OfficeOpenXml.EncryptionAlgorithm
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.EncryptionAlgorithm
+  commentId: T:OfficeOpenXml.EncryptionAlgorithm
+  parent: OfficeOpenXml
+  name: EncryptionAlgorithm
+  nameWithType: EncryptionAlgorithm
+  fullName: OfficeOpenXml.EncryptionAlgorithm

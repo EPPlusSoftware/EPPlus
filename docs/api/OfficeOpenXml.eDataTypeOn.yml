@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eDataTypeOn
+  commentId: T:OfficeOpenXml.eDataTypeOn
+  id: eDataTypeOn
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eDataTypeOn.NoDataTypes
+  - OfficeOpenXml.eDataTypeOn.OnCell
+  - OfficeOpenXml.eDataTypeOn.OnColumn
+  langs:
+  - csharp
+  - vb
+  name: eDataTypeOn
+  nameWithType: eDataTypeOn
+  fullName: OfficeOpenXml.eDataTypeOn
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eDataTypeOn
+    path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+    startLine: 8
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nHow to set the data type when exporting json.\n"
+  example: []
+  syntax:
+    content: public enum eDataTypeOn
+    content.vb: Public Enum eDataTypeOn
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eDataTypeOn.NoDataTypes
+  commentId: F:OfficeOpenXml.eDataTypeOn.NoDataTypes
+  id: NoDataTypes
+  parent: OfficeOpenXml.eDataTypeOn
+  langs:
+  - csharp
+  - vb
+  name: NoDataTypes
+  nameWithType: eDataTypeOn.NoDataTypes
+  fullName: OfficeOpenXml.eDataTypeOn.NoDataTypes
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NoDataTypes
+    path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+    startLine: 13
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDo not set the data type.\n"
+  example: []
+  syntax:
+    content: NoDataTypes = 0
+    return:
+      type: OfficeOpenXml.eDataTypeOn
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eDataTypeOn.OnColumn
+  commentId: F:OfficeOpenXml.eDataTypeOn.OnColumn
+  id: OnColumn
+  parent: OfficeOpenXml.eDataTypeOn
+  langs:
+  - csharp
+  - vb
+  name: OnColumn
+  nameWithType: eDataTypeOn.OnColumn
+  fullName: OfficeOpenXml.eDataTypeOn.OnColumn
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OnColumn
+    path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the data type on the column level.\n"
+  example: []
+  syntax:
+    content: OnColumn = 1
+    return:
+      type: OfficeOpenXml.eDataTypeOn
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eDataTypeOn.OnCell
+  commentId: F:OfficeOpenXml.eDataTypeOn.OnCell
+  id: OnCell
+  parent: OfficeOpenXml.eDataTypeOn
+  langs:
+  - csharp
+  - vb
+  name: OnCell
+  nameWithType: eDataTypeOn.OnCell
+  fullName: OfficeOpenXml.eDataTypeOn.OnCell
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OnCell
+    path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the data type on each cell.\n"
+  example: []
+  syntax:
+    content: OnCell = 2
+    return:
+      type: OfficeOpenXml.eDataTypeOn
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eDataTypeOn
+  commentId: T:OfficeOpenXml.eDataTypeOn
+  parent: OfficeOpenXml
+  name: eDataTypeOn
+  nameWithType: eDataTypeOn
+  fullName: OfficeOpenXml.eDataTypeOn

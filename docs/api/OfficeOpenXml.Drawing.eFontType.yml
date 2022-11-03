@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eFontType
+  commentId: T:OfficeOpenXml.Drawing.eFontType
+  id: eFontType
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eFontType.Complex
+  - OfficeOpenXml.Drawing.eFontType.EastAsian
+  - OfficeOpenXml.Drawing.eFontType.Latin
+  - OfficeOpenXml.Drawing.eFontType.Symbol
+  langs:
+  - csharp
+  - vb
+  name: eFontType
+  nameWithType: eFontType
+  fullName: OfficeOpenXml.Drawing.eFontType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFontType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eFontType
+    path: ../src/EPPlus/Drawing/Enums/eFontType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nType of font\n"
+  example: []
+  syntax:
+    content: public enum eFontType
+    content.vb: Public Enum eFontType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eFontType.Latin
+  commentId: F:OfficeOpenXml.Drawing.eFontType.Latin
+  id: Latin
+  parent: OfficeOpenXml.Drawing.eFontType
+  langs:
+  - csharp
+  - vb
+  name: Latin
+  nameWithType: eFontType.Latin
+  fullName: OfficeOpenXml.Drawing.eFontType.Latin
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFontType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Latin
+    path: ../src/EPPlus/Drawing/Enums/eFontType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA latin font\n"
+  example: []
+  syntax:
+    content: Latin = 0
+    return:
+      type: OfficeOpenXml.Drawing.eFontType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFontType.EastAsian
+  commentId: F:OfficeOpenXml.Drawing.eFontType.EastAsian
+  id: EastAsian
+  parent: OfficeOpenXml.Drawing.eFontType
+  langs:
+  - csharp
+  - vb
+  name: EastAsian
+  nameWithType: eFontType.EastAsian
+  fullName: OfficeOpenXml.Drawing.eFontType.EastAsian
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFontType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EastAsian
+    path: ../src/EPPlus/Drawing/Enums/eFontType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAn East Asian font\n"
+  example: []
+  syntax:
+    content: EastAsian = 1
+    return:
+      type: OfficeOpenXml.Drawing.eFontType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFontType.Complex
+  commentId: F:OfficeOpenXml.Drawing.eFontType.Complex
+  id: Complex
+  parent: OfficeOpenXml.Drawing.eFontType
+  langs:
+  - csharp
+  - vb
+  name: Complex
+  nameWithType: eFontType.Complex
+  fullName: OfficeOpenXml.Drawing.eFontType.Complex
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFontType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Complex
+    path: ../src/EPPlus/Drawing/Enums/eFontType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAn complex font\n"
+  example: []
+  syntax:
+    content: Complex = 2
+    return:
+      type: OfficeOpenXml.Drawing.eFontType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eFontType.Symbol
+  commentId: F:OfficeOpenXml.Drawing.eFontType.Symbol
+  id: Symbol
+  parent: OfficeOpenXml.Drawing.eFontType
+  langs:
+  - csharp
+  - vb
+  name: Symbol
+  nameWithType: eFontType.Symbol
+  fullName: OfficeOpenXml.Drawing.eFontType.Symbol
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eFontType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Symbol
+    path: ../src/EPPlus/Drawing/Enums/eFontType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA symbol font\n"
+  example: []
+  syntax:
+    content: Symbol = 3
+    return:
+      type: OfficeOpenXml.Drawing.eFontType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eFontType
+  commentId: T:OfficeOpenXml.Drawing.eFontType
+  parent: OfficeOpenXml.Drawing
+  name: eFontType
+  nameWithType: eFontType
+  fullName: OfficeOpenXml.Drawing.eFontType

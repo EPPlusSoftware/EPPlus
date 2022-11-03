@@ -1,0 +1,481 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  commentId: T:OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  id: ExcelCalculationOption
+  parent: OfficeOpenXml.FormulaParsing
+  children:
+  - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.#ctor
+  - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AllowCircularReferences
+  - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.PrecisionAndRoundingStrategy
+  langs:
+  - csharp
+  - vb
+  name: ExcelCalculationOption
+  nameWithType: ExcelCalculationOption
+  fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelCalculationOption
+    path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nOptions used by the formula parser\n"
+  example: []
+  syntax:
+    content: public class ExcelCalculationOption
+    content.vb: Public Class ExcelCalculationOption
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.#ctor
+  commentId: M:OfficeOpenXml.FormulaParsing.ExcelCalculationOption.#ctor
+  id: '#ctor'
+  parent: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  langs:
+  - csharp
+  - vb
+  name: ExcelCalculationOption()
+  nameWithType: ExcelCalculationOption.ExcelCalculationOption()
+  fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.ExcelCalculationOption()
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public ExcelCalculationOption()
+    content.vb: Public Sub New
+  overload: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AllowCircularReferences
+  commentId: P:OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AllowCircularReferences
+  id: AllowCircularReferences
+  parent: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  langs:
+  - csharp
+  - vb
+  name: AllowCircularReferences
+  nameWithType: ExcelCalculationOption.AllowCircularReferences
+  fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AllowCircularReferences
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowCircularReferences
+    path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
+    startLine: 80
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nDo not throw an exception if the formula parser encounters a circular reference\n"
+  example: []
+  syntax:
+    content: public bool AllowCircularReferences { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowCircularReferences As Boolean
+  overload: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AllowCircularReferences*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.PrecisionAndRoundingStrategy
+  commentId: P:OfficeOpenXml.FormulaParsing.ExcelCalculationOption.PrecisionAndRoundingStrategy
+  id: PrecisionAndRoundingStrategy
+  parent: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  langs:
+  - csharp
+  - vb
+  name: PrecisionAndRoundingStrategy
+  nameWithType: ExcelCalculationOption.PrecisionAndRoundingStrategy
+  fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.PrecisionAndRoundingStrategy
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PrecisionAndRoundingStrategy
+    path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
+    startLine: 85
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nIn some functions EPPlus will round double values to 15 significant figures before the value is handled. This is an option for Excel compatibility.\n"
+  example: []
+  syntax:
+    content: public PrecisionAndRoundingStrategy PrecisionAndRoundingStrategy { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+    content.vb: Public Property PrecisionAndRoundingStrategy As PrecisionAndRoundingStrategy
+  overload: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.PrecisionAndRoundingStrategy*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelCalculationOption.#ctor
+  name: ExcelCalculationOption
+  nameWithType: ExcelCalculationOption.ExcelCalculationOption
+  fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.ExcelCalculationOption
+- uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AllowCircularReferences*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AllowCircularReferences
+  name: AllowCircularReferences
+  nameWithType: ExcelCalculationOption.AllowCircularReferences
+  fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AllowCircularReferences
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.PrecisionAndRoundingStrategy*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelCalculationOption.PrecisionAndRoundingStrategy
+  name: PrecisionAndRoundingStrategy
+  nameWithType: ExcelCalculationOption.PrecisionAndRoundingStrategy
+  fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.PrecisionAndRoundingStrategy
+- uid: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+  commentId: T:OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+  parent: OfficeOpenXml.FormulaParsing
+  name: PrecisionAndRoundingStrategy
+  nameWithType: PrecisionAndRoundingStrategy
+  fullName: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy

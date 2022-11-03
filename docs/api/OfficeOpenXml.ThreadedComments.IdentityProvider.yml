@@ -1,0 +1,229 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ThreadedComments.IdentityProvider
+  commentId: T:OfficeOpenXml.ThreadedComments.IdentityProvider
+  id: IdentityProvider
+  parent: OfficeOpenXml.ThreadedComments
+  children:
+  - OfficeOpenXml.ThreadedComments.IdentityProvider.ActiveDirectory
+  - OfficeOpenXml.ThreadedComments.IdentityProvider.NoProvider
+  - OfficeOpenXml.ThreadedComments.IdentityProvider.Office365
+  - OfficeOpenXml.ThreadedComments.IdentityProvider.PeoplePicker
+  - OfficeOpenXml.ThreadedComments.IdentityProvider.WindowsLiveId
+  langs:
+  - csharp
+  - vb
+  name: IdentityProvider
+  nameWithType: IdentityProvider
+  fullName: OfficeOpenXml.ThreadedComments.IdentityProvider
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/IdentityProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IdentityProvider
+    path: ../src/EPPlus/ThreadedComments/IdentityProvider.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nThis enum defines the Identity providers for <xref href=\"OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson\" data-throw-if-not-resolved=\"false\"></xref>\nas described here: https://docs.microsoft.com/en-us/openspecs/office_standards/ms-xlsx/6274371e-7c5c-46e3-b661-cbeb4abfe968\n"
+  example: []
+  syntax:
+    content: public enum IdentityProvider
+    content.vb: Public Enum IdentityProvider
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ThreadedComments.IdentityProvider.NoProvider
+  commentId: F:OfficeOpenXml.ThreadedComments.IdentityProvider.NoProvider
+  id: NoProvider
+  parent: OfficeOpenXml.ThreadedComments.IdentityProvider
+  langs:
+  - csharp
+  - vb
+  name: NoProvider
+  nameWithType: IdentityProvider.NoProvider
+  fullName: OfficeOpenXml.ThreadedComments.IdentityProvider.NoProvider
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/IdentityProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NoProvider
+    path: ../src/EPPlus/ThreadedComments/IdentityProvider.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nNo provider, Person&apos;s userId should be a name\n"
+  example: []
+  syntax:
+    content: NoProvider = 0
+    return:
+      type: OfficeOpenXml.ThreadedComments.IdentityProvider
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ThreadedComments.IdentityProvider.ActiveDirectory
+  commentId: F:OfficeOpenXml.ThreadedComments.IdentityProvider.ActiveDirectory
+  id: ActiveDirectory
+  parent: OfficeOpenXml.ThreadedComments.IdentityProvider
+  langs:
+  - csharp
+  - vb
+  name: ActiveDirectory
+  nameWithType: IdentityProvider.ActiveDirectory
+  fullName: OfficeOpenXml.ThreadedComments.IdentityProvider.ActiveDirectory
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/IdentityProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActiveDirectory
+    path: ../src/EPPlus/ThreadedComments/IdentityProvider.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nActiveDirectory, Person&apos;s userId should be an ActiveDirectory Security Identifier (SID) as specified here:\nhttps://docs.microsoft.com/en-us/openspecs/windows_protocols/MS-DTYP/cca27429-5689-4a16-b2b4-9325d93e4ba2\n"
+  example: []
+  syntax:
+    content: ActiveDirectory = 1
+    return:
+      type: OfficeOpenXml.ThreadedComments.IdentityProvider
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ThreadedComments.IdentityProvider.WindowsLiveId
+  commentId: F:OfficeOpenXml.ThreadedComments.IdentityProvider.WindowsLiveId
+  id: WindowsLiveId
+  parent: OfficeOpenXml.ThreadedComments.IdentityProvider
+  langs:
+  - csharp
+  - vb
+  name: WindowsLiveId
+  nameWithType: IdentityProvider.WindowsLiveId
+  fullName: OfficeOpenXml.ThreadedComments.IdentityProvider.WindowsLiveId
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/IdentityProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WindowsLiveId
+    path: ../src/EPPlus/ThreadedComments/IdentityProvider.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nWindows Live, Person&apos;s userId should be a 64-bit signed decimal that uniquely identifies a user on Windows Live\n"
+  example: []
+  syntax:
+    content: WindowsLiveId = 2
+    return:
+      type: OfficeOpenXml.ThreadedComments.IdentityProvider
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ThreadedComments.IdentityProvider.Office365
+  commentId: F:OfficeOpenXml.ThreadedComments.IdentityProvider.Office365
+  id: Office365
+  parent: OfficeOpenXml.ThreadedComments.IdentityProvider
+  langs:
+  - csharp
+  - vb
+  name: Office365
+  nameWithType: IdentityProvider.Office365
+  fullName: OfficeOpenXml.ThreadedComments.IdentityProvider.Office365
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/IdentityProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Office365
+    path: ../src/EPPlus/ThreadedComments/IdentityProvider.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nOffice 365. The Person&apos;s userId should be a string that uniquely identifies a user. It SHOULD be comprised\nof three individual values separated by a &quot;::&quot; delimiter. \n"
+  example: []
+  syntax:
+    content: Office365 = 3
+    return:
+      type: OfficeOpenXml.ThreadedComments.IdentityProvider
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ThreadedComments.IdentityProvider.PeoplePicker
+  commentId: F:OfficeOpenXml.ThreadedComments.IdentityProvider.PeoplePicker
+  id: PeoplePicker
+  parent: OfficeOpenXml.ThreadedComments.IdentityProvider
+  langs:
+  - csharp
+  - vb
+  name: PeoplePicker
+  nameWithType: IdentityProvider.PeoplePicker
+  fullName: OfficeOpenXml.ThreadedComments.IdentityProvider.PeoplePicker
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/IdentityProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PeoplePicker
+    path: ../src/EPPlus/ThreadedComments/IdentityProvider.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nPeople Picker, The Persons userId should be an email address provided by People Picker.\n"
+  example: []
+  syntax:
+    content: PeoplePicker = 4
+    return:
+      type: OfficeOpenXml.ThreadedComments.IdentityProvider
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+  commentId: T:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+  parent: OfficeOpenXml.ThreadedComments
+  name: ExcelThreadedCommentPerson
+  nameWithType: ExcelThreadedCommentPerson
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+- uid: OfficeOpenXml.ThreadedComments
+  commentId: N:OfficeOpenXml.ThreadedComments
+  name: OfficeOpenXml.ThreadedComments
+  nameWithType: OfficeOpenXml.ThreadedComments
+  fullName: OfficeOpenXml.ThreadedComments
+- uid: OfficeOpenXml.ThreadedComments.IdentityProvider
+  commentId: T:OfficeOpenXml.ThreadedComments.IdentityProvider
+  parent: OfficeOpenXml.ThreadedComments
+  name: IdentityProvider
+  nameWithType: IdentityProvider
+  fullName: OfficeOpenXml.ThreadedComments.IdentityProvider

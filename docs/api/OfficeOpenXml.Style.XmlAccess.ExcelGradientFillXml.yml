@@ -1,0 +1,763 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml
+  commentId: T:OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml
+  id: ExcelGradientFillXml
+  parent: OfficeOpenXml.Style.XmlAccess
+  children:
+  - OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Bottom
+  - OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Degree
+  - OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.GradientColor1
+  - OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.GradientColor2
+  - OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Left
+  - OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Right
+  - OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Top
+  - OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Type
+  langs:
+  - csharp
+  - vb
+  name: ExcelGradientFillXml
+  nameWithType: ExcelGradientFillXml
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelGradientFillXml
+    path: ../src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nXml access class for gradient fillsde\n"
+  example: []
+  syntax:
+    content: 'public sealed class ExcelGradientFillXml : ExcelFillXml'
+    content.vb: >-
+      Public NotInheritable Class ExcelGradientFillXml
+          Inherits ExcelFillXml
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Style.XmlAccess.StyleXmlHelper
+  - OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+  inheritedMembers:
+  - OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternType
+  - OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternColor
+  - OfficeOpenXml.Style.XmlAccess.ExcelFillXml.BackgroundColor
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Type
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Type
+  id: Type
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: ExcelGradientFillXml.Type
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Type
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Type
+    path: ../src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nType of gradient fill. \n"
+  example: []
+  syntax:
+    content: public ExcelFillGradientType Type { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.ExcelFillGradientType
+    content.vb: Public ReadOnly Property Type As ExcelFillGradientType
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Type*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Degree
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Degree
+  id: Degree
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml
+  langs:
+  - csharp
+  - vb
+  name: Degree
+  nameWithType: ExcelGradientFillXml.Degree
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Degree
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Degree
+    path: ../src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nAngle of the linear gradient\n"
+  example: []
+  syntax:
+    content: public double Degree { get; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public ReadOnly Property Degree As Double
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Degree*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.GradientColor1
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.GradientColor1
+  id: GradientColor1
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml
+  langs:
+  - csharp
+  - vb
+  name: GradientColor1
+  nameWithType: ExcelGradientFillXml.GradientColor1
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.GradientColor1
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GradientColor1
+    path: ../src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nGradient color 1\n"
+  example: []
+  syntax:
+    content: public ExcelColorXml GradientColor1 { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.XmlAccess.ExcelColorXml
+    content.vb: Public ReadOnly Property GradientColor1 As ExcelColorXml
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.GradientColor1*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.GradientColor2
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.GradientColor2
+  id: GradientColor2
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml
+  langs:
+  - csharp
+  - vb
+  name: GradientColor2
+  nameWithType: ExcelGradientFillXml.GradientColor2
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.GradientColor2
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GradientColor2
+    path: ../src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nGradient color 2\n"
+  example: []
+  syntax:
+    content: public ExcelColorXml GradientColor2 { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.XmlAccess.ExcelColorXml
+    content.vb: Public ReadOnly Property GradientColor2 As ExcelColorXml
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.GradientColor2*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Bottom
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Bottom
+  id: Bottom
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml
+  langs:
+  - csharp
+  - vb
+  name: Bottom
+  nameWithType: ExcelGradientFillXml.Bottom
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Bottom
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bottom
+    path: ../src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+    startLine: 83
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nPercentage format bottom\n"
+  example: []
+  syntax:
+    content: public double Bottom { get; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public ReadOnly Property Bottom As Double
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Bottom*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Top
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Top
+  id: Top
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml
+  langs:
+  - csharp
+  - vb
+  name: Top
+  nameWithType: ExcelGradientFillXml.Top
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Top
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Top
+    path: ../src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+    startLine: 92
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nPercentage format top\n"
+  example: []
+  syntax:
+    content: public double Top { get; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public ReadOnly Property Top As Double
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Top*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Left
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Left
+  id: Left
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: ExcelGradientFillXml.Left
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Left
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Left
+    path: ../src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+    startLine: 101
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nPercentage format left\n"
+  example: []
+  syntax:
+    content: public double Left { get; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public ReadOnly Property Left As Double
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Left*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Right
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Right
+  id: Right
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml
+  langs:
+  - csharp
+  - vb
+  name: Right
+  nameWithType: ExcelGradientFillXml.Right
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Right
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Right
+    path: ../src/EPPlus/Style/XmlAccess/ExcelGradientFillXml.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.XmlAccess
+  summary: "\nPercentage format right\n"
+  example: []
+  syntax:
+    content: public double Right { get; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public ReadOnly Property Right As Double
+  overload: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Right*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Style.XmlAccess
+  commentId: N:OfficeOpenXml.Style.XmlAccess
+  name: OfficeOpenXml.Style.XmlAccess
+  nameWithType: OfficeOpenXml.Style.XmlAccess
+  fullName: OfficeOpenXml.Style.XmlAccess
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Style.XmlAccess.StyleXmlHelper
+  commentId: T:OfficeOpenXml.Style.XmlAccess.StyleXmlHelper
+  parent: OfficeOpenXml.Style.XmlAccess
+  name: StyleXmlHelper
+  nameWithType: StyleXmlHelper
+  fullName: OfficeOpenXml.Style.XmlAccess.StyleXmlHelper
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+  commentId: T:OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+  parent: OfficeOpenXml.Style.XmlAccess
+  name: ExcelFillXml
+  nameWithType: ExcelFillXml
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternType
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternType
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+  name: PatternType
+  nameWithType: ExcelFillXml.PatternType
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternType
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternColor
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternColor
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+  name: PatternColor
+  nameWithType: ExcelFillXml.PatternColor
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.PatternColor
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.BackgroundColor
+  commentId: P:OfficeOpenXml.Style.XmlAccess.ExcelFillXml.BackgroundColor
+  parent: OfficeOpenXml.Style.XmlAccess.ExcelFillXml
+  name: BackgroundColor
+  nameWithType: ExcelFillXml.BackgroundColor
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelFillXml.BackgroundColor
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Type*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Type
+  name: Type
+  nameWithType: ExcelGradientFillXml.Type
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Type
+- uid: OfficeOpenXml.Style.ExcelFillGradientType
+  commentId: T:OfficeOpenXml.Style.ExcelFillGradientType
+  parent: OfficeOpenXml.Style
+  name: ExcelFillGradientType
+  nameWithType: ExcelFillGradientType
+  fullName: OfficeOpenXml.Style.ExcelFillGradientType
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Degree*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Degree
+  name: Degree
+  nameWithType: ExcelGradientFillXml.Degree
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Degree
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.GradientColor1*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.GradientColor1
+  name: GradientColor1
+  nameWithType: ExcelGradientFillXml.GradientColor1
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.GradientColor1
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelColorXml
+  commentId: T:OfficeOpenXml.Style.XmlAccess.ExcelColorXml
+  parent: OfficeOpenXml.Style.XmlAccess
+  name: ExcelColorXml
+  nameWithType: ExcelColorXml
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelColorXml
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.GradientColor2*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.GradientColor2
+  name: GradientColor2
+  nameWithType: ExcelGradientFillXml.GradientColor2
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.GradientColor2
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Bottom*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Bottom
+  name: Bottom
+  nameWithType: ExcelGradientFillXml.Bottom
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Bottom
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Top*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Top
+  name: Top
+  nameWithType: ExcelGradientFillXml.Top
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Top
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Left*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Left
+  name: Left
+  nameWithType: ExcelGradientFillXml.Left
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Left
+- uid: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Right*
+  commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Right
+  name: Right
+  nameWithType: ExcelGradientFillXml.Right
+  fullName: OfficeOpenXml.Style.XmlAccess.ExcelGradientFillXml.Right

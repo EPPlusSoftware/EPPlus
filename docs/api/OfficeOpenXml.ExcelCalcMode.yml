@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelCalcMode
+  commentId: T:OfficeOpenXml.ExcelCalcMode
+  id: ExcelCalcMode
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelCalcMode.Automatic
+  - OfficeOpenXml.ExcelCalcMode.AutomaticNoTable
+  - OfficeOpenXml.ExcelCalcMode.Manual
+  langs:
+  - csharp
+  - vb
+  name: ExcelCalcMode
+  nameWithType: ExcelCalcMode
+  fullName: OfficeOpenXml.ExcelCalcMode
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelCalcMode
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nHow the application should calculate formulas in the workbook\n"
+  example: []
+  syntax:
+    content: public enum ExcelCalcMode
+    content.vb: Public Enum ExcelCalcMode
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ExcelCalcMode.Automatic
+  commentId: F:OfficeOpenXml.ExcelCalcMode.Automatic
+  id: Automatic
+  parent: OfficeOpenXml.ExcelCalcMode
+  langs:
+  - csharp
+  - vb
+  name: Automatic
+  nameWithType: ExcelCalcMode.Automatic
+  fullName: OfficeOpenXml.ExcelCalcMode.Automatic
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Automatic
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 53
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIndicates that calculations in the workbook are performed automatically when cell values change. \nThe application recalculates those cells that are dependent on other cells that contain changed values. \nThis mode of calculation helps to avoid unnecessary calculations.\n"
+  example: []
+  syntax:
+    content: Automatic = 0
+    return:
+      type: OfficeOpenXml.ExcelCalcMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelCalcMode.AutomaticNoTable
+  commentId: F:OfficeOpenXml.ExcelCalcMode.AutomaticNoTable
+  id: AutomaticNoTable
+  parent: OfficeOpenXml.ExcelCalcMode
+  langs:
+  - csharp
+  - vb
+  name: AutomaticNoTable
+  nameWithType: ExcelCalcMode.AutomaticNoTable
+  fullName: OfficeOpenXml.ExcelCalcMode.AutomaticNoTable
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AutomaticNoTable
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 57
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIndicates tables be excluded during automatic calculation\n"
+  example: []
+  syntax:
+    content: AutomaticNoTable = 1
+    return:
+      type: OfficeOpenXml.ExcelCalcMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelCalcMode.Manual
+  commentId: F:OfficeOpenXml.ExcelCalcMode.Manual
+  id: Manual
+  parent: OfficeOpenXml.ExcelCalcMode
+  langs:
+  - csharp
+  - vb
+  name: Manual
+  nameWithType: ExcelCalcMode.Manual
+  fullName: OfficeOpenXml.ExcelCalcMode.Manual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Manual
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIndicates that calculations in the workbook be triggered manually by the user. \n"
+  example: []
+  syntax:
+    content: Manual = 2
+    return:
+      type: OfficeOpenXml.ExcelCalcMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.ExcelCalcMode
+  commentId: T:OfficeOpenXml.ExcelCalcMode
+  parent: OfficeOpenXml
+  name: ExcelCalcMode
+  nameWithType: ExcelCalcMode
+  fullName: OfficeOpenXml.ExcelCalcMode

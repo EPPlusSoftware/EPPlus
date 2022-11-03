@@ -1,0 +1,678 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.eUnderLineType
+  commentId: T:OfficeOpenXml.Style.eUnderLineType
+  id: eUnderLineType
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.eUnderLineType.Dash
+  - OfficeOpenXml.Style.eUnderLineType.DashHeavy
+  - OfficeOpenXml.Style.eUnderLineType.DashLong
+  - OfficeOpenXml.Style.eUnderLineType.DashLongHeavy
+  - OfficeOpenXml.Style.eUnderLineType.DotDash
+  - OfficeOpenXml.Style.eUnderLineType.DotDashHeavy
+  - OfficeOpenXml.Style.eUnderLineType.DotDotDash
+  - OfficeOpenXml.Style.eUnderLineType.DotDotDashHeavy
+  - OfficeOpenXml.Style.eUnderLineType.Dotted
+  - OfficeOpenXml.Style.eUnderLineType.DottedHeavy
+  - OfficeOpenXml.Style.eUnderLineType.Double
+  - OfficeOpenXml.Style.eUnderLineType.Heavy
+  - OfficeOpenXml.Style.eUnderLineType.None
+  - OfficeOpenXml.Style.eUnderLineType.Single
+  - OfficeOpenXml.Style.eUnderLineType.Wavy
+  - OfficeOpenXml.Style.eUnderLineType.WavyDbl
+  - OfficeOpenXml.Style.eUnderLineType.WavyHeavy
+  - OfficeOpenXml.Style.eUnderLineType.Words
+  langs:
+  - csharp
+  - vb
+  name: eUnderLineType
+  nameWithType: eUnderLineType
+  fullName: OfficeOpenXml.Style.eUnderLineType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eUnderLineType
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nLinestyle\n"
+  example: []
+  syntax:
+    content: public enum eUnderLineType
+    content.vb: Public Enum eUnderLineType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Style.eUnderLineType.Dash
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.Dash
+  id: Dash
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: Dash
+  nameWithType: eUnderLineType.Dash
+  fullName: OfficeOpenXml.Style.eUnderLineType.Dash
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dash
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDashed\n"
+  example: []
+  syntax:
+    content: Dash = 0
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eUnderLineType.DashHeavy
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.DashHeavy
+  id: DashHeavy
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: DashHeavy
+  nameWithType: eUnderLineType.DashHeavy
+  fullName: OfficeOpenXml.Style.eUnderLineType.DashHeavy
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DashHeavy
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDashed, Thicker\n"
+  example: []
+  syntax:
+    content: DashHeavy = 1
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eUnderLineType.DashLong
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.DashLong
+  id: DashLong
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: DashLong
+  nameWithType: eUnderLineType.DashLong
+  fullName: OfficeOpenXml.Style.eUnderLineType.DashLong
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DashLong
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDashed Long\n"
+  example: []
+  syntax:
+    content: DashLong = 2
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eUnderLineType.DashLongHeavy
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.DashLongHeavy
+  id: DashLongHeavy
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: DashLongHeavy
+  nameWithType: eUnderLineType.DashLongHeavy
+  fullName: OfficeOpenXml.Style.eUnderLineType.DashLongHeavy
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DashLongHeavy
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nLong Dashed, Thicker\n"
+  example: []
+  syntax:
+    content: DashLongHeavy = 3
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eUnderLineType.Double
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.Double
+  id: Double
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: Double
+  nameWithType: eUnderLineType.Double
+  fullName: OfficeOpenXml.Style.eUnderLineType.Double
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Double
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDouble lines with normal thickness\n"
+  example: []
+  syntax:
+    content: Double = 4
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eUnderLineType.DotDash
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.DotDash
+  id: DotDash
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: DotDash
+  nameWithType: eUnderLineType.DotDash
+  fullName: OfficeOpenXml.Style.eUnderLineType.DotDash
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DotDash
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDot Dash\n"
+  example: []
+  syntax:
+    content: DotDash = 5
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eUnderLineType.DotDashHeavy
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.DotDashHeavy
+  id: DotDashHeavy
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: DotDashHeavy
+  nameWithType: eUnderLineType.DotDashHeavy
+  fullName: OfficeOpenXml.Style.eUnderLineType.DotDashHeavy
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DotDashHeavy
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDot Dash, Thicker\n"
+  example: []
+  syntax:
+    content: DotDashHeavy = 6
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eUnderLineType.DotDotDash
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.DotDotDash
+  id: DotDotDash
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: DotDotDash
+  nameWithType: eUnderLineType.DotDotDash
+  fullName: OfficeOpenXml.Style.eUnderLineType.DotDotDash
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DotDotDash
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDot Dot Dash\n"
+  example: []
+  syntax:
+    content: DotDotDash = 7
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eUnderLineType.DotDotDashHeavy
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.DotDotDashHeavy
+  id: DotDotDashHeavy
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: DotDotDashHeavy
+  nameWithType: eUnderLineType.DotDotDashHeavy
+  fullName: OfficeOpenXml.Style.eUnderLineType.DotDotDashHeavy
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DotDotDashHeavy
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDot Dot Dash, Thicker\n"
+  example: []
+  syntax:
+    content: DotDotDashHeavy = 8
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eUnderLineType.Dotted
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.Dotted
+  id: Dotted
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: Dotted
+  nameWithType: eUnderLineType.Dotted
+  fullName: OfficeOpenXml.Style.eUnderLineType.Dotted
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dotted
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDotted\n"
+  example: []
+  syntax:
+    content: Dotted = 9
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eUnderLineType.DottedHeavy
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.DottedHeavy
+  id: DottedHeavy
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: DottedHeavy
+  nameWithType: eUnderLineType.DottedHeavy
+  fullName: OfficeOpenXml.Style.eUnderLineType.DottedHeavy
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DottedHeavy
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nDotted, Thicker\n"
+  example: []
+  syntax:
+    content: DottedHeavy = 10
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eUnderLineType.Heavy
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.Heavy
+  id: Heavy
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: Heavy
+  nameWithType: eUnderLineType.Heavy
+  fullName: OfficeOpenXml.Style.eUnderLineType.Heavy
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Heavy
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSingle line, Thicker\n"
+  example: []
+  syntax:
+    content: Heavy = 11
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eUnderLineType.None
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.None
+  id: None
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eUnderLineType.None
+  fullName: OfficeOpenXml.Style.eUnderLineType.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nNo underline\n"
+  example: []
+  syntax:
+    content: None = 12
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eUnderLineType.Single
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.Single
+  id: Single
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: Single
+  nameWithType: eUnderLineType.Single
+  fullName: OfficeOpenXml.Style.eUnderLineType.Single
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Single
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSingle line\n"
+  example: []
+  syntax:
+    content: Single = 13
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eUnderLineType.Wavy
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.Wavy
+  id: Wavy
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: Wavy
+  nameWithType: eUnderLineType.Wavy
+  fullName: OfficeOpenXml.Style.eUnderLineType.Wavy
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Wavy
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nA single wavy line\n"
+  example: []
+  syntax:
+    content: Wavy = 14
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eUnderLineType.WavyDbl
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.WavyDbl
+  id: WavyDbl
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: WavyDbl
+  nameWithType: eUnderLineType.WavyDbl
+  fullName: OfficeOpenXml.Style.eUnderLineType.WavyDbl
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WavyDbl
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nA double wavy line\n"
+  example: []
+  syntax:
+    content: WavyDbl = 15
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eUnderLineType.WavyHeavy
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.WavyHeavy
+  id: WavyHeavy
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: WavyHeavy
+  nameWithType: eUnderLineType.WavyHeavy
+  fullName: OfficeOpenXml.Style.eUnderLineType.WavyHeavy
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WavyHeavy
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nA single wavy line, Thicker\n"
+  example: []
+  syntax:
+    content: WavyHeavy = 16
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.eUnderLineType.Words
+  commentId: F:OfficeOpenXml.Style.eUnderLineType.Words
+  id: Words
+  parent: OfficeOpenXml.Style.eUnderLineType
+  langs:
+  - csharp
+  - vb
+  name: Words
+  nameWithType: eUnderLineType.Words
+  fullName: OfficeOpenXml.Style.eUnderLineType.Words
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/eUnderLineType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Words
+    path: ../src/EPPlus/Style/enums/eUnderLineType.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nUnderline just the words and not the spaces between them\n"
+  example: []
+  syntax:
+    content: Words = 17
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.eUnderLineType
+  commentId: T:OfficeOpenXml.Style.eUnderLineType
+  parent: OfficeOpenXml.Style
+  name: eUnderLineType
+  nameWithType: eUnderLineType
+  fullName: OfficeOpenXml.Style.eUnderLineType

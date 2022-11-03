@@ -1,0 +1,652 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+  id: ExcelPivotCacheDefinition
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheDefinitionUri
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheDefinitionXml
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheSource
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.PivotTable
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.SaveData
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.SourceRange
+  langs:
+  - csharp
+  - vb
+  name: ExcelPivotCacheDefinition
+  nameWithType: ExcelPivotCacheDefinition
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPivotCacheDefinition
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nCache definition. This class defines the source data. Note that one cache definition can be shared between many pivot tables.\n"
+  example: []
+  syntax:
+    content: public class ExcelPivotCacheDefinition
+    content.vb: Public Class ExcelPivotCacheDefinition
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheDefinitionXml
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheDefinitionXml
+  id: CacheDefinitionXml
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+  langs:
+  - csharp
+  - vb
+  name: CacheDefinitionXml
+  nameWithType: ExcelPivotCacheDefinition.CacheDefinitionXml
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheDefinitionXml
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CacheDefinitionXml
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
+    startLine: 97
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nProvides access to the XML data representing the cache definition in the package.\n"
+  example: []
+  syntax:
+    content: public XmlDocument CacheDefinitionXml { get; }
+    parameters: []
+    return:
+      type: System.Xml.XmlDocument
+    content.vb: Public ReadOnly Property CacheDefinitionXml As XmlDocument
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheDefinitionXml*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheDefinitionUri
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheDefinitionUri
+  id: CacheDefinitionUri
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+  langs:
+  - csharp
+  - vb
+  name: CacheDefinitionUri
+  nameWithType: ExcelPivotCacheDefinition.CacheDefinitionUri
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheDefinitionUri
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CacheDefinitionUri
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
+    startLine: 107
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe package internal URI to the pivottable cache definition Xml Document.\n"
+  example: []
+  syntax:
+    content: public Uri CacheDefinitionUri { get; }
+    parameters: []
+    return:
+      type: System.Uri
+    content.vb: Public ReadOnly Property CacheDefinitionUri As Uri
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheDefinitionUri*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.PivotTable
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.PivotTable
+  id: PivotTable
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+  langs:
+  - csharp
+  - vb
+  name: PivotTable
+  nameWithType: ExcelPivotCacheDefinition.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.PivotTable
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PivotTable
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
+    startLine: 122
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nReferece to the PivotTable object\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTable PivotTable { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+    content.vb: Public ReadOnly Property PivotTable As ExcelPivotTable
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.PivotTable*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.SourceRange
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.SourceRange
+  id: SourceRange
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+  langs:
+  - csharp
+  - vb
+  name: SourceRange
+  nameWithType: ExcelPivotCacheDefinition.SourceRange
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.SourceRange
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SourceRange
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
+    startLine: 137
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe source data range when the pivottable has a worksheet datasource. \nThe number of columns in the range must be intact if this property is changed.\nThe range must be in the same workbook as the pivottable.\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase SourceRange { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+    content.vb: Public Property SourceRange As ExcelRangeBase
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.SourceRange*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.SaveData
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.SaveData
+  id: SaveData
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+  langs:
+  - csharp
+  - vb
+  name: SaveData
+  nameWithType: ExcelPivotCacheDefinition.SaveData
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.SaveData
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveData
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
+    startLine: 194
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nIf Excel will save the source data with the pivot table.\n"
+  example: []
+  syntax:
+    content: public bool SaveData { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property SaveData As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.SaveData*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheSource
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheSource
+  id: CacheSource
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+  langs:
+  - csharp
+  - vb
+  name: CacheSource
+  nameWithType: ExcelPivotCacheDefinition.CacheSource
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheSource
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CacheSource
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
+    startLine: 208
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nType of source data\n"
+  example: []
+  syntax:
+    content: public eSourceType CacheSource { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSourceType
+    content.vb: Public ReadOnly Property CacheSource As eSourceType
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheSource*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheDefinitionXml*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheDefinitionXml
+  name: CacheDefinitionXml
+  nameWithType: ExcelPivotCacheDefinition.CacheDefinitionXml
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheDefinitionXml
+- uid: System.Xml.XmlDocument
+  commentId: T:System.Xml.XmlDocument
+  parent: System.Xml
+  isExternal: true
+  name: XmlDocument
+  nameWithType: XmlDocument
+  fullName: System.Xml.XmlDocument
+- uid: System.Xml
+  commentId: N:System.Xml
+  isExternal: true
+  name: System.Xml
+  nameWithType: System.Xml
+  fullName: System.Xml
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheDefinitionUri*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheDefinitionUri
+  name: CacheDefinitionUri
+  nameWithType: ExcelPivotCacheDefinition.CacheDefinitionUri
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheDefinitionUri
+- uid: System.Uri
+  commentId: T:System.Uri
+  parent: System
+  isExternal: true
+  name: Uri
+  nameWithType: Uri
+  fullName: System.Uri
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.PivotTable*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.PivotTable
+  name: PivotTable
+  nameWithType: ExcelPivotCacheDefinition.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTable
+  nameWithType: ExcelPivotTable
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.SourceRange*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.SourceRange
+  name: SourceRange
+  nameWithType: ExcelPivotCacheDefinition.SourceRange
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.SourceRange
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.SaveData*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.SaveData
+  name: SaveData
+  nameWithType: ExcelPivotCacheDefinition.SaveData
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.SaveData
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheSource*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheSource
+  name: CacheSource
+  nameWithType: ExcelPivotCacheDefinition.CacheSource
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition.CacheSource
+- uid: OfficeOpenXml.Table.PivotTable.eSourceType
+  commentId: T:OfficeOpenXml.Table.PivotTable.eSourceType
+  parent: OfficeOpenXml.Table.PivotTable
+  name: eSourceType
+  nameWithType: eSourceType
+  fullName: OfficeOpenXml.Table.PivotTable.eSourceType

@@ -1,0 +1,1466 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+  commentId: T:OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+  id: ExcelTableSlicer
+  parent: OfficeOpenXml.Drawing.Slicer
+  children:
+  - OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer.FilterValues
+  - OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer.TableColumn
+  langs:
+  - csharp
+  - vb
+  name: ExcelTableSlicer
+  nameWithType: ExcelTableSlicer
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/ExcelTableSlicer.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelTableSlicer
+    path: ../src/EPPlus/Drawing/Slicer/ExcelTableSlicer.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer
+  summary: "\nRepresents a table slicer drawing object.\nA table slicer is attached to a table column value filter.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelTableSlicer : ExcelSlicer<ExcelTableSlicerCache>, IDisposable'
+    content.vb: >-
+      Public Class ExcelTableSlicer
+          Inherits ExcelSlicer(Of ExcelTableSlicerCache)
+          Implements IDisposable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.ExcelDrawing
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.DrawingType
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.Caption
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.ShowCaption
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.SlicerName
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.RowHeight
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.StartItem
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.ColumnCount
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.LockedPosition
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.Style
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.StyleName
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.Cache
+  - OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_PIXEL
+  - OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_POINT
+  - OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_CM
+  - OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_MM
+  - OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_US_INCH
+  - OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_PICA
+  - OfficeOpenXml.Drawing.ExcelDrawing.Name
+  - OfficeOpenXml.Drawing.ExcelDrawing.Description
+  - OfficeOpenXml.Drawing.ExcelDrawing.EditAs
+  - OfficeOpenXml.Drawing.ExcelDrawing.Locked
+  - OfficeOpenXml.Drawing.ExcelDrawing.Print
+  - OfficeOpenXml.Drawing.ExcelDrawing.From
+  - OfficeOpenXml.Drawing.ExcelDrawing.Position
+  - OfficeOpenXml.Drawing.ExcelDrawing.Size
+  - OfficeOpenXml.Drawing.ExcelDrawing.To
+  - OfficeOpenXml.Drawing.ExcelDrawing.Hyperlink
+  - OfficeOpenXml.Drawing.ExcelDrawing.As
+  - OfficeOpenXml.Drawing.ExcelDrawing.SetPosition(System.Int32,System.Int32)
+  - OfficeOpenXml.Drawing.ExcelDrawing.CellAnchor
+  - OfficeOpenXml.Drawing.ExcelDrawing.ChangeCellAnchor(OfficeOpenXml.Drawing.eEditAs,System.Int32,System.Int32,System.Int32,System.Int32)
+  - OfficeOpenXml.Drawing.ExcelDrawing.ChangeCellAnchor(OfficeOpenXml.Drawing.eEditAs)
+  - OfficeOpenXml.Drawing.ExcelDrawing.SetPosition(System.Int32,System.Int32,System.Int32,System.Int32)
+  - OfficeOpenXml.Drawing.ExcelDrawing.SetSize(System.Int32)
+  - OfficeOpenXml.Drawing.ExcelDrawing.SetSize(System.Int32,System.Int32)
+  - OfficeOpenXml.Drawing.ExcelDrawing.SendToBack
+  - OfficeOpenXml.Drawing.ExcelDrawing.BringToFront
+  - OfficeOpenXml.Drawing.ExcelDrawing.Group(OfficeOpenXml.Drawing.ExcelDrawing[])
+  - OfficeOpenXml.Drawing.ExcelDrawing.UnGroup(System.Boolean)
+  - OfficeOpenXml.Drawing.ExcelDrawing.ParentGroup
+  - OfficeOpenXml.Drawing.ExcelDrawing.Dispose
+  - OfficeOpenXml.Drawing.ExcelDrawing.AdjustPositionAndSize
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer.TableColumn
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer.TableColumn
+  id: TableColumn
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+  langs:
+  - csharp
+  - vb
+  name: TableColumn
+  nameWithType: ExcelTableSlicer.TableColumn
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer.TableColumn
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/ExcelTableSlicer.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableColumn
+    path: ../src/EPPlus/Drawing/Slicer/ExcelTableSlicer.cs
+    startLine: 123
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer
+  summary: "\nThe table column that the slicer is connected to.\n"
+  example: []
+  syntax:
+    content: public ExcelTableColumn TableColumn { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.ExcelTableColumn
+    content.vb: Public ReadOnly Property TableColumn As ExcelTableColumn
+  overload: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer.TableColumn*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer.FilterValues
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer.FilterValues
+  id: FilterValues
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer
+  langs:
+  - csharp
+  - vb
+  name: FilterValues
+  nameWithType: ExcelTableSlicer.FilterValues
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer.FilterValues
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/ExcelTableSlicer.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FilterValues
+    path: ../src/EPPlus/Drawing/Slicer/ExcelTableSlicer.cs
+    startLine: 132
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Slicer
+  summary: "\nThe value filters for the slicer. This is the same filter as the filter for the table.\nThis filter is a value filter.\n"
+  example: []
+  syntax:
+    content: public ExcelValueFilterCollection FilterValues { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Filter.ExcelValueFilterCollection
+    content.vb: Public ReadOnly Property FilterValues As ExcelValueFilterCollection
+  overload: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer.FilterValues*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Slicer
+  commentId: N:OfficeOpenXml.Drawing.Slicer
+  name: OfficeOpenXml.Drawing.Slicer
+  nameWithType: OfficeOpenXml.Drawing.Slicer
+  fullName: OfficeOpenXml.Drawing.Slicer
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.ExcelDrawing
+  commentId: T:OfficeOpenXml.Drawing.ExcelDrawing
+  parent: OfficeOpenXml.Drawing
+  name: ExcelDrawing
+  nameWithType: ExcelDrawing
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}
+  commentId: T:OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}
+  parent: OfficeOpenXml.Drawing.Slicer
+  definition: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1
+  name: ExcelSlicer<ExcelTableSlicerCache>
+  nameWithType: ExcelSlicer<ExcelTableSlicerCache>
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache>
+  nameWithType.vb: ExcelSlicer(Of ExcelTableSlicerCache)
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache)
+  name.vb: ExcelSlicer(Of ExcelTableSlicerCache)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1
+    name: ExcelSlicer
+    nameWithType: ExcelSlicer
+    fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache
+    name: ExcelTableSlicerCache
+    nameWithType: ExcelTableSlicerCache
+    fullName: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1
+    name: ExcelSlicer
+    nameWithType: ExcelSlicer
+    fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache
+    name: ExcelTableSlicerCache
+    nameWithType: ExcelTableSlicerCache
+    fullName: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.DrawingType
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.DrawingType
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}
+  definition: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.DrawingType
+  name: DrawingType
+  nameWithType: ExcelSlicer<ExcelTableSlicerCache>.DrawingType
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache>.DrawingType
+  nameWithType.vb: ExcelSlicer(Of ExcelTableSlicerCache).DrawingType
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache).DrawingType
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.Caption
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.Caption
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}
+  definition: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.Caption
+  name: Caption
+  nameWithType: ExcelSlicer<ExcelTableSlicerCache>.Caption
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache>.Caption
+  nameWithType.vb: ExcelSlicer(Of ExcelTableSlicerCache).Caption
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache).Caption
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.ShowCaption
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.ShowCaption
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}
+  definition: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.ShowCaption
+  name: ShowCaption
+  nameWithType: ExcelSlicer<ExcelTableSlicerCache>.ShowCaption
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache>.ShowCaption
+  nameWithType.vb: ExcelSlicer(Of ExcelTableSlicerCache).ShowCaption
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache).ShowCaption
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.SlicerName
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.SlicerName
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}
+  definition: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.SlicerName
+  name: SlicerName
+  nameWithType: ExcelSlicer<ExcelTableSlicerCache>.SlicerName
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache>.SlicerName
+  nameWithType.vb: ExcelSlicer(Of ExcelTableSlicerCache).SlicerName
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache).SlicerName
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.RowHeight
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.RowHeight
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}
+  definition: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.RowHeight
+  name: RowHeight
+  nameWithType: ExcelSlicer<ExcelTableSlicerCache>.RowHeight
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache>.RowHeight
+  nameWithType.vb: ExcelSlicer(Of ExcelTableSlicerCache).RowHeight
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache).RowHeight
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.StartItem
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.StartItem
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}
+  definition: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.StartItem
+  name: StartItem
+  nameWithType: ExcelSlicer<ExcelTableSlicerCache>.StartItem
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache>.StartItem
+  nameWithType.vb: ExcelSlicer(Of ExcelTableSlicerCache).StartItem
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache).StartItem
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.ColumnCount
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.ColumnCount
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}
+  definition: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.ColumnCount
+  name: ColumnCount
+  nameWithType: ExcelSlicer<ExcelTableSlicerCache>.ColumnCount
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache>.ColumnCount
+  nameWithType.vb: ExcelSlicer(Of ExcelTableSlicerCache).ColumnCount
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache).ColumnCount
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.LockedPosition
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.LockedPosition
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}
+  definition: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.LockedPosition
+  name: LockedPosition
+  nameWithType: ExcelSlicer<ExcelTableSlicerCache>.LockedPosition
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache>.LockedPosition
+  nameWithType.vb: ExcelSlicer(Of ExcelTableSlicerCache).LockedPosition
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache).LockedPosition
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.Style
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.Style
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}
+  definition: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.Style
+  name: Style
+  nameWithType: ExcelSlicer<ExcelTableSlicerCache>.Style
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache>.Style
+  nameWithType.vb: ExcelSlicer(Of ExcelTableSlicerCache).Style
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache).Style
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.StyleName
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.StyleName
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}
+  definition: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.StyleName
+  name: StyleName
+  nameWithType: ExcelSlicer<ExcelTableSlicerCache>.StyleName
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache>.StyleName
+  nameWithType.vb: ExcelSlicer(Of ExcelTableSlicerCache).StyleName
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache).StyleName
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.Cache
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}.Cache
+  parent: OfficeOpenXml.Drawing.Slicer.ExcelSlicer{OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache}
+  definition: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.Cache
+  name: Cache
+  nameWithType: ExcelSlicer<ExcelTableSlicerCache>.Cache
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache>.Cache
+  nameWithType.vb: ExcelSlicer(Of ExcelTableSlicerCache).Cache
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of OfficeOpenXml.Drawing.Slicer.ExcelTableSlicerCache).Cache
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_PIXEL
+  commentId: F:OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_PIXEL
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: EMU_PER_PIXEL
+  nameWithType: ExcelDrawing.EMU_PER_PIXEL
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_PIXEL
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_POINT
+  commentId: F:OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_POINT
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: EMU_PER_POINT
+  nameWithType: ExcelDrawing.EMU_PER_POINT
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_POINT
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_CM
+  commentId: F:OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_CM
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: EMU_PER_CM
+  nameWithType: ExcelDrawing.EMU_PER_CM
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_CM
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_MM
+  commentId: F:OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_MM
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: EMU_PER_MM
+  nameWithType: ExcelDrawing.EMU_PER_MM
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_MM
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_US_INCH
+  commentId: F:OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_US_INCH
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: EMU_PER_US_INCH
+  nameWithType: ExcelDrawing.EMU_PER_US_INCH
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_US_INCH
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_PICA
+  commentId: F:OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_PICA
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: EMU_PER_PICA
+  nameWithType: ExcelDrawing.EMU_PER_PICA
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.EMU_PER_PICA
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.Name
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawing.Name
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: Name
+  nameWithType: ExcelDrawing.Name
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.Name
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.Description
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawing.Description
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: Description
+  nameWithType: ExcelDrawing.Description
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.Description
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.EditAs
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawing.EditAs
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: EditAs
+  nameWithType: ExcelDrawing.EditAs
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.EditAs
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.Locked
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawing.Locked
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: Locked
+  nameWithType: ExcelDrawing.Locked
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.Locked
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.Print
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawing.Print
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: Print
+  nameWithType: ExcelDrawing.Print
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.Print
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.From
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawing.From
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: From
+  nameWithType: ExcelDrawing.From
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.From
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.Position
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawing.Position
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: Position
+  nameWithType: ExcelDrawing.Position
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.Position
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.Size
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawing.Size
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: Size
+  nameWithType: ExcelDrawing.Size
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.Size
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.To
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawing.To
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: To
+  nameWithType: ExcelDrawing.To
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.To
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.Hyperlink
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawing.Hyperlink
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: Hyperlink
+  nameWithType: ExcelDrawing.Hyperlink
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.Hyperlink
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.As
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawing.As
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: As
+  nameWithType: ExcelDrawing.As
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.As
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.SetPosition(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawing.SetPosition(System.Int32,System.Int32)
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  isExternal: true
+  name: SetPosition(Int32, Int32)
+  nameWithType: ExcelDrawing.SetPosition(Int32, Int32)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.SetPosition(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.SetPosition(System.Int32,System.Int32)
+    name: SetPosition
+    nameWithType: ExcelDrawing.SetPosition
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.SetPosition
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.SetPosition(System.Int32,System.Int32)
+    name: SetPosition
+    nameWithType: ExcelDrawing.SetPosition
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.SetPosition
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.CellAnchor
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawing.CellAnchor
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: CellAnchor
+  nameWithType: ExcelDrawing.CellAnchor
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.CellAnchor
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.ChangeCellAnchor(OfficeOpenXml.Drawing.eEditAs,System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawing.ChangeCellAnchor(OfficeOpenXml.Drawing.eEditAs,System.Int32,System.Int32,System.Int32,System.Int32)
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  isExternal: true
+  name: ChangeCellAnchor(eEditAs, Int32, Int32, Int32, Int32)
+  nameWithType: ExcelDrawing.ChangeCellAnchor(eEditAs, Int32, Int32, Int32, Int32)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.ChangeCellAnchor(OfficeOpenXml.Drawing.eEditAs, System.Int32, System.Int32, System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.ChangeCellAnchor(OfficeOpenXml.Drawing.eEditAs,System.Int32,System.Int32,System.Int32,System.Int32)
+    name: ChangeCellAnchor
+    nameWithType: ExcelDrawing.ChangeCellAnchor
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.ChangeCellAnchor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.eEditAs
+    name: eEditAs
+    nameWithType: eEditAs
+    fullName: OfficeOpenXml.Drawing.eEditAs
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.ChangeCellAnchor(OfficeOpenXml.Drawing.eEditAs,System.Int32,System.Int32,System.Int32,System.Int32)
+    name: ChangeCellAnchor
+    nameWithType: ExcelDrawing.ChangeCellAnchor
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.ChangeCellAnchor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.eEditAs
+    name: eEditAs
+    nameWithType: eEditAs
+    fullName: OfficeOpenXml.Drawing.eEditAs
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.ChangeCellAnchor(OfficeOpenXml.Drawing.eEditAs)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawing.ChangeCellAnchor(OfficeOpenXml.Drawing.eEditAs)
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: ChangeCellAnchor(eEditAs)
+  nameWithType: ExcelDrawing.ChangeCellAnchor(eEditAs)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.ChangeCellAnchor(OfficeOpenXml.Drawing.eEditAs)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.ChangeCellAnchor(OfficeOpenXml.Drawing.eEditAs)
+    name: ChangeCellAnchor
+    nameWithType: ExcelDrawing.ChangeCellAnchor
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.ChangeCellAnchor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.eEditAs
+    name: eEditAs
+    nameWithType: eEditAs
+    fullName: OfficeOpenXml.Drawing.eEditAs
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.ChangeCellAnchor(OfficeOpenXml.Drawing.eEditAs)
+    name: ChangeCellAnchor
+    nameWithType: ExcelDrawing.ChangeCellAnchor
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.ChangeCellAnchor
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.eEditAs
+    name: eEditAs
+    nameWithType: eEditAs
+    fullName: OfficeOpenXml.Drawing.eEditAs
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.SetPosition(System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawing.SetPosition(System.Int32,System.Int32,System.Int32,System.Int32)
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  isExternal: true
+  name: SetPosition(Int32, Int32, Int32, Int32)
+  nameWithType: ExcelDrawing.SetPosition(Int32, Int32, Int32, Int32)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.SetPosition(System.Int32, System.Int32, System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.SetPosition(System.Int32,System.Int32,System.Int32,System.Int32)
+    name: SetPosition
+    nameWithType: ExcelDrawing.SetPosition
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.SetPosition
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.SetPosition(System.Int32,System.Int32,System.Int32,System.Int32)
+    name: SetPosition
+    nameWithType: ExcelDrawing.SetPosition
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.SetPosition
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.SetSize(System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawing.SetSize(System.Int32)
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  isExternal: true
+  name: SetSize(Int32)
+  nameWithType: ExcelDrawing.SetSize(Int32)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.SetSize(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.SetSize(System.Int32)
+    name: SetSize
+    nameWithType: ExcelDrawing.SetSize
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.SetSize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.SetSize(System.Int32)
+    name: SetSize
+    nameWithType: ExcelDrawing.SetSize
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.SetSize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.SetSize(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawing.SetSize(System.Int32,System.Int32)
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  isExternal: true
+  name: SetSize(Int32, Int32)
+  nameWithType: ExcelDrawing.SetSize(Int32, Int32)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.SetSize(System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.SetSize(System.Int32,System.Int32)
+    name: SetSize
+    nameWithType: ExcelDrawing.SetSize
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.SetSize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.SetSize(System.Int32,System.Int32)
+    name: SetSize
+    nameWithType: ExcelDrawing.SetSize
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.SetSize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.SendToBack
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawing.SendToBack
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: SendToBack()
+  nameWithType: ExcelDrawing.SendToBack()
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.SendToBack()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.SendToBack
+    name: SendToBack
+    nameWithType: ExcelDrawing.SendToBack
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.SendToBack
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.SendToBack
+    name: SendToBack
+    nameWithType: ExcelDrawing.SendToBack
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.SendToBack
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.BringToFront
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawing.BringToFront
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: BringToFront()
+  nameWithType: ExcelDrawing.BringToFront()
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.BringToFront()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.BringToFront
+    name: BringToFront
+    nameWithType: ExcelDrawing.BringToFront
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.BringToFront
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.BringToFront
+    name: BringToFront
+    nameWithType: ExcelDrawing.BringToFront
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.BringToFront
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.Group(OfficeOpenXml.Drawing.ExcelDrawing[])
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawing.Group(OfficeOpenXml.Drawing.ExcelDrawing[])
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: Group(ExcelDrawing[])
+  nameWithType: ExcelDrawing.Group(ExcelDrawing[])
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.Group(OfficeOpenXml.Drawing.ExcelDrawing[])
+  nameWithType.vb: ExcelDrawing.Group(ExcelDrawing())
+  fullName.vb: OfficeOpenXml.Drawing.ExcelDrawing.Group(OfficeOpenXml.Drawing.ExcelDrawing())
+  name.vb: Group(ExcelDrawing())
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.Group(OfficeOpenXml.Drawing.ExcelDrawing[])
+    name: Group
+    nameWithType: ExcelDrawing.Group
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.Group
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing
+    name: ExcelDrawing
+    nameWithType: ExcelDrawing
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.Group(OfficeOpenXml.Drawing.ExcelDrawing[])
+    name: Group
+    nameWithType: ExcelDrawing.Group
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.Group
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing
+    name: ExcelDrawing
+    nameWithType: ExcelDrawing
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.UnGroup(System.Boolean)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawing.UnGroup(System.Boolean)
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  isExternal: true
+  name: UnGroup(Boolean)
+  nameWithType: ExcelDrawing.UnGroup(Boolean)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.UnGroup(System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.UnGroup(System.Boolean)
+    name: UnGroup
+    nameWithType: ExcelDrawing.UnGroup
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.UnGroup
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.UnGroup(System.Boolean)
+    name: UnGroup
+    nameWithType: ExcelDrawing.UnGroup
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.UnGroup
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.ParentGroup
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawing.ParentGroup
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: ParentGroup
+  nameWithType: ExcelDrawing.ParentGroup
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.ParentGroup
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.Dispose
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawing.Dispose
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: Dispose()
+  nameWithType: ExcelDrawing.Dispose()
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.Dispose()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.Dispose
+    name: Dispose
+    nameWithType: ExcelDrawing.Dispose
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.Dispose
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.Dispose
+    name: Dispose
+    nameWithType: ExcelDrawing.Dispose
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.Dispose
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.AdjustPositionAndSize
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawing.AdjustPositionAndSize
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  name: AdjustPositionAndSize()
+  nameWithType: ExcelDrawing.AdjustPositionAndSize()
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.AdjustPositionAndSize()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.AdjustPositionAndSize
+    name: AdjustPositionAndSize
+    nameWithType: ExcelDrawing.AdjustPositionAndSize
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.AdjustPositionAndSize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.AdjustPositionAndSize
+    name: AdjustPositionAndSize
+    nameWithType: ExcelDrawing.AdjustPositionAndSize
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.AdjustPositionAndSize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1
+  commentId: T:OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1
+  name: ExcelSlicer<T>
+  nameWithType: ExcelSlicer<T>
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<T>
+  nameWithType.vb: ExcelSlicer(Of T)
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of T)
+  name.vb: ExcelSlicer(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1
+    name: ExcelSlicer
+    nameWithType: ExcelSlicer
+    fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1
+    name: ExcelSlicer
+    nameWithType: ExcelSlicer
+    fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.DrawingType
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.DrawingType
+  name: DrawingType
+  nameWithType: ExcelSlicer<T>.DrawingType
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<T>.DrawingType
+  nameWithType.vb: ExcelSlicer(Of T).DrawingType
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of T).DrawingType
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.Caption
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.Caption
+  name: Caption
+  nameWithType: ExcelSlicer<T>.Caption
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<T>.Caption
+  nameWithType.vb: ExcelSlicer(Of T).Caption
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of T).Caption
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.ShowCaption
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.ShowCaption
+  name: ShowCaption
+  nameWithType: ExcelSlicer<T>.ShowCaption
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<T>.ShowCaption
+  nameWithType.vb: ExcelSlicer(Of T).ShowCaption
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of T).ShowCaption
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.SlicerName
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.SlicerName
+  name: SlicerName
+  nameWithType: ExcelSlicer<T>.SlicerName
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<T>.SlicerName
+  nameWithType.vb: ExcelSlicer(Of T).SlicerName
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of T).SlicerName
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.RowHeight
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.RowHeight
+  name: RowHeight
+  nameWithType: ExcelSlicer<T>.RowHeight
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<T>.RowHeight
+  nameWithType.vb: ExcelSlicer(Of T).RowHeight
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of T).RowHeight
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.StartItem
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.StartItem
+  name: StartItem
+  nameWithType: ExcelSlicer<T>.StartItem
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<T>.StartItem
+  nameWithType.vb: ExcelSlicer(Of T).StartItem
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of T).StartItem
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.ColumnCount
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.ColumnCount
+  name: ColumnCount
+  nameWithType: ExcelSlicer<T>.ColumnCount
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<T>.ColumnCount
+  nameWithType.vb: ExcelSlicer(Of T).ColumnCount
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of T).ColumnCount
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.LockedPosition
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.LockedPosition
+  name: LockedPosition
+  nameWithType: ExcelSlicer<T>.LockedPosition
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<T>.LockedPosition
+  nameWithType.vb: ExcelSlicer(Of T).LockedPosition
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of T).LockedPosition
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.Style
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.Style
+  name: Style
+  nameWithType: ExcelSlicer<T>.Style
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<T>.Style
+  nameWithType.vb: ExcelSlicer(Of T).Style
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of T).Style
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.StyleName
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.StyleName
+  name: StyleName
+  nameWithType: ExcelSlicer<T>.StyleName
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<T>.StyleName
+  nameWithType.vb: ExcelSlicer(Of T).StyleName
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of T).StyleName
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.Cache
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.Cache
+  name: Cache
+  nameWithType: ExcelSlicer<T>.Cache
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<T>.Cache
+  nameWithType.vb: ExcelSlicer(Of T).Cache
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of T).Cache
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer.TableColumn*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer.TableColumn
+  name: TableColumn
+  nameWithType: ExcelTableSlicer.TableColumn
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer.TableColumn
+- uid: OfficeOpenXml.Table.ExcelTableColumn
+  commentId: T:OfficeOpenXml.Table.ExcelTableColumn
+  parent: OfficeOpenXml.Table
+  name: ExcelTableColumn
+  nameWithType: ExcelTableColumn
+  fullName: OfficeOpenXml.Table.ExcelTableColumn
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer.FilterValues*
+  commentId: Overload:OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer.FilterValues
+  name: FilterValues
+  nameWithType: ExcelTableSlicer.FilterValues
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelTableSlicer.FilterValues
+- uid: OfficeOpenXml.Filter.ExcelValueFilterCollection
+  commentId: T:OfficeOpenXml.Filter.ExcelValueFilterCollection
+  parent: OfficeOpenXml.Filter
+  name: ExcelValueFilterCollection
+  nameWithType: ExcelValueFilterCollection
+  fullName: OfficeOpenXml.Filter.ExcelValueFilterCollection
+- uid: OfficeOpenXml.Filter
+  commentId: N:OfficeOpenXml.Filter
+  name: OfficeOpenXml.Filter
+  nameWithType: OfficeOpenXml.Filter
+  fullName: OfficeOpenXml.Filter

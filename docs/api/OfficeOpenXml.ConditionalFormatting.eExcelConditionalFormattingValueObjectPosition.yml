@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition
+  id: eExcelConditionalFormattingValueObjectPosition
+  parent: OfficeOpenXml.ConditionalFormatting
+  children:
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition.High
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition.Low
+  - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition.Middle
+  langs:
+  - csharp
+  - vb
+  name: eExcelConditionalFormattingValueObjectPosition
+  nameWithType: eExcelConditionalFormattingValueObjectPosition
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eExcelConditionalFormattingValueObjectPosition
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 391
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nEnum for Conditional Formatting Value Object Position\n"
+  example: []
+  syntax:
+    content: public enum eExcelConditionalFormattingValueObjectPosition
+    content.vb: Public Enum eExcelConditionalFormattingValueObjectPosition
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition.Low
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition.Low
+  id: Low
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition
+  langs:
+  - csharp
+  - vb
+  name: Low
+  nameWithType: eExcelConditionalFormattingValueObjectPosition.Low
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition.Low
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Low
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 396
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nThe lower position for both TwoColorScale and ThreeColorScale\n"
+  example: []
+  syntax:
+    content: Low = 0
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition.Middle
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition.Middle
+  id: Middle
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition
+  langs:
+  - csharp
+  - vb
+  name: Middle
+  nameWithType: eExcelConditionalFormattingValueObjectPosition.Middle
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition.Middle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Middle
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 401
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nThe middle position only for ThreeColorScale\n"
+  example: []
+  syntax:
+    content: Middle = 1
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition.High
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition.High
+  id: High
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition
+  langs:
+  - csharp
+  - vb
+  name: High
+  nameWithType: eExcelConditionalFormattingValueObjectPosition.High
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition.High
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: High
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 406
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nThe highest position for both TwoColorScale and ThreeColorScale\n"
+  example: []
+  syntax:
+    content: High = 2
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.ConditionalFormatting
+  commentId: N:OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  nameWithType: OfficeOpenXml.ConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelConditionalFormattingValueObjectPosition
+  nameWithType: eExcelConditionalFormattingValueObjectPosition
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition

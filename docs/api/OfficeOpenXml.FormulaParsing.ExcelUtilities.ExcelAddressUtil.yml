@@ -1,0 +1,486 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil
+  commentId: T:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil
+  id: ExcelAddressUtil
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  children:
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.GetValidName(System.String)
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidAddress(System.String)
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidName(System.String)
+  langs:
+  - csharp
+  - vb
+  name: ExcelAddressUtil
+  nameWithType: ExcelAddressUtil
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelAddressUtil
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  syntax:
+    content: public static class ExcelAddressUtil
+    content.vb: Public Module ExcelAddressUtil
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - static
+  - class
+  modifiers.vb:
+  - Public
+  - Module
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidAddress(System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidAddress(System.String)
+  id: IsValidAddress(System.String)
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil
+  langs:
+  - csharp
+  - vb
+  name: IsValidAddress(String)
+  nameWithType: ExcelAddressUtil.IsValidAddress(String)
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidAddress(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsValidAddress
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  syntax:
+    content: public static bool IsValidAddress(string token)
+    parameters:
+    - id: token
+      type: System.String
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Function IsValidAddress(token As String) As Boolean
+  overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidAddress*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidName(System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidName(System.String)
+  id: IsValidName(System.String)
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil
+  langs:
+  - csharp
+  - vb
+  name: IsValidName(String)
+  nameWithType: ExcelAddressUtil.IsValidName(String)
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidName(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsValidName
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
+    startLine: 53
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  syntax:
+    content: public static bool IsValidName(string name)
+    parameters:
+    - id: name
+      type: System.String
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Function IsValidName(name As String) As Boolean
+  overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidName*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.GetValidName(System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.GetValidName(System.String)
+  id: GetValidName(System.String)
+  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil
+  langs:
+  - csharp
+  - vb
+  name: GetValidName(String)
+  nameWithType: ExcelAddressUtil.GetValidName(String)
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.GetValidName(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetValidName
+    path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  syntax:
+    content: public static string GetValidName(string name)
+    parameters:
+    - id: name
+      type: System.String
+    return:
+      type: System.String
+    content.vb: Public Shared Function GetValidName(name As String) As String
+  overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.GetValidName*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+references:
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  commentId: N:OfficeOpenXml.FormulaParsing.ExcelUtilities
+  name: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  nameWithType: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidAddress*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidAddress
+  name: IsValidAddress
+  nameWithType: ExcelAddressUtil.IsValidAddress
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidAddress
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidName*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidName
+  name: IsValidName
+  nameWithType: ExcelAddressUtil.IsValidName
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidName
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.GetValidName*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.GetValidName
+  name: GetValidName
+  nameWithType: ExcelAddressUtil.GetValidName
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.GetValidName

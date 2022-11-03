@@ -1,0 +1,179 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer
+  commentId: T:OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer
+  id: ISourceCodeTokenizer
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  children:
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize(System.String,System.String)
+  langs:
+  - csharp
+  - vb
+  name: ISourceCodeTokenizer
+  nameWithType: ISourceCodeTokenizer
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/ISourceCodeTokenizer.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ISourceCodeTokenizer
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/ISourceCodeTokenizer.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: public interface ISourceCodeTokenizer
+    content.vb: Public Interface ISourceCodeTokenizer
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize(System.String,System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize(System.String,System.String)
+  id: Tokenize(System.String,System.String)
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer
+  langs:
+  - csharp
+  - vb
+  name: Tokenize(String, String)
+  nameWithType: ISourceCodeTokenizer.Tokenize(String, String)
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/ISourceCodeTokenizer.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Tokenize
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/ISourceCodeTokenizer.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  syntax:
+    content: IEnumerable<Token> Tokenize(string input, string worksheet)
+    parameters:
+    - id: input
+      type: System.String
+    - id: worksheet
+      type: System.String
+    return:
+      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+    content.vb: Function Tokenize(input As String, worksheet As String) As IEnumerable(Of Token)
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize*
+references:
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  commentId: N:OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  nameWithType: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize
+  name: Tokenize
+  nameWithType: ISourceCodeTokenizer.Tokenize
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.ISourceCodeTokenizer.Tokenize
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<Token>
+  nameWithType: IEnumerable<Token>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token>
+  nameWithType.vb: IEnumerable(Of Token)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token)
+  name.vb: IEnumerable(Of Token)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+    name: Token
+    nameWithType: Token
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+    name: Token
+    nameWithType: Token
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic

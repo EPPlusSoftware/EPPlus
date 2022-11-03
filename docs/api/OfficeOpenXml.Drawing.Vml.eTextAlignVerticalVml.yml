@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml
+  commentId: T:OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml
+  id: eTextAlignVerticalVml
+  parent: OfficeOpenXml.Drawing.Vml
+  children:
+  - OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml.Bottom
+  - OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml.Center
+  - OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml.Top
+  langs:
+  - csharp
+  - vb
+  name: eTextAlignVerticalVml
+  nameWithType: eTextAlignVerticalVml
+  fullName: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAlignVerticalVml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eTextAlignVerticalVml
+    path: ../src/EPPlus/Drawing/Enums/eTextAlignVerticalVml.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nVertical Alingment\n"
+  example: []
+  syntax:
+    content: public enum eTextAlignVerticalVml
+    content.vb: Public Enum eTextAlignVerticalVml
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml.Top
+  commentId: F:OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml.Top
+  id: Top
+  parent: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml
+  langs:
+  - csharp
+  - vb
+  name: Top
+  nameWithType: eTextAlignVerticalVml.Top
+  fullName: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml.Top
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAlignVerticalVml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Top
+    path: ../src/EPPlus/Drawing/Enums/eTextAlignVerticalVml.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nTop alignment\n"
+  example: []
+  syntax:
+    content: Top = 0
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml.Center
+  commentId: F:OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml.Center
+  id: Center
+  parent: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml
+  langs:
+  - csharp
+  - vb
+  name: Center
+  nameWithType: eTextAlignVerticalVml.Center
+  fullName: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml.Center
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAlignVerticalVml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Center
+    path: ../src/EPPlus/Drawing/Enums/eTextAlignVerticalVml.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nCenter alignment\n"
+  example: []
+  syntax:
+    content: Center = 1
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml.Bottom
+  commentId: F:OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml.Bottom
+  id: Bottom
+  parent: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml
+  langs:
+  - csharp
+  - vb
+  name: Bottom
+  nameWithType: eTextAlignVerticalVml.Bottom
+  fullName: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml.Bottom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextAlignVerticalVml.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bottom
+    path: ../src/EPPlus/Drawing/Enums/eTextAlignVerticalVml.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nBottom alignment\n"
+  example: []
+  syntax:
+    content: Bottom = 2
+    return:
+      type: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml
+- uid: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml
+  commentId: T:OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml
+  parent: OfficeOpenXml.Drawing.Vml
+  name: eTextAlignVerticalVml
+  nameWithType: eTextAlignVerticalVml
+  fullName: OfficeOpenXml.Drawing.Vml.eTextAlignVerticalVml

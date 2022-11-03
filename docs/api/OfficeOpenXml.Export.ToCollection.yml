@@ -1,0 +1,34 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.ToCollection
+  commentId: N:OfficeOpenXml.Export.ToCollection
+  id: OfficeOpenXml.Export.ToCollection
+  children:
+  - OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy
+  - OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Export.ToCollection
+  nameWithType: OfficeOpenXml.Export.ToCollection
+  fullName: OfficeOpenXml.Export.ToCollection
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  commentId: T:OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  name: ToCollectionRow
+  nameWithType: ToCollectionRow
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+- uid: OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy
+  commentId: T:OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy
+  parent: OfficeOpenXml.Export.ToCollection
+  name: ToCollectionConversionFailureStrategy
+  nameWithType: ToCollectionConversionFailureStrategy
+  fullName: OfficeOpenXml.Export.ToCollection.ToCollectionConversionFailureStrategy
+- uid: OfficeOpenXml.Export.ToCollection
+  commentId: N:OfficeOpenXml.Export.ToCollection
+  name: OfficeOpenXml.Export.ToCollection
+  nameWithType: OfficeOpenXml.Export.ToCollection
+  fullName: OfficeOpenXml.Export.ToCollection

@@ -1,0 +1,620 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  commentId: T:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  id: IExcelHtmlTableExporter
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces
+  children:
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetCssString
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetCssStringAsync
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetHtmlString
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetHtmlStringAsync
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetSinglePage(System.String)
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetSinglePageAsync(System.String)
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderCss(System.IO.Stream)
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderCssAsync(System.IO.Stream)
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderHtml(System.IO.Stream)
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderHtmlAsync(System.IO.Stream)
+  - OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.Settings
+  langs:
+  - csharp
+  - vb
+  name: IExcelHtmlTableExporter
+  nameWithType: IExcelHtmlTableExporter
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelHtmlTableExporter
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to html and css.\n"
+  example: []
+  syntax:
+    content: public interface IExcelHtmlTableExporter
+    content.vb: Public Interface IExcelHtmlTableExporter
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.Settings
+  commentId: P:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.Settings
+  id: Settings
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  langs:
+  - csharp
+  - vb
+  name: Settings
+  nameWithType: IExcelHtmlTableExporter.Settings
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.Settings
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Settings
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nSettings for the html export\n"
+  example: []
+  syntax:
+    content: HtmlTableExportSettings Settings { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.Settings.HtmlTableExportSettings
+    content.vb: ReadOnly Property Settings As HtmlTableExportSettings
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.Settings*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetHtmlString
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetHtmlString
+  id: GetHtmlString
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  langs:
+  - csharp
+  - vb
+  name: GetHtmlString()
+  nameWithType: IExcelHtmlTableExporter.GetHtmlString()
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetHtmlString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetHtmlString
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: string GetHtmlString()
+    return:
+      type: System.String
+      description: A html table
+    content.vb: Function GetHtmlString As String
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetHtmlString*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderHtml(System.IO.Stream)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderHtml(System.IO.Stream)
+  id: RenderHtml(System.IO.Stream)
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  langs:
+  - csharp
+  - vb
+  name: RenderHtml(Stream)
+  nameWithType: IExcelHtmlTableExporter.RenderHtml(Stream)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderHtml(System.IO.Stream)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RenderHtml
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: void RenderHtml(Stream stream)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream to write to
+    content.vb: Sub RenderHtml(stream As Stream)
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderHtml*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetSinglePage(System.String)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetSinglePage(System.String)
+  id: GetSinglePage(System.String)
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  langs:
+  - csharp
+  - vb
+  name: GetSinglePage(String)
+  nameWithType: IExcelHtmlTableExporter.GetSinglePage(String)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetSinglePage(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetSinglePage
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nRenders both the Html and the Css to a single page. \n"
+  example: []
+  syntax:
+    content: string GetSinglePage(string htmlDocument = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
+    parameters:
+    - id: htmlDocument
+      type: System.String
+      description: The html string where to insert the html and the css. The Html will be inserted in string parameter {0} and the Css will be inserted in parameter {1}.
+    return:
+      type: System.String
+      description: The html document
+    content.vb: Function GetSinglePage(htmlDocument As String = "<!DOCTYPE html>" & vbCrLf & "<html>" & vbCrLf & "<head>" & vbCrLf & "<style type=""text/css"">" & vbCrLf & "{1}</style></head>" & vbCrLf & "<body>" & vbCrLf & "{0}</body>" & vbCrLf & "</html>") As String
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetSinglePage*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetCssString
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetCssString
+  id: GetCssString
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  langs:
+  - csharp
+  - vb
+  name: GetCssString()
+  nameWithType: IExcelHtmlTableExporter.GetCssString()
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetCssString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetCssString
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: string GetCssString()
+    return:
+      type: System.String
+      description: Cascading style sheet for the exported range
+    content.vb: Function GetCssString As String
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetCssString*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderCss(System.IO.Stream)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderCss(System.IO.Stream)
+  id: RenderCss(System.IO.Stream)
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  langs:
+  - csharp
+  - vb
+  name: RenderCss(Stream)
+  nameWithType: IExcelHtmlTableExporter.RenderCss(Stream)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderCss(System.IO.Stream)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RenderCss
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports the css part of the html export.\n"
+  example: []
+  syntax:
+    content: void RenderCss(Stream stream)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream to write the css to.
+    content.vb: Sub RenderCss(stream As Stream)
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderCss*
+  exceptions:
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetHtmlStringAsync
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetHtmlStringAsync
+  id: GetHtmlStringAsync
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  langs:
+  - csharp
+  - vb
+  name: GetHtmlStringAsync()
+  nameWithType: IExcelHtmlTableExporter.GetHtmlStringAsync()
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetHtmlStringAsync()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetHtmlStringAsync
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+    startLine: 72
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: Task<string> GetHtmlStringAsync()
+    return:
+      type: System.Threading.Tasks.Task{System.String}
+      description: A html table
+    content.vb: Function GetHtmlStringAsync As Task(Of String)
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetHtmlStringAsync*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderHtmlAsync(System.IO.Stream)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderHtmlAsync(System.IO.Stream)
+  id: RenderHtmlAsync(System.IO.Stream)
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  langs:
+  - csharp
+  - vb
+  name: RenderHtmlAsync(Stream)
+  nameWithType: IExcelHtmlTableExporter.RenderHtmlAsync(Stream)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderHtmlAsync(System.IO.Stream)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RenderHtmlAsync
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+    startLine: 79
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: Task RenderHtmlAsync(Stream stream)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream to write to
+    return:
+      type: System.Threading.Tasks.Task
+      description: A html table
+    content.vb: Function RenderHtmlAsync(stream As Stream) As Task
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderHtmlAsync*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetSinglePageAsync(System.String)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetSinglePageAsync(System.String)
+  id: GetSinglePageAsync(System.String)
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  langs:
+  - csharp
+  - vb
+  name: GetSinglePageAsync(String)
+  nameWithType: IExcelHtmlTableExporter.GetSinglePageAsync(String)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetSinglePageAsync(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetSinglePageAsync
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nRenders the first range of the Html and the Css to a single page. \n"
+  example: []
+  syntax:
+    content: Task<string> GetSinglePageAsync(string htmlDocument = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<style type=\"text/css\">\r\n{1}</style></head>\r\n<body>\r\n{0}</body>\r\n</html>")
+    parameters:
+    - id: htmlDocument
+      type: System.String
+      description: The html string where to insert the html and the css. The Html will be inserted in string parameter {0} and the Css will be inserted in parameter {1}.
+    return:
+      type: System.Threading.Tasks.Task{System.String}
+      description: The html document
+    content.vb: Function GetSinglePageAsync(htmlDocument As String = "<!DOCTYPE html>" & vbCrLf & "<html>" & vbCrLf & "<head>" & vbCrLf & "<style type=""text/css"">" & vbCrLf & "{1}</style></head>" & vbCrLf & "<body>" & vbCrLf & "{0}</body>" & vbCrLf & "</html>") As Task(Of String)
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetSinglePageAsync*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetCssStringAsync
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetCssStringAsync
+  id: GetCssStringAsync
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  langs:
+  - csharp
+  - vb
+  name: GetCssStringAsync()
+  nameWithType: IExcelHtmlTableExporter.GetCssStringAsync()
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetCssStringAsync()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetCssStringAsync
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+    startLine: 92
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports the css part of an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: Task<string> GetCssStringAsync()
+    return:
+      type: System.Threading.Tasks.Task{System.String}
+      description: A html table
+    content.vb: Function GetCssStringAsync As Task(Of String)
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetCssStringAsync*
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderCssAsync(System.IO.Stream)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderCssAsync(System.IO.Stream)
+  id: RenderCssAsync(System.IO.Stream)
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  langs:
+  - csharp
+  - vb
+  name: RenderCssAsync(Stream)
+  nameWithType: IExcelHtmlTableExporter.RenderCssAsync(Stream)
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderCssAsync(System.IO.Stream)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RenderCssAsync
+    path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport.Interfaces
+  summary: "\nExports the css part of an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref> to a html string\n"
+  example: []
+  syntax:
+    content: Task RenderCssAsync(Stream stream)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+    return:
+      type: System.Threading.Tasks.Task
+      description: A html table
+    content.vb: Function RenderCssAsync(stream As Stream) As Task
+  overload: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderCssAsync*
+references:
+- uid: OfficeOpenXml.Table.ExcelTable
+  commentId: T:OfficeOpenXml.Table.ExcelTable
+  parent: OfficeOpenXml.Table
+  name: ExcelTable
+  nameWithType: ExcelTable
+  fullName: OfficeOpenXml.Table.ExcelTable
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces
+  commentId: N:OfficeOpenXml.Export.HtmlExport.Interfaces
+  name: OfficeOpenXml.Export.HtmlExport.Interfaces
+  nameWithType: OfficeOpenXml.Export.HtmlExport.Interfaces
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.Settings*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.Settings
+  name: Settings
+  nameWithType: IExcelHtmlTableExporter.Settings
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.Settings
+- uid: OfficeOpenXml.Export.HtmlExport.Settings.HtmlTableExportSettings
+  commentId: T:OfficeOpenXml.Export.HtmlExport.Settings.HtmlTableExportSettings
+  parent: OfficeOpenXml.Export.HtmlExport.Settings
+  name: HtmlTableExportSettings
+  nameWithType: HtmlTableExportSettings
+  fullName: OfficeOpenXml.Export.HtmlExport.Settings.HtmlTableExportSettings
+- uid: OfficeOpenXml.Export.HtmlExport.Settings
+  commentId: N:OfficeOpenXml.Export.HtmlExport.Settings
+  name: OfficeOpenXml.Export.HtmlExport.Settings
+  nameWithType: OfficeOpenXml.Export.HtmlExport.Settings
+  fullName: OfficeOpenXml.Export.HtmlExport.Settings
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetHtmlString*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetHtmlString
+  name: GetHtmlString
+  nameWithType: IExcelHtmlTableExporter.GetHtmlString
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetHtmlString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderHtml*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderHtml
+  name: RenderHtml
+  nameWithType: IExcelHtmlTableExporter.RenderHtml
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderHtml
+- uid: System.IO.Stream
+  commentId: T:System.IO.Stream
+  parent: System.IO
+  isExternal: true
+  name: Stream
+  nameWithType: Stream
+  fullName: System.IO.Stream
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetSinglePage*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetSinglePage
+  name: GetSinglePage
+  nameWithType: IExcelHtmlTableExporter.GetSinglePage
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetSinglePage
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetCssString*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetCssString
+  name: GetCssString
+  nameWithType: IExcelHtmlTableExporter.GetCssString
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetCssString
+- uid: System.IO.IOException
+  commentId: T:System.IO.IOException
+  isExternal: true
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderCss*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderCss
+  name: RenderCss
+  nameWithType: IExcelHtmlTableExporter.RenderCss
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderCss
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetHtmlStringAsync*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetHtmlStringAsync
+  name: GetHtmlStringAsync
+  nameWithType: IExcelHtmlTableExporter.GetHtmlStringAsync
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetHtmlStringAsync
+- uid: System.Threading.Tasks.Task{System.String}
+  commentId: T:System.Threading.Tasks.Task{System.String}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  name: Task<String>
+  nameWithType: Task<String>
+  fullName: System.Threading.Tasks.Task<System.String>
+  nameWithType.vb: Task(Of String)
+  fullName.vb: System.Threading.Tasks.Task(Of System.String)
+  name.vb: Task(Of String)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderHtmlAsync*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderHtmlAsync
+  name: RenderHtmlAsync
+  nameWithType: IExcelHtmlTableExporter.RenderHtmlAsync
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderHtmlAsync
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetSinglePageAsync*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetSinglePageAsync
+  name: GetSinglePageAsync
+  nameWithType: IExcelHtmlTableExporter.GetSinglePageAsync
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetSinglePageAsync
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetCssStringAsync*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetCssStringAsync
+  name: GetCssStringAsync
+  nameWithType: IExcelHtmlTableExporter.GetCssStringAsync
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.GetCssStringAsync
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderCssAsync*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderCssAsync
+  name: RenderCssAsync
+  nameWithType: IExcelHtmlTableExporter.RenderCssAsync
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter.RenderCssAsync

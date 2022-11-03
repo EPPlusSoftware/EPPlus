@@ -1,0 +1,997 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection
+  commentId: T:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection
+  id: ExcelThreadedCommentCollection
+  parent: OfficeOpenXml.ThreadedComments
+  children:
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Count
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.GetEnumerator
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Item(System.Int32)
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Item(System.String)
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.System#Collections#IEnumerable#GetEnumerator
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.ToString
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Worksheet
+  langs:
+  - csharp
+  - vb
+  name: ExcelThreadedCommentCollection
+  nameWithType: ExcelThreadedCommentCollection
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelThreadedCommentCollection
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nThis class represents an enumerable of <xref href=\"OfficeOpenXml.ThreadedComments.ExcelThreadedComment\" data-throw-if-not-resolved=\"false\"></xref>s.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelThreadedCommentCollection : XmlHelper, IEnumerable<ExcelThreadedComment>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelThreadedCommentCollection
+          Inherits XmlHelper
+          Implements IEnumerable(Of ExcelThreadedComment), IEnumerable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.ThreadedComments.ExcelThreadedComment}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Worksheet
+  commentId: P:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Worksheet
+  id: Worksheet
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection
+  langs:
+  - csharp
+  - vb
+  name: Worksheet
+  nameWithType: ExcelThreadedCommentCollection.Worksheet
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Worksheet
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Worksheet
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nA reference to the worksheet object\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheet Worksheet { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorksheet
+    content.vb: Public Property Worksheet As ExcelWorksheet
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Worksheet*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelThreadedCommentCollection.Item[Int32]
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nReturns a <xref href=\"OfficeOpenXml.ThreadedComments.ExcelThreadedComment\" data-throw-if-not-resolved=\"false\"></xref> by its index\n"
+  example: []
+  syntax:
+    content: public ExcelThreadedComment this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: Index in this collection
+    return:
+      type: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+      description: The <xref href="OfficeOpenXml.ThreadedComments.ExcelThreadedComment" data-throw-if-not-resolved="false"></xref> at the requested <code data-dev-comment-type="paramref" class="paramref">index</code>
+    content.vb: Public ReadOnly Property Item(index As Integer) As ExcelThreadedComment
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Item*
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: If the <code data-dev-comment-type="paramref" class="paramref">index</code> falls out of range
+  nameWithType.vb: ExcelThreadedCommentCollection.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Item(System.String)
+  commentId: P:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Item(System.String)
+  id: Item(System.String)
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[String]
+  nameWithType: ExcelThreadedCommentCollection.Item[String]
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Item[System.String]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
+    startLine: 75
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nReturns a <xref href=\"OfficeOpenXml.ThreadedComments.ExcelThreadedComment\" data-throw-if-not-resolved=\"false\"></xref> by its <code data-dev-comment-type=\"paramref\" class=\"paramref\">id</code>\n"
+  example: []
+  syntax:
+    content: public ExcelThreadedComment this[string id] { get; }
+    parameters:
+    - id: id
+      type: System.String
+      description: Id of the requested <xref href="OfficeOpenXml.ThreadedComments.ExcelThreadedComment" data-throw-if-not-resolved="false"></xref>
+    return:
+      type: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+      description: The requested <xref href="OfficeOpenXml.ThreadedComments.ExcelThreadedComment" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public ReadOnly Property Item(id As String) As ExcelThreadedComment
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Item*
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: If the requested <code data-dev-comment-type="paramref" class="paramref">id</code> was not present.
+  nameWithType.vb: ExcelThreadedCommentCollection.Item(String)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Item(System.String)
+  name.vb: Item(String)
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.GetEnumerator
+  commentId: M:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelThreadedCommentCollection.GetEnumerator()
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
+    startLine: 92
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nReturns an enumerator that iterates through the collection.\n"
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelThreadedComment> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.ThreadedComments.ExcelThreadedComment}
+      description: An enumerator that can be used to iterate through the collection.
+    content.vb: Public Function GetEnumerator As IEnumerator(Of ExcelThreadedComment)
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.ThreadedComments.ExcelThreadedComment}.GetEnumerator
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelThreadedCommentCollection.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
+    startLine: 100
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nReturns an enumerator that iterates through the collection.\n"
+  example: []
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+      description: An enumerator that can be used to iterate through the collection.
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelThreadedCommentCollection.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Count
+  commentId: P:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Count
+  id: Count
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelThreadedCommentCollection.Count
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
+    startLine: 108
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nNumber of <xref href=\"OfficeOpenXml.ThreadedComments.ExcelThreadedComment\" data-throw-if-not-resolved=\"false\"></xref>s\n"
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Count*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.ToString
+  commentId: M:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.ToString
+  id: ToString
+  parent: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: ExcelThreadedCommentCollection.ToString()
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToString
+    path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
+    startLine: 175
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ThreadedComments
+  summary: "\nReturns a string that represents the current object.\n"
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: A string that represents the current object.
+    content.vb: Public Overrides Function ToString As String
+  overridden: System.Object.ToString
+  overload: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.ToString*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+  commentId: T:OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+  parent: OfficeOpenXml.ThreadedComments
+  name: ExcelThreadedComment
+  nameWithType: ExcelThreadedComment
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+- uid: OfficeOpenXml.ThreadedComments
+  commentId: N:OfficeOpenXml.ThreadedComments
+  name: OfficeOpenXml.ThreadedComments
+  nameWithType: OfficeOpenXml.ThreadedComments
+  fullName: OfficeOpenXml.ThreadedComments
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.ThreadedComments.ExcelThreadedComment}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.ThreadedComments.ExcelThreadedComment}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelThreadedComment>
+  nameWithType: IEnumerable<ExcelThreadedComment>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ThreadedComments.ExcelThreadedComment>
+  nameWithType.vb: IEnumerable(Of ExcelThreadedComment)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ThreadedComments.ExcelThreadedComment)
+  name.vb: IEnumerable(Of ExcelThreadedComment)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+    name: ExcelThreadedComment
+    nameWithType: ExcelThreadedComment
+    fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+    name: ExcelThreadedComment
+    nameWithType: ExcelThreadedComment
+    fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Worksheet*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Worksheet
+  name: Worksheet
+  nameWithType: ExcelThreadedCommentCollection.Worksheet
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Worksheet
+- uid: OfficeOpenXml.ExcelWorksheet
+  commentId: T:OfficeOpenXml.ExcelWorksheet
+  parent: OfficeOpenXml
+  name: ExcelWorksheet
+  nameWithType: ExcelWorksheet
+  fullName: OfficeOpenXml.ExcelWorksheet
+- uid: System.ArgumentOutOfRangeException
+  commentId: T:System.ArgumentOutOfRangeException
+  isExternal: true
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Item*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Item
+  name: Item
+  nameWithType: ExcelThreadedCommentCollection.Item
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Item
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: System.ArgumentException
+  commentId: T:System.ArgumentException
+  isExternal: true
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelThreadedCommentCollection.GetEnumerator
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.ThreadedComments.ExcelThreadedComment}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.ThreadedComments.ExcelThreadedComment}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.ThreadedComments.ExcelThreadedComment}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelThreadedComment>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ThreadedComments.ExcelThreadedComment>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelThreadedComment).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ThreadedComments.ExcelThreadedComment).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ExcelThreadedComment>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ThreadedComments.ExcelThreadedComment>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ExcelThreadedComment).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ThreadedComments.ExcelThreadedComment).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.ThreadedComments.ExcelThreadedComment}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.ThreadedComments.ExcelThreadedComment}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ExcelThreadedComment>
+  nameWithType: IEnumerator<ExcelThreadedComment>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.ThreadedComments.ExcelThreadedComment>
+  nameWithType.vb: IEnumerator(Of ExcelThreadedComment)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.ThreadedComments.ExcelThreadedComment)
+  name.vb: IEnumerator(Of ExcelThreadedComment)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+    name: ExcelThreadedComment
+    nameWithType: ExcelThreadedComment
+    fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+    name: ExcelThreadedComment
+    nameWithType: ExcelThreadedComment
+    fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelThreadedCommentCollection.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelThreadedCommentCollection.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Count*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Count
+  name: Count
+  nameWithType: ExcelThreadedCommentCollection.Count
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.Count
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.ToString*
+  commentId: Overload:OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.ToString
+  name: ToString
+  nameWithType: ExcelThreadedCommentCollection.ToString
+  fullName: OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection.ToString

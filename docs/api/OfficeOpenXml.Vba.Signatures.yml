@@ -1,0 +1,28 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Vba.Signatures
+  commentId: N:OfficeOpenXml.Vba.Signatures
+  id: OfficeOpenXml.Vba.Signatures
+  children:
+  - OfficeOpenXml.Vba.Signatures.ExcelSignatureVersion
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Vba.Signatures
+  nameWithType: OfficeOpenXml.Vba.Signatures
+  fullName: OfficeOpenXml.Vba.Signatures
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Vba.Signatures.ExcelSignatureVersion
+  commentId: T:OfficeOpenXml.Vba.Signatures.ExcelSignatureVersion
+  parent: OfficeOpenXml.Vba.Signatures
+  name: ExcelSignatureVersion
+  nameWithType: ExcelSignatureVersion
+  fullName: OfficeOpenXml.Vba.Signatures.ExcelSignatureVersion
+- uid: OfficeOpenXml.Vba.Signatures
+  commentId: N:OfficeOpenXml.Vba.Signatures
+  name: OfficeOpenXml.Vba.Signatures
+  nameWithType: OfficeOpenXml.Vba.Signatures
+  fullName: OfficeOpenXml.Vba.Signatures

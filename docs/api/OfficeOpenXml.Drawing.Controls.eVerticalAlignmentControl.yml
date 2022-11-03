@@ -1,0 +1,223 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl
+  commentId: T:OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl
+  id: eVerticalAlignmentControl
+  parent: OfficeOpenXml.Drawing.Controls
+  children:
+  - OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Bottom
+  - OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Center
+  - OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Distributed
+  - OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Justify
+  - OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Top
+  langs:
+  - csharp
+  - vb
+  name: eVerticalAlignmentControl
+  nameWithType: eVerticalAlignmentControl
+  fullName: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eVerticalAlignmentControl.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eVerticalAlignmentControl
+    path: ../src/EPPlus/Drawing/Controls/enums/eVerticalAlignmentControl.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nVertical Alignment for a form control\n"
+  example: []
+  syntax:
+    content: public enum eVerticalAlignmentControl
+    content.vb: Public Enum eVerticalAlignmentControl
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Top
+  commentId: F:OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Top
+  id: Top
+  parent: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl
+  langs:
+  - csharp
+  - vb
+  name: Top
+  nameWithType: eVerticalAlignmentControl.Top
+  fullName: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Top
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eVerticalAlignmentControl.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Top
+    path: ../src/EPPlus/Drawing/Controls/enums/eVerticalAlignmentControl.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nTop alignment\n"
+  example: []
+  syntax:
+    content: Top = 0
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Center
+  commentId: F:OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Center
+  id: Center
+  parent: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl
+  langs:
+  - csharp
+  - vb
+  name: Center
+  nameWithType: eVerticalAlignmentControl.Center
+  fullName: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Center
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eVerticalAlignmentControl.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Center
+    path: ../src/EPPlus/Drawing/Controls/enums/eVerticalAlignmentControl.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nCenter alignmet\n"
+  example: []
+  syntax:
+    content: Center = 1
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Bottom
+  commentId: F:OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Bottom
+  id: Bottom
+  parent: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl
+  langs:
+  - csharp
+  - vb
+  name: Bottom
+  nameWithType: eVerticalAlignmentControl.Bottom
+  fullName: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Bottom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eVerticalAlignmentControl.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bottom
+    path: ../src/EPPlus/Drawing/Controls/enums/eVerticalAlignmentControl.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nBottom alignment\n"
+  example: []
+  syntax:
+    content: Bottom = 2
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Justify
+  commentId: F:OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Justify
+  id: Justify
+  parent: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl
+  langs:
+  - csharp
+  - vb
+  name: Justify
+  nameWithType: eVerticalAlignmentControl.Justify
+  fullName: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Justify
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eVerticalAlignmentControl.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Justify
+    path: ../src/EPPlus/Drawing/Controls/enums/eVerticalAlignmentControl.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nJustify alignment\n"
+  example: []
+  syntax:
+    content: Justify = 3
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Distributed
+  commentId: F:OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Distributed
+  id: Distributed
+  parent: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl
+  langs:
+  - csharp
+  - vb
+  name: Distributed
+  nameWithType: eVerticalAlignmentControl.Distributed
+  fullName: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl.Distributed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eVerticalAlignmentControl.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Distributed
+    path: ../src/EPPlus/Drawing/Controls/enums/eVerticalAlignmentControl.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nDistributed alignment\n"
+  example: []
+  syntax:
+    content: Distributed = 4
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Controls
+  commentId: N:OfficeOpenXml.Drawing.Controls
+  name: OfficeOpenXml.Drawing.Controls
+  nameWithType: OfficeOpenXml.Drawing.Controls
+  fullName: OfficeOpenXml.Drawing.Controls
+- uid: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl
+  commentId: T:OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl
+  parent: OfficeOpenXml.Drawing.Controls
+  name: eVerticalAlignmentControl
+  nameWithType: eVerticalAlignmentControl
+  fullName: OfficeOpenXml.Drawing.Controls.eVerticalAlignmentControl

@@ -1,0 +1,643 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  commentId: T:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  id: ePresetChartColors
+  parent: OfficeOpenXml.Drawing.Chart.Style
+  children:
+  - OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.ColorfulPalette1
+  - OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.ColorfulPalette2
+  - OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.ColorfulPalette3
+  - OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.ColorfulPalette4
+  - OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette1
+  - OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette10
+  - OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette11
+  - OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette12
+  - OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette13
+  - OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette2
+  - OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette3
+  - OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette4
+  - OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette5
+  - OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette6
+  - OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette7
+  - OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette8
+  - OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette9
+  langs:
+  - csharp
+  - vb
+  name: ePresetChartColors
+  nameWithType: ePresetChartColors
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePresetChartColors
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nChart color schemes mapping to the default colors in Excel\n"
+  example: []
+  syntax:
+    content: public enum ePresetChartColors
+    content.vb: Public Enum ePresetChartColors
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.ColorfulPalette1
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.ColorfulPalette1
+  id: ColorfulPalette1
+  parent: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  langs:
+  - csharp
+  - vb
+  name: ColorfulPalette1
+  nameWithType: ePresetChartColors.ColorfulPalette1
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.ColorfulPalette1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorfulPalette1
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nColorful Palette 1\n"
+  example: []
+  syntax:
+    content: ColorfulPalette1 = 10
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.ColorfulPalette2
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.ColorfulPalette2
+  id: ColorfulPalette2
+  parent: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  langs:
+  - csharp
+  - vb
+  name: ColorfulPalette2
+  nameWithType: ePresetChartColors.ColorfulPalette2
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.ColorfulPalette2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorfulPalette2
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nColorful Palette 2\n"
+  example: []
+  syntax:
+    content: ColorfulPalette2 = 11
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.ColorfulPalette3
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.ColorfulPalette3
+  id: ColorfulPalette3
+  parent: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  langs:
+  - csharp
+  - vb
+  name: ColorfulPalette3
+  nameWithType: ePresetChartColors.ColorfulPalette3
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.ColorfulPalette3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorfulPalette3
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nColorful Palette 3\n"
+  example: []
+  syntax:
+    content: ColorfulPalette3 = 12
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.ColorfulPalette4
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.ColorfulPalette4
+  id: ColorfulPalette4
+  parent: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  langs:
+  - csharp
+  - vb
+  name: ColorfulPalette4
+  nameWithType: ePresetChartColors.ColorfulPalette4
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.ColorfulPalette4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorfulPalette4
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nColorful Palette 4\n"
+  example: []
+  syntax:
+    content: ColorfulPalette4 = 13
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette1
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette1
+  id: MonochromaticPalette1
+  parent: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  langs:
+  - csharp
+  - vb
+  name: MonochromaticPalette1
+  nameWithType: ePresetChartColors.MonochromaticPalette1
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MonochromaticPalette1
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nMonochromatic Palette 1\n"
+  example: []
+  syntax:
+    content: MonochromaticPalette1 = 14
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette2
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette2
+  id: MonochromaticPalette2
+  parent: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  langs:
+  - csharp
+  - vb
+  name: MonochromaticPalette2
+  nameWithType: ePresetChartColors.MonochromaticPalette2
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MonochromaticPalette2
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nMonochromatic Palette 2\n"
+  example: []
+  syntax:
+    content: MonochromaticPalette2 = 15
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette3
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette3
+  id: MonochromaticPalette3
+  parent: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  langs:
+  - csharp
+  - vb
+  name: MonochromaticPalette3
+  nameWithType: ePresetChartColors.MonochromaticPalette3
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MonochromaticPalette3
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nMonochromatic Palette 3\n"
+  example: []
+  syntax:
+    content: MonochromaticPalette3 = 16
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette4
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette4
+  id: MonochromaticPalette4
+  parent: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  langs:
+  - csharp
+  - vb
+  name: MonochromaticPalette4
+  nameWithType: ePresetChartColors.MonochromaticPalette4
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MonochromaticPalette4
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nMonochromatic Palette 4\n"
+  example: []
+  syntax:
+    content: MonochromaticPalette4 = 17
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette5
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette5
+  id: MonochromaticPalette5
+  parent: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  langs:
+  - csharp
+  - vb
+  name: MonochromaticPalette5
+  nameWithType: ePresetChartColors.MonochromaticPalette5
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MonochromaticPalette5
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nMonochromatic Palette 5\n"
+  example: []
+  syntax:
+    content: MonochromaticPalette5 = 18
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette6
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette6
+  id: MonochromaticPalette6
+  parent: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  langs:
+  - csharp
+  - vb
+  name: MonochromaticPalette6
+  nameWithType: ePresetChartColors.MonochromaticPalette6
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MonochromaticPalette6
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nMonochromatic Palette 6\n"
+  example: []
+  syntax:
+    content: MonochromaticPalette6 = 19
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette7
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette7
+  id: MonochromaticPalette7
+  parent: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  langs:
+  - csharp
+  - vb
+  name: MonochromaticPalette7
+  nameWithType: ePresetChartColors.MonochromaticPalette7
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette7
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MonochromaticPalette7
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nMonochromatic Palette 7\n"
+  example: []
+  syntax:
+    content: MonochromaticPalette7 = 20
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette8
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette8
+  id: MonochromaticPalette8
+  parent: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  langs:
+  - csharp
+  - vb
+  name: MonochromaticPalette8
+  nameWithType: ePresetChartColors.MonochromaticPalette8
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette8
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MonochromaticPalette8
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nMonochromatic Palette 8\n"
+  example: []
+  syntax:
+    content: MonochromaticPalette8 = 21
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette9
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette9
+  id: MonochromaticPalette9
+  parent: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  langs:
+  - csharp
+  - vb
+  name: MonochromaticPalette9
+  nameWithType: ePresetChartColors.MonochromaticPalette9
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette9
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MonochromaticPalette9
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nMonochromatic Palette 9\n"
+  example: []
+  syntax:
+    content: MonochromaticPalette9 = 22
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette10
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette10
+  id: MonochromaticPalette10
+  parent: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  langs:
+  - csharp
+  - vb
+  name: MonochromaticPalette10
+  nameWithType: ePresetChartColors.MonochromaticPalette10
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette10
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MonochromaticPalette10
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nMonochromatic Palette 10\n"
+  example: []
+  syntax:
+    content: MonochromaticPalette10 = 23
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette11
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette11
+  id: MonochromaticPalette11
+  parent: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  langs:
+  - csharp
+  - vb
+  name: MonochromaticPalette11
+  nameWithType: ePresetChartColors.MonochromaticPalette11
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette11
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MonochromaticPalette11
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nMonochromatic Palette 11\n"
+  example: []
+  syntax:
+    content: MonochromaticPalette11 = 24
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette12
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette12
+  id: MonochromaticPalette12
+  parent: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  langs:
+  - csharp
+  - vb
+  name: MonochromaticPalette12
+  nameWithType: ePresetChartColors.MonochromaticPalette12
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette12
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MonochromaticPalette12
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nMonochromatic Palette 12\n"
+  example: []
+  syntax:
+    content: MonochromaticPalette12 = 25
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette13
+  commentId: F:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette13
+  id: MonochromaticPalette13
+  parent: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  langs:
+  - csharp
+  - vb
+  name: MonochromaticPalette13
+  nameWithType: ePresetChartColors.MonochromaticPalette13
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors.MonochromaticPalette13
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MonochromaticPalette13
+    path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nMonochromatic Palette 13\n"
+  example: []
+  syntax:
+    content: MonochromaticPalette13 = 26
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart.Style
+  commentId: N:OfficeOpenXml.Drawing.Chart.Style
+  name: OfficeOpenXml.Drawing.Chart.Style
+  nameWithType: OfficeOpenXml.Drawing.Chart.Style
+  fullName: OfficeOpenXml.Drawing.Chart.Style
+- uid: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  commentId: T:OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors
+  parent: OfficeOpenXml.Drawing.Chart.Style
+  name: ePresetChartColors
+  nameWithType: ePresetChartColors
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ePresetChartColors

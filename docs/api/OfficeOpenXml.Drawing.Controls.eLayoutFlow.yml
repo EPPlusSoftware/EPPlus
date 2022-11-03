@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Controls.eLayoutFlow
+  commentId: T:OfficeOpenXml.Drawing.Controls.eLayoutFlow
+  id: eLayoutFlow
+  parent: OfficeOpenXml.Drawing.Controls
+  children:
+  - OfficeOpenXml.Drawing.Controls.eLayoutFlow.Horizontal
+  - OfficeOpenXml.Drawing.Controls.eLayoutFlow.HorizontalIdeographic
+  - OfficeOpenXml.Drawing.Controls.eLayoutFlow.Vertical
+  - OfficeOpenXml.Drawing.Controls.eLayoutFlow.VerticalIdeographic
+  langs:
+  - csharp
+  - vb
+  name: eLayoutFlow
+  nameWithType: eLayoutFlow
+  fullName: OfficeOpenXml.Drawing.Controls.eLayoutFlow
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eLayoutFlow
+    path: ../src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nText layout flow.\n"
+  example: []
+  syntax:
+    content: public enum eLayoutFlow
+    content.vb: Public Enum eLayoutFlow
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Controls.eLayoutFlow.Horizontal
+  commentId: F:OfficeOpenXml.Drawing.Controls.eLayoutFlow.Horizontal
+  id: Horizontal
+  parent: OfficeOpenXml.Drawing.Controls.eLayoutFlow
+  langs:
+  - csharp
+  - vb
+  name: Horizontal
+  nameWithType: eLayoutFlow.Horizontal
+  fullName: OfficeOpenXml.Drawing.Controls.eLayoutFlow.Horizontal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Horizontal
+    path: ../src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nText is displayed horizontally.\n"
+  example: []
+  syntax:
+    content: Horizontal = 0
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eLayoutFlow
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eLayoutFlow.Vertical
+  commentId: F:OfficeOpenXml.Drawing.Controls.eLayoutFlow.Vertical
+  id: Vertical
+  parent: OfficeOpenXml.Drawing.Controls.eLayoutFlow
+  langs:
+  - csharp
+  - vb
+  name: Vertical
+  nameWithType: eLayoutFlow.Vertical
+  fullName: OfficeOpenXml.Drawing.Controls.eLayoutFlow.Vertical
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Vertical
+    path: ../src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nText is displayed vertically.\n"
+  example: []
+  syntax:
+    content: Vertical = 1
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eLayoutFlow
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eLayoutFlow.HorizontalIdeographic
+  commentId: F:OfficeOpenXml.Drawing.Controls.eLayoutFlow.HorizontalIdeographic
+  id: HorizontalIdeographic
+  parent: OfficeOpenXml.Drawing.Controls.eLayoutFlow
+  langs:
+  - csharp
+  - vb
+  name: HorizontalIdeographic
+  nameWithType: eLayoutFlow.HorizontalIdeographic
+  fullName: OfficeOpenXml.Drawing.Controls.eLayoutFlow.HorizontalIdeographic
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HorizontalIdeographic
+    path: ../src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nIdeographic text is displayed horizontally.\n"
+  example: []
+  syntax:
+    content: HorizontalIdeographic = 2
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eLayoutFlow
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eLayoutFlow.VerticalIdeographic
+  commentId: F:OfficeOpenXml.Drawing.Controls.eLayoutFlow.VerticalIdeographic
+  id: VerticalIdeographic
+  parent: OfficeOpenXml.Drawing.Controls.eLayoutFlow
+  langs:
+  - csharp
+  - vb
+  name: VerticalIdeographic
+  nameWithType: eLayoutFlow.VerticalIdeographic
+  fullName: OfficeOpenXml.Drawing.Controls.eLayoutFlow.VerticalIdeographic
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VerticalIdeographic
+    path: ../src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nIdeographic text is displayed vertically.\n"
+  example: []
+  syntax:
+    content: VerticalIdeographic = 3
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eLayoutFlow
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Controls
+  commentId: N:OfficeOpenXml.Drawing.Controls
+  name: OfficeOpenXml.Drawing.Controls
+  nameWithType: OfficeOpenXml.Drawing.Controls
+  fullName: OfficeOpenXml.Drawing.Controls
+- uid: OfficeOpenXml.Drawing.Controls.eLayoutFlow
+  commentId: T:OfficeOpenXml.Drawing.Controls.eLayoutFlow
+  parent: OfficeOpenXml.Drawing.Controls
+  name: eLayoutFlow
+  nameWithType: eLayoutFlow
+  fullName: OfficeOpenXml.Drawing.Controls.eLayoutFlow

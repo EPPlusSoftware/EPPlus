@@ -1,0 +1,805 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning
+  id: ExcelChartExSerieBinning
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Count
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.IntervalClosed
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Overflow
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.OverflowAutomatic
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Size
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Underflow
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.UnderflowAutomatic
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartExSerieBinning
+  nameWithType: ExcelChartExSerieBinning
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartExSerieBinning
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nData binning properties\n"
+  example: []
+  syntax:
+    content: 'public class ExcelChartExSerieBinning : XmlHelper'
+    content.vb: >-
+      Public Class ExcelChartExSerieBinning
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Size
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Size
+  id: Size
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning
+  langs:
+  - csharp
+  - vb
+  name: Size
+  nameWithType: ExcelChartExSerieBinning.Size
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Size
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Size
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe binning by bin size. Setting this property clears the <xref href=\"OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Count\" data-throw-if-not-resolved=\"false\"></xref> property\n"
+  example: []
+  syntax:
+    content: public double? Size { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property Size As Double?
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Size*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Count
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Count
+  id: Count
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelChartExSerieBinning.Count
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe binning by bin count. Setting this property clears the <xref href=\"OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Size\" data-throw-if-not-resolved=\"false\"></xref> property\n"
+  example: []
+  syntax:
+    content: public int? Count { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property Count As Integer?
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Count*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.IntervalClosed
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.IntervalClosed
+  id: IntervalClosed
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning
+  langs:
+  - csharp
+  - vb
+  name: IntervalClosed
+  nameWithType: ExcelChartExSerieBinning.IntervalClosed
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.IntervalClosed
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IntervalClosed
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe interval closed side.\n"
+  example: []
+  syntax:
+    content: public eIntervalClosed IntervalClosed { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed
+    content.vb: Public Property IntervalClosed As eIntervalClosed
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.IntervalClosed*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.UnderflowAutomatic
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.UnderflowAutomatic
+  id: UnderflowAutomatic
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning
+  langs:
+  - csharp
+  - vb
+  name: UnderflowAutomatic
+  nameWithType: ExcelChartExSerieBinning.UnderflowAutomatic
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.UnderflowAutomatic
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UnderflowAutomatic
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
+    startLine: 101
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe custom value for underflow bin is set to automatic.\n"
+  example: []
+  syntax:
+    content: public bool UnderflowAutomatic { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property UnderflowAutomatic As Boolean
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.UnderflowAutomatic*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Underflow
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Underflow
+  id: Underflow
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning
+  langs:
+  - csharp
+  - vb
+  name: Underflow
+  nameWithType: ExcelChartExSerieBinning.Underflow
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Underflow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Underflow
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
+    startLine: 116
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nA custom value for underflow bin.\n"
+  example: []
+  syntax:
+    content: public double? Underflow { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property Underflow As Double?
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Underflow*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.OverflowAutomatic
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.OverflowAutomatic
+  id: OverflowAutomatic
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning
+  langs:
+  - csharp
+  - vb
+  name: OverflowAutomatic
+  nameWithType: ExcelChartExSerieBinning.OverflowAutomatic
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.OverflowAutomatic
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OverflowAutomatic
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
+    startLine: 132
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe custom value for overflow bin is set to automatic.\n"
+  example: []
+  syntax:
+    content: public bool OverflowAutomatic { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property OverflowAutomatic As Boolean
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.OverflowAutomatic*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Overflow
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Overflow
+  id: Overflow
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning
+  langs:
+  - csharp
+  - vb
+  name: Overflow
+  nameWithType: ExcelChartExSerieBinning.Overflow
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Overflow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Overflow
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
+    startLine: 147
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nA custom value for overflow bin.\n"
+  example: []
+  syntax:
+    content: public double? Overflow { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property Overflow As Double?
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Overflow*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Count
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Count
+  isExternal: true
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Size*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Size
+  name: Size
+  nameWithType: ExcelChartExSerieBinning.Size
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Size
+- uid: System.Nullable{System.Double}
+  commentId: T:System.Nullable{System.Double}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Double>
+  nameWithType: Nullable<Double>
+  fullName: System.Nullable<System.Double>
+  nameWithType.vb: Nullable(Of Double)
+  fullName.vb: System.Nullable(Of System.Double)
+  name.vb: Nullable(Of Double)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Size
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Size
+  isExternal: true
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Count*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Count
+  name: Count
+  nameWithType: ExcelChartExSerieBinning.Count
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Count
+- uid: System.Nullable{System.Int32}
+  commentId: T:System.Nullable{System.Int32}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Int32>
+  nameWithType: Nullable<Int32>
+  fullName: System.Nullable<System.Int32>
+  nameWithType.vb: Nullable(Of Int32)
+  fullName.vb: System.Nullable(Of System.Int32)
+  name.vb: Nullable(Of Int32)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.IntervalClosed*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.IntervalClosed
+  name: IntervalClosed
+  nameWithType: ExcelChartExSerieBinning.IntervalClosed
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.IntervalClosed
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eIntervalClosed
+  nameWithType: eIntervalClosed
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eIntervalClosed
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.UnderflowAutomatic*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.UnderflowAutomatic
+  name: UnderflowAutomatic
+  nameWithType: ExcelChartExSerieBinning.UnderflowAutomatic
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.UnderflowAutomatic
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Underflow*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Underflow
+  name: Underflow
+  nameWithType: ExcelChartExSerieBinning.Underflow
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Underflow
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.OverflowAutomatic*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.OverflowAutomatic
+  name: OverflowAutomatic
+  nameWithType: ExcelChartExSerieBinning.OverflowAutomatic
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.OverflowAutomatic
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Overflow*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Overflow
+  name: Overflow
+  nameWithType: ExcelChartExSerieBinning.Overflow
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning.Overflow

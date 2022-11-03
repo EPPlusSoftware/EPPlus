@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Drawing.Vml
             {
                 Part=_package.ZipPackage.GetPart(uri);
                 try
-                {
+                {                    
                     XmlHelper.LoadXmlSafe(VmlDrawingXml, Part.GetStream());
                 }
                 catch

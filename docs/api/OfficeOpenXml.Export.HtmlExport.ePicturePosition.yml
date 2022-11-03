@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.ePicturePosition
+  commentId: T:OfficeOpenXml.Export.HtmlExport.ePicturePosition
+  id: ePicturePosition
+  parent: OfficeOpenXml.Export.HtmlExport
+  children:
+  - OfficeOpenXml.Export.HtmlExport.ePicturePosition.Absolute
+  - OfficeOpenXml.Export.HtmlExport.ePicturePosition.DontSet
+  - OfficeOpenXml.Export.HtmlExport.ePicturePosition.Relative
+  langs:
+  - csharp
+  - vb
+  name: ePicturePosition
+  nameWithType: ePicturePosition
+  fullName: OfficeOpenXml.Export.HtmlExport.ePicturePosition
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/ePicturePosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePicturePosition
+    path: ../src/EPPlus/Export/HtmlExport/Enums/ePicturePosition.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nIf the Picture is absolut or relative to the table cell\n"
+  example: []
+  syntax:
+    content: public enum ePicturePosition
+    content.vb: Public Enum ePicturePosition
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Export.HtmlExport.ePicturePosition.DontSet
+  commentId: F:OfficeOpenXml.Export.HtmlExport.ePicturePosition.DontSet
+  id: DontSet
+  parent: OfficeOpenXml.Export.HtmlExport.ePicturePosition
+  langs:
+  - csharp
+  - vb
+  name: DontSet
+  nameWithType: ePicturePosition.DontSet
+  fullName: OfficeOpenXml.Export.HtmlExport.ePicturePosition.DontSet
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/ePicturePosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DontSet
+    path: ../src/EPPlus/Export/HtmlExport/Enums/ePicturePosition.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nNo CSS is added for Position\n"
+  example: []
+  syntax:
+    content: DontSet = 0
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.ePicturePosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.HtmlExport.ePicturePosition.Absolute
+  commentId: F:OfficeOpenXml.Export.HtmlExport.ePicturePosition.Absolute
+  id: Absolute
+  parent: OfficeOpenXml.Export.HtmlExport.ePicturePosition
+  langs:
+  - csharp
+  - vb
+  name: Absolute
+  nameWithType: ePicturePosition.Absolute
+  fullName: OfficeOpenXml.Export.HtmlExport.ePicturePosition.Absolute
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/ePicturePosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Absolute
+    path: ../src/EPPlus/Export/HtmlExport/Enums/ePicturePosition.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nPosition is Absolute in the CSS\n"
+  example: []
+  syntax:
+    content: Absolute = 1
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.ePicturePosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.HtmlExport.ePicturePosition.Relative
+  commentId: F:OfficeOpenXml.Export.HtmlExport.ePicturePosition.Relative
+  id: Relative
+  parent: OfficeOpenXml.Export.HtmlExport.ePicturePosition
+  langs:
+  - csharp
+  - vb
+  name: Relative
+  nameWithType: ePicturePosition.Relative
+  fullName: OfficeOpenXml.Export.HtmlExport.ePicturePosition.Relative
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/ePicturePosition.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Relative
+    path: ../src/EPPlus/Export/HtmlExport/Enums/ePicturePosition.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nPosition is Relative in the CSS\n"
+  example: []
+  syntax:
+    content: Relative = 2
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.ePicturePosition
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Export.HtmlExport
+  commentId: N:OfficeOpenXml.Export.HtmlExport
+  name: OfficeOpenXml.Export.HtmlExport
+  nameWithType: OfficeOpenXml.Export.HtmlExport
+  fullName: OfficeOpenXml.Export.HtmlExport
+- uid: OfficeOpenXml.Export.HtmlExport.ePicturePosition
+  commentId: T:OfficeOpenXml.Export.HtmlExport.ePicturePosition
+  parent: OfficeOpenXml.Export.HtmlExport
+  name: ePicturePosition
+  nameWithType: ePicturePosition
+  fullName: OfficeOpenXml.Export.HtmlExport.ePicturePosition

@@ -1,0 +1,219 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions
+  id: OfficeOpenXml.FormulaParsing.Excel.Functions
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParsers
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.BoolArgumentParser
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.BuiltInFunctions
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.CollectionFlattener`1
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidator
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DecimalCompileResultValidator
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableArgConverter
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ErrorHandlingFunction
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelDoubleCellValue
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionNameProvider
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionsModule
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.HiddenValuesHandlingFunction
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.IntArgumentParser
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: ArgumentCollectionUtil
+  nameWithType: ArgumentCollectionUtil
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: ArgumentParser
+  nameWithType: ArgumentParser
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: ArgumentParserFactory
+  nameWithType: ArgumentParserFactory
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParsers
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParsers
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: ArgumentParsers
+  nameWithType: ArgumentParsers
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParsers
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.BoolArgumentParser
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.BoolArgumentParser
+  name: BoolArgumentParser
+  nameWithType: BoolArgumentParser
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.BoolArgumentParser
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.BuiltInFunctions
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.BuiltInFunctions
+  name: BuiltInFunctions
+  nameWithType: BuiltInFunctions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.BuiltInFunctions
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.CollectionFlattener`1
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.CollectionFlattener`1
+  name: CollectionFlattener<T>
+  nameWithType: CollectionFlattener<T>
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.CollectionFlattener<T>
+  nameWithType.vb: CollectionFlattener(Of T)
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.CollectionFlattener(Of T)
+  name.vb: CollectionFlattener(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.CollectionFlattener`1
+    name: CollectionFlattener
+    nameWithType: CollectionFlattener
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.CollectionFlattener
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.CollectionFlattener`1
+    name: CollectionFlattener
+    nameWithType: CollectionFlattener
+    fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.CollectionFlattener
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidator
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidator
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: CompileResultValidator
+  nameWithType: CompileResultValidator
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidator
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: CompileResultValidators
+  nameWithType: CompileResultValidators
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DecimalCompileResultValidator
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.DecimalCompileResultValidator
+  name: DecimalCompileResultValidator
+  nameWithType: DecimalCompileResultValidator
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DecimalCompileResultValidator
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser
+  name: DoubleArgumentParser
+  nameWithType: DoubleArgumentParser
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableArgConverter
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableArgConverter
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: DoubleEnumerableArgConverter
+  nameWithType: DoubleEnumerableArgConverter
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableArgConverter
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ErrorHandlingFunction
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ErrorHandlingFunction
+  name: ErrorHandlingFunction
+  nameWithType: ErrorHandlingFunction
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ErrorHandlingFunction
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelDoubleCellValue
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelDoubleCellValue
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: ExcelDoubleCellValue
+  nameWithType: ExcelDoubleCellValue
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelDoubleCellValue
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: ExcelFunction
+  nameWithType: ExcelFunction
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: FunctionArgument
+  nameWithType: FunctionArgument
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionNameProvider
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionNameProvider
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: FunctionNameProvider
+  nameWithType: FunctionNameProvider
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionNameProvider
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: FunctionRepository
+  nameWithType: FunctionRepository
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionRepository
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionsModule
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionsModule
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: FunctionsModule
+  nameWithType: FunctionsModule
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionsModule
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.HiddenValuesHandlingFunction
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.HiddenValuesHandlingFunction
+  name: HiddenValuesHandlingFunction
+  nameWithType: HiddenValuesHandlingFunction
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.HiddenValuesHandlingFunction
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: IFunctionModule
+  nameWithType: IFunctionModule
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionModule
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: IFunctionNameProvider
+  nameWithType: IFunctionNameProvider
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.IntArgumentParser
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.IntArgumentParser
+  name: IntArgumentParser
+  nameWithType: IntArgumentParser
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.IntArgumentParser
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: ObjectEnumerableArgConverter
+  nameWithType: ObjectEnumerableArgConverter
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: RoundingMethod
+  nameWithType: RoundingMethod
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions

@@ -1,0 +1,306 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  id: IExcelConditionalFormattingDataBarGroup
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  children:
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Color
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.HighValue
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.LowValue
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.ShowValue
+  langs:
+  - csharp
+  - vb
+  name: IExcelConditionalFormattingDataBarGroup
+  nameWithType: IExcelConditionalFormattingDataBarGroup
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelConditionalFormattingDataBarGroup
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nIExcelConditionalFormattingDataBar\n"
+  example: []
+  syntax:
+    content: 'public interface IExcelConditionalFormattingDataBarGroup : IExcelConditionalFormattingRule'
+    content.vb: >-
+      Public Interface IExcelConditionalFormattingDataBarGroup
+          Inherits IExcelConditionalFormattingRule
+  inheritedMembers:
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.StopIfTrue
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Style
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.As
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.ShowValue
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.ShowValue
+  id: ShowValue
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  langs:
+  - csharp
+  - vb
+  name: ShowValue
+  nameWithType: IExcelConditionalFormattingDataBarGroup.ShowValue
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.ShowValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowValue
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nShowValue\n"
+  example: []
+  syntax:
+    content: bool ShowValue { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Property ShowValue As Boolean
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.ShowValue*
+  modifiers.csharp:
+  - get
+  - set
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.LowValue
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.LowValue
+  id: LowValue
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  langs:
+  - csharp
+  - vb
+  name: LowValue
+  nameWithType: IExcelConditionalFormattingDataBarGroup.LowValue
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.LowValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LowValue
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nDatabar Low Value\n"
+  example: []
+  syntax:
+    content: ExcelConditionalFormattingIconDataBarValue LowValue { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
+    content.vb: ReadOnly Property LowValue As ExcelConditionalFormattingIconDataBarValue
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.LowValue*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.HighValue
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.HighValue
+  id: HighValue
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  langs:
+  - csharp
+  - vb
+  name: HighValue
+  nameWithType: IExcelConditionalFormattingDataBarGroup.HighValue
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.HighValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HighValue
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nDatabar High Value\n"
+  example: []
+  syntax:
+    content: ExcelConditionalFormattingIconDataBarValue HighValue { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
+    content.vb: ReadOnly Property HighValue As ExcelConditionalFormattingIconDataBarValue
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.HighValue*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Color
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Color
+  id: Color
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  langs:
+  - csharp
+  - vb
+  name: Color
+  nameWithType: IExcelConditionalFormattingDataBarGroup.Color
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Color
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Color
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nThe color of the databar\n"
+  example: []
+  syntax:
+    content: Color Color { get; set; }
+    parameters: []
+    return:
+      type: System.Drawing.Color
+    content.vb: Property Color As Color
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Color*
+  modifiers.csharp:
+  - get
+  - set
+references:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts
+  commentId: N:OfficeOpenXml.ConditionalFormatting.Contracts
+  name: OfficeOpenXml.ConditionalFormatting.Contracts
+  nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: Node
+  nameWithType: IExcelConditionalFormattingRule.Node
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: Type
+  nameWithType: IExcelConditionalFormattingRule.Type
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: Address
+  nameWithType: IExcelConditionalFormattingRule.Address
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: Priority
+  nameWithType: IExcelConditionalFormattingRule.Priority
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.StopIfTrue
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.StopIfTrue
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: StopIfTrue
+  nameWithType: IExcelConditionalFormattingRule.StopIfTrue
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.StopIfTrue
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Style
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Style
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: Style
+  nameWithType: IExcelConditionalFormattingRule.Style
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Style
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: PivotTable
+  nameWithType: IExcelConditionalFormattingRule.PivotTable
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.As
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.As
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: As
+  nameWithType: IExcelConditionalFormattingRule.As
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.As
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingRule
+  nameWithType: IExcelConditionalFormattingRule
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.ShowValue*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.ShowValue
+  name: ShowValue
+  nameWithType: IExcelConditionalFormattingDataBarGroup.ShowValue
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.ShowValue
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.LowValue*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.LowValue
+  name: LowValue
+  nameWithType: IExcelConditionalFormattingDataBarGroup.LowValue
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.LowValue
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
+  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: ExcelConditionalFormattingIconDataBarValue
+  nameWithType: ExcelConditionalFormattingIconDataBarValue
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
+- uid: OfficeOpenXml.ConditionalFormatting
+  commentId: N:OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  nameWithType: OfficeOpenXml.ConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.HighValue*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.HighValue
+  name: HighValue
+  nameWithType: IExcelConditionalFormattingDataBarGroup.HighValue
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.HighValue
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Color*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Color
+  name: Color
+  nameWithType: IExcelConditionalFormattingDataBarGroup.Color
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup.Color
+- uid: System.Drawing.Color
+  commentId: T:System.Drawing.Color
+  parent: System.Drawing
+  isExternal: true
+  name: Color
+  nameWithType: Color
+  fullName: System.Drawing.Color
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing

@@ -1,0 +1,83 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Utils
+  commentId: N:OfficeOpenXml.Utils
+  id: OfficeOpenXml.Utils
+  children:
+  - OfficeOpenXml.Utils.AddressUtility
+  - OfficeOpenXml.Utils.ArgumentExtensions
+  - OfficeOpenXml.Utils.IArgument`1
+  - OfficeOpenXml.Utils.RecyclableMemory
+  - OfficeOpenXml.Utils.Require
+  - OfficeOpenXml.Utils.SqRefUtility
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Utils
+  nameWithType: OfficeOpenXml.Utils
+  fullName: OfficeOpenXml.Utils
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Utils.AddressUtility
+  commentId: T:OfficeOpenXml.Utils.AddressUtility
+  name: AddressUtility
+  nameWithType: AddressUtility
+  fullName: OfficeOpenXml.Utils.AddressUtility
+- uid: OfficeOpenXml.Utils.ArgumentExtensions
+  commentId: T:OfficeOpenXml.Utils.ArgumentExtensions
+  name: ArgumentExtensions
+  nameWithType: ArgumentExtensions
+  fullName: OfficeOpenXml.Utils.ArgumentExtensions
+- uid: OfficeOpenXml.Utils.IArgument`1
+  commentId: T:OfficeOpenXml.Utils.IArgument`1
+  name: IArgument<T>
+  nameWithType: IArgument<T>
+  fullName: OfficeOpenXml.Utils.IArgument<T>
+  nameWithType.vb: IArgument(Of T)
+  fullName.vb: OfficeOpenXml.Utils.IArgument(Of T)
+  name.vb: IArgument(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Utils.IArgument`1
+    name: IArgument
+    nameWithType: IArgument
+    fullName: OfficeOpenXml.Utils.IArgument
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Utils.IArgument`1
+    name: IArgument
+    nameWithType: IArgument
+    fullName: OfficeOpenXml.Utils.IArgument
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Utils.RecyclableMemory
+  commentId: T:OfficeOpenXml.Utils.RecyclableMemory
+  name: RecyclableMemory
+  nameWithType: RecyclableMemory
+  fullName: OfficeOpenXml.Utils.RecyclableMemory
+- uid: OfficeOpenXml.Utils.Require
+  commentId: T:OfficeOpenXml.Utils.Require
+  name: Require
+  nameWithType: Require
+  fullName: OfficeOpenXml.Utils.Require
+- uid: OfficeOpenXml.Utils.SqRefUtility
+  commentId: T:OfficeOpenXml.Utils.SqRefUtility
+  name: SqRefUtility
+  nameWithType: SqRefUtility
+  fullName: OfficeOpenXml.Utils.SqRefUtility

@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.PictureAlignment
+  commentId: T:OfficeOpenXml.PictureAlignment
+  id: PictureAlignment
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.PictureAlignment.Centered
+  - OfficeOpenXml.PictureAlignment.Left
+  - OfficeOpenXml.PictureAlignment.Right
+  langs:
+  - csharp
+  - vb
+  name: PictureAlignment
+  nameWithType: PictureAlignment
+  fullName: OfficeOpenXml.PictureAlignment
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PictureAlignment
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nHow a picture will be aligned in the header/footer\n"
+  example: []
+  syntax:
+    content: public enum PictureAlignment
+    content.vb: Public Enum PictureAlignment
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.PictureAlignment.Left
+  commentId: F:OfficeOpenXml.PictureAlignment.Left
+  id: Left
+  parent: OfficeOpenXml.PictureAlignment
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: PictureAlignment.Left
+  fullName: OfficeOpenXml.PictureAlignment.Left
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Left
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe picture will be added to the left aligned text\n"
+  example: []
+  syntax:
+    content: Left = 0
+    return:
+      type: OfficeOpenXml.PictureAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.PictureAlignment.Centered
+  commentId: F:OfficeOpenXml.PictureAlignment.Centered
+  id: Centered
+  parent: OfficeOpenXml.PictureAlignment
+  langs:
+  - csharp
+  - vb
+  name: Centered
+  nameWithType: PictureAlignment.Centered
+  fullName: OfficeOpenXml.PictureAlignment.Centered
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Centered
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe picture will be added to the centered text\n"
+  example: []
+  syntax:
+    content: Centered = 1
+    return:
+      type: OfficeOpenXml.PictureAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.PictureAlignment.Right
+  commentId: F:OfficeOpenXml.PictureAlignment.Right
+  id: Right
+  parent: OfficeOpenXml.PictureAlignment
+  langs:
+  - csharp
+  - vb
+  name: Right
+  nameWithType: PictureAlignment.Right
+  fullName: OfficeOpenXml.PictureAlignment.Right
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Right
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe picture will be added to the right aligned text\n"
+  example: []
+  syntax:
+    content: Right = 2
+    return:
+      type: OfficeOpenXml.PictureAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.PictureAlignment
+  commentId: T:OfficeOpenXml.PictureAlignment
+  parent: OfficeOpenXml
+  name: PictureAlignment
+  nameWithType: PictureAlignment
+  fullName: OfficeOpenXml.PictureAlignment

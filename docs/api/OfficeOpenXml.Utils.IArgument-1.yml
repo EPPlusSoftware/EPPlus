@@ -1,0 +1,103 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Utils.IArgument`1
+  commentId: T:OfficeOpenXml.Utils.IArgument`1
+  id: IArgument`1
+  parent: OfficeOpenXml.Utils
+  children:
+  - OfficeOpenXml.Utils.IArgument`1.Value
+  langs:
+  - csharp
+  - vb
+  name: IArgument<T>
+  nameWithType: IArgument<T>
+  fullName: OfficeOpenXml.Utils.IArgument<T>
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/Utils/IArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IArgument
+    path: ../src/EPPlus/Utils/IArgument.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Utils
+  summary: "\nAn argument\n"
+  example: []
+  syntax:
+    content: public interface IArgument<T>
+    typeParameters:
+    - id: T
+      description: Argument Type
+    content.vb: Public Interface IArgument(Of T)
+  nameWithType.vb: IArgument(Of T)
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+  fullName.vb: OfficeOpenXml.Utils.IArgument(Of T)
+  name.vb: IArgument(Of T)
+- uid: OfficeOpenXml.Utils.IArgument`1.Value
+  commentId: P:OfficeOpenXml.Utils.IArgument`1.Value
+  id: Value
+  parent: OfficeOpenXml.Utils.IArgument`1
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: IArgument<T>.Value
+  fullName: OfficeOpenXml.Utils.IArgument<T>.Value
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Utils/IArgument.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value
+    path: ../src/EPPlus/Utils/IArgument.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Utils
+  summary: "\nValue of the argument\n"
+  example: []
+  syntax:
+    content: T Value { get; }
+    parameters: []
+    return:
+      type: '{T}'
+    content.vb: ReadOnly Property Value As T
+  overload: OfficeOpenXml.Utils.IArgument`1.Value*
+  nameWithType.vb: IArgument(Of T).Value
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Utils.IArgument(Of T).Value
+references:
+- uid: OfficeOpenXml.Utils
+  commentId: N:OfficeOpenXml.Utils
+  name: OfficeOpenXml.Utils
+  nameWithType: OfficeOpenXml.Utils
+  fullName: OfficeOpenXml.Utils
+- uid: OfficeOpenXml.Utils.IArgument`1.Value*
+  commentId: Overload:OfficeOpenXml.Utils.IArgument`1.Value
+  name: Value
+  nameWithType: IArgument<T>.Value
+  fullName: OfficeOpenXml.Utils.IArgument<T>.Value
+  nameWithType.vb: IArgument(Of T).Value
+  fullName.vb: OfficeOpenXml.Utils.IArgument(Of T).Value
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T

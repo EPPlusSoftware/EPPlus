@@ -1,0 +1,1221 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  commentId: T:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  id: ToDataTableOptions
+  parent: OfficeOpenXml.Export.ToDataTable
+  children:
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNameParsingStrategy
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNamePrefix
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Create
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Create(System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions})
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataTableName
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataTableNamespace
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.EmptyRowStrategy
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ExcelErrorParsingStrategy
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.FirstRowIsColumnNames
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Mappings
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.PredefinedMappingsOnly
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey(System.Int32[])
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey(System.String[])
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SkipNumberOfRowsEnd
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SkipNumberOfRowsStart
+  langs:
+  - csharp
+  - vb
+  name: ToDataTableOptions
+  nameWithType: ToDataTableOptions
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToDataTableOptions
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nThis class contains options for the ToDataTable method of <xref href=\"OfficeOpenXml.ExcelRangeBase\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public class ToDataTableOptions
+    content.vb: Public Class ToDataTableOptions
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Create
+  commentId: M:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Create
+  id: Create
+  parent: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: Create()
+  nameWithType: ToDataTableOptions.Create()
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Create()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Create
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nCreates an instance of ToDataTableOptions with default values set.\n"
+  example: []
+  syntax:
+    content: public static ToDataTableOptions Create()
+    return:
+      type: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+      description: ''
+    content.vb: Public Shared Function Create As ToDataTableOptions
+  overload: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Create*
+  seealso:
+  - linkId: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Default
+    commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Default
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Create(System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions})
+  commentId: M:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Create(System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions})
+  id: Create(System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions})
+  parent: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: Create(Action<ToDataTableOptions>)
+  nameWithType: ToDataTableOptions.Create(Action<ToDataTableOptions>)
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Create(System.Action<OfficeOpenXml.Export.ToDataTable.ToDataTableOptions>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Create
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 73
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nCreates an instance of <xref href=\"OfficeOpenXml.Export.ToDataTable.ToDataTableOptions\" data-throw-if-not-resolved=\"false\"></xref>. Use the <code data-dev-comment-type=\"paramref\" class=\"paramref\">configHandler</code> parameter to set the values on it.\n"
+  example: []
+  syntax:
+    content: public static ToDataTableOptions Create(Action<ToDataTableOptions> configHandler)
+    parameters:
+    - id: configHandler
+      type: System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions}
+      description: Use this to configure the <xref href="OfficeOpenXml.Export.ToDataTable.ToDataTableOptions" data-throw-if-not-resolved="false"></xref> instance in a lambda expression body.
+    return:
+      type: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+      description: The configured <xref href="OfficeOpenXml.Export.ToDataTable.ToDataTableOptions" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Shared Function Create(configHandler As Action(Of ToDataTableOptions)) As ToDataTableOptions
+  overload: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Create*
+  nameWithType.vb: ToDataTableOptions.Create(Action(Of ToDataTableOptions))
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Create(System.Action(Of OfficeOpenXml.Export.ToDataTable.ToDataTableOptions))
+  name.vb: Create(Action(Of ToDataTableOptions))
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.FirstRowIsColumnNames
+  commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.FirstRowIsColumnNames
+  id: FirstRowIsColumnNames
+  parent: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: FirstRowIsColumnNames
+  nameWithType: ToDataTableOptions.FirstRowIsColumnNames
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.FirstRowIsColumnNames
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstRowIsColumnNames
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nIf true, the first row of the range will be used to collect the column names of the <xref href=\"System.Data.DataTable\" data-throw-if-not-resolved=\"false\"></xref>. The column names will be set according to the <xref href=\"OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNameParsingStrategy\" data-throw-if-not-resolved=\"false\"></xref> used.\n"
+  example: []
+  syntax:
+    content: public bool FirstRowIsColumnNames { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property FirstRowIsColumnNames As Boolean
+  overload: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.FirstRowIsColumnNames*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNameParsingStrategy
+  commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNameParsingStrategy
+  id: ColumnNameParsingStrategy
+  parent: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: ColumnNameParsingStrategy
+  nameWithType: ToDataTableOptions.ColumnNameParsingStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNameParsingStrategy
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnNameParsingStrategy
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 87
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\n<xref href=\"OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNameParsingStrategy?text=NameParsingStrategy\" data-throw-if-not-resolved=\"false\"></xref> to use when parsing the first row of the range to column names\n"
+  example: []
+  syntax:
+    content: public NameParsingStrategy ColumnNameParsingStrategy { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+    content.vb: Public Property ColumnNameParsingStrategy As NameParsingStrategy
+  overload: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNameParsingStrategy*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SkipNumberOfRowsStart
+  commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SkipNumberOfRowsStart
+  id: SkipNumberOfRowsStart
+  parent: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: SkipNumberOfRowsStart
+  nameWithType: ToDataTableOptions.SkipNumberOfRowsStart
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SkipNumberOfRowsStart
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SkipNumberOfRowsStart
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 92
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nNumber of rows that will be skipped from the start (top) of the range. If <xref href=\"OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.FirstRowIsColumnNames\" data-throw-if-not-resolved=\"false\"></xref> is true, this will be applied after the first row (column names) has been read.\n"
+  example: []
+  syntax:
+    content: public int SkipNumberOfRowsStart { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property SkipNumberOfRowsStart As Integer
+  overload: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SkipNumberOfRowsStart*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SkipNumberOfRowsEnd
+  commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SkipNumberOfRowsEnd
+  id: SkipNumberOfRowsEnd
+  parent: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: SkipNumberOfRowsEnd
+  nameWithType: ToDataTableOptions.SkipNumberOfRowsEnd
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SkipNumberOfRowsEnd
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SkipNumberOfRowsEnd
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 97
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nNumber of rows that will be skipped from the end (bottom) of the range.\n"
+  example: []
+  syntax:
+    content: public int SkipNumberOfRowsEnd { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property SkipNumberOfRowsEnd As Integer
+  overload: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SkipNumberOfRowsEnd*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ExcelErrorParsingStrategy
+  commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ExcelErrorParsingStrategy
+  id: ExcelErrorParsingStrategy
+  parent: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: ExcelErrorParsingStrategy
+  nameWithType: ToDataTableOptions.ExcelErrorParsingStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ExcelErrorParsingStrategy
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelErrorParsingStrategy
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nSets how Excel error values are handled when detected.\n"
+  example: []
+  syntax:
+    content: public ExcelErrorParsingStrategy ExcelErrorParsingStrategy { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+    content.vb: Public Property ExcelErrorParsingStrategy As ExcelErrorParsingStrategy
+  overload: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ExcelErrorParsingStrategy*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.EmptyRowStrategy
+  commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.EmptyRowStrategy
+  id: EmptyRowStrategy
+  parent: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: EmptyRowStrategy
+  nameWithType: ToDataTableOptions.EmptyRowStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.EmptyRowStrategy
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EmptyRowStrategy
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 107
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nSets how empty rows in the range are handled when detected\n"
+  example: []
+  syntax:
+    content: public EmptyRowsStrategy EmptyRowStrategy { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+    content.vb: Public Property EmptyRowStrategy As EmptyRowsStrategy
+  overload: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.EmptyRowStrategy*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Mappings
+  commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Mappings
+  id: Mappings
+  parent: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: Mappings
+  nameWithType: ToDataTableOptions.Mappings
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Mappings
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Mappings
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 113
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nMappings that specifies columns from the range and how these should be mapped to the <xref href=\"System.Data.DataTable\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public DataColumnMappingCollection Mappings { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Export.ToDataTable.DataColumnMappingCollection
+    content.vb: Public ReadOnly Property Mappings As DataColumnMappingCollection
+  overload: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Mappings*
+  seealso:
+  - linkId: OfficeOpenXml.Export.ToDataTable.DataColumnMapping
+    commentId: T:OfficeOpenXml.Export.ToDataTable.DataColumnMapping
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.PredefinedMappingsOnly
+  commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.PredefinedMappingsOnly
+  id: PredefinedMappingsOnly
+  parent: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: PredefinedMappingsOnly
+  nameWithType: ToDataTableOptions.PredefinedMappingsOnly
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.PredefinedMappingsOnly
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PredefinedMappingsOnly
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nIf true, only columns that are specified in the <xref href=\"OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Mappings\" data-throw-if-not-resolved=\"false\"></xref> collection are included in the DataTable.\n"
+  example: []
+  syntax:
+    content: public bool PredefinedMappingsOnly { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property PredefinedMappingsOnly As Boolean
+  overload: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.PredefinedMappingsOnly*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNamePrefix
+  commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNamePrefix
+  id: ColumnNamePrefix
+  parent: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: ColumnNamePrefix
+  nameWithType: ToDataTableOptions.ColumnNamePrefix
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNamePrefix
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnNamePrefix
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 123
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nIf no column names are specified, this prefix will be used followed by a number\n"
+  example: []
+  syntax:
+    content: public string ColumnNamePrefix { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ColumnNamePrefix As String
+  overload: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNamePrefix*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataTableName
+  commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataTableName
+  id: DataTableName
+  parent: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: DataTableName
+  nameWithType: ToDataTableOptions.DataTableName
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataTableName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataTableName
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 128
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nName of the data table\n"
+  example: []
+  syntax:
+    content: public string DataTableName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property DataTableName As String
+  overload: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataTableName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataTableNamespace
+  commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataTableNamespace
+  id: DataTableNamespace
+  parent: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: DataTableNamespace
+  nameWithType: ToDataTableOptions.DataTableNamespace
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataTableNamespace
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataTableNamespace
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 133
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nNamespace of the data table\n"
+  example: []
+  syntax:
+    content: public string DataTableNamespace { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property DataTableNamespace As String
+  overload: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataTableNamespace*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey(System.String[])
+  commentId: M:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey(System.String[])
+  id: SetPrimaryKey(System.String[])
+  parent: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: SetPrimaryKey(String[])
+  nameWithType: ToDataTableOptions.SetPrimaryKey(String[])
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey(System.String[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetPrimaryKey
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 139
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nSets the primary key of the data table. \n"
+  example: []
+  syntax:
+    content: public void SetPrimaryKey(params string[] columnNames)
+    parameters:
+    - id: columnNames
+      type: System.String[]
+      description: The name or names of one or more column in the <xref href="System.Data.DataTable" data-throw-if-not-resolved="false"></xref> that constitutes the primary key
+    content.vb: Public Sub SetPrimaryKey(ParamArray columnNames As String())
+  overload: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey*
+  nameWithType.vb: ToDataTableOptions.SetPrimaryKey(String())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey(System.String())
+  name.vb: SetPrimaryKey(String())
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey(System.Int32[])
+  commentId: M:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey(System.Int32[])
+  id: SetPrimaryKey(System.Int32[])
+  parent: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: SetPrimaryKey(Int32[])
+  nameWithType: ToDataTableOptions.SetPrimaryKey(Int32[])
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey(System.Int32[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetPrimaryKey
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 150
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nSets the primary key of the data table. \n"
+  example: []
+  syntax:
+    content: public void SetPrimaryKey(params int[] zeroBasedRangeIndexes)
+    parameters:
+    - id: zeroBasedRangeIndexes
+      type: System.Int32[]
+      description: The index or indexes of one or more column in the range that builds up the primary key of the <xref href="System.Data.DataTable" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Sub SetPrimaryKey(ParamArray zeroBasedRangeIndexes As Integer())
+  overload: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey*
+  nameWithType.vb: ToDataTableOptions.SetPrimaryKey(Int32())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey(System.Int32())
+  name.vb: SetPrimaryKey(Int32())
+references:
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: OfficeOpenXml.Export.ToDataTable
+  commentId: N:OfficeOpenXml.Export.ToDataTable
+  name: OfficeOpenXml.Export.ToDataTable
+  nameWithType: OfficeOpenXml.Export.ToDataTable
+  fullName: OfficeOpenXml.Export.ToDataTable
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Default
+  commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Default
+  isExternal: true
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Create*
+  commentId: Overload:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Create
+  name: Create
+  nameWithType: ToDataTableOptions.Create
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Create
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  commentId: T:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  parent: OfficeOpenXml.Export.ToDataTable
+  name: ToDataTableOptions
+  nameWithType: ToDataTableOptions
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+- uid: System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions}
+  commentId: T:System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions}
+  parent: System
+  definition: System.Action`1
+  name: Action<ToDataTableOptions>
+  nameWithType: Action<ToDataTableOptions>
+  fullName: System.Action<OfficeOpenXml.Export.ToDataTable.ToDataTableOptions>
+  nameWithType.vb: Action(Of ToDataTableOptions)
+  fullName.vb: System.Action(Of OfficeOpenXml.Export.ToDataTable.ToDataTableOptions)
+  name.vb: Action(Of ToDataTableOptions)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+    name: ToDataTableOptions
+    nameWithType: ToDataTableOptions
+    fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+    name: ToDataTableOptions
+    nameWithType: ToDataTableOptions
+    fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Data.DataTable
+  commentId: T:System.Data.DataTable
+  parent: System.Data
+  isExternal: true
+  name: DataTable
+  nameWithType: DataTable
+  fullName: System.Data.DataTable
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNameParsingStrategy
+  commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNameParsingStrategy
+  isExternal: true
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.FirstRowIsColumnNames*
+  commentId: Overload:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.FirstRowIsColumnNames
+  name: FirstRowIsColumnNames
+  nameWithType: ToDataTableOptions.FirstRowIsColumnNames
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.FirstRowIsColumnNames
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System.Data
+  commentId: N:System.Data
+  isExternal: true
+  name: System.Data
+  nameWithType: System.Data
+  fullName: System.Data
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNameParsingStrategy*
+  commentId: Overload:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNameParsingStrategy
+  name: ColumnNameParsingStrategy
+  nameWithType: ToDataTableOptions.ColumnNameParsingStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNameParsingStrategy
+- uid: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+  commentId: T:OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+  parent: OfficeOpenXml.Export.ToDataTable
+  name: NameParsingStrategy
+  nameWithType: NameParsingStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.FirstRowIsColumnNames
+  commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.FirstRowIsColumnNames
+  isExternal: true
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SkipNumberOfRowsStart*
+  commentId: Overload:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SkipNumberOfRowsStart
+  name: SkipNumberOfRowsStart
+  nameWithType: ToDataTableOptions.SkipNumberOfRowsStart
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SkipNumberOfRowsStart
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SkipNumberOfRowsEnd*
+  commentId: Overload:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SkipNumberOfRowsEnd
+  name: SkipNumberOfRowsEnd
+  nameWithType: ToDataTableOptions.SkipNumberOfRowsEnd
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SkipNumberOfRowsEnd
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ExcelErrorParsingStrategy*
+  commentId: Overload:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ExcelErrorParsingStrategy
+  name: ExcelErrorParsingStrategy
+  nameWithType: ToDataTableOptions.ExcelErrorParsingStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ExcelErrorParsingStrategy
+- uid: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+  commentId: T:OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+  parent: OfficeOpenXml.Export.ToDataTable
+  name: ExcelErrorParsingStrategy
+  nameWithType: ExcelErrorParsingStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.EmptyRowStrategy*
+  commentId: Overload:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.EmptyRowStrategy
+  name: EmptyRowStrategy
+  nameWithType: ToDataTableOptions.EmptyRowStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.EmptyRowStrategy
+- uid: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+  commentId: T:OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+  parent: OfficeOpenXml.Export.ToDataTable
+  name: EmptyRowsStrategy
+  nameWithType: EmptyRowsStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+- uid: OfficeOpenXml.Export.ToDataTable.DataColumnMapping
+  commentId: T:OfficeOpenXml.Export.ToDataTable.DataColumnMapping
+  name: DataColumnMapping
+  nameWithType: DataColumnMapping
+  fullName: OfficeOpenXml.Export.ToDataTable.DataColumnMapping
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Mappings*
+  commentId: Overload:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Mappings
+  name: Mappings
+  nameWithType: ToDataTableOptions.Mappings
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Mappings
+- uid: OfficeOpenXml.Export.ToDataTable.DataColumnMappingCollection
+  commentId: T:OfficeOpenXml.Export.ToDataTable.DataColumnMappingCollection
+  parent: OfficeOpenXml.Export.ToDataTable
+  name: DataColumnMappingCollection
+  nameWithType: DataColumnMappingCollection
+  fullName: OfficeOpenXml.Export.ToDataTable.DataColumnMappingCollection
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Mappings
+  commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.Mappings
+  isExternal: true
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.PredefinedMappingsOnly*
+  commentId: Overload:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.PredefinedMappingsOnly
+  name: PredefinedMappingsOnly
+  nameWithType: ToDataTableOptions.PredefinedMappingsOnly
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.PredefinedMappingsOnly
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNamePrefix*
+  commentId: Overload:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNamePrefix
+  name: ColumnNamePrefix
+  nameWithType: ToDataTableOptions.ColumnNamePrefix
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNamePrefix
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataTableName*
+  commentId: Overload:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataTableName
+  name: DataTableName
+  nameWithType: ToDataTableOptions.DataTableName
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataTableName
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataTableNamespace*
+  commentId: Overload:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataTableNamespace
+  name: DataTableNamespace
+  nameWithType: ToDataTableOptions.DataTableNamespace
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataTableNamespace
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey*
+  commentId: Overload:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey
+  name: SetPrimaryKey
+  nameWithType: ToDataTableOptions.SetPrimaryKey
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey
+- uid: System.String[]
+  isExternal: true
+  name: String[]
+  nameWithType: String[]
+  fullName: System.String[]
+  nameWithType.vb: String()
+  fullName.vb: System.String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: System.Int32[]
+  isExternal: true
+  name: Int32[]
+  nameWithType: Int32[]
+  fullName: System.Int32[]
+  nameWithType.vb: Int32()
+  fullName.vb: System.Int32()
+  name.vb: Int32()
+  spec.csharp:
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()

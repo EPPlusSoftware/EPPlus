@@ -1,0 +1,683 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+  id: FinanceCalcResult`1
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(`0)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(`0,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(OfficeOpenXml.eErrorType)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.DataType
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.ExcelErrorType
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.HasError
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.Result
+  langs:
+  - csharp
+  - vb
+  name: FinanceCalcResult<T>
+  nameWithType: FinanceCalcResult<T>
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<T>
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FinanceCalcResult
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: public class FinanceCalcResult<T>
+    typeParameters:
+    - id: T
+    content.vb: Public Class FinanceCalcResult(Of T)
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  nameWithType.vb: FinanceCalcResult(Of T)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T)
+  name.vb: FinanceCalcResult(Of T)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(`0)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(`0)
+  id: '#ctor(`0)'
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+  langs:
+  - csharp
+  - vb
+  name: FinanceCalcResult(T)
+  nameWithType: FinanceCalcResult<T>.FinanceCalcResult(T)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<T>.FinanceCalcResult(T)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: public FinanceCalcResult(T result)
+    parameters:
+    - id: result
+      type: '{T}'
+    content.vb: Public Sub New(result As T)
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor*
+  nameWithType.vb: FinanceCalcResult(Of T).FinanceCalcResult(T)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T).FinanceCalcResult(T)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(`0,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(`0,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  id: '#ctor(`0,OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)'
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+  langs:
+  - csharp
+  - vb
+  name: FinanceCalcResult(T, DataType)
+  nameWithType: FinanceCalcResult<T>.FinanceCalcResult(T, DataType)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<T>.FinanceCalcResult(T, OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: public FinanceCalcResult(T result, DataType dataType)
+    parameters:
+    - id: result
+      type: '{T}'
+    - id: dataType
+      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+    content.vb: Public Sub New(result As T, dataType As DataType)
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor*
+  nameWithType.vb: FinanceCalcResult(Of T).FinanceCalcResult(T, DataType)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T).FinanceCalcResult(T, OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(OfficeOpenXml.eErrorType)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor(OfficeOpenXml.eErrorType)
+  id: '#ctor(OfficeOpenXml.eErrorType)'
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+  langs:
+  - csharp
+  - vb
+  name: FinanceCalcResult(eErrorType)
+  nameWithType: FinanceCalcResult<T>.FinanceCalcResult(eErrorType)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<T>.FinanceCalcResult(OfficeOpenXml.eErrorType)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: public FinanceCalcResult(eErrorType error)
+    parameters:
+    - id: error
+      type: OfficeOpenXml.eErrorType
+    content.vb: Public Sub New(error As eErrorType)
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor*
+  nameWithType.vb: FinanceCalcResult(Of T).FinanceCalcResult(eErrorType)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T).FinanceCalcResult(OfficeOpenXml.eErrorType)
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.Result
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.Result
+  id: Result
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+  langs:
+  - csharp
+  - vb
+  name: Result
+  nameWithType: FinanceCalcResult<T>.Result
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<T>.Result
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Result
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
+    startLine: 53
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: public T Result { get; }
+    parameters: []
+    return:
+      type: '{T}'
+    content.vb: Public ReadOnly Property Result As T
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.Result*
+  nameWithType.vb: FinanceCalcResult(Of T).Result
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T).Result
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.DataType
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.DataType
+  id: DataType
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+  langs:
+  - csharp
+  - vb
+  name: DataType
+  nameWithType: FinanceCalcResult<T>.DataType
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<T>.DataType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataType
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
+    startLine: 55
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: public DataType DataType { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+    content.vb: Public ReadOnly Property DataType As DataType
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.DataType*
+  nameWithType.vb: FinanceCalcResult(Of T).DataType
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T).DataType
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.HasError
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.HasError
+  id: HasError
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+  langs:
+  - csharp
+  - vb
+  name: HasError
+  nameWithType: FinanceCalcResult<T>.HasError
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<T>.HasError
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasError
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
+    startLine: 57
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: public bool HasError { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property HasError As Boolean
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.HasError*
+  nameWithType.vb: FinanceCalcResult(Of T).HasError
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T).HasError
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.ExcelErrorType
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.ExcelErrorType
+  id: ExcelErrorType
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1
+  langs:
+  - csharp
+  - vb
+  name: ExcelErrorType
+  nameWithType: FinanceCalcResult<T>.ExcelErrorType
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<T>.ExcelErrorType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelErrorType
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/FinanceCalcResult.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: public eErrorType ExcelErrorType { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.eErrorType
+    content.vb: Public ReadOnly Property ExcelErrorType As eErrorType
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.ExcelErrorType*
+  nameWithType.vb: FinanceCalcResult(Of T).ExcelErrorType
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T).ExcelErrorType
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.#ctor
+  name: FinanceCalcResult
+  nameWithType: FinanceCalcResult<T>.FinanceCalcResult
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<T>.FinanceCalcResult
+  nameWithType.vb: FinanceCalcResult(Of T).FinanceCalcResult
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T).FinanceCalcResult
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+  commentId: T:OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+  parent: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: DataType
+  nameWithType: DataType
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph.DataType
+- uid: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  commentId: N:OfficeOpenXml.FormulaParsing.ExpressionGraph
+  name: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  nameWithType: OfficeOpenXml.FormulaParsing.ExpressionGraph
+  fullName: OfficeOpenXml.FormulaParsing.ExpressionGraph
+- uid: OfficeOpenXml.eErrorType
+  commentId: T:OfficeOpenXml.eErrorType
+  parent: OfficeOpenXml
+  name: eErrorType
+  nameWithType: eErrorType
+  fullName: OfficeOpenXml.eErrorType
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.Result*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.Result
+  name: Result
+  nameWithType: FinanceCalcResult<T>.Result
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<T>.Result
+  nameWithType.vb: FinanceCalcResult(Of T).Result
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T).Result
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.DataType*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.DataType
+  name: DataType
+  nameWithType: FinanceCalcResult<T>.DataType
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<T>.DataType
+  nameWithType.vb: FinanceCalcResult(Of T).DataType
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T).DataType
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.HasError*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.HasError
+  name: HasError
+  nameWithType: FinanceCalcResult<T>.HasError
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<T>.HasError
+  nameWithType.vb: FinanceCalcResult(Of T).HasError
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T).HasError
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.ExcelErrorType*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult`1.ExcelErrorType
+  name: ExcelErrorType
+  nameWithType: FinanceCalcResult<T>.ExcelErrorType
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult<T>.ExcelErrorType
+  nameWithType.vb: FinanceCalcResult(Of T).ExcelErrorType
+  fullName.vb: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.FinanceCalcResult(Of T).ExcelErrorType

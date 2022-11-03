@@ -1,0 +1,1111 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelSheetProtection
+  commentId: T:OfficeOpenXml.ExcelSheetProtection
+  id: ExcelSheetProtection
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelSheetProtection.AllowAutoFilter
+  - OfficeOpenXml.ExcelSheetProtection.AllowDeleteColumns
+  - OfficeOpenXml.ExcelSheetProtection.AllowDeleteRows
+  - OfficeOpenXml.ExcelSheetProtection.AllowEditObject
+  - OfficeOpenXml.ExcelSheetProtection.AllowEditScenarios
+  - OfficeOpenXml.ExcelSheetProtection.AllowFormatCells
+  - OfficeOpenXml.ExcelSheetProtection.AllowFormatColumns
+  - OfficeOpenXml.ExcelSheetProtection.AllowFormatRows
+  - OfficeOpenXml.ExcelSheetProtection.AllowInsertColumns
+  - OfficeOpenXml.ExcelSheetProtection.AllowInsertHyperlinks
+  - OfficeOpenXml.ExcelSheetProtection.AllowInsertRows
+  - OfficeOpenXml.ExcelSheetProtection.AllowPivotTables
+  - OfficeOpenXml.ExcelSheetProtection.AllowSelectLockedCells
+  - OfficeOpenXml.ExcelSheetProtection.AllowSelectUnlockedCells
+  - OfficeOpenXml.ExcelSheetProtection.AllowSort
+  - OfficeOpenXml.ExcelSheetProtection.IsProtected
+  - OfficeOpenXml.ExcelSheetProtection.SetPassword(System.String)
+  langs:
+  - csharp
+  - vb
+  name: ExcelSheetProtection
+  nameWithType: ExcelSheetProtection
+  fullName: OfficeOpenXml.ExcelSheetProtection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelSheetProtection
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSheet protection\n<xref href=\"OfficeOpenXml.ExcelEncryption\" data-throw-if-not-resolved=\"false\"></xref> \n<xref href=\"OfficeOpenXml.ExcelProtection\" data-throw-if-not-resolved=\"false\"></xref> \n"
+  example: []
+  syntax:
+    content: 'public sealed class ExcelSheetProtection : XmlHelper'
+    content.vb: >-
+      Public NotInheritable Class ExcelSheetProtection
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.ExcelSheetProtection.IsProtected
+  commentId: P:OfficeOpenXml.ExcelSheetProtection.IsProtected
+  id: IsProtected
+  parent: OfficeOpenXml.ExcelSheetProtection
+  langs:
+  - csharp
+  - vb
+  name: IsProtected
+  nameWithType: ExcelSheetProtection.IsProtected
+  fullName: OfficeOpenXml.ExcelSheetProtection.IsProtected
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsProtected
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf the worksheet is protected.\n"
+  example: []
+  syntax:
+    content: public bool IsProtected { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsProtected As Boolean
+  overload: OfficeOpenXml.ExcelSheetProtection.IsProtected*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowSelectLockedCells
+  commentId: P:OfficeOpenXml.ExcelSheetProtection.AllowSelectLockedCells
+  id: AllowSelectLockedCells
+  parent: OfficeOpenXml.ExcelSheetProtection
+  langs:
+  - csharp
+  - vb
+  name: AllowSelectLockedCells
+  nameWithType: ExcelSheetProtection.AllowSelectLockedCells
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowSelectLockedCells
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowSelectLockedCells
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 71
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAllow users to select locked cells\n"
+  example: []
+  syntax:
+    content: public bool AllowSelectLockedCells { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowSelectLockedCells As Boolean
+  overload: OfficeOpenXml.ExcelSheetProtection.AllowSelectLockedCells*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowSelectUnlockedCells
+  commentId: P:OfficeOpenXml.ExcelSheetProtection.AllowSelectUnlockedCells
+  id: AllowSelectUnlockedCells
+  parent: OfficeOpenXml.ExcelSheetProtection
+  langs:
+  - csharp
+  - vb
+  name: AllowSelectUnlockedCells
+  nameWithType: ExcelSheetProtection.AllowSelectUnlockedCells
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowSelectUnlockedCells
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowSelectUnlockedCells
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 87
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAllow users to select unlocked cells\n"
+  example: []
+  syntax:
+    content: public bool AllowSelectUnlockedCells { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowSelectUnlockedCells As Boolean
+  overload: OfficeOpenXml.ExcelSheetProtection.AllowSelectUnlockedCells*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowEditObject
+  commentId: P:OfficeOpenXml.ExcelSheetProtection.AllowEditObject
+  id: AllowEditObject
+  parent: OfficeOpenXml.ExcelSheetProtection
+  langs:
+  - csharp
+  - vb
+  name: AllowEditObject
+  nameWithType: ExcelSheetProtection.AllowEditObject
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowEditObject
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowEditObject
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 103
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAllow users to edit objects\n"
+  example: []
+  syntax:
+    content: public bool AllowEditObject { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowEditObject As Boolean
+  overload: OfficeOpenXml.ExcelSheetProtection.AllowEditObject*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowEditScenarios
+  commentId: P:OfficeOpenXml.ExcelSheetProtection.AllowEditScenarios
+  id: AllowEditScenarios
+  parent: OfficeOpenXml.ExcelSheetProtection
+  langs:
+  - csharp
+  - vb
+  name: AllowEditScenarios
+  nameWithType: ExcelSheetProtection.AllowEditScenarios
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowEditScenarios
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowEditScenarios
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 119
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAllow users to edit senarios\n"
+  example: []
+  syntax:
+    content: public bool AllowEditScenarios { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowEditScenarios As Boolean
+  overload: OfficeOpenXml.ExcelSheetProtection.AllowEditScenarios*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowFormatCells
+  commentId: P:OfficeOpenXml.ExcelSheetProtection.AllowFormatCells
+  id: AllowFormatCells
+  parent: OfficeOpenXml.ExcelSheetProtection
+  langs:
+  - csharp
+  - vb
+  name: AllowFormatCells
+  nameWithType: ExcelSheetProtection.AllowFormatCells
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowFormatCells
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowFormatCells
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 135
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAllow users to format cells\n"
+  example: []
+  syntax:
+    content: public bool AllowFormatCells { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowFormatCells As Boolean
+  overload: OfficeOpenXml.ExcelSheetProtection.AllowFormatCells*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowFormatColumns
+  commentId: P:OfficeOpenXml.ExcelSheetProtection.AllowFormatColumns
+  id: AllowFormatColumns
+  parent: OfficeOpenXml.ExcelSheetProtection
+  langs:
+  - csharp
+  - vb
+  name: AllowFormatColumns
+  nameWithType: ExcelSheetProtection.AllowFormatColumns
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowFormatColumns
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowFormatColumns
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 151
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAllow users to Format columns\n"
+  example: []
+  syntax:
+    content: public bool AllowFormatColumns { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowFormatColumns As Boolean
+  overload: OfficeOpenXml.ExcelSheetProtection.AllowFormatColumns*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowFormatRows
+  commentId: P:OfficeOpenXml.ExcelSheetProtection.AllowFormatRows
+  id: AllowFormatRows
+  parent: OfficeOpenXml.ExcelSheetProtection
+  langs:
+  - csharp
+  - vb
+  name: AllowFormatRows
+  nameWithType: ExcelSheetProtection.AllowFormatRows
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowFormatRows
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowFormatRows
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 167
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAllow users to Format rows\n"
+  example: []
+  syntax:
+    content: public bool AllowFormatRows { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowFormatRows As Boolean
+  overload: OfficeOpenXml.ExcelSheetProtection.AllowFormatRows*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowInsertColumns
+  commentId: P:OfficeOpenXml.ExcelSheetProtection.AllowInsertColumns
+  id: AllowInsertColumns
+  parent: OfficeOpenXml.ExcelSheetProtection
+  langs:
+  - csharp
+  - vb
+  name: AllowInsertColumns
+  nameWithType: ExcelSheetProtection.AllowInsertColumns
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowInsertColumns
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowInsertColumns
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 184
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAllow users to insert columns\n"
+  example: []
+  syntax:
+    content: public bool AllowInsertColumns { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowInsertColumns As Boolean
+  overload: OfficeOpenXml.ExcelSheetProtection.AllowInsertColumns*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowInsertRows
+  commentId: P:OfficeOpenXml.ExcelSheetProtection.AllowInsertRows
+  id: AllowInsertRows
+  parent: OfficeOpenXml.ExcelSheetProtection
+  langs:
+  - csharp
+  - vb
+  name: AllowInsertRows
+  nameWithType: ExcelSheetProtection.AllowInsertRows
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowInsertRows
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowInsertRows
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 201
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAllow users to Format rows\n"
+  example: []
+  syntax:
+    content: public bool AllowInsertRows { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowInsertRows As Boolean
+  overload: OfficeOpenXml.ExcelSheetProtection.AllowInsertRows*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowInsertHyperlinks
+  commentId: P:OfficeOpenXml.ExcelSheetProtection.AllowInsertHyperlinks
+  id: AllowInsertHyperlinks
+  parent: OfficeOpenXml.ExcelSheetProtection
+  langs:
+  - csharp
+  - vb
+  name: AllowInsertHyperlinks
+  nameWithType: ExcelSheetProtection.AllowInsertHyperlinks
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowInsertHyperlinks
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowInsertHyperlinks
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 217
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAllow users to insert hyperlinks\n"
+  example: []
+  syntax:
+    content: public bool AllowInsertHyperlinks { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowInsertHyperlinks As Boolean
+  overload: OfficeOpenXml.ExcelSheetProtection.AllowInsertHyperlinks*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowDeleteColumns
+  commentId: P:OfficeOpenXml.ExcelSheetProtection.AllowDeleteColumns
+  id: AllowDeleteColumns
+  parent: OfficeOpenXml.ExcelSheetProtection
+  langs:
+  - csharp
+  - vb
+  name: AllowDeleteColumns
+  nameWithType: ExcelSheetProtection.AllowDeleteColumns
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowDeleteColumns
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowDeleteColumns
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 233
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAllow users to delete columns\n"
+  example: []
+  syntax:
+    content: public bool AllowDeleteColumns { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowDeleteColumns As Boolean
+  overload: OfficeOpenXml.ExcelSheetProtection.AllowDeleteColumns*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowDeleteRows
+  commentId: P:OfficeOpenXml.ExcelSheetProtection.AllowDeleteRows
+  id: AllowDeleteRows
+  parent: OfficeOpenXml.ExcelSheetProtection
+  langs:
+  - csharp
+  - vb
+  name: AllowDeleteRows
+  nameWithType: ExcelSheetProtection.AllowDeleteRows
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowDeleteRows
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowDeleteRows
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 249
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAllow users to delete rows\n"
+  example: []
+  syntax:
+    content: public bool AllowDeleteRows { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowDeleteRows As Boolean
+  overload: OfficeOpenXml.ExcelSheetProtection.AllowDeleteRows*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowSort
+  commentId: P:OfficeOpenXml.ExcelSheetProtection.AllowSort
+  id: AllowSort
+  parent: OfficeOpenXml.ExcelSheetProtection
+  langs:
+  - csharp
+  - vb
+  name: AllowSort
+  nameWithType: ExcelSheetProtection.AllowSort
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowSort
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowSort
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 266
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAllow users to sort a range\n"
+  example: []
+  syntax:
+    content: public bool AllowSort { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowSort As Boolean
+  overload: OfficeOpenXml.ExcelSheetProtection.AllowSort*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowAutoFilter
+  commentId: P:OfficeOpenXml.ExcelSheetProtection.AllowAutoFilter
+  id: AllowAutoFilter
+  parent: OfficeOpenXml.ExcelSheetProtection
+  langs:
+  - csharp
+  - vb
+  name: AllowAutoFilter
+  nameWithType: ExcelSheetProtection.AllowAutoFilter
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowAutoFilter
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowAutoFilter
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 283
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAllow users to use autofilters\n"
+  example: []
+  syntax:
+    content: public bool AllowAutoFilter { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowAutoFilter As Boolean
+  overload: OfficeOpenXml.ExcelSheetProtection.AllowAutoFilter*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowPivotTables
+  commentId: P:OfficeOpenXml.ExcelSheetProtection.AllowPivotTables
+  id: AllowPivotTables
+  parent: OfficeOpenXml.ExcelSheetProtection
+  langs:
+  - csharp
+  - vb
+  name: AllowPivotTables
+  nameWithType: ExcelSheetProtection.AllowPivotTables
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowPivotTables
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowPivotTables
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 299
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAllow users to use pivottables\n"
+  example: []
+  syntax:
+    content: public bool AllowPivotTables { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowPivotTables As Boolean
+  overload: OfficeOpenXml.ExcelSheetProtection.AllowPivotTables*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelSheetProtection.SetPassword(System.String)
+  commentId: M:OfficeOpenXml.ExcelSheetProtection.SetPassword(System.String)
+  id: SetPassword(System.String)
+  parent: OfficeOpenXml.ExcelSheetProtection
+  langs:
+  - csharp
+  - vb
+  name: SetPassword(String)
+  nameWithType: ExcelSheetProtection.SetPassword(String)
+  fullName: OfficeOpenXml.ExcelSheetProtection.SetPassword(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelSheetProtection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetPassword
+    path: ../src/EPPlus/ExcelSheetProtection.cs
+    startLine: 317
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSets a password for the sheet.\n"
+  example: []
+  syntax:
+    content: public void SetPassword(string Password)
+    parameters:
+    - id: Password
+      type: System.String
+      description: ''
+    content.vb: Public Sub SetPassword(Password As String)
+  overload: OfficeOpenXml.ExcelSheetProtection.SetPassword*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.ExcelEncryption
+  commentId: T:OfficeOpenXml.ExcelEncryption
+  parent: OfficeOpenXml
+  name: ExcelEncryption
+  nameWithType: ExcelEncryption
+  fullName: OfficeOpenXml.ExcelEncryption
+- uid: OfficeOpenXml.ExcelProtection
+  commentId: T:OfficeOpenXml.ExcelProtection
+  parent: OfficeOpenXml
+  name: ExcelProtection
+  nameWithType: ExcelProtection
+  fullName: OfficeOpenXml.ExcelProtection
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelSheetProtection.IsProtected*
+  commentId: Overload:OfficeOpenXml.ExcelSheetProtection.IsProtected
+  name: IsProtected
+  nameWithType: ExcelSheetProtection.IsProtected
+  fullName: OfficeOpenXml.ExcelSheetProtection.IsProtected
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowSelectLockedCells*
+  commentId: Overload:OfficeOpenXml.ExcelSheetProtection.AllowSelectLockedCells
+  name: AllowSelectLockedCells
+  nameWithType: ExcelSheetProtection.AllowSelectLockedCells
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowSelectLockedCells
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowSelectUnlockedCells*
+  commentId: Overload:OfficeOpenXml.ExcelSheetProtection.AllowSelectUnlockedCells
+  name: AllowSelectUnlockedCells
+  nameWithType: ExcelSheetProtection.AllowSelectUnlockedCells
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowSelectUnlockedCells
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowEditObject*
+  commentId: Overload:OfficeOpenXml.ExcelSheetProtection.AllowEditObject
+  name: AllowEditObject
+  nameWithType: ExcelSheetProtection.AllowEditObject
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowEditObject
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowEditScenarios*
+  commentId: Overload:OfficeOpenXml.ExcelSheetProtection.AllowEditScenarios
+  name: AllowEditScenarios
+  nameWithType: ExcelSheetProtection.AllowEditScenarios
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowEditScenarios
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowFormatCells*
+  commentId: Overload:OfficeOpenXml.ExcelSheetProtection.AllowFormatCells
+  name: AllowFormatCells
+  nameWithType: ExcelSheetProtection.AllowFormatCells
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowFormatCells
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowFormatColumns*
+  commentId: Overload:OfficeOpenXml.ExcelSheetProtection.AllowFormatColumns
+  name: AllowFormatColumns
+  nameWithType: ExcelSheetProtection.AllowFormatColumns
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowFormatColumns
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowFormatRows*
+  commentId: Overload:OfficeOpenXml.ExcelSheetProtection.AllowFormatRows
+  name: AllowFormatRows
+  nameWithType: ExcelSheetProtection.AllowFormatRows
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowFormatRows
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowInsertColumns*
+  commentId: Overload:OfficeOpenXml.ExcelSheetProtection.AllowInsertColumns
+  name: AllowInsertColumns
+  nameWithType: ExcelSheetProtection.AllowInsertColumns
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowInsertColumns
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowInsertRows*
+  commentId: Overload:OfficeOpenXml.ExcelSheetProtection.AllowInsertRows
+  name: AllowInsertRows
+  nameWithType: ExcelSheetProtection.AllowInsertRows
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowInsertRows
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowInsertHyperlinks*
+  commentId: Overload:OfficeOpenXml.ExcelSheetProtection.AllowInsertHyperlinks
+  name: AllowInsertHyperlinks
+  nameWithType: ExcelSheetProtection.AllowInsertHyperlinks
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowInsertHyperlinks
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowDeleteColumns*
+  commentId: Overload:OfficeOpenXml.ExcelSheetProtection.AllowDeleteColumns
+  name: AllowDeleteColumns
+  nameWithType: ExcelSheetProtection.AllowDeleteColumns
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowDeleteColumns
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowDeleteRows*
+  commentId: Overload:OfficeOpenXml.ExcelSheetProtection.AllowDeleteRows
+  name: AllowDeleteRows
+  nameWithType: ExcelSheetProtection.AllowDeleteRows
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowDeleteRows
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowSort*
+  commentId: Overload:OfficeOpenXml.ExcelSheetProtection.AllowSort
+  name: AllowSort
+  nameWithType: ExcelSheetProtection.AllowSort
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowSort
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowAutoFilter*
+  commentId: Overload:OfficeOpenXml.ExcelSheetProtection.AllowAutoFilter
+  name: AllowAutoFilter
+  nameWithType: ExcelSheetProtection.AllowAutoFilter
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowAutoFilter
+- uid: OfficeOpenXml.ExcelSheetProtection.AllowPivotTables*
+  commentId: Overload:OfficeOpenXml.ExcelSheetProtection.AllowPivotTables
+  name: AllowPivotTables
+  nameWithType: ExcelSheetProtection.AllowPivotTables
+  fullName: OfficeOpenXml.ExcelSheetProtection.AllowPivotTables
+- uid: OfficeOpenXml.ExcelSheetProtection.SetPassword*
+  commentId: Overload:OfficeOpenXml.ExcelSheetProtection.SetPassword
+  name: SetPassword
+  nameWithType: ExcelSheetProtection.SetPassword
+  fullName: OfficeOpenXml.ExcelSheetProtection.SetPassword
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

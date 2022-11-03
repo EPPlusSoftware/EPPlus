@@ -1,0 +1,336 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider
+  id: ICouponProvider
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaybs(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdays(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaysnc(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupnum(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCouppcd(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupsncd(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  langs:
+  - csharp
+  - vb
+  name: ICouponProvider
+  nameWithType: ICouponProvider
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ICouponProvider
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
+    startLine: 16
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: public interface ICouponProvider
+    content.vb: Public Interface ICouponProvider
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaybs(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaybs(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  id: GetCoupdaybs(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider
+  langs:
+  - csharp
+  - vb
+  name: GetCoupdaybs(DateTime, DateTime, Int32, DayCountBasis)
+  nameWithType: ICouponProvider.GetCoupdaybs(DateTime, DateTime, Int32, DayCountBasis)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaybs(System.DateTime, System.DateTime, System.Int32, OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetCoupdaybs
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: double GetCoupdaybs(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
+    parameters:
+    - id: settlement
+      type: System.DateTime
+    - id: maturity
+      type: System.DateTime
+    - id: frequency
+      type: System.Int32
+    - id: basis
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+    return:
+      type: System.Double
+    content.vb: Function GetCoupdaybs(settlement As Date, maturity As Date, frequency As Integer, basis As DayCountBasis) As Double
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaybs*
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdays(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdays(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  id: GetCoupdays(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider
+  langs:
+  - csharp
+  - vb
+  name: GetCoupdays(DateTime, DateTime, Int32, DayCountBasis)
+  nameWithType: ICouponProvider.GetCoupdays(DateTime, DateTime, Int32, DayCountBasis)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdays(System.DateTime, System.DateTime, System.Int32, OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetCoupdays
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: double GetCoupdays(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
+    parameters:
+    - id: settlement
+      type: System.DateTime
+    - id: maturity
+      type: System.DateTime
+    - id: frequency
+      type: System.Int32
+    - id: basis
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+    return:
+      type: System.Double
+    content.vb: Function GetCoupdays(settlement As Date, maturity As Date, frequency As Integer, basis As DayCountBasis) As Double
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdays*
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaysnc(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaysnc(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  id: GetCoupdaysnc(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider
+  langs:
+  - csharp
+  - vb
+  name: GetCoupdaysnc(DateTime, DateTime, Int32, DayCountBasis)
+  nameWithType: ICouponProvider.GetCoupdaysnc(DateTime, DateTime, Int32, DayCountBasis)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaysnc(System.DateTime, System.DateTime, System.Int32, OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetCoupdaysnc
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: double GetCoupdaysnc(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
+    parameters:
+    - id: settlement
+      type: System.DateTime
+    - id: maturity
+      type: System.DateTime
+    - id: frequency
+      type: System.Int32
+    - id: basis
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+    return:
+      type: System.Double
+    content.vb: Function GetCoupdaysnc(settlement As Date, maturity As Date, frequency As Integer, basis As DayCountBasis) As Double
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaysnc*
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupsncd(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupsncd(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  id: GetCoupsncd(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider
+  langs:
+  - csharp
+  - vb
+  name: GetCoupsncd(DateTime, DateTime, Int32, DayCountBasis)
+  nameWithType: ICouponProvider.GetCoupsncd(DateTime, DateTime, Int32, DayCountBasis)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupsncd(System.DateTime, System.DateTime, System.Int32, OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetCoupsncd
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: DateTime GetCoupsncd(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
+    parameters:
+    - id: settlement
+      type: System.DateTime
+    - id: maturity
+      type: System.DateTime
+    - id: frequency
+      type: System.Int32
+    - id: basis
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+    return:
+      type: System.DateTime
+    content.vb: Function GetCoupsncd(settlement As Date, maturity As Date, frequency As Integer, basis As DayCountBasis) As Date
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupsncd*
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupnum(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupnum(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  id: GetCoupnum(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider
+  langs:
+  - csharp
+  - vb
+  name: GetCoupnum(DateTime, DateTime, Int32, DayCountBasis)
+  nameWithType: ICouponProvider.GetCoupnum(DateTime, DateTime, Int32, DayCountBasis)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupnum(System.DateTime, System.DateTime, System.Int32, OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetCoupnum
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: double GetCoupnum(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
+    parameters:
+    - id: settlement
+      type: System.DateTime
+    - id: maturity
+      type: System.DateTime
+    - id: frequency
+      type: System.Int32
+    - id: basis
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+    return:
+      type: System.Double
+    content.vb: Function GetCoupnum(settlement As Date, maturity As Date, frequency As Integer, basis As DayCountBasis) As Double
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupnum*
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCouppcd(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCouppcd(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  id: GetCouppcd(System.DateTime,System.DateTime,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider
+  langs:
+  - csharp
+  - vb
+  name: GetCouppcd(DateTime, DateTime, Int32, DayCountBasis)
+  nameWithType: ICouponProvider.GetCouppcd(DateTime, DateTime, Int32, DayCountBasis)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCouppcd(System.DateTime, System.DateTime, System.Int32, OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetCouppcd
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/ICouponProvider.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: DateTime GetCouppcd(DateTime settlement, DateTime maturity, int frequency, DayCountBasis basis)
+    parameters:
+    - id: settlement
+      type: System.DateTime
+    - id: maturity
+      type: System.DateTime
+    - id: frequency
+      type: System.Int32
+    - id: basis
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+    return:
+      type: System.DateTime
+    content.vb: Function GetCouppcd(settlement As Date, maturity As Date, frequency As Integer, basis As DayCountBasis) As Date
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCouppcd*
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaybs*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaybs
+  name: GetCoupdaybs
+  nameWithType: ICouponProvider.GetCoupdaybs
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaybs
+- uid: System.DateTime
+  commentId: T:System.DateTime
+  parent: System
+  isExternal: true
+  name: DateTime
+  nameWithType: DateTime
+  fullName: System.DateTime
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  name: DayCountBasis
+  nameWithType: DayCountBasis
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdays*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdays
+  name: GetCoupdays
+  nameWithType: ICouponProvider.GetCoupdays
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdays
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaysnc*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaysnc
+  name: GetCoupdaysnc
+  nameWithType: ICouponProvider.GetCoupdaysnc
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupdaysnc
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupsncd*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupsncd
+  name: GetCoupsncd
+  nameWithType: ICouponProvider.GetCoupsncd
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupsncd
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupnum*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupnum
+  name: GetCoupnum
+  nameWithType: ICouponProvider.GetCoupnum
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCoupnum
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCouppcd*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCouppcd
+  name: GetCouppcd
+  nameWithType: ICouponProvider.GetCouppcd
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.ICouponProvider.GetCouppcd

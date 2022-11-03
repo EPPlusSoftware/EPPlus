@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaList
+  commentId: T:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaList
+  id: IExcelDataValidationFormulaList
+  parent: OfficeOpenXml.DataValidation.Formulas.Contracts
+  children:
+  - OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaList.Values
+  langs:
+  - csharp
+  - vb
+  name: IExcelDataValidationFormulaList
+  nameWithType: IExcelDataValidationFormulaList
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaList
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaList.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelDataValidationFormulaList
+    path: ../src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaList.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation.Formulas.Contracts
+  summary: "\nInterface for a data validation of list type\n"
+  example: []
+  syntax:
+    content: 'public interface IExcelDataValidationFormulaList : IExcelDataValidationFormula'
+    content.vb: >-
+      Public Interface IExcelDataValidationFormulaList
+          Inherits IExcelDataValidationFormula
+  inheritedMembers:
+  - OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaList.Values
+  commentId: P:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaList.Values
+  id: Values
+  parent: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaList
+  langs:
+  - csharp
+  - vb
+  name: Values
+  nameWithType: IExcelDataValidationFormulaList.Values
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaList.Values
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaList.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Values
+    path: ../src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaList.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation.Formulas.Contracts
+  summary: "\nA list of value strings.\n"
+  example: []
+  syntax:
+    content: IList<string> Values { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IList{System.String}
+    content.vb: ReadOnly Property Values As IList(Of String)
+  overload: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaList.Values*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts
+  commentId: N:OfficeOpenXml.DataValidation.Formulas.Contracts
+  name: OfficeOpenXml.DataValidation.Formulas.Contracts
+  nameWithType: OfficeOpenXml.DataValidation.Formulas.Contracts
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+  commentId: P:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+  parent: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula
+  name: ExcelFormula
+  nameWithType: IExcelDataValidationFormula.ExcelFormula
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula
+  commentId: T:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula
+  parent: OfficeOpenXml.DataValidation.Formulas.Contracts
+  name: IExcelDataValidationFormula
+  nameWithType: IExcelDataValidationFormula
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaList.Values*
+  commentId: Overload:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaList.Values
+  name: Values
+  nameWithType: IExcelDataValidationFormulaList.Values
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaList.Values
+- uid: System.Collections.Generic.IList{System.String}
+  commentId: T:System.Collections.Generic.IList{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IList`1
+  name: IList<String>
+  nameWithType: IList<String>
+  fullName: System.Collections.Generic.IList<System.String>
+  nameWithType.vb: IList(Of String)
+  fullName.vb: System.Collections.Generic.IList(Of System.String)
+  name.vb: IList(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IList`1
+  commentId: T:System.Collections.Generic.IList`1
+  isExternal: true
+  name: IList<T>
+  nameWithType: IList<T>
+  fullName: System.Collections.Generic.IList<T>
+  nameWithType.vb: IList(Of T)
+  fullName.vb: System.Collections.Generic.IList(Of T)
+  name.vb: IList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IList`1
+    name: IList
+    nameWithType: IList
+    fullName: System.Collections.Generic.IList
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic

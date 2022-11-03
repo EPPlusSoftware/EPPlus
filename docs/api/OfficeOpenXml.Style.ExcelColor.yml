@@ -1,0 +1,996 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.ExcelColor
+  commentId: T:OfficeOpenXml.Style.ExcelColor
+  id: ExcelColor
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.ExcelColor.Auto
+  - OfficeOpenXml.Style.ExcelColor.Indexed
+  - OfficeOpenXml.Style.ExcelColor.LookupColor
+  - OfficeOpenXml.Style.ExcelColor.LookupColor(OfficeOpenXml.Style.ExcelColor)
+  - OfficeOpenXml.Style.ExcelColor.Rgb
+  - OfficeOpenXml.Style.ExcelColor.SetAuto
+  - OfficeOpenXml.Style.ExcelColor.SetColor(OfficeOpenXml.Drawing.eThemeSchemeColor)
+  - OfficeOpenXml.Style.ExcelColor.SetColor(OfficeOpenXml.Style.ExcelIndexedColor)
+  - OfficeOpenXml.Style.ExcelColor.SetColor(System.Drawing.Color)
+  - OfficeOpenXml.Style.ExcelColor.SetColor(System.Int32,System.Int32,System.Int32,System.Int32)
+  - OfficeOpenXml.Style.ExcelColor.Theme
+  - OfficeOpenXml.Style.ExcelColor.Tint
+  langs:
+  - csharp
+  - vb
+  name: ExcelColor
+  nameWithType: ExcelColor
+  fullName: OfficeOpenXml.Style.ExcelColor
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelColor
+    path: ../src/EPPlus/Style/ExcelColor.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nColor for cellstyling\n"
+  example: []
+  syntax:
+    content: 'public sealed class ExcelColor : StyleBase'
+    content.vb: >-
+      Public NotInheritable Class ExcelColor
+          Inherits StyleBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Style.StyleBase
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.Style.ExcelColor.Theme
+  commentId: P:OfficeOpenXml.Style.ExcelColor.Theme
+  id: Theme
+  parent: OfficeOpenXml.Style.ExcelColor
+  langs:
+  - csharp
+  - vb
+  name: Theme
+  nameWithType: ExcelColor.Theme
+  fullName: OfficeOpenXml.Style.ExcelColor.Theme
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Theme
+    path: ../src/EPPlus/Style/ExcelColor.cs
+    startLine: 122
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe theme color\n"
+  example: []
+  syntax:
+    content: public eThemeSchemeColor? Theme { get; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.Drawing.eThemeSchemeColor}
+    content.vb: Public ReadOnly Property Theme As eThemeSchemeColor?
+  overload: OfficeOpenXml.Style.ExcelColor.Theme*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.ExcelColor.Tint
+  commentId: P:OfficeOpenXml.Style.ExcelColor.Tint
+  id: Tint
+  parent: OfficeOpenXml.Style.ExcelColor
+  langs:
+  - csharp
+  - vb
+  name: Tint
+  nameWithType: ExcelColor.Tint
+  fullName: OfficeOpenXml.Style.ExcelColor.Tint
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Tint
+    path: ../src/EPPlus/Style/ExcelColor.cs
+    startLine: 137
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe tint value\n"
+  example: []
+  syntax:
+    content: public decimal Tint { get; set; }
+    parameters: []
+    return:
+      type: System.Decimal
+    content.vb: Public Property Tint As Decimal
+  overload: OfficeOpenXml.Style.ExcelColor.Tint*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelColor.Rgb
+  commentId: P:OfficeOpenXml.Style.ExcelColor.Rgb
+  id: Rgb
+  parent: OfficeOpenXml.Style.ExcelColor
+  langs:
+  - csharp
+  - vb
+  name: Rgb
+  nameWithType: ExcelColor.Rgb
+  fullName: OfficeOpenXml.Style.ExcelColor.Rgb
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Rgb
+    path: ../src/EPPlus/Style/ExcelColor.cs
+    startLine: 156
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe RGB value\n"
+  example: []
+  syntax:
+    content: public string Rgb { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Rgb As String
+  overload: OfficeOpenXml.Style.ExcelColor.Rgb*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.ExcelColor.Indexed
+  commentId: P:OfficeOpenXml.Style.ExcelColor.Indexed
+  id: Indexed
+  parent: OfficeOpenXml.Style.ExcelColor
+  langs:
+  - csharp
+  - vb
+  name: Indexed
+  nameWithType: ExcelColor.Indexed
+  fullName: OfficeOpenXml.Style.ExcelColor.Indexed
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indexed
+    path: ../src/EPPlus/Style/ExcelColor.cs
+    startLine: 172
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe indexed color number.\nA negative value means not set.\n"
+  example: []
+  syntax:
+    content: public int Indexed { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Indexed As Integer
+  overload: OfficeOpenXml.Style.ExcelColor.Indexed*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelColor.Auto
+  commentId: P:OfficeOpenXml.Style.ExcelColor.Auto
+  id: Auto
+  parent: OfficeOpenXml.Style.ExcelColor
+  langs:
+  - csharp
+  - vb
+  name: Auto
+  nameWithType: ExcelColor.Auto
+  fullName: OfficeOpenXml.Style.ExcelColor.Auto
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Auto
+    path: ../src/EPPlus/Style/ExcelColor.cs
+    startLine: 191
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nAuto color\n"
+  example: []
+  syntax:
+    content: public bool Auto { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property Auto As Boolean
+  overload: OfficeOpenXml.Style.ExcelColor.Auto*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.ExcelColor.SetColor(System.Drawing.Color)
+  commentId: M:OfficeOpenXml.Style.ExcelColor.SetColor(System.Drawing.Color)
+  id: SetColor(System.Drawing.Color)
+  parent: OfficeOpenXml.Style.ExcelColor
+  langs:
+  - csharp
+  - vb
+  name: SetColor(Color)
+  nameWithType: ExcelColor.SetColor(Color)
+  fullName: OfficeOpenXml.Style.ExcelColor.SetColor(System.Drawing.Color)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetColor
+    path: ../src/EPPlus/Style/ExcelColor.cs
+    startLine: 209
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSet the color of the object\n"
+  example: []
+  syntax:
+    content: public void SetColor(Color color)
+    parameters:
+    - id: color
+      type: System.Drawing.Color
+      description: The color
+    content.vb: Public Sub SetColor(color As Color)
+  overload: OfficeOpenXml.Style.ExcelColor.SetColor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelColor.SetColor(OfficeOpenXml.Drawing.eThemeSchemeColor)
+  commentId: M:OfficeOpenXml.Style.ExcelColor.SetColor(OfficeOpenXml.Drawing.eThemeSchemeColor)
+  id: SetColor(OfficeOpenXml.Drawing.eThemeSchemeColor)
+  parent: OfficeOpenXml.Style.ExcelColor
+  langs:
+  - csharp
+  - vb
+  name: SetColor(eThemeSchemeColor)
+  nameWithType: ExcelColor.SetColor(eThemeSchemeColor)
+  fullName: OfficeOpenXml.Style.ExcelColor.SetColor(OfficeOpenXml.Drawing.eThemeSchemeColor)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetColor
+    path: ../src/EPPlus/Style/ExcelColor.cs
+    startLine: 217
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSet the color of the object\n"
+  example: []
+  syntax:
+    content: public void SetColor(eThemeSchemeColor color)
+    parameters:
+    - id: color
+      type: OfficeOpenXml.Drawing.eThemeSchemeColor
+      description: The color
+    content.vb: Public Sub SetColor(color As eThemeSchemeColor)
+  overload: OfficeOpenXml.Style.ExcelColor.SetColor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelColor.SetColor(OfficeOpenXml.Style.ExcelIndexedColor)
+  commentId: M:OfficeOpenXml.Style.ExcelColor.SetColor(OfficeOpenXml.Style.ExcelIndexedColor)
+  id: SetColor(OfficeOpenXml.Style.ExcelIndexedColor)
+  parent: OfficeOpenXml.Style.ExcelColor
+  langs:
+  - csharp
+  - vb
+  name: SetColor(ExcelIndexedColor)
+  nameWithType: ExcelColor.SetColor(ExcelIndexedColor)
+  fullName: OfficeOpenXml.Style.ExcelColor.SetColor(OfficeOpenXml.Style.ExcelIndexedColor)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetColor
+    path: ../src/EPPlus/Style/ExcelColor.cs
+    startLine: 225
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSet the color of the object\n"
+  example: []
+  syntax:
+    content: public void SetColor(ExcelIndexedColor color)
+    parameters:
+    - id: color
+      type: OfficeOpenXml.Style.ExcelIndexedColor
+      description: The color
+    content.vb: Public Sub SetColor(color As ExcelIndexedColor)
+  overload: OfficeOpenXml.Style.ExcelColor.SetColor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelColor.SetAuto
+  commentId: M:OfficeOpenXml.Style.ExcelColor.SetAuto
+  id: SetAuto
+  parent: OfficeOpenXml.Style.ExcelColor
+  langs:
+  - csharp
+  - vb
+  name: SetAuto()
+  nameWithType: ExcelColor.SetAuto()
+  fullName: OfficeOpenXml.Style.ExcelColor.SetAuto()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetAuto
+    path: ../src/EPPlus/Style/ExcelColor.cs
+    startLine: 232
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSet the color to automatic\n"
+  example: []
+  syntax:
+    content: public void SetAuto()
+    content.vb: Public Sub SetAuto
+  overload: OfficeOpenXml.Style.ExcelColor.SetAuto*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelColor.SetColor(System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Style.ExcelColor.SetColor(System.Int32,System.Int32,System.Int32,System.Int32)
+  id: SetColor(System.Int32,System.Int32,System.Int32,System.Int32)
+  parent: OfficeOpenXml.Style.ExcelColor
+  langs:
+  - csharp
+  - vb
+  name: SetColor(Int32, Int32, Int32, Int32)
+  nameWithType: ExcelColor.SetColor(Int32, Int32, Int32, Int32)
+  fullName: OfficeOpenXml.Style.ExcelColor.SetColor(System.Int32, System.Int32, System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetColor
+    path: ../src/EPPlus/Style/ExcelColor.cs
+    startLine: 243
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nSet the color of the object\n"
+  example: []
+  syntax:
+    content: public void SetColor(int alpha, int red, int green, int blue)
+    parameters:
+    - id: alpha
+      type: System.Int32
+      description: Alpha component value
+    - id: red
+      type: System.Int32
+      description: Red component value
+    - id: green
+      type: System.Int32
+      description: Green component value
+    - id: blue
+      type: System.Int32
+      description: Blue component value
+    content.vb: Public Sub SetColor(alpha As Integer, red As Integer, green As Integer, blue As Integer)
+  overload: OfficeOpenXml.Style.ExcelColor.SetColor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelColor.LookupColor
+  commentId: M:OfficeOpenXml.Style.ExcelColor.LookupColor
+  id: LookupColor
+  parent: OfficeOpenXml.Style.ExcelColor
+  langs:
+  - csharp
+  - vb
+  name: LookupColor()
+  nameWithType: ExcelColor.LookupColor()
+  fullName: OfficeOpenXml.Style.ExcelColor.LookupColor()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LookupColor
+    path: ../src/EPPlus/Style/ExcelColor.cs
+    startLine: 297
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nReturn the RGB hex string for the Indexed or Tint property\n"
+  example: []
+  syntax:
+    content: public string LookupColor()
+    return:
+      type: System.String
+      description: 'The RGB color starting with a #FF (alpha)'
+    content.vb: Public Function LookupColor As String
+  overload: OfficeOpenXml.Style.ExcelColor.LookupColor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Style.ExcelColor.LookupColor(OfficeOpenXml.Style.ExcelColor)
+  commentId: M:OfficeOpenXml.Style.ExcelColor.LookupColor(OfficeOpenXml.Style.ExcelColor)
+  id: LookupColor(OfficeOpenXml.Style.ExcelColor)
+  parent: OfficeOpenXml.Style.ExcelColor
+  langs:
+  - csharp
+  - vb
+  name: LookupColor(ExcelColor)
+  nameWithType: ExcelColor.LookupColor(ExcelColor)
+  fullName: OfficeOpenXml.Style.ExcelColor.LookupColor(OfficeOpenXml.Style.ExcelColor)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/ExcelColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LookupColor
+    path: ../src/EPPlus/Style/ExcelColor.cs
+    startLine: 306
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nReturn the RGB value as a string for the color object that uses the Indexed or Tint property\n"
+  example: []
+  syntax:
+    content: public string LookupColor(ExcelColor theColor)
+    parameters:
+    - id: theColor
+      type: OfficeOpenXml.Style.ExcelColor
+      description: The color object
+    return:
+      type: System.String
+      description: 'The RGB color starting with a #FF (alpha)'
+    content.vb: Public Function LookupColor(theColor As ExcelColor) As String
+  overload: OfficeOpenXml.Style.ExcelColor.LookupColor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Style.StyleBase
+  commentId: T:OfficeOpenXml.Style.StyleBase
+  parent: OfficeOpenXml.Style
+  name: StyleBase
+  nameWithType: StyleBase
+  fullName: OfficeOpenXml.Style.StyleBase
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Style.ExcelColor.Theme*
+  commentId: Overload:OfficeOpenXml.Style.ExcelColor.Theme
+  name: Theme
+  nameWithType: ExcelColor.Theme
+  fullName: OfficeOpenXml.Style.ExcelColor.Theme
+- uid: System.Nullable{OfficeOpenXml.Drawing.eThemeSchemeColor}
+  commentId: T:System.Nullable{OfficeOpenXml.Drawing.eThemeSchemeColor}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<eThemeSchemeColor>
+  nameWithType: Nullable<eThemeSchemeColor>
+  fullName: System.Nullable<OfficeOpenXml.Drawing.eThemeSchemeColor>
+  nameWithType.vb: Nullable(Of eThemeSchemeColor)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.Drawing.eThemeSchemeColor)
+  name.vb: Nullable(Of eThemeSchemeColor)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.eThemeSchemeColor
+    name: eThemeSchemeColor
+    nameWithType: eThemeSchemeColor
+    fullName: OfficeOpenXml.Drawing.eThemeSchemeColor
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.eThemeSchemeColor
+    name: eThemeSchemeColor
+    nameWithType: eThemeSchemeColor
+    fullName: OfficeOpenXml.Drawing.eThemeSchemeColor
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Style.ExcelColor.Tint*
+  commentId: Overload:OfficeOpenXml.Style.ExcelColor.Tint
+  name: Tint
+  nameWithType: ExcelColor.Tint
+  fullName: OfficeOpenXml.Style.ExcelColor.Tint
+- uid: System.Decimal
+  commentId: T:System.Decimal
+  parent: System
+  isExternal: true
+  name: Decimal
+  nameWithType: Decimal
+  fullName: System.Decimal
+- uid: OfficeOpenXml.Style.ExcelColor.Rgb*
+  commentId: Overload:OfficeOpenXml.Style.ExcelColor.Rgb
+  name: Rgb
+  nameWithType: ExcelColor.Rgb
+  fullName: OfficeOpenXml.Style.ExcelColor.Rgb
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Style.ExcelColor.Indexed*
+  commentId: Overload:OfficeOpenXml.Style.ExcelColor.Indexed
+  name: Indexed
+  nameWithType: ExcelColor.Indexed
+  fullName: OfficeOpenXml.Style.ExcelColor.Indexed
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Style.ExcelColor.Auto*
+  commentId: Overload:OfficeOpenXml.Style.ExcelColor.Auto
+  name: Auto
+  nameWithType: ExcelColor.Auto
+  fullName: OfficeOpenXml.Style.ExcelColor.Auto
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Style.ExcelColor.SetColor*
+  commentId: Overload:OfficeOpenXml.Style.ExcelColor.SetColor
+  name: SetColor
+  nameWithType: ExcelColor.SetColor
+  fullName: OfficeOpenXml.Style.ExcelColor.SetColor
+- uid: System.Drawing.Color
+  commentId: T:System.Drawing.Color
+  parent: System.Drawing
+  isExternal: true
+  name: Color
+  nameWithType: Color
+  fullName: System.Drawing.Color
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing
+- uid: OfficeOpenXml.Drawing.eThemeSchemeColor
+  commentId: T:OfficeOpenXml.Drawing.eThemeSchemeColor
+  parent: OfficeOpenXml.Drawing
+  name: eThemeSchemeColor
+  nameWithType: eThemeSchemeColor
+  fullName: OfficeOpenXml.Drawing.eThemeSchemeColor
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Style.ExcelIndexedColor
+  commentId: T:OfficeOpenXml.Style.ExcelIndexedColor
+  parent: OfficeOpenXml.Style
+  name: ExcelIndexedColor
+  nameWithType: ExcelIndexedColor
+  fullName: OfficeOpenXml.Style.ExcelIndexedColor
+- uid: OfficeOpenXml.Style.ExcelColor.SetAuto*
+  commentId: Overload:OfficeOpenXml.Style.ExcelColor.SetAuto
+  name: SetAuto
+  nameWithType: ExcelColor.SetAuto
+  fullName: OfficeOpenXml.Style.ExcelColor.SetAuto
+- uid: OfficeOpenXml.Style.ExcelColor.LookupColor*
+  commentId: Overload:OfficeOpenXml.Style.ExcelColor.LookupColor
+  name: LookupColor
+  nameWithType: ExcelColor.LookupColor
+  fullName: OfficeOpenXml.Style.ExcelColor.LookupColor
+- uid: OfficeOpenXml.Style.ExcelColor
+  commentId: T:OfficeOpenXml.Style.ExcelColor
+  parent: OfficeOpenXml.Style
+  name: ExcelColor
+  nameWithType: ExcelColor
+  fullName: OfficeOpenXml.Style.ExcelColor

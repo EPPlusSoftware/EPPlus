@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Controls.eSelectionType
+  commentId: T:OfficeOpenXml.Drawing.Controls.eSelectionType
+  id: eSelectionType
+  parent: OfficeOpenXml.Drawing.Controls
+  children:
+  - OfficeOpenXml.Drawing.Controls.eSelectionType.Extended
+  - OfficeOpenXml.Drawing.Controls.eSelectionType.Multi
+  - OfficeOpenXml.Drawing.Controls.eSelectionType.Single
+  langs:
+  - csharp
+  - vb
+  name: eSelectionType
+  nameWithType: eSelectionType
+  fullName: OfficeOpenXml.Drawing.Controls.eSelectionType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eSelectionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eSelectionType
+    path: ../src/EPPlus/Drawing/Controls/enums/eSelectionType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nSelection type for a list control\n"
+  example: []
+  syntax:
+    content: public enum eSelectionType
+    content.vb: Public Enum eSelectionType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Controls.eSelectionType.Single
+  commentId: F:OfficeOpenXml.Drawing.Controls.eSelectionType.Single
+  id: Single
+  parent: OfficeOpenXml.Drawing.Controls.eSelectionType
+  langs:
+  - csharp
+  - vb
+  name: Single
+  nameWithType: eSelectionType.Single
+  fullName: OfficeOpenXml.Drawing.Controls.eSelectionType.Single
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eSelectionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Single
+    path: ../src/EPPlus/Drawing/Controls/enums/eSelectionType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nSingle selection only.\n"
+  example: []
+  syntax:
+    content: Single = 0
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eSelectionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eSelectionType.Multi
+  commentId: F:OfficeOpenXml.Drawing.Controls.eSelectionType.Multi
+  id: Multi
+  parent: OfficeOpenXml.Drawing.Controls.eSelectionType
+  langs:
+  - csharp
+  - vb
+  name: Multi
+  nameWithType: eSelectionType.Multi
+  fullName: OfficeOpenXml.Drawing.Controls.eSelectionType.Multi
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eSelectionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Multi
+    path: ../src/EPPlus/Drawing/Controls/enums/eSelectionType.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nMultiple selection is allowed. \nClicking any item in the list will select or deselect that item.\n"
+  example: []
+  syntax:
+    content: Multi = 1
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eSelectionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eSelectionType.Extended
+  commentId: F:OfficeOpenXml.Drawing.Controls.eSelectionType.Extended
+  id: Extended
+  parent: OfficeOpenXml.Drawing.Controls.eSelectionType
+  langs:
+  - csharp
+  - vb
+  name: Extended
+  nameWithType: eSelectionType.Extended
+  fullName: OfficeOpenXml.Drawing.Controls.eSelectionType.Extended
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eSelectionType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Extended
+    path: ../src/EPPlus/Drawing/Controls/enums/eSelectionType.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nMultiple selection is allowed while ctrl is used. \n"
+  example: []
+  syntax:
+    content: Extended = 2
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eSelectionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Controls
+  commentId: N:OfficeOpenXml.Drawing.Controls
+  name: OfficeOpenXml.Drawing.Controls
+  nameWithType: OfficeOpenXml.Drawing.Controls
+  fullName: OfficeOpenXml.Drawing.Controls
+- uid: OfficeOpenXml.Drawing.Controls.eSelectionType
+  commentId: T:OfficeOpenXml.Drawing.Controls.eSelectionType
+  parent: OfficeOpenXml.Drawing.Controls
+  name: eSelectionType
+  nameWithType: eSelectionType
+  fullName: OfficeOpenXml.Drawing.Controls.eSelectionType

@@ -1,0 +1,22 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.ToCollection.Exceptions
+  commentId: N:OfficeOpenXml.Export.ToCollection.Exceptions
+  id: OfficeOpenXml.Export.ToCollection.Exceptions
+  children:
+  - OfficeOpenXml.Export.ToCollection.Exceptions.EPPlusDataTypeConvertionException
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Export.ToCollection.Exceptions
+  nameWithType: OfficeOpenXml.Export.ToCollection.Exceptions
+  fullName: OfficeOpenXml.Export.ToCollection.Exceptions
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Export.ToCollection.Exceptions.EPPlusDataTypeConvertionException
+  commentId: T:OfficeOpenXml.Export.ToCollection.Exceptions.EPPlusDataTypeConvertionException
+  name: EPPlusDataTypeConvertionException
+  nameWithType: EPPlusDataTypeConvertionException
+  fullName: OfficeOpenXml.Export.ToCollection.Exceptions.EPPlusDataTypeConvertionException

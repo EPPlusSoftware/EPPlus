@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  id: ExcelDataValidationWarningStyle
+  parent: OfficeOpenXml.DataValidation
+  children:
+  - OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.information
+  - OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.stop
+  - OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.undefined
+  - OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.warning
+  langs:
+  - csharp
+  - vb
+  name: ExcelDataValidationWarningStyle
+  nameWithType: ExcelDataValidationWarningStyle
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDataValidationWarningStyle
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nwarning style, controls how Excel will handle invalid changes.\n"
+  example: []
+  syntax:
+    content: public enum ExcelDataValidationWarningStyle
+    content.vb: Public Enum ExcelDataValidationWarningStyle
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.undefined
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.undefined
+  id: undefined
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  langs:
+  - csharp
+  - vb
+  name: undefined
+  nameWithType: ExcelDataValidationWarningStyle.undefined
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.undefined
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: undefined
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nwarning style will be excluded\n"
+  example: []
+  syntax:
+    content: undefined = 0
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.stop
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.stop
+  id: stop
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  langs:
+  - csharp
+  - vb
+  name: stop
+  nameWithType: ExcelDataValidationWarningStyle.stop
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.stop
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: stop
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nstop warning style, invalid changes will not be accepted\n"
+  example: []
+  syntax:
+    content: stop = 1
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.warning
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.warning
+  id: warning
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  langs:
+  - csharp
+  - vb
+  name: warning
+  nameWithType: ExcelDataValidationWarningStyle.warning
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.warning
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: warning
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nwarning will be presented when an attempt to an invalid change is done, but the change will be accepted.\n"
+  example: []
+  syntax:
+    content: warning = 2
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.information
+  commentId: F:OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.information
+  id: information
+  parent: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  langs:
+  - csharp
+  - vb
+  name: information
+  nameWithType: ExcelDataValidationWarningStyle.information
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.information
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: information
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\ninformation warning style.\n"
+  example: []
+  syntax:
+    content: information = 3
+    return:
+      type: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.DataValidation
+  commentId: N:OfficeOpenXml.DataValidation
+  name: OfficeOpenXml.DataValidation
+  nameWithType: OfficeOpenXml.DataValidation
+  fullName: OfficeOpenXml.DataValidation
+- uid: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  commentId: T:OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle
+  parent: OfficeOpenXml.DataValidation
+  name: ExcelDataValidationWarningStyle
+  nameWithType: ExcelDataValidationWarningStyle
+  fullName: OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle

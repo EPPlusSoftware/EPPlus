@@ -1,0 +1,503 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Filter.eCalendarType
+  commentId: T:OfficeOpenXml.Filter.eCalendarType
+  id: eCalendarType
+  parent: OfficeOpenXml.Filter
+  children:
+  - OfficeOpenXml.Filter.eCalendarType.Gregorian
+  - OfficeOpenXml.Filter.eCalendarType.GregorianArabic
+  - OfficeOpenXml.Filter.eCalendarType.GregorianMeFrench
+  - OfficeOpenXml.Filter.eCalendarType.GregorianUs
+  - OfficeOpenXml.Filter.eCalendarType.GregorianXlitEnglish
+  - OfficeOpenXml.Filter.eCalendarType.GregorianXlitFrench
+  - OfficeOpenXml.Filter.eCalendarType.Hebrew
+  - OfficeOpenXml.Filter.eCalendarType.Hijri
+  - OfficeOpenXml.Filter.eCalendarType.Japan
+  - OfficeOpenXml.Filter.eCalendarType.Korea
+  - OfficeOpenXml.Filter.eCalendarType.None
+  - OfficeOpenXml.Filter.eCalendarType.Taiwan
+  - OfficeOpenXml.Filter.eCalendarType.Thai
+  langs:
+  - csharp
+  - vb
+  name: eCalendarType
+  nameWithType: eCalendarType
+  fullName: OfficeOpenXml.Filter.eCalendarType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eCalendarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eCalendarType
+    path: ../src/EPPlus/Filter/enums/eCalendarType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nThe calendar to be used.\n"
+  example: []
+  syntax:
+    content: public enum eCalendarType
+    content.vb: Public Enum eCalendarType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Filter.eCalendarType.Gregorian
+  commentId: F:OfficeOpenXml.Filter.eCalendarType.Gregorian
+  id: Gregorian
+  parent: OfficeOpenXml.Filter.eCalendarType
+  langs:
+  - csharp
+  - vb
+  name: Gregorian
+  nameWithType: eCalendarType.Gregorian
+  fullName: OfficeOpenXml.Filter.eCalendarType.Gregorian
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eCalendarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Gregorian
+    path: ../src/EPPlus/Filter/enums/eCalendarType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nThe Gregorian calendar\n"
+  example: []
+  syntax:
+    content: Gregorian = 0
+    return:
+      type: OfficeOpenXml.Filter.eCalendarType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eCalendarType.GregorianArabic
+  commentId: F:OfficeOpenXml.Filter.eCalendarType.GregorianArabic
+  id: GregorianArabic
+  parent: OfficeOpenXml.Filter.eCalendarType
+  langs:
+  - csharp
+  - vb
+  name: GregorianArabic
+  nameWithType: eCalendarType.GregorianArabic
+  fullName: OfficeOpenXml.Filter.eCalendarType.GregorianArabic
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eCalendarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GregorianArabic
+    path: ../src/EPPlus/Filter/enums/eCalendarType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nThe Gregorian calendar, as defined in ISO 8601. Arabic. This calendar should be localized into the appropriate language.        \n/// "
+  example: []
+  syntax:
+    content: GregorianArabic = 1
+    return:
+      type: OfficeOpenXml.Filter.eCalendarType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eCalendarType.GregorianMeFrench
+  commentId: F:OfficeOpenXml.Filter.eCalendarType.GregorianMeFrench
+  id: GregorianMeFrench
+  parent: OfficeOpenXml.Filter.eCalendarType
+  langs:
+  - csharp
+  - vb
+  name: GregorianMeFrench
+  nameWithType: eCalendarType.GregorianMeFrench
+  fullName: OfficeOpenXml.Filter.eCalendarType.GregorianMeFrench
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eCalendarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GregorianMeFrench
+    path: ../src/EPPlus/Filter/enums/eCalendarType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nThe Gregorian calendar, as defined in ISO 8601. Middle East French.\n"
+  example: []
+  syntax:
+    content: GregorianMeFrench = 2
+    return:
+      type: OfficeOpenXml.Filter.eCalendarType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eCalendarType.GregorianUs
+  commentId: F:OfficeOpenXml.Filter.eCalendarType.GregorianUs
+  id: GregorianUs
+  parent: OfficeOpenXml.Filter.eCalendarType
+  langs:
+  - csharp
+  - vb
+  name: GregorianUs
+  nameWithType: eCalendarType.GregorianUs
+  fullName: OfficeOpenXml.Filter.eCalendarType.GregorianUs
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eCalendarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GregorianUs
+    path: ../src/EPPlus/Filter/enums/eCalendarType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nThe Gregorian calendar, as defined in ISO 8601. English.\n"
+  example: []
+  syntax:
+    content: GregorianUs = 3
+    return:
+      type: OfficeOpenXml.Filter.eCalendarType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eCalendarType.GregorianXlitEnglish
+  commentId: F:OfficeOpenXml.Filter.eCalendarType.GregorianXlitEnglish
+  id: GregorianXlitEnglish
+  parent: OfficeOpenXml.Filter.eCalendarType
+  langs:
+  - csharp
+  - vb
+  name: GregorianXlitEnglish
+  nameWithType: eCalendarType.GregorianXlitEnglish
+  fullName: OfficeOpenXml.Filter.eCalendarType.GregorianXlitEnglish
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eCalendarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GregorianXlitEnglish
+    path: ../src/EPPlus/Filter/enums/eCalendarType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nThe Gregorian calendar, as defined in ISO 8601. English strings in the corresponding Arabic characters. The Arabic transliteration of the English for the Gregoriancalendar.\n"
+  example: []
+  syntax:
+    content: GregorianXlitEnglish = 4
+    return:
+      type: OfficeOpenXml.Filter.eCalendarType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eCalendarType.GregorianXlitFrench
+  commentId: F:OfficeOpenXml.Filter.eCalendarType.GregorianXlitFrench
+  id: GregorianXlitFrench
+  parent: OfficeOpenXml.Filter.eCalendarType
+  langs:
+  - csharp
+  - vb
+  name: GregorianXlitFrench
+  nameWithType: eCalendarType.GregorianXlitFrench
+  fullName: OfficeOpenXml.Filter.eCalendarType.GregorianXlitFrench
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eCalendarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GregorianXlitFrench
+    path: ../src/EPPlus/Filter/enums/eCalendarType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nThe Gregorian calendar, as defined in ISO 8601. French strings in the corresponding Arabic characters. The Arabic transliteration of the French for the Gregoriancalendar.\n"
+  example: []
+  syntax:
+    content: GregorianXlitFrench = 5
+    return:
+      type: OfficeOpenXml.Filter.eCalendarType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eCalendarType.Hijri
+  commentId: F:OfficeOpenXml.Filter.eCalendarType.Hijri
+  id: Hijri
+  parent: OfficeOpenXml.Filter.eCalendarType
+  langs:
+  - csharp
+  - vb
+  name: Hijri
+  nameWithType: eCalendarType.Hijri
+  fullName: OfficeOpenXml.Filter.eCalendarType.Hijri
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eCalendarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hijri
+    path: ../src/EPPlus/Filter/enums/eCalendarType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nThe Hijri lunar calendar, as described by the Kingdom of Saudi Arabia, Ministry of Islamic Affairs, Endowments, Da‘wah and Guidance\n"
+  example: []
+  syntax:
+    content: Hijri = 6
+    return:
+      type: OfficeOpenXml.Filter.eCalendarType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eCalendarType.Hebrew
+  commentId: F:OfficeOpenXml.Filter.eCalendarType.Hebrew
+  id: Hebrew
+  parent: OfficeOpenXml.Filter.eCalendarType
+  langs:
+  - csharp
+  - vb
+  name: Hebrew
+  nameWithType: eCalendarType.Hebrew
+  fullName: OfficeOpenXml.Filter.eCalendarType.Hebrew
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eCalendarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hebrew
+    path: ../src/EPPlus/Filter/enums/eCalendarType.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nThe Hebrew lunar calendar, as described by the Gauss formula for Passover [Har&apos;El, Zvi] and The Complete Restatement of Oral Law(Mishneh Torah).\n"
+  example: []
+  syntax:
+    content: Hebrew = 7
+    return:
+      type: OfficeOpenXml.Filter.eCalendarType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eCalendarType.Japan
+  commentId: F:OfficeOpenXml.Filter.eCalendarType.Japan
+  id: Japan
+  parent: OfficeOpenXml.Filter.eCalendarType
+  langs:
+  - csharp
+  - vb
+  name: Japan
+  nameWithType: eCalendarType.Japan
+  fullName: OfficeOpenXml.Filter.eCalendarType.Japan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eCalendarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Japan
+    path: ../src/EPPlus/Filter/enums/eCalendarType.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nThe Japanese Emperor Era calendar, as described by Japanese Industrial Standard JIS X 0301.\n"
+  example: []
+  syntax:
+    content: Japan = 8
+    return:
+      type: OfficeOpenXml.Filter.eCalendarType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eCalendarType.Korea
+  commentId: F:OfficeOpenXml.Filter.eCalendarType.Korea
+  id: Korea
+  parent: OfficeOpenXml.Filter.eCalendarType
+  langs:
+  - csharp
+  - vb
+  name: Korea
+  nameWithType: eCalendarType.Korea
+  fullName: OfficeOpenXml.Filter.eCalendarType.Korea
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eCalendarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Korea
+    path: ../src/EPPlus/Filter/enums/eCalendarType.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nThe Korean Tangun Era calendar, as described by Korean Law Enactment No. 4\n"
+  example: []
+  syntax:
+    content: Korea = 9
+    return:
+      type: OfficeOpenXml.Filter.eCalendarType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eCalendarType.None
+  commentId: F:OfficeOpenXml.Filter.eCalendarType.None
+  id: None
+  parent: OfficeOpenXml.Filter.eCalendarType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eCalendarType.None
+  fullName: OfficeOpenXml.Filter.eCalendarType.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eCalendarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Filter/enums/eCalendarType.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nNo calendar\n"
+  example: []
+  syntax:
+    content: None = 10
+    return:
+      type: OfficeOpenXml.Filter.eCalendarType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eCalendarType.Taiwan
+  commentId: F:OfficeOpenXml.Filter.eCalendarType.Taiwan
+  id: Taiwan
+  parent: OfficeOpenXml.Filter.eCalendarType
+  langs:
+  - csharp
+  - vb
+  name: Taiwan
+  nameWithType: eCalendarType.Taiwan
+  fullName: OfficeOpenXml.Filter.eCalendarType.Taiwan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eCalendarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Taiwan
+    path: ../src/EPPlus/Filter/enums/eCalendarType.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nThe Saka Era calendar, as described by the Calendar Reform Committee of India, as part of the Indian Ephemeris and Nautical Almanac\n"
+  example: []
+  syntax:
+    content: Taiwan = 11
+    return:
+      type: OfficeOpenXml.Filter.eCalendarType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eCalendarType.Thai
+  commentId: F:OfficeOpenXml.Filter.eCalendarType.Thai
+  id: Thai
+  parent: OfficeOpenXml.Filter.eCalendarType
+  langs:
+  - csharp
+  - vb
+  name: Thai
+  nameWithType: eCalendarType.Thai
+  fullName: OfficeOpenXml.Filter.eCalendarType.Thai
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eCalendarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Thai
+    path: ../src/EPPlus/Filter/enums/eCalendarType.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nThe Thai calendar, as defined by the Royal Decree of H.M. King Vajiravudh (Rama VI) in Royal Gazette B. E. 2456 (1913 A.D.) and by the decree of Prime Minister Phibunsongkhram (1941 A.D.) to start the year on the Gregorian January 1 and to map year zero to Gregorian year 543 B.C.\n"
+  example: []
+  syntax:
+    content: Thai = 12
+    return:
+      type: OfficeOpenXml.Filter.eCalendarType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Filter
+  commentId: N:OfficeOpenXml.Filter
+  name: OfficeOpenXml.Filter
+  nameWithType: OfficeOpenXml.Filter
+  fullName: OfficeOpenXml.Filter
+- uid: OfficeOpenXml.Filter.eCalendarType
+  commentId: T:OfficeOpenXml.Filter.eCalendarType
+  parent: OfficeOpenXml.Filter
+  name: eCalendarType
+  nameWithType: eCalendarType
+  fullName: OfficeOpenXml.Filter.eCalendarType

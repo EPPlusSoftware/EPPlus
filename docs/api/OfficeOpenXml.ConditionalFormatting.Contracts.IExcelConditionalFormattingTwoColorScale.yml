@@ -1,0 +1,198 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+  id: IExcelConditionalFormattingTwoColorScale
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  children:
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.HighValue
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.LowValue
+  langs:
+  - csharp
+  - vb
+  name: IExcelConditionalFormattingTwoColorScale
+  nameWithType: IExcelConditionalFormattingTwoColorScale
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingTwoColorScale.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelConditionalFormattingTwoColorScale
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingTwoColorScale.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nIExcelConditionalFormattingTwoColorScale\n"
+  example: []
+  syntax:
+    content: 'public interface IExcelConditionalFormattingTwoColorScale : IExcelConditionalFormattingColorScaleGroup, IExcelConditionalFormattingRule'
+    content.vb: >-
+      Public Interface IExcelConditionalFormattingTwoColorScale
+          Inherits IExcelConditionalFormattingColorScaleGroup
+  inheritedMembers:
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.StopIfTrue
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Style
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
+  - OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.As
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.LowValue
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.LowValue
+  id: LowValue
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+  langs:
+  - csharp
+  - vb
+  name: LowValue
+  nameWithType: IExcelConditionalFormattingTwoColorScale.LowValue
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.LowValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingTwoColorScale.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LowValue
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingTwoColorScale.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nTwo Color Scale Low Value\n"
+  example: []
+  syntax:
+    content: ExcelConditionalFormattingColorScaleValue LowValue { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue
+    content.vb: Property LowValue As ExcelConditionalFormattingColorScaleValue
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.LowValue*
+  modifiers.csharp:
+  - get
+  - set
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.HighValue
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.HighValue
+  id: HighValue
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+  langs:
+  - csharp
+  - vb
+  name: HighValue
+  nameWithType: IExcelConditionalFormattingTwoColorScale.HighValue
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.HighValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingTwoColorScale.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HighValue
+    path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingTwoColorScale.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting.Contracts
+  summary: "\nTwo Color Scale High Value\n"
+  example: []
+  syntax:
+    content: ExcelConditionalFormattingColorScaleValue HighValue { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue
+    content.vb: Property HighValue As ExcelConditionalFormattingColorScaleValue
+  overload: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.HighValue*
+  modifiers.csharp:
+  - get
+  - set
+references:
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts
+  commentId: N:OfficeOpenXml.ConditionalFormatting.Contracts
+  name: OfficeOpenXml.ConditionalFormatting.Contracts
+  nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: Node
+  nameWithType: IExcelConditionalFormattingRule.Node
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Node
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: Type
+  nameWithType: IExcelConditionalFormattingRule.Type
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Type
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: Address
+  nameWithType: IExcelConditionalFormattingRule.Address
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Address
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: Priority
+  nameWithType: IExcelConditionalFormattingRule.Priority
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Priority
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.StopIfTrue
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.StopIfTrue
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: StopIfTrue
+  nameWithType: IExcelConditionalFormattingRule.StopIfTrue
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.StopIfTrue
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Style
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Style
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: Style
+  nameWithType: IExcelConditionalFormattingRule.Style
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.Style
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: PivotTable
+  nameWithType: IExcelConditionalFormattingRule.PivotTable
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.PivotTable
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.As
+  commentId: P:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.As
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  name: As
+  nameWithType: IExcelConditionalFormattingRule.As
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule.As
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingRule
+  nameWithType: IExcelConditionalFormattingRule
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.LowValue*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.LowValue
+  name: LowValue
+  nameWithType: IExcelConditionalFormattingTwoColorScale.LowValue
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.LowValue
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue
+  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: ExcelConditionalFormattingColorScaleValue
+  nameWithType: ExcelConditionalFormattingColorScaleValue
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue
+- uid: OfficeOpenXml.ConditionalFormatting
+  commentId: N:OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  nameWithType: OfficeOpenXml.ConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.HighValue*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.HighValue
+  name: HighValue
+  nameWithType: IExcelConditionalFormattingTwoColorScale.HighValue
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale.HighValue

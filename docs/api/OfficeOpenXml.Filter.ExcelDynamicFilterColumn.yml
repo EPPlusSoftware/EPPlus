@@ -1,0 +1,647 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Filter.ExcelDynamicFilterColumn
+  commentId: T:OfficeOpenXml.Filter.ExcelDynamicFilterColumn
+  id: ExcelDynamicFilterColumn
+  parent: OfficeOpenXml.Filter
+  children:
+  - OfficeOpenXml.Filter.ExcelDynamicFilterColumn.MaxValue
+  - OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Type
+  - OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Value
+  langs:
+  - csharp
+  - vb
+  name: ExcelDynamicFilterColumn
+  nameWithType: ExcelDynamicFilterColumn
+  fullName: OfficeOpenXml.Filter.ExcelDynamicFilterColumn
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDynamicFilterColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDynamicFilterColumn
+    path: ../src/EPPlus/Filter/ExcelDynamicFilterColumn.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nVarious filters that are set depending on the filter <code>Type</code>\n<xref href=\"OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Type\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: 'public class ExcelDynamicFilterColumn : ExcelFilterColumn'
+    content.vb: >-
+      Public Class ExcelDynamicFilterColumn
+          Inherits ExcelFilterColumn
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Filter.ExcelFilterColumn
+  inheritedMembers:
+  - OfficeOpenXml.Filter.ExcelFilterColumn.GetFilterValue(System.String)
+  - OfficeOpenXml.Filter.ExcelFilterColumn.Position
+  - OfficeOpenXml.Filter.ExcelFilterColumn.HiddenButton
+  - OfficeOpenXml.Filter.ExcelFilterColumn.ShowButton
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Type
+  commentId: P:OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Type
+  id: Type
+  parent: OfficeOpenXml.Filter.ExcelDynamicFilterColumn
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: ExcelDynamicFilterColumn.Type
+  fullName: OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Type
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDynamicFilterColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Type
+    path: ../src/EPPlus/Filter/ExcelDynamicFilterColumn.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nType of filter\n"
+  example: []
+  syntax:
+    content: public eDynamicFilterType Type { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Filter.eDynamicFilterType
+    content.vb: Public Property Type As eDynamicFilterType
+  overload: OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Type*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Value
+  commentId: P:OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Value
+  id: Value
+  parent: OfficeOpenXml.Filter.ExcelDynamicFilterColumn
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: ExcelDynamicFilterColumn.Value
+  fullName: OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Value
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDynamicFilterColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Value
+    path: ../src/EPPlus/Filter/ExcelDynamicFilterColumn.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nThe value of the filter. Can be the Average or minimum value depending on the type\n"
+  example: []
+  syntax:
+    content: public double? Value { get; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public ReadOnly Property Value As Double?
+  overload: OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Value*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Filter.ExcelDynamicFilterColumn.MaxValue
+  commentId: P:OfficeOpenXml.Filter.ExcelDynamicFilterColumn.MaxValue
+  id: MaxValue
+  parent: OfficeOpenXml.Filter.ExcelDynamicFilterColumn
+  langs:
+  - csharp
+  - vb
+  name: MaxValue
+  nameWithType: ExcelDynamicFilterColumn.MaxValue
+  fullName: OfficeOpenXml.Filter.ExcelDynamicFilterColumn.MaxValue
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelDynamicFilterColumn.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MaxValue
+    path: ../src/EPPlus/Filter/ExcelDynamicFilterColumn.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nThe maximum value for for a daterange, for example ThisMonth\n"
+  example: []
+  syntax:
+    content: public double? MaxValue { get; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public ReadOnly Property MaxValue As Double?
+  overload: OfficeOpenXml.Filter.ExcelDynamicFilterColumn.MaxValue*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Type
+  commentId: P:OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Type
+  isExternal: true
+- uid: OfficeOpenXml.Filter
+  commentId: N:OfficeOpenXml.Filter
+  name: OfficeOpenXml.Filter
+  nameWithType: OfficeOpenXml.Filter
+  fullName: OfficeOpenXml.Filter
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Filter.ExcelFilterColumn
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterColumn
+  parent: OfficeOpenXml.Filter
+  name: ExcelFilterColumn
+  nameWithType: ExcelFilterColumn
+  fullName: OfficeOpenXml.Filter.ExcelFilterColumn
+- uid: OfficeOpenXml.Filter.ExcelFilterColumn.GetFilterValue(System.String)
+  commentId: M:OfficeOpenXml.Filter.ExcelFilterColumn.GetFilterValue(System.String)
+  parent: OfficeOpenXml.Filter.ExcelFilterColumn
+  isExternal: true
+  name: GetFilterValue(String)
+  nameWithType: ExcelFilterColumn.GetFilterValue(String)
+  fullName: OfficeOpenXml.Filter.ExcelFilterColumn.GetFilterValue(System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.Filter.ExcelFilterColumn.GetFilterValue(System.String)
+    name: GetFilterValue
+    nameWithType: ExcelFilterColumn.GetFilterValue
+    fullName: OfficeOpenXml.Filter.ExcelFilterColumn.GetFilterValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Filter.ExcelFilterColumn.GetFilterValue(System.String)
+    name: GetFilterValue
+    nameWithType: ExcelFilterColumn.GetFilterValue
+    fullName: OfficeOpenXml.Filter.ExcelFilterColumn.GetFilterValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Filter.ExcelFilterColumn.Position
+  commentId: P:OfficeOpenXml.Filter.ExcelFilterColumn.Position
+  parent: OfficeOpenXml.Filter.ExcelFilterColumn
+  name: Position
+  nameWithType: ExcelFilterColumn.Position
+  fullName: OfficeOpenXml.Filter.ExcelFilterColumn.Position
+- uid: OfficeOpenXml.Filter.ExcelFilterColumn.HiddenButton
+  commentId: P:OfficeOpenXml.Filter.ExcelFilterColumn.HiddenButton
+  parent: OfficeOpenXml.Filter.ExcelFilterColumn
+  name: HiddenButton
+  nameWithType: ExcelFilterColumn.HiddenButton
+  fullName: OfficeOpenXml.Filter.ExcelFilterColumn.HiddenButton
+- uid: OfficeOpenXml.Filter.ExcelFilterColumn.ShowButton
+  commentId: P:OfficeOpenXml.Filter.ExcelFilterColumn.ShowButton
+  parent: OfficeOpenXml.Filter.ExcelFilterColumn
+  name: ShowButton
+  nameWithType: ExcelFilterColumn.ShowButton
+  fullName: OfficeOpenXml.Filter.ExcelFilterColumn.ShowButton
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Type*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Type
+  name: Type
+  nameWithType: ExcelDynamicFilterColumn.Type
+  fullName: OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Type
+- uid: OfficeOpenXml.Filter.eDynamicFilterType
+  commentId: T:OfficeOpenXml.Filter.eDynamicFilterType
+  parent: OfficeOpenXml.Filter
+  name: eDynamicFilterType
+  nameWithType: eDynamicFilterType
+  fullName: OfficeOpenXml.Filter.eDynamicFilterType
+- uid: OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Value*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Value
+  name: Value
+  nameWithType: ExcelDynamicFilterColumn.Value
+  fullName: OfficeOpenXml.Filter.ExcelDynamicFilterColumn.Value
+- uid: System.Nullable{System.Double}
+  commentId: T:System.Nullable{System.Double}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Double>
+  nameWithType: Nullable<Double>
+  fullName: System.Nullable<System.Double>
+  nameWithType.vb: Nullable(Of Double)
+  fullName.vb: System.Nullable(Of System.Double)
+  name.vb: Nullable(Of Double)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Filter.ExcelDynamicFilterColumn.MaxValue*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelDynamicFilterColumn.MaxValue
+  name: MaxValue
+  nameWithType: ExcelDynamicFilterColumn.MaxValue
+  fullName: OfficeOpenXml.Filter.ExcelDynamicFilterColumn.MaxValue

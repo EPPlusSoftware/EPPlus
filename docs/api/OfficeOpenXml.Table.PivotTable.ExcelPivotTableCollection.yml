@@ -1,0 +1,1184 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  id: ExcelPivotTableCollection
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add(OfficeOpenXml.ExcelAddressBase,OfficeOpenXml.ExcelRangeBase,System.String)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add(OfficeOpenXml.ExcelAddressBase,OfficeOpenXml.Table.ExcelTable,System.String)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add(OfficeOpenXml.ExcelAddressBase,OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition,System.String)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Count
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete(OfficeOpenXml.Table.PivotTable.ExcelPivotTable,System.Boolean)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete(System.Int32,System.Boolean)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete(System.String,System.Boolean)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.GetEnumerator
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Item(System.Int32)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Item(System.String)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.System#Collections#IEnumerable#GetEnumerator
+  langs:
+  - csharp
+  - vb
+  name: ExcelPivotTableCollection
+  nameWithType: ExcelPivotTableCollection
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPivotTableCollection
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA collection of pivottable objects\n"
+  example: []
+  syntax:
+    content: 'public class ExcelPivotTableCollection : IEnumerable<ExcelPivotTable>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelPivotTableCollection
+          Implements IEnumerable(Of ExcelPivotTable), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add(OfficeOpenXml.ExcelAddressBase,OfficeOpenXml.ExcelRangeBase,System.String)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add(OfficeOpenXml.ExcelAddressBase,OfficeOpenXml.ExcelRangeBase,System.String)
+  id: Add(OfficeOpenXml.ExcelAddressBase,OfficeOpenXml.ExcelRangeBase,System.String)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(ExcelAddressBase, ExcelRangeBase, String)
+  nameWithType: ExcelPivotTableCollection.Add(ExcelAddressBase, ExcelRangeBase, String)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add(OfficeOpenXml.ExcelAddressBase, OfficeOpenXml.ExcelRangeBase, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nCreate a pivottable on the supplied range\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTable Add(ExcelAddressBase Range, ExcelRangeBase Source, string Name)
+    parameters:
+    - id: Range
+      type: OfficeOpenXml.ExcelAddressBase
+      description: The range address including header and total row
+    - id: Source
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The Source data range address
+    - id: Name
+      type: System.String
+      description: 'The name of the pivottable. Must be unique '
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivottable object
+    content.vb: Public Function Add(Range As ExcelAddressBase, Source As ExcelRangeBase, Name As String) As ExcelPivotTable
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add(OfficeOpenXml.ExcelAddressBase,OfficeOpenXml.Table.ExcelTable,System.String)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add(OfficeOpenXml.ExcelAddressBase,OfficeOpenXml.Table.ExcelTable,System.String)
+  id: Add(OfficeOpenXml.ExcelAddressBase,OfficeOpenXml.Table.ExcelTable,System.String)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(ExcelAddressBase, ExcelTable, String)
+  nameWithType: ExcelPivotTableCollection.Add(ExcelAddressBase, ExcelTable, String)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add(OfficeOpenXml.ExcelAddressBase, OfficeOpenXml.Table.ExcelTable, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nCreate a pivottable on the supplied range\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTable Add(ExcelAddressBase Range, ExcelTable Source, string Name)
+    parameters:
+    - id: Range
+      type: OfficeOpenXml.ExcelAddressBase
+      description: The range address including header and total row
+    - id: Source
+      type: OfficeOpenXml.Table.ExcelTable
+      description: The source table
+    - id: Name
+      type: System.String
+      description: 'The name of the pivottable. Must be unique '
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivottable object
+    content.vb: Public Function Add(Range As ExcelAddressBase, Source As ExcelTable, Name As String) As ExcelPivotTable
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add(OfficeOpenXml.ExcelAddressBase,OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition,System.String)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add(OfficeOpenXml.ExcelAddressBase,OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition,System.String)
+  id: Add(OfficeOpenXml.ExcelAddressBase,OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition,System.String)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(ExcelAddressBase, ExcelPivotCacheDefinition, String)
+  nameWithType: ExcelPivotTableCollection.Add(ExcelAddressBase, ExcelPivotCacheDefinition, String)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add(OfficeOpenXml.ExcelAddressBase, OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nCreate a pivottable on the supplied range\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTable Add(ExcelAddressBase Range, ExcelPivotCacheDefinition PivotCacheDefinition, string Name)
+    parameters:
+    - id: Range
+      type: OfficeOpenXml.ExcelAddressBase
+      description: The range address including header and total row
+    - id: PivotCacheDefinition
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+      description: A pivot table cache shared with another pivot table
+    - id: Name
+      type: System.String
+      description: 'The name of the pivottable. Must be unique '
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The pivottable object
+    content.vb: Public Function Add(Range As ExcelAddressBase, PivotCacheDefinition As ExcelPivotCacheDefinition, Name As String) As ExcelPivotTable
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Count
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Count
+  id: Count
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelPivotTableCollection.Count
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+    startLine: 147
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nNumber of items in the collection\n"
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Count*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelPivotTableCollection.Item[Int32]
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+    startLine: 159
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe pivottable Index. Base 0.\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTable this[int Index] { get; }
+    parameters:
+    - id: Index
+      type: System.Int32
+      description: ''
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: ''
+    content.vb: Public ReadOnly Property Item(Index As Integer) As ExcelPivotTable
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Item*
+  nameWithType.vb: ExcelPivotTableCollection.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Item(System.String)
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Item(System.String)
+  id: Item(System.String)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[String]
+  nameWithType: ExcelPivotTableCollection.Item[String]
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Item[System.String]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+    startLine: 175
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nPivottabes accesed by name\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTable this[string Name] { get; }
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the pivottable
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The Pivotable. Null if the no match is found
+    content.vb: Public ReadOnly Property Item(Name As String) As ExcelPivotTable
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Item*
+  nameWithType.vb: ExcelPivotTableCollection.Item(String)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Item(System.String)
+  name.vb: Item(String)
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.GetEnumerator
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelPivotTableCollection.GetEnumerator()
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+    startLine: 193
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nGets the enumerator of the collection\n"
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelPivotTable> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}
+      description: The enumerator
+    content.vb: Public Function GetEnumerator As IEnumerator(Of ExcelPivotTable)
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}.GetEnumerator
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelPivotTableCollection.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+    startLine: 198
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelPivotTableCollection.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete(System.String,System.Boolean)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete(System.String,System.Boolean)
+  id: Delete(System.String,System.Boolean)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  langs:
+  - csharp
+  - vb
+  name: Delete(String, Boolean)
+  nameWithType: ExcelPivotTableCollection.Delete(String, Boolean)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete(System.String, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Delete
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+    startLine: 207
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nDelete the pivottable with the supplied name\n"
+  example: []
+  syntax:
+    content: public void Delete(string Name, bool ClearRange = false)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the pivottable
+    - id: ClearRange
+      type: System.Boolean
+      description: Clear the table range
+    content.vb: Public Sub Delete(Name As String, ClearRange As Boolean = False)
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete(System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete(System.Int32,System.Boolean)
+  id: Delete(System.Int32,System.Boolean)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  langs:
+  - csharp
+  - vb
+  name: Delete(Int32, Boolean)
+  nameWithType: ExcelPivotTableCollection.Delete(Int32, Boolean)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete(System.Int32, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Delete
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+    startLine: 220
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nDelete the pivot table at the specified index\n"
+  example: []
+  syntax:
+    content: public void Delete(int Index, bool ClearRange = false)
+    parameters:
+    - id: Index
+      type: System.Int32
+      description: The index in the PivotTable collection
+    - id: ClearRange
+      type: System.Boolean
+      description: Clear the table range
+    content.vb: Public Sub Delete(Index As Integer, ClearRange As Boolean = False)
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete(OfficeOpenXml.Table.PivotTable.ExcelPivotTable,System.Boolean)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete(OfficeOpenXml.Table.PivotTable.ExcelPivotTable,System.Boolean)
+  id: Delete(OfficeOpenXml.Table.PivotTable.ExcelPivotTable,System.Boolean)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  langs:
+  - csharp
+  - vb
+  name: Delete(ExcelPivotTable, Boolean)
+  nameWithType: ExcelPivotTableCollection.Delete(ExcelPivotTable, Boolean)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete(OfficeOpenXml.Table.PivotTable.ExcelPivotTable, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Delete
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+    startLine: 233
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nDelete the supplied pivot table \n"
+  example: []
+  syntax:
+    content: public void Delete(ExcelPivotTable PivotTable, bool ClearRange = false)
+    parameters:
+    - id: PivotTable
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+      description: The PivotTable to remove from the collection
+    - id: ClearRange
+      type: System.Boolean
+      description: Clear the table range
+    content.vb: Public Sub Delete(PivotTable As ExcelPivotTable, ClearRange As Boolean = False)
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelPivotTable>
+  nameWithType: IEnumerable<ExcelPivotTable>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.PivotTable.ExcelPivotTable>
+  nameWithType.vb: IEnumerable(Of ExcelPivotTable)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  name.vb: IEnumerable(Of ExcelPivotTable)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+    name: ExcelPivotTable
+    nameWithType: ExcelPivotTable
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+    name: ExcelPivotTable
+    nameWithType: ExcelPivotTable
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add
+  name: Add
+  nameWithType: ExcelPivotTableCollection.Add
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add
+- uid: OfficeOpenXml.ExcelAddressBase
+  commentId: T:OfficeOpenXml.ExcelAddressBase
+  parent: OfficeOpenXml
+  name: ExcelAddressBase
+  nameWithType: ExcelAddressBase
+  fullName: OfficeOpenXml.ExcelAddressBase
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTable
+  nameWithType: ExcelPivotTable
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Table.ExcelTable
+  commentId: T:OfficeOpenXml.Table.ExcelTable
+  parent: OfficeOpenXml.Table
+  name: ExcelTable
+  nameWithType: ExcelTable
+  fullName: OfficeOpenXml.Table.ExcelTable
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotCacheDefinition
+  nameWithType: ExcelPivotCacheDefinition
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Count*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Count
+  name: Count
+  nameWithType: ExcelPivotTableCollection.Count
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Item*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Item
+  name: Item
+  nameWithType: ExcelPivotTableCollection.Item
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Item
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelPivotTableCollection.GetEnumerator
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelPivotTable>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.PivotTable.ExcelPivotTable>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelPivotTable).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTable).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ExcelPivotTable>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.PivotTable.ExcelPivotTable>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ExcelPivotTable).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTable).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.Table.PivotTable.ExcelPivotTable}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ExcelPivotTable>
+  nameWithType: IEnumerator<ExcelPivotTable>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.Table.PivotTable.ExcelPivotTable>
+  nameWithType.vb: IEnumerator(Of ExcelPivotTable)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
+  name.vb: IEnumerator(Of ExcelPivotTable)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+    name: ExcelPivotTable
+    nameWithType: ExcelPivotTable
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+    name: ExcelPivotTable
+    nameWithType: ExcelPivotTable
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelPivotTableCollection.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelPivotTableCollection.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete
+  name: Delete
+  nameWithType: ExcelPivotTableCollection.Delete
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

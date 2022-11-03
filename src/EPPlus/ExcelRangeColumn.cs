@@ -198,8 +198,8 @@ namespace OfficeOpenXml
         /// <summary>
         /// Expands the rows to the <see cref="OutlineLevel"/> supplied. 
         /// </summary>
-        /// <param name="level">Expand all rows with a <see cref="OutlineLevel"/> Equal or Greater than this number.</param>
-        /// <param name="collapseChildren">Collapse all children with a greater <see cref="OutlineLevel"/> than <paramref name="level"/></param>
+        /// <param name="level">Expands all rows with a <see cref="OutlineLevel"/> Equal or Greater than this number.</param>
+        /// <param name="collapseChildren">Collapses all children with a greater <see cref="OutlineLevel"/> than <paramref name="level"/></param>
         public void SetVisibleOutlineLevel(int level, bool collapseChildren = true)
         {
             var helper = new WorksheetOutlineHelper(_worksheet);

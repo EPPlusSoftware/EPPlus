@@ -1,0 +1,2253 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.ePresetCameraType
+  commentId: T:OfficeOpenXml.Drawing.ePresetCameraType
+  id: ePresetCameraType
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricBottomDown
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricBottomUp
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricLeftDown
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricLeftUp
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis1Left
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis1Right
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis1Top
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis2Left
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis2Right
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis2Top
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis3Bottom
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis3Left
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis3Right
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis4Bottom
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis4Left
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis4Right
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricRightDown
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricRightUp
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricTopDown
+  - OfficeOpenXml.Drawing.ePresetCameraType.IsometricTopUp
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueBottom
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueBottomLeft
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueBottomRight
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueFront
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueLeft
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueRight
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueTop
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueTopLeft
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueTopRight
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveBottom
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveBottomLeft
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveBottomRight
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveFront
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveLeft
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveRight
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveTop
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveTopLeft
+  - OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveTopRight
+  - OfficeOpenXml.Drawing.ePresetCameraType.None
+  - OfficeOpenXml.Drawing.ePresetCameraType.ObliqueBottom
+  - OfficeOpenXml.Drawing.ePresetCameraType.ObliqueBottomLeft
+  - OfficeOpenXml.Drawing.ePresetCameraType.ObliqueBottomRight
+  - OfficeOpenXml.Drawing.ePresetCameraType.ObliqueLeft
+  - OfficeOpenXml.Drawing.ePresetCameraType.ObliqueRight
+  - OfficeOpenXml.Drawing.ePresetCameraType.ObliqueTop
+  - OfficeOpenXml.Drawing.ePresetCameraType.ObliqueTopLeft
+  - OfficeOpenXml.Drawing.ePresetCameraType.ObliqueTopRight
+  - OfficeOpenXml.Drawing.ePresetCameraType.OrthographicFront
+  - OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveAbove
+  - OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveAboveLeftFacing
+  - OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveAboveRightFacing
+  - OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveBelow
+  - OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveContrastingLeftFacing
+  - OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveContrastingRightFacing
+  - OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveFront
+  - OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveHeroicExtremeLeftFacing
+  - OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveHeroicExtremeRightFacing
+  - OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveHeroicLeftFacing
+  - OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveHeroicRightFacing
+  - OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveLeft
+  - OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveRelaxed
+  - OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveRelaxedModerately
+  - OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveRight
+  langs:
+  - csharp
+  - vb
+  name: ePresetCameraType
+  nameWithType: ePresetCameraType
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePresetCameraType
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDefines the preset camera that is being used.\n"
+  example: []
+  syntax:
+    content: public enum ePresetCameraType
+    content.vb: Public Enum ePresetCameraType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.None
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.None
+  id: None
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: ePresetCameraType.None
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nNo rotation\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricBottomDown
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricBottomDown
+  id: IsometricBottomDown
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricBottomDown
+  nameWithType: ePresetCameraType.IsometricBottomDown
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricBottomDown
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricBottomDown
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Bottom Down\n"
+  example: []
+  syntax:
+    content: IsometricBottomDown = 1
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricBottomUp
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricBottomUp
+  id: IsometricBottomUp
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricBottomUp
+  nameWithType: ePresetCameraType.IsometricBottomUp
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricBottomUp
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricBottomUp
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Bottom Up\n"
+  example: []
+  syntax:
+    content: IsometricBottomUp = 2
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricLeftDown
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricLeftDown
+  id: IsometricLeftDown
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricLeftDown
+  nameWithType: ePresetCameraType.IsometricLeftDown
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricLeftDown
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricLeftDown
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Left Down\n"
+  example: []
+  syntax:
+    content: IsometricLeftDown = 3
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricLeftUp
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricLeftUp
+  id: IsometricLeftUp
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricLeftUp
+  nameWithType: ePresetCameraType.IsometricLeftUp
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricLeftUp
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricLeftUp
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Left Up\n"
+  example: []
+  syntax:
+    content: IsometricLeftUp = 4
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis1Left
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis1Left
+  id: IsometricOffAxis1Left
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricOffAxis1Left
+  nameWithType: ePresetCameraType.IsometricOffAxis1Left
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis1Left
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricOffAxis1Left
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Off Axis 1 Left\n"
+  example: []
+  syntax:
+    content: IsometricOffAxis1Left = 5
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis1Right
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis1Right
+  id: IsometricOffAxis1Right
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricOffAxis1Right
+  nameWithType: ePresetCameraType.IsometricOffAxis1Right
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis1Right
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricOffAxis1Right
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Off Axis 1 Right\n"
+  example: []
+  syntax:
+    content: IsometricOffAxis1Right = 6
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis1Top
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis1Top
+  id: IsometricOffAxis1Top
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricOffAxis1Top
+  nameWithType: ePresetCameraType.IsometricOffAxis1Top
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis1Top
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricOffAxis1Top
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Off Axis 1 Top\n"
+  example: []
+  syntax:
+    content: IsometricOffAxis1Top = 7
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis2Left
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis2Left
+  id: IsometricOffAxis2Left
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricOffAxis2Left
+  nameWithType: ePresetCameraType.IsometricOffAxis2Left
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis2Left
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricOffAxis2Left
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Off Axis 2 Left\n"
+  example: []
+  syntax:
+    content: IsometricOffAxis2Left = 8
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis2Right
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis2Right
+  id: IsometricOffAxis2Right
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricOffAxis2Right
+  nameWithType: ePresetCameraType.IsometricOffAxis2Right
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis2Right
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricOffAxis2Right
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Off Axis 2 Right\n"
+  example: []
+  syntax:
+    content: IsometricOffAxis2Right = 9
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis2Top
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis2Top
+  id: IsometricOffAxis2Top
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricOffAxis2Top
+  nameWithType: ePresetCameraType.IsometricOffAxis2Top
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis2Top
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricOffAxis2Top
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Off Axis 2 Top\n"
+  example: []
+  syntax:
+    content: IsometricOffAxis2Top = 10
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis3Bottom
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis3Bottom
+  id: IsometricOffAxis3Bottom
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricOffAxis3Bottom
+  nameWithType: ePresetCameraType.IsometricOffAxis3Bottom
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis3Bottom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricOffAxis3Bottom
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Off Axis 3 Bottom\n"
+  example: []
+  syntax:
+    content: IsometricOffAxis3Bottom = 11
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis3Left
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis3Left
+  id: IsometricOffAxis3Left
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricOffAxis3Left
+  nameWithType: ePresetCameraType.IsometricOffAxis3Left
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis3Left
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricOffAxis3Left
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Off Axis 3 Left\n"
+  example: []
+  syntax:
+    content: IsometricOffAxis3Left = 12
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis3Right
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis3Right
+  id: IsometricOffAxis3Right
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricOffAxis3Right
+  nameWithType: ePresetCameraType.IsometricOffAxis3Right
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis3Right
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricOffAxis3Right
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Off Axis 3 Right\n"
+  example: []
+  syntax:
+    content: IsometricOffAxis3Right = 13
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis4Bottom
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis4Bottom
+  id: IsometricOffAxis4Bottom
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricOffAxis4Bottom
+  nameWithType: ePresetCameraType.IsometricOffAxis4Bottom
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis4Bottom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricOffAxis4Bottom
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Off Axis 4 Bottom\n"
+  example: []
+  syntax:
+    content: IsometricOffAxis4Bottom = 14
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis4Left
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis4Left
+  id: IsometricOffAxis4Left
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricOffAxis4Left
+  nameWithType: ePresetCameraType.IsometricOffAxis4Left
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis4Left
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricOffAxis4Left
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Off Axis 4 Left\n"
+  example: []
+  syntax:
+    content: IsometricOffAxis4Left = 15
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis4Right
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis4Right
+  id: IsometricOffAxis4Right
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricOffAxis4Right
+  nameWithType: ePresetCameraType.IsometricOffAxis4Right
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricOffAxis4Right
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricOffAxis4Right
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Off Axis 4 Right\n"
+  example: []
+  syntax:
+    content: IsometricOffAxis4Right = 16
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricRightDown
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricRightDown
+  id: IsometricRightDown
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricRightDown
+  nameWithType: ePresetCameraType.IsometricRightDown
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricRightDown
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricRightDown
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Right Down\n"
+  example: []
+  syntax:
+    content: IsometricRightDown = 17
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricRightUp
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricRightUp
+  id: IsometricRightUp
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricRightUp
+  nameWithType: ePresetCameraType.IsometricRightUp
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricRightUp
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricRightUp
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Right Up\n"
+  example: []
+  syntax:
+    content: IsometricRightUp = 18
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricTopDown
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricTopDown
+  id: IsometricTopDown
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricTopDown
+  nameWithType: ePresetCameraType.IsometricTopDown
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricTopDown
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricTopDown
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Top Down\n"
+  example: []
+  syntax:
+    content: IsometricTopDown = 19
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.IsometricTopUp
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.IsometricTopUp
+  id: IsometricTopUp
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: IsometricTopUp
+  nameWithType: ePresetCameraType.IsometricTopUp
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.IsometricTopUp
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsometricTopUp
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIsometric Top Up\n"
+  example: []
+  syntax:
+    content: IsometricTopUp = 20
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueBottom
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueBottom
+  id: LegacyObliqueBottom
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyObliqueBottom
+  nameWithType: ePresetCameraType.LegacyObliqueBottom
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueBottom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyObliqueBottom
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Oblique Bottom\n"
+  example: []
+  syntax:
+    content: LegacyObliqueBottom = 21
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueBottomLeft
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueBottomLeft
+  id: LegacyObliqueBottomLeft
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyObliqueBottomLeft
+  nameWithType: ePresetCameraType.LegacyObliqueBottomLeft
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueBottomLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyObliqueBottomLeft
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Oblique Bottom Left\n"
+  example: []
+  syntax:
+    content: LegacyObliqueBottomLeft = 22
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueBottomRight
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueBottomRight
+  id: LegacyObliqueBottomRight
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyObliqueBottomRight
+  nameWithType: ePresetCameraType.LegacyObliqueBottomRight
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueBottomRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyObliqueBottomRight
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Oblique Bottom Right\n"
+  example: []
+  syntax:
+    content: LegacyObliqueBottomRight = 23
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueFront
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueFront
+  id: LegacyObliqueFront
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyObliqueFront
+  nameWithType: ePresetCameraType.LegacyObliqueFront
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueFront
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyObliqueFront
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Oblique Front\n"
+  example: []
+  syntax:
+    content: LegacyObliqueFront = 24
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueLeft
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueLeft
+  id: LegacyObliqueLeft
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyObliqueLeft
+  nameWithType: ePresetCameraType.LegacyObliqueLeft
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyObliqueLeft
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 122
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n\n"
+  example: []
+  syntax:
+    content: LegacyObliqueLeft = 25
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueRight
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueRight
+  id: LegacyObliqueRight
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyObliqueRight
+  nameWithType: ePresetCameraType.LegacyObliqueRight
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyObliqueRight
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Oblique Right\n"
+  example: []
+  syntax:
+    content: LegacyObliqueRight = 26
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueTop
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueTop
+  id: LegacyObliqueTop
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyObliqueTop
+  nameWithType: ePresetCameraType.LegacyObliqueTop
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueTop
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyObliqueTop
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Oblique Top\n"
+  example: []
+  syntax:
+    content: LegacyObliqueTop = 27
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueTopLeft
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueTopLeft
+  id: LegacyObliqueTopLeft
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyObliqueTopLeft
+  nameWithType: ePresetCameraType.LegacyObliqueTopLeft
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueTopLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyObliqueTopLeft
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 134
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Oblique Top Left\n"
+  example: []
+  syntax:
+    content: LegacyObliqueTopLeft = 28
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueTopRight
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueTopRight
+  id: LegacyObliqueTopRight
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyObliqueTopRight
+  nameWithType: ePresetCameraType.LegacyObliqueTopRight
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyObliqueTopRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyObliqueTopRight
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Oblique Top Right\n"
+  example: []
+  syntax:
+    content: LegacyObliqueTopRight = 29
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveBottom
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveBottom
+  id: LegacyPerspectiveBottom
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyPerspectiveBottom
+  nameWithType: ePresetCameraType.LegacyPerspectiveBottom
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveBottom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyPerspectiveBottom
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 142
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Perspective Bottom\n"
+  example: []
+  syntax:
+    content: LegacyPerspectiveBottom = 30
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveBottomLeft
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveBottomLeft
+  id: LegacyPerspectiveBottomLeft
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyPerspectiveBottomLeft
+  nameWithType: ePresetCameraType.LegacyPerspectiveBottomLeft
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveBottomLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyPerspectiveBottomLeft
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 146
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Perspective Bottom Left\n"
+  example: []
+  syntax:
+    content: LegacyPerspectiveBottomLeft = 31
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveBottomRight
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveBottomRight
+  id: LegacyPerspectiveBottomRight
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyPerspectiveBottomRight
+  nameWithType: ePresetCameraType.LegacyPerspectiveBottomRight
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveBottomRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyPerspectiveBottomRight
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 150
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Perspective Bottom Right\n"
+  example: []
+  syntax:
+    content: LegacyPerspectiveBottomRight = 32
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveFront
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveFront
+  id: LegacyPerspectiveFront
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyPerspectiveFront
+  nameWithType: ePresetCameraType.LegacyPerspectiveFront
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveFront
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyPerspectiveFront
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 154
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Perspective Front\n"
+  example: []
+  syntax:
+    content: LegacyPerspectiveFront = 33
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveLeft
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveLeft
+  id: LegacyPerspectiveLeft
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyPerspectiveLeft
+  nameWithType: ePresetCameraType.LegacyPerspectiveLeft
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyPerspectiveLeft
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 158
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Perspective Left\n"
+  example: []
+  syntax:
+    content: LegacyPerspectiveLeft = 34
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveRight
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveRight
+  id: LegacyPerspectiveRight
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyPerspectiveRight
+  nameWithType: ePresetCameraType.LegacyPerspectiveRight
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyPerspectiveRight
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 162
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Perspective Right\n"
+  example: []
+  syntax:
+    content: LegacyPerspectiveRight = 35
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveTop
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveTop
+  id: LegacyPerspectiveTop
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyPerspectiveTop
+  nameWithType: ePresetCameraType.LegacyPerspectiveTop
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveTop
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyPerspectiveTop
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 166
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Perspective Top\n"
+  example: []
+  syntax:
+    content: LegacyPerspectiveTop = 36
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveTopLeft
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveTopLeft
+  id: LegacyPerspectiveTopLeft
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyPerspectiveTopLeft
+  nameWithType: ePresetCameraType.LegacyPerspectiveTopLeft
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveTopLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyPerspectiveTopLeft
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 170
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Perspective Top Left\n"
+  example: []
+  syntax:
+    content: LegacyPerspectiveTopLeft = 37
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveTopRight
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveTopRight
+  id: LegacyPerspectiveTopRight
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: LegacyPerspectiveTopRight
+  nameWithType: ePresetCameraType.LegacyPerspectiveTopRight
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.LegacyPerspectiveTopRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacyPerspectiveTopRight
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 174
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLegacy Perspective Top Right\n"
+  example: []
+  syntax:
+    content: LegacyPerspectiveTopRight = 38
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.ObliqueBottom
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.ObliqueBottom
+  id: ObliqueBottom
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: ObliqueBottom
+  nameWithType: ePresetCameraType.ObliqueBottom
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.ObliqueBottom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ObliqueBottom
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 178
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOblique Bottom\n"
+  example: []
+  syntax:
+    content: ObliqueBottom = 39
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.ObliqueBottomLeft
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.ObliqueBottomLeft
+  id: ObliqueBottomLeft
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: ObliqueBottomLeft
+  nameWithType: ePresetCameraType.ObliqueBottomLeft
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.ObliqueBottomLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ObliqueBottomLeft
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 182
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOblique Bottom Left\n"
+  example: []
+  syntax:
+    content: ObliqueBottomLeft = 40
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.ObliqueBottomRight
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.ObliqueBottomRight
+  id: ObliqueBottomRight
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: ObliqueBottomRight
+  nameWithType: ePresetCameraType.ObliqueBottomRight
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.ObliqueBottomRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ObliqueBottomRight
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 186
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOblique Bottom Right\n"
+  example: []
+  syntax:
+    content: ObliqueBottomRight = 41
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.ObliqueLeft
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.ObliqueLeft
+  id: ObliqueLeft
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: ObliqueLeft
+  nameWithType: ePresetCameraType.ObliqueLeft
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.ObliqueLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ObliqueLeft
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 190
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOblique Left\n"
+  example: []
+  syntax:
+    content: ObliqueLeft = 42
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.ObliqueRight
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.ObliqueRight
+  id: ObliqueRight
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: ObliqueRight
+  nameWithType: ePresetCameraType.ObliqueRight
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.ObliqueRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ObliqueRight
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 194
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOblique Right\n"
+  example: []
+  syntax:
+    content: ObliqueRight = 43
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.ObliqueTop
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.ObliqueTop
+  id: ObliqueTop
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: ObliqueTop
+  nameWithType: ePresetCameraType.ObliqueTop
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.ObliqueTop
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ObliqueTop
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 198
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOblique Top\n"
+  example: []
+  syntax:
+    content: ObliqueTop = 44
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.ObliqueTopLeft
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.ObliqueTopLeft
+  id: ObliqueTopLeft
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: ObliqueTopLeft
+  nameWithType: ePresetCameraType.ObliqueTopLeft
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.ObliqueTopLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ObliqueTopLeft
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 202
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOblique Top Left\n"
+  example: []
+  syntax:
+    content: ObliqueTopLeft = 45
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.ObliqueTopRight
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.ObliqueTopRight
+  id: ObliqueTopRight
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: ObliqueTopRight
+  nameWithType: ePresetCameraType.ObliqueTopRight
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.ObliqueTopRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ObliqueTopRight
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 206
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOblique Top Right\n"
+  example: []
+  syntax:
+    content: ObliqueTopRight = 46
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.OrthographicFront
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.OrthographicFront
+  id: OrthographicFront
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: OrthographicFront
+  nameWithType: ePresetCameraType.OrthographicFront
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.OrthographicFront
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OrthographicFront
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 210
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOrthographic Front\n"
+  example: []
+  syntax:
+    content: OrthographicFront = 47
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveAbove
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveAbove
+  id: PerspectiveAbove
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: PerspectiveAbove
+  nameWithType: ePresetCameraType.PerspectiveAbove
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveAbove
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PerspectiveAbove
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 214
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOrthographic Above\n"
+  example: []
+  syntax:
+    content: PerspectiveAbove = 48
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveAboveLeftFacing
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveAboveLeftFacing
+  id: PerspectiveAboveLeftFacing
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: PerspectiveAboveLeftFacing
+  nameWithType: ePresetCameraType.PerspectiveAboveLeftFacing
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveAboveLeftFacing
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PerspectiveAboveLeftFacing
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 218
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPerspective Above Left Facing\n"
+  example: []
+  syntax:
+    content: PerspectiveAboveLeftFacing = 49
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveAboveRightFacing
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveAboveRightFacing
+  id: PerspectiveAboveRightFacing
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: PerspectiveAboveRightFacing
+  nameWithType: ePresetCameraType.PerspectiveAboveRightFacing
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveAboveRightFacing
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PerspectiveAboveRightFacing
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 222
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPerspective Above Right Facing\n"
+  example: []
+  syntax:
+    content: PerspectiveAboveRightFacing = 50
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveBelow
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveBelow
+  id: PerspectiveBelow
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: PerspectiveBelow
+  nameWithType: ePresetCameraType.PerspectiveBelow
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveBelow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PerspectiveBelow
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 226
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPerspective Below\n"
+  example: []
+  syntax:
+    content: PerspectiveBelow = 51
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveContrastingLeftFacing
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveContrastingLeftFacing
+  id: PerspectiveContrastingLeftFacing
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: PerspectiveContrastingLeftFacing
+  nameWithType: ePresetCameraType.PerspectiveContrastingLeftFacing
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveContrastingLeftFacing
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PerspectiveContrastingLeftFacing
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 230
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPerspective Contrasting Left Facing\n"
+  example: []
+  syntax:
+    content: PerspectiveContrastingLeftFacing = 52
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveContrastingRightFacing
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveContrastingRightFacing
+  id: PerspectiveContrastingRightFacing
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: PerspectiveContrastingRightFacing
+  nameWithType: ePresetCameraType.PerspectiveContrastingRightFacing
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveContrastingRightFacing
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PerspectiveContrastingRightFacing
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 234
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPerspective Contrasting Right Facing\n"
+  example: []
+  syntax:
+    content: PerspectiveContrastingRightFacing = 53
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveFront
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveFront
+  id: PerspectiveFront
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: PerspectiveFront
+  nameWithType: ePresetCameraType.PerspectiveFront
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveFront
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PerspectiveFront
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 238
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPerspective Front\n"
+  example: []
+  syntax:
+    content: PerspectiveFront = 54
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveHeroicExtremeLeftFacing
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveHeroicExtremeLeftFacing
+  id: PerspectiveHeroicExtremeLeftFacing
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: PerspectiveHeroicExtremeLeftFacing
+  nameWithType: ePresetCameraType.PerspectiveHeroicExtremeLeftFacing
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveHeroicExtremeLeftFacing
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PerspectiveHeroicExtremeLeftFacing
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 242
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPerspective Heroic Extreme Left Facing\n"
+  example: []
+  syntax:
+    content: PerspectiveHeroicExtremeLeftFacing = 55
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveHeroicExtremeRightFacing
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveHeroicExtremeRightFacing
+  id: PerspectiveHeroicExtremeRightFacing
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: PerspectiveHeroicExtremeRightFacing
+  nameWithType: ePresetCameraType.PerspectiveHeroicExtremeRightFacing
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveHeroicExtremeRightFacing
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PerspectiveHeroicExtremeRightFacing
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 246
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPerspective Heroic Extreme Right Facing\n"
+  example: []
+  syntax:
+    content: PerspectiveHeroicExtremeRightFacing = 56
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveHeroicLeftFacing
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveHeroicLeftFacing
+  id: PerspectiveHeroicLeftFacing
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: PerspectiveHeroicLeftFacing
+  nameWithType: ePresetCameraType.PerspectiveHeroicLeftFacing
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveHeroicLeftFacing
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PerspectiveHeroicLeftFacing
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 250
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPerspective Heroic Left Facing\n"
+  example: []
+  syntax:
+    content: PerspectiveHeroicLeftFacing = 57
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveHeroicRightFacing
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveHeroicRightFacing
+  id: PerspectiveHeroicRightFacing
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: PerspectiveHeroicRightFacing
+  nameWithType: ePresetCameraType.PerspectiveHeroicRightFacing
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveHeroicRightFacing
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PerspectiveHeroicRightFacing
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 254
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPerspective Right Facing\n"
+  example: []
+  syntax:
+    content: PerspectiveHeroicRightFacing = 58
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveLeft
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveLeft
+  id: PerspectiveLeft
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: PerspectiveLeft
+  nameWithType: ePresetCameraType.PerspectiveLeft
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveLeft
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PerspectiveLeft
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 258
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPerspective Left\n"
+  example: []
+  syntax:
+    content: PerspectiveLeft = 59
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveRelaxed
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveRelaxed
+  id: PerspectiveRelaxed
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: PerspectiveRelaxed
+  nameWithType: ePresetCameraType.PerspectiveRelaxed
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveRelaxed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PerspectiveRelaxed
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 262
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPerspective Relaxed\n"
+  example: []
+  syntax:
+    content: PerspectiveRelaxed = 60
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveRelaxedModerately
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveRelaxedModerately
+  id: PerspectiveRelaxedModerately
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: PerspectiveRelaxedModerately
+  nameWithType: ePresetCameraType.PerspectiveRelaxedModerately
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveRelaxedModerately
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PerspectiveRelaxedModerately
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 266
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPerspective Relaxed Moderately\n"
+  example: []
+  syntax:
+    content: PerspectiveRelaxedModerately = 61
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveRight
+  commentId: F:OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveRight
+  id: PerspectiveRight
+  parent: OfficeOpenXml.Drawing.ePresetCameraType
+  langs:
+  - csharp
+  - vb
+  name: PerspectiveRight
+  nameWithType: ePresetCameraType.PerspectiveRight
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType.PerspectiveRight
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PerspectiveRight
+    path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
+    startLine: 270
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPerspective Right\n"
+  example: []
+  syntax:
+    content: PerspectiveRight = 62
+    return:
+      type: OfficeOpenXml.Drawing.ePresetCameraType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.ePresetCameraType
+  commentId: T:OfficeOpenXml.Drawing.ePresetCameraType
+  parent: OfficeOpenXml.Drawing
+  name: ePresetCameraType
+  nameWithType: ePresetCameraType
+  fullName: OfficeOpenXml.Drawing.ePresetCameraType

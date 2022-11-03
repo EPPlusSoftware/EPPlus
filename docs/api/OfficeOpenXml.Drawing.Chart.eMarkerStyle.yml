@@ -1,0 +1,433 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  commentId: T:OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  id: eMarkerStyle
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eMarkerStyle.Circle
+  - OfficeOpenXml.Drawing.Chart.eMarkerStyle.Dash
+  - OfficeOpenXml.Drawing.Chart.eMarkerStyle.Diamond
+  - OfficeOpenXml.Drawing.Chart.eMarkerStyle.Dot
+  - OfficeOpenXml.Drawing.Chart.eMarkerStyle.None
+  - OfficeOpenXml.Drawing.Chart.eMarkerStyle.Picture
+  - OfficeOpenXml.Drawing.Chart.eMarkerStyle.Plus
+  - OfficeOpenXml.Drawing.Chart.eMarkerStyle.Square
+  - OfficeOpenXml.Drawing.Chart.eMarkerStyle.Star
+  - OfficeOpenXml.Drawing.Chart.eMarkerStyle.Triangle
+  - OfficeOpenXml.Drawing.Chart.eMarkerStyle.X
+  langs:
+  - csharp
+  - vb
+  name: eMarkerStyle
+  nameWithType: eMarkerStyle
+  fullName: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eMarkerStyle
+    path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nMarkerstyle\n"
+  example: []
+  syntax:
+    content: public enum eMarkerStyle
+    content.vb: Public Enum eMarkerStyle
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Circle
+  commentId: F:OfficeOpenXml.Drawing.Chart.eMarkerStyle.Circle
+  id: Circle
+  parent: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  langs:
+  - csharp
+  - vb
+  name: Circle
+  nameWithType: eMarkerStyle.Circle
+  fullName: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Circle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Circle
+    path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe shape of a circle\n"
+  example: []
+  syntax:
+    content: Circle = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Dash
+  commentId: F:OfficeOpenXml.Drawing.Chart.eMarkerStyle.Dash
+  id: Dash
+  parent: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  langs:
+  - csharp
+  - vb
+  name: Dash
+  nameWithType: eMarkerStyle.Dash
+  fullName: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Dash
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dash
+    path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe shape of a dash\n"
+  example: []
+  syntax:
+    content: Dash = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Diamond
+  commentId: F:OfficeOpenXml.Drawing.Chart.eMarkerStyle.Diamond
+  id: Diamond
+  parent: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  langs:
+  - csharp
+  - vb
+  name: Diamond
+  nameWithType: eMarkerStyle.Diamond
+  fullName: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Diamond
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Diamond
+    path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe shape of a diamond\n"
+  example: []
+  syntax:
+    content: Diamond = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Dot
+  commentId: F:OfficeOpenXml.Drawing.Chart.eMarkerStyle.Dot
+  id: Dot
+  parent: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  langs:
+  - csharp
+  - vb
+  name: Dot
+  nameWithType: eMarkerStyle.Dot
+  fullName: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Dot
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dot
+    path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe shape of a dot\n"
+  example: []
+  syntax:
+    content: Dot = 3
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eMarkerStyle.None
+  commentId: F:OfficeOpenXml.Drawing.Chart.eMarkerStyle.None
+  id: None
+  parent: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eMarkerStyle.None
+  fullName: OfficeOpenXml.Drawing.Chart.eMarkerStyle.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nNo marker\n"
+  example: []
+  syntax:
+    content: None = 4
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Picture
+  commentId: F:OfficeOpenXml.Drawing.Chart.eMarkerStyle.Picture
+  id: Picture
+  parent: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  langs:
+  - csharp
+  - vb
+  name: Picture
+  nameWithType: eMarkerStyle.Picture
+  fullName: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Picture
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Picture
+    path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA picture, currently unsupported\n"
+  example: []
+  syntax:
+    content: Picture = 5
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Plus
+  commentId: F:OfficeOpenXml.Drawing.Chart.eMarkerStyle.Plus
+  id: Plus
+  parent: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  langs:
+  - csharp
+  - vb
+  name: Plus
+  nameWithType: eMarkerStyle.Plus
+  fullName: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Plus
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Plus
+    path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe shape of a plus\n"
+  example: []
+  syntax:
+    content: Plus = 6
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Square
+  commentId: F:OfficeOpenXml.Drawing.Chart.eMarkerStyle.Square
+  id: Square
+  parent: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  langs:
+  - csharp
+  - vb
+  name: Square
+  nameWithType: eMarkerStyle.Square
+  fullName: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Square
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Square
+    path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe shape of a square\n"
+  example: []
+  syntax:
+    content: Square = 7
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Star
+  commentId: F:OfficeOpenXml.Drawing.Chart.eMarkerStyle.Star
+  id: Star
+  parent: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  langs:
+  - csharp
+  - vb
+  name: Star
+  nameWithType: eMarkerStyle.Star
+  fullName: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Star
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Star
+    path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe shape of a star\n"
+  example: []
+  syntax:
+    content: Star = 8
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Triangle
+  commentId: F:OfficeOpenXml.Drawing.Chart.eMarkerStyle.Triangle
+  id: Triangle
+  parent: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  langs:
+  - csharp
+  - vb
+  name: Triangle
+  nameWithType: eMarkerStyle.Triangle
+  fullName: OfficeOpenXml.Drawing.Chart.eMarkerStyle.Triangle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Triangle
+    path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe shape of a triangle\n"
+  example: []
+  syntax:
+    content: Triangle = 9
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eMarkerStyle.X
+  commentId: F:OfficeOpenXml.Drawing.Chart.eMarkerStyle.X
+  id: X
+  parent: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  langs:
+  - csharp
+  - vb
+  name: X
+  nameWithType: eMarkerStyle.X
+  fullName: OfficeOpenXml.Drawing.Chart.eMarkerStyle.X
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: X
+    path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe shape of a X\n"
+  example: []
+  syntax:
+    content: X = 10
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  commentId: T:OfficeOpenXml.Drawing.Chart.eMarkerStyle
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eMarkerStyle
+  nameWithType: eMarkerStyle
+  fullName: OfficeOpenXml.Drawing.Chart.eMarkerStyle

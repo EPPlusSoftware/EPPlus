@@ -1,0 +1,1223 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelCellBase
+  commentId: T:OfficeOpenXml.ExcelCellBase
+  id: ExcelCellBase
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Boolean,System.Int32,System.Boolean)
+  - OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Int32,System.Boolean)
+  - OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Int32,System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)
+  - OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  - OfficeOpenXml.ExcelCellBase.GetAddressCol(System.Int32,System.Boolean)
+  - OfficeOpenXml.ExcelCellBase.GetAddressRow(System.Int32,System.Boolean)
+  - OfficeOpenXml.ExcelCellBase.GetColumnLetter(System.Int32)
+  - OfficeOpenXml.ExcelCellBase.GetColumnLetter(System.Int32,System.Boolean)
+  - OfficeOpenXml.ExcelCellBase.GetFullAddress(System.String,System.String)
+  - OfficeOpenXml.ExcelCellBase.GetFullAddress(System.String,System.String,System.String)
+  - OfficeOpenXml.ExcelCellBase.IsSimpleAddress(System.String)
+  - OfficeOpenXml.ExcelCellBase.IsValidAddress(System.String)
+  - OfficeOpenXml.ExcelCellBase.IsValidCellAddress(System.String)
+  - OfficeOpenXml.ExcelCellBase.TranslateFromR1C1(System.String,System.Int32,System.Int32)
+  - OfficeOpenXml.ExcelCellBase.TranslateToR1C1(System.String,System.Int32,System.Int32)
+  langs:
+  - csharp
+  - vb
+  name: ExcelCellBase
+  nameWithType: ExcelCellBase
+  fullName: OfficeOpenXml.ExcelCellBase
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelCellBase
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nBase class containing cell address manipulating methods.\n"
+  example: []
+  syntax:
+    content: public abstract class ExcelCellBase
+    content.vb: Public MustInherit Class ExcelCellBase
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - OfficeOpenXml.ExcelAddressBase
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - abstract
+  - class
+  modifiers.vb:
+  - Public
+  - MustInherit
+  - Class
+- uid: OfficeOpenXml.ExcelCellBase.TranslateFromR1C1(System.String,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelCellBase.TranslateFromR1C1(System.String,System.Int32,System.Int32)
+  id: TranslateFromR1C1(System.String,System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelCellBase
+  langs:
+  - csharp
+  - vb
+  name: TranslateFromR1C1(String, Int32, Int32)
+  nameWithType: ExcelCellBase.TranslateFromR1C1(String, Int32, Int32)
+  fullName: OfficeOpenXml.ExcelCellBase.TranslateFromR1C1(System.String, System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TranslateFromR1C1
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nTranslates a R1C1 to an absolut address/Formula\n"
+  example: []
+  syntax:
+    content: public static string TranslateFromR1C1(string value, int row, int col)
+    parameters:
+    - id: value
+      type: System.String
+      description: Address
+    - id: row
+      type: System.Int32
+      description: Current row
+    - id: col
+      type: System.Int32
+      description: Current column
+    return:
+      type: System.String
+      description: The RC address
+    content.vb: Public Shared Function TranslateFromR1C1(value As String, row As Integer, col As Integer) As String
+  overload: OfficeOpenXml.ExcelCellBase.TranslateFromR1C1*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelCellBase.TranslateToR1C1(System.String,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelCellBase.TranslateToR1C1(System.String,System.Int32,System.Int32)
+  id: TranslateToR1C1(System.String,System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelCellBase
+  langs:
+  - csharp
+  - vb
+  name: TranslateToR1C1(String, Int32, Int32)
+  nameWithType: ExcelCellBase.TranslateToR1C1(String, Int32, Int32)
+  fullName: OfficeOpenXml.ExcelCellBase.TranslateToR1C1(System.String, System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TranslateToR1C1
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nTranslates a absolut address to R1C1 Format\n"
+  example: []
+  syntax:
+    content: public static string TranslateToR1C1(string value, int row, int col)
+    parameters:
+    - id: value
+      type: System.String
+      description: R1C1 Address
+    - id: row
+      type: System.Int32
+      description: Current row
+    - id: col
+      type: System.Int32
+      description: Current column
+    return:
+      type: System.String
+      description: The absolut address/Formula
+    content.vb: Public Shared Function TranslateToR1C1(value As String, row As Integer, col As Integer) As String
+  overload: OfficeOpenXml.ExcelCellBase.TranslateToR1C1*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelCellBase.GetColumnLetter(System.Int32)
+  commentId: M:OfficeOpenXml.ExcelCellBase.GetColumnLetter(System.Int32)
+  id: GetColumnLetter(System.Int32)
+  parent: OfficeOpenXml.ExcelCellBase
+  langs:
+  - csharp
+  - vb
+  name: GetColumnLetter(Int32)
+  nameWithType: ExcelCellBase.GetColumnLetter(Int32)
+  fullName: OfficeOpenXml.ExcelCellBase.GetColumnLetter(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetColumnLetter
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 89
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns the character representation of the numbered column\n"
+  example: []
+  syntax:
+    content: protected static string GetColumnLetter(int iColumnNumber)
+    parameters:
+    - id: iColumnNumber
+      type: System.Int32
+      description: The number of the column
+    return:
+      type: System.String
+      description: The letter representing the column
+    content.vb: Protected Shared Function GetColumnLetter(iColumnNumber As Integer) As String
+  overload: OfficeOpenXml.ExcelCellBase.GetColumnLetter*
+  modifiers.csharp:
+  - protected
+  - static
+  modifiers.vb:
+  - Protected
+  - Shared
+- uid: OfficeOpenXml.ExcelCellBase.GetColumnLetter(System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelCellBase.GetColumnLetter(System.Int32,System.Boolean)
+  id: GetColumnLetter(System.Int32,System.Boolean)
+  parent: OfficeOpenXml.ExcelCellBase
+  langs:
+  - csharp
+  - vb
+  name: GetColumnLetter(Int32, Boolean)
+  nameWithType: ExcelCellBase.GetColumnLetter(Int32, Boolean)
+  fullName: OfficeOpenXml.ExcelCellBase.GetColumnLetter(System.Int32, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetColumnLetter
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 99
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns the character representation of the numbered column\n"
+  example: []
+  syntax:
+    content: protected static string GetColumnLetter(int iColumnNumber, bool fixedCol)
+    parameters:
+    - id: iColumnNumber
+      type: System.Int32
+      description: The number of the column
+    - id: fixedCol
+      type: System.Boolean
+      description: True for fixed column
+    return:
+      type: System.String
+      description: The letter representing the column
+    content.vb: Protected Shared Function GetColumnLetter(iColumnNumber As Integer, fixedCol As Boolean) As String
+  overload: OfficeOpenXml.ExcelCellBase.GetColumnLetter*
+  modifiers.csharp:
+  - protected
+  - static
+  modifiers.vb:
+  - Protected
+  - Shared
+- uid: OfficeOpenXml.ExcelCellBase.GetAddressRow(System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelCellBase.GetAddressRow(System.Int32,System.Boolean)
+  id: GetAddressRow(System.Int32,System.Boolean)
+  parent: OfficeOpenXml.ExcelCellBase
+  langs:
+  - csharp
+  - vb
+  name: GetAddressRow(Int32, Boolean)
+  nameWithType: ExcelCellBase.GetAddressRow(Int32, Boolean)
+  fullName: OfficeOpenXml.ExcelCellBase.GetAddressRow(System.Int32, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetAddressRow
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 483
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGet the row number in text\n"
+  example: []
+  syntax:
+    content: public static string GetAddressRow(int Row, bool Absolute = false)
+    parameters:
+    - id: Row
+      type: System.Int32
+      description: The row
+    - id: Absolute
+      type: System.Boolean
+      description: If the row is absolute. Adds a $ before the address if true
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Shared Function GetAddressRow(Row As Integer, Absolute As Boolean = False) As String
+  overload: OfficeOpenXml.ExcelCellBase.GetAddressRow*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelCellBase.GetAddressCol(System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelCellBase.GetAddressCol(System.Int32,System.Boolean)
+  id: GetAddressCol(System.Int32,System.Boolean)
+  parent: OfficeOpenXml.ExcelCellBase
+  langs:
+  - csharp
+  - vb
+  name: GetAddressCol(Int32, Boolean)
+  nameWithType: ExcelCellBase.GetAddressCol(Int32, Boolean)
+  fullName: OfficeOpenXml.ExcelCellBase.GetAddressCol(System.Int32, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetAddressCol
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 495
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGet the columnn address for the column\n"
+  example: []
+  syntax:
+    content: public static string GetAddressCol(int Col, bool Absolute = false)
+    parameters:
+    - id: Col
+      type: System.Int32
+      description: The column
+    - id: Absolute
+      type: System.Boolean
+      description: If the column is absolute. Adds a $ before the address if true
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Shared Function GetAddressCol(Col As Integer, Absolute As Boolean = False) As String
+  overload: OfficeOpenXml.ExcelCellBase.GetAddressCol*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Int32)
+  id: GetAddress(System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelCellBase
+  langs:
+  - csharp
+  - vb
+  name: GetAddress(Int32, Int32)
+  nameWithType: ExcelCellBase.GetAddress(Int32, Int32)
+  fullName: OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetAddress
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 508
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns the AlphaNumeric representation that Excel expects for a Cell Address\n"
+  example: []
+  syntax:
+    content: public static string GetAddress(int Row, int Column)
+    parameters:
+    - id: Row
+      type: System.Int32
+      description: The number of the row
+    - id: Column
+      type: System.Int32
+      description: The number of the column in the worksheet
+    return:
+      type: System.String
+      description: The cell address in the format A1
+    content.vb: Public Shared Function GetAddress(Row As Integer, Column As Integer) As String
+  overload: OfficeOpenXml.ExcelCellBase.GetAddress*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Boolean,System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Boolean,System.Int32,System.Boolean)
+  id: GetAddress(System.Int32,System.Boolean,System.Int32,System.Boolean)
+  parent: OfficeOpenXml.ExcelCellBase
+  langs:
+  - csharp
+  - vb
+  name: GetAddress(Int32, Boolean, Int32, Boolean)
+  nameWithType: ExcelCellBase.GetAddress(Int32, Boolean, Int32, Boolean)
+  fullName: OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32, System.Boolean, System.Int32, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetAddress
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 520
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns the AlphaNumeric representation that Excel expects for a Cell Address\n"
+  example: []
+  syntax:
+    content: public static string GetAddress(int Row, bool AbsoluteRow, int Column, bool AbsoluteCol)
+    parameters:
+    - id: Row
+      type: System.Int32
+      description: The number of the row
+    - id: AbsoluteRow
+      type: System.Boolean
+      description: Absolute row
+    - id: Column
+      type: System.Int32
+      description: The number of the column in the worksheet
+    - id: AbsoluteCol
+      type: System.Boolean
+      description: Absolute column
+    return:
+      type: System.String
+      description: The cell address in the format A1
+    content.vb: Public Shared Function GetAddress(Row As Integer, AbsoluteRow As Boolean, Column As Integer, AbsoluteCol As Boolean) As String
+  overload: OfficeOpenXml.ExcelCellBase.GetAddress*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Int32,System.Boolean)
+  id: GetAddress(System.Int32,System.Int32,System.Boolean)
+  parent: OfficeOpenXml.ExcelCellBase
+  langs:
+  - csharp
+  - vb
+  name: GetAddress(Int32, Int32, Boolean)
+  nameWithType: ExcelCellBase.GetAddress(Int32, Int32, Boolean)
+  fullName: OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32, System.Int32, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetAddress
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 532
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns the AlphaNumeric representation that Excel expects for a Cell Address\n"
+  example: []
+  syntax:
+    content: public static string GetAddress(int Row, int Column, bool Absolute)
+    parameters:
+    - id: Row
+      type: System.Int32
+      description: The number of the row
+    - id: Column
+      type: System.Int32
+      description: The number of the column in the worksheet
+    - id: Absolute
+      type: System.Boolean
+      description: Get an absolute address ($A$1)
+    return:
+      type: System.String
+      description: The cell address in the format A1
+    content.vb: Public Shared Function GetAddress(Row As Integer, Column As Integer, Absolute As Boolean) As String
+  overload: OfficeOpenXml.ExcelCellBase.GetAddress*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Int32,System.Int32,System.Int32)
+  id: GetAddress(System.Int32,System.Int32,System.Int32,System.Int32)
+  parent: OfficeOpenXml.ExcelCellBase
+  langs:
+  - csharp
+  - vb
+  name: GetAddress(Int32, Int32, Int32, Int32)
+  nameWithType: ExcelCellBase.GetAddress(Int32, Int32, Int32, Int32)
+  fullName: OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32, System.Int32, System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetAddress
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 555
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns the AlphaNumeric representation that Excel expects for a Cell Address\n"
+  example: []
+  syntax:
+    content: public static string GetAddress(int FromRow, int FromColumn, int ToRow, int ToColumn)
+    parameters:
+    - id: FromRow
+      type: System.Int32
+      description: From row number
+    - id: FromColumn
+      type: System.Int32
+      description: From column number
+    - id: ToRow
+      type: System.Int32
+      description: To row number
+    - id: ToColumn
+      type: System.Int32
+      description: From column number
+    return:
+      type: System.String
+      description: The cell address in the format A1
+    content.vb: Public Shared Function GetAddress(FromRow As Integer, FromColumn As Integer, ToRow As Integer, ToColumn As Integer) As String
+  overload: OfficeOpenXml.ExcelCellBase.GetAddress*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)
+  id: GetAddress(System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)
+  parent: OfficeOpenXml.ExcelCellBase
+  langs:
+  - csharp
+  - vb
+  name: GetAddress(Int32, Int32, Int32, Int32, Boolean)
+  nameWithType: ExcelCellBase.GetAddress(Int32, Int32, Int32, Int32, Boolean)
+  fullName: OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32, System.Int32, System.Int32, System.Int32, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetAddress
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 568
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns the AlphaNumeric representation that Excel expects for a Cell Address\n"
+  example: []
+  syntax:
+    content: public static string GetAddress(int FromRow, int FromColumn, int ToRow, int ToColumn, bool Absolute)
+    parameters:
+    - id: FromRow
+      type: System.Int32
+      description: From row number
+    - id: FromColumn
+      type: System.Int32
+      description: From column number
+    - id: ToRow
+      type: System.Int32
+      description: To row number
+    - id: ToColumn
+      type: System.Int32
+      description: From column number
+    - id: Absolute
+      type: System.Boolean
+      description: if true address is absolute (like $A$1)
+    return:
+      type: System.String
+      description: The cell address in the format A1
+    content.vb: Public Shared Function GetAddress(FromRow As Integer, FromColumn As Integer, ToRow As Integer, ToColumn As Integer, Absolute As Boolean) As String
+  overload: OfficeOpenXml.ExcelCellBase.GetAddress*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  id: GetAddress(System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  parent: OfficeOpenXml.ExcelCellBase
+  langs:
+  - csharp
+  - vb
+  name: GetAddress(Int32, Int32, Int32, Int32, Boolean, Boolean, Boolean, Boolean)
+  nameWithType: ExcelCellBase.GetAddress(Int32, Int32, Int32, Int32, Boolean, Boolean, Boolean, Boolean)
+  fullName: OfficeOpenXml.ExcelCellBase.GetAddress(System.Int32, System.Int32, System.Int32, System.Int32, System.Boolean, System.Boolean, System.Boolean, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetAddress
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 604
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns the AlphaNumeric representation that Excel expects for a Cell Address\n"
+  example: []
+  syntax:
+    content: public static string GetAddress(int FromRow, int FromColumn, int ToRow, int ToColumn, bool FixedFromRow, bool FixedFromColumn, bool FixedToRow, bool FixedToColumn)
+    parameters:
+    - id: FromRow
+      type: System.Int32
+      description: From row number
+    - id: FromColumn
+      type: System.Int32
+      description: From column number
+    - id: ToRow
+      type: System.Int32
+      description: To row number
+    - id: ToColumn
+      type: System.Int32
+      description: From column number
+    - id: FixedFromRow
+      type: System.Boolean
+      description: ''
+    - id: FixedFromColumn
+      type: System.Boolean
+      description: ''
+    - id: FixedToRow
+      type: System.Boolean
+      description: ''
+    - id: FixedToColumn
+      type: System.Boolean
+      description: ''
+    return:
+      type: System.String
+      description: The cell address in the format A1
+    content.vb: Public Shared Function GetAddress(FromRow As Integer, FromColumn As Integer, ToRow As Integer, ToColumn As Integer, FixedFromRow As Boolean, FixedFromColumn As Boolean, FixedToRow As Boolean, FixedToColumn As Boolean) As String
+  overload: OfficeOpenXml.ExcelCellBase.GetAddress*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelCellBase.GetFullAddress(System.String,System.String)
+  commentId: M:OfficeOpenXml.ExcelCellBase.GetFullAddress(System.String,System.String)
+  id: GetFullAddress(System.String,System.String)
+  parent: OfficeOpenXml.ExcelCellBase
+  langs:
+  - csharp
+  - vb
+  name: GetFullAddress(String, String)
+  nameWithType: ExcelCellBase.GetFullAddress(String, String)
+  fullName: OfficeOpenXml.ExcelCellBase.GetFullAddress(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetFullAddress
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 632
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGet the full address including the worksheet name\n"
+  example: []
+  syntax:
+    content: public static string GetFullAddress(string worksheetName, string address)
+    parameters:
+    - id: worksheetName
+      type: System.String
+      description: The name of the worksheet
+    - id: address
+      type: System.String
+      description: The address
+    return:
+      type: System.String
+      description: The full address
+    content.vb: Public Shared Function GetFullAddress(worksheetName As String, address As String) As String
+  overload: OfficeOpenXml.ExcelCellBase.GetFullAddress*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelCellBase.GetFullAddress(System.String,System.String,System.String)
+  commentId: M:OfficeOpenXml.ExcelCellBase.GetFullAddress(System.String,System.String,System.String)
+  id: GetFullAddress(System.String,System.String,System.String)
+  parent: OfficeOpenXml.ExcelCellBase
+  langs:
+  - csharp
+  - vb
+  name: GetFullAddress(String, String, String)
+  nameWithType: ExcelCellBase.GetFullAddress(String, String, String)
+  fullName: OfficeOpenXml.ExcelCellBase.GetFullAddress(System.String, System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetFullAddress
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 643
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGet the full address including the worksheet name\n"
+  example: []
+  syntax:
+    content: public static string GetFullAddress(string workbook, string worksheetName, string address)
+    parameters:
+    - id: workbook
+      type: System.String
+      description: The workbook, if other than current
+    - id: worksheetName
+      type: System.String
+      description: The name of the worksheet
+    - id: address
+      type: System.String
+      description: The address
+    return:
+      type: System.String
+      description: The full address
+    content.vb: Public Shared Function GetFullAddress(workbook As String, worksheetName As String, address As String) As String
+  overload: OfficeOpenXml.ExcelCellBase.GetFullAddress*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelCellBase.IsSimpleAddress(System.String)
+  commentId: M:OfficeOpenXml.ExcelCellBase.IsSimpleAddress(System.String)
+  id: IsSimpleAddress(System.String)
+  parent: OfficeOpenXml.ExcelCellBase
+  langs:
+  - csharp
+  - vb
+  name: IsSimpleAddress(String)
+  nameWithType: ExcelCellBase.IsSimpleAddress(String)
+  fullName: OfficeOpenXml.ExcelCellBase.IsSimpleAddress(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsSimpleAddress
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 711
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf the address is a address is a cell or range address of format A1 or A1:A2, without specified worksheet name. \n"
+  example: []
+  syntax:
+    content: public static bool IsSimpleAddress(string address)
+    parameters:
+    - id: address
+      type: System.String
+      description: the address
+    return:
+      type: System.Boolean
+      description: True if valid.
+    content.vb: Public Shared Function IsSimpleAddress(address As String) As Boolean
+  overload: OfficeOpenXml.ExcelCellBase.IsSimpleAddress*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelCellBase.IsValidAddress(System.String)
+  commentId: M:OfficeOpenXml.ExcelCellBase.IsValidAddress(System.String)
+  id: IsValidAddress(System.String)
+  parent: OfficeOpenXml.ExcelCellBase
+  langs:
+  - csharp
+  - vb
+  name: IsValidAddress(String)
+  nameWithType: ExcelCellBase.IsValidAddress(String)
+  fullName: OfficeOpenXml.ExcelCellBase.IsValidAddress(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsValidAddress
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 732
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nReturns true if the cell address is valid\n"
+  example: []
+  syntax:
+    content: public static bool IsValidAddress(string address)
+    parameters:
+    - id: address
+      type: System.String
+      description: The address to check
+    return:
+      type: System.Boolean
+      description: Return true if the address is valid
+    content.vb: Public Shared Function IsValidAddress(address As String) As Boolean
+  overload: OfficeOpenXml.ExcelCellBase.IsValidAddress*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.ExcelCellBase.IsValidCellAddress(System.String)
+  commentId: M:OfficeOpenXml.ExcelCellBase.IsValidCellAddress(System.String)
+  id: IsValidCellAddress(System.String)
+  parent: OfficeOpenXml.ExcelCellBase
+  langs:
+  - csharp
+  - vb
+  name: IsValidCellAddress(String)
+  nameWithType: ExcelCellBase.IsValidCellAddress(String)
+  fullName: OfficeOpenXml.ExcelCellBase.IsValidCellAddress(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelCellBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsValidCellAddress
+    path: ../src/EPPlus/ExcelCellBase.cs
+    startLine: 852
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nChecks that a cell address (e.g. A5) is valid.\n"
+  example: []
+  syntax:
+    content: public static bool IsValidCellAddress(string cellAddress)
+    parameters:
+    - id: cellAddress
+      type: System.String
+      description: The alphanumeric cell address
+    return:
+      type: System.Boolean
+      description: True if the cell address is valid
+    content.vb: Public Shared Function IsValidCellAddress(cellAddress As String) As Boolean
+  overload: OfficeOpenXml.ExcelCellBase.IsValidCellAddress*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelCellBase.TranslateFromR1C1*
+  commentId: Overload:OfficeOpenXml.ExcelCellBase.TranslateFromR1C1
+  name: TranslateFromR1C1
+  nameWithType: ExcelCellBase.TranslateFromR1C1
+  fullName: OfficeOpenXml.ExcelCellBase.TranslateFromR1C1
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ExcelCellBase.TranslateToR1C1*
+  commentId: Overload:OfficeOpenXml.ExcelCellBase.TranslateToR1C1
+  name: TranslateToR1C1
+  nameWithType: ExcelCellBase.TranslateToR1C1
+  fullName: OfficeOpenXml.ExcelCellBase.TranslateToR1C1
+- uid: OfficeOpenXml.ExcelCellBase.GetColumnLetter*
+  commentId: Overload:OfficeOpenXml.ExcelCellBase.GetColumnLetter
+  name: GetColumnLetter
+  nameWithType: ExcelCellBase.GetColumnLetter
+  fullName: OfficeOpenXml.ExcelCellBase.GetColumnLetter
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExcelCellBase.GetAddressRow*
+  commentId: Overload:OfficeOpenXml.ExcelCellBase.GetAddressRow
+  name: GetAddressRow
+  nameWithType: ExcelCellBase.GetAddressRow
+  fullName: OfficeOpenXml.ExcelCellBase.GetAddressRow
+- uid: OfficeOpenXml.ExcelCellBase.GetAddressCol*
+  commentId: Overload:OfficeOpenXml.ExcelCellBase.GetAddressCol
+  name: GetAddressCol
+  nameWithType: ExcelCellBase.GetAddressCol
+  fullName: OfficeOpenXml.ExcelCellBase.GetAddressCol
+- uid: OfficeOpenXml.ExcelCellBase.GetAddress*
+  commentId: Overload:OfficeOpenXml.ExcelCellBase.GetAddress
+  name: GetAddress
+  nameWithType: ExcelCellBase.GetAddress
+  fullName: OfficeOpenXml.ExcelCellBase.GetAddress
+- uid: OfficeOpenXml.ExcelCellBase.GetFullAddress*
+  commentId: Overload:OfficeOpenXml.ExcelCellBase.GetFullAddress
+  name: GetFullAddress
+  nameWithType: ExcelCellBase.GetFullAddress
+  fullName: OfficeOpenXml.ExcelCellBase.GetFullAddress
+- uid: OfficeOpenXml.ExcelCellBase.IsSimpleAddress*
+  commentId: Overload:OfficeOpenXml.ExcelCellBase.IsSimpleAddress
+  name: IsSimpleAddress
+  nameWithType: ExcelCellBase.IsSimpleAddress
+  fullName: OfficeOpenXml.ExcelCellBase.IsSimpleAddress
+- uid: OfficeOpenXml.ExcelCellBase.IsValidAddress*
+  commentId: Overload:OfficeOpenXml.ExcelCellBase.IsValidAddress
+  name: IsValidAddress
+  nameWithType: ExcelCellBase.IsValidAddress
+  fullName: OfficeOpenXml.ExcelCellBase.IsValidAddress
+- uid: OfficeOpenXml.ExcelCellBase.IsValidCellAddress*
+  commentId: Overload:OfficeOpenXml.ExcelCellBase.IsValidCellAddress
+  name: IsValidCellAddress
+  nameWithType: ExcelCellBase.IsValidCellAddress
+  fullName: OfficeOpenXml.ExcelCellBase.IsValidCellAddress

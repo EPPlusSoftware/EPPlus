@@ -1,0 +1,328 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DataValidation.eDataValidationType
+  commentId: T:OfficeOpenXml.DataValidation.eDataValidationType
+  id: eDataValidationType
+  parent: OfficeOpenXml.DataValidation
+  children:
+  - OfficeOpenXml.DataValidation.eDataValidationType.Any
+  - OfficeOpenXml.DataValidation.eDataValidationType.Custom
+  - OfficeOpenXml.DataValidation.eDataValidationType.DateTime
+  - OfficeOpenXml.DataValidation.eDataValidationType.Decimal
+  - OfficeOpenXml.DataValidation.eDataValidationType.List
+  - OfficeOpenXml.DataValidation.eDataValidationType.TextLength
+  - OfficeOpenXml.DataValidation.eDataValidationType.Time
+  - OfficeOpenXml.DataValidation.eDataValidationType.Whole
+  langs:
+  - csharp
+  - vb
+  name: eDataValidationType
+  nameWithType: eDataValidationType
+  fullName: OfficeOpenXml.DataValidation.eDataValidationType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eDataValidationType
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nEnum for available data validation types\n"
+  example: []
+  syntax:
+    content: public enum eDataValidationType
+    content.vb: Public Enum eDataValidationType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.DataValidation.eDataValidationType.Any
+  commentId: F:OfficeOpenXml.DataValidation.eDataValidationType.Any
+  id: Any
+  parent: OfficeOpenXml.DataValidation.eDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: Any
+  nameWithType: eDataValidationType.Any
+  fullName: OfficeOpenXml.DataValidation.eDataValidationType.Any
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Any
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nAny value\n"
+  example: []
+  syntax:
+    content: Any = 0
+    return:
+      type: OfficeOpenXml.DataValidation.eDataValidationType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.eDataValidationType.Whole
+  commentId: F:OfficeOpenXml.DataValidation.eDataValidationType.Whole
+  id: Whole
+  parent: OfficeOpenXml.DataValidation.eDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: Whole
+  nameWithType: eDataValidationType.Whole
+  fullName: OfficeOpenXml.DataValidation.eDataValidationType.Whole
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Whole
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nInteger value\n"
+  example: []
+  syntax:
+    content: Whole = 1
+    return:
+      type: OfficeOpenXml.DataValidation.eDataValidationType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.eDataValidationType.Decimal
+  commentId: F:OfficeOpenXml.DataValidation.eDataValidationType.Decimal
+  id: Decimal
+  parent: OfficeOpenXml.DataValidation.eDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: Decimal
+  nameWithType: eDataValidationType.Decimal
+  fullName: OfficeOpenXml.DataValidation.eDataValidationType.Decimal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Decimal
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nDecimal values\n"
+  example: []
+  syntax:
+    content: Decimal = 2
+    return:
+      type: OfficeOpenXml.DataValidation.eDataValidationType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.eDataValidationType.List
+  commentId: F:OfficeOpenXml.DataValidation.eDataValidationType.List
+  id: List
+  parent: OfficeOpenXml.DataValidation.eDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: List
+  nameWithType: eDataValidationType.List
+  fullName: OfficeOpenXml.DataValidation.eDataValidationType.List
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: List
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nList of values\n"
+  example: []
+  syntax:
+    content: List = 3
+    return:
+      type: OfficeOpenXml.DataValidation.eDataValidationType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.eDataValidationType.TextLength
+  commentId: F:OfficeOpenXml.DataValidation.eDataValidationType.TextLength
+  id: TextLength
+  parent: OfficeOpenXml.DataValidation.eDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: TextLength
+  nameWithType: eDataValidationType.TextLength
+  fullName: OfficeOpenXml.DataValidation.eDataValidationType.TextLength
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TextLength
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nText length validation\n"
+  example: []
+  syntax:
+    content: TextLength = 4
+    return:
+      type: OfficeOpenXml.DataValidation.eDataValidationType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.eDataValidationType.DateTime
+  commentId: F:OfficeOpenXml.DataValidation.eDataValidationType.DateTime
+  id: DateTime
+  parent: OfficeOpenXml.DataValidation.eDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: DateTime
+  nameWithType: eDataValidationType.DateTime
+  fullName: OfficeOpenXml.DataValidation.eDataValidationType.DateTime
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateTime
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nDateTime validation\n"
+  example: []
+  syntax:
+    content: DateTime = 5
+    return:
+      type: OfficeOpenXml.DataValidation.eDataValidationType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.eDataValidationType.Time
+  commentId: F:OfficeOpenXml.DataValidation.eDataValidationType.Time
+  id: Time
+  parent: OfficeOpenXml.DataValidation.eDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: Time
+  nameWithType: eDataValidationType.Time
+  fullName: OfficeOpenXml.DataValidation.eDataValidationType.Time
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Time
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nTime validation\n"
+  example: []
+  syntax:
+    content: Time = 6
+    return:
+      type: OfficeOpenXml.DataValidation.eDataValidationType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DataValidation.eDataValidationType.Custom
+  commentId: F:OfficeOpenXml.DataValidation.eDataValidationType.Custom
+  id: Custom
+  parent: OfficeOpenXml.DataValidation.eDataValidationType
+  langs:
+  - csharp
+  - vb
+  name: Custom
+  nameWithType: eDataValidationType.Custom
+  fullName: OfficeOpenXml.DataValidation.eDataValidationType.Custom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/ExcelDataValidationType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Custom
+    path: ../src/EPPlus/DataValidation/ExcelDataValidationType.cs
+    startLine: 55
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation
+  summary: "\nCustom validation\n"
+  example: []
+  syntax:
+    content: Custom = 7
+    return:
+      type: OfficeOpenXml.DataValidation.eDataValidationType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.DataValidation
+  commentId: N:OfficeOpenXml.DataValidation
+  name: OfficeOpenXml.DataValidation
+  nameWithType: OfficeOpenXml.DataValidation
+  fullName: OfficeOpenXml.DataValidation
+- uid: OfficeOpenXml.DataValidation.eDataValidationType
+  commentId: T:OfficeOpenXml.DataValidation.eDataValidationType
+  parent: OfficeOpenXml.DataValidation
+  name: eDataValidationType
+  nameWithType: eDataValidationType
+  fullName: OfficeOpenXml.DataValidation.eDataValidationType

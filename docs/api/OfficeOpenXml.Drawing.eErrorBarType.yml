@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eErrorBarType
+  commentId: T:OfficeOpenXml.Drawing.eErrorBarType
+  id: eErrorBarType
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eErrorBarType.Both
+  - OfficeOpenXml.Drawing.eErrorBarType.Minus
+  - OfficeOpenXml.Drawing.eErrorBarType.Plus
+  langs:
+  - csharp
+  - vb
+  name: eErrorBarType
+  nameWithType: eErrorBarType
+  fullName: OfficeOpenXml.Drawing.eErrorBarType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eErrorBarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eErrorBarType
+    path: ../src/EPPlus/Drawing/Enums/eErrorBarType.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe possible ways to draw an error bar\n"
+  example: []
+  syntax:
+    content: public enum eErrorBarType
+    content.vb: Public Enum eErrorBarType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eErrorBarType.Both
+  commentId: F:OfficeOpenXml.Drawing.eErrorBarType.Both
+  id: Both
+  parent: OfficeOpenXml.Drawing.eErrorBarType
+  langs:
+  - csharp
+  - vb
+  name: Both
+  nameWithType: eErrorBarType.Both
+  fullName: OfficeOpenXml.Drawing.eErrorBarType.Both
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eErrorBarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Both
+    path: ../src/EPPlus/Drawing/Enums/eErrorBarType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe error bars will be shown in both the positive and negative directions.\n"
+  example: []
+  syntax:
+    content: Both = 0
+    return:
+      type: OfficeOpenXml.Drawing.eErrorBarType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eErrorBarType.Minus
+  commentId: F:OfficeOpenXml.Drawing.eErrorBarType.Minus
+  id: Minus
+  parent: OfficeOpenXml.Drawing.eErrorBarType
+  langs:
+  - csharp
+  - vb
+  name: Minus
+  nameWithType: eErrorBarType.Minus
+  fullName: OfficeOpenXml.Drawing.eErrorBarType.Minus
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eErrorBarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Minus
+    path: ../src/EPPlus/Drawing/Enums/eErrorBarType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe error bars will be shown in the negative direction only.\n"
+  example: []
+  syntax:
+    content: Minus = 1
+    return:
+      type: OfficeOpenXml.Drawing.eErrorBarType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eErrorBarType.Plus
+  commentId: F:OfficeOpenXml.Drawing.eErrorBarType.Plus
+  id: Plus
+  parent: OfficeOpenXml.Drawing.eErrorBarType
+  langs:
+  - csharp
+  - vb
+  name: Plus
+  nameWithType: eErrorBarType.Plus
+  fullName: OfficeOpenXml.Drawing.eErrorBarType.Plus
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eErrorBarType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Plus
+    path: ../src/EPPlus/Drawing/Enums/eErrorBarType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe error bars will be shown in the positive direction only\n"
+  example: []
+  syntax:
+    content: Plus = 2
+    return:
+      type: OfficeOpenXml.Drawing.eErrorBarType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eErrorBarType
+  commentId: T:OfficeOpenXml.Drawing.eErrorBarType
+  parent: OfficeOpenXml.Drawing
+  name: eErrorBarType
+  nameWithType: eErrorBarType
+  fullName: OfficeOpenXml.Drawing.eErrorBarType

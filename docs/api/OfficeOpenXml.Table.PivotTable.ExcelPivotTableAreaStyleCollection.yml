@@ -1,0 +1,1364 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+  id: ExcelPivotTableAreaStyleCollection
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.Add
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddAllData
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddAllLabels
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddButtonField(OfficeOpenXml.Table.PivotTable.ePivotTableAxis,System.Int32)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddButtonField(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddData(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField[])
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddLabel(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField[])
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopEnd
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopEnd(System.String)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopStart(System.String)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddWholeTable
+  langs:
+  - csharp
+  - vb
+  name: ExcelPivotTableAreaStyleCollection
+  nameWithType: ExcelPivotTableAreaStyleCollection
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPivotTableAreaStyleCollection
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+    startLine: 12
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA collection of pivot areas used for styling a pivot table.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelPivotTableAreaStyleCollection : EPPlusReadOnlyList<ExcelPivotTableAreaStyle>, IEnumerable<ExcelPivotTableAreaStyle>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelPivotTableAreaStyleCollection
+          Inherits EPPlusReadOnlyList(Of ExcelPivotTableAreaStyle)
+          Implements IEnumerable(Of ExcelPivotTableAreaStyle), IEnumerable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}.System#Collections#IEnumerable#GetEnumerator
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}.Item(System.Int32)
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}.GetIndexByValue(OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle)
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}.Count
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.Add
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.Add
+  id: Add
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+  langs:
+  - csharp
+  - vb
+  name: Add()
+  nameWithType: ExcelPivotTableAreaStyleCollection.Add()
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.Add()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAdds a pivot area style for labels or data.\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableAreaStyle Add()
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+      description: ''
+    content.vb: Public Function Add As ExcelPivotTableAreaStyle
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopEnd
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopEnd
+  id: AddTopEnd
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+  langs:
+  - csharp
+  - vb
+  name: AddTopEnd()
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddTopEnd()
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopEnd()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTopEnd
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAdds a pivot area style for the top right cells of the pivot table, to the right of any filter button, if reading order i set to Left-To-Right. \n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableAreaStyle AddTopEnd()
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+      description: ''
+    content.vb: Public Function AddTopEnd As ExcelPivotTableAreaStyle
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopEnd*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopEnd(System.String)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopEnd(System.String)
+  id: AddTopEnd(System.String)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+  langs:
+  - csharp
+  - vb
+  name: AddTopEnd(String)
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddTopEnd(String)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopEnd(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTopEnd
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAdds a style for the top right cells of the pivot table, to the right of any filter button, if reading order i set to Left-To-Right. \n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableAreaStyle AddTopEnd(string offsetAddress = null)
+    parameters:
+    - id: offsetAddress
+      type: System.String
+      description: Offset address from the top-left cell to the right of any filter button. The top-left cell is refereced as A1. For example, B1:C1 will reference the second and third cell of the first row of the area. &quot;null&quot; will mean all cells
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+      description: ''
+    content.vb: Public Function AddTopEnd(offsetAddress As String = Nothing) As ExcelPivotTableAreaStyle
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopEnd*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopStart(System.String)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopStart(System.String)
+  id: AddTopStart(System.String)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+  langs:
+  - csharp
+  - vb
+  name: AddTopStart(String)
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddTopStart(String)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopStart(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTopStart
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+    startLine: 76
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAdds a style for the top left cells of the pivot table, if reading order i set to Left-To-Right\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableAreaStyle AddTopStart(string offsetAddress = null)
+    parameters:
+    - id: offsetAddress
+      type: System.String
+      description: 'Offset address from the left cell. The top-left cell is refereced as A1. For example, B1:C1 will reference the second and third cell of the first row of the area. &quot;null&quot; will mean all cells '
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+      description: ''
+    content.vb: Public Function AddTopStart(offsetAddress As String = Nothing) As ExcelPivotTableAreaStyle
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopStart*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddButtonField(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddButtonField(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  id: AddButtonField(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+  langs:
+  - csharp
+  - vb
+  name: AddButtonField(ExcelPivotTableField)
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddButtonField(ExcelPivotTableField)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddButtonField(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddButtonField
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+    startLine: 103
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAdds a style for the filter box.\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableAreaStyle AddButtonField(ExcelPivotTableField field)
+    parameters:
+    - id: field
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+      description: The field with the box to style
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+      description: ''
+    content.vb: Public Function AddButtonField(field As ExcelPivotTableField) As ExcelPivotTableAreaStyle
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddButtonField*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddWholeTable
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddWholeTable
+  id: AddWholeTable
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+  langs:
+  - csharp
+  - vb
+  name: AddWholeTable()
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddWholeTable()
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddWholeTable()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddWholeTable
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+    startLine: 139
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAdds a pivot area style that affects the whole table.\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableAreaStyle AddWholeTable()
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+      description: The style object used to set the styles
+    content.vb: Public Function AddWholeTable As ExcelPivotTableAreaStyle
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddWholeTable*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddAllLabels
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddAllLabels
+  id: AddAllLabels
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+  langs:
+  - csharp
+  - vb
+  name: AddAllLabels()
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddAllLabels()
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddAllLabels()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddAllLabels
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+    startLine: 147
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAdds a pivot area style that affects all labels\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableAreaStyle AddAllLabels()
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+      description: The style object used to set the styles
+    content.vb: Public Function AddAllLabels As ExcelPivotTableAreaStyle
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddAllLabels*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddAllData
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddAllData
+  id: AddAllData
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+  langs:
+  - csharp
+  - vb
+  name: AddAllData()
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddAllData()
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddAllData()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddAllData
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+    startLine: 155
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAdds a pivot area style that affects all data cells\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableAreaStyle AddAllData()
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+      description: The style object used to set the styles
+    content.vb: Public Function AddAllData As ExcelPivotTableAreaStyle
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddAllData*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddLabel(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField[])
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddLabel(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField[])
+  id: AddLabel(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField[])
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+  langs:
+  - csharp
+  - vb
+  name: AddLabel(ExcelPivotTableField[])
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddLabel(ExcelPivotTableField[])
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddLabel(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLabel
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+    startLine: 178
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAdds a style for the labels of a pivot table\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableAreaStyle AddLabel(params ExcelPivotTableField[] fields)
+    parameters:
+    - id: fields
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField[]
+      description: The pivot table field that style affects
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+      description: ''
+    content.vb: Public Function AddLabel(ParamArray fields As ExcelPivotTableField()) As ExcelPivotTableAreaStyle
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddLabel*
+  nameWithType.vb: ExcelPivotTableAreaStyleCollection.AddLabel(ExcelPivotTableField())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddLabel(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField())
+  name.vb: AddLabel(ExcelPivotTableField())
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddData(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField[])
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddData(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField[])
+  id: AddData(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField[])
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+  langs:
+  - csharp
+  - vb
+  name: AddData(ExcelPivotTableField[])
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddData(ExcelPivotTableField[])
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddData(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddData
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+    startLine: 196
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAdds a style for the data area of a pivot table\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableAreaStyle AddData(params ExcelPivotTableField[] fields)
+    parameters:
+    - id: fields
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField[]
+      description: ''
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+      description: ''
+    content.vb: Public Function AddData(ParamArray fields As ExcelPivotTableField()) As ExcelPivotTableAreaStyle
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddData*
+  nameWithType.vb: ExcelPivotTableAreaStyleCollection.AddData(ExcelPivotTableField())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddData(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField())
+  name.vb: AddData(ExcelPivotTableField())
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddButtonField(OfficeOpenXml.Table.PivotTable.ePivotTableAxis,System.Int32)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddButtonField(OfficeOpenXml.Table.PivotTable.ePivotTableAxis,System.Int32)
+  id: AddButtonField(OfficeOpenXml.Table.PivotTable.ePivotTableAxis,System.Int32)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+  langs:
+  - csharp
+  - vb
+  name: AddButtonField(ePivotTableAxis, Int32)
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddButtonField(ePivotTableAxis, Int32)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddButtonField(OfficeOpenXml.Table.PivotTable.ePivotTableAxis, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddButtonField
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyleCollection.cs
+    startLine: 217
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAdds a style for filter boxes.\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableAreaStyle AddButtonField(ePivotTableAxis axis, int index = 0)
+    parameters:
+    - id: axis
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableAxis
+      description: The axis for the field buttons
+    - id: index
+      type: System.Int32
+      description: The zero-based index in the axis collection
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+      description: ''
+    content.vb: Public Function AddButtonField(axis As ePivotTableAxis, index As Integer = 0) As ExcelPivotTableAreaStyle
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddButtonField*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}
+  commentId: T:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}
+  parent: OfficeOpenXml.Core
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  name: EPPlusReadOnlyList<ExcelPivotTableAreaStyle>
+  nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaStyle>
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle>
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelPivotTableAreaStyle)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle)
+  name.vb: EPPlusReadOnlyList(Of ExcelPivotTableAreaStyle)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+    name: ExcelPivotTableAreaStyle
+    nameWithType: ExcelPivotTableAreaStyle
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+    name: ExcelPivotTableAreaStyle
+    nameWithType: ExcelPivotTableAreaStyle
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelPivotTableAreaStyle>
+  nameWithType: IEnumerable<ExcelPivotTableAreaStyle>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle>
+  nameWithType.vb: IEnumerable(Of ExcelPivotTableAreaStyle)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle)
+  name.vb: IEnumerable(Of ExcelPivotTableAreaStyle)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+    name: ExcelPivotTableAreaStyle
+    nameWithType: ExcelPivotTableAreaStyle
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+    name: ExcelPivotTableAreaStyle
+    nameWithType: ExcelPivotTableAreaStyle
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  name: IEnumerable<ExcelPivotTableAreaStyle>.GetEnumerator()
+  nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaStyle>.IEnumerable<ExcelPivotTableAreaStyle>.GetEnumerator()
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle>.System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle>.GetEnumerator()
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelPivotTableAreaStyle).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: IEnumerable<ExcelPivotTableAreaStyle>.GetEnumerator
+    nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaStyle>.IEnumerable<ExcelPivotTableAreaStyle>.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle>.System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    nameWithType: EPPlusReadOnlyList(Of ExcelPivotTableAreaStyle).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}.System#Collections#IEnumerable#GetEnumerator
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaStyle>.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle>.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelPivotTableAreaStyle).System.Collections.IEnumerable.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+    name: IEnumerable.GetEnumerator
+    nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaStyle>.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle>.System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+    name: System.Collections.IEnumerable.GetEnumerator
+    nameWithType: EPPlusReadOnlyList(Of ExcelPivotTableAreaStyle).System.Collections.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle).System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}.Item(System.Int32)
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+  name: Item[Int32]
+  nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaStyle>.Item[Int32]
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle>.Item[System.Int32]
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelPivotTableAreaStyle).Item(Int32)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle).Item(System.Int32)
+  name.vb: Item(Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+    name: Item
+    nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaStyle>.Item
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+    name: Item
+    nameWithType: EPPlusReadOnlyList(Of ExcelPivotTableAreaStyle).Item
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}.GetIndexByValue(OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle)
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}.GetIndexByValue(OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle)
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+  name: GetIndexByValue(ExcelPivotTableAreaStyle)
+  nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaStyle>.GetIndexByValue(ExcelPivotTableAreaStyle)
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle>.GetIndexByValue(OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle)
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelPivotTableAreaStyle).GetIndexByValue(ExcelPivotTableAreaStyle)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle).GetIndexByValue(OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+    name: GetIndexByValue
+    nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaStyle>.GetIndexByValue
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle>.GetIndexByValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+    name: ExcelPivotTableAreaStyle
+    nameWithType: ExcelPivotTableAreaStyle
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+    name: GetIndexByValue
+    nameWithType: EPPlusReadOnlyList(Of ExcelPivotTableAreaStyle).GetIndexByValue
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle).GetIndexByValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+    name: ExcelPivotTableAreaStyle
+    nameWithType: ExcelPivotTableAreaStyle
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}.Count
+  commentId: P:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}.Count
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Count
+  name: Count
+  nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaStyle>.Count
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle>.Count
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelPivotTableAreaStyle).Count
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle).Count
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  commentId: T:OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  name: EPPlusReadOnlyList<T>
+  nameWithType: EPPlusReadOnlyList<T>
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>
+  nameWithType.vb: EPPlusReadOnlyList(Of T)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T)
+  name.vb: EPPlusReadOnlyList(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core
+  commentId: N:OfficeOpenXml.Core
+  name: OfficeOpenXml.Core
+  nameWithType: OfficeOpenXml.Core
+  fullName: OfficeOpenXml.Core
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  name: IEnumerable<T>.GetEnumerator()
+  nameWithType: EPPlusReadOnlyList<T>.IEnumerable<T>.GetEnumerator()
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: EPPlusReadOnlyList(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: IEnumerable<T>.GetEnumerator
+    nameWithType: EPPlusReadOnlyList<T>.IEnumerable<T>.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    nameWithType: EPPlusReadOnlyList(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  nameWithType: EPPlusReadOnlyList<T>.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType.vb: EPPlusReadOnlyList(Of T).System.Collections.IEnumerable.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+    name: IEnumerable.GetEnumerator
+    nameWithType: EPPlusReadOnlyList<T>.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+    name: System.Collections.IEnumerable.GetEnumerator
+    nameWithType: EPPlusReadOnlyList(Of T).System.Collections.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+  isExternal: true
+  name: Item[Int32]
+  nameWithType: EPPlusReadOnlyList<T>.Item[Int32]
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.Item[System.Int32]
+  nameWithType.vb: EPPlusReadOnlyList(Of T).Item(Int32)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).Item(System.Int32)
+  name.vb: Item(Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+    name: Item
+    nameWithType: EPPlusReadOnlyList<T>.Item
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+    name: Item
+    nameWithType: EPPlusReadOnlyList(Of T).Item
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+  name: GetIndexByValue(T)
+  nameWithType: EPPlusReadOnlyList<T>.GetIndexByValue(T)
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.GetIndexByValue(T)
+  nameWithType.vb: EPPlusReadOnlyList(Of T).GetIndexByValue(T)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).GetIndexByValue(T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+    name: GetIndexByValue
+    nameWithType: EPPlusReadOnlyList<T>.GetIndexByValue
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.GetIndexByValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+    name: GetIndexByValue
+    nameWithType: EPPlusReadOnlyList(Of T).GetIndexByValue
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).GetIndexByValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Count
+  commentId: P:OfficeOpenXml.Core.EPPlusReadOnlyList`1.Count
+  name: Count
+  nameWithType: EPPlusReadOnlyList<T>.Count
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.Count
+  nameWithType.vb: EPPlusReadOnlyList(Of T).Count
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).Count
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.Add*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.Add
+  name: Add
+  nameWithType: ExcelPivotTableAreaStyleCollection.Add
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.Add
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableAreaStyle
+  nameWithType: ExcelPivotTableAreaStyle
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopEnd*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopEnd
+  name: AddTopEnd
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddTopEnd
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopEnd
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopStart*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopStart
+  name: AddTopStart
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddTopStart
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddTopStart
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddButtonField*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddButtonField
+  name: AddButtonField
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddButtonField
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddButtonField
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableField
+  nameWithType: ExcelPivotTableField
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddWholeTable*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddWholeTable
+  name: AddWholeTable
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddWholeTable
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddWholeTable
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddAllLabels*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddAllLabels
+  name: AddAllLabels
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddAllLabels
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddAllLabels
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddAllData*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddAllData
+  name: AddAllData
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddAllData
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddAllData
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddLabel*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddLabel
+  name: AddLabel
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddLabel
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddLabel
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField[]
+  isExternal: true
+  name: ExcelPivotTableField[]
+  nameWithType: ExcelPivotTableField[]
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField[]
+  nameWithType.vb: ExcelPivotTableField()
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField()
+  name.vb: ExcelPivotTableField()
+  spec.csharp:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+    name: ExcelPivotTableField
+    nameWithType: ExcelPivotTableField
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+    name: ExcelPivotTableField
+    nameWithType: ExcelPivotTableField
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddData*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddData
+  name: AddData
+  nameWithType: ExcelPivotTableAreaStyleCollection.AddData
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection.AddData
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableAxis
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotTableAxis
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ePivotTableAxis
+  nameWithType: ePivotTableAxis
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableAxis
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32

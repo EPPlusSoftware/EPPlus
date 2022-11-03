@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eGrouping
+  commentId: T:OfficeOpenXml.Drawing.Chart.eGrouping
+  id: eGrouping
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eGrouping.Clustered
+  - OfficeOpenXml.Drawing.Chart.eGrouping.PercentStacked
+  - OfficeOpenXml.Drawing.Chart.eGrouping.Stacked
+  - OfficeOpenXml.Drawing.Chart.eGrouping.Standard
+  langs:
+  - csharp
+  - vb
+  name: eGrouping
+  nameWithType: eGrouping
+  fullName: OfficeOpenXml.Drawing.Chart.eGrouping
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eGrouping.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eGrouping
+    path: ../src/EPPlus/Drawing/Chart/enums/eGrouping.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nHow the series are grouped\n"
+  example: []
+  syntax:
+    content: public enum eGrouping
+    content.vb: Public Enum eGrouping
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eGrouping.Standard
+  commentId: F:OfficeOpenXml.Drawing.Chart.eGrouping.Standard
+  id: Standard
+  parent: OfficeOpenXml.Drawing.Chart.eGrouping
+  langs:
+  - csharp
+  - vb
+  name: Standard
+  nameWithType: eGrouping.Standard
+  fullName: OfficeOpenXml.Drawing.Chart.eGrouping.Standard
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eGrouping.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Standard
+    path: ../src/EPPlus/Drawing/Chart/enums/eGrouping.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStandard grouping\n"
+  example: []
+  syntax:
+    content: Standard = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eGrouping
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eGrouping.Clustered
+  commentId: F:OfficeOpenXml.Drawing.Chart.eGrouping.Clustered
+  id: Clustered
+  parent: OfficeOpenXml.Drawing.Chart.eGrouping
+  langs:
+  - csharp
+  - vb
+  name: Clustered
+  nameWithType: eGrouping.Clustered
+  fullName: OfficeOpenXml.Drawing.Chart.eGrouping.Clustered
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eGrouping.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clustered
+    path: ../src/EPPlus/Drawing/Chart/enums/eGrouping.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nClustered grouping\n"
+  example: []
+  syntax:
+    content: Clustered = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eGrouping
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eGrouping.Stacked
+  commentId: F:OfficeOpenXml.Drawing.Chart.eGrouping.Stacked
+  id: Stacked
+  parent: OfficeOpenXml.Drawing.Chart.eGrouping
+  langs:
+  - csharp
+  - vb
+  name: Stacked
+  nameWithType: eGrouping.Stacked
+  fullName: OfficeOpenXml.Drawing.Chart.eGrouping.Stacked
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eGrouping.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Stacked
+    path: ../src/EPPlus/Drawing/Chart/enums/eGrouping.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStacked grouping\n"
+  example: []
+  syntax:
+    content: Stacked = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eGrouping
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eGrouping.PercentStacked
+  commentId: F:OfficeOpenXml.Drawing.Chart.eGrouping.PercentStacked
+  id: PercentStacked
+  parent: OfficeOpenXml.Drawing.Chart.eGrouping
+  langs:
+  - csharp
+  - vb
+  name: PercentStacked
+  nameWithType: eGrouping.PercentStacked
+  fullName: OfficeOpenXml.Drawing.Chart.eGrouping.PercentStacked
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eGrouping.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PercentStacked
+    path: ../src/EPPlus/Drawing/Chart/enums/eGrouping.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\n100% stacked grouping\n"
+  example: []
+  syntax:
+    content: PercentStacked = 3
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eGrouping
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eGrouping
+  commentId: T:OfficeOpenXml.Drawing.Chart.eGrouping
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eGrouping
+  nameWithType: eGrouping
+  fullName: OfficeOpenXml.Drawing.Chart.eGrouping

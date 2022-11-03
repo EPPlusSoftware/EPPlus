@@ -1,0 +1,328 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  id: ePivotTableDateValueFilterType
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateBetween
+  - OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateNewerThan
+  - OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateNewerThanOrEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateNotBetween
+  - OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateNotEqual
+  - OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateOlderThan
+  - OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateOlderThanOrEqual
+  langs:
+  - csharp
+  - vb
+  name: ePivotTableDateValueFilterType
+  nameWithType: ePivotTableDateValueFilterType
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePivotTableDateValueFilterType
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nDefines a pivot table date value filter type\n"
+  example: []
+  syntax:
+    content: public enum ePivotTableDateValueFilterType
+    content.vb: Public Enum ePivotTableDateValueFilterType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateBetween
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateBetween
+  id: DateBetween
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  langs:
+  - csharp
+  - vb
+  name: DateBetween
+  nameWithType: ePivotTableDateValueFilterType.DateBetween
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateBetween
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateBetween
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Between\n"
+  example: []
+  syntax:
+    content: DateBetween = 100
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateEqual
+  id: DateEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  langs:
+  - csharp
+  - vb
+  name: DateEqual
+  nameWithType: ePivotTableDateValueFilterType.DateEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Equal\n"
+  example: []
+  syntax:
+    content: DateEqual = 101
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateNewerThan
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateNewerThan
+  id: DateNewerThan
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  langs:
+  - csharp
+  - vb
+  name: DateNewerThan
+  nameWithType: ePivotTableDateValueFilterType.DateNewerThan
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateNewerThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateNewerThan
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Newer Than\n"
+  example: []
+  syntax:
+    content: DateNewerThan = 102
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateNewerThanOrEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateNewerThanOrEqual
+  id: DateNewerThanOrEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  langs:
+  - csharp
+  - vb
+  name: DateNewerThanOrEqual
+  nameWithType: ePivotTableDateValueFilterType.DateNewerThanOrEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateNewerThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateNewerThanOrEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Newer Than Or Equal\n"
+  example: []
+  syntax:
+    content: DateNewerThanOrEqual = 103
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateNotBetween
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateNotBetween
+  id: DateNotBetween
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  langs:
+  - csharp
+  - vb
+  name: DateNotBetween
+  nameWithType: ePivotTableDateValueFilterType.DateNotBetween
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateNotBetween
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateNotBetween
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Not Between\n"
+  example: []
+  syntax:
+    content: DateNotBetween = 104
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateNotEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateNotEqual
+  id: DateNotEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  langs:
+  - csharp
+  - vb
+  name: DateNotEqual
+  nameWithType: ePivotTableDateValueFilterType.DateNotEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateNotEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateNotEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Not Equal\n"
+  example: []
+  syntax:
+    content: DateNotEqual = 105
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateOlderThan
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateOlderThan
+  id: DateOlderThan
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  langs:
+  - csharp
+  - vb
+  name: DateOlderThan
+  nameWithType: ePivotTableDateValueFilterType.DateOlderThan
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateOlderThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateOlderThan
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Older Than\n"
+  example: []
+  syntax:
+    content: DateOlderThan = 106
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateOlderThanOrEqual
+  commentId: F:OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateOlderThanOrEqual
+  id: DateOlderThanOrEqual
+  parent: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  langs:
+  - csharp
+  - vb
+  name: DateOlderThanOrEqual
+  nameWithType: ePivotTableDateValueFilterType.DateOlderThanOrEqual
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType.DateOlderThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DateOlderThanOrEqual
+    path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDateValueFilterType.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA date filter - Older Than Or Equal\n"
+  example: []
+  syntax:
+    content: DateOlderThanOrEqual = 107
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  commentId: T:OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ePivotTableDateValueFilterType
+  nameWithType: ePivotTableDateValueFilterType
+  fullName: OfficeOpenXml.Table.PivotTable.ePivotTableDateValueFilterType

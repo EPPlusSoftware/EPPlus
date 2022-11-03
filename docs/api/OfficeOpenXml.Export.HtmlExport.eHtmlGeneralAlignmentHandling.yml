@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling
+  commentId: T:OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling
+  id: eHtmlGeneralAlignmentHandling
+  parent: OfficeOpenXml.Export.HtmlExport
+  children:
+  - OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling.CellDataType
+  - OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling.ColumnDataType
+  - OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling.DontSet
+  langs:
+  - csharp
+  - vb
+  name: eHtmlGeneralAlignmentHandling
+  nameWithType: eHtmlGeneralAlignmentHandling
+  fullName: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eHtmlGeneralAlignmentHandling.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eHtmlGeneralAlignmentHandling
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eHtmlGeneralAlignmentHandling.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nHow the text alignment is handled when the style is set to General\n"
+  example: []
+  syntax:
+    content: public enum eHtmlGeneralAlignmentHandling
+    content.vb: Public Enum eHtmlGeneralAlignmentHandling
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling.DontSet
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling.DontSet
+  id: DontSet
+  parent: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling
+  langs:
+  - csharp
+  - vb
+  name: DontSet
+  nameWithType: eHtmlGeneralAlignmentHandling.DontSet
+  fullName: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling.DontSet
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eHtmlGeneralAlignmentHandling.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DontSet
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eHtmlGeneralAlignmentHandling.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nDont set any alignment when alignment is set to general\n"
+  example: []
+  syntax:
+    content: DontSet = 0
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling.ColumnDataType
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling.ColumnDataType
+  id: ColumnDataType
+  parent: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling
+  langs:
+  - csharp
+  - vb
+  name: ColumnDataType
+  nameWithType: eHtmlGeneralAlignmentHandling.ColumnDataType
+  fullName: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling.ColumnDataType
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eHtmlGeneralAlignmentHandling.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnDataType
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eHtmlGeneralAlignmentHandling.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nIf the column data type is numeric or date, alignment will be right otherwise left.\n"
+  example: []
+  syntax:
+    content: ColumnDataType = 1
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling.CellDataType
+  commentId: F:OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling.CellDataType
+  id: CellDataType
+  parent: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling
+  langs:
+  - csharp
+  - vb
+  name: CellDataType
+  nameWithType: eHtmlGeneralAlignmentHandling.CellDataType
+  fullName: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling.CellDataType
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eHtmlGeneralAlignmentHandling.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CellDataType
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eHtmlGeneralAlignmentHandling.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nIf the cell value data type is numeric or date, alignment will be right otherwise left.\n"
+  example: []
+  syntax:
+    content: CellDataType = 2
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Export.HtmlExport
+  commentId: N:OfficeOpenXml.Export.HtmlExport
+  name: OfficeOpenXml.Export.HtmlExport
+  nameWithType: OfficeOpenXml.Export.HtmlExport
+  fullName: OfficeOpenXml.Export.HtmlExport
+- uid: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling
+  commentId: T:OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling
+  parent: OfficeOpenXml.Export.HtmlExport
+  name: eHtmlGeneralAlignmentHandling
+  nameWithType: eHtmlGeneralAlignmentHandling
+  fullName: OfficeOpenXml.Export.HtmlExport.eHtmlGeneralAlignmentHandling

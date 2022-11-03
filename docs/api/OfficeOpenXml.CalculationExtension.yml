@@ -1,0 +1,985 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.CalculationExtension
+  commentId: T:OfficeOpenXml.CalculationExtension
+  id: CalculationExtension
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelRangeBase)
+  - OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  - OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelRangeBase,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  - OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+  - OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  - OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  - OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+  - OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  - OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  - OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String)
+  - OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  langs:
+  - csharp
+  - vb
+  name: CalculationExtension
+  nameWithType: CalculationExtension
+  fullName: OfficeOpenXml.CalculationExtension
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CalculationExtension
+    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nExtentions methods for formula calculation.\n"
+  example: []
+  syntax:
+    content: public static class CalculationExtension
+    content.vb: Public Module CalculationExtension
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - static
+  - class
+  modifiers.vb:
+  - Public
+  - Module
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+  id: Calculate(OfficeOpenXml.ExcelWorkbook)
+  isExtensionMethod: true
+  parent: OfficeOpenXml.CalculationExtension
+  langs:
+  - csharp
+  - vb
+  name: Calculate(ExcelWorkbook)
+  nameWithType: CalculationExtension.Calculate(ExcelWorkbook)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Calculate
+    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCalculate all formulas in the current workbook\n"
+  example: []
+  syntax:
+    content: public static void Calculate(this ExcelWorkbook workbook)
+    parameters:
+    - id: workbook
+      type: OfficeOpenXml.ExcelWorkbook
+      description: The workbook
+    content.vb: >-
+      <ExtensionAttribute>
+
+      Public Shared Sub Calculate(workbook As ExcelWorkbook)
+  overload: OfficeOpenXml.CalculationExtension.Calculate*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  id: Calculate(OfficeOpenXml.ExcelWorkbook,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  isExtensionMethod: true
+  parent: OfficeOpenXml.CalculationExtension
+  langs:
+  - csharp
+  - vb
+  name: Calculate(ExcelWorkbook, Action<ExcelCalculationOption>)
+  nameWithType: CalculationExtension.Calculate(ExcelWorkbook, Action<ExcelCalculationOption>)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook, System.Action<OfficeOpenXml.FormulaParsing.ExcelCalculationOption>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Calculate
+    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCalculate all formulas in the current workbook\n"
+  example:
+  - "\n<pre><code>workbook.Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);</code></pre>\n"
+  syntax:
+    content: public static void Calculate(this ExcelWorkbook workbook, Action<ExcelCalculationOption> configHandler)
+    parameters:
+    - id: workbook
+      type: OfficeOpenXml.ExcelWorkbook
+      description: The workbook to calculate
+    - id: configHandler
+      type: System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption}
+      description: Configuration handler
+    content.vb: >-
+      <ExtensionAttribute>
+
+      Public Shared Sub Calculate(workbook As ExcelWorkbook, configHandler As Action(Of ExcelCalculationOption))
+  overload: OfficeOpenXml.CalculationExtension.Calculate*
+  nameWithType.vb: CalculationExtension.Calculate(ExcelWorkbook, Action(Of ExcelCalculationOption))
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook, System.Action(Of OfficeOpenXml.FormulaParsing.ExcelCalculationOption))
+  name.vb: Calculate(ExcelWorkbook, Action(Of ExcelCalculationOption))
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  id: Calculate(OfficeOpenXml.ExcelWorkbook,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  isExtensionMethod: true
+  parent: OfficeOpenXml.CalculationExtension
+  langs:
+  - csharp
+  - vb
+  name: Calculate(ExcelWorkbook, ExcelCalculationOption)
+  nameWithType: CalculationExtension.Calculate(ExcelWorkbook, ExcelCalculationOption)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook, OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Calculate
+    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCalculate all formulas in the current workbook\n"
+  example: []
+  syntax:
+    content: public static void Calculate(this ExcelWorkbook workbook, ExcelCalculationOption options)
+    parameters:
+    - id: workbook
+      type: OfficeOpenXml.ExcelWorkbook
+      description: The workbook
+    - id: options
+      type: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+      description: Calculation options
+    content.vb: >-
+      <ExtensionAttribute>
+
+      Public Shared Sub Calculate(workbook As ExcelWorkbook, options As ExcelCalculationOption)
+  overload: OfficeOpenXml.CalculationExtension.Calculate*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+  id: Calculate(OfficeOpenXml.ExcelWorksheet)
+  isExtensionMethod: true
+  parent: OfficeOpenXml.CalculationExtension
+  langs:
+  - csharp
+  - vb
+  name: Calculate(ExcelWorksheet)
+  nameWithType: CalculationExtension.Calculate(ExcelWorksheet)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Calculate
+    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
+    startLine: 81
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCalculate all formulas in the current worksheet\n"
+  example: []
+  syntax:
+    content: public static void Calculate(this ExcelWorksheet worksheet)
+    parameters:
+    - id: worksheet
+      type: OfficeOpenXml.ExcelWorksheet
+      description: The worksheet
+    content.vb: >-
+      <ExtensionAttribute>
+
+      Public Shared Sub Calculate(worksheet As ExcelWorksheet)
+  overload: OfficeOpenXml.CalculationExtension.Calculate*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  id: Calculate(OfficeOpenXml.ExcelWorksheet,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  isExtensionMethod: true
+  parent: OfficeOpenXml.CalculationExtension
+  langs:
+  - csharp
+  - vb
+  name: Calculate(ExcelWorksheet, Action<ExcelCalculationOption>)
+  nameWithType: CalculationExtension.Calculate(ExcelWorksheet, Action<ExcelCalculationOption>)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet, System.Action<OfficeOpenXml.FormulaParsing.ExcelCalculationOption>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Calculate
+    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
+    startLine: 96
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCalculate all formulas in the current range\n"
+  example:
+  - "\n<pre><code>sheet.Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);</code></pre>\n"
+  syntax:
+    content: public static void Calculate(this ExcelWorksheet worksheet, Action<ExcelCalculationOption> configHandler)
+    parameters:
+    - id: worksheet
+      type: OfficeOpenXml.ExcelWorksheet
+      description: The worksheet to calculate
+    - id: configHandler
+      type: System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption}
+      description: Configuration handler
+    content.vb: >-
+      <ExtensionAttribute>
+
+      Public Shared Sub Calculate(worksheet As ExcelWorksheet, configHandler As Action(Of ExcelCalculationOption))
+  overload: OfficeOpenXml.CalculationExtension.Calculate*
+  nameWithType.vb: CalculationExtension.Calculate(ExcelWorksheet, Action(Of ExcelCalculationOption))
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet, System.Action(Of OfficeOpenXml.FormulaParsing.ExcelCalculationOption))
+  name.vb: Calculate(ExcelWorksheet, Action(Of ExcelCalculationOption))
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  id: Calculate(OfficeOpenXml.ExcelWorksheet,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  isExtensionMethod: true
+  parent: OfficeOpenXml.CalculationExtension
+  langs:
+  - csharp
+  - vb
+  name: Calculate(ExcelWorksheet, ExcelCalculationOption)
+  nameWithType: CalculationExtension.Calculate(ExcelWorksheet, ExcelCalculationOption)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet, OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Calculate
+    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
+    startLine: 108
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCalculate all formulas in the current worksheet\n"
+  example: []
+  syntax:
+    content: public static void Calculate(this ExcelWorksheet worksheet, ExcelCalculationOption options)
+    parameters:
+    - id: worksheet
+      type: OfficeOpenXml.ExcelWorksheet
+      description: The worksheet
+    - id: options
+      type: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+      description: Calculation options
+    content.vb: >-
+      <ExtensionAttribute>
+
+      Public Shared Sub Calculate(worksheet As ExcelWorksheet, options As ExcelCalculationOption)
+  overload: OfficeOpenXml.CalculationExtension.Calculate*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelRangeBase)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelRangeBase)
+  id: Calculate(OfficeOpenXml.ExcelRangeBase)
+  isExtensionMethod: true
+  parent: OfficeOpenXml.CalculationExtension
+  langs:
+  - csharp
+  - vb
+  name: Calculate(ExcelRangeBase)
+  nameWithType: CalculationExtension.Calculate(ExcelRangeBase)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelRangeBase)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Calculate
+    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCalculate all formulas in the current range\n"
+  example: []
+  syntax:
+    content: public static void Calculate(this ExcelRangeBase range)
+    parameters:
+    - id: range
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The range
+    content.vb: >-
+      <ExtensionAttribute>
+
+      Public Shared Sub Calculate(range As ExcelRangeBase)
+  overload: OfficeOpenXml.CalculationExtension.Calculate*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelRangeBase,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelRangeBase,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  id: Calculate(OfficeOpenXml.ExcelRangeBase,System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption})
+  isExtensionMethod: true
+  parent: OfficeOpenXml.CalculationExtension
+  langs:
+  - csharp
+  - vb
+  name: Calculate(ExcelRangeBase, Action<ExcelCalculationOption>)
+  nameWithType: CalculationExtension.Calculate(ExcelRangeBase, Action<ExcelCalculationOption>)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelRangeBase, System.Action<OfficeOpenXml.FormulaParsing.ExcelCalculationOption>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Calculate
+    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
+    startLine: 141
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCalculate all formulas in the current range\n"
+  example:
+  - "\n<pre><code>sheet.Cells[&quot;A1:A3&quot;].Calculate(opt => opt.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel);</code></pre>\n"
+  syntax:
+    content: public static void Calculate(this ExcelRangeBase range, Action<ExcelCalculationOption> configHandler)
+    parameters:
+    - id: range
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The range to calculate
+    - id: configHandler
+      type: System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption}
+      description: Configuration handler
+    content.vb: >-
+      <ExtensionAttribute>
+
+      Public Shared Sub Calculate(range As ExcelRangeBase, configHandler As Action(Of ExcelCalculationOption))
+  overload: OfficeOpenXml.CalculationExtension.Calculate*
+  nameWithType.vb: CalculationExtension.Calculate(ExcelRangeBase, Action(Of ExcelCalculationOption))
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelRangeBase, System.Action(Of OfficeOpenXml.FormulaParsing.ExcelCalculationOption))
+  name.vb: Calculate(ExcelRangeBase, Action(Of ExcelCalculationOption))
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  id: Calculate(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  isExtensionMethod: true
+  parent: OfficeOpenXml.CalculationExtension
+  langs:
+  - csharp
+  - vb
+  name: Calculate(ExcelRangeBase, ExcelCalculationOption)
+  nameWithType: CalculationExtension.Calculate(ExcelRangeBase, ExcelCalculationOption)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Calculate
+    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
+    startLine: 153
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCalculate all formulas in the current range\n"
+  example: []
+  syntax:
+    content: public static void Calculate(this ExcelRangeBase range, ExcelCalculationOption options)
+    parameters:
+    - id: range
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The range
+    - id: options
+      type: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+      description: Calculation options
+    content.vb: >-
+      <ExtensionAttribute>
+
+      Public Shared Sub Calculate(range As ExcelRangeBase, options As ExcelCalculationOption)
+  overload: OfficeOpenXml.CalculationExtension.Calculate*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String)
+  id: Calculate(OfficeOpenXml.ExcelWorksheet,System.String)
+  isExtensionMethod: true
+  parent: OfficeOpenXml.CalculationExtension
+  langs:
+  - csharp
+  - vb
+  name: Calculate(ExcelWorksheet, String)
+  nameWithType: CalculationExtension.Calculate(ExcelWorksheet, String)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Calculate
+    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
+    startLine: 169
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCalculate all formulas in the current range\n"
+  example: []
+  syntax:
+    content: public static object Calculate(this ExcelWorksheet worksheet, string Formula)
+    parameters:
+    - id: worksheet
+      type: OfficeOpenXml.ExcelWorksheet
+      description: The worksheet
+    - id: Formula
+      type: System.String
+      description: The formula to be calculated
+    return:
+      type: System.Object
+      description: The result of the formula calculation
+    content.vb: >-
+      <ExtensionAttribute>
+
+      Public Shared Function Calculate(worksheet As ExcelWorksheet, Formula As String) As Object
+  overload: OfficeOpenXml.CalculationExtension.Calculate*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  id: Calculate(OfficeOpenXml.ExcelWorksheet,System.String,OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  isExtensionMethod: true
+  parent: OfficeOpenXml.CalculationExtension
+  langs:
+  - csharp
+  - vb
+  name: Calculate(ExcelWorksheet, String, ExcelCalculationOption)
+  nameWithType: CalculationExtension.Calculate(ExcelWorksheet, String, ExcelCalculationOption)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet, System.String, OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/CalculateExtentions.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Calculate
+    path: ../src/EPPlus/FormulaParsing/CalculateExtentions.cs
+    startLine: 180
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCalculate all formulas in the current range\n"
+  example: []
+  syntax:
+    content: public static object Calculate(this ExcelWorksheet worksheet, string Formula, ExcelCalculationOption options)
+    parameters:
+    - id: worksheet
+      type: OfficeOpenXml.ExcelWorksheet
+      description: The worksheet
+    - id: Formula
+      type: System.String
+      description: The formula to be calculated
+    - id: options
+      type: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+      description: Calculation options
+    return:
+      type: System.Object
+      description: The result of the formula calculation
+    content.vb: >-
+      <ExtensionAttribute>
+
+      Public Shared Function Calculate(worksheet As ExcelWorksheet, Formula As String, options As ExcelCalculationOption) As Object
+  overload: OfficeOpenXml.CalculationExtension.Calculate*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.CalculationExtension.Calculate*
+  commentId: Overload:OfficeOpenXml.CalculationExtension.Calculate
+  name: Calculate
+  nameWithType: CalculationExtension.Calculate
+  fullName: OfficeOpenXml.CalculationExtension.Calculate
+- uid: OfficeOpenXml.ExcelWorkbook
+  commentId: T:OfficeOpenXml.ExcelWorkbook
+  parent: OfficeOpenXml
+  name: ExcelWorkbook
+  nameWithType: ExcelWorkbook
+  fullName: OfficeOpenXml.ExcelWorkbook
+- uid: System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption}
+  commentId: T:System.Action{OfficeOpenXml.FormulaParsing.ExcelCalculationOption}
+  parent: System
+  definition: System.Action`1
+  name: Action<ExcelCalculationOption>
+  nameWithType: Action<ExcelCalculationOption>
+  fullName: System.Action<OfficeOpenXml.FormulaParsing.ExcelCalculationOption>
+  nameWithType.vb: Action(Of ExcelCalculationOption)
+  fullName.vb: System.Action(Of OfficeOpenXml.FormulaParsing.ExcelCalculationOption)
+  name.vb: Action(Of ExcelCalculationOption)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+    name: ExcelCalculationOption
+    nameWithType: ExcelCalculationOption
+    fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  commentId: T:OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  parent: OfficeOpenXml.FormulaParsing
+  name: ExcelCalculationOption
+  nameWithType: ExcelCalculationOption
+  fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: OfficeOpenXml.ExcelWorksheet
+  commentId: T:OfficeOpenXml.ExcelWorksheet
+  parent: OfficeOpenXml
+  name: ExcelWorksheet
+  nameWithType: ExcelWorksheet
+  fullName: OfficeOpenXml.ExcelWorksheet
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

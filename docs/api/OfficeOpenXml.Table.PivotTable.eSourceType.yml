@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.eSourceType
+  commentId: T:OfficeOpenXml.Table.PivotTable.eSourceType
+  id: eSourceType
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.eSourceType.Consolidation
+  - OfficeOpenXml.Table.PivotTable.eSourceType.External
+  - OfficeOpenXml.Table.PivotTable.eSourceType.Scenario
+  - OfficeOpenXml.Table.PivotTable.eSourceType.Worksheet
+  langs:
+  - csharp
+  - vb
+  name: eSourceType
+  nameWithType: eSourceType
+  fullName: OfficeOpenXml.Table.PivotTable.eSourceType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSourceType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eSourceType
+    path: ../src/EPPlus/Table/PivotTable/enums/eSourceType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nSource type for a pivottable\n"
+  example: []
+  syntax:
+    content: public enum eSourceType
+    content.vb: Public Enum eSourceType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTable.eSourceType.Consolidation
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSourceType.Consolidation
+  id: Consolidation
+  parent: OfficeOpenXml.Table.PivotTable.eSourceType
+  langs:
+  - csharp
+  - vb
+  name: Consolidation
+  nameWithType: eSourceType.Consolidation
+  fullName: OfficeOpenXml.Table.PivotTable.eSourceType.Consolidation
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSourceType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Consolidation
+    path: ../src/EPPlus/Table/PivotTable/enums/eSourceType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe cache contains data that consolidates ranges\n"
+  example: []
+  syntax:
+    content: Consolidation = 0
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSourceType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eSourceType.External
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSourceType.External
+  id: External
+  parent: OfficeOpenXml.Table.PivotTable.eSourceType
+  langs:
+  - csharp
+  - vb
+  name: External
+  nameWithType: eSourceType.External
+  fullName: OfficeOpenXml.Table.PivotTable.eSourceType.External
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSourceType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: External
+    path: ../src/EPPlus/Table/PivotTable/enums/eSourceType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe cache contains data from an external data source\n"
+  example: []
+  syntax:
+    content: External = 1
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSourceType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eSourceType.Scenario
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSourceType.Scenario
+  id: Scenario
+  parent: OfficeOpenXml.Table.PivotTable.eSourceType
+  langs:
+  - csharp
+  - vb
+  name: Scenario
+  nameWithType: eSourceType.Scenario
+  fullName: OfficeOpenXml.Table.PivotTable.eSourceType.Scenario
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSourceType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Scenario
+    path: ../src/EPPlus/Table/PivotTable/enums/eSourceType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe cache contains a scenario summary report\n"
+  example: []
+  syntax:
+    content: Scenario = 2
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSourceType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eSourceType.Worksheet
+  commentId: F:OfficeOpenXml.Table.PivotTable.eSourceType.Worksheet
+  id: Worksheet
+  parent: OfficeOpenXml.Table.PivotTable.eSourceType
+  langs:
+  - csharp
+  - vb
+  name: Worksheet
+  nameWithType: eSourceType.Worksheet
+  fullName: OfficeOpenXml.Table.PivotTable.eSourceType.Worksheet
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eSourceType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Worksheet
+    path: ../src/EPPlus/Table/PivotTable/enums/eSourceType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe cache contains worksheet data\n"
+  example: []
+  syntax:
+    content: Worksheet = 3
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eSourceType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.eSourceType
+  commentId: T:OfficeOpenXml.Table.PivotTable.eSourceType
+  parent: OfficeOpenXml.Table.PivotTable
+  name: eSourceType
+  nameWithType: eSourceType
+  fullName: OfficeOpenXml.Table.PivotTable.eSourceType

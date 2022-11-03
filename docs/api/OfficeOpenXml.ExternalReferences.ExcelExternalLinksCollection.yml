@@ -1,0 +1,1233 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  id: ExcelExternalLinksCollection
+  parent: OfficeOpenXml.ExternalReferences
+  children:
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.AddExternalWorkbook(System.IO.FileInfo)
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Clear
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Count
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Directories
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.GetEnumerator
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Item(System.Int32)
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.LoadWorkbooks
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Remove(OfficeOpenXml.ExternalReferences.ExcelExternalLink)
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.RemoveAt(System.Int32)
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.System#Collections#IEnumerable#GetEnumerator
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.UpdateCaches
+  langs:
+  - csharp
+  - vb
+  name: ExcelExternalLinksCollection
+  nameWithType: ExcelExternalLinksCollection
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelExternalLinksCollection
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nA collection of external links referenced by the workbook.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelExternalLinksCollection : IEnumerable<ExcelExternalLink>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelExternalLinksCollection
+          Implements IEnumerable(Of ExcelExternalLink), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.ExternalReferences.ExcelExternalLink}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.GetEnumerator
+  commentId: M:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelExternalLinksCollection.GetEnumerator()
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nReturns an enumerator that iterates through the collection.\n"
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelExternalLink> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.ExternalReferences.ExcelExternalLink}
+      description: An enumerator that can be used to iterate through the collection.
+    content.vb: Public Function GetEnumerator As IEnumerator(Of ExcelExternalLink)
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.ExternalReferences.ExcelExternalLink}.GetEnumerator
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelExternalLinksCollection.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nReturns an enumerator that iterates through the collection.\n"
+  example: []
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+      description: An enumerator that can be used to iterate through the collection.
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelExternalLinksCollection.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Count
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Count
+  id: Count
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelExternalLinksCollection.Count
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nGets the number of items in the collection\n"
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Count*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelExternalLinksCollection.Item[Int32]
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+    startLine: 64
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nThe indexer for the collection\n"
+  example: []
+  syntax:
+    content: public ExcelExternalLink this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index
+    return:
+      type: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+      description: ''
+    content.vb: Public ReadOnly Property Item(index As Integer) As ExcelExternalLink
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Item*
+  nameWithType.vb: ExcelExternalLinksCollection.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.AddExternalWorkbook(System.IO.FileInfo)
+  commentId: M:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.AddExternalWorkbook(System.IO.FileInfo)
+  id: AddExternalWorkbook(System.IO.FileInfo)
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  langs:
+  - csharp
+  - vb
+  name: AddExternalWorkbook(FileInfo)
+  nameWithType: ExcelExternalLinksCollection.AddExternalWorkbook(FileInfo)
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.AddExternalWorkbook(System.IO.FileInfo)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddExternalWorkbook
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+    startLine: 76
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nAdds an external reference to another workbook. \n"
+  example: []
+  syntax:
+    content: public ExcelExternalWorkbook AddExternalWorkbook(FileInfo file)
+    parameters:
+    - id: file
+      type: System.IO.FileInfo
+      description: The location of the external workbook. The external workbook must of type .xlsx, .xlsm or xlst
+    return:
+      type: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+      description: The <xref href="OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook" data-throw-if-not-resolved="false"></xref> object
+    content.vb: Public Function AddExternalWorkbook(file As FileInfo) As ExcelExternalWorkbook
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.AddExternalWorkbook*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.RemoveAt(System.Int32)
+  commentId: M:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.RemoveAt(System.Int32)
+  id: RemoveAt(System.Int32)
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  langs:
+  - csharp
+  - vb
+  name: RemoveAt(Int32)
+  nameWithType: ExcelExternalLinksCollection.RemoveAt(Int32)
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.RemoveAt(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveAt
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+    startLine: 129
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nRemoves the external link at the zero-based index. If the external reference is an workbook any formula links are broken.\n"
+  example: []
+  syntax:
+    content: public void RemoveAt(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The zero-based index
+    content.vb: Public Sub RemoveAt(index As Integer)
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.RemoveAt*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Remove(OfficeOpenXml.ExternalReferences.ExcelExternalLink)
+  commentId: M:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Remove(OfficeOpenXml.ExternalReferences.ExcelExternalLink)
+  id: Remove(OfficeOpenXml.ExternalReferences.ExcelExternalLink)
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  langs:
+  - csharp
+  - vb
+  name: Remove(ExcelExternalLink)
+  nameWithType: ExcelExternalLinksCollection.Remove(ExcelExternalLink)
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Remove(OfficeOpenXml.ExternalReferences.ExcelExternalLink)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+    startLine: 141
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nRemoves the external link from the package.If the external reference is an workbook any formula links are broken.\n"
+  example: []
+  syntax:
+    content: public void Remove(ExcelExternalLink externalLink)
+    parameters:
+    - id: externalLink
+      type: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+      description: ''
+    content.vb: Public Sub Remove(externalLink As ExcelExternalLink)
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Clear
+  commentId: M:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Clear
+  id: Clear
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: ExcelExternalLinksCollection.Clear()
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clear
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+    startLine: 163
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nClear all external links and break any formula links.\n"
+  example: []
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Clear*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Directories
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Directories
+  id: Directories
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  langs:
+  - csharp
+  - vb
+  name: Directories
+  nameWithType: ExcelExternalLinksCollection.Directories
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Directories
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Directories
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+    startLine: 180
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nA list of directories to look for the external files that cannot be found on the path of the uri.\n"
+  example: []
+  syntax:
+    content: public List<DirectoryInfo> Directories { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{System.IO.DirectoryInfo}
+    content.vb: Public ReadOnly Property Directories As List(Of DirectoryInfo)
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Directories*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.LoadWorkbooks
+  commentId: M:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.LoadWorkbooks
+  id: LoadWorkbooks
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  langs:
+  - csharp
+  - vb
+  name: LoadWorkbooks()
+  nameWithType: ExcelExternalLinksCollection.LoadWorkbooks()
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.LoadWorkbooks()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LoadWorkbooks
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+    startLine: 189
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nWill load all external workbooks that can be accessed via the file system.\nExternal workbook referenced via other protocols must be loaded manually.\n"
+  example: []
+  syntax:
+    content: public bool LoadWorkbooks()
+    return:
+      type: System.Boolean
+      description: 'Returns false if any workbook fails to loaded otherwise true. '
+    content.vb: Public Function LoadWorkbooks As Boolean
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.LoadWorkbooks*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.UpdateCaches
+  commentId: M:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.UpdateCaches
+  id: UpdateCaches
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  langs:
+  - csharp
+  - vb
+  name: UpdateCaches()
+  nameWithType: ExcelExternalLinksCollection.UpdateCaches()
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.UpdateCaches()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UpdateCaches
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
+    startLine: 283
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nUpdates the value cache for any external workbook in the collection. The link must be an workbook and of type xlsx, xlsm or xlst.\n"
+  example: []
+  syntax:
+    content: public bool UpdateCaches()
+    return:
+      type: System.Boolean
+      description: True if all updates succeeded, otherwise false. Any errors can be found on the External links. <xref href="OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Function UpdateCaches As Boolean
+  overload: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.UpdateCaches*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.ExternalReferences
+  commentId: N:OfficeOpenXml.ExternalReferences
+  name: OfficeOpenXml.ExternalReferences
+  nameWithType: OfficeOpenXml.ExternalReferences
+  fullName: OfficeOpenXml.ExternalReferences
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.ExternalReferences.ExcelExternalLink}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.ExternalReferences.ExcelExternalLink}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelExternalLink>
+  nameWithType: IEnumerable<ExcelExternalLink>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ExternalReferences.ExcelExternalLink>
+  nameWithType.vb: IEnumerable(Of ExcelExternalLink)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ExternalReferences.ExcelExternalLink)
+  name.vb: IEnumerable(Of ExcelExternalLink)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+    name: ExcelExternalLink
+    nameWithType: ExcelExternalLink
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+    name: ExcelExternalLink
+    nameWithType: ExcelExternalLink
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelExternalLinksCollection.GetEnumerator
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.ExternalReferences.ExcelExternalLink}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.ExternalReferences.ExcelExternalLink}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.ExternalReferences.ExcelExternalLink}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelExternalLink>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ExternalReferences.ExcelExternalLink>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelExternalLink).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ExternalReferences.ExcelExternalLink).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ExcelExternalLink>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ExternalReferences.ExcelExternalLink>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ExcelExternalLink).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ExternalReferences.ExcelExternalLink).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.ExternalReferences.ExcelExternalLink}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.ExternalReferences.ExcelExternalLink}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ExcelExternalLink>
+  nameWithType: IEnumerator<ExcelExternalLink>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.ExternalReferences.ExcelExternalLink>
+  nameWithType.vb: IEnumerator(Of ExcelExternalLink)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.ExternalReferences.ExcelExternalLink)
+  name.vb: IEnumerator(Of ExcelExternalLink)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+    name: ExcelExternalLink
+    nameWithType: ExcelExternalLink
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+    name: ExcelExternalLink
+    nameWithType: ExcelExternalLink
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelExternalLinksCollection.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelExternalLinksCollection.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Count*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Count
+  name: Count
+  nameWithType: ExcelExternalLinksCollection.Count
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Item*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Item
+  name: Item
+  nameWithType: ExcelExternalLinksCollection.Item
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Item
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalLink
+  nameWithType: ExcelExternalLink
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalWorkbook
+  nameWithType: ExcelExternalWorkbook
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.AddExternalWorkbook*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.AddExternalWorkbook
+  name: AddExternalWorkbook
+  nameWithType: ExcelExternalLinksCollection.AddExternalWorkbook
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.AddExternalWorkbook
+- uid: System.IO.FileInfo
+  commentId: T:System.IO.FileInfo
+  parent: System.IO
+  isExternal: true
+  name: FileInfo
+  nameWithType: FileInfo
+  fullName: System.IO.FileInfo
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.RemoveAt*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.RemoveAt
+  name: RemoveAt
+  nameWithType: ExcelExternalLinksCollection.RemoveAt
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.RemoveAt
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Remove*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Remove
+  name: Remove
+  nameWithType: ExcelExternalLinksCollection.Remove
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Remove
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Clear*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Clear
+  name: Clear
+  nameWithType: ExcelExternalLinksCollection.Clear
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Clear
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Directories*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Directories
+  name: Directories
+  nameWithType: ExcelExternalLinksCollection.Directories
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.Directories
+- uid: System.Collections.Generic.List{System.IO.DirectoryInfo}
+  commentId: T:System.Collections.Generic.List{System.IO.DirectoryInfo}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<DirectoryInfo>
+  nameWithType: List<DirectoryInfo>
+  fullName: System.Collections.Generic.List<System.IO.DirectoryInfo>
+  nameWithType.vb: List(Of DirectoryInfo)
+  fullName.vb: System.Collections.Generic.List(Of System.IO.DirectoryInfo)
+  name.vb: List(Of DirectoryInfo)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.IO.DirectoryInfo
+    name: DirectoryInfo
+    nameWithType: DirectoryInfo
+    fullName: System.IO.DirectoryInfo
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.IO.DirectoryInfo
+    name: DirectoryInfo
+    nameWithType: DirectoryInfo
+    fullName: System.IO.DirectoryInfo
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.LoadWorkbooks*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.LoadWorkbooks
+  name: LoadWorkbooks
+  nameWithType: ExcelExternalLinksCollection.LoadWorkbooks
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.LoadWorkbooks
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog
+  commentId: P:OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog
+  parent: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  name: ErrorLog
+  nameWithType: ExcelExternalLink.ErrorLog
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink.ErrorLog
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.UpdateCaches*
+  commentId: Overload:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.UpdateCaches
+  name: UpdateCaches
+  nameWithType: ExcelExternalLinksCollection.UpdateCaches
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection.UpdateCaches

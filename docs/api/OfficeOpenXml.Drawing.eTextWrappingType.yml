@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eTextWrappingType
+  commentId: T:OfficeOpenXml.Drawing.eTextWrappingType
+  id: eTextWrappingType
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eTextWrappingType.None
+  - OfficeOpenXml.Drawing.eTextWrappingType.Square
+  langs:
+  - csharp
+  - vb
+  name: eTextWrappingType
+  nameWithType: eTextWrappingType
+  fullName: OfficeOpenXml.Drawing.eTextWrappingType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextWrappingType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eTextWrappingType
+    path: ../src/EPPlus/Drawing/Enums/eTextWrappingType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nText wrapping\n"
+  example: []
+  syntax:
+    content: public enum eTextWrappingType
+    content.vb: Public Enum eTextWrappingType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eTextWrappingType.None
+  commentId: F:OfficeOpenXml.Drawing.eTextWrappingType.None
+  id: None
+  parent: OfficeOpenXml.Drawing.eTextWrappingType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eTextWrappingType.None
+  fullName: OfficeOpenXml.Drawing.eTextWrappingType.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextWrappingType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Enums/eTextWrappingType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nNo wrapping. Words overflows.\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Drawing.eTextWrappingType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eTextWrappingType.Square
+  commentId: F:OfficeOpenXml.Drawing.eTextWrappingType.Square
+  id: Square
+  parent: OfficeOpenXml.Drawing.eTextWrappingType
+  langs:
+  - csharp
+  - vb
+  name: Square
+  nameWithType: eTextWrappingType.Square
+  fullName: OfficeOpenXml.Drawing.eTextWrappingType.Square
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eTextWrappingType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Square
+    path: ../src/EPPlus/Drawing/Enums/eTextWrappingType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nWrap words within the boundries\n"
+  example: []
+  syntax:
+    content: Square = 1
+    return:
+      type: OfficeOpenXml.Drawing.eTextWrappingType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eTextWrappingType
+  commentId: T:OfficeOpenXml.Drawing.eTextWrappingType
+  parent: OfficeOpenXml.Drawing
+  name: eTextWrappingType
+  nameWithType: eTextWrappingType
+  fullName: OfficeOpenXml.Drawing.eTextWrappingType

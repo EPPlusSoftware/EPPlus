@@ -1,0 +1,3449 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  id: ExcelConditionalFormattingCollection
+  parent: OfficeOpenXml.ConditionalFormatting
+  children:
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveAverage(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveOrEqualAverage(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveStdDev(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBeginsWith(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowAverage(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowOrEqualAverage(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowStdDev(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBetween(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBottom(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBottomPercent(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsBlanks(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsErrors(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsText(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddDatabar(OfficeOpenXml.ExcelAddress,System.Drawing.Color)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddDuplicateValues(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddEndsWith(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddEqual(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddExpression(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddFiveIconSet(OfficeOpenXml.ExcelAddress,OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddFourIconSet(OfficeOpenXml.ExcelAddress,OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddGreaterThan(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddGreaterThanOrEqual(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLast7Days(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLastMonth(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLastWeek(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLessThan(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLessThanOrEqual(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNextMonth(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNextWeek(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotBetween(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsBlanks(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsErrors(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsText(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotEqual(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThisMonth(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThisWeek(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThreeColorScale(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThreeIconSet(OfficeOpenXml.ExcelAddress,OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddToday(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTomorrow(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTop(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTopPercent(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTwoColorScale(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddUniqueValues(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddYesterday(OfficeOpenXml.ExcelAddress)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Count
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Item(System.Int32)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Remove(OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveAll
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveAt(System.Int32)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveByPriority(System.Int32)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RulesByPriority(System.Int32)
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#ConditionalFormatting#Contracts#IExcelConditionalFormattingRule}#GetEnumerator
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.System#Collections#IEnumerable#GetEnumerator
+  langs:
+  - csharp
+  - vb
+  name: ExcelConditionalFormattingCollection
+  nameWithType: ExcelConditionalFormattingCollection
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelConditionalFormattingCollection
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nCollection of <xref href=\"OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule\" data-throw-if-not-resolved=\"false\"></xref>.\nThis class is providing the API for EPPlus conditional formatting.\n"
+  remarks: "\n<p>\nThe public methods of this class (Add[...]ConditionalFormatting) will create a ConditionalFormatting/CfRule entry in the worksheet. When this\nConditional Formatting has been created changes to the properties will affect the workbook immediately.\n</p>\n<p>\nEach type of Conditional Formatting Rule has diferente set of properties.\n</p>\n<pre><code>// Add a Three Color Scale conditional formatting\nvar cf = worksheet.ConditionalFormatting.AddThreeColorScale(new ExcelAddress(&quot;A1:C10&quot;));\n// Set the conditional formatting properties\ncf.LowValue.Type = ExcelConditionalFormattingValueObjectType.Min;\ncf.LowValue.Color = Color.White;\ncf.MiddleValue.Type = ExcelConditionalFormattingValueObjectType.Percent;\ncf.MiddleValue.Value = 50;\ncf.MiddleValue.Color = Color.Blue;\ncf.HighValue.Type = ExcelConditionalFormattingValueObjectType.Max;\ncf.HighValue.Color = Color.Black;</code></pre>\n"
+  example: []
+  syntax:
+    content: 'public class ExcelConditionalFormattingCollection : XmlHelper, IEnumerable<IExcelConditionalFormattingRule>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelConditionalFormattingCollection
+          Inherits XmlHelper
+          Implements IEnumerable(Of IExcelConditionalFormattingRule), IEnumerable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Count
+  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Count
+  id: Count
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelConditionalFormattingCollection.Count
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 249
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nNumber of validations\n"
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Count*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelConditionalFormattingCollection.Item[Int32]
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 259
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nIndex operator, returns by 0-based index\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingRule this[int index] { get; set; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+      description: ''
+    content.vb: Public Property Item(index As Integer) As IExcelConditionalFormattingRule
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Item*
+  nameWithType.vb: ExcelConditionalFormattingCollection.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#ConditionalFormatting#Contracts#IExcelConditionalFormattingRule}#GetEnumerator
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#ConditionalFormatting#Contracts#IExcelConditionalFormattingRule}#GetEnumerator
+  id: System#Collections#Generic#IEnumerable{OfficeOpenXml#ConditionalFormatting#Contracts#IExcelConditionalFormattingRule}#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable<IExcelConditionalFormattingRule>.GetEnumerator()
+  nameWithType: ExcelConditionalFormattingCollection.IEnumerable<IExcelConditionalFormattingRule>.GetEnumerator()
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule>.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.Generic.IEnumerable<OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule>.GetEnumerator
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 269
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGet the &apos;cfRule&apos; enumerator\n"
+  example: []
+  syntax:
+    content: IEnumerator<IExcelConditionalFormattingRule> IEnumerable<IExcelConditionalFormattingRule>.GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule}
+      description: ''
+    content.vb: Function System.Collections.Generic.IEnumerable<OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule>.GetEnumerator As IEnumerator(Of IExcelConditionalFormattingRule) Implements IEnumerable(Of IExcelConditionalFormattingRule).GetEnumerator
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#ConditionalFormatting#Contracts#IExcelConditionalFormattingRule}#GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule}.GetEnumerator
+  nameWithType.vb: ExcelConditionalFormattingCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule>.GetEnumerator()
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelConditionalFormattingCollection.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 278
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGet the &apos;cfRule&apos; enumerator\n"
+  example: []
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+      description: ''
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelConditionalFormattingCollection.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveAll
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveAll
+  id: RemoveAll
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: RemoveAll()
+  nameWithType: ExcelConditionalFormattingCollection.RemoveAll()
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveAll()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveAll
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 289
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nRemoves all &apos;cfRule&apos; from the collection and from the XML.\n<remarks>\nThis is the same as removing all the &apos;conditionalFormatting&apos; nodes.\n</remarks>\n"
+  example: []
+  syntax:
+    content: public void RemoveAll()
+    content.vb: Public Sub RemoveAll
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveAll*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Remove(OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Remove(OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule)
+  id: Remove(OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: Remove(IExcelConditionalFormattingRule)
+  nameWithType: ExcelConditionalFormattingCollection.Remove(IExcelConditionalFormattingRule)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Remove(OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 310
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nRemove a Conditional Formatting Rule by its object\n"
+  example: []
+  syntax:
+    content: public void Remove(IExcelConditionalFormattingRule item)
+    parameters:
+    - id: item
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+      description: ''
+    content.vb: Public Sub Remove(item As IExcelConditionalFormattingRule)
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveAt(System.Int32)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveAt(System.Int32)
+  id: RemoveAt(System.Int32)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: RemoveAt(Int32)
+  nameWithType: ExcelConditionalFormattingCollection.RemoveAt(Int32)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveAt(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveAt
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 343
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nRemove a Conditional Formatting Rule by its 0-based index\n"
+  example: []
+  syntax:
+    content: public void RemoveAt(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: ''
+    content.vb: Public Sub RemoveAt(index As Integer)
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveAt*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveByPriority(System.Int32)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveByPriority(System.Int32)
+  id: RemoveByPriority(System.Int32)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: RemoveByPriority(Int32)
+  nameWithType: ExcelConditionalFormattingCollection.RemoveByPriority(Int32)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveByPriority(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveByPriority
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 355
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nRemove a Conditional Formatting Rule by its priority\n"
+  example: []
+  syntax:
+    content: public void RemoveByPriority(int priority)
+    parameters:
+    - id: priority
+      type: System.Int32
+      description: ''
+    content.vb: Public Sub RemoveByPriority(priority As Integer)
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveByPriority*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RulesByPriority(System.Int32)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RulesByPriority(System.Int32)
+  id: RulesByPriority(System.Int32)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: RulesByPriority(Int32)
+  nameWithType: ExcelConditionalFormattingCollection.RulesByPriority(Int32)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RulesByPriority(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RulesByPriority
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 372
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nGet a rule by its priority\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingRule RulesByPriority(int priority)
+    parameters:
+    - id: priority
+      type: System.Int32
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+      description: ''
+    content.vb: Public Function RulesByPriority(priority As Integer) As IExcelConditionalFormattingRule
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RulesByPriority*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveAverage(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveAverage(OfficeOpenXml.ExcelAddress)
+  id: AddAboveAverage(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddAboveAverage(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddAboveAverage(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveAverage(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddAboveAverage
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 417
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd AboveAverage Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingAverageGroup AddAboveAverage(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+      description: ''
+    content.vb: Public Function AddAboveAverage(address As ExcelAddress) As IExcelConditionalFormattingAverageGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveAverage*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveOrEqualAverage(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveOrEqualAverage(OfficeOpenXml.ExcelAddress)
+  id: AddAboveOrEqualAverage(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddAboveOrEqualAverage(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddAboveOrEqualAverage(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveOrEqualAverage(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddAboveOrEqualAverage
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 430
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd AboveOrEqualAverage Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingAverageGroup AddAboveOrEqualAverage(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+      description: ''
+    content.vb: Public Function AddAboveOrEqualAverage(address As ExcelAddress) As IExcelConditionalFormattingAverageGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveOrEqualAverage*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowAverage(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowAverage(OfficeOpenXml.ExcelAddress)
+  id: AddBelowAverage(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddBelowAverage(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddBelowAverage(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowAverage(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBelowAverage
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 443
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd BelowAverage Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingAverageGroup AddBelowAverage(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+      description: ''
+    content.vb: Public Function AddBelowAverage(address As ExcelAddress) As IExcelConditionalFormattingAverageGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowAverage*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowOrEqualAverage(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowOrEqualAverage(OfficeOpenXml.ExcelAddress)
+  id: AddBelowOrEqualAverage(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddBelowOrEqualAverage(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddBelowOrEqualAverage(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowOrEqualAverage(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBelowOrEqualAverage
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 456
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd BelowOrEqualAverage Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingAverageGroup AddBelowOrEqualAverage(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+      description: ''
+    content.vb: Public Function AddBelowOrEqualAverage(address As ExcelAddress) As IExcelConditionalFormattingAverageGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowOrEqualAverage*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveStdDev(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveStdDev(OfficeOpenXml.ExcelAddress)
+  id: AddAboveStdDev(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddAboveStdDev(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddAboveStdDev(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveStdDev(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddAboveStdDev
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 469
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd AboveStdDev Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingStdDevGroup AddAboveStdDev(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingStdDevGroup
+      description: ''
+    content.vb: Public Function AddAboveStdDev(address As ExcelAddress) As IExcelConditionalFormattingStdDevGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveStdDev*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowStdDev(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowStdDev(OfficeOpenXml.ExcelAddress)
+  id: AddBelowStdDev(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddBelowStdDev(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddBelowStdDev(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowStdDev(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBelowStdDev
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 482
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd BelowStdDev Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingStdDevGroup AddBelowStdDev(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingStdDevGroup
+      description: ''
+    content.vb: Public Function AddBelowStdDev(address As ExcelAddress) As IExcelConditionalFormattingStdDevGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowStdDev*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBottom(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBottom(OfficeOpenXml.ExcelAddress)
+  id: AddBottom(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddBottom(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddBottom(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBottom(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBottom
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 495
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd Bottom Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingTopBottomGroup AddBottom(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+      description: ''
+    content.vb: Public Function AddBottom(address As ExcelAddress) As IExcelConditionalFormattingTopBottomGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBottom*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBottomPercent(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBottomPercent(OfficeOpenXml.ExcelAddress)
+  id: AddBottomPercent(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddBottomPercent(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddBottomPercent(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBottomPercent(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBottomPercent
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 508
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd BottomPercent Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingTopBottomGroup AddBottomPercent(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+      description: ''
+    content.vb: Public Function AddBottomPercent(address As ExcelAddress) As IExcelConditionalFormattingTopBottomGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBottomPercent*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTop(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTop(OfficeOpenXml.ExcelAddress)
+  id: AddTop(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddTop(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddTop(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTop(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTop
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 521
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd Top Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingTopBottomGroup AddTop(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+      description: ''
+    content.vb: Public Function AddTop(address As ExcelAddress) As IExcelConditionalFormattingTopBottomGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTop*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTopPercent(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTopPercent(OfficeOpenXml.ExcelAddress)
+  id: AddTopPercent(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddTopPercent(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddTopPercent(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTopPercent(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTopPercent
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 534
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd TopPercent Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingTopBottomGroup AddTopPercent(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+      description: ''
+    content.vb: Public Function AddTopPercent(address As ExcelAddress) As IExcelConditionalFormattingTopBottomGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTopPercent*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLast7Days(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLast7Days(OfficeOpenXml.ExcelAddress)
+  id: AddLast7Days(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddLast7Days(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddLast7Days(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLast7Days(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLast7Days
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 547
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd Last7Days Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingTimePeriodGroup AddLast7Days(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Public Function AddLast7Days(address As ExcelAddress) As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLast7Days*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLastMonth(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLastMonth(OfficeOpenXml.ExcelAddress)
+  id: AddLastMonth(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddLastMonth(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddLastMonth(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLastMonth(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLastMonth
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 560
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd LastMonth Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingTimePeriodGroup AddLastMonth(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Public Function AddLastMonth(address As ExcelAddress) As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLastMonth*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLastWeek(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLastWeek(OfficeOpenXml.ExcelAddress)
+  id: AddLastWeek(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddLastWeek(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddLastWeek(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLastWeek(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLastWeek
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 573
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd LastWeek Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingTimePeriodGroup AddLastWeek(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Public Function AddLastWeek(address As ExcelAddress) As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLastWeek*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNextMonth(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNextMonth(OfficeOpenXml.ExcelAddress)
+  id: AddNextMonth(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddNextMonth(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddNextMonth(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNextMonth(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNextMonth
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 586
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd NextMonth Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingTimePeriodGroup AddNextMonth(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Public Function AddNextMonth(address As ExcelAddress) As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNextMonth*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNextWeek(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNextWeek(OfficeOpenXml.ExcelAddress)
+  id: AddNextWeek(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddNextWeek(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddNextWeek(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNextWeek(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNextWeek
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 599
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd NextWeek Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingTimePeriodGroup AddNextWeek(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Public Function AddNextWeek(address As ExcelAddress) As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNextWeek*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThisMonth(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThisMonth(OfficeOpenXml.ExcelAddress)
+  id: AddThisMonth(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddThisMonth(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddThisMonth(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThisMonth(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddThisMonth
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 612
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd ThisMonth Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingTimePeriodGroup AddThisMonth(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Public Function AddThisMonth(address As ExcelAddress) As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThisMonth*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThisWeek(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThisWeek(OfficeOpenXml.ExcelAddress)
+  id: AddThisWeek(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddThisWeek(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddThisWeek(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThisWeek(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddThisWeek
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 625
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd ThisWeek Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingTimePeriodGroup AddThisWeek(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Public Function AddThisWeek(address As ExcelAddress) As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThisWeek*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddToday(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddToday(OfficeOpenXml.ExcelAddress)
+  id: AddToday(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddToday(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddToday(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddToday(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddToday
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 638
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd Today Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingTimePeriodGroup AddToday(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Public Function AddToday(address As ExcelAddress) As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddToday*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTomorrow(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTomorrow(OfficeOpenXml.ExcelAddress)
+  id: AddTomorrow(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddTomorrow(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddTomorrow(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTomorrow(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTomorrow
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 651
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd Tomorrow Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingTimePeriodGroup AddTomorrow(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Public Function AddTomorrow(address As ExcelAddress) As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTomorrow*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddYesterday(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddYesterday(OfficeOpenXml.ExcelAddress)
+  id: AddYesterday(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddYesterday(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddYesterday(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddYesterday(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddYesterday
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 664
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd Yesterday Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingTimePeriodGroup AddYesterday(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+      description: ''
+    content.vb: Public Function AddYesterday(address As ExcelAddress) As IExcelConditionalFormattingTimePeriodGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddYesterday*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBeginsWith(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBeginsWith(OfficeOpenXml.ExcelAddress)
+  id: AddBeginsWith(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddBeginsWith(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddBeginsWith(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBeginsWith(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBeginsWith
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 677
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd BeginsWith Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingBeginsWith AddBeginsWith(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBeginsWith
+      description: ''
+    content.vb: Public Function AddBeginsWith(address As ExcelAddress) As IExcelConditionalFormattingBeginsWith
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBeginsWith*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBetween(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBetween(OfficeOpenXml.ExcelAddress)
+  id: AddBetween(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddBetween(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddBetween(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBetween(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddBetween
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 690
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd Between Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingBetween AddBetween(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBetween
+      description: ''
+    content.vb: Public Function AddBetween(address As ExcelAddress) As IExcelConditionalFormattingBetween
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBetween*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsBlanks(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsBlanks(OfficeOpenXml.ExcelAddress)
+  id: AddContainsBlanks(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddContainsBlanks(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddContainsBlanks(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsBlanks(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddContainsBlanks
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 703
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd ContainsBlanks Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingContainsBlanks AddContainsBlanks(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsBlanks
+      description: ''
+    content.vb: Public Function AddContainsBlanks(address As ExcelAddress) As IExcelConditionalFormattingContainsBlanks
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsBlanks*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsErrors(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsErrors(OfficeOpenXml.ExcelAddress)
+  id: AddContainsErrors(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddContainsErrors(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddContainsErrors(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsErrors(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddContainsErrors
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 716
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd ContainsErrors Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingContainsErrors AddContainsErrors(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsErrors
+      description: ''
+    content.vb: Public Function AddContainsErrors(address As ExcelAddress) As IExcelConditionalFormattingContainsErrors
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsErrors*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsText(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsText(OfficeOpenXml.ExcelAddress)
+  id: AddContainsText(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddContainsText(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddContainsText(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsText(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddContainsText
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 729
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd ContainsText Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingContainsText AddContainsText(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsText
+      description: ''
+    content.vb: Public Function AddContainsText(address As ExcelAddress) As IExcelConditionalFormattingContainsText
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsText*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddDuplicateValues(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddDuplicateValues(OfficeOpenXml.ExcelAddress)
+  id: AddDuplicateValues(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddDuplicateValues(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddDuplicateValues(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddDuplicateValues(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddDuplicateValues
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 742
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd DuplicateValues Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingDuplicateValues AddDuplicateValues(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDuplicateValues
+      description: ''
+    content.vb: Public Function AddDuplicateValues(address As ExcelAddress) As IExcelConditionalFormattingDuplicateValues
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddDuplicateValues*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddEndsWith(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddEndsWith(OfficeOpenXml.ExcelAddress)
+  id: AddEndsWith(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddEndsWith(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddEndsWith(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddEndsWith(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddEndsWith
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 755
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd EndsWith Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingEndsWith AddEndsWith(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEndsWith
+      description: ''
+    content.vb: Public Function AddEndsWith(address As ExcelAddress) As IExcelConditionalFormattingEndsWith
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddEndsWith*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddEqual(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddEqual(OfficeOpenXml.ExcelAddress)
+  id: AddEqual(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddEqual(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddEqual(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddEqual(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddEqual
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 768
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd Equal Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingEqual AddEqual(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEqual
+      description: ''
+    content.vb: Public Function AddEqual(address As ExcelAddress) As IExcelConditionalFormattingEqual
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddEqual*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddExpression(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddExpression(OfficeOpenXml.ExcelAddress)
+  id: AddExpression(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddExpression(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddExpression(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddExpression(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddExpression
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 781
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd Expression Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingExpression AddExpression(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingExpression
+      description: ''
+    content.vb: Public Function AddExpression(address As ExcelAddress) As IExcelConditionalFormattingExpression
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddExpression*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddGreaterThan(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddGreaterThan(OfficeOpenXml.ExcelAddress)
+  id: AddGreaterThan(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddGreaterThan(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddGreaterThan(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddGreaterThan(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddGreaterThan
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 794
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd GreaterThan Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingGreaterThan AddGreaterThan(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThan
+      description: ''
+    content.vb: Public Function AddGreaterThan(address As ExcelAddress) As IExcelConditionalFormattingGreaterThan
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddGreaterThan*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddGreaterThanOrEqual(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddGreaterThanOrEqual(OfficeOpenXml.ExcelAddress)
+  id: AddGreaterThanOrEqual(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddGreaterThanOrEqual(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddGreaterThanOrEqual(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddGreaterThanOrEqual(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddGreaterThanOrEqual
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 807
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd GreaterThanOrEqual Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingGreaterThanOrEqual AddGreaterThanOrEqual(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThanOrEqual
+      description: ''
+    content.vb: Public Function AddGreaterThanOrEqual(address As ExcelAddress) As IExcelConditionalFormattingGreaterThanOrEqual
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddGreaterThanOrEqual*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLessThan(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLessThan(OfficeOpenXml.ExcelAddress)
+  id: AddLessThan(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddLessThan(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddLessThan(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLessThan(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLessThan
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 820
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd LessThan Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingLessThan AddLessThan(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThan
+      description: ''
+    content.vb: Public Function AddLessThan(address As ExcelAddress) As IExcelConditionalFormattingLessThan
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLessThan*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLessThanOrEqual(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLessThanOrEqual(OfficeOpenXml.ExcelAddress)
+  id: AddLessThanOrEqual(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddLessThanOrEqual(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddLessThanOrEqual(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLessThanOrEqual(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddLessThanOrEqual
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 833
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd LessThanOrEqual Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingLessThanOrEqual AddLessThanOrEqual(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThanOrEqual
+      description: ''
+    content.vb: Public Function AddLessThanOrEqual(address As ExcelAddress) As IExcelConditionalFormattingLessThanOrEqual
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLessThanOrEqual*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotBetween(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotBetween(OfficeOpenXml.ExcelAddress)
+  id: AddNotBetween(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddNotBetween(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddNotBetween(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotBetween(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNotBetween
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 846
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd NotBetween Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingNotBetween AddNotBetween(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotBetween
+      description: ''
+    content.vb: Public Function AddNotBetween(address As ExcelAddress) As IExcelConditionalFormattingNotBetween
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotBetween*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsBlanks(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsBlanks(OfficeOpenXml.ExcelAddress)
+  id: AddNotContainsBlanks(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddNotContainsBlanks(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddNotContainsBlanks(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsBlanks(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNotContainsBlanks
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 859
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd NotContainsBlanks Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingNotContainsBlanks AddNotContainsBlanks(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsBlanks
+      description: ''
+    content.vb: Public Function AddNotContainsBlanks(address As ExcelAddress) As IExcelConditionalFormattingNotContainsBlanks
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsBlanks*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsErrors(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsErrors(OfficeOpenXml.ExcelAddress)
+  id: AddNotContainsErrors(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddNotContainsErrors(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddNotContainsErrors(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsErrors(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNotContainsErrors
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 872
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd NotContainsErrors Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingNotContainsErrors AddNotContainsErrors(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsErrors
+      description: ''
+    content.vb: Public Function AddNotContainsErrors(address As ExcelAddress) As IExcelConditionalFormattingNotContainsErrors
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsErrors*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsText(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsText(OfficeOpenXml.ExcelAddress)
+  id: AddNotContainsText(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddNotContainsText(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddNotContainsText(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsText(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNotContainsText
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 885
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd NotContainsText Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingNotContainsText AddNotContainsText(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsText
+      description: ''
+    content.vb: Public Function AddNotContainsText(address As ExcelAddress) As IExcelConditionalFormattingNotContainsText
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsText*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotEqual(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotEqual(OfficeOpenXml.ExcelAddress)
+  id: AddNotEqual(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddNotEqual(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddNotEqual(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotEqual(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNotEqual
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 898
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd NotEqual Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingNotEqual AddNotEqual(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotEqual
+      description: ''
+    content.vb: Public Function AddNotEqual(address As ExcelAddress) As IExcelConditionalFormattingNotEqual
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotEqual*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddUniqueValues(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddUniqueValues(OfficeOpenXml.ExcelAddress)
+  id: AddUniqueValues(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddUniqueValues(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddUniqueValues(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddUniqueValues(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddUniqueValues
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 911
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd Unique Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingUniqueValues AddUniqueValues(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingUniqueValues
+      description: ''
+    content.vb: Public Function AddUniqueValues(address As ExcelAddress) As IExcelConditionalFormattingUniqueValues
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddUniqueValues*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThreeColorScale(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThreeColorScale(OfficeOpenXml.ExcelAddress)
+  id: AddThreeColorScale(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddThreeColorScale(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddThreeColorScale(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThreeColorScale(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddThreeColorScale
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 924
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd ThreeColorScale Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingThreeColorScale AddThreeColorScale(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeColorScale
+      description: ''
+    content.vb: Public Function AddThreeColorScale(address As ExcelAddress) As IExcelConditionalFormattingThreeColorScale
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThreeColorScale*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTwoColorScale(OfficeOpenXml.ExcelAddress)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTwoColorScale(OfficeOpenXml.ExcelAddress)
+  id: AddTwoColorScale(OfficeOpenXml.ExcelAddress)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddTwoColorScale(ExcelAddress)
+  nameWithType: ExcelConditionalFormattingCollection.AddTwoColorScale(ExcelAddress)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTwoColorScale(OfficeOpenXml.ExcelAddress)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTwoColorScale
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 937
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd TwoColorScale Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingTwoColorScale AddTwoColorScale(ExcelAddress address)
+    parameters:
+    - id: address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+      description: ''
+    content.vb: Public Function AddTwoColorScale(address As ExcelAddress) As IExcelConditionalFormattingTwoColorScale
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTwoColorScale*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThreeIconSet(OfficeOpenXml.ExcelAddress,OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThreeIconSet(OfficeOpenXml.ExcelAddress,OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType)
+  id: AddThreeIconSet(OfficeOpenXml.ExcelAddress,OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddThreeIconSet(ExcelAddress, eExcelconditionalFormatting3IconsSetType)
+  nameWithType: ExcelConditionalFormattingCollection.AddThreeIconSet(ExcelAddress, eExcelconditionalFormatting3IconsSetType)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThreeIconSet(OfficeOpenXml.ExcelAddress, OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddThreeIconSet
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 951
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdd ThreeIconSet Rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingThreeIconSet<eExcelconditionalFormatting3IconsSetType> AddThreeIconSet(ExcelAddress Address, eExcelconditionalFormatting3IconsSetType IconSet)
+    parameters:
+    - id: Address
+      type: OfficeOpenXml.ExcelAddress
+      description: The address
+    - id: IconSet
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
+      description: Type of iconset
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet{OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType}
+      description: ''
+    content.vb: Public Function AddThreeIconSet(Address As ExcelAddress, IconSet As eExcelconditionalFormatting3IconsSetType) As IExcelConditionalFormattingThreeIconSet(Of eExcelconditionalFormatting3IconsSetType)
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThreeIconSet*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddFourIconSet(OfficeOpenXml.ExcelAddress,OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddFourIconSet(OfficeOpenXml.ExcelAddress,OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType)
+  id: AddFourIconSet(OfficeOpenXml.ExcelAddress,OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddFourIconSet(ExcelAddress, eExcelconditionalFormatting4IconsSetType)
+  nameWithType: ExcelConditionalFormattingCollection.AddFourIconSet(ExcelAddress, eExcelconditionalFormatting4IconsSetType)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddFourIconSet(OfficeOpenXml.ExcelAddress, OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddFourIconSet
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 965
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a FourIconSet rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingFourIconSet<eExcelconditionalFormatting4IconsSetType> AddFourIconSet(ExcelAddress Address, eExcelconditionalFormatting4IconsSetType IconSet)
+    parameters:
+    - id: Address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    - id: IconSet
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet{OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType}
+      description: ''
+    content.vb: Public Function AddFourIconSet(Address As ExcelAddress, IconSet As eExcelconditionalFormatting4IconsSetType) As IExcelConditionalFormattingFourIconSet(Of eExcelconditionalFormatting4IconsSetType)
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddFourIconSet*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddFiveIconSet(OfficeOpenXml.ExcelAddress,OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddFiveIconSet(OfficeOpenXml.ExcelAddress,OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType)
+  id: AddFiveIconSet(OfficeOpenXml.ExcelAddress,OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddFiveIconSet(ExcelAddress, eExcelconditionalFormatting5IconsSetType)
+  nameWithType: ExcelConditionalFormattingCollection.AddFiveIconSet(ExcelAddress, eExcelconditionalFormatting5IconsSetType)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddFiveIconSet(OfficeOpenXml.ExcelAddress, OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddFiveIconSet
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 979
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a FiveIconSet rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingFiveIconSet AddFiveIconSet(ExcelAddress Address, eExcelconditionalFormatting5IconsSetType IconSet)
+    parameters:
+    - id: Address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    - id: IconSet
+      type: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFiveIconSet
+      description: ''
+    content.vb: Public Function AddFiveIconSet(Address As ExcelAddress, IconSet As eExcelconditionalFormatting5IconsSetType) As IExcelConditionalFormattingFiveIconSet
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddFiveIconSet*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddDatabar(OfficeOpenXml.ExcelAddress,System.Drawing.Color)
+  commentId: M:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddDatabar(OfficeOpenXml.ExcelAddress,System.Drawing.Color)
+  id: AddDatabar(OfficeOpenXml.ExcelAddress,System.Drawing.Color)
+  parent: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: AddDatabar(ExcelAddress, Color)
+  nameWithType: ExcelConditionalFormattingCollection.AddDatabar(ExcelAddress, Color)
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddDatabar(OfficeOpenXml.ExcelAddress, System.Drawing.Color)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddDatabar
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingCollection.cs
+    startLine: 993
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nAdds a databar rule\n"
+  example: []
+  syntax:
+    content: public IExcelConditionalFormattingDataBarGroup AddDatabar(ExcelAddress Address, Color color)
+    parameters:
+    - id: Address
+      type: OfficeOpenXml.ExcelAddress
+      description: ''
+    - id: color
+      type: System.Drawing.Color
+      description: ''
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+      description: ''
+    content.vb: Public Function AddDatabar(Address As ExcelAddress, color As Color) As IExcelConditionalFormattingDataBarGroup
+  overload: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddDatabar*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
+  commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: ExcelConditionalFormattingRule
+  nameWithType: ExcelConditionalFormattingRule
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
+- uid: OfficeOpenXml.ConditionalFormatting
+  commentId: N:OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  nameWithType: OfficeOpenXml.ConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<IExcelConditionalFormattingRule>
+  nameWithType: IEnumerable<IExcelConditionalFormattingRule>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule>
+  nameWithType.vb: IEnumerable(Of IExcelConditionalFormattingRule)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule)
+  name.vb: IEnumerable(Of IExcelConditionalFormattingRule)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+    name: IExcelConditionalFormattingRule
+    nameWithType: IExcelConditionalFormattingRule
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+    name: IExcelConditionalFormattingRule
+    nameWithType: IExcelConditionalFormattingRule
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Count*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Count
+  name: Count
+  nameWithType: ExcelConditionalFormattingCollection.Count
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Item*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Item
+  name: Item
+  nameWithType: ExcelConditionalFormattingCollection.Item
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Item
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingRule
+  nameWithType: IExcelConditionalFormattingRule
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts
+  commentId: N:OfficeOpenXml.ConditionalFormatting.Contracts
+  name: OfficeOpenXml.ConditionalFormatting.Contracts
+  nameWithType: OfficeOpenXml.ConditionalFormatting.Contracts
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#ConditionalFormatting#Contracts#IExcelConditionalFormattingRule}#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#ConditionalFormatting#Contracts#IExcelConditionalFormattingRule}#GetEnumerator
+  name: IEnumerable<IExcelConditionalFormattingRule>.GetEnumerator
+  nameWithType: ExcelConditionalFormattingCollection.IEnumerable<IExcelConditionalFormattingRule>.GetEnumerator
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule>.GetEnumerator
+  nameWithType.vb: ExcelConditionalFormattingCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule>.GetEnumerator
+  name.vb: System.Collections.Generic.IEnumerable<OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule>.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<IExcelConditionalFormattingRule>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of IExcelConditionalFormattingRule).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<IExcelConditionalFormattingRule>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of IExcelConditionalFormattingRule).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<IExcelConditionalFormattingRule>
+  nameWithType: IEnumerator<IExcelConditionalFormattingRule>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule>
+  nameWithType.vb: IEnumerator(Of IExcelConditionalFormattingRule)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule)
+  name.vb: IEnumerator(Of IExcelConditionalFormattingRule)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+    name: IExcelConditionalFormattingRule
+    nameWithType: IExcelConditionalFormattingRule
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+    name: IExcelConditionalFormattingRule
+    nameWithType: IExcelConditionalFormattingRule
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingRule
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelConditionalFormattingCollection.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelConditionalFormattingCollection.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveAll*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveAll
+  name: RemoveAll
+  nameWithType: ExcelConditionalFormattingCollection.RemoveAll
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveAll
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Remove*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Remove
+  name: Remove
+  nameWithType: ExcelConditionalFormattingCollection.Remove
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.Remove
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveAt*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveAt
+  name: RemoveAt
+  nameWithType: ExcelConditionalFormattingCollection.RemoveAt
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveAt
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveByPriority*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveByPriority
+  name: RemoveByPriority
+  nameWithType: ExcelConditionalFormattingCollection.RemoveByPriority
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RemoveByPriority
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RulesByPriority*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RulesByPriority
+  name: RulesByPriority
+  nameWithType: ExcelConditionalFormattingCollection.RulesByPriority
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.RulesByPriority
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveAverage*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveAverage
+  name: AddAboveAverage
+  nameWithType: ExcelConditionalFormattingCollection.AddAboveAverage
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveAverage
+- uid: OfficeOpenXml.ExcelAddress
+  commentId: T:OfficeOpenXml.ExcelAddress
+  parent: OfficeOpenXml
+  name: ExcelAddress
+  nameWithType: ExcelAddress
+  fullName: OfficeOpenXml.ExcelAddress
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingAverageGroup
+  nameWithType: IExcelConditionalFormattingAverageGroup
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingAverageGroup
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveOrEqualAverage*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveOrEqualAverage
+  name: AddAboveOrEqualAverage
+  nameWithType: ExcelConditionalFormattingCollection.AddAboveOrEqualAverage
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveOrEqualAverage
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowAverage*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowAverage
+  name: AddBelowAverage
+  nameWithType: ExcelConditionalFormattingCollection.AddBelowAverage
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowAverage
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowOrEqualAverage*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowOrEqualAverage
+  name: AddBelowOrEqualAverage
+  nameWithType: ExcelConditionalFormattingCollection.AddBelowOrEqualAverage
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowOrEqualAverage
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveStdDev*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveStdDev
+  name: AddAboveStdDev
+  nameWithType: ExcelConditionalFormattingCollection.AddAboveStdDev
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddAboveStdDev
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingStdDevGroup
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingStdDevGroup
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingStdDevGroup
+  nameWithType: IExcelConditionalFormattingStdDevGroup
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingStdDevGroup
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowStdDev*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowStdDev
+  name: AddBelowStdDev
+  nameWithType: ExcelConditionalFormattingCollection.AddBelowStdDev
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBelowStdDev
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBottom*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBottom
+  name: AddBottom
+  nameWithType: ExcelConditionalFormattingCollection.AddBottom
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBottom
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingTopBottomGroup
+  nameWithType: IExcelConditionalFormattingTopBottomGroup
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTopBottomGroup
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBottomPercent*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBottomPercent
+  name: AddBottomPercent
+  nameWithType: ExcelConditionalFormattingCollection.AddBottomPercent
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBottomPercent
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTop*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTop
+  name: AddTop
+  nameWithType: ExcelConditionalFormattingCollection.AddTop
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTop
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTopPercent*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTopPercent
+  name: AddTopPercent
+  nameWithType: ExcelConditionalFormattingCollection.AddTopPercent
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTopPercent
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLast7Days*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLast7Days
+  name: AddLast7Days
+  nameWithType: ExcelConditionalFormattingCollection.AddLast7Days
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLast7Days
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingTimePeriodGroup
+  nameWithType: IExcelConditionalFormattingTimePeriodGroup
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTimePeriodGroup
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLastMonth*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLastMonth
+  name: AddLastMonth
+  nameWithType: ExcelConditionalFormattingCollection.AddLastMonth
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLastMonth
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLastWeek*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLastWeek
+  name: AddLastWeek
+  nameWithType: ExcelConditionalFormattingCollection.AddLastWeek
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLastWeek
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNextMonth*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNextMonth
+  name: AddNextMonth
+  nameWithType: ExcelConditionalFormattingCollection.AddNextMonth
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNextMonth
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNextWeek*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNextWeek
+  name: AddNextWeek
+  nameWithType: ExcelConditionalFormattingCollection.AddNextWeek
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNextWeek
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThisMonth*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThisMonth
+  name: AddThisMonth
+  nameWithType: ExcelConditionalFormattingCollection.AddThisMonth
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThisMonth
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThisWeek*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThisWeek
+  name: AddThisWeek
+  nameWithType: ExcelConditionalFormattingCollection.AddThisWeek
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThisWeek
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddToday*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddToday
+  name: AddToday
+  nameWithType: ExcelConditionalFormattingCollection.AddToday
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddToday
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTomorrow*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTomorrow
+  name: AddTomorrow
+  nameWithType: ExcelConditionalFormattingCollection.AddTomorrow
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTomorrow
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddYesterday*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddYesterday
+  name: AddYesterday
+  nameWithType: ExcelConditionalFormattingCollection.AddYesterday
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddYesterday
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBeginsWith*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBeginsWith
+  name: AddBeginsWith
+  nameWithType: ExcelConditionalFormattingCollection.AddBeginsWith
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBeginsWith
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBeginsWith
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBeginsWith
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingBeginsWith
+  nameWithType: IExcelConditionalFormattingBeginsWith
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBeginsWith
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBetween*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBetween
+  name: AddBetween
+  nameWithType: ExcelConditionalFormattingCollection.AddBetween
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddBetween
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBetween
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBetween
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingBetween
+  nameWithType: IExcelConditionalFormattingBetween
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingBetween
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsBlanks*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsBlanks
+  name: AddContainsBlanks
+  nameWithType: ExcelConditionalFormattingCollection.AddContainsBlanks
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsBlanks
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsBlanks
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsBlanks
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingContainsBlanks
+  nameWithType: IExcelConditionalFormattingContainsBlanks
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsBlanks
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsErrors*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsErrors
+  name: AddContainsErrors
+  nameWithType: ExcelConditionalFormattingCollection.AddContainsErrors
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsErrors
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsErrors
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsErrors
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingContainsErrors
+  nameWithType: IExcelConditionalFormattingContainsErrors
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsErrors
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsText*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsText
+  name: AddContainsText
+  nameWithType: ExcelConditionalFormattingCollection.AddContainsText
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddContainsText
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsText
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsText
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingContainsText
+  nameWithType: IExcelConditionalFormattingContainsText
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingContainsText
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddDuplicateValues*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddDuplicateValues
+  name: AddDuplicateValues
+  nameWithType: ExcelConditionalFormattingCollection.AddDuplicateValues
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddDuplicateValues
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDuplicateValues
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDuplicateValues
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingDuplicateValues
+  nameWithType: IExcelConditionalFormattingDuplicateValues
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDuplicateValues
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddEndsWith*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddEndsWith
+  name: AddEndsWith
+  nameWithType: ExcelConditionalFormattingCollection.AddEndsWith
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddEndsWith
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEndsWith
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEndsWith
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingEndsWith
+  nameWithType: IExcelConditionalFormattingEndsWith
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEndsWith
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddEqual*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddEqual
+  name: AddEqual
+  nameWithType: ExcelConditionalFormattingCollection.AddEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddEqual
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEqual
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEqual
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingEqual
+  nameWithType: IExcelConditionalFormattingEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingEqual
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddExpression*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddExpression
+  name: AddExpression
+  nameWithType: ExcelConditionalFormattingCollection.AddExpression
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddExpression
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingExpression
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingExpression
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingExpression
+  nameWithType: IExcelConditionalFormattingExpression
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingExpression
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddGreaterThan*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddGreaterThan
+  name: AddGreaterThan
+  nameWithType: ExcelConditionalFormattingCollection.AddGreaterThan
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddGreaterThan
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThan
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThan
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingGreaterThan
+  nameWithType: IExcelConditionalFormattingGreaterThan
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThan
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddGreaterThanOrEqual*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddGreaterThanOrEqual
+  name: AddGreaterThanOrEqual
+  nameWithType: ExcelConditionalFormattingCollection.AddGreaterThanOrEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddGreaterThanOrEqual
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThanOrEqual
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThanOrEqual
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingGreaterThanOrEqual
+  nameWithType: IExcelConditionalFormattingGreaterThanOrEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingGreaterThanOrEqual
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLessThan*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLessThan
+  name: AddLessThan
+  nameWithType: ExcelConditionalFormattingCollection.AddLessThan
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLessThan
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThan
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThan
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingLessThan
+  nameWithType: IExcelConditionalFormattingLessThan
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThan
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLessThanOrEqual*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLessThanOrEqual
+  name: AddLessThanOrEqual
+  nameWithType: ExcelConditionalFormattingCollection.AddLessThanOrEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddLessThanOrEqual
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThanOrEqual
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThanOrEqual
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingLessThanOrEqual
+  nameWithType: IExcelConditionalFormattingLessThanOrEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingLessThanOrEqual
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotBetween*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotBetween
+  name: AddNotBetween
+  nameWithType: ExcelConditionalFormattingCollection.AddNotBetween
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotBetween
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotBetween
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotBetween
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingNotBetween
+  nameWithType: IExcelConditionalFormattingNotBetween
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotBetween
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsBlanks*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsBlanks
+  name: AddNotContainsBlanks
+  nameWithType: ExcelConditionalFormattingCollection.AddNotContainsBlanks
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsBlanks
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsBlanks
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsBlanks
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingNotContainsBlanks
+  nameWithType: IExcelConditionalFormattingNotContainsBlanks
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsBlanks
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsErrors*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsErrors
+  name: AddNotContainsErrors
+  nameWithType: ExcelConditionalFormattingCollection.AddNotContainsErrors
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsErrors
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsErrors
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsErrors
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingNotContainsErrors
+  nameWithType: IExcelConditionalFormattingNotContainsErrors
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsErrors
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsText*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsText
+  name: AddNotContainsText
+  nameWithType: ExcelConditionalFormattingCollection.AddNotContainsText
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotContainsText
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsText
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsText
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingNotContainsText
+  nameWithType: IExcelConditionalFormattingNotContainsText
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotContainsText
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotEqual*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotEqual
+  name: AddNotEqual
+  nameWithType: ExcelConditionalFormattingCollection.AddNotEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddNotEqual
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotEqual
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotEqual
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingNotEqual
+  nameWithType: IExcelConditionalFormattingNotEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingNotEqual
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddUniqueValues*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddUniqueValues
+  name: AddUniqueValues
+  nameWithType: ExcelConditionalFormattingCollection.AddUniqueValues
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddUniqueValues
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingUniqueValues
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingUniqueValues
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingUniqueValues
+  nameWithType: IExcelConditionalFormattingUniqueValues
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingUniqueValues
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThreeColorScale*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThreeColorScale
+  name: AddThreeColorScale
+  nameWithType: ExcelConditionalFormattingCollection.AddThreeColorScale
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThreeColorScale
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeColorScale
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeColorScale
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingThreeColorScale
+  nameWithType: IExcelConditionalFormattingThreeColorScale
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeColorScale
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTwoColorScale*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTwoColorScale
+  name: AddTwoColorScale
+  nameWithType: ExcelConditionalFormattingCollection.AddTwoColorScale
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddTwoColorScale
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingTwoColorScale
+  nameWithType: IExcelConditionalFormattingTwoColorScale
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingTwoColorScale
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThreeIconSet*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThreeIconSet
+  name: AddThreeIconSet
+  nameWithType: ExcelConditionalFormattingCollection.AddThreeIconSet
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddThreeIconSet
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelconditionalFormatting3IconsSetType
+  nameWithType: eExcelconditionalFormatting3IconsSetType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet{OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType}
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet{OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType}
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  definition: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+  name: IExcelConditionalFormattingThreeIconSet<eExcelconditionalFormatting3IconsSetType>
+  nameWithType: IExcelConditionalFormattingThreeIconSet<eExcelconditionalFormatting3IconsSetType>
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet<OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType>
+  nameWithType.vb: IExcelConditionalFormattingThreeIconSet(Of eExcelconditionalFormatting3IconsSetType)
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet(Of OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType)
+  name.vb: IExcelConditionalFormattingThreeIconSet(Of eExcelconditionalFormatting3IconsSetType)
+  spec.csharp:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+    name: IExcelConditionalFormattingThreeIconSet
+    nameWithType: IExcelConditionalFormattingThreeIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
+    name: eExcelconditionalFormatting3IconsSetType
+    nameWithType: eExcelconditionalFormatting3IconsSetType
+    fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+    name: IExcelConditionalFormattingThreeIconSet
+    nameWithType: IExcelConditionalFormattingThreeIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
+    name: eExcelconditionalFormatting3IconsSetType
+    nameWithType: eExcelconditionalFormatting3IconsSetType
+    fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting3IconsSetType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+  name: IExcelConditionalFormattingThreeIconSet<T>
+  nameWithType: IExcelConditionalFormattingThreeIconSet<T>
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet<T>
+  nameWithType.vb: IExcelConditionalFormattingThreeIconSet(Of T)
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet(Of T)
+  name.vb: IExcelConditionalFormattingThreeIconSet(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+    name: IExcelConditionalFormattingThreeIconSet
+    nameWithType: IExcelConditionalFormattingThreeIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet`1
+    name: IExcelConditionalFormattingThreeIconSet
+    nameWithType: IExcelConditionalFormattingThreeIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingThreeIconSet
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddFourIconSet*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddFourIconSet
+  name: AddFourIconSet
+  nameWithType: ExcelConditionalFormattingCollection.AddFourIconSet
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddFourIconSet
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelconditionalFormatting4IconsSetType
+  nameWithType: eExcelconditionalFormatting4IconsSetType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet{OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType}
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet{OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType}
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  definition: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+  name: IExcelConditionalFormattingFourIconSet<eExcelconditionalFormatting4IconsSetType>
+  nameWithType: IExcelConditionalFormattingFourIconSet<eExcelconditionalFormatting4IconsSetType>
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet<OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType>
+  nameWithType.vb: IExcelConditionalFormattingFourIconSet(Of eExcelconditionalFormatting4IconsSetType)
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet(Of OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType)
+  name.vb: IExcelConditionalFormattingFourIconSet(Of eExcelconditionalFormatting4IconsSetType)
+  spec.csharp:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+    name: IExcelConditionalFormattingFourIconSet
+    nameWithType: IExcelConditionalFormattingFourIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+    name: eExcelconditionalFormatting4IconsSetType
+    nameWithType: eExcelconditionalFormatting4IconsSetType
+    fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+    name: IExcelConditionalFormattingFourIconSet
+    nameWithType: IExcelConditionalFormattingFourIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+    name: eExcelconditionalFormatting4IconsSetType
+    nameWithType: eExcelconditionalFormatting4IconsSetType
+    fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting4IconsSetType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+  name: IExcelConditionalFormattingFourIconSet<T>
+  nameWithType: IExcelConditionalFormattingFourIconSet<T>
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet<T>
+  nameWithType.vb: IExcelConditionalFormattingFourIconSet(Of T)
+  fullName.vb: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet(Of T)
+  name.vb: IExcelConditionalFormattingFourIconSet(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+    name: IExcelConditionalFormattingFourIconSet
+    nameWithType: IExcelConditionalFormattingFourIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet`1
+    name: IExcelConditionalFormattingFourIconSet
+    nameWithType: IExcelConditionalFormattingFourIconSet
+    fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFourIconSet
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddFiveIconSet*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddFiveIconSet
+  name: AddFiveIconSet
+  nameWithType: ExcelConditionalFormattingCollection.AddFiveIconSet
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddFiveIconSet
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelconditionalFormatting5IconsSetType
+  nameWithType: eExcelconditionalFormatting5IconsSetType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelconditionalFormatting5IconsSetType
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFiveIconSet
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFiveIconSet
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingFiveIconSet
+  nameWithType: IExcelConditionalFormattingFiveIconSet
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingFiveIconSet
+- uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddDatabar*
+  commentId: Overload:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddDatabar
+  name: AddDatabar
+  nameWithType: ExcelConditionalFormattingCollection.AddDatabar
+  fullName: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection.AddDatabar
+- uid: System.Drawing.Color
+  commentId: T:System.Drawing.Color
+  parent: System.Drawing
+  isExternal: true
+  name: Color
+  nameWithType: Color
+  fullName: System.Drawing.Color
+- uid: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  commentId: T:OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+  parent: OfficeOpenXml.ConditionalFormatting.Contracts
+  name: IExcelConditionalFormattingDataBarGroup
+  nameWithType: IExcelConditionalFormattingDataBarGroup
+  fullName: OfficeOpenXml.ConditionalFormatting.Contracts.IExcelConditionalFormattingDataBarGroup
+- uid: System.Drawing
+  commentId: N:System.Drawing
+  isExternal: true
+  name: System.Drawing
+  nameWithType: System.Drawing
+  fullName: System.Drawing

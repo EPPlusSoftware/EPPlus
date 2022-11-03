@@ -1,0 +1,885 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme
+  commentId: T:OfficeOpenXml.Drawing.Theme.ExcelColorScheme
+  id: ExcelColorScheme
+  parent: OfficeOpenXml.Drawing.Theme
+  children:
+  - OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent1
+  - OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent2
+  - OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent3
+  - OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent4
+  - OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent5
+  - OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent6
+  - OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Dark1
+  - OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Dark2
+  - OfficeOpenXml.Drawing.Theme.ExcelColorScheme.FollowedHyperlink
+  - OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Hyperlink
+  - OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Light1
+  - OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Light2
+  langs:
+  - csharp
+  - vb
+  name: ExcelColorScheme
+  nameWithType: ExcelColorScheme
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelColorScheme
+    path: ../src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nThe color Scheme for a theme\n"
+  example: []
+  syntax:
+    content: 'public class ExcelColorScheme : XmlHelper'
+    content.vb: >-
+      Public Class ExcelColorScheme
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Dark1
+  commentId: P:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Dark1
+  id: Dark1
+  parent: OfficeOpenXml.Drawing.Theme.ExcelColorScheme
+  langs:
+  - csharp
+  - vb
+  name: Dark1
+  nameWithType: ExcelColorScheme.Dark1
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Dark1
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark1
+    path: ../src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nDark 1 theme color\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingThemeColorManager Dark1 { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+    content.vb: Public ReadOnly Property Dark1 As ExcelDrawingThemeColorManager
+  overload: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Dark1*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Dark2
+  commentId: P:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Dark2
+  id: Dark2
+  parent: OfficeOpenXml.Drawing.Theme.ExcelColorScheme
+  langs:
+  - csharp
+  - vb
+  name: Dark2
+  nameWithType: ExcelColorScheme.Dark2
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Dark2
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark2
+    path: ../src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nDark 2 theme color\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingThemeColorManager Dark2 { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+    content.vb: Public ReadOnly Property Dark2 As ExcelDrawingThemeColorManager
+  overload: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Dark2*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Light1
+  commentId: P:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Light1
+  id: Light1
+  parent: OfficeOpenXml.Drawing.Theme.ExcelColorScheme
+  langs:
+  - csharp
+  - vb
+  name: Light1
+  nameWithType: ExcelColorScheme.Light1
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Light1
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light1
+    path: ../src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nLight 1 theme color\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingThemeColorManager Light1 { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+    content.vb: Public ReadOnly Property Light1 As ExcelDrawingThemeColorManager
+  overload: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Light1*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Light2
+  commentId: P:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Light2
+  id: Light2
+  parent: OfficeOpenXml.Drawing.Theme.ExcelColorScheme
+  langs:
+  - csharp
+  - vb
+  name: Light2
+  nameWithType: ExcelColorScheme.Light2
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Light2
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light2
+    path: ../src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+    startLine: 119
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nLight 2 theme color\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingThemeColorManager Light2 { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+    content.vb: Public ReadOnly Property Light2 As ExcelDrawingThemeColorManager
+  overload: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Light2*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent1
+  commentId: P:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent1
+  id: Accent1
+  parent: OfficeOpenXml.Drawing.Theme.ExcelColorScheme
+  langs:
+  - csharp
+  - vb
+  name: Accent1
+  nameWithType: ExcelColorScheme.Accent1
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent1
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Accent1
+    path: ../src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+    startLine: 135
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nAccent 1 theme color\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingThemeColorManager Accent1 { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+    content.vb: Public ReadOnly Property Accent1 As ExcelDrawingThemeColorManager
+  overload: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent1*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent2
+  commentId: P:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent2
+  id: Accent2
+  parent: OfficeOpenXml.Drawing.Theme.ExcelColorScheme
+  langs:
+  - csharp
+  - vb
+  name: Accent2
+  nameWithType: ExcelColorScheme.Accent2
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent2
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Accent2
+    path: ../src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+    startLine: 151
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nAccent 2 theme color\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingThemeColorManager Accent2 { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+    content.vb: Public ReadOnly Property Accent2 As ExcelDrawingThemeColorManager
+  overload: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent2*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent3
+  commentId: P:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent3
+  id: Accent3
+  parent: OfficeOpenXml.Drawing.Theme.ExcelColorScheme
+  langs:
+  - csharp
+  - vb
+  name: Accent3
+  nameWithType: ExcelColorScheme.Accent3
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent3
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Accent3
+    path: ../src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+    startLine: 167
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nAccent 3 theme color\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingThemeColorManager Accent3 { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+    content.vb: Public ReadOnly Property Accent3 As ExcelDrawingThemeColorManager
+  overload: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent3*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent4
+  commentId: P:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent4
+  id: Accent4
+  parent: OfficeOpenXml.Drawing.Theme.ExcelColorScheme
+  langs:
+  - csharp
+  - vb
+  name: Accent4
+  nameWithType: ExcelColorScheme.Accent4
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent4
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Accent4
+    path: ../src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+    startLine: 183
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nAccent 4 theme color\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingThemeColorManager Accent4 { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+    content.vb: Public ReadOnly Property Accent4 As ExcelDrawingThemeColorManager
+  overload: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent4*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent5
+  commentId: P:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent5
+  id: Accent5
+  parent: OfficeOpenXml.Drawing.Theme.ExcelColorScheme
+  langs:
+  - csharp
+  - vb
+  name: Accent5
+  nameWithType: ExcelColorScheme.Accent5
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent5
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Accent5
+    path: ../src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+    startLine: 199
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nAccent 5 theme color\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingThemeColorManager Accent5 { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+    content.vb: Public ReadOnly Property Accent5 As ExcelDrawingThemeColorManager
+  overload: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent5*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent6
+  commentId: P:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent6
+  id: Accent6
+  parent: OfficeOpenXml.Drawing.Theme.ExcelColorScheme
+  langs:
+  - csharp
+  - vb
+  name: Accent6
+  nameWithType: ExcelColorScheme.Accent6
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent6
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Accent6
+    path: ../src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+    startLine: 215
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nAccent 6 theme color\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingThemeColorManager Accent6 { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+    content.vb: Public ReadOnly Property Accent6 As ExcelDrawingThemeColorManager
+  overload: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent6*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Hyperlink
+  commentId: P:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Hyperlink
+  id: Hyperlink
+  parent: OfficeOpenXml.Drawing.Theme.ExcelColorScheme
+  langs:
+  - csharp
+  - vb
+  name: Hyperlink
+  nameWithType: ExcelColorScheme.Hyperlink
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Hyperlink
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hyperlink
+    path: ../src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+    startLine: 231
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nHyperlink theme color\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingThemeColorManager Hyperlink { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+    content.vb: Public ReadOnly Property Hyperlink As ExcelDrawingThemeColorManager
+  overload: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Hyperlink*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.FollowedHyperlink
+  commentId: P:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.FollowedHyperlink
+  id: FollowedHyperlink
+  parent: OfficeOpenXml.Drawing.Theme.ExcelColorScheme
+  langs:
+  - csharp
+  - vb
+  name: FollowedHyperlink
+  nameWithType: ExcelColorScheme.FollowedHyperlink
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.FollowedHyperlink
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FollowedHyperlink
+    path: ../src/EPPlus/Drawing/Theme/ExcelColorScheme.cs
+    startLine: 248
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Theme
+  summary: "\nFollowed hyperlink theme color\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingThemeColorManager FollowedHyperlink { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+    content.vb: Public ReadOnly Property FollowedHyperlink As ExcelDrawingThemeColorManager
+  overload: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.FollowedHyperlink*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Theme
+  commentId: N:OfficeOpenXml.Drawing.Theme
+  name: OfficeOpenXml.Drawing.Theme
+  nameWithType: OfficeOpenXml.Drawing.Theme
+  fullName: OfficeOpenXml.Drawing.Theme
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Dark1*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Dark1
+  name: Dark1
+  nameWithType: ExcelColorScheme.Dark1
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Dark1
+- uid: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  commentId: T:OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+  parent: OfficeOpenXml.Drawing.Style.Coloring
+  name: ExcelDrawingThemeColorManager
+  nameWithType: ExcelDrawingThemeColorManager
+  fullName: OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingThemeColorManager
+- uid: OfficeOpenXml.Drawing.Style.Coloring
+  commentId: N:OfficeOpenXml.Drawing.Style.Coloring
+  name: OfficeOpenXml.Drawing.Style.Coloring
+  nameWithType: OfficeOpenXml.Drawing.Style.Coloring
+  fullName: OfficeOpenXml.Drawing.Style.Coloring
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Dark2*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Dark2
+  name: Dark2
+  nameWithType: ExcelColorScheme.Dark2
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Dark2
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Light1*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Light1
+  name: Light1
+  nameWithType: ExcelColorScheme.Light1
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Light1
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Light2*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Light2
+  name: Light2
+  nameWithType: ExcelColorScheme.Light2
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Light2
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent1*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent1
+  name: Accent1
+  nameWithType: ExcelColorScheme.Accent1
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent1
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent2*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent2
+  name: Accent2
+  nameWithType: ExcelColorScheme.Accent2
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent2
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent3*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent3
+  name: Accent3
+  nameWithType: ExcelColorScheme.Accent3
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent3
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent4*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent4
+  name: Accent4
+  nameWithType: ExcelColorScheme.Accent4
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent4
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent5*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent5
+  name: Accent5
+  nameWithType: ExcelColorScheme.Accent5
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent5
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent6*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent6
+  name: Accent6
+  nameWithType: ExcelColorScheme.Accent6
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Accent6
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Hyperlink*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Hyperlink
+  name: Hyperlink
+  nameWithType: ExcelColorScheme.Hyperlink
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.Hyperlink
+- uid: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.FollowedHyperlink*
+  commentId: Overload:OfficeOpenXml.Drawing.Theme.ExcelColorScheme.FollowedHyperlink
+  name: FollowedHyperlink
+  nameWithType: ExcelColorScheme.FollowedHyperlink
+  fullName: OfficeOpenXml.Drawing.Theme.ExcelColorScheme.FollowedHyperlink

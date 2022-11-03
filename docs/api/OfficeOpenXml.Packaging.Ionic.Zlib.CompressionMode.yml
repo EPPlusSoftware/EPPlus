@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+  id: CompressionMode
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  children:
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode.Compress
+  - OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode.Decompress
+  langs:
+  - csharp
+  - vb
+  name: CompressionMode
+  nameWithType: CompressionMode
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CompressionMode
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 248
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nAn enum to specify the direction of transcoding - whether to compress or decompress.\n"
+  example: []
+  syntax:
+    content: public enum CompressionMode
+    content.vb: Public Enum CompressionMode
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode.Compress
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode.Compress
+  id: Compress
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+  langs:
+  - csharp
+  - vb
+  name: Compress
+  nameWithType: CompressionMode.Compress
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode.Compress
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Compress
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 253
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nUsed to specify that the stream should compress the data.\n"
+  example: []
+  syntax:
+    content: Compress = 0
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode.Decompress
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode.Decompress
+  id: Decompress
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+  langs:
+  - csharp
+  - vb
+  name: Decompress
+  nameWithType: CompressionMode.Decompress
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode.Decompress
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Decompress
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 257
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nUsed to specify that the stream should decompress the data.\n"
+  example: []
+  syntax:
+    content: Decompress = 1
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib
+  commentId: N:OfficeOpenXml.Packaging.Ionic.Zlib
+  name: OfficeOpenXml.Packaging.Ionic.Zlib
+  nameWithType: OfficeOpenXml.Packaging.Ionic.Zlib
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  name: CompressionMode
+  nameWithType: CompressionMode
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.CompressionMode

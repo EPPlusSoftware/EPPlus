@@ -1,0 +1,615 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eSlicerStyle
+  commentId: T:OfficeOpenXml.eSlicerStyle
+  id: eSlicerStyle
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eSlicerStyle.Custom
+  - OfficeOpenXml.eSlicerStyle.Dark1
+  - OfficeOpenXml.eSlicerStyle.Dark2
+  - OfficeOpenXml.eSlicerStyle.Dark3
+  - OfficeOpenXml.eSlicerStyle.Dark4
+  - OfficeOpenXml.eSlicerStyle.Dark5
+  - OfficeOpenXml.eSlicerStyle.Dark6
+  - OfficeOpenXml.eSlicerStyle.Light1
+  - OfficeOpenXml.eSlicerStyle.Light2
+  - OfficeOpenXml.eSlicerStyle.Light3
+  - OfficeOpenXml.eSlicerStyle.Light4
+  - OfficeOpenXml.eSlicerStyle.Light5
+  - OfficeOpenXml.eSlicerStyle.Light6
+  - OfficeOpenXml.eSlicerStyle.None
+  - OfficeOpenXml.eSlicerStyle.Other1
+  - OfficeOpenXml.eSlicerStyle.Other2
+  langs:
+  - csharp
+  - vb
+  name: eSlicerStyle
+  nameWithType: eSlicerStyle
+  fullName: OfficeOpenXml.eSlicerStyle
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eSlicerStyle
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nBuildin slicer styles\n"
+  example: []
+  syntax:
+    content: public enum eSlicerStyle
+    content.vb: Public Enum eSlicerStyle
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eSlicerStyle.None
+  commentId: F:OfficeOpenXml.eSlicerStyle.None
+  id: None
+  parent: OfficeOpenXml.eSlicerStyle
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: eSlicerStyle.None
+  fullName: OfficeOpenXml.eSlicerStyle.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nNo slicer style specified\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.eSlicerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eSlicerStyle.Custom
+  commentId: F:OfficeOpenXml.eSlicerStyle.Custom
+  id: Custom
+  parent: OfficeOpenXml.eSlicerStyle
+  langs:
+  - csharp
+  - vb
+  name: Custom
+  nameWithType: eSlicerStyle.Custom
+  fullName: OfficeOpenXml.eSlicerStyle.Custom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Custom
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA custom style set by the <xref href=\"OfficeOpenXml.Drawing.Slicer.ExcelSlicer%601.Style\" data-throw-if-not-resolved=\"false\"></xref> property\n"
+  example: []
+  syntax:
+    content: Custom = 1
+    return:
+      type: OfficeOpenXml.eSlicerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eSlicerStyle.Light1
+  commentId: F:OfficeOpenXml.eSlicerStyle.Light1
+  id: Light1
+  parent: OfficeOpenXml.eSlicerStyle
+  langs:
+  - csharp
+  - vb
+  name: Light1
+  nameWithType: eSlicerStyle.Light1
+  fullName: OfficeOpenXml.eSlicerStyle.Light1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light1
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLight 1 style\n"
+  example: []
+  syntax:
+    content: Light1 = 2
+    return:
+      type: OfficeOpenXml.eSlicerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eSlicerStyle.Light2
+  commentId: F:OfficeOpenXml.eSlicerStyle.Light2
+  id: Light2
+  parent: OfficeOpenXml.eSlicerStyle
+  langs:
+  - csharp
+  - vb
+  name: Light2
+  nameWithType: eSlicerStyle.Light2
+  fullName: OfficeOpenXml.eSlicerStyle.Light2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light2
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLight 2 style\n"
+  example: []
+  syntax:
+    content: Light2 = 3
+    return:
+      type: OfficeOpenXml.eSlicerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eSlicerStyle.Light3
+  commentId: F:OfficeOpenXml.eSlicerStyle.Light3
+  id: Light3
+  parent: OfficeOpenXml.eSlicerStyle
+  langs:
+  - csharp
+  - vb
+  name: Light3
+  nameWithType: eSlicerStyle.Light3
+  fullName: OfficeOpenXml.eSlicerStyle.Light3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light3
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+    startLine: 40
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLight 3 style\n"
+  example: []
+  syntax:
+    content: Light3 = 4
+    return:
+      type: OfficeOpenXml.eSlicerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eSlicerStyle.Light4
+  commentId: F:OfficeOpenXml.eSlicerStyle.Light4
+  id: Light4
+  parent: OfficeOpenXml.eSlicerStyle
+  langs:
+  - csharp
+  - vb
+  name: Light4
+  nameWithType: eSlicerStyle.Light4
+  fullName: OfficeOpenXml.eSlicerStyle.Light4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light4
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLight 4 style\n"
+  example: []
+  syntax:
+    content: Light4 = 5
+    return:
+      type: OfficeOpenXml.eSlicerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eSlicerStyle.Light5
+  commentId: F:OfficeOpenXml.eSlicerStyle.Light5
+  id: Light5
+  parent: OfficeOpenXml.eSlicerStyle
+  langs:
+  - csharp
+  - vb
+  name: Light5
+  nameWithType: eSlicerStyle.Light5
+  fullName: OfficeOpenXml.eSlicerStyle.Light5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light5
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLight 5 style\n"
+  example: []
+  syntax:
+    content: Light5 = 6
+    return:
+      type: OfficeOpenXml.eSlicerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eSlicerStyle.Light6
+  commentId: F:OfficeOpenXml.eSlicerStyle.Light6
+  id: Light6
+  parent: OfficeOpenXml.eSlicerStyle
+  langs:
+  - csharp
+  - vb
+  name: Light6
+  nameWithType: eSlicerStyle.Light6
+  fullName: OfficeOpenXml.eSlicerStyle.Light6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Light6
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLight 6 style\n"
+  example: []
+  syntax:
+    content: Light6 = 7
+    return:
+      type: OfficeOpenXml.eSlicerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eSlicerStyle.Other1
+  commentId: F:OfficeOpenXml.eSlicerStyle.Other1
+  id: Other1
+  parent: OfficeOpenXml.eSlicerStyle
+  langs:
+  - csharp
+  - vb
+  name: Other1
+  nameWithType: eSlicerStyle.Other1
+  fullName: OfficeOpenXml.eSlicerStyle.Other1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Other1
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nOther 1 style\n"
+  example: []
+  syntax:
+    content: Other1 = 8
+    return:
+      type: OfficeOpenXml.eSlicerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eSlicerStyle.Other2
+  commentId: F:OfficeOpenXml.eSlicerStyle.Other2
+  id: Other2
+  parent: OfficeOpenXml.eSlicerStyle
+  langs:
+  - csharp
+  - vb
+  name: Other2
+  nameWithType: eSlicerStyle.Other2
+  fullName: OfficeOpenXml.eSlicerStyle.Other2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Other2
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nOther 2 style\n"
+  example: []
+  syntax:
+    content: Other2 = 9
+    return:
+      type: OfficeOpenXml.eSlicerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eSlicerStyle.Dark1
+  commentId: F:OfficeOpenXml.eSlicerStyle.Dark1
+  id: Dark1
+  parent: OfficeOpenXml.eSlicerStyle
+  langs:
+  - csharp
+  - vb
+  name: Dark1
+  nameWithType: eSlicerStyle.Dark1
+  fullName: OfficeOpenXml.eSlicerStyle.Dark1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark1
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+    startLine: 64
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDark 1 style\n"
+  example: []
+  syntax:
+    content: Dark1 = 10
+    return:
+      type: OfficeOpenXml.eSlicerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eSlicerStyle.Dark2
+  commentId: F:OfficeOpenXml.eSlicerStyle.Dark2
+  id: Dark2
+  parent: OfficeOpenXml.eSlicerStyle
+  langs:
+  - csharp
+  - vb
+  name: Dark2
+  nameWithType: eSlicerStyle.Dark2
+  fullName: OfficeOpenXml.eSlicerStyle.Dark2
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark2
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+    startLine: 68
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDark 2 style\n"
+  example: []
+  syntax:
+    content: Dark2 = 11
+    return:
+      type: OfficeOpenXml.eSlicerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eSlicerStyle.Dark3
+  commentId: F:OfficeOpenXml.eSlicerStyle.Dark3
+  id: Dark3
+  parent: OfficeOpenXml.eSlicerStyle
+  langs:
+  - csharp
+  - vb
+  name: Dark3
+  nameWithType: eSlicerStyle.Dark3
+  fullName: OfficeOpenXml.eSlicerStyle.Dark3
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark3
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+    startLine: 72
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDark 3 style\n"
+  example: []
+  syntax:
+    content: Dark3 = 12
+    return:
+      type: OfficeOpenXml.eSlicerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eSlicerStyle.Dark4
+  commentId: F:OfficeOpenXml.eSlicerStyle.Dark4
+  id: Dark4
+  parent: OfficeOpenXml.eSlicerStyle
+  langs:
+  - csharp
+  - vb
+  name: Dark4
+  nameWithType: eSlicerStyle.Dark4
+  fullName: OfficeOpenXml.eSlicerStyle.Dark4
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark4
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+    startLine: 76
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDark 4 style\n"
+  example: []
+  syntax:
+    content: Dark4 = 13
+    return:
+      type: OfficeOpenXml.eSlicerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eSlicerStyle.Dark5
+  commentId: F:OfficeOpenXml.eSlicerStyle.Dark5
+  id: Dark5
+  parent: OfficeOpenXml.eSlicerStyle
+  langs:
+  - csharp
+  - vb
+  name: Dark5
+  nameWithType: eSlicerStyle.Dark5
+  fullName: OfficeOpenXml.eSlicerStyle.Dark5
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark5
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+    startLine: 80
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDark 5 style\n"
+  example: []
+  syntax:
+    content: Dark5 = 14
+    return:
+      type: OfficeOpenXml.eSlicerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eSlicerStyle.Dark6
+  commentId: F:OfficeOpenXml.eSlicerStyle.Dark6
+  id: Dark6
+  parent: OfficeOpenXml.eSlicerStyle
+  langs:
+  - csharp
+  - vb
+  name: Dark6
+  nameWithType: eSlicerStyle.Dark6
+  fullName: OfficeOpenXml.eSlicerStyle.Dark6
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dark6
+    path: ../src/EPPlus/Drawing/Slicer/enums/eSlicerStyle.cs
+    startLine: 84
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDark 6 style\n"
+  example: []
+  syntax:
+    content: Dark6 = 15
+    return:
+      type: OfficeOpenXml.eSlicerStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eSlicerStyle
+  commentId: T:OfficeOpenXml.eSlicerStyle
+  parent: OfficeOpenXml
+  name: eSlicerStyle
+  nameWithType: eSlicerStyle
+  fullName: OfficeOpenXml.eSlicerStyle
+- uid: OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.Style
+  commentId: P:OfficeOpenXml.Drawing.Slicer.ExcelSlicer`1.Style
+  name: Style
+  nameWithType: ExcelSlicer<T>.Style
+  fullName: OfficeOpenXml.Drawing.Slicer.ExcelSlicer<T>.Style
+  nameWithType.vb: ExcelSlicer(Of T).Style
+  fullName.vb: OfficeOpenXml.Drawing.Slicer.ExcelSlicer(Of T).Style

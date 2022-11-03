@@ -1,0 +1,303 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  commentId: T:OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  id: eDateGroupBy
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.eDateGroupBy.Days
+  - OfficeOpenXml.Table.PivotTable.eDateGroupBy.Hours
+  - OfficeOpenXml.Table.PivotTable.eDateGroupBy.Minutes
+  - OfficeOpenXml.Table.PivotTable.eDateGroupBy.Months
+  - OfficeOpenXml.Table.PivotTable.eDateGroupBy.Quarters
+  - OfficeOpenXml.Table.PivotTable.eDateGroupBy.Seconds
+  - OfficeOpenXml.Table.PivotTable.eDateGroupBy.Years
+  langs:
+  - csharp
+  - vb
+  name: eDateGroupBy
+  nameWithType: eDateGroupBy
+  fullName: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eDateGroupBy
+    path: ../src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nData grouping\n"
+  example: []
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum eDateGroupBy
+    content.vb: >-
+      <Flags>
+
+      Public Enum eDateGroupBy
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTable.eDateGroupBy.Years
+  commentId: F:OfficeOpenXml.Table.PivotTable.eDateGroupBy.Years
+  id: Years
+  parent: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  langs:
+  - csharp
+  - vb
+  name: Years
+  nameWithType: eDateGroupBy.Years
+  fullName: OfficeOpenXml.Table.PivotTable.eDateGroupBy.Years
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Years
+    path: ../src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nGroup by years\n"
+  example: []
+  syntax:
+    content: Years = 1
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eDateGroupBy.Quarters
+  commentId: F:OfficeOpenXml.Table.PivotTable.eDateGroupBy.Quarters
+  id: Quarters
+  parent: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  langs:
+  - csharp
+  - vb
+  name: Quarters
+  nameWithType: eDateGroupBy.Quarters
+  fullName: OfficeOpenXml.Table.PivotTable.eDateGroupBy.Quarters
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Quarters
+    path: ../src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nGroup by  quarters\n"
+  example: []
+  syntax:
+    content: Quarters = 2
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eDateGroupBy.Months
+  commentId: F:OfficeOpenXml.Table.PivotTable.eDateGroupBy.Months
+  id: Months
+  parent: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  langs:
+  - csharp
+  - vb
+  name: Months
+  nameWithType: eDateGroupBy.Months
+  fullName: OfficeOpenXml.Table.PivotTable.eDateGroupBy.Months
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Months
+    path: ../src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nGroup by months\n"
+  example: []
+  syntax:
+    content: Months = 4
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eDateGroupBy.Days
+  commentId: F:OfficeOpenXml.Table.PivotTable.eDateGroupBy.Days
+  id: Days
+  parent: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  langs:
+  - csharp
+  - vb
+  name: Days
+  nameWithType: eDateGroupBy.Days
+  fullName: OfficeOpenXml.Table.PivotTable.eDateGroupBy.Days
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Days
+    path: ../src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nGroup by days\n"
+  example: []
+  syntax:
+    content: Days = 8
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eDateGroupBy.Hours
+  commentId: F:OfficeOpenXml.Table.PivotTable.eDateGroupBy.Hours
+  id: Hours
+  parent: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  langs:
+  - csharp
+  - vb
+  name: Hours
+  nameWithType: eDateGroupBy.Hours
+  fullName: OfficeOpenXml.Table.PivotTable.eDateGroupBy.Hours
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Hours
+    path: ../src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nGroup by hours\n"
+  example: []
+  syntax:
+    content: Hours = 16
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eDateGroupBy.Minutes
+  commentId: F:OfficeOpenXml.Table.PivotTable.eDateGroupBy.Minutes
+  id: Minutes
+  parent: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  langs:
+  - csharp
+  - vb
+  name: Minutes
+  nameWithType: eDateGroupBy.Minutes
+  fullName: OfficeOpenXml.Table.PivotTable.eDateGroupBy.Minutes
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Minutes
+    path: ../src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nGroup by minutes\n"
+  example: []
+  syntax:
+    content: Minutes = 32
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.eDateGroupBy.Seconds
+  commentId: F:OfficeOpenXml.Table.PivotTable.eDateGroupBy.Seconds
+  id: Seconds
+  parent: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  langs:
+  - csharp
+  - vb
+  name: Seconds
+  nameWithType: eDateGroupBy.Seconds
+  fullName: OfficeOpenXml.Table.PivotTable.eDateGroupBy.Seconds
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Seconds
+    path: ../src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nGroup by seconds\n"
+  example: []
+  syntax:
+    content: Seconds = 64
+    return:
+      type: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  commentId: T:OfficeOpenXml.Table.PivotTable.eDateGroupBy
+  parent: OfficeOpenXml.Table.PivotTable
+  name: eDateGroupBy
+  nameWithType: eDateGroupBy
+  fullName: OfficeOpenXml.Table.PivotTable.eDateGroupBy

@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  commentId: T:OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  id: HeaderParsingTypes
+  parent: OfficeOpenXml.LoadFunctions.Params
+  children:
+  - OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes.CamelCaseToSpace
+  - OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes.Preserve
+  - OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes.UnderscoreAndCamelCaseToSpace
+  - OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes.UnderscoreToSpace
+  langs:
+  - csharp
+  - vb
+  name: HeaderParsingTypes
+  nameWithType: HeaderParsingTypes
+  fullName: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/HeaderParsingTypes.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HeaderParsingTypes
+    path: ../src/EPPlus/LoadFunctions/Params/HeaderParsingTypes.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nDeclares how headers should be parsed before they are added to the worksheet\n"
+  example: []
+  syntax:
+    content: public enum HeaderParsingTypes
+    content.vb: Public Enum HeaderParsingTypes
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes.Preserve
+  commentId: F:OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes.Preserve
+  id: Preserve
+  parent: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  langs:
+  - csharp
+  - vb
+  name: Preserve
+  nameWithType: HeaderParsingTypes.Preserve
+  fullName: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes.Preserve
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/HeaderParsingTypes.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Preserve
+    path: ../src/EPPlus/LoadFunctions/Params/HeaderParsingTypes.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nLeaves the header as it is\n"
+  example: []
+  syntax:
+    content: Preserve = 0
+    return:
+      type: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes.UnderscoreToSpace
+  commentId: F:OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes.UnderscoreToSpace
+  id: UnderscoreToSpace
+  parent: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  langs:
+  - csharp
+  - vb
+  name: UnderscoreToSpace
+  nameWithType: HeaderParsingTypes.UnderscoreToSpace
+  fullName: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes.UnderscoreToSpace
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/HeaderParsingTypes.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UnderscoreToSpace
+    path: ../src/EPPlus/LoadFunctions/Params/HeaderParsingTypes.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nReplaces any underscore characters with a space\n"
+  example: []
+  syntax:
+    content: UnderscoreToSpace = 1
+    return:
+      type: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes.CamelCaseToSpace
+  commentId: F:OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes.CamelCaseToSpace
+  id: CamelCaseToSpace
+  parent: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  langs:
+  - csharp
+  - vb
+  name: CamelCaseToSpace
+  nameWithType: HeaderParsingTypes.CamelCaseToSpace
+  fullName: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes.CamelCaseToSpace
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/HeaderParsingTypes.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CamelCaseToSpace
+    path: ../src/EPPlus/LoadFunctions/Params/HeaderParsingTypes.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nAdds a space between camel cased words (&apos;MyProp&apos; => &apos;My Prop&apos;)\n"
+  example: []
+  syntax:
+    content: CamelCaseToSpace = 2
+    return:
+      type: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes.UnderscoreAndCamelCaseToSpace
+  commentId: F:OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes.UnderscoreAndCamelCaseToSpace
+  id: UnderscoreAndCamelCaseToSpace
+  parent: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  langs:
+  - csharp
+  - vb
+  name: UnderscoreAndCamelCaseToSpace
+  nameWithType: HeaderParsingTypes.UnderscoreAndCamelCaseToSpace
+  fullName: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes.UnderscoreAndCamelCaseToSpace
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/LoadFunctions/Params/HeaderParsingTypes.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UnderscoreAndCamelCaseToSpace
+    path: ../src/EPPlus/LoadFunctions/Params/HeaderParsingTypes.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.LoadFunctions.Params
+  summary: "\nReplaces any underscore characters with a space and adds a space between camel cased words (&apos;MyProp&apos; => &apos;My Prop&apos;)\n"
+  example: []
+  syntax:
+    content: UnderscoreAndCamelCaseToSpace = 3
+    return:
+      type: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.LoadFunctions.Params
+  commentId: N:OfficeOpenXml.LoadFunctions.Params
+  name: OfficeOpenXml.LoadFunctions.Params
+  nameWithType: OfficeOpenXml.LoadFunctions.Params
+  fullName: OfficeOpenXml.LoadFunctions.Params
+- uid: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  commentId: T:OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes
+  parent: OfficeOpenXml.LoadFunctions.Params
+  name: HeaderParsingTypes
+  nameWithType: HeaderParsingTypes
+  fullName: OfficeOpenXml.LoadFunctions.Params.HeaderParsingTypes

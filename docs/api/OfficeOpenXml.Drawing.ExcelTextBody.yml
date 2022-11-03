@@ -1,0 +1,1405 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.ExcelTextBody
+  commentId: T:OfficeOpenXml.Drawing.ExcelTextBody
+  id: ExcelTextBody
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.ExcelTextBody.Anchor
+  - OfficeOpenXml.Drawing.ExcelTextBody.AnchorCenter
+  - OfficeOpenXml.Drawing.ExcelTextBody.AutofitNormalFontScale
+  - OfficeOpenXml.Drawing.ExcelTextBody.BottomInsert
+  - OfficeOpenXml.Drawing.ExcelTextBody.CompatibleLineSpacing
+  - OfficeOpenXml.Drawing.ExcelTextBody.ForceAntiAlias
+  - OfficeOpenXml.Drawing.ExcelTextBody.FromWordArt
+  - OfficeOpenXml.Drawing.ExcelTextBody.HorizontalTextOverflow
+  - OfficeOpenXml.Drawing.ExcelTextBody.LeftInsert
+  - OfficeOpenXml.Drawing.ExcelTextBody.LineSpaceReduction
+  - OfficeOpenXml.Drawing.ExcelTextBody.ParagraphSpacing
+  - OfficeOpenXml.Drawing.ExcelTextBody.RightInsert
+  - OfficeOpenXml.Drawing.ExcelTextBody.Rotation
+  - OfficeOpenXml.Drawing.ExcelTextBody.SpaceBetweenColumns
+  - OfficeOpenXml.Drawing.ExcelTextBody.TextAutofit
+  - OfficeOpenXml.Drawing.ExcelTextBody.TextUpright
+  - OfficeOpenXml.Drawing.ExcelTextBody.TopInsert
+  - OfficeOpenXml.Drawing.ExcelTextBody.UnderLine
+  - OfficeOpenXml.Drawing.ExcelTextBody.VerticalText
+  - OfficeOpenXml.Drawing.ExcelTextBody.VerticalTextOverflow
+  - OfficeOpenXml.Drawing.ExcelTextBody.WrapText
+  langs:
+  - csharp
+  - vb
+  name: ExcelTextBody
+  nameWithType: ExcelTextBody
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelTextBody
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nProperties for the textbody\n"
+  example: []
+  syntax:
+    content: 'public class ExcelTextBody : XmlHelper'
+    content.vb: >-
+      Public Class ExcelTextBody
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.Anchor
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.Anchor
+  id: Anchor
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: Anchor
+  nameWithType: ExcelTextBody.Anchor
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.Anchor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Anchor
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe anchoring position within the shape\n"
+  example: []
+  syntax:
+    content: public eTextAnchoringType Anchor { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.eTextAnchoringType
+    content.vb: Public Property Anchor As eTextAnchoringType
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.Anchor*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.AnchorCenter
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.AnchorCenter
+  id: AnchorCenter
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: AnchorCenter
+  nameWithType: ExcelTextBody.AnchorCenter
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.AnchorCenter
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AnchorCenter
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe centering of the text box.\n"
+  example: []
+  syntax:
+    content: public bool AnchorCenter { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AnchorCenter As Boolean
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.AnchorCenter*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.UnderLine
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.UnderLine
+  id: UnderLine
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: UnderLine
+  nameWithType: ExcelTextBody.UnderLine
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.UnderLine
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UnderLine
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nUnderlined text\n"
+  example: []
+  syntax:
+    content: public eUnderLineType UnderLine { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.eUnderLineType
+    content.vb: Public Property UnderLine As eUnderLineType
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.UnderLine*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.BottomInsert
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.BottomInsert
+  id: BottomInsert
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: BottomInsert
+  nameWithType: ExcelTextBody.BottomInsert
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.BottomInsert
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BottomInsert
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 83
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe bottom inset of the bounding rectangle\n"
+  example: []
+  syntax:
+    content: public double? BottomInsert { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property BottomInsert As Double?
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.BottomInsert*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.TopInsert
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.TopInsert
+  id: TopInsert
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: TopInsert
+  nameWithType: ExcelTextBody.TopInsert
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.TopInsert
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopInsert
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 97
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe top inset of the bounding rectangle\n"
+  example: []
+  syntax:
+    content: public double? TopInsert { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property TopInsert As Double?
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.TopInsert*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.RightInsert
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.RightInsert
+  id: RightInsert
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: RightInsert
+  nameWithType: ExcelTextBody.RightInsert
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.RightInsert
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RightInsert
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 111
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe right inset of the bounding rectangle\n"
+  example: []
+  syntax:
+    content: public double? RightInsert { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property RightInsert As Double?
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.RightInsert*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.LeftInsert
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.LeftInsert
+  id: LeftInsert
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: LeftInsert
+  nameWithType: ExcelTextBody.LeftInsert
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.LeftInsert
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LeftInsert
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 125
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe left inset of the bounding rectangle\n"
+  example: []
+  syntax:
+    content: public double? LeftInsert { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property LeftInsert As Double?
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.LeftInsert*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.Rotation
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.Rotation
+  id: Rotation
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: Rotation
+  nameWithType: ExcelTextBody.Rotation
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.Rotation
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Rotation
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 139
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe rotation that is being applied to the text within the bounding box\n"
+  example: []
+  syntax:
+    content: public double? Rotation { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property Rotation As Double?
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.Rotation*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.SpaceBetweenColumns
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.SpaceBetweenColumns
+  id: SpaceBetweenColumns
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: SpaceBetweenColumns
+  nameWithType: ExcelTextBody.SpaceBetweenColumns
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.SpaceBetweenColumns
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SpaceBetweenColumns
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 153
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe space between text columns in the text area\n"
+  example: []
+  syntax:
+    content: public double SpaceBetweenColumns { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property SpaceBetweenColumns As Double
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.SpaceBetweenColumns*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.ParagraphSpacing
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.ParagraphSpacing
+  id: ParagraphSpacing
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: ParagraphSpacing
+  nameWithType: ExcelTextBody.ParagraphSpacing
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.ParagraphSpacing
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ParagraphSpacing
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 169
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIf the before and after paragraph spacing defined by the user is to be respected\n"
+  example: []
+  syntax:
+    content: public bool ParagraphSpacing { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ParagraphSpacing As Boolean
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.ParagraphSpacing*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.TextUpright
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.TextUpright
+  id: TextUpright
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: TextUpright
+  nameWithType: ExcelTextBody.TextUpright
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.TextUpright
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TextUpright
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 183
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\n\n"
+  example: []
+  syntax:
+    content: public bool TextUpright { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property TextUpright As Boolean
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.TextUpright*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.CompatibleLineSpacing
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.CompatibleLineSpacing
+  id: CompatibleLineSpacing
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: CompatibleLineSpacing
+  nameWithType: ExcelTextBody.CompatibleLineSpacing
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.CompatibleLineSpacing
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CompatibleLineSpacing
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 197
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIf the line spacing is decided in a simplistic manner using the font scene\n"
+  example: []
+  syntax:
+    content: public bool CompatibleLineSpacing { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property CompatibleLineSpacing As Boolean
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.CompatibleLineSpacing*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.ForceAntiAlias
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.ForceAntiAlias
+  id: ForceAntiAlias
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: ForceAntiAlias
+  nameWithType: ExcelTextBody.ForceAntiAlias
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.ForceAntiAlias
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ForceAntiAlias
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 211
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nForces the text to be rendered anti-aliased\n"
+  example: []
+  syntax:
+    content: public bool ForceAntiAlias { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ForceAntiAlias As Boolean
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.ForceAntiAlias*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.FromWordArt
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.FromWordArt
+  id: FromWordArt
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: FromWordArt
+  nameWithType: ExcelTextBody.FromWordArt
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.FromWordArt
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FromWordArt
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 225
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIf the text within this textbox is converted from a WordArt object.\n"
+  example: []
+  syntax:
+    content: public bool FromWordArt { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property FromWordArt As Boolean
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.FromWordArt*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.VerticalText
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.VerticalText
+  id: VerticalText
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: VerticalText
+  nameWithType: ExcelTextBody.VerticalText
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.VerticalText
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VerticalText
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 239
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIf the text should be displayed vertically\n"
+  example: []
+  syntax:
+    content: public eTextVerticalType VerticalText { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.eTextVerticalType
+    content.vb: Public Property VerticalText As eTextVerticalType
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.VerticalText*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.HorizontalTextOverflow
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.HorizontalTextOverflow
+  id: HorizontalTextOverflow
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: HorizontalTextOverflow
+  nameWithType: ExcelTextBody.HorizontalTextOverflow
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.HorizontalTextOverflow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HorizontalTextOverflow
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 253
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIf the text can flow out horizontaly\n"
+  example: []
+  syntax:
+    content: public eTextHorizontalOverflow HorizontalTextOverflow { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.eTextHorizontalOverflow
+    content.vb: Public Property HorizontalTextOverflow As eTextHorizontalOverflow
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.HorizontalTextOverflow*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.VerticalTextOverflow
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.VerticalTextOverflow
+  id: VerticalTextOverflow
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: VerticalTextOverflow
+  nameWithType: ExcelTextBody.VerticalTextOverflow
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.VerticalTextOverflow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VerticalTextOverflow
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 268
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIf the text can flow out of the bounding box vertically\n"
+  example: []
+  syntax:
+    content: public eTextVerticalOverflow VerticalTextOverflow { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.eTextVerticalOverflow
+    content.vb: Public Property VerticalTextOverflow As eTextVerticalOverflow
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.VerticalTextOverflow*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.WrapText
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.WrapText
+  id: WrapText
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: WrapText
+  nameWithType: ExcelTextBody.WrapText
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.WrapText
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WrapText
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 282
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHow text is wrapped\n"
+  example: []
+  syntax:
+    content: public eTextWrappingType WrapText { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.eTextWrappingType
+    content.vb: Public Property WrapText As eTextWrappingType
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.WrapText*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.TextAutofit
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.TextAutofit
+  id: TextAutofit
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: TextAutofit
+  nameWithType: ExcelTextBody.TextAutofit
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.TextAutofit
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TextAutofit
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 296
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe text within the text body should be normally auto-fited\n"
+  example: []
+  syntax:
+    content: public eTextAutofit TextAutofit { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.eTextAutofit
+    content.vb: Public Property TextAutofit As eTextAutofit
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.TextAutofit*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.AutofitNormalFontScale
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.AutofitNormalFontScale
+  id: AutofitNormalFontScale
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: AutofitNormalFontScale
+  nameWithType: ExcelTextBody.AutofitNormalFontScale
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.AutofitNormalFontScale
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AutofitNormalFontScale
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 340
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe percentage of the original font size to which each run in the text body is scaled.\nThis propery only applies when the TextAutofit property is set to NormalAutofit\n"
+  example: []
+  syntax:
+    content: public double? AutofitNormalFontScale { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property AutofitNormalFontScale As Double?
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.AutofitNormalFontScale*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.LineSpaceReduction
+  commentId: P:OfficeOpenXml.Drawing.ExcelTextBody.LineSpaceReduction
+  id: LineSpaceReduction
+  parent: OfficeOpenXml.Drawing.ExcelTextBody
+  langs:
+  - csharp
+  - vb
+  name: LineSpaceReduction
+  nameWithType: ExcelTextBody.LineSpaceReduction
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.LineSpaceReduction
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LineSpaceReduction
+    path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
+    startLine: 356
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe percentage by which the line spacing of each paragraph is reduced.\nThis propery only applies when the TextAutofit property is set to NormalAutofit\n"
+  example: []
+  syntax:
+    content: public double? LineSpaceReduction { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property LineSpaceReduction As Double?
+  overload: OfficeOpenXml.Drawing.ExcelTextBody.LineSpaceReduction*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.Anchor*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.Anchor
+  name: Anchor
+  nameWithType: ExcelTextBody.Anchor
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.Anchor
+- uid: OfficeOpenXml.Drawing.eTextAnchoringType
+  commentId: T:OfficeOpenXml.Drawing.eTextAnchoringType
+  parent: OfficeOpenXml.Drawing
+  name: eTextAnchoringType
+  nameWithType: eTextAnchoringType
+  fullName: OfficeOpenXml.Drawing.eTextAnchoringType
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.AnchorCenter*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.AnchorCenter
+  name: AnchorCenter
+  nameWithType: ExcelTextBody.AnchorCenter
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.AnchorCenter
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.UnderLine*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.UnderLine
+  name: UnderLine
+  nameWithType: ExcelTextBody.UnderLine
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.UnderLine
+- uid: OfficeOpenXml.Style.eUnderLineType
+  commentId: T:OfficeOpenXml.Style.eUnderLineType
+  parent: OfficeOpenXml.Style
+  name: eUnderLineType
+  nameWithType: eUnderLineType
+  fullName: OfficeOpenXml.Style.eUnderLineType
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.BottomInsert*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.BottomInsert
+  name: BottomInsert
+  nameWithType: ExcelTextBody.BottomInsert
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.BottomInsert
+- uid: System.Nullable{System.Double}
+  commentId: T:System.Nullable{System.Double}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Double>
+  nameWithType: Nullable<Double>
+  fullName: System.Nullable<System.Double>
+  nameWithType.vb: Nullable(Of Double)
+  fullName.vb: System.Nullable(Of System.Double)
+  name.vb: Nullable(Of Double)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.TopInsert*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.TopInsert
+  name: TopInsert
+  nameWithType: ExcelTextBody.TopInsert
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.TopInsert
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.RightInsert*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.RightInsert
+  name: RightInsert
+  nameWithType: ExcelTextBody.RightInsert
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.RightInsert
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.LeftInsert*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.LeftInsert
+  name: LeftInsert
+  nameWithType: ExcelTextBody.LeftInsert
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.LeftInsert
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.Rotation*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.Rotation
+  name: Rotation
+  nameWithType: ExcelTextBody.Rotation
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.Rotation
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.SpaceBetweenColumns*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.SpaceBetweenColumns
+  name: SpaceBetweenColumns
+  nameWithType: ExcelTextBody.SpaceBetweenColumns
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.SpaceBetweenColumns
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.ParagraphSpacing*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.ParagraphSpacing
+  name: ParagraphSpacing
+  nameWithType: ExcelTextBody.ParagraphSpacing
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.ParagraphSpacing
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.TextUpright*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.TextUpright
+  name: TextUpright
+  nameWithType: ExcelTextBody.TextUpright
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.TextUpright
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.CompatibleLineSpacing*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.CompatibleLineSpacing
+  name: CompatibleLineSpacing
+  nameWithType: ExcelTextBody.CompatibleLineSpacing
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.CompatibleLineSpacing
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.ForceAntiAlias*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.ForceAntiAlias
+  name: ForceAntiAlias
+  nameWithType: ExcelTextBody.ForceAntiAlias
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.ForceAntiAlias
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.FromWordArt*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.FromWordArt
+  name: FromWordArt
+  nameWithType: ExcelTextBody.FromWordArt
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.FromWordArt
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.VerticalText*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.VerticalText
+  name: VerticalText
+  nameWithType: ExcelTextBody.VerticalText
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.VerticalText
+- uid: OfficeOpenXml.Drawing.eTextVerticalType
+  commentId: T:OfficeOpenXml.Drawing.eTextVerticalType
+  parent: OfficeOpenXml.Drawing
+  name: eTextVerticalType
+  nameWithType: eTextVerticalType
+  fullName: OfficeOpenXml.Drawing.eTextVerticalType
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.HorizontalTextOverflow*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.HorizontalTextOverflow
+  name: HorizontalTextOverflow
+  nameWithType: ExcelTextBody.HorizontalTextOverflow
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.HorizontalTextOverflow
+- uid: OfficeOpenXml.Drawing.eTextHorizontalOverflow
+  commentId: T:OfficeOpenXml.Drawing.eTextHorizontalOverflow
+  parent: OfficeOpenXml.Drawing
+  name: eTextHorizontalOverflow
+  nameWithType: eTextHorizontalOverflow
+  fullName: OfficeOpenXml.Drawing.eTextHorizontalOverflow
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.VerticalTextOverflow*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.VerticalTextOverflow
+  name: VerticalTextOverflow
+  nameWithType: ExcelTextBody.VerticalTextOverflow
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.VerticalTextOverflow
+- uid: OfficeOpenXml.Drawing.eTextVerticalOverflow
+  commentId: T:OfficeOpenXml.Drawing.eTextVerticalOverflow
+  parent: OfficeOpenXml.Drawing
+  name: eTextVerticalOverflow
+  nameWithType: eTextVerticalOverflow
+  fullName: OfficeOpenXml.Drawing.eTextVerticalOverflow
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.WrapText*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.WrapText
+  name: WrapText
+  nameWithType: ExcelTextBody.WrapText
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.WrapText
+- uid: OfficeOpenXml.Drawing.eTextWrappingType
+  commentId: T:OfficeOpenXml.Drawing.eTextWrappingType
+  parent: OfficeOpenXml.Drawing
+  name: eTextWrappingType
+  nameWithType: eTextWrappingType
+  fullName: OfficeOpenXml.Drawing.eTextWrappingType
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.TextAutofit*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.TextAutofit
+  name: TextAutofit
+  nameWithType: ExcelTextBody.TextAutofit
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.TextAutofit
+- uid: OfficeOpenXml.Drawing.eTextAutofit
+  commentId: T:OfficeOpenXml.Drawing.eTextAutofit
+  parent: OfficeOpenXml.Drawing
+  name: eTextAutofit
+  nameWithType: eTextAutofit
+  fullName: OfficeOpenXml.Drawing.eTextAutofit
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.AutofitNormalFontScale*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.AutofitNormalFontScale
+  name: AutofitNormalFontScale
+  nameWithType: ExcelTextBody.AutofitNormalFontScale
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.AutofitNormalFontScale
+- uid: OfficeOpenXml.Drawing.ExcelTextBody.LineSpaceReduction*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelTextBody.LineSpaceReduction
+  name: LineSpaceReduction
+  nameWithType: ExcelTextBody.LineSpaceReduction
+  fullName: OfficeOpenXml.Drawing.ExcelTextBody.LineSpaceReduction

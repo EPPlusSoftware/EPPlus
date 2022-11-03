@@ -1,0 +1,104 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider
+  id: IPmtProvider
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider.GetPmt(System.Double,System.Double,System.Double,System.Double,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue)
+  langs:
+  - csharp
+  - vb
+  name: IPmtProvider
+  nameWithType: IPmtProvider
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPmtProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IPmtProvider
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPmtProvider.cs
+    startLine: 15
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: public interface IPmtProvider
+    content.vb: Public Interface IPmtProvider
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider.GetPmt(System.Double,System.Double,System.Double,System.Double,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider.GetPmt(System.Double,System.Double,System.Double,System.Double,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue)
+  id: GetPmt(System.Double,System.Double,System.Double,System.Double,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider
+  langs:
+  - csharp
+  - vb
+  name: GetPmt(Double, Double, Double, Double, PmtDue)
+  nameWithType: IPmtProvider.GetPmt(Double, Double, Double, Double, PmtDue)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider.GetPmt(System.Double, System.Double, System.Double, System.Double, OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPmtProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetPmt
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPmtProvider.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: double GetPmt(double Rate, double NPer, double PV, double FV = 0, PmtDue Due = PmtDue.EndOfPeriod)
+    parameters:
+    - id: Rate
+      type: System.Double
+    - id: NPer
+      type: System.Double
+    - id: PV
+      type: System.Double
+    - id: FV
+      type: System.Double
+    - id: Due
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+    return:
+      type: System.Double
+    content.vb: Function GetPmt(Rate As Double, NPer As Double, PV As Double, FV As Double = 0, Due As PmtDue = PmtDue.EndOfPeriod) As Double
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider.GetPmt*
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider.GetPmt*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider.GetPmt
+  name: GetPmt
+  nameWithType: IPmtProvider.GetPmt
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider.GetPmt
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  name: PmtDue
+  nameWithType: PmtDue
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

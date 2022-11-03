@@ -1,0 +1,4948 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.ePresetColor
+  commentId: T:OfficeOpenXml.Drawing.ePresetColor
+  id: ePresetColor
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.ePresetColor.AliceBlue
+  - OfficeOpenXml.Drawing.ePresetColor.AntiqueWhite
+  - OfficeOpenXml.Drawing.ePresetColor.Aqua
+  - OfficeOpenXml.Drawing.ePresetColor.Aquamarine
+  - OfficeOpenXml.Drawing.ePresetColor.Azure
+  - OfficeOpenXml.Drawing.ePresetColor.Beige
+  - OfficeOpenXml.Drawing.ePresetColor.Bisque
+  - OfficeOpenXml.Drawing.ePresetColor.Black
+  - OfficeOpenXml.Drawing.ePresetColor.BlanchedAlmond
+  - OfficeOpenXml.Drawing.ePresetColor.Blue
+  - OfficeOpenXml.Drawing.ePresetColor.BlueViolet
+  - OfficeOpenXml.Drawing.ePresetColor.Brown
+  - OfficeOpenXml.Drawing.ePresetColor.BurlyWood
+  - OfficeOpenXml.Drawing.ePresetColor.CadetBlue
+  - OfficeOpenXml.Drawing.ePresetColor.Chartreuse
+  - OfficeOpenXml.Drawing.ePresetColor.Chocolate
+  - OfficeOpenXml.Drawing.ePresetColor.Coral
+  - OfficeOpenXml.Drawing.ePresetColor.CornflowerBlue
+  - OfficeOpenXml.Drawing.ePresetColor.Cornsilk
+  - OfficeOpenXml.Drawing.ePresetColor.Crimson
+  - OfficeOpenXml.Drawing.ePresetColor.Cyan
+  - OfficeOpenXml.Drawing.ePresetColor.DarkBlue
+  - OfficeOpenXml.Drawing.ePresetColor.DarkCyan
+  - OfficeOpenXml.Drawing.ePresetColor.DarkGoldenrod
+  - OfficeOpenXml.Drawing.ePresetColor.DarkGray
+  - OfficeOpenXml.Drawing.ePresetColor.DarkGreen
+  - OfficeOpenXml.Drawing.ePresetColor.DarkKhaki
+  - OfficeOpenXml.Drawing.ePresetColor.DarkMagenta
+  - OfficeOpenXml.Drawing.ePresetColor.DarkOliveGreen
+  - OfficeOpenXml.Drawing.ePresetColor.DarkOrange
+  - OfficeOpenXml.Drawing.ePresetColor.DarkOrchid
+  - OfficeOpenXml.Drawing.ePresetColor.DarkRed
+  - OfficeOpenXml.Drawing.ePresetColor.DarkSalmon
+  - OfficeOpenXml.Drawing.ePresetColor.DarkSeaGreen
+  - OfficeOpenXml.Drawing.ePresetColor.DarkSlateBlue
+  - OfficeOpenXml.Drawing.ePresetColor.DarkSlateGray
+  - OfficeOpenXml.Drawing.ePresetColor.DarkTurquoise
+  - OfficeOpenXml.Drawing.ePresetColor.DarkViolet
+  - OfficeOpenXml.Drawing.ePresetColor.DeepPink
+  - OfficeOpenXml.Drawing.ePresetColor.DeepSkyBlue
+  - OfficeOpenXml.Drawing.ePresetColor.DimGray
+  - OfficeOpenXml.Drawing.ePresetColor.DodgerBlue
+  - OfficeOpenXml.Drawing.ePresetColor.Firebrick
+  - OfficeOpenXml.Drawing.ePresetColor.FloralWhite
+  - OfficeOpenXml.Drawing.ePresetColor.ForestGreen
+  - OfficeOpenXml.Drawing.ePresetColor.Fuchsia
+  - OfficeOpenXml.Drawing.ePresetColor.Gainsboro
+  - OfficeOpenXml.Drawing.ePresetColor.GhostWhite
+  - OfficeOpenXml.Drawing.ePresetColor.Gold
+  - OfficeOpenXml.Drawing.ePresetColor.Goldenrod
+  - OfficeOpenXml.Drawing.ePresetColor.Gray
+  - OfficeOpenXml.Drawing.ePresetColor.Green
+  - OfficeOpenXml.Drawing.ePresetColor.GreenYellow
+  - OfficeOpenXml.Drawing.ePresetColor.Honeydew
+  - OfficeOpenXml.Drawing.ePresetColor.HotPink
+  - OfficeOpenXml.Drawing.ePresetColor.IndianRed
+  - OfficeOpenXml.Drawing.ePresetColor.Indigo
+  - OfficeOpenXml.Drawing.ePresetColor.Ivory
+  - OfficeOpenXml.Drawing.ePresetColor.Khaki
+  - OfficeOpenXml.Drawing.ePresetColor.Lavender
+  - OfficeOpenXml.Drawing.ePresetColor.LavenderBlush
+  - OfficeOpenXml.Drawing.ePresetColor.LawnGreen
+  - OfficeOpenXml.Drawing.ePresetColor.LemonChiffon
+  - OfficeOpenXml.Drawing.ePresetColor.LightBlue
+  - OfficeOpenXml.Drawing.ePresetColor.LightCoral
+  - OfficeOpenXml.Drawing.ePresetColor.LightCyan
+  - OfficeOpenXml.Drawing.ePresetColor.LightGoldenrodYellow
+  - OfficeOpenXml.Drawing.ePresetColor.LightGray
+  - OfficeOpenXml.Drawing.ePresetColor.LightGreen
+  - OfficeOpenXml.Drawing.ePresetColor.LightPink
+  - OfficeOpenXml.Drawing.ePresetColor.LightSalmon
+  - OfficeOpenXml.Drawing.ePresetColor.LightSeaGreen
+  - OfficeOpenXml.Drawing.ePresetColor.LightSkyBlue
+  - OfficeOpenXml.Drawing.ePresetColor.LightSlateGray
+  - OfficeOpenXml.Drawing.ePresetColor.LightSteelBlue
+  - OfficeOpenXml.Drawing.ePresetColor.LightYellow
+  - OfficeOpenXml.Drawing.ePresetColor.Lime
+  - OfficeOpenXml.Drawing.ePresetColor.LimeGreen
+  - OfficeOpenXml.Drawing.ePresetColor.Linen
+  - OfficeOpenXml.Drawing.ePresetColor.Magenta
+  - OfficeOpenXml.Drawing.ePresetColor.Maroon
+  - OfficeOpenXml.Drawing.ePresetColor.MediumAquamarine
+  - OfficeOpenXml.Drawing.ePresetColor.MediumBlue
+  - OfficeOpenXml.Drawing.ePresetColor.MediumOrchid
+  - OfficeOpenXml.Drawing.ePresetColor.MediumPurple
+  - OfficeOpenXml.Drawing.ePresetColor.MediumSeaGreen
+  - OfficeOpenXml.Drawing.ePresetColor.MediumSlateBlue
+  - OfficeOpenXml.Drawing.ePresetColor.MediumSpringGreen
+  - OfficeOpenXml.Drawing.ePresetColor.MediumTurquoise
+  - OfficeOpenXml.Drawing.ePresetColor.MediumVioletRed
+  - OfficeOpenXml.Drawing.ePresetColor.MidnightBlue
+  - OfficeOpenXml.Drawing.ePresetColor.MintCream
+  - OfficeOpenXml.Drawing.ePresetColor.MistyRose
+  - OfficeOpenXml.Drawing.ePresetColor.Moccasin
+  - OfficeOpenXml.Drawing.ePresetColor.NavajoWhite
+  - OfficeOpenXml.Drawing.ePresetColor.Navy
+  - OfficeOpenXml.Drawing.ePresetColor.OldLace
+  - OfficeOpenXml.Drawing.ePresetColor.Olive
+  - OfficeOpenXml.Drawing.ePresetColor.OliveDrab
+  - OfficeOpenXml.Drawing.ePresetColor.Orange
+  - OfficeOpenXml.Drawing.ePresetColor.OrangeRed
+  - OfficeOpenXml.Drawing.ePresetColor.Orchid
+  - OfficeOpenXml.Drawing.ePresetColor.PaleGoldenrod
+  - OfficeOpenXml.Drawing.ePresetColor.PaleGreen
+  - OfficeOpenXml.Drawing.ePresetColor.PaleTurquoise
+  - OfficeOpenXml.Drawing.ePresetColor.PaleVioletRed
+  - OfficeOpenXml.Drawing.ePresetColor.PapayaWhip
+  - OfficeOpenXml.Drawing.ePresetColor.PeachPuff
+  - OfficeOpenXml.Drawing.ePresetColor.Peru
+  - OfficeOpenXml.Drawing.ePresetColor.Pink
+  - OfficeOpenXml.Drawing.ePresetColor.Plum
+  - OfficeOpenXml.Drawing.ePresetColor.PowderBlue
+  - OfficeOpenXml.Drawing.ePresetColor.Purple
+  - OfficeOpenXml.Drawing.ePresetColor.Red
+  - OfficeOpenXml.Drawing.ePresetColor.RosyBrown
+  - OfficeOpenXml.Drawing.ePresetColor.RoyalBlue
+  - OfficeOpenXml.Drawing.ePresetColor.SaddleBrown
+  - OfficeOpenXml.Drawing.ePresetColor.Salmon
+  - OfficeOpenXml.Drawing.ePresetColor.SandyBrown
+  - OfficeOpenXml.Drawing.ePresetColor.SeaGreen
+  - OfficeOpenXml.Drawing.ePresetColor.SeaShell
+  - OfficeOpenXml.Drawing.ePresetColor.Sienna
+  - OfficeOpenXml.Drawing.ePresetColor.Silver
+  - OfficeOpenXml.Drawing.ePresetColor.SkyBlue
+  - OfficeOpenXml.Drawing.ePresetColor.SlateBlue
+  - OfficeOpenXml.Drawing.ePresetColor.SlateGray
+  - OfficeOpenXml.Drawing.ePresetColor.Snow
+  - OfficeOpenXml.Drawing.ePresetColor.SpringGreen
+  - OfficeOpenXml.Drawing.ePresetColor.SteelBlue
+  - OfficeOpenXml.Drawing.ePresetColor.Tan
+  - OfficeOpenXml.Drawing.ePresetColor.Teal
+  - OfficeOpenXml.Drawing.ePresetColor.Thistle
+  - OfficeOpenXml.Drawing.ePresetColor.Tomato
+  - OfficeOpenXml.Drawing.ePresetColor.Turquoise
+  - OfficeOpenXml.Drawing.ePresetColor.Violet
+  - OfficeOpenXml.Drawing.ePresetColor.Wheat
+  - OfficeOpenXml.Drawing.ePresetColor.White
+  - OfficeOpenXml.Drawing.ePresetColor.WhiteSmoke
+  - OfficeOpenXml.Drawing.ePresetColor.Yellow
+  - OfficeOpenXml.Drawing.ePresetColor.YellowGreen
+  langs:
+  - csharp
+  - vb
+  name: ePresetColor
+  nameWithType: ePresetColor
+  fullName: OfficeOpenXml.Drawing.ePresetColor
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePresetColor
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPreset colors\n"
+  example: []
+  syntax:
+    content: public enum ePresetColor
+    content.vb: Public Enum ePresetColor
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.ePresetColor.AliceBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.AliceBlue
+  id: AliceBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: AliceBlue
+  nameWithType: ePresetColor.AliceBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.AliceBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AliceBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAlice Blue, RGB(240,248,255)\n"
+  example: []
+  syntax:
+    content: AliceBlue = 0
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.AntiqueWhite
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.AntiqueWhite
+  id: AntiqueWhite
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: AntiqueWhite
+  nameWithType: ePresetColor.AntiqueWhite
+  fullName: OfficeOpenXml.Drawing.ePresetColor.AntiqueWhite
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AntiqueWhite
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAntique White, RGB(250,235,215)\n"
+  example: []
+  syntax:
+    content: AntiqueWhite = 1
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Aqua
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Aqua
+  id: Aqua
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Aqua
+  nameWithType: ePresetColor.Aqua
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Aqua
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Aqua
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAqua, RGB(0,255,255)\n"
+  example: []
+  syntax:
+    content: Aqua = 2
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Aquamarine
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Aquamarine
+  id: Aquamarine
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Aquamarine
+  nameWithType: ePresetColor.Aquamarine
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Aquamarine
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Aquamarine
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAquamarine, RGB(127,255,212)\n"
+  example: []
+  syntax:
+    content: Aquamarine = 3
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Azure
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Azure
+  id: Azure
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Azure
+  nameWithType: ePresetColor.Azure
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Azure
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Azure
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAzure, RGB(240,255,255)\n"
+  example: []
+  syntax:
+    content: Azure = 4
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Beige
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Beige
+  id: Beige
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Beige
+  nameWithType: ePresetColor.Beige
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Beige
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Beige
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBeige, RGB(245,245,220)\n"
+  example: []
+  syntax:
+    content: Beige = 5
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Bisque
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Bisque
+  id: Bisque
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Bisque
+  nameWithType: ePresetColor.Bisque
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Bisque
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bisque
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBisque, RGB(255,228,196)\n"
+  example: []
+  syntax:
+    content: Bisque = 6
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Black
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Black
+  id: Black
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Black
+  nameWithType: ePresetColor.Black
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Black
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Black
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBlack, RGB(0,0,0)\n"
+  example: []
+  syntax:
+    content: Black = 7
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.BlanchedAlmond
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.BlanchedAlmond
+  id: BlanchedAlmond
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: BlanchedAlmond
+  nameWithType: ePresetColor.BlanchedAlmond
+  fullName: OfficeOpenXml.Drawing.ePresetColor.BlanchedAlmond
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BlanchedAlmond
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBlanched Almond, RGB(255,235,205)\n"
+  example: []
+  syntax:
+    content: BlanchedAlmond = 8
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Blue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Blue
+  id: Blue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Blue
+  nameWithType: ePresetColor.Blue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Blue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Blue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBlue, RGB(0,0,255)\n"
+  example: []
+  syntax:
+    content: Blue = 9
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.BlueViolet
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.BlueViolet
+  id: BlueViolet
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: BlueViolet
+  nameWithType: ePresetColor.BlueViolet
+  fullName: OfficeOpenXml.Drawing.ePresetColor.BlueViolet
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BlueViolet
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 62
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBlue Violet, RGB(138,43,226)\n"
+  example: []
+  syntax:
+    content: BlueViolet = 10
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Brown
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Brown
+  id: Brown
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Brown
+  nameWithType: ePresetColor.Brown
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Brown
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Brown
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBrown, RGB(165,42,42)\n"
+  example: []
+  syntax:
+    content: Brown = 11
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.BurlyWood
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.BurlyWood
+  id: BurlyWood
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: BurlyWood
+  nameWithType: ePresetColor.BurlyWood
+  fullName: OfficeOpenXml.Drawing.ePresetColor.BurlyWood
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BurlyWood
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nBurly Wood, RGB(222,184,135)\n"
+  example: []
+  syntax:
+    content: BurlyWood = 12
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.CadetBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.CadetBlue
+  id: CadetBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: CadetBlue
+  nameWithType: ePresetColor.CadetBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.CadetBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CadetBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCadet Blue, RGB(95,158,160)\n"
+  example: []
+  syntax:
+    content: CadetBlue = 13
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Chartreuse
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Chartreuse
+  id: Chartreuse
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Chartreuse
+  nameWithType: ePresetColor.Chartreuse
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Chartreuse
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Chartreuse
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nChartreuse, RGB(127,255,0)\n"
+  example: []
+  syntax:
+    content: Chartreuse = 14
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Chocolate
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Chocolate
+  id: Chocolate
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Chocolate
+  nameWithType: ePresetColor.Chocolate
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Chocolate
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Chocolate
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nChocolate, RGB(210,105,30)\n"
+  example: []
+  syntax:
+    content: Chocolate = 15
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Coral
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Coral
+  id: Coral
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Coral
+  nameWithType: ePresetColor.Coral
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Coral
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Coral
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCoral, RGB(255,127,80)\n"
+  example: []
+  syntax:
+    content: Coral = 16
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.CornflowerBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.CornflowerBlue
+  id: CornflowerBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: CornflowerBlue
+  nameWithType: ePresetColor.CornflowerBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.CornflowerBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CornflowerBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCornflower Blue, RGB(100,149,237)\n"
+  example: []
+  syntax:
+    content: CornflowerBlue = 17
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Cornsilk
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Cornsilk
+  id: Cornsilk
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Cornsilk
+  nameWithType: ePresetColor.Cornsilk
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Cornsilk
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Cornsilk
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 94
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCornsilk, RGB(255,248,220)\n"
+  example: []
+  syntax:
+    content: Cornsilk = 18
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Crimson
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Crimson
+  id: Crimson
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Crimson
+  nameWithType: ePresetColor.Crimson
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Crimson
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Crimson
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 98
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCrimson, RGB(220,20,60)\n"
+  example: []
+  syntax:
+    content: Crimson = 19
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Cyan
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Cyan
+  id: Cyan
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Cyan
+  nameWithType: ePresetColor.Cyan
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Cyan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Cyan
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCyan, RGB(0,255,255)\n"
+  example: []
+  syntax:
+    content: Cyan = 20
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DarkBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DarkBlue
+  id: DarkBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DarkBlue
+  nameWithType: ePresetColor.DarkBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DarkBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Blue, RGB(0,0,139)\n"
+  example: []
+  syntax:
+    content: DarkBlue = 21
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DarkCyan
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DarkCyan
+  id: DarkCyan
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DarkCyan
+  nameWithType: ePresetColor.DarkCyan
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DarkCyan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkCyan
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Cyan, RGB(0,139,139)\n"
+  example: []
+  syntax:
+    content: DarkCyan = 22
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DarkGoldenrod
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DarkGoldenrod
+  id: DarkGoldenrod
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DarkGoldenrod
+  nameWithType: ePresetColor.DarkGoldenrod
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DarkGoldenrod
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkGoldenrod
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Goldenrod, RGB(184,134,11)\n"
+  example: []
+  syntax:
+    content: DarkGoldenrod = 23
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DarkGray
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DarkGray
+  id: DarkGray
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DarkGray
+  nameWithType: ePresetColor.DarkGray
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DarkGray
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkGray
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Gray, RGB(169,169,169)\n"
+  example: []
+  syntax:
+    content: DarkGray = 24
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DarkGreen
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DarkGreen
+  id: DarkGreen
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DarkGreen
+  nameWithType: ePresetColor.DarkGreen
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DarkGreen
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkGreen
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 122
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Green, RGB(0,100,0)\n"
+  example: []
+  syntax:
+    content: DarkGreen = 25
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DarkKhaki
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DarkKhaki
+  id: DarkKhaki
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DarkKhaki
+  nameWithType: ePresetColor.DarkKhaki
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DarkKhaki
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkKhaki
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Khaki, RGB(189,183,107)\n"
+  example: []
+  syntax:
+    content: DarkKhaki = 26
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DarkMagenta
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DarkMagenta
+  id: DarkMagenta
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DarkMagenta
+  nameWithType: ePresetColor.DarkMagenta
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DarkMagenta
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkMagenta
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Magenta, RGB(139,0,139)\n"
+  example: []
+  syntax:
+    content: DarkMagenta = 27
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DarkOliveGreen
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DarkOliveGreen
+  id: DarkOliveGreen
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DarkOliveGreen
+  nameWithType: ePresetColor.DarkOliveGreen
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DarkOliveGreen
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkOliveGreen
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 134
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Olive Green, RGB(85,107,47)\n"
+  example: []
+  syntax:
+    content: DarkOliveGreen = 28
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DarkOrange
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DarkOrange
+  id: DarkOrange
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DarkOrange
+  nameWithType: ePresetColor.DarkOrange
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DarkOrange
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkOrange
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 138
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Orange, RGB(255,140,0)\n"
+  example: []
+  syntax:
+    content: DarkOrange = 29
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DarkOrchid
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DarkOrchid
+  id: DarkOrchid
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DarkOrchid
+  nameWithType: ePresetColor.DarkOrchid
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DarkOrchid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkOrchid
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 142
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Orchid, RGB(153,50,204)\n"
+  example: []
+  syntax:
+    content: DarkOrchid = 30
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DarkRed
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DarkRed
+  id: DarkRed
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DarkRed
+  nameWithType: ePresetColor.DarkRed
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DarkRed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkRed
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 146
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Red, RGB(139,0,0)\n"
+  example: []
+  syntax:
+    content: DarkRed = 31
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DarkSalmon
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DarkSalmon
+  id: DarkSalmon
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DarkSalmon
+  nameWithType: ePresetColor.DarkSalmon
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DarkSalmon
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkSalmon
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 150
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Salmon, RGB(233,150,122)\n"
+  example: []
+  syntax:
+    content: DarkSalmon = 32
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DarkSeaGreen
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DarkSeaGreen
+  id: DarkSeaGreen
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DarkSeaGreen
+  nameWithType: ePresetColor.DarkSeaGreen
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DarkSeaGreen
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkSeaGreen
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 154
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Sea Green, RGB(143,188,143)\n"
+  example: []
+  syntax:
+    content: DarkSeaGreen = 33
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DarkSlateBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DarkSlateBlue
+  id: DarkSlateBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DarkSlateBlue
+  nameWithType: ePresetColor.DarkSlateBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DarkSlateBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkSlateBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 158
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Slate Blue, RGB(72,61,139)\n"
+  example: []
+  syntax:
+    content: DarkSlateBlue = 34
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DarkSlateGray
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DarkSlateGray
+  id: DarkSlateGray
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DarkSlateGray
+  nameWithType: ePresetColor.DarkSlateGray
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DarkSlateGray
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkSlateGray
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 162
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Slate Gray, RGB(47,79,79)\n"
+  example: []
+  syntax:
+    content: DarkSlateGray = 35
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DarkTurquoise
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DarkTurquoise
+  id: DarkTurquoise
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DarkTurquoise
+  nameWithType: ePresetColor.DarkTurquoise
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DarkTurquoise
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkTurquoise
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 166
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Turquoise, RGB(0,206,209)\n"
+  example: []
+  syntax:
+    content: DarkTurquoise = 36
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DarkViolet
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DarkViolet
+  id: DarkViolet
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DarkViolet
+  nameWithType: ePresetColor.DarkViolet
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DarkViolet
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DarkViolet
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 170
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDark Violet, RGB(148,0,211)\n"
+  example: []
+  syntax:
+    content: DarkViolet = 37
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DeepPink
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DeepPink
+  id: DeepPink
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DeepPink
+  nameWithType: ePresetColor.DeepPink
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DeepPink
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DeepPink
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 174
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDeep Pink, RGB(255,20,147)\n"
+  example: []
+  syntax:
+    content: DeepPink = 38
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DeepSkyBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DeepSkyBlue
+  id: DeepSkyBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DeepSkyBlue
+  nameWithType: ePresetColor.DeepSkyBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DeepSkyBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DeepSkyBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 178
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDeep Sky Blue, RGB(0,191,255)\n"
+  example: []
+  syntax:
+    content: DeepSkyBlue = 39
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DimGray
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DimGray
+  id: DimGray
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DimGray
+  nameWithType: ePresetColor.DimGray
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DimGray
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DimGray
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 182
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDim Gray, RGB(105,105,105)\n"
+  example: []
+  syntax:
+    content: DimGray = 40
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.DodgerBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.DodgerBlue
+  id: DodgerBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: DodgerBlue
+  nameWithType: ePresetColor.DodgerBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.DodgerBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DodgerBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 186
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDodger Blue, RGB(30,144,255)\n"
+  example: []
+  syntax:
+    content: DodgerBlue = 41
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Firebrick
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Firebrick
+  id: Firebrick
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Firebrick
+  nameWithType: ePresetColor.Firebrick
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Firebrick
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Firebrick
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 190
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFirebrick, RGB(178,34,34)\n"
+  example: []
+  syntax:
+    content: Firebrick = 42
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.FloralWhite
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.FloralWhite
+  id: FloralWhite
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: FloralWhite
+  nameWithType: ePresetColor.FloralWhite
+  fullName: OfficeOpenXml.Drawing.ePresetColor.FloralWhite
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FloralWhite
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 194
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFloralWhite, RGB(255,250,240)\n"
+  example: []
+  syntax:
+    content: FloralWhite = 43
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.ForestGreen
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.ForestGreen
+  id: ForestGreen
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: ForestGreen
+  nameWithType: ePresetColor.ForestGreen
+  fullName: OfficeOpenXml.Drawing.ePresetColor.ForestGreen
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ForestGreen
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 198
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nForest Green, RGB(34,139,34)\n"
+  example: []
+  syntax:
+    content: ForestGreen = 44
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Fuchsia
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Fuchsia
+  id: Fuchsia
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Fuchsia
+  nameWithType: ePresetColor.Fuchsia
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Fuchsia
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Fuchsia
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 202
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nFuchsia, RGB(255,0,255)\n"
+  example: []
+  syntax:
+    content: Fuchsia = 45
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Gainsboro
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Gainsboro
+  id: Gainsboro
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Gainsboro
+  nameWithType: ePresetColor.Gainsboro
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Gainsboro
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Gainsboro
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 206
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nGainsboro, RGB(220,220,220)\n"
+  example: []
+  syntax:
+    content: Gainsboro = 46
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.GhostWhite
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.GhostWhite
+  id: GhostWhite
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: GhostWhite
+  nameWithType: ePresetColor.GhostWhite
+  fullName: OfficeOpenXml.Drawing.ePresetColor.GhostWhite
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GhostWhite
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 210
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nGhostWhite, RGB(248,248,255)\n"
+  example: []
+  syntax:
+    content: GhostWhite = 47
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Gold
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Gold
+  id: Gold
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Gold
+  nameWithType: ePresetColor.Gold
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Gold
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Gold
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 214
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nGold, RGB(255,215,0)\n"
+  example: []
+  syntax:
+    content: Gold = 48
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Goldenrod
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Goldenrod
+  id: Goldenrod
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Goldenrod
+  nameWithType: ePresetColor.Goldenrod
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Goldenrod
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Goldenrod
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 218
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nGoldenrod, RGB(218,165,32)\n"
+  example: []
+  syntax:
+    content: Goldenrod = 49
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Gray
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Gray
+  id: Gray
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Gray
+  nameWithType: ePresetColor.Gray
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Gray
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Gray
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 222
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nGray, RGB(128,128,128)\n"
+  example: []
+  syntax:
+    content: Gray = 50
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Green
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Green
+  id: Green
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Green
+  nameWithType: ePresetColor.Green
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Green
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Green
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 226
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nGreen, RGB(0,128,0)\n"
+  example: []
+  syntax:
+    content: Green = 51
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.GreenYellow
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.GreenYellow
+  id: GreenYellow
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: GreenYellow
+  nameWithType: ePresetColor.GreenYellow
+  fullName: OfficeOpenXml.Drawing.ePresetColor.GreenYellow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GreenYellow
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 230
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nGreen Yellow, RGB(173,255,47)\n"
+  example: []
+  syntax:
+    content: GreenYellow = 52
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Honeydew
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Honeydew
+  id: Honeydew
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Honeydew
+  nameWithType: ePresetColor.Honeydew
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Honeydew
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Honeydew
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 234
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHoneydew, RGB(240,255,240)\n"
+  example: []
+  syntax:
+    content: Honeydew = 53
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.HotPink
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.HotPink
+  id: HotPink
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: HotPink
+  nameWithType: ePresetColor.HotPink
+  fullName: OfficeOpenXml.Drawing.ePresetColor.HotPink
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HotPink
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 238
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nHotPink, RGB(255,105,180)\n"
+  example: []
+  syntax:
+    content: HotPink = 54
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.IndianRed
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.IndianRed
+  id: IndianRed
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: IndianRed
+  nameWithType: ePresetColor.IndianRed
+  fullName: OfficeOpenXml.Drawing.ePresetColor.IndianRed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IndianRed
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 242
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIndian Red, RGB(205,92,92)\n"
+  example: []
+  syntax:
+    content: IndianRed = 55
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Indigo
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Indigo
+  id: Indigo
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Indigo
+  nameWithType: ePresetColor.Indigo
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Indigo
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Indigo
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 246
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIndigo, RGB(75,0,130)\n"
+  example: []
+  syntax:
+    content: Indigo = 56
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Ivory
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Ivory
+  id: Ivory
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Ivory
+  nameWithType: ePresetColor.Ivory
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Ivory
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Ivory
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 250
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIndigo, RGB(255,255,240)\n"
+  example: []
+  syntax:
+    content: Ivory = 57
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Khaki
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Khaki
+  id: Khaki
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Khaki
+  nameWithType: ePresetColor.Khaki
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Khaki
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Khaki
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 254
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nKhaki, RGB(240,230,140)\n"
+  example: []
+  syntax:
+    content: Khaki = 58
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Lavender
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Lavender
+  id: Lavender
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Lavender
+  nameWithType: ePresetColor.Lavender
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Lavender
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Lavender
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 258
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLavender, RGB(230,230,250)\n"
+  example: []
+  syntax:
+    content: Lavender = 59
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.LavenderBlush
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.LavenderBlush
+  id: LavenderBlush
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: LavenderBlush
+  nameWithType: ePresetColor.LavenderBlush
+  fullName: OfficeOpenXml.Drawing.ePresetColor.LavenderBlush
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LavenderBlush
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 262
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLavender Blush, RGB(255,240,245)\n"
+  example: []
+  syntax:
+    content: LavenderBlush = 60
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.LawnGreen
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.LawnGreen
+  id: LawnGreen
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: LawnGreen
+  nameWithType: ePresetColor.LawnGreen
+  fullName: OfficeOpenXml.Drawing.ePresetColor.LawnGreen
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LawnGreen
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 266
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLawn Green, RGB(124,252,0)\n"
+  example: []
+  syntax:
+    content: LawnGreen = 61
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.LemonChiffon
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.LemonChiffon
+  id: LemonChiffon
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: LemonChiffon
+  nameWithType: ePresetColor.LemonChiffon
+  fullName: OfficeOpenXml.Drawing.ePresetColor.LemonChiffon
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LemonChiffon
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 270
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLemon Chiffon, RGB(255,250,205)\n"
+  example: []
+  syntax:
+    content: LemonChiffon = 62
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.LightBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.LightBlue
+  id: LightBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: LightBlue
+  nameWithType: ePresetColor.LightBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.LightBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 274
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLight Blue, RGB(173,216,230)\n"
+  example: []
+  syntax:
+    content: LightBlue = 63
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.LightCoral
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.LightCoral
+  id: LightCoral
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: LightCoral
+  nameWithType: ePresetColor.LightCoral
+  fullName: OfficeOpenXml.Drawing.ePresetColor.LightCoral
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightCoral
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 278
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLight Coral, RGB(240,128,128)\n"
+  example: []
+  syntax:
+    content: LightCoral = 64
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.LightCyan
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.LightCyan
+  id: LightCyan
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: LightCyan
+  nameWithType: ePresetColor.LightCyan
+  fullName: OfficeOpenXml.Drawing.ePresetColor.LightCyan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightCyan
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 282
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLight Cyan, RGB(224,255,255)\n"
+  example: []
+  syntax:
+    content: LightCyan = 65
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.LightGoldenrodYellow
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.LightGoldenrodYellow
+  id: LightGoldenrodYellow
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: LightGoldenrodYellow
+  nameWithType: ePresetColor.LightGoldenrodYellow
+  fullName: OfficeOpenXml.Drawing.ePresetColor.LightGoldenrodYellow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightGoldenrodYellow
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 286
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLight Goldenrod Yellow, RGB(250,250,210)\n"
+  example: []
+  syntax:
+    content: LightGoldenrodYellow = 66
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.LightGray
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.LightGray
+  id: LightGray
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: LightGray
+  nameWithType: ePresetColor.LightGray
+  fullName: OfficeOpenXml.Drawing.ePresetColor.LightGray
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightGray
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 290
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLight Gray, RGB(211,211,211)\n"
+  example: []
+  syntax:
+    content: LightGray = 67
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.LightGreen
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.LightGreen
+  id: LightGreen
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: LightGreen
+  nameWithType: ePresetColor.LightGreen
+  fullName: OfficeOpenXml.Drawing.ePresetColor.LightGreen
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightGreen
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 294
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLight Green, RGB(144,238,144)\n"
+  example: []
+  syntax:
+    content: LightGreen = 68
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.LightPink
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.LightPink
+  id: LightPink
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: LightPink
+  nameWithType: ePresetColor.LightPink
+  fullName: OfficeOpenXml.Drawing.ePresetColor.LightPink
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightPink
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 298
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLight Pink, RGB(255,182,193)\n"
+  example: []
+  syntax:
+    content: LightPink = 69
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.LightSalmon
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.LightSalmon
+  id: LightSalmon
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: LightSalmon
+  nameWithType: ePresetColor.LightSalmon
+  fullName: OfficeOpenXml.Drawing.ePresetColor.LightSalmon
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightSalmon
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 302
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLight Salmon, RGB(255,160,122)\n"
+  example: []
+  syntax:
+    content: LightSalmon = 70
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.LightSeaGreen
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.LightSeaGreen
+  id: LightSeaGreen
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: LightSeaGreen
+  nameWithType: ePresetColor.LightSeaGreen
+  fullName: OfficeOpenXml.Drawing.ePresetColor.LightSeaGreen
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightSeaGreen
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 306
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLight Sea Green, RGB(32,178,170)\n"
+  example: []
+  syntax:
+    content: LightSeaGreen = 71
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.LightSkyBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.LightSkyBlue
+  id: LightSkyBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: LightSkyBlue
+  nameWithType: ePresetColor.LightSkyBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.LightSkyBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightSkyBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 310
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLight Sky Blue, RGB(135,206,250)\n"
+  example: []
+  syntax:
+    content: LightSkyBlue = 72
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.LightSlateGray
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.LightSlateGray
+  id: LightSlateGray
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: LightSlateGray
+  nameWithType: ePresetColor.LightSlateGray
+  fullName: OfficeOpenXml.Drawing.ePresetColor.LightSlateGray
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightSlateGray
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 314
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLight Slate Gray, RGB(119,136,153)\n"
+  example: []
+  syntax:
+    content: LightSlateGray = 73
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.LightSteelBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.LightSteelBlue
+  id: LightSteelBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: LightSteelBlue
+  nameWithType: ePresetColor.LightSteelBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.LightSteelBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightSteelBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 318
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLight Steel Blue, RGB(176,196,222)\n"
+  example: []
+  syntax:
+    content: LightSteelBlue = 74
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.LightYellow
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.LightYellow
+  id: LightYellow
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: LightYellow
+  nameWithType: ePresetColor.LightYellow
+  fullName: OfficeOpenXml.Drawing.ePresetColor.LightYellow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LightYellow
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 322
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLight Yellow, RGB(255,255,224)\n"
+  example: []
+  syntax:
+    content: LightYellow = 75
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Lime
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Lime
+  id: Lime
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Lime
+  nameWithType: ePresetColor.Lime
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Lime
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Lime
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 326
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLime, RGB(0,255,0)\n"
+  example: []
+  syntax:
+    content: Lime = 76
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.LimeGreen
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.LimeGreen
+  id: LimeGreen
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: LimeGreen
+  nameWithType: ePresetColor.LimeGreen
+  fullName: OfficeOpenXml.Drawing.ePresetColor.LimeGreen
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LimeGreen
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 330
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLime Green, RGB(50,205,50)\n"
+  example: []
+  syntax:
+    content: LimeGreen = 77
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Linen
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Linen
+  id: Linen
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Linen
+  nameWithType: ePresetColor.Linen
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Linen
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Linen
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 334
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nLinen, RGB(250,240,230)\n"
+  example: []
+  syntax:
+    content: Linen = 78
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Magenta
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Magenta
+  id: Magenta
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Magenta
+  nameWithType: ePresetColor.Magenta
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Magenta
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Magenta
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 338
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMagenta, RGB(255,0,255)\n"
+  example: []
+  syntax:
+    content: Magenta = 79
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Maroon
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Maroon
+  id: Maroon
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Maroon
+  nameWithType: ePresetColor.Maroon
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Maroon
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Maroon
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 342
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMaroon, RGB(128,0,0)\n"
+  example: []
+  syntax:
+    content: Maroon = 80
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.MediumAquamarine
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.MediumAquamarine
+  id: MediumAquamarine
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: MediumAquamarine
+  nameWithType: ePresetColor.MediumAquamarine
+  fullName: OfficeOpenXml.Drawing.ePresetColor.MediumAquamarine
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MediumAquamarine
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 346
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMedium Aquamarine, RGB(102,205,170)\n"
+  example: []
+  syntax:
+    content: MediumAquamarine = 81
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.MediumBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.MediumBlue
+  id: MediumBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: MediumBlue
+  nameWithType: ePresetColor.MediumBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.MediumBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MediumBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 350
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMedium Blue, RGB(0,0,205)\n"
+  example: []
+  syntax:
+    content: MediumBlue = 82
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.MediumOrchid
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.MediumOrchid
+  id: MediumOrchid
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: MediumOrchid
+  nameWithType: ePresetColor.MediumOrchid
+  fullName: OfficeOpenXml.Drawing.ePresetColor.MediumOrchid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MediumOrchid
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 354
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMedium Orchid, RGB(186,85,211)\n"
+  example: []
+  syntax:
+    content: MediumOrchid = 83
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.MediumPurple
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.MediumPurple
+  id: MediumPurple
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: MediumPurple
+  nameWithType: ePresetColor.MediumPurple
+  fullName: OfficeOpenXml.Drawing.ePresetColor.MediumPurple
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MediumPurple
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 358
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMedium Purple, RGB(147,112,219)\n"
+  example: []
+  syntax:
+    content: MediumPurple = 84
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.MediumSeaGreen
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.MediumSeaGreen
+  id: MediumSeaGreen
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: MediumSeaGreen
+  nameWithType: ePresetColor.MediumSeaGreen
+  fullName: OfficeOpenXml.Drawing.ePresetColor.MediumSeaGreen
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MediumSeaGreen
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 362
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMedium Sea Green, RGB(60,179,113)\n"
+  example: []
+  syntax:
+    content: MediumSeaGreen = 85
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.MediumSlateBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.MediumSlateBlue
+  id: MediumSlateBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: MediumSlateBlue
+  nameWithType: ePresetColor.MediumSlateBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.MediumSlateBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MediumSlateBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 366
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMedium Slate Blue, RGB(123,104,238)\n"
+  example: []
+  syntax:
+    content: MediumSlateBlue = 86
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.MediumSpringGreen
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.MediumSpringGreen
+  id: MediumSpringGreen
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: MediumSpringGreen
+  nameWithType: ePresetColor.MediumSpringGreen
+  fullName: OfficeOpenXml.Drawing.ePresetColor.MediumSpringGreen
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MediumSpringGreen
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 370
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMedium Spring Green, RGB(0,250,154)\n"
+  example: []
+  syntax:
+    content: MediumSpringGreen = 87
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.MediumTurquoise
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.MediumTurquoise
+  id: MediumTurquoise
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: MediumTurquoise
+  nameWithType: ePresetColor.MediumTurquoise
+  fullName: OfficeOpenXml.Drawing.ePresetColor.MediumTurquoise
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MediumTurquoise
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 374
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMedium Turquoise, RGB(72,209,204)\n"
+  example: []
+  syntax:
+    content: MediumTurquoise = 88
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.MediumVioletRed
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.MediumVioletRed
+  id: MediumVioletRed
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: MediumVioletRed
+  nameWithType: ePresetColor.MediumVioletRed
+  fullName: OfficeOpenXml.Drawing.ePresetColor.MediumVioletRed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MediumVioletRed
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 378
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMedium Violet Red, RGB(199,21,133)\n"
+  example: []
+  syntax:
+    content: MediumVioletRed = 89
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.MidnightBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.MidnightBlue
+  id: MidnightBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: MidnightBlue
+  nameWithType: ePresetColor.MidnightBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.MidnightBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MidnightBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 382
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMidnight Blue, RGB(25,25,112)\n"
+  example: []
+  syntax:
+    content: MidnightBlue = 90
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.MintCream
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.MintCream
+  id: MintCream
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: MintCream
+  nameWithType: ePresetColor.MintCream
+  fullName: OfficeOpenXml.Drawing.ePresetColor.MintCream
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MintCream
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 386
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMint Cream, RGB(245,255,250)\n"
+  example: []
+  syntax:
+    content: MintCream = 91
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.MistyRose
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.MistyRose
+  id: MistyRose
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: MistyRose
+  nameWithType: ePresetColor.MistyRose
+  fullName: OfficeOpenXml.Drawing.ePresetColor.MistyRose
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MistyRose
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 390
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMisty Rose, RGB(255,228,225)\n"
+  example: []
+  syntax:
+    content: MistyRose = 92
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Moccasin
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Moccasin
+  id: Moccasin
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Moccasin
+  nameWithType: ePresetColor.Moccasin
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Moccasin
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Moccasin
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 394
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nMoccasin, RGB(255,228,181)\n"
+  example: []
+  syntax:
+    content: Moccasin = 93
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.NavajoWhite
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.NavajoWhite
+  id: NavajoWhite
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: NavajoWhite
+  nameWithType: ePresetColor.NavajoWhite
+  fullName: OfficeOpenXml.Drawing.ePresetColor.NavajoWhite
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NavajoWhite
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 398
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nNavajo White, RGB(255,222,173)\n"
+  example: []
+  syntax:
+    content: NavajoWhite = 94
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Navy
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Navy
+  id: Navy
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Navy
+  nameWithType: ePresetColor.Navy
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Navy
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Navy
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 402
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nNavy, RGB(0,0,128)\n"
+  example: []
+  syntax:
+    content: Navy = 95
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.OldLace
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.OldLace
+  id: OldLace
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: OldLace
+  nameWithType: ePresetColor.OldLace
+  fullName: OfficeOpenXml.Drawing.ePresetColor.OldLace
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OldLace
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 406
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOld Lace, RGB(253,245,230)\n"
+  example: []
+  syntax:
+    content: OldLace = 96
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Olive
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Olive
+  id: Olive
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Olive
+  nameWithType: ePresetColor.Olive
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Olive
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Olive
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 410
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOlive, RGB(128,128,0)\n"
+  example: []
+  syntax:
+    content: Olive = 97
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.OliveDrab
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.OliveDrab
+  id: OliveDrab
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: OliveDrab
+  nameWithType: ePresetColor.OliveDrab
+  fullName: OfficeOpenXml.Drawing.ePresetColor.OliveDrab
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OliveDrab
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 414
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOlive Drab, RGB(107,142,35)\n"
+  example: []
+  syntax:
+    content: OliveDrab = 98
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Orange
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Orange
+  id: Orange
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Orange
+  nameWithType: ePresetColor.Orange
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Orange
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Orange
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 418
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOrange, RGB(255,165,0)\n"
+  example: []
+  syntax:
+    content: Orange = 99
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.OrangeRed
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.OrangeRed
+  id: OrangeRed
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: OrangeRed
+  nameWithType: ePresetColor.OrangeRed
+  fullName: OfficeOpenXml.Drawing.ePresetColor.OrangeRed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OrangeRed
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 422
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOrange Red, RGB(255,69,0)\n"
+  example: []
+  syntax:
+    content: OrangeRed = 100
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Orchid
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Orchid
+  id: Orchid
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Orchid
+  nameWithType: ePresetColor.Orchid
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Orchid
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Orchid
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 426
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOrchid, RGB(218,112,214)\n"
+  example: []
+  syntax:
+    content: Orchid = 101
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.PaleGoldenrod
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.PaleGoldenrod
+  id: PaleGoldenrod
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: PaleGoldenrod
+  nameWithType: ePresetColor.PaleGoldenrod
+  fullName: OfficeOpenXml.Drawing.ePresetColor.PaleGoldenrod
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PaleGoldenrod
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 430
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPale Goldenrod, RGB(238,232,170)\n"
+  example: []
+  syntax:
+    content: PaleGoldenrod = 102
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.PaleGreen
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.PaleGreen
+  id: PaleGreen
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: PaleGreen
+  nameWithType: ePresetColor.PaleGreen
+  fullName: OfficeOpenXml.Drawing.ePresetColor.PaleGreen
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PaleGreen
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 434
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPale Green, RGB(152,251,152)\n"
+  example: []
+  syntax:
+    content: PaleGreen = 103
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.PaleTurquoise
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.PaleTurquoise
+  id: PaleTurquoise
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: PaleTurquoise
+  nameWithType: ePresetColor.PaleTurquoise
+  fullName: OfficeOpenXml.Drawing.ePresetColor.PaleTurquoise
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PaleTurquoise
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 438
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPale Turquoise, RGB(175,238,238)\n"
+  example: []
+  syntax:
+    content: PaleTurquoise = 104
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.PaleVioletRed
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.PaleVioletRed
+  id: PaleVioletRed
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: PaleVioletRed
+  nameWithType: ePresetColor.PaleVioletRed
+  fullName: OfficeOpenXml.Drawing.ePresetColor.PaleVioletRed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PaleVioletRed
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 442
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPale Violet Red, RGB(219,112,147)\n"
+  example: []
+  syntax:
+    content: PaleVioletRed = 105
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.PapayaWhip
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.PapayaWhip
+  id: PapayaWhip
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: PapayaWhip
+  nameWithType: ePresetColor.PapayaWhip
+  fullName: OfficeOpenXml.Drawing.ePresetColor.PapayaWhip
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PapayaWhip
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 446
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPapaya Whip, RGB(255,239,213)\n"
+  example: []
+  syntax:
+    content: PapayaWhip = 106
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.PeachPuff
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.PeachPuff
+  id: PeachPuff
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: PeachPuff
+  nameWithType: ePresetColor.PeachPuff
+  fullName: OfficeOpenXml.Drawing.ePresetColor.PeachPuff
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PeachPuff
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 450
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPeach Puff, RGB(255,218,185)\n"
+  example: []
+  syntax:
+    content: PeachPuff = 107
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Peru
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Peru
+  id: Peru
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Peru
+  nameWithType: ePresetColor.Peru
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Peru
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Peru
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 454
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPeru, RGB(205,133,63)\n"
+  example: []
+  syntax:
+    content: Peru = 108
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Pink
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Pink
+  id: Pink
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Pink
+  nameWithType: ePresetColor.Pink
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Pink
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pink
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 458
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPink, RGB(255,192,203)\n"
+  example: []
+  syntax:
+    content: Pink = 109
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Plum
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Plum
+  id: Plum
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Plum
+  nameWithType: ePresetColor.Plum
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Plum
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Plum
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 462
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPlum, RGB(221,160,221)\n"
+  example: []
+  syntax:
+    content: Plum = 110
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.PowderBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.PowderBlue
+  id: PowderBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: PowderBlue
+  nameWithType: ePresetColor.PowderBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.PowderBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PowderBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 466
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPowder Blue, RGB(176,224,230)\n"
+  example: []
+  syntax:
+    content: PowderBlue = 111
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Purple
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Purple
+  id: Purple
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Purple
+  nameWithType: ePresetColor.Purple
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Purple
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Purple
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 470
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPurple, RGB(128,0,128)\n"
+  example: []
+  syntax:
+    content: Purple = 112
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Red
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Red
+  id: Red
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Red
+  nameWithType: ePresetColor.Red
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Red
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Red
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 474
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRed, RGB(255,0,0)\n"
+  example: []
+  syntax:
+    content: Red = 113
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.RosyBrown
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.RosyBrown
+  id: RosyBrown
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: RosyBrown
+  nameWithType: ePresetColor.RosyBrown
+  fullName: OfficeOpenXml.Drawing.ePresetColor.RosyBrown
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RosyBrown
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 478
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRosy Brown, RGB(188,143,143)\n"
+  example: []
+  syntax:
+    content: RosyBrown = 114
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.RoyalBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.RoyalBlue
+  id: RoyalBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: RoyalBlue
+  nameWithType: ePresetColor.RoyalBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.RoyalBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RoyalBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 482
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRoyal Blue, RGB(65,105,225)\n"
+  example: []
+  syntax:
+    content: RoyalBlue = 115
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.SaddleBrown
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.SaddleBrown
+  id: SaddleBrown
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: SaddleBrown
+  nameWithType: ePresetColor.SaddleBrown
+  fullName: OfficeOpenXml.Drawing.ePresetColor.SaddleBrown
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaddleBrown
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 486
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSaddle Brown, RGB(139,69,19)\n"
+  example: []
+  syntax:
+    content: SaddleBrown = 116
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Salmon
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Salmon
+  id: Salmon
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Salmon
+  nameWithType: ePresetColor.Salmon
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Salmon
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Salmon
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 490
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSalmon, RGB(250,128,114)\n"
+  example: []
+  syntax:
+    content: Salmon = 117
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.SandyBrown
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.SandyBrown
+  id: SandyBrown
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: SandyBrown
+  nameWithType: ePresetColor.SandyBrown
+  fullName: OfficeOpenXml.Drawing.ePresetColor.SandyBrown
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SandyBrown
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 494
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSandy Brown, RGB(244,164,96)\n"
+  example: []
+  syntax:
+    content: SandyBrown = 118
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.SeaGreen
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.SeaGreen
+  id: SeaGreen
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: SeaGreen
+  nameWithType: ePresetColor.SeaGreen
+  fullName: OfficeOpenXml.Drawing.ePresetColor.SeaGreen
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SeaGreen
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 498
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSea Green, RGB(46,139,87)\n"
+  example: []
+  syntax:
+    content: SeaGreen = 119
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.SeaShell
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.SeaShell
+  id: SeaShell
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: SeaShell
+  nameWithType: ePresetColor.SeaShell
+  fullName: OfficeOpenXml.Drawing.ePresetColor.SeaShell
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SeaShell
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 502
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSea Shell, RGB(255,245,238)\n"
+  example: []
+  syntax:
+    content: SeaShell = 120
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Sienna
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Sienna
+  id: Sienna
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Sienna
+  nameWithType: ePresetColor.Sienna
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Sienna
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Sienna
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 506
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSienna, RGB(160,82,45)\n"
+  example: []
+  syntax:
+    content: Sienna = 121
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Silver
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Silver
+  id: Silver
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Silver
+  nameWithType: ePresetColor.Silver
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Silver
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Silver
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 510
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSilver, RGB(192,192,192)\n"
+  example: []
+  syntax:
+    content: Silver = 122
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.SkyBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.SkyBlue
+  id: SkyBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: SkyBlue
+  nameWithType: ePresetColor.SkyBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.SkyBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SkyBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 514
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSky Blue, RGB(135,206,235)\n"
+  example: []
+  syntax:
+    content: SkyBlue = 123
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.SlateBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.SlateBlue
+  id: SlateBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: SlateBlue
+  nameWithType: ePresetColor.SlateBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.SlateBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SlateBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 518
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSlate Blue, RGB(106,90,205)\n"
+  example: []
+  syntax:
+    content: SlateBlue = 124
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.SlateGray
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.SlateGray
+  id: SlateGray
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: SlateGray
+  nameWithType: ePresetColor.SlateGray
+  fullName: OfficeOpenXml.Drawing.ePresetColor.SlateGray
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SlateGray
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 522
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSlate Gray, RGB(112,128,144)\n"
+  example: []
+  syntax:
+    content: SlateGray = 125
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Snow
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Snow
+  id: Snow
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Snow
+  nameWithType: ePresetColor.Snow
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Snow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Snow
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 526
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSnow, RGB(255,250,250)\n"
+  example: []
+  syntax:
+    content: Snow = 126
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.SpringGreen
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.SpringGreen
+  id: SpringGreen
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: SpringGreen
+  nameWithType: ePresetColor.SpringGreen
+  fullName: OfficeOpenXml.Drawing.ePresetColor.SpringGreen
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SpringGreen
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 530
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSpring Green, RGB(0,255,127)\n"
+  example: []
+  syntax:
+    content: SpringGreen = 127
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.SteelBlue
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.SteelBlue
+  id: SteelBlue
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: SteelBlue
+  nameWithType: ePresetColor.SteelBlue
+  fullName: OfficeOpenXml.Drawing.ePresetColor.SteelBlue
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SteelBlue
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 534
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSteel Blue, RGB(70,130,180)\n"
+  example: []
+  syntax:
+    content: SteelBlue = 128
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Tan
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Tan
+  id: Tan
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Tan
+  nameWithType: ePresetColor.Tan
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Tan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Tan
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 538
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nTan, RGB(210,180,140)\n"
+  example: []
+  syntax:
+    content: Tan = 129
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Teal
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Teal
+  id: Teal
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Teal
+  nameWithType: ePresetColor.Teal
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Teal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Teal
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 542
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nTeal, RGB(0,128,128)\n"
+  example: []
+  syntax:
+    content: Teal = 130
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Thistle
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Thistle
+  id: Thistle
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Thistle
+  nameWithType: ePresetColor.Thistle
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Thistle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Thistle
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 546
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThistle, RGB(216,191,216)\n"
+  example: []
+  syntax:
+    content: Thistle = 131
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Tomato
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Tomato
+  id: Tomato
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Tomato
+  nameWithType: ePresetColor.Tomato
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Tomato
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Tomato
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 550
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nTomato, RGB(255,99,71)\n"
+  example: []
+  syntax:
+    content: Tomato = 132
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Turquoise
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Turquoise
+  id: Turquoise
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Turquoise
+  nameWithType: ePresetColor.Turquoise
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Turquoise
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Turquoise
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 554
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nTurquoise, RGB(64,224,208)\n"
+  example: []
+  syntax:
+    content: Turquoise = 133
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Violet
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Violet
+  id: Violet
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Violet
+  nameWithType: ePresetColor.Violet
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Violet
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Violet
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 558
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nViolet, RGB(238,130,238)\n"
+  example: []
+  syntax:
+    content: Violet = 134
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Wheat
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Wheat
+  id: Wheat
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Wheat
+  nameWithType: ePresetColor.Wheat
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Wheat
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Wheat
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 562
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nWheat, RGB(245,222,179)\n"
+  example: []
+  syntax:
+    content: Wheat = 135
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.White
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.White
+  id: White
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: White
+  nameWithType: ePresetColor.White
+  fullName: OfficeOpenXml.Drawing.ePresetColor.White
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: White
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 566
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nWhite, RGB(255,255,255)\n"
+  example: []
+  syntax:
+    content: White = 136
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.WhiteSmoke
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.WhiteSmoke
+  id: WhiteSmoke
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: WhiteSmoke
+  nameWithType: ePresetColor.WhiteSmoke
+  fullName: OfficeOpenXml.Drawing.ePresetColor.WhiteSmoke
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WhiteSmoke
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 570
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nWhite Smoke, RGB(245,245,245)\n"
+  example: []
+  syntax:
+    content: WhiteSmoke = 137
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.Yellow
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.Yellow
+  id: Yellow
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: Yellow
+  nameWithType: ePresetColor.Yellow
+  fullName: OfficeOpenXml.Drawing.ePresetColor.Yellow
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Yellow
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 574
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nYellow, RGB(255,255,0)\n"
+  example: []
+  syntax:
+    content: Yellow = 138
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetColor.YellowGreen
+  commentId: F:OfficeOpenXml.Drawing.ePresetColor.YellowGreen
+  id: YellowGreen
+  parent: OfficeOpenXml.Drawing.ePresetColor
+  langs:
+  - csharp
+  - vb
+  name: YellowGreen
+  nameWithType: ePresetColor.YellowGreen
+  fullName: OfficeOpenXml.Drawing.ePresetColor.YellowGreen
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetColor.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: YellowGreen
+    path: ../src/EPPlus/Drawing/Enums/ePresetColor.cs
+    startLine: 578
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nYellow Green, RGB(154,205,50)\n"
+  example: []
+  syntax:
+    content: YellowGreen = 139
+    return:
+      type: OfficeOpenXml.Drawing.ePresetColor
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.ePresetColor
+  commentId: T:OfficeOpenXml.Drawing.ePresetColor
+  parent: OfficeOpenXml.Drawing
+  name: ePresetColor
+  nameWithType: ePresetColor
+  fullName: OfficeOpenXml.Drawing.ePresetColor

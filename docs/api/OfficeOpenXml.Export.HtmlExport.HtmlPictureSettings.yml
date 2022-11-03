@@ -1,0 +1,759 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+  commentId: T:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+  id: HtmlPictureSettings
+  parent: OfficeOpenXml.Export.HtmlExport
+  children:
+  - OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddMarginLeft
+  - OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddMarginTop
+  - OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddNameAsId
+  - OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Copy(OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings)
+  - OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.CssExclude
+  - OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Include
+  - OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.KeepOriginalSize
+  - OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Position
+  - OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.ResetToDefault
+  langs:
+  - csharp
+  - vb
+  name: HtmlPictureSettings
+  nameWithType: HtmlPictureSettings
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HtmlPictureSettings
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nSetting for rendering of picture drawings\n"
+  example: []
+  syntax:
+    content: public class HtmlPictureSettings
+    content.vb: Public Class HtmlPictureSettings
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Include
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Include
+  id: Include
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+  langs:
+  - csharp
+  - vb
+  name: Include
+  nameWithType: HtmlPictureSettings.Include
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Include
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Include
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nIf picture drawings should be included in the html. Default is <xref href=\"OfficeOpenXml.Export.HtmlExport.ePictureInclude.Exclude\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public ePictureInclude Include { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.ePictureInclude
+    content.vb: Public Property Include As ePictureInclude
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Include*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Position
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Position
+  id: Position
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+  langs:
+  - csharp
+  - vb
+  name: Position
+  nameWithType: HtmlPictureSettings.Position
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Position
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Position
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nIf the image should be added as absolut or relative in the css.\n"
+  example: []
+  syntax:
+    content: public ePicturePosition Position { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.ePicturePosition
+    content.vb: Public Property Position As ePicturePosition
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Position*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddMarginTop
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddMarginTop
+  id: AddMarginTop
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+  langs:
+  - csharp
+  - vb
+  name: AddMarginTop
+  nameWithType: HtmlPictureSettings.AddMarginTop
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddMarginTop
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddMarginTop
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nIf the margin in pixels from the top corner should be used. \nIf this property is set to true, the cells vertical alignment will be set to &apos;top&apos;, \notherwise alignment will be set to middle.\n"
+  example: []
+  syntax:
+    content: public bool AddMarginTop { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AddMarginTop As Boolean
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddMarginTop*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddMarginLeft
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddMarginLeft
+  id: AddMarginLeft
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+  langs:
+  - csharp
+  - vb
+  name: AddMarginLeft
+  nameWithType: HtmlPictureSettings.AddMarginLeft
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddMarginLeft
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddMarginLeft
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nIf the margin in pixels from the left corner should be used.\nIf this property is set to true, the cells text alignment will be set to &apos;left&apos;, \notherwise alignment will be set to center.\n"
+  example: []
+  syntax:
+    content: public bool AddMarginLeft { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AddMarginLeft As Boolean
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddMarginLeft*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.KeepOriginalSize
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.KeepOriginalSize
+  id: KeepOriginalSize
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+  langs:
+  - csharp
+  - vb
+  name: KeepOriginalSize
+  nameWithType: HtmlPictureSettings.KeepOriginalSize
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.KeepOriginalSize
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: KeepOriginalSize
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nIf set to true the original size of the image is used, \notherwise the size in the workbook is used. Default is false.\n"
+  example: []
+  syntax:
+    content: public bool KeepOriginalSize { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property KeepOriginalSize As Boolean
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.KeepOriginalSize*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.CssExclude
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.CssExclude
+  id: CssExclude
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+  langs:
+  - csharp
+  - vb
+  name: CssExclude
+  nameWithType: HtmlPictureSettings.CssExclude
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.CssExclude
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CssExclude
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nExclude settings \n"
+  example: []
+  syntax:
+    content: public PictureCssExclude CssExclude { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.PictureCssExclude
+    content.vb: Public ReadOnly Property CssExclude As PictureCssExclude
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.CssExclude*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddNameAsId
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddNameAsId
+  id: AddNameAsId
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+  langs:
+  - csharp
+  - vb
+  name: AddNameAsId
+  nameWithType: HtmlPictureSettings.AddNameAsId
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddNameAsId
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNameAsId
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nAdds the Picture name as Id for the img element in the HTML.\nCharacters [A-Z][0-9]-_ are allowed. The first character allows [A-Z]_. \nOther characters will be replaced with an hyphen (-).\n"
+  example: []
+  syntax:
+    content: public bool AddNameAsId { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AddNameAsId As Boolean
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddNameAsId*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.ResetToDefault
+  commentId: M:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.ResetToDefault
+  id: ResetToDefault
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+  langs:
+  - csharp
+  - vb
+  name: ResetToDefault()
+  nameWithType: HtmlPictureSettings.ResetToDefault()
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.ResetToDefault()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ResetToDefault
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nReset the setting to it&apos;s default values.\n"
+  example: []
+  syntax:
+    content: public void ResetToDefault()
+    content.vb: Public Sub ResetToDefault
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.ResetToDefault*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Copy(OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings)
+  commentId: M:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Copy(OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings)
+  id: Copy(OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings)
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+  langs:
+  - csharp
+  - vb
+  name: Copy(HtmlPictureSettings)
+  nameWithType: HtmlPictureSettings.Copy(HtmlPictureSettings)
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Copy(OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Copy
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
+    startLine: 79
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nCopy the values from another settings object.\n"
+  example: []
+  syntax:
+    content: public void Copy(HtmlPictureSettings copy)
+    parameters:
+    - id: copy
+      type: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+      description: The object to copy.
+    content.vb: Public Sub Copy(copy As HtmlPictureSettings)
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Copy*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Export.HtmlExport
+  commentId: N:OfficeOpenXml.Export.HtmlExport
+  name: OfficeOpenXml.Export.HtmlExport
+  nameWithType: OfficeOpenXml.Export.HtmlExport
+  fullName: OfficeOpenXml.Export.HtmlExport
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Export.HtmlExport.ePictureInclude.Exclude
+  commentId: F:OfficeOpenXml.Export.HtmlExport.ePictureInclude.Exclude
+  isExternal: true
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Include*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Include
+  name: Include
+  nameWithType: HtmlPictureSettings.Include
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Include
+- uid: OfficeOpenXml.Export.HtmlExport.ePictureInclude
+  commentId: T:OfficeOpenXml.Export.HtmlExport.ePictureInclude
+  parent: OfficeOpenXml.Export.HtmlExport
+  name: ePictureInclude
+  nameWithType: ePictureInclude
+  fullName: OfficeOpenXml.Export.HtmlExport.ePictureInclude
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Position*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Position
+  name: Position
+  nameWithType: HtmlPictureSettings.Position
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Position
+- uid: OfficeOpenXml.Export.HtmlExport.ePicturePosition
+  commentId: T:OfficeOpenXml.Export.HtmlExport.ePicturePosition
+  parent: OfficeOpenXml.Export.HtmlExport
+  name: ePicturePosition
+  nameWithType: ePicturePosition
+  fullName: OfficeOpenXml.Export.HtmlExport.ePicturePosition
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddMarginTop*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddMarginTop
+  name: AddMarginTop
+  nameWithType: HtmlPictureSettings.AddMarginTop
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddMarginTop
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddMarginLeft*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddMarginLeft
+  name: AddMarginLeft
+  nameWithType: HtmlPictureSettings.AddMarginLeft
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddMarginLeft
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.KeepOriginalSize*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.KeepOriginalSize
+  name: KeepOriginalSize
+  nameWithType: HtmlPictureSettings.KeepOriginalSize
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.KeepOriginalSize
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.CssExclude*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.CssExclude
+  name: CssExclude
+  nameWithType: HtmlPictureSettings.CssExclude
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.CssExclude
+- uid: OfficeOpenXml.Export.HtmlExport.PictureCssExclude
+  commentId: T:OfficeOpenXml.Export.HtmlExport.PictureCssExclude
+  parent: OfficeOpenXml.Export.HtmlExport
+  name: PictureCssExclude
+  nameWithType: PictureCssExclude
+  fullName: OfficeOpenXml.Export.HtmlExport.PictureCssExclude
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddNameAsId*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddNameAsId
+  name: AddNameAsId
+  nameWithType: HtmlPictureSettings.AddNameAsId
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.AddNameAsId
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.ResetToDefault*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.ResetToDefault
+  name: ResetToDefault
+  nameWithType: HtmlPictureSettings.ResetToDefault
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.ResetToDefault
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Copy*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Copy
+  name: Copy
+  nameWithType: HtmlPictureSettings.Copy
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings.Copy
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+  commentId: T:OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings
+  parent: OfficeOpenXml.Export.HtmlExport
+  name: HtmlPictureSettings
+  nameWithType: HtmlPictureSettings
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlPictureSettings

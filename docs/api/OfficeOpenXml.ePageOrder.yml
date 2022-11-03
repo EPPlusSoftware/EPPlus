@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ePageOrder
+  commentId: T:OfficeOpenXml.ePageOrder
+  id: ePageOrder
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ePageOrder.DownThenOver
+  - OfficeOpenXml.ePageOrder.OverThenDown
+  langs:
+  - csharp
+  - vb
+  name: ePageOrder
+  nameWithType: ePageOrder
+  fullName: OfficeOpenXml.ePageOrder
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePageOrder
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 309
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSpecifies printed page order\n"
+  example: []
+  syntax:
+    content: public enum ePageOrder
+    content.vb: Public Enum ePageOrder
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ePageOrder.DownThenOver
+  commentId: F:OfficeOpenXml.ePageOrder.DownThenOver
+  id: DownThenOver
+  parent: OfficeOpenXml.ePageOrder
+  langs:
+  - csharp
+  - vb
+  name: DownThenOver
+  nameWithType: ePageOrder.DownThenOver
+  fullName: OfficeOpenXml.ePageOrder.DownThenOver
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DownThenOver
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 315
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nOrder pages vertically first, then move horizontally.\n"
+  example: []
+  syntax:
+    content: DownThenOver = 0
+    return:
+      type: OfficeOpenXml.ePageOrder
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePageOrder.OverThenDown
+  commentId: F:OfficeOpenXml.ePageOrder.OverThenDown
+  id: OverThenDown
+  parent: OfficeOpenXml.ePageOrder
+  langs:
+  - csharp
+  - vb
+  name: OverThenDown
+  nameWithType: ePageOrder.OverThenDown
+  fullName: OfficeOpenXml.ePageOrder.OverThenDown
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OverThenDown
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 319
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nOrder pages horizontally first, then move vertically\n"
+  example: []
+  syntax:
+    content: OverThenDown = 1
+    return:
+      type: OfficeOpenXml.ePageOrder
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.ePageOrder
+  commentId: T:OfficeOpenXml.ePageOrder
+  parent: OfficeOpenXml
+  name: ePageOrder
+  nameWithType: ePageOrder
+  fullName: OfficeOpenXml.ePageOrder

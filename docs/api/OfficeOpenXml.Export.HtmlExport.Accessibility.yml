@@ -1,0 +1,35 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility
+  commentId: N:OfficeOpenXml.Export.HtmlExport.Accessibility
+  id: OfficeOpenXml.Export.HtmlExport.Accessibility
+  children:
+  - OfficeOpenXml.Export.HtmlExport.Accessibility.AccessibilitySettings
+  - OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Export.HtmlExport.Accessibility
+  nameWithType: OfficeOpenXml.Export.HtmlExport.Accessibility
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.AccessibilitySettings
+  commentId: T:OfficeOpenXml.Export.HtmlExport.Accessibility.AccessibilitySettings
+  parent: OfficeOpenXml.Export.HtmlExport.Accessibility
+  name: AccessibilitySettings
+  nameWithType: AccessibilitySettings
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.AccessibilitySettings
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  commentId: T:OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+  parent: OfficeOpenXml.Export.HtmlExport.Accessibility
+  name: TableAccessibilitySettings
+  nameWithType: TableAccessibilitySettings
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility.TableAccessibilitySettings
+- uid: OfficeOpenXml.Export.HtmlExport.Accessibility
+  commentId: N:OfficeOpenXml.Export.HtmlExport.Accessibility
+  name: OfficeOpenXml.Export.HtmlExport.Accessibility
+  nameWithType: OfficeOpenXml.Export.HtmlExport.Accessibility
+  fullName: OfficeOpenXml.Export.HtmlExport.Accessibility

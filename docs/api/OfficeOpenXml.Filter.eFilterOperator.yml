@@ -1,0 +1,258 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Filter.eFilterOperator
+  commentId: T:OfficeOpenXml.Filter.eFilterOperator
+  id: eFilterOperator
+  parent: OfficeOpenXml.Filter
+  children:
+  - OfficeOpenXml.Filter.eFilterOperator.Equal
+  - OfficeOpenXml.Filter.eFilterOperator.GreaterThan
+  - OfficeOpenXml.Filter.eFilterOperator.GreaterThanOrEqual
+  - OfficeOpenXml.Filter.eFilterOperator.LessThan
+  - OfficeOpenXml.Filter.eFilterOperator.LessThanOrEqual
+  - OfficeOpenXml.Filter.eFilterOperator.NotEqual
+  langs:
+  - csharp
+  - vb
+  name: eFilterOperator
+  nameWithType: eFilterOperator
+  fullName: OfficeOpenXml.Filter.eFilterOperator
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eFilterOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eFilterOperator
+    path: ../src/EPPlus/Filter/enums/eFilterOperator.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nOperator used by the filter comparison\n"
+  example: []
+  syntax:
+    content: public enum eFilterOperator
+    content.vb: Public Enum eFilterOperator
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Filter.eFilterOperator.Equal
+  commentId: F:OfficeOpenXml.Filter.eFilterOperator.Equal
+  id: Equal
+  parent: OfficeOpenXml.Filter.eFilterOperator
+  langs:
+  - csharp
+  - vb
+  name: Equal
+  nameWithType: eFilterOperator.Equal
+  fullName: OfficeOpenXml.Filter.eFilterOperator.Equal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eFilterOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Equal
+    path: ../src/EPPlus/Filter/enums/eFilterOperator.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShow results which are equal to the criteria\n"
+  example: []
+  syntax:
+    content: Equal = 0
+    return:
+      type: OfficeOpenXml.Filter.eFilterOperator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eFilterOperator.GreaterThan
+  commentId: F:OfficeOpenXml.Filter.eFilterOperator.GreaterThan
+  id: GreaterThan
+  parent: OfficeOpenXml.Filter.eFilterOperator
+  langs:
+  - csharp
+  - vb
+  name: GreaterThan
+  nameWithType: eFilterOperator.GreaterThan
+  fullName: OfficeOpenXml.Filter.eFilterOperator.GreaterThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eFilterOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GreaterThan
+    path: ../src/EPPlus/Filter/enums/eFilterOperator.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShow results which are greater than the criteria\n"
+  example: []
+  syntax:
+    content: GreaterThan = 1
+    return:
+      type: OfficeOpenXml.Filter.eFilterOperator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eFilterOperator.GreaterThanOrEqual
+  commentId: F:OfficeOpenXml.Filter.eFilterOperator.GreaterThanOrEqual
+  id: GreaterThanOrEqual
+  parent: OfficeOpenXml.Filter.eFilterOperator
+  langs:
+  - csharp
+  - vb
+  name: GreaterThanOrEqual
+  nameWithType: eFilterOperator.GreaterThanOrEqual
+  fullName: OfficeOpenXml.Filter.eFilterOperator.GreaterThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eFilterOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GreaterThanOrEqual
+    path: ../src/EPPlus/Filter/enums/eFilterOperator.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShow results which are greater than or equal to the criteria\n"
+  example: []
+  syntax:
+    content: GreaterThanOrEqual = 2
+    return:
+      type: OfficeOpenXml.Filter.eFilterOperator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eFilterOperator.LessThan
+  commentId: F:OfficeOpenXml.Filter.eFilterOperator.LessThan
+  id: LessThan
+  parent: OfficeOpenXml.Filter.eFilterOperator
+  langs:
+  - csharp
+  - vb
+  name: LessThan
+  nameWithType: eFilterOperator.LessThan
+  fullName: OfficeOpenXml.Filter.eFilterOperator.LessThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eFilterOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LessThan
+    path: ../src/EPPlus/Filter/enums/eFilterOperator.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShow results which are less than the criteria\n"
+  example: []
+  syntax:
+    content: LessThan = 3
+    return:
+      type: OfficeOpenXml.Filter.eFilterOperator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eFilterOperator.LessThanOrEqual
+  commentId: F:OfficeOpenXml.Filter.eFilterOperator.LessThanOrEqual
+  id: LessThanOrEqual
+  parent: OfficeOpenXml.Filter.eFilterOperator
+  langs:
+  - csharp
+  - vb
+  name: LessThanOrEqual
+  nameWithType: eFilterOperator.LessThanOrEqual
+  fullName: OfficeOpenXml.Filter.eFilterOperator.LessThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eFilterOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LessThanOrEqual
+    path: ../src/EPPlus/Filter/enums/eFilterOperator.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShow results which are less than or equal to the criteria\n"
+  example: []
+  syntax:
+    content: LessThanOrEqual = 4
+    return:
+      type: OfficeOpenXml.Filter.eFilterOperator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Filter.eFilterOperator.NotEqual
+  commentId: F:OfficeOpenXml.Filter.eFilterOperator.NotEqual
+  id: NotEqual
+  parent: OfficeOpenXml.Filter.eFilterOperator
+  langs:
+  - csharp
+  - vb
+  name: NotEqual
+  nameWithType: eFilterOperator.NotEqual
+  fullName: OfficeOpenXml.Filter.eFilterOperator.NotEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Filter/enums/eFilterOperator.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NotEqual
+    path: ../src/EPPlus/Filter/enums/eFilterOperator.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nShow results which are Not Equal to the criteria\n"
+  example: []
+  syntax:
+    content: NotEqual = 5
+    return:
+      type: OfficeOpenXml.Filter.eFilterOperator
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Filter
+  commentId: N:OfficeOpenXml.Filter
+  name: OfficeOpenXml.Filter
+  nameWithType: OfficeOpenXml.Filter
+  fullName: OfficeOpenXml.Filter
+- uid: OfficeOpenXml.Filter.eFilterOperator
+  commentId: T:OfficeOpenXml.Filter.eFilterOperator
+  parent: OfficeOpenXml.Filter
+  name: eFilterOperator
+  nameWithType: eFilterOperator
+  fullName: OfficeOpenXml.Filter.eFilterOperator

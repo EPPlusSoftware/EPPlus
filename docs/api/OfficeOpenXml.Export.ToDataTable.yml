@@ -1,0 +1,62 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.ToDataTable
+  commentId: N:OfficeOpenXml.Export.ToDataTable
+  id: OfficeOpenXml.Export.ToDataTable
+  children:
+  - OfficeOpenXml.Export.ToDataTable.DataColumnMapping
+  - OfficeOpenXml.Export.ToDataTable.DataColumnMappingCollection
+  - OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+  - OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+  - OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Export.ToDataTable
+  nameWithType: OfficeOpenXml.Export.ToDataTable
+  fullName: OfficeOpenXml.Export.ToDataTable
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Export.ToDataTable.DataColumnMapping
+  commentId: T:OfficeOpenXml.Export.ToDataTable.DataColumnMapping
+  name: DataColumnMapping
+  nameWithType: DataColumnMapping
+  fullName: OfficeOpenXml.Export.ToDataTable.DataColumnMapping
+- uid: OfficeOpenXml.Export.ToDataTable.DataColumnMappingCollection
+  commentId: T:OfficeOpenXml.Export.ToDataTable.DataColumnMappingCollection
+  parent: OfficeOpenXml.Export.ToDataTable
+  name: DataColumnMappingCollection
+  nameWithType: DataColumnMappingCollection
+  fullName: OfficeOpenXml.Export.ToDataTable.DataColumnMappingCollection
+- uid: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+  commentId: T:OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+  parent: OfficeOpenXml.Export.ToDataTable
+  name: EmptyRowsStrategy
+  nameWithType: EmptyRowsStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+- uid: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+  commentId: T:OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+  parent: OfficeOpenXml.Export.ToDataTable
+  name: ExcelErrorParsingStrategy
+  nameWithType: ExcelErrorParsingStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.ExcelErrorParsingStrategy
+- uid: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+  commentId: T:OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+  parent: OfficeOpenXml.Export.ToDataTable
+  name: NameParsingStrategy
+  nameWithType: NameParsingStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.NameParsingStrategy
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  commentId: T:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  parent: OfficeOpenXml.Export.ToDataTable
+  name: ToDataTableOptions
+  nameWithType: ToDataTableOptions
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+- uid: OfficeOpenXml.Export.ToDataTable
+  commentId: N:OfficeOpenXml.Export.ToDataTable
+  name: OfficeOpenXml.Export.ToDataTable
+  nameWithType: OfficeOpenXml.Export.ToDataTable
+  fullName: OfficeOpenXml.Export.ToDataTable

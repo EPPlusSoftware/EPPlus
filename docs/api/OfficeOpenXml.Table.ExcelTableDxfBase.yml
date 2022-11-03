@@ -1,0 +1,501 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.ExcelTableDxfBase
+  commentId: T:OfficeOpenXml.Table.ExcelTableDxfBase
+  id: ExcelTableDxfBase
+  parent: OfficeOpenXml.Table
+  children:
+  - OfficeOpenXml.Table.ExcelTableDxfBase.DataStyle
+  - OfficeOpenXml.Table.ExcelTableDxfBase.HeaderRowStyle
+  - OfficeOpenXml.Table.ExcelTableDxfBase.TotalsRowStyle
+  langs:
+  - csharp
+  - vb
+  name: ExcelTableDxfBase
+  nameWithType: ExcelTableDxfBase
+  fullName: OfficeOpenXml.Table.ExcelTableDxfBase
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableDxfBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelTableDxfBase
+    path: ../src/EPPlus/Table/ExcelTableDxfBase.cs
+    startLine: 12
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nBase class for handling differnetial style records for tables.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelTableDxfBase : XmlHelper'
+    content.vb: >-
+      Public Class ExcelTableDxfBase
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  derivedClasses:
+  - OfficeOpenXml.Table.ExcelTable
+  - OfficeOpenXml.Table.ExcelTableColumn
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.ExcelTableDxfBase.HeaderRowStyle
+  commentId: P:OfficeOpenXml.Table.ExcelTableDxfBase.HeaderRowStyle
+  id: HeaderRowStyle
+  parent: OfficeOpenXml.Table.ExcelTableDxfBase
+  langs:
+  - csharp
+  - vb
+  name: HeaderRowStyle
+  nameWithType: ExcelTableDxfBase.HeaderRowStyle
+  fullName: OfficeOpenXml.Table.ExcelTableDxfBase.HeaderRowStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableDxfBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HeaderRowStyle
+    path: ../src/EPPlus/Table/ExcelTableDxfBase.cs
+    startLine: 56
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nStyle applied on the header range of a table. \n"
+  example: []
+  syntax:
+    content: public ExcelDxfStyle HeaderRowStyle { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfStyle
+    content.vb: Public ReadOnly Property HeaderRowStyle As ExcelDxfStyle
+  overload: OfficeOpenXml.Table.ExcelTableDxfBase.HeaderRowStyle*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.ExcelTableDxfBase.DataStyle
+  commentId: P:OfficeOpenXml.Table.ExcelTableDxfBase.DataStyle
+  id: DataStyle
+  parent: OfficeOpenXml.Table.ExcelTableDxfBase
+  langs:
+  - csharp
+  - vb
+  name: DataStyle
+  nameWithType: ExcelTableDxfBase.DataStyle
+  fullName: OfficeOpenXml.Table.ExcelTableDxfBase.DataStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableDxfBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataStyle
+    path: ../src/EPPlus/Table/ExcelTableDxfBase.cs
+    startLine: 71
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nStyle applied on the data range of a table. \n"
+  example: []
+  syntax:
+    content: public ExcelDxfStyle DataStyle { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfStyle
+    content.vb: Public ReadOnly Property DataStyle As ExcelDxfStyle
+  overload: OfficeOpenXml.Table.ExcelTableDxfBase.DataStyle*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.ExcelTableDxfBase.TotalsRowStyle
+  commentId: P:OfficeOpenXml.Table.ExcelTableDxfBase.TotalsRowStyle
+  id: TotalsRowStyle
+  parent: OfficeOpenXml.Table.ExcelTableDxfBase
+  langs:
+  - csharp
+  - vb
+  name: TotalsRowStyle
+  nameWithType: ExcelTableDxfBase.TotalsRowStyle
+  fullName: OfficeOpenXml.Table.ExcelTableDxfBase.TotalsRowStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableDxfBase.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TotalsRowStyle
+    path: ../src/EPPlus/Table/ExcelTableDxfBase.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\n\n"
+  example: []
+  syntax:
+    content: public ExcelDxfStyle TotalsRowStyle { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfStyle
+    content.vb: Public ReadOnly Property TotalsRowStyle As ExcelDxfStyle
+  overload: OfficeOpenXml.Table.ExcelTableDxfBase.TotalsRowStyle*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Table.ExcelTableDxfBase.HeaderRowStyle*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableDxfBase.HeaderRowStyle
+  name: HeaderRowStyle
+  nameWithType: ExcelTableDxfBase.HeaderRowStyle
+  fullName: OfficeOpenXml.Table.ExcelTableDxfBase.HeaderRowStyle
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfStyle
+  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfStyle
+  parent: OfficeOpenXml.Style.Dxf
+  name: ExcelDxfStyle
+  nameWithType: ExcelDxfStyle
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfStyle
+- uid: OfficeOpenXml.Style.Dxf
+  commentId: N:OfficeOpenXml.Style.Dxf
+  name: OfficeOpenXml.Style.Dxf
+  nameWithType: OfficeOpenXml.Style.Dxf
+  fullName: OfficeOpenXml.Style.Dxf
+- uid: OfficeOpenXml.Table.ExcelTableDxfBase.DataStyle*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableDxfBase.DataStyle
+  name: DataStyle
+  nameWithType: ExcelTableDxfBase.DataStyle
+  fullName: OfficeOpenXml.Table.ExcelTableDxfBase.DataStyle
+- uid: OfficeOpenXml.Table.ExcelTableDxfBase.TotalsRowStyle*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableDxfBase.TotalsRowStyle
+  name: TotalsRowStyle
+  nameWithType: ExcelTableDxfBase.TotalsRowStyle
+  fullName: OfficeOpenXml.Table.ExcelTableDxfBase.TotalsRowStyle

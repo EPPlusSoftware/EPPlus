@@ -1,0 +1,1076 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup
+  commentId: T:OfficeOpenXml.Drawing.ExcelDrawingsGroup
+  id: ExcelDrawingsGroup
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.ExcelDrawingsGroup.Add(OfficeOpenXml.Drawing.ExcelDrawing)
+  - OfficeOpenXml.Drawing.ExcelDrawingsGroup.Clear
+  - OfficeOpenXml.Drawing.ExcelDrawingsGroup.Count
+  - OfficeOpenXml.Drawing.ExcelDrawingsGroup.Dispose
+  - OfficeOpenXml.Drawing.ExcelDrawingsGroup.GetEnumerator
+  - OfficeOpenXml.Drawing.ExcelDrawingsGroup.Item(System.Int32)
+  - OfficeOpenXml.Drawing.ExcelDrawingsGroup.Item(System.String)
+  - OfficeOpenXml.Drawing.ExcelDrawingsGroup.Remove(OfficeOpenXml.Drawing.ExcelDrawing)
+  - OfficeOpenXml.Drawing.ExcelDrawingsGroup.System#Collections#IEnumerable#GetEnumerator
+  langs:
+  - csharp
+  - vb
+  name: ExcelDrawingsGroup
+  nameWithType: ExcelDrawingsGroup
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelGroupShape.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDrawingsGroup
+    path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA collection of child drawings to a group drawing\n"
+  example: []
+  syntax:
+    content: 'public class ExcelDrawingsGroup : IEnumerable<ExcelDrawing>, IEnumerable, IDisposable'
+    content.vb: >-
+      Public Class ExcelDrawingsGroup
+          Implements IEnumerable(Of ExcelDrawing), IEnumerable, IDisposable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}
+  - System.Collections.IEnumerable
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Add(OfficeOpenXml.Drawing.ExcelDrawing)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawingsGroup.Add(OfficeOpenXml.Drawing.ExcelDrawing)
+  id: Add(OfficeOpenXml.Drawing.ExcelDrawing)
+  parent: OfficeOpenXml.Drawing.ExcelDrawingsGroup
+  langs:
+  - csharp
+  - vb
+  name: Add(ExcelDrawing)
+  nameWithType: ExcelDrawingsGroup.Add(ExcelDrawing)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Add(OfficeOpenXml.Drawing.ExcelDrawing)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelGroupShape.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
+    startLine: 57
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdds a drawing to the group\n"
+  example: []
+  syntax:
+    content: public void Add(ExcelDrawing drawing)
+    parameters:
+    - id: drawing
+      type: OfficeOpenXml.Drawing.ExcelDrawing
+      description: ''
+    content.vb: Public Sub Add(drawing As ExcelDrawing)
+  overload: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Dispose
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawingsGroup.Dispose
+  id: Dispose
+  parent: OfficeOpenXml.Drawing.ExcelDrawingsGroup
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: ExcelDrawingsGroup.Dispose()
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelGroupShape.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dispose
+    path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
+    startLine: 187
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nDisposes the class\n"
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose
+  overload: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Count
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingsGroup.Count
+  id: Count
+  parent: OfficeOpenXml.Drawing.ExcelDrawingsGroup
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelDrawingsGroup.Count
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelGroupShape.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
+    startLine: 195
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nNumber of items in the collection\n"
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Count*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingsGroup.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Drawing.ExcelDrawingsGroup
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelDrawingsGroup.Item[Int32]
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelGroupShape.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
+    startLine: 201
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing at the specified position.  \n"
+  example: []
+  syntax:
+    content: public ExcelDrawing this[int PositionID] { get; }
+    parameters:
+    - id: PositionID
+      type: System.Int32
+      description: The position of the drawing. 0-base
+    return:
+      type: OfficeOpenXml.Drawing.ExcelDrawing
+      description: ''
+    content.vb: Public ReadOnly Property Item(PositionID As Integer) As ExcelDrawing
+  overload: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Item*
+  nameWithType.vb: ExcelDrawingsGroup.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Item(System.String)
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingsGroup.Item(System.String)
+  id: Item(System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawingsGroup
+  langs:
+  - csharp
+  - vb
+  name: Item[String]
+  nameWithType: ExcelDrawingsGroup.Item[String]
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Item[System.String]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelGroupShape.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
+    startLine: 213
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nReturns the drawing matching the specified name\n"
+  example: []
+  syntax:
+    content: public ExcelDrawing this[string Name] { get; }
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name of the worksheet
+    return:
+      type: OfficeOpenXml.Drawing.ExcelDrawing
+      description: ''
+    content.vb: Public ReadOnly Property Item(Name As String) As ExcelDrawing
+  overload: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Item*
+  nameWithType.vb: ExcelDrawingsGroup.Item(String)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Item(System.String)
+  name.vb: Item(String)
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup.GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawingsGroup.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.Drawing.ExcelDrawingsGroup
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelDrawingsGroup.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelGroupShape.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
+    startLine: 231
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nGets the enumerator for the collection\n"
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelDrawing> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.ExcelDrawing}
+      description: The enumerator
+    content.vb: Public Function GetEnumerator As IEnumerator(Of ExcelDrawing)
+  overload: OfficeOpenXml.Drawing.ExcelDrawingsGroup.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}.GetEnumerator
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawingsGroup.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.Drawing.ExcelDrawingsGroup
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelDrawingsGroup.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelGroupShape.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
+    startLine: 236
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.Drawing.ExcelDrawingsGroup.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelDrawingsGroup.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Remove(OfficeOpenXml.Drawing.ExcelDrawing)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawingsGroup.Remove(OfficeOpenXml.Drawing.ExcelDrawing)
+  id: Remove(OfficeOpenXml.Drawing.ExcelDrawing)
+  parent: OfficeOpenXml.Drawing.ExcelDrawingsGroup
+  langs:
+  - csharp
+  - vb
+  name: Remove(ExcelDrawing)
+  nameWithType: ExcelDrawingsGroup.Remove(ExcelDrawing)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Remove(OfficeOpenXml.Drawing.ExcelDrawing)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelGroupShape.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
+    startLine: 245
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRemoves the <xref href=\"OfficeOpenXml.Drawing.ExcelDrawing\" data-throw-if-not-resolved=\"false\"></xref> from the group\n"
+  example: []
+  syntax:
+    content: public void Remove(ExcelDrawing drawing)
+    parameters:
+    - id: drawing
+      type: OfficeOpenXml.Drawing.ExcelDrawing
+      description: The drawing to remove
+    content.vb: Public Sub Remove(drawing As ExcelDrawing)
+  overload: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Clear
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawingsGroup.Clear
+  id: Clear
+  parent: OfficeOpenXml.Drawing.ExcelDrawingsGroup
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: ExcelDrawingsGroup.Clear()
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelGroupShape.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clear
+    path: ../src/EPPlus/Drawing/ExcelGroupShape.cs
+    startLine: 265
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRemoves all children drawings from the group.\n"
+  example: []
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear
+  overload: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Clear*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelDrawing>
+  nameWithType: IEnumerable<ExcelDrawing>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>
+  nameWithType.vb: IEnumerable(Of ExcelDrawing)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.ExcelDrawing)
+  name.vb: IEnumerable(Of ExcelDrawing)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing
+    name: ExcelDrawing
+    nameWithType: ExcelDrawing
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing
+    name: ExcelDrawing
+    nameWithType: ExcelDrawing
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Add*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingsGroup.Add
+  name: Add
+  nameWithType: ExcelDrawingsGroup.Add
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Add
+- uid: OfficeOpenXml.Drawing.ExcelDrawing
+  commentId: T:OfficeOpenXml.Drawing.ExcelDrawing
+  parent: OfficeOpenXml.Drawing
+  name: ExcelDrawing
+  nameWithType: ExcelDrawing
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Dispose*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingsGroup.Dispose
+  name: Dispose
+  nameWithType: ExcelDrawingsGroup.Dispose
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Count*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingsGroup.Count
+  name: Count
+  nameWithType: ExcelDrawingsGroup.Count
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Item*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingsGroup.Item
+  name: Item
+  nameWithType: ExcelDrawingsGroup.Item
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Item
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingsGroup.GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelDrawingsGroup.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.Drawing.ExcelDrawing}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelDrawing>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelDrawing).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.ExcelDrawing).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ExcelDrawing>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ExcelDrawing).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Drawing.ExcelDrawing).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.ExcelDrawing}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.Drawing.ExcelDrawing}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ExcelDrawing>
+  nameWithType: IEnumerator<ExcelDrawing>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.Drawing.ExcelDrawing>
+  nameWithType.vb: IEnumerator(Of ExcelDrawing)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.Drawing.ExcelDrawing)
+  name.vb: IEnumerator(Of ExcelDrawing)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing
+    name: ExcelDrawing
+    nameWithType: ExcelDrawing
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing
+    name: ExcelDrawing
+    nameWithType: ExcelDrawing
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingsGroup.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelDrawingsGroup.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelDrawingsGroup.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Remove*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingsGroup.Remove
+  name: Remove
+  nameWithType: ExcelDrawingsGroup.Remove
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Remove
+- uid: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Clear*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawingsGroup.Clear
+  name: Clear
+  nameWithType: ExcelDrawingsGroup.Clear
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingsGroup.Clear

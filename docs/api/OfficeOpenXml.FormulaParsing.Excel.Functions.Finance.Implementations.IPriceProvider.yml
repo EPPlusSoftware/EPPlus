@@ -1,0 +1,127 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider
+  id: IPriceProvider
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  children:
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider.GetPrice(System.DateTime,System.DateTime,System.Double,System.Double,System.Double,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  langs:
+  - csharp
+  - vb
+  name: IPriceProvider
+  nameWithType: IPriceProvider
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPriceProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IPriceProvider
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPriceProvider.cs
+    startLine: 16
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: public interface IPriceProvider
+    content.vb: Public Interface IPriceProvider
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider.GetPrice(System.DateTime,System.DateTime,System.Double,System.Double,System.Double,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider.GetPrice(System.DateTime,System.DateTime,System.Double,System.Double,System.Double,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  id: GetPrice(System.DateTime,System.DateTime,System.Double,System.Double,System.Double,System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider
+  langs:
+  - csharp
+  - vb
+  name: GetPrice(DateTime, DateTime, Double, Double, Double, Int32, DayCountBasis)
+  nameWithType: IPriceProvider.GetPrice(DateTime, DateTime, Double, Double, Double, Int32, DayCountBasis)
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider.GetPrice(System.DateTime, System.DateTime, System.Double, System.Double, System.Double, System.Int32, OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPriceProvider.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetPrice
+    path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPriceProvider.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  syntax:
+    content: double GetPrice(DateTime settlement, DateTime maturity, double rate, double yield, double redemption, int frequency, DayCountBasis basis = DayCountBasis.US_30_360)
+    parameters:
+    - id: settlement
+      type: System.DateTime
+    - id: maturity
+      type: System.DateTime
+    - id: rate
+      type: System.Double
+    - id: yield
+      type: System.Double
+    - id: redemption
+      type: System.Double
+    - id: frequency
+      type: System.Int32
+    - id: basis
+      type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+    return:
+      type: System.Double
+    content.vb: Function GetPrice(settlement As Date, maturity As Date, rate As Double, yield As Double, redemption As Double, frequency As Integer, basis As DayCountBasis = DayCountBasis.US_30_360) As Double
+  overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider.GetPrice*
+references:
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider.GetPrice*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider.GetPrice
+  name: GetPrice
+  nameWithType: IPriceProvider.GetPrice
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPriceProvider.GetPrice
+- uid: System.DateTime
+  commentId: T:System.DateTime
+  parent: System
+  isExternal: true
+  name: DateTime
+  nameWithType: DateTime
+  fullName: System.DateTime
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  commentId: T:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  name: DayCountBasis
+  nameWithType: DayCountBasis
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount.DayCountBasis
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  commentId: N:OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  nameWithType: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount

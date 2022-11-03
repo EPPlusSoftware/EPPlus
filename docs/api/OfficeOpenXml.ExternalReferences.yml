@@ -1,0 +1,200 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExternalReferences
+  commentId: N:OfficeOpenXml.ExternalReferences
+  id: OfficeOpenXml.ExternalReferences
+  children:
+  - OfficeOpenXml.ExternalReferences.eDdeValueType
+  - OfficeOpenXml.ExternalReferences.eExternalLinkType
+  - OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  - OfficeOpenXml.ExternalReferences.ExcelExternalCellCollection
+  - OfficeOpenXml.ExternalReferences.ExcelExternalCellValue
+  - OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+  - OfficeOpenXml.ExternalReferences.ExcelExternalDdeItemCollection
+  - OfficeOpenXml.ExternalReferences.ExcelExternalDdeLink
+  - OfficeOpenXml.ExternalReferences.ExcelExternalDdeValue
+  - OfficeOpenXml.ExternalReferences.ExcelExternalDdeValueCollection
+  - OfficeOpenXml.ExternalReferences.ExcelExternalDefinedName
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLinkAsType
+  - OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  - OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection`1
+  - OfficeOpenXml.ExternalReferences.ExcelExternalOleItem
+  - OfficeOpenXml.ExternalReferences.ExcelExternalOleItemsCollection
+  - OfficeOpenXml.ExternalReferences.ExcelExternalOleLink
+  - OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  - OfficeOpenXml.ExternalReferences.ExcelExternalWorksheet
+  - OfficeOpenXml.ExternalReferences.ExcelExternalWorksheetCollection
+  - OfficeOpenXml.ExternalReferences.IExcelExternalNamedItem
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.ExternalReferences
+  nameWithType: OfficeOpenXml.ExternalReferences
+  fullName: OfficeOpenXml.ExternalReferences
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.ExternalReferences.eDdeValueType
+  commentId: T:OfficeOpenXml.ExternalReferences.eDdeValueType
+  parent: OfficeOpenXml.ExternalReferences
+  name: eDdeValueType
+  nameWithType: eDdeValueType
+  fullName: OfficeOpenXml.ExternalReferences.eDdeValueType
+- uid: OfficeOpenXml.ExternalReferences.eExternalLinkType
+  commentId: T:OfficeOpenXml.ExternalReferences.eExternalLinkType
+  parent: OfficeOpenXml.ExternalReferences
+  name: eExternalLinkType
+  nameWithType: eExternalLinkType
+  fullName: OfficeOpenXml.ExternalReferences.eExternalLinkType
+- uid: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  commentId: T:OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+  parent: OfficeOpenXml.ExternalReferences
+  name: eExternalWorkbookCacheStatus
+  nameWithType: eExternalWorkbookCacheStatus
+  fullName: OfficeOpenXml.ExternalReferences.eExternalWorkbookCacheStatus
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalCellCollection
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalCellCollection
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalCellCollection
+  nameWithType: ExcelExternalCellCollection
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalCellCollection
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalCellValue
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalCellValue
+  nameWithType: ExcelExternalCellValue
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalCellValue
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+  name: ExcelExternalDdeItem
+  nameWithType: ExcelExternalDdeItem
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItemCollection
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalDdeItemCollection
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalDdeItemCollection
+  nameWithType: ExcelExternalDdeItemCollection
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItemCollection
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeLink
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalDdeLink
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalDdeLink
+  nameWithType: ExcelExternalDdeLink
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalDdeLink
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeValue
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalDdeValue
+  name: ExcelExternalDdeValue
+  nameWithType: ExcelExternalDdeValue
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalDdeValue
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeValueCollection
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalDdeValueCollection
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalDdeValueCollection
+  nameWithType: ExcelExternalDdeValueCollection
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalDdeValueCollection
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalDefinedName
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalDefinedName
+  name: ExcelExternalDefinedName
+  nameWithType: ExcelExternalDefinedName
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalDefinedName
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalLink
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalLink
+  nameWithType: ExcelExternalLink
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLink
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinkAsType
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalLinkAsType
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalLinkAsType
+  nameWithType: ExcelExternalLinkAsType
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinkAsType
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalLinksCollection
+  nameWithType: ExcelExternalLinksCollection
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalLinksCollection
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection`1
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection`1
+  name: ExcelExternalNamedItemCollection<T>
+  nameWithType: ExcelExternalNamedItemCollection<T>
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection<T>
+  nameWithType.vb: ExcelExternalNamedItemCollection(Of T)
+  fullName.vb: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection(Of T)
+  name.vb: ExcelExternalNamedItemCollection(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection`1
+    name: ExcelExternalNamedItemCollection
+    nameWithType: ExcelExternalNamedItemCollection
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection`1
+    name: ExcelExternalNamedItemCollection
+    nameWithType: ExcelExternalNamedItemCollection
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalNamedItemCollection
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalOleItem
+  name: ExcelExternalOleItem
+  nameWithType: ExcelExternalOleItem
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalOleItem
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalOleItemsCollection
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalOleItemsCollection
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalOleItemsCollection
+  nameWithType: ExcelExternalOleItemsCollection
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalOleItemsCollection
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalOleLink
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalOleLink
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalOleLink
+  nameWithType: ExcelExternalOleLink
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalOleLink
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalWorkbook
+  nameWithType: ExcelExternalWorkbook
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorkbook
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorksheet
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalWorksheet
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalWorksheet
+  nameWithType: ExcelExternalWorksheet
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorksheet
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalWorksheetCollection
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalWorksheetCollection
+  name: ExcelExternalWorksheetCollection
+  nameWithType: ExcelExternalWorksheetCollection
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalWorksheetCollection
+- uid: OfficeOpenXml.ExternalReferences.IExcelExternalNamedItem
+  commentId: T:OfficeOpenXml.ExternalReferences.IExcelExternalNamedItem
+  parent: OfficeOpenXml.ExternalReferences
+  name: IExcelExternalNamedItem
+  nameWithType: IExcelExternalNamedItem
+  fullName: OfficeOpenXml.ExternalReferences.IExcelExternalNamedItem
+- uid: OfficeOpenXml.ExternalReferences
+  commentId: N:OfficeOpenXml.ExternalReferences
+  name: OfficeOpenXml.ExternalReferences
+  nameWithType: OfficeOpenXml.ExternalReferences
+  fullName: OfficeOpenXml.ExternalReferences

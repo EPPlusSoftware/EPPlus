@@ -1,0 +1,158 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DataValidation.Contracts
+  commentId: N:OfficeOpenXml.DataValidation.Contracts
+  id: OfficeOpenXml.DataValidation.Contracts
+  children:
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationAny
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationCustom
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDateTime
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationTime
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula`1
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula2`1
+  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.DataValidation.Contracts
+  nameWithType: OfficeOpenXml.DataValidation.Contracts
+  fullName: OfficeOpenXml.DataValidation.Contracts
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidation
+  nameWithType: IExcelDataValidation
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationAny
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationAny
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationAny
+  nameWithType: IExcelDataValidationAny
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationAny
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationCustom
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationCustom
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationCustom
+  nameWithType: IExcelDataValidationCustom
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationCustom
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDateTime
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDateTime
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationDateTime
+  nameWithType: IExcelDataValidationDateTime
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDateTime
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationDecimal
+  nameWithType: IExcelDataValidationDecimal
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationDecimal
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationInt
+  nameWithType: IExcelDataValidationInt
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationInt
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationList
+  nameWithType: IExcelDataValidationList
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationList
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationTime
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationTime
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationTime
+  nameWithType: IExcelDataValidationTime
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationTime
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula`1
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula`1
+  name: IExcelDataValidationWithFormula<T>
+  nameWithType: IExcelDataValidationWithFormula<T>
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula<T>
+  nameWithType.vb: IExcelDataValidationWithFormula(Of T)
+  fullName.vb: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula(Of T)
+  name.vb: IExcelDataValidationWithFormula(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula`1
+    name: IExcelDataValidationWithFormula
+    nameWithType: IExcelDataValidationWithFormula
+    fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula`1
+    name: IExcelDataValidationWithFormula
+    nameWithType: IExcelDataValidationWithFormula
+    fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula2`1
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula2`1
+  name: IExcelDataValidationWithFormula2<T>
+  nameWithType: IExcelDataValidationWithFormula2<T>
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula2<T>
+  nameWithType.vb: IExcelDataValidationWithFormula2(Of T)
+  fullName.vb: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula2(Of T)
+  name.vb: IExcelDataValidationWithFormula2(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula2`1
+    name: IExcelDataValidationWithFormula2
+    nameWithType: IExcelDataValidationWithFormula2
+    fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula2
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula2`1
+    name: IExcelDataValidationWithFormula2
+    nameWithType: IExcelDataValidationWithFormula2
+    fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula2
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator
+  commentId: T:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator
+  parent: OfficeOpenXml.DataValidation.Contracts
+  name: IExcelDataValidationWithOperator
+  nameWithType: IExcelDataValidationWithOperator
+  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithOperator
+- uid: OfficeOpenXml.DataValidation.Contracts
+  commentId: N:OfficeOpenXml.DataValidation.Contracts
+  name: OfficeOpenXml.DataValidation.Contracts
+  nameWithType: OfficeOpenXml.DataValidation.Contracts
+  fullName: OfficeOpenXml.DataValidation.Contracts

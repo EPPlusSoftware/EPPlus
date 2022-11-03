@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Controls.eDropStyle
+  commentId: T:OfficeOpenXml.Drawing.Controls.eDropStyle
+  id: eDropStyle
+  parent: OfficeOpenXml.Drawing.Controls
+  children:
+  - OfficeOpenXml.Drawing.Controls.eDropStyle.Combo
+  - OfficeOpenXml.Drawing.Controls.eDropStyle.ComboEdit
+  - OfficeOpenXml.Drawing.Controls.eDropStyle.Simple
+  langs:
+  - csharp
+  - vb
+  name: eDropStyle
+  nameWithType: eDropStyle
+  fullName: OfficeOpenXml.Drawing.Controls.eDropStyle
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eDropStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eDropStyle
+    path: ../src/EPPlus/Drawing/Controls/enums/eDropStyle.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nA style for a form control drop-down.\n"
+  example: []
+  syntax:
+    content: public enum eDropStyle
+    content.vb: Public Enum eDropStyle
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Controls.eDropStyle.Combo
+  commentId: F:OfficeOpenXml.Drawing.Controls.eDropStyle.Combo
+  id: Combo
+  parent: OfficeOpenXml.Drawing.Controls.eDropStyle
+  langs:
+  - csharp
+  - vb
+  name: Combo
+  nameWithType: eDropStyle.Combo
+  fullName: OfficeOpenXml.Drawing.Controls.eDropStyle.Combo
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eDropStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Combo
+    path: ../src/EPPlus/Drawing/Controls/enums/eDropStyle.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nA standard combo box\n"
+  example: []
+  syntax:
+    content: Combo = 0
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eDropStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eDropStyle.ComboEdit
+  commentId: F:OfficeOpenXml.Drawing.Controls.eDropStyle.ComboEdit
+  id: ComboEdit
+  parent: OfficeOpenXml.Drawing.Controls.eDropStyle
+  langs:
+  - csharp
+  - vb
+  name: ComboEdit
+  nameWithType: eDropStyle.ComboEdit
+  fullName: OfficeOpenXml.Drawing.Controls.eDropStyle.ComboEdit
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eDropStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ComboEdit
+    path: ../src/EPPlus/Drawing/Controls/enums/eDropStyle.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nAn editable combo box\n"
+  example: []
+  syntax:
+    content: ComboEdit = 1
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eDropStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Controls.eDropStyle.Simple
+  commentId: F:OfficeOpenXml.Drawing.Controls.eDropStyle.Simple
+  id: Simple
+  parent: OfficeOpenXml.Drawing.Controls.eDropStyle
+  langs:
+  - csharp
+  - vb
+  name: Simple
+  nameWithType: eDropStyle.Simple
+  fullName: OfficeOpenXml.Drawing.Controls.eDropStyle.Simple
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Controls/enums/eDropStyle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Simple
+    path: ../src/EPPlus/Drawing/Controls/enums/eDropStyle.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Controls
+  summary: "\nA standard combo box with only the drop-down button visible when the box is not expanded\n"
+  example: []
+  syntax:
+    content: Simple = 2
+    return:
+      type: OfficeOpenXml.Drawing.Controls.eDropStyle
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Controls
+  commentId: N:OfficeOpenXml.Drawing.Controls
+  name: OfficeOpenXml.Drawing.Controls
+  nameWithType: OfficeOpenXml.Drawing.Controls
+  fullName: OfficeOpenXml.Drawing.Controls
+- uid: OfficeOpenXml.Drawing.Controls.eDropStyle
+  commentId: T:OfficeOpenXml.Drawing.Controls.eDropStyle
+  parent: OfficeOpenXml.Drawing.Controls
+  name: eDropStyle
+  nameWithType: eDropStyle
+  fullName: OfficeOpenXml.Drawing.Controls.eDropStyle

@@ -1,0 +1,231 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  id: FlushType
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  children:
+  - OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.Finish
+  - OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.Full
+  - OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.None
+  - OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.Partial
+  - OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.Sync
+  langs:
+  - csharp
+  - vb
+  name: FlushType
+  nameWithType: FlushType
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FlushType
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 102
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nDescribes how to flush the current deflate operation.\n"
+  remarks: "\nThe different FlushType values are useful when using a Deflate in a streaming application.\n"
+  example: []
+  syntax:
+    content: public enum FlushType
+    content.vb: Public Enum FlushType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.None
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.None
+  id: None
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: FlushType.None
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 105
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: No flush at all.
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.Partial
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.Partial
+  id: Partial
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  langs:
+  - csharp
+  - vb
+  name: Partial
+  nameWithType: FlushType.Partial
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.Partial
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Partial
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 112
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: >
+    Closes the current block, but doesn&apos;t flush it to
+
+    the output. Used internally only in hypothetical
+
+    scenarios.  This was supposed to be removed by Zlib, but it is
+
+    still in use in some edge cases.
+  example: []
+  syntax:
+    content: Partial = 1
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.Sync
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.Sync
+  id: Sync
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  langs:
+  - csharp
+  - vb
+  name: Sync
+  nameWithType: FlushType.Sync
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.Sync
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Sync
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 123
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nUse this during compression to specify that all pending output should be\nflushed to the output buffer and the output should be aligned on a byte\nboundary.  You might use this in a streaming communication scenario, so that\nthe decompressor can get all input data available so far.  When using this\nwith a ZlibCodec, <code>AvailableBytesIn</code> will be zero after the call if\nenough output space has been provided before the call.  Flushing will\ndegrade compression and so it should be used only when necessary.\n"
+  example: []
+  syntax:
+    content: Sync = 2
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.Full
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.Full
+  id: Full
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  langs:
+  - csharp
+  - vb
+  name: Full
+  nameWithType: FlushType.Full
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.Full
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Full
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 132
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nUse this during compression to specify that all output should be flushed, as\nwith <code>FlushType.Sync</code>, but also, the compression state should be reset\nso that decompression can restart from this point if previous compressed\ndata has been damaged or if random access is desired.  Using\n<code>FlushType.Full</code> too often can significantly degrade the compression.\n"
+  example: []
+  syntax:
+    content: Full = 3
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.Finish
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.Finish
+  id: Finish
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  langs:
+  - csharp
+  - vb
+  name: Finish
+  nameWithType: FlushType.Finish
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType.Finish
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Finish
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/Zlib.cs
+    startLine: 135
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: Signals the end of the compression/decompression stream.
+  example: []
+  syntax:
+    content: Finish = 4
+    return:
+      type: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib
+  commentId: N:OfficeOpenXml.Packaging.Ionic.Zlib
+  name: OfficeOpenXml.Packaging.Ionic.Zlib
+  nameWithType: OfficeOpenXml.Packaging.Ionic.Zlib
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.FlushType
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  name: FlushType
+  nameWithType: FlushType
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.FlushType

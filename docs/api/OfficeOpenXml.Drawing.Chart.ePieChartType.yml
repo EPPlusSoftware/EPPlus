@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ePieChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.ePieChartType
+  id: ePieChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.ePieChartType.Pie
+  - OfficeOpenXml.Drawing.Chart.ePieChartType.Pie3D
+  - OfficeOpenXml.Drawing.Chart.ePieChartType.PieExploded
+  - OfficeOpenXml.Drawing.Chart.ePieChartType.PieExploded3D
+  langs:
+  - csharp
+  - vb
+  name: ePieChartType
+  nameWithType: ePieChartType
+  fullName: OfficeOpenXml.Drawing.Chart.ePieChartType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/ePieChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePieChartType
+    path: ../src/EPPlus/Drawing/Chart/enums/ePieChartType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nPie and Doughnut chart type\n"
+  example: []
+  syntax:
+    content: public enum ePieChartType
+    content.vb: Public Enum ePieChartType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.ePieChartType.Pie
+  commentId: F:OfficeOpenXml.Drawing.Chart.ePieChartType.Pie
+  id: Pie
+  parent: OfficeOpenXml.Drawing.Chart.ePieChartType
+  langs:
+  - csharp
+  - vb
+  name: Pie
+  nameWithType: ePieChartType.Pie
+  fullName: OfficeOpenXml.Drawing.Chart.ePieChartType.Pie
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/ePieChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pie
+    path: ../src/EPPlus/Drawing/Chart/enums/ePieChartType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA pie chart\n"
+  example: []
+  syntax:
+    content: Pie = 5
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ePieChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ePieChartType.PieExploded
+  commentId: F:OfficeOpenXml.Drawing.Chart.ePieChartType.PieExploded
+  id: PieExploded
+  parent: OfficeOpenXml.Drawing.Chart.ePieChartType
+  langs:
+  - csharp
+  - vb
+  name: PieExploded
+  nameWithType: ePieChartType.PieExploded
+  fullName: OfficeOpenXml.Drawing.Chart.ePieChartType.PieExploded
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/ePieChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PieExploded
+    path: ../src/EPPlus/Drawing/Chart/enums/ePieChartType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAn exploded pie chart\n"
+  example: []
+  syntax:
+    content: PieExploded = 69
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ePieChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ePieChartType.Pie3D
+  commentId: F:OfficeOpenXml.Drawing.Chart.ePieChartType.Pie3D
+  id: Pie3D
+  parent: OfficeOpenXml.Drawing.Chart.ePieChartType
+  langs:
+  - csharp
+  - vb
+  name: Pie3D
+  nameWithType: ePieChartType.Pie3D
+  fullName: OfficeOpenXml.Drawing.Chart.ePieChartType.Pie3D
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/ePieChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pie3D
+    path: ../src/EPPlus/Drawing/Chart/enums/ePieChartType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA 3D pie chart\n"
+  example: []
+  syntax:
+    content: Pie3D = -4102
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ePieChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ePieChartType.PieExploded3D
+  commentId: F:OfficeOpenXml.Drawing.Chart.ePieChartType.PieExploded3D
+  id: PieExploded3D
+  parent: OfficeOpenXml.Drawing.Chart.ePieChartType
+  langs:
+  - csharp
+  - vb
+  name: PieExploded3D
+  nameWithType: ePieChartType.PieExploded3D
+  fullName: OfficeOpenXml.Drawing.Chart.ePieChartType.PieExploded3D
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/ePieChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PieExploded3D
+    path: ../src/EPPlus/Drawing/Chart/enums/ePieChartType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nA exploded 3D pie chart\n"
+  example: []
+  syntax:
+    content: PieExploded3D = 70
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ePieChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.ePieChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.ePieChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ePieChartType
+  nameWithType: ePieChartType
+  fullName: OfficeOpenXml.Drawing.Chart.ePieChartType

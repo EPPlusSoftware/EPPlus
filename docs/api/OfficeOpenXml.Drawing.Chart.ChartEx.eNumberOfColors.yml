@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors
+  id: eNumberOfColors
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors.ThreeColor
+  - OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors.TwoColor
+  langs:
+  - csharp
+  - vb
+  name: eNumberOfColors
+  nameWithType: eNumberOfColors
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eNumberOfColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eNumberOfColors
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eNumberOfColors.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe number of colors used to create the series gradient color scale in a extended chart.\n"
+  example: []
+  syntax:
+    content: public enum eNumberOfColors
+    content.vb: Public Enum eNumberOfColors
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors.TwoColor
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors.TwoColor
+  id: TwoColor
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors
+  langs:
+  - csharp
+  - vb
+  name: TwoColor
+  nameWithType: eNumberOfColors.TwoColor
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors.TwoColor
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eNumberOfColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TwoColor
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eNumberOfColors.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nUses two colors to create the gradient color scale\n"
+  example: []
+  syntax:
+    content: TwoColor = 2
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors.ThreeColor
+  commentId: F:OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors.ThreeColor
+  id: ThreeColor
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors
+  langs:
+  - csharp
+  - vb
+  name: ThreeColor
+  nameWithType: eNumberOfColors.ThreeColor
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors.ThreeColor
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/enums/eNumberOfColors.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThreeColor
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eNumberOfColors.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nDiverging. Uses three colors to create the gradient color scale\n"
+  example: []
+  syntax:
+    content: ThreeColor = 3
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eNumberOfColors
+  nameWithType: eNumberOfColors
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eNumberOfColors

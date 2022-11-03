@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ePaneState
+  commentId: T:OfficeOpenXml.ePaneState
+  id: ePaneState
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ePaneState.Frozen
+  - OfficeOpenXml.ePaneState.FrozenSplit
+  - OfficeOpenXml.ePaneState.Split
+  langs:
+  - csharp
+  - vb
+  name: ePaneState
+  nameWithType: ePaneState
+  fullName: OfficeOpenXml.ePaneState
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePaneState
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe state of the pane.\n"
+  example: []
+  syntax:
+    content: public enum ePaneState
+    content.vb: Public Enum ePaneState
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ePaneState.Frozen
+  commentId: F:OfficeOpenXml.ePaneState.Frozen
+  id: Frozen
+  parent: OfficeOpenXml.ePaneState
+  langs:
+  - csharp
+  - vb
+  name: Frozen
+  nameWithType: ePaneState.Frozen
+  fullName: OfficeOpenXml.ePaneState.Frozen
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Frozen
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPanes are frozen, but were not split being frozen.In this state, when the panes are unfrozen again, a single pane results, with no split. In this state, the split bars are not adjustable.\n"
+  example: []
+  syntax:
+    content: Frozen = 0
+    return:
+      type: OfficeOpenXml.ePaneState
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaneState.FrozenSplit
+  commentId: F:OfficeOpenXml.ePaneState.FrozenSplit
+  id: FrozenSplit
+  parent: OfficeOpenXml.ePaneState
+  langs:
+  - csharp
+  - vb
+  name: FrozenSplit
+  nameWithType: ePaneState.FrozenSplit
+  fullName: OfficeOpenXml.ePaneState.FrozenSplit
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FrozenSplit
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nFrozen Split\nPanes are frozen and were split before being frozen. In this state, when the panes are unfrozen again, the split remains, but is adjustable.\n"
+  example: []
+  syntax:
+    content: FrozenSplit = 1
+    return:
+      type: OfficeOpenXml.ePaneState
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ePaneState.Split
+  commentId: F:OfficeOpenXml.ePaneState.Split
+  id: Split
+  parent: OfficeOpenXml.ePaneState
+  langs:
+  - csharp
+  - vb
+  name: Split
+  nameWithType: ePaneState.Split
+  fullName: OfficeOpenXml.ePaneState.Split
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheetView.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Split
+    path: ../src/EPPlus/ExcelWorksheetView.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPanes are split, but not frozen.In this state, the split bars are adjustable by the user.\n"
+  example: []
+  syntax:
+    content: Split = 2
+    return:
+      type: OfficeOpenXml.ePaneState
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.ePaneState
+  commentId: T:OfficeOpenXml.ePaneState
+  parent: OfficeOpenXml
+  name: ePaneState
+  nameWithType: ePaneState
+  fullName: OfficeOpenXml.ePaneState

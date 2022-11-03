@@ -1,0 +1,1168 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelNamedRangeCollection
+  commentId: T:OfficeOpenXml.ExcelNamedRangeCollection
+  id: ExcelNamedRangeCollection
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelNamedRangeCollection.Add(System.String,OfficeOpenXml.ExcelRangeBase)
+  - OfficeOpenXml.ExcelNamedRangeCollection.Add(System.String,OfficeOpenXml.ExcelRangeBase,System.Boolean)
+  - OfficeOpenXml.ExcelNamedRangeCollection.AddFormula(System.String,System.String)
+  - OfficeOpenXml.ExcelNamedRangeCollection.AddValue(System.String,System.Object)
+  - OfficeOpenXml.ExcelNamedRangeCollection.ContainsKey(System.String)
+  - OfficeOpenXml.ExcelNamedRangeCollection.Count
+  - OfficeOpenXml.ExcelNamedRangeCollection.GetEnumerator
+  - OfficeOpenXml.ExcelNamedRangeCollection.Item(System.Int32)
+  - OfficeOpenXml.ExcelNamedRangeCollection.Item(System.String)
+  - OfficeOpenXml.ExcelNamedRangeCollection.Remove(System.String)
+  - OfficeOpenXml.ExcelNamedRangeCollection.System#Collections#IEnumerable#GetEnumerator
+  langs:
+  - csharp
+  - vb
+  name: ExcelNamedRangeCollection
+  nameWithType: ExcelNamedRangeCollection
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelNamedRangeCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelNamedRangeCollection
+    path: ../src/EPPlus/ExcelNamedRangeCollection.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCollection for named ranges\n"
+  example: []
+  syntax:
+    content: 'public class ExcelNamedRangeCollection : IEnumerable<ExcelNamedRange>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelNamedRangeCollection
+          Implements IEnumerable(Of ExcelNamedRange), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelNamedRange}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.Add(System.String,OfficeOpenXml.ExcelRangeBase,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelNamedRangeCollection.Add(System.String,OfficeOpenXml.ExcelRangeBase,System.Boolean)
+  id: Add(System.String,OfficeOpenXml.ExcelRangeBase,System.Boolean)
+  parent: OfficeOpenXml.ExcelNamedRangeCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(String, ExcelRangeBase, Boolean)
+  nameWithType: ExcelNamedRangeCollection.Add(String, ExcelRangeBase, Boolean)
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.Add(System.String, OfficeOpenXml.ExcelRangeBase, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelNamedRangeCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/ExcelNamedRangeCollection.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdds a new named range\n"
+  example: []
+  syntax:
+    content: public ExcelNamedRange Add(string Name, ExcelRangeBase Range, bool allowRelativeAddress)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name
+    - id: Range
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The range
+    - id: allowRelativeAddress
+      type: System.Boolean
+      description: If true, the address will be retained as it is, if false the address will always be converted to an absolute/fixed address
+    return:
+      type: OfficeOpenXml.ExcelNamedRange
+      description: ''
+    content.vb: Public Function Add(Name As String, Range As ExcelRangeBase, allowRelativeAddress As Boolean) As ExcelNamedRange
+  overload: OfficeOpenXml.ExcelNamedRangeCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.Add(System.String,OfficeOpenXml.ExcelRangeBase)
+  commentId: M:OfficeOpenXml.ExcelNamedRangeCollection.Add(System.String,OfficeOpenXml.ExcelRangeBase)
+  id: Add(System.String,OfficeOpenXml.ExcelRangeBase)
+  parent: OfficeOpenXml.ExcelNamedRangeCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(String, ExcelRangeBase)
+  nameWithType: ExcelNamedRangeCollection.Add(String, ExcelRangeBase)
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.Add(System.String, OfficeOpenXml.ExcelRangeBase)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelNamedRangeCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/ExcelNamedRangeCollection.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdds a new named range\n"
+  example: []
+  syntax:
+    content: public ExcelNamedRange Add(string Name, ExcelRangeBase Range)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name
+    - id: Range
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The range
+    return:
+      type: OfficeOpenXml.ExcelNamedRange
+    content.vb: Public Function Add(Name As String, Range As ExcelRangeBase) As ExcelNamedRange
+  overload: OfficeOpenXml.ExcelNamedRangeCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.AddValue(System.String,System.Object)
+  commentId: M:OfficeOpenXml.ExcelNamedRangeCollection.AddValue(System.String,System.Object)
+  id: AddValue(System.String,System.Object)
+  parent: OfficeOpenXml.ExcelNamedRangeCollection
+  langs:
+  - csharp
+  - vb
+  name: AddValue(String, Object)
+  nameWithType: ExcelNamedRangeCollection.AddValue(String, Object)
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.AddValue(System.String, System.Object)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelNamedRangeCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddValue
+    path: ../src/EPPlus/ExcelNamedRangeCollection.cs
+    startLine: 114
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdd a defined name referencing value\n"
+  example: []
+  syntax:
+    content: public ExcelNamedRange AddValue(string Name, object value)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name
+    - id: value
+      type: System.Object
+      description: The value for the name
+    return:
+      type: OfficeOpenXml.ExcelNamedRange
+      description: ''
+    content.vb: Public Function AddValue(Name As String, value As Object) As ExcelNamedRange
+  overload: OfficeOpenXml.ExcelNamedRangeCollection.AddValue*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.AddFormula(System.String,System.String)
+  commentId: M:OfficeOpenXml.ExcelNamedRangeCollection.AddFormula(System.String,System.String)
+  id: AddFormula(System.String,System.String)
+  parent: OfficeOpenXml.ExcelNamedRangeCollection
+  langs:
+  - csharp
+  - vb
+  name: AddFormula(String, String)
+  nameWithType: ExcelNamedRangeCollection.AddFormula(String, String)
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.AddFormula(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelNamedRangeCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddFormula
+    path: ../src/EPPlus/ExcelNamedRangeCollection.cs
+    startLine: 128
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAdd a defined name referencing a formula\n"
+  example: []
+  syntax:
+    content: public ExcelNamedRange AddFormula(string Name, string Formula)
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: Formula
+      type: System.String
+      description: ''
+    return:
+      type: OfficeOpenXml.ExcelNamedRange
+      description: ''
+    content.vb: Public Function AddFormula(Name As String, Formula As String) As ExcelNamedRange
+  overload: OfficeOpenXml.ExcelNamedRangeCollection.AddFormula*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.Remove(System.String)
+  commentId: M:OfficeOpenXml.ExcelNamedRangeCollection.Remove(System.String)
+  id: Remove(System.String)
+  parent: OfficeOpenXml.ExcelNamedRangeCollection
+  langs:
+  - csharp
+  - vb
+  name: Remove(String)
+  nameWithType: ExcelNamedRangeCollection.Remove(String)
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.Remove(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelNamedRangeCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/ExcelNamedRangeCollection.cs
+    startLine: 193
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRemove a defined name from the collection\n"
+  example: []
+  syntax:
+    content: public void Remove(string Name)
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name
+    content.vb: Public Sub Remove(Name As String)
+  overload: OfficeOpenXml.ExcelNamedRangeCollection.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.ContainsKey(System.String)
+  commentId: M:OfficeOpenXml.ExcelNamedRangeCollection.ContainsKey(System.String)
+  id: ContainsKey(System.String)
+  parent: OfficeOpenXml.ExcelNamedRangeCollection
+  langs:
+  - csharp
+  - vb
+  name: ContainsKey(String)
+  nameWithType: ExcelNamedRangeCollection.ContainsKey(String)
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.ContainsKey(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelNamedRangeCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ContainsKey
+    path: ../src/EPPlus/ExcelNamedRangeCollection.cs
+    startLine: 214
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nChecks collection for the presence of a key\n"
+  example: []
+  syntax:
+    content: public bool ContainsKey(string key)
+    parameters:
+    - id: key
+      type: System.String
+      description: key to search for
+    return:
+      type: System.Boolean
+      description: true if the key is in the collection
+    content.vb: Public Function ContainsKey(key As String) As Boolean
+  overload: OfficeOpenXml.ExcelNamedRangeCollection.ContainsKey*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.Count
+  commentId: P:OfficeOpenXml.ExcelNamedRangeCollection.Count
+  id: Count
+  parent: OfficeOpenXml.ExcelNamedRangeCollection
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ExcelNamedRangeCollection.Count
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.Count
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelNamedRangeCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Count
+    path: ../src/EPPlus/ExcelNamedRangeCollection.cs
+    startLine: 221
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe current number of items in the collection\n"
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: OfficeOpenXml.ExcelNamedRangeCollection.Count*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.Item(System.String)
+  commentId: P:OfficeOpenXml.ExcelNamedRangeCollection.Item(System.String)
+  id: Item(System.String)
+  parent: OfficeOpenXml.ExcelNamedRangeCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[String]
+  nameWithType: ExcelNamedRangeCollection.Item[String]
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.Item[System.String]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelNamedRangeCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/ExcelNamedRangeCollection.cs
+    startLine: 236
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nName indexer\n"
+  remarks: "\nThrows a KeyNotFoundException if the key is not in the collection.\n"
+  example: []
+  syntax:
+    content: public ExcelNamedRange this[string Name] { get; }
+    parameters:
+    - id: Name
+      type: System.String
+      description: The name (key) for a Named range
+    return:
+      type: OfficeOpenXml.ExcelNamedRange
+      description: a reference to the range
+    content.vb: Public ReadOnly Property Item(Name As String) As ExcelNamedRange
+  overload: OfficeOpenXml.ExcelNamedRangeCollection.Item*
+  nameWithType.vb: ExcelNamedRangeCollection.Item(String)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.ExcelNamedRangeCollection.Item(System.String)
+  name.vb: Item(String)
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.ExcelNamedRangeCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.ExcelNamedRangeCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelNamedRangeCollection.Item[Int32]
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelNamedRangeCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/ExcelNamedRangeCollection.cs
+    startLine: 248
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIndexer for the collection\n"
+  example: []
+  syntax:
+    content: public ExcelNamedRange this[int Index] { get; }
+    parameters:
+    - id: Index
+      type: System.Int32
+      description: The index
+    return:
+      type: OfficeOpenXml.ExcelNamedRange
+      description: The named range
+    content.vb: Public ReadOnly Property Item(Index As Integer) As ExcelNamedRange
+  overload: OfficeOpenXml.ExcelNamedRangeCollection.Item*
+  nameWithType.vb: ExcelNamedRangeCollection.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.ExcelNamedRangeCollection.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.GetEnumerator
+  commentId: M:OfficeOpenXml.ExcelNamedRangeCollection.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.ExcelNamedRangeCollection
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelNamedRangeCollection.GetEnumerator()
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelNamedRangeCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/ExcelNamedRangeCollection.cs
+    startLine: 262
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nImplement interface method IEnumerator&lt;ExcelNamedRange> GetEnumerator()\n"
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelNamedRange> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.ExcelNamedRange}
+      description: ''
+    content.vb: Public Function GetEnumerator As IEnumerator(Of ExcelNamedRange)
+  overload: OfficeOpenXml.ExcelNamedRangeCollection.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelNamedRange}.GetEnumerator
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.ExcelNamedRangeCollection.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.ExcelNamedRangeCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelNamedRangeCollection.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelNamedRangeCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/ExcelNamedRangeCollection.cs
+    startLine: 272
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nImplement interface method IEnumeratable GetEnumerator()\n"
+  example: []
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+      description: ''
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.ExcelNamedRangeCollection.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelNamedRangeCollection.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelNamedRange}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelNamedRange}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelNamedRange>
+  nameWithType: IEnumerable<ExcelNamedRange>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ExcelNamedRange>
+  nameWithType.vb: IEnumerable(Of ExcelNamedRange)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ExcelNamedRange)
+  name.vb: IEnumerable(Of ExcelNamedRange)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExcelNamedRange
+    name: ExcelNamedRange
+    nameWithType: ExcelNamedRange
+    fullName: OfficeOpenXml.ExcelNamedRange
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExcelNamedRange
+    name: ExcelNamedRange
+    nameWithType: ExcelNamedRange
+    fullName: OfficeOpenXml.ExcelNamedRange
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.Add*
+  commentId: Overload:OfficeOpenXml.ExcelNamedRangeCollection.Add
+  name: Add
+  nameWithType: ExcelNamedRangeCollection.Add
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.Add
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExcelNamedRange
+  commentId: T:OfficeOpenXml.ExcelNamedRange
+  parent: OfficeOpenXml
+  name: ExcelNamedRange
+  nameWithType: ExcelNamedRange
+  fullName: OfficeOpenXml.ExcelNamedRange
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.AddValue*
+  commentId: Overload:OfficeOpenXml.ExcelNamedRangeCollection.AddValue
+  name: AddValue
+  nameWithType: ExcelNamedRangeCollection.AddValue
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.AddValue
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.AddFormula*
+  commentId: Overload:OfficeOpenXml.ExcelNamedRangeCollection.AddFormula
+  name: AddFormula
+  nameWithType: ExcelNamedRangeCollection.AddFormula
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.AddFormula
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.Remove*
+  commentId: Overload:OfficeOpenXml.ExcelNamedRangeCollection.Remove
+  name: Remove
+  nameWithType: ExcelNamedRangeCollection.Remove
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.Remove
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.ContainsKey*
+  commentId: Overload:OfficeOpenXml.ExcelNamedRangeCollection.ContainsKey
+  name: ContainsKey
+  nameWithType: ExcelNamedRangeCollection.ContainsKey
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.ContainsKey
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.Count*
+  commentId: Overload:OfficeOpenXml.ExcelNamedRangeCollection.Count
+  name: Count
+  nameWithType: ExcelNamedRangeCollection.Count
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.Item*
+  commentId: Overload:OfficeOpenXml.ExcelNamedRangeCollection.Item
+  name: Item
+  nameWithType: ExcelNamedRangeCollection.Item
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.Item
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.ExcelNamedRangeCollection.GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelNamedRangeCollection.GetEnumerator
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelNamedRange}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelNamedRange}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.ExcelNamedRange}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelNamedRange>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ExcelNamedRange>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelNamedRange).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ExcelNamedRange).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ExcelNamedRange>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ExcelNamedRange>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ExcelNamedRange).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ExcelNamedRange).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.ExcelNamedRange}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.ExcelNamedRange}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ExcelNamedRange>
+  nameWithType: IEnumerator<ExcelNamedRange>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.ExcelNamedRange>
+  nameWithType.vb: IEnumerator(Of ExcelNamedRange)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.ExcelNamedRange)
+  name.vb: IEnumerator(Of ExcelNamedRange)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExcelNamedRange
+    name: ExcelNamedRange
+    nameWithType: ExcelNamedRange
+    fullName: OfficeOpenXml.ExcelNamedRange
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExcelNamedRange
+    name: ExcelNamedRange
+    nameWithType: ExcelNamedRange
+    fullName: OfficeOpenXml.ExcelNamedRange
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelNamedRangeCollection.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.ExcelNamedRangeCollection.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelNamedRangeCollection.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.ExcelNamedRangeCollection.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelNamedRangeCollection.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator

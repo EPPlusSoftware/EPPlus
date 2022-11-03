@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eOrientation
+  commentId: T:OfficeOpenXml.eOrientation
+  id: eOrientation
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eOrientation.Landscape
+  - OfficeOpenXml.eOrientation.Portrait
+  langs:
+  - csharp
+  - vb
+  name: eOrientation
+  nameWithType: eOrientation
+  fullName: OfficeOpenXml.eOrientation
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eOrientation
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPrinter orientation\n"
+  example: []
+  syntax:
+    content: public enum eOrientation
+    content.vb: Public Enum eOrientation
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eOrientation.Portrait
+  commentId: F:OfficeOpenXml.eOrientation.Portrait
+  id: Portrait
+  parent: OfficeOpenXml.eOrientation
+  langs:
+  - csharp
+  - vb
+  name: Portrait
+  nameWithType: eOrientation.Portrait
+  fullName: OfficeOpenXml.eOrientation.Portrait
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Portrait
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nPortrait orientation\n"
+  example: []
+  syntax:
+    content: Portrait = 0
+    return:
+      type: OfficeOpenXml.eOrientation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eOrientation.Landscape
+  commentId: F:OfficeOpenXml.eOrientation.Landscape
+  id: Landscape
+  parent: OfficeOpenXml.eOrientation
+  langs:
+  - csharp
+  - vb
+  name: Landscape
+  nameWithType: eOrientation.Landscape
+  fullName: OfficeOpenXml.eOrientation.Landscape
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelPrinterSettings.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Landscape
+    path: ../src/EPPlus/ExcelPrinterSettings.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nLandscape orientation\n"
+  example: []
+  syntax:
+    content: Landscape = 1
+    return:
+      type: OfficeOpenXml.eOrientation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eOrientation
+  commentId: T:OfficeOpenXml.eOrientation
+  parent: OfficeOpenXml
+  name: eOrientation
+  nameWithType: eOrientation
+  fullName: OfficeOpenXml.eOrientation

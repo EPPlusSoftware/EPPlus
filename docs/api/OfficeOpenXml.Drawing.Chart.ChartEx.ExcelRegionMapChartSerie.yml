@@ -1,0 +1,897 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie
+  id: ExcelRegionMapChartSerie
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Attribution
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ColorBy
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Colors
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Language
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ProjectionType
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Region
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.RegionLableLayout
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ViewedRegionType
+  langs:
+  - csharp
+  - vb
+  name: ExcelRegionMapChartSerie
+  nameWithType: ExcelRegionMapChartSerie
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelRegionMapChartSerie
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nA chart series for a region map chart\n"
+  example: []
+  syntax:
+    content: 'public class ExcelRegionMapChartSerie : ExcelChartExSerie'
+    content.vb: >-
+      Public Class ExcelRegionMapChartSerie
+          Inherits ExcelChartExSerie
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataDimensions
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HeaderAddress
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Header
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Series
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.XSeries
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataLabel
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataPoints
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Hidden
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HasDataLabel
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.NumberOfItems
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.TrendLines
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.ThreeD
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Attribution
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Attribution
+  id: Attribution
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie
+  langs:
+  - csharp
+  - vb
+  name: Attribution
+  nameWithType: ExcelRegionMapChartSerie.Attribution
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Attribution
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Attribution
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe provider or source of the geographical data. Default is Bing.\n"
+  example: []
+  syntax:
+    content: public string Attribution { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Attribution As String
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Attribution*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Region
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Region
+  id: Region
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie
+  langs:
+  - csharp
+  - vb
+  name: Region
+  nameWithType: ExcelRegionMapChartSerie.Region
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Region
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Region
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nSpecifies the country code. Uses the TwoLetterISOLanguageName property of the CultureInfo object.\n"
+  example: []
+  syntax:
+    content: public CultureInfo Region { get; set; }
+    parameters: []
+    return:
+      type: System.Globalization.CultureInfo
+    content.vb: Public Property Region As CultureInfo
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Region*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Language
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Language
+  id: Language
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie
+  langs:
+  - csharp
+  - vb
+  name: Language
+  nameWithType: ExcelRegionMapChartSerie.Language
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Language
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Language
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+    startLine: 68
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nSpecifies the language. \n"
+  example: []
+  syntax:
+    content: public CultureInfo Language { get; set; }
+    parameters: []
+    return:
+      type: System.Globalization.CultureInfo
+    content.vb: Public Property Language As CultureInfo
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Language*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ProjectionType
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ProjectionType
+  id: ProjectionType
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie
+  langs:
+  - csharp
+  - vb
+  name: ProjectionType
+  nameWithType: ExcelRegionMapChartSerie.ProjectionType
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ProjectionType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ProjectionType
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+    startLine: 88
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe cartographic map projection for the series\n"
+  example: []
+  syntax:
+    content: public eProjectionType ProjectionType { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+    content.vb: Public Property ProjectionType As eProjectionType
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ProjectionType*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ViewedRegionType
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ViewedRegionType
+  id: ViewedRegionType
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie
+  langs:
+  - csharp
+  - vb
+  name: ViewedRegionType
+  nameWithType: ExcelRegionMapChartSerie.ViewedRegionType
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ViewedRegionType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ViewedRegionType
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe level of view for the series\n"
+  example: []
+  syntax:
+    content: public eGeoMappingLevel ViewedRegionType { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+    content.vb: Public Property ViewedRegionType As eGeoMappingLevel
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ViewedRegionType*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Colors
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Colors
+  id: Colors
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie
+  langs:
+  - csharp
+  - vb
+  name: Colors
+  nameWithType: ExcelRegionMapChartSerie.Colors
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Colors
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Colors
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+    startLine: 132
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nColors for the gradient scale of the region map series. \n"
+  example: []
+  syntax:
+    content: public ExcelChartExValueColors Colors { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExValueColors
+    content.vb: Public ReadOnly Property Colors As ExcelChartExValueColors
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Colors*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.RegionLableLayout
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.RegionLableLayout
+  id: RegionLableLayout
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie
+  langs:
+  - csharp
+  - vb
+  name: RegionLableLayout
+  nameWithType: ExcelRegionMapChartSerie.RegionLableLayout
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.RegionLableLayout
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RegionLableLayout
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+    startLine: 146
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nLayout type for region labels\n"
+  example: []
+  syntax:
+    content: public eRegionLabelLayout RegionLableLayout { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout
+    content.vb: Public Property RegionLableLayout As eRegionLabelLayout
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.RegionLableLayout*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ColorBy
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ColorBy
+  id: ColorBy
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie
+  langs:
+  - csharp
+  - vb
+  name: ColorBy
+  nameWithType: ExcelRegionMapChartSerie.ColorBy
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ColorBy
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColorBy
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
+    startLine: 161
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nHow to color a region maps chart serie\n"
+  example: []
+  syntax:
+    content: public eColorBy ColorBy { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy
+    content.vb: Public Property ColorBy As eColorBy
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ColorBy*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartSerie
+  nameWithType: ExcelChartSerie
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelChartExSerie
+  nameWithType: ExcelChartExSerie
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataDimensions
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataDimensions
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  name: DataDimensions
+  nameWithType: ExcelChartExSerie.DataDimensions
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataDimensions
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HeaderAddress
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HeaderAddress
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  name: HeaderAddress
+  nameWithType: ExcelChartExSerie.HeaderAddress
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HeaderAddress
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Header
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Header
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  name: Header
+  nameWithType: ExcelChartExSerie.Header
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Header
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Series
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Series
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  name: Series
+  nameWithType: ExcelChartExSerie.Series
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Series
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.XSeries
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.XSeries
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  name: XSeries
+  nameWithType: ExcelChartExSerie.XSeries
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.XSeries
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataLabel
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataLabel
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  name: DataLabel
+  nameWithType: ExcelChartExSerie.DataLabel
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataLabel
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataPoints
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataPoints
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  name: DataPoints
+  nameWithType: ExcelChartExSerie.DataPoints
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.DataPoints
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Hidden
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Hidden
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  name: Hidden
+  nameWithType: ExcelChartExSerie.Hidden
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.Hidden
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HasDataLabel
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HasDataLabel
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  name: HasDataLabel
+  nameWithType: ExcelChartExSerie.HasDataLabel
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.HasDataLabel
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.NumberOfItems
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.NumberOfItems
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  name: NumberOfItems
+  nameWithType: ExcelChartExSerie.NumberOfItems
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.NumberOfItems
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.TrendLines
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.TrendLines
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie
+  name: TrendLines
+  nameWithType: ExcelChartExSerie.TrendLines
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerie.TrendLines
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: NumberLiteralsY
+  nameWithType: ExcelChartSerie.NumberLiteralsY
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: NumberLiteralsX
+  nameWithType: ExcelChartSerie.NumberLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: StringLiteralsX
+  nameWithType: ExcelChartSerie.StringLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: Fill
+  nameWithType: ExcelChartSerie.Fill
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: Border
+  nameWithType: ExcelChartSerie.Border
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: Effect
+  nameWithType: ExcelChartSerie.Effect
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.ThreeD
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.ThreeD
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: ThreeD
+  nameWithType: ExcelChartSerie.ThreeD
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.ThreeD
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Attribution*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Attribution
+  name: Attribution
+  nameWithType: ExcelRegionMapChartSerie.Attribution
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Attribution
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Region*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Region
+  name: Region
+  nameWithType: ExcelRegionMapChartSerie.Region
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Region
+- uid: System.Globalization.CultureInfo
+  commentId: T:System.Globalization.CultureInfo
+  parent: System.Globalization
+  isExternal: true
+  name: CultureInfo
+  nameWithType: CultureInfo
+  fullName: System.Globalization.CultureInfo
+- uid: System.Globalization
+  commentId: N:System.Globalization
+  isExternal: true
+  name: System.Globalization
+  nameWithType: System.Globalization
+  fullName: System.Globalization
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Language*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Language
+  name: Language
+  nameWithType: ExcelRegionMapChartSerie.Language
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Language
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ProjectionType*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ProjectionType
+  name: ProjectionType
+  nameWithType: ExcelRegionMapChartSerie.ProjectionType
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ProjectionType
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eProjectionType
+  nameWithType: eProjectionType
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eProjectionType
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ViewedRegionType*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ViewedRegionType
+  name: ViewedRegionType
+  nameWithType: ExcelRegionMapChartSerie.ViewedRegionType
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ViewedRegionType
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eGeoMappingLevel
+  nameWithType: eGeoMappingLevel
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eGeoMappingLevel
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Colors*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Colors
+  name: Colors
+  nameWithType: ExcelRegionMapChartSerie.Colors
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.Colors
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExValueColors
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExValueColors
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ExcelChartExValueColors
+  nameWithType: ExcelChartExValueColors
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExValueColors
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.RegionLableLayout*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.RegionLableLayout
+  name: RegionLableLayout
+  nameWithType: ExcelRegionMapChartSerie.RegionLableLayout
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.RegionLableLayout
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eRegionLabelLayout
+  nameWithType: eRegionLabelLayout
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eRegionLabelLayout
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ColorBy*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ColorBy
+  name: ColorBy
+  nameWithType: ExcelRegionMapChartSerie.ColorBy
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelRegionMapChartSerie.ColorBy
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eColorBy
+  nameWithType: eColorBy
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eColorBy

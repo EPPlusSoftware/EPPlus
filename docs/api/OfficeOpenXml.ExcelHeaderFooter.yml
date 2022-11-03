@@ -1,0 +1,1255 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelHeaderFooter
+  commentId: T:OfficeOpenXml.ExcelHeaderFooter
+  id: ExcelHeaderFooter
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelHeaderFooter.AlignWithMargins
+  - OfficeOpenXml.ExcelHeaderFooter.CurrentDate
+  - OfficeOpenXml.ExcelHeaderFooter.CurrentTime
+  - OfficeOpenXml.ExcelHeaderFooter.differentFirst
+  - OfficeOpenXml.ExcelHeaderFooter.differentOddEven
+  - OfficeOpenXml.ExcelHeaderFooter.EvenFooter
+  - OfficeOpenXml.ExcelHeaderFooter.EvenHeader
+  - OfficeOpenXml.ExcelHeaderFooter.FileName
+  - OfficeOpenXml.ExcelHeaderFooter.FilePath
+  - OfficeOpenXml.ExcelHeaderFooter.FirstFooter
+  - OfficeOpenXml.ExcelHeaderFooter.FirstHeader
+  - OfficeOpenXml.ExcelHeaderFooter.FontColor
+  - OfficeOpenXml.ExcelHeaderFooter.Image
+  - OfficeOpenXml.ExcelHeaderFooter.NumberOfPages
+  - OfficeOpenXml.ExcelHeaderFooter.OddFooter
+  - OfficeOpenXml.ExcelHeaderFooter.OddHeader
+  - OfficeOpenXml.ExcelHeaderFooter.OutlineStyle
+  - OfficeOpenXml.ExcelHeaderFooter.PageNumber
+  - OfficeOpenXml.ExcelHeaderFooter.Pictures
+  - OfficeOpenXml.ExcelHeaderFooter.ScaleWithDocument
+  - OfficeOpenXml.ExcelHeaderFooter.ShadowStyle
+  - OfficeOpenXml.ExcelHeaderFooter.SheetName
+  langs:
+  - csharp
+  - vb
+  name: ExcelHeaderFooter
+  nameWithType: ExcelHeaderFooter
+  fullName: OfficeOpenXml.ExcelHeaderFooter
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelHeaderFooter
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 193
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nRepresents the Header and Footer on an Excel Worksheet\n"
+  example: []
+  syntax:
+    content: 'public sealed class ExcelHeaderFooter : XmlHelper'
+    content.vb: >-
+      Public NotInheritable Class ExcelHeaderFooter
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - sealed
+  - class
+  modifiers.vb:
+  - Public
+  - NotInheritable
+  - Class
+- uid: OfficeOpenXml.ExcelHeaderFooter.PageNumber
+  commentId: F:OfficeOpenXml.ExcelHeaderFooter.PageNumber
+  id: PageNumber
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: PageNumber
+  nameWithType: ExcelHeaderFooter.PageNumber
+  fullName: OfficeOpenXml.ExcelHeaderFooter.PageNumber
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PageNumber
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 199
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe code for &quot;current page #&quot;\n"
+  example: []
+  syntax:
+    content: public const string PageNumber = "&P"
+    return:
+      type: System.String
+    content.vb: Public Const PageNumber As String = "&P"
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelHeaderFooter.NumberOfPages
+  commentId: F:OfficeOpenXml.ExcelHeaderFooter.NumberOfPages
+  id: NumberOfPages
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: NumberOfPages
+  nameWithType: ExcelHeaderFooter.NumberOfPages
+  fullName: OfficeOpenXml.ExcelHeaderFooter.NumberOfPages
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NumberOfPages
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 203
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe code for &quot;total pages&quot;\n"
+  example: []
+  syntax:
+    content: public const string NumberOfPages = "&N"
+    return:
+      type: System.String
+    content.vb: Public Const NumberOfPages As String = "&N"
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelHeaderFooter.FontColor
+  commentId: F:OfficeOpenXml.ExcelHeaderFooter.FontColor
+  id: FontColor
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: FontColor
+  nameWithType: ExcelHeaderFooter.FontColor
+  fullName: OfficeOpenXml.ExcelHeaderFooter.FontColor
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FontColor
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 209
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe code for &quot;text font color&quot;\nRGB Color is specified as RRGGBB\nTheme Color is specified as TTSNN where TT is the theme color Id, S is either &quot;+&quot; or &quot;-&quot; of the tint/shade value, NN is the tint/shade value.\n"
+  example: []
+  syntax:
+    content: public const string FontColor = "&K"
+    return:
+      type: System.String
+    content.vb: Public Const FontColor As String = "&K"
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelHeaderFooter.SheetName
+  commentId: F:OfficeOpenXml.ExcelHeaderFooter.SheetName
+  id: SheetName
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: SheetName
+  nameWithType: ExcelHeaderFooter.SheetName
+  fullName: OfficeOpenXml.ExcelHeaderFooter.SheetName
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SheetName
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 213
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe code for &quot;sheet tab name&quot;\n"
+  example: []
+  syntax:
+    content: public const string SheetName = "&A"
+    return:
+      type: System.String
+    content.vb: Public Const SheetName As String = "&A"
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelHeaderFooter.FilePath
+  commentId: F:OfficeOpenXml.ExcelHeaderFooter.FilePath
+  id: FilePath
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: FilePath
+  nameWithType: ExcelHeaderFooter.FilePath
+  fullName: OfficeOpenXml.ExcelHeaderFooter.FilePath
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FilePath
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 217
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe code for &quot;this workbook&apos;s file path&quot;\n"
+  example: []
+  syntax:
+    content: public const string FilePath = "&Z"
+    return:
+      type: System.String
+    content.vb: Public Const FilePath As String = "&Z"
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelHeaderFooter.FileName
+  commentId: F:OfficeOpenXml.ExcelHeaderFooter.FileName
+  id: FileName
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: FileName
+  nameWithType: ExcelHeaderFooter.FileName
+  fullName: OfficeOpenXml.ExcelHeaderFooter.FileName
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FileName
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 221
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe code for &quot;this workbook&apos;s file name&quot;\n"
+  example: []
+  syntax:
+    content: public const string FileName = "&F"
+    return:
+      type: System.String
+    content.vb: Public Const FileName As String = "&F"
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelHeaderFooter.CurrentDate
+  commentId: F:OfficeOpenXml.ExcelHeaderFooter.CurrentDate
+  id: CurrentDate
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: CurrentDate
+  nameWithType: ExcelHeaderFooter.CurrentDate
+  fullName: OfficeOpenXml.ExcelHeaderFooter.CurrentDate
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CurrentDate
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 225
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe code for &quot;date&quot;\n"
+  example: []
+  syntax:
+    content: public const string CurrentDate = "&D"
+    return:
+      type: System.String
+    content.vb: Public Const CurrentDate As String = "&D"
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelHeaderFooter.CurrentTime
+  commentId: F:OfficeOpenXml.ExcelHeaderFooter.CurrentTime
+  id: CurrentTime
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: CurrentTime
+  nameWithType: ExcelHeaderFooter.CurrentTime
+  fullName: OfficeOpenXml.ExcelHeaderFooter.CurrentTime
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CurrentTime
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 229
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe code for &quot;time&quot;\n"
+  example: []
+  syntax:
+    content: public const string CurrentTime = "&T"
+    return:
+      type: System.String
+    content.vb: Public Const CurrentTime As String = "&T"
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelHeaderFooter.Image
+  commentId: F:OfficeOpenXml.ExcelHeaderFooter.Image
+  id: Image
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: Image
+  nameWithType: ExcelHeaderFooter.Image
+  fullName: OfficeOpenXml.ExcelHeaderFooter.Image
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Image
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 233
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe code for &quot;picture as background&quot;\n"
+  example: []
+  syntax:
+    content: public const string Image = "&G"
+    return:
+      type: System.String
+    content.vb: Public Const Image As String = "&G"
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelHeaderFooter.OutlineStyle
+  commentId: F:OfficeOpenXml.ExcelHeaderFooter.OutlineStyle
+  id: OutlineStyle
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: OutlineStyle
+  nameWithType: ExcelHeaderFooter.OutlineStyle
+  fullName: OfficeOpenXml.ExcelHeaderFooter.OutlineStyle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OutlineStyle
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 237
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe code for &quot;outline style&quot;\n"
+  example: []
+  syntax:
+    content: public const string OutlineStyle = "&O"
+    return:
+      type: System.String
+    content.vb: Public Const OutlineStyle As String = "&O"
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelHeaderFooter.ShadowStyle
+  commentId: F:OfficeOpenXml.ExcelHeaderFooter.ShadowStyle
+  id: ShadowStyle
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: ShadowStyle
+  nameWithType: ExcelHeaderFooter.ShadowStyle
+  fullName: OfficeOpenXml.ExcelHeaderFooter.ShadowStyle
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShadowStyle
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 241
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe code for &quot;shadow style&quot;\n"
+  example: []
+  syntax:
+    content: public const string ShadowStyle = "&H"
+    return:
+      type: System.String
+    content.vb: Public Const ShadowStyle As String = "&H"
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ExcelHeaderFooter.AlignWithMargins
+  commentId: P:OfficeOpenXml.ExcelHeaderFooter.AlignWithMargins
+  id: AlignWithMargins
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: AlignWithMargins
+  nameWithType: ExcelHeaderFooter.AlignWithMargins
+  fullName: OfficeOpenXml.ExcelHeaderFooter.AlignWithMargins
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AlignWithMargins
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 274
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAlign with page margins\n"
+  example: []
+  syntax:
+    content: public bool AlignWithMargins { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AlignWithMargins As Boolean
+  overload: OfficeOpenXml.ExcelHeaderFooter.AlignWithMargins*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelHeaderFooter.differentOddEven
+  commentId: P:OfficeOpenXml.ExcelHeaderFooter.differentOddEven
+  id: differentOddEven
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: differentOddEven
+  nameWithType: ExcelHeaderFooter.differentOddEven
+  fullName: OfficeOpenXml.ExcelHeaderFooter.differentOddEven
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: differentOddEven
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 292
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDisplas different headers and footers on odd and even pages.\n"
+  example: []
+  syntax:
+    content: public bool differentOddEven { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property differentOddEven As Boolean
+  overload: OfficeOpenXml.ExcelHeaderFooter.differentOddEven*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelHeaderFooter.differentFirst
+  commentId: P:OfficeOpenXml.ExcelHeaderFooter.differentFirst
+  id: differentFirst
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: differentFirst
+  nameWithType: ExcelHeaderFooter.differentFirst
+  fullName: OfficeOpenXml.ExcelHeaderFooter.differentFirst
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: differentFirst
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 311
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDisplay different headers and footers on the first page of the worksheet.\n"
+  example: []
+  syntax:
+    content: public bool differentFirst { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property differentFirst As Boolean
+  overload: OfficeOpenXml.ExcelHeaderFooter.differentFirst*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelHeaderFooter.ScaleWithDocument
+  commentId: P:OfficeOpenXml.ExcelHeaderFooter.ScaleWithDocument
+  id: ScaleWithDocument
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: ScaleWithDocument
+  nameWithType: ExcelHeaderFooter.ScaleWithDocument
+  fullName: OfficeOpenXml.ExcelHeaderFooter.ScaleWithDocument
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ScaleWithDocument
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 328
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe header and footer should scale as you use the ShrinkToFit property on the document\n"
+  example: []
+  syntax:
+    content: public bool ScaleWithDocument { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ScaleWithDocument As Boolean
+  overload: OfficeOpenXml.ExcelHeaderFooter.ScaleWithDocument*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelHeaderFooter.OddHeader
+  commentId: P:OfficeOpenXml.ExcelHeaderFooter.OddHeader
+  id: OddHeader
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: OddHeader
+  nameWithType: ExcelHeaderFooter.OddHeader
+  fullName: OfficeOpenXml.ExcelHeaderFooter.OddHeader
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OddHeader
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 345
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to the header on odd numbered pages of the document.\nIf you want the same header on both odd and even pages, then only set values in this ExcelHeaderFooterText class.\n"
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterText OddHeader { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelHeaderFooterText
+    content.vb: Public ReadOnly Property OddHeader As ExcelHeaderFooterText
+  overload: OfficeOpenXml.ExcelHeaderFooter.OddHeader*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelHeaderFooter.OddFooter
+  commentId: P:OfficeOpenXml.ExcelHeaderFooter.OddFooter
+  id: OddFooter
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: OddFooter
+  nameWithType: ExcelHeaderFooter.OddFooter
+  fullName: OfficeOpenXml.ExcelHeaderFooter.OddFooter
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OddFooter
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 359
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to the footer on odd numbered pages of the document.\nIf you want the same footer on both odd and even pages, then only set values in this ExcelHeaderFooterText class.\n"
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterText OddFooter { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelHeaderFooterText
+    content.vb: Public ReadOnly Property OddFooter As ExcelHeaderFooterText
+  overload: OfficeOpenXml.ExcelHeaderFooter.OddFooter*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelHeaderFooter.EvenHeader
+  commentId: P:OfficeOpenXml.ExcelHeaderFooter.EvenHeader
+  id: EvenHeader
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: EvenHeader
+  nameWithType: ExcelHeaderFooter.EvenHeader
+  fullName: OfficeOpenXml.ExcelHeaderFooter.EvenHeader
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EvenHeader
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 374
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to the header on even numbered pages of the document.\n"
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterText EvenHeader { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelHeaderFooterText
+    content.vb: Public ReadOnly Property EvenHeader As ExcelHeaderFooterText
+  overload: OfficeOpenXml.ExcelHeaderFooter.EvenHeader*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelHeaderFooter.EvenFooter
+  commentId: P:OfficeOpenXml.ExcelHeaderFooter.EvenFooter
+  id: EvenFooter
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: EvenFooter
+  nameWithType: ExcelHeaderFooter.EvenFooter
+  fullName: OfficeOpenXml.ExcelHeaderFooter.EvenFooter
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EvenFooter
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 389
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to the footer on even numbered pages of the document.\n"
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterText EvenFooter { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelHeaderFooterText
+    content.vb: Public ReadOnly Property EvenFooter As ExcelHeaderFooterText
+  overload: OfficeOpenXml.ExcelHeaderFooter.EvenFooter*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelHeaderFooter.FirstHeader
+  commentId: P:OfficeOpenXml.ExcelHeaderFooter.FirstHeader
+  id: FirstHeader
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: FirstHeader
+  nameWithType: ExcelHeaderFooter.FirstHeader
+  fullName: OfficeOpenXml.ExcelHeaderFooter.FirstHeader
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstHeader
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 404
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to the header on the first page of the document.\n"
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterText FirstHeader { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelHeaderFooterText
+    content.vb: Public ReadOnly Property FirstHeader As ExcelHeaderFooterText
+  overload: OfficeOpenXml.ExcelHeaderFooter.FirstHeader*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelHeaderFooter.FirstFooter
+  commentId: P:OfficeOpenXml.ExcelHeaderFooter.FirstFooter
+  id: FirstFooter
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: FirstFooter
+  nameWithType: ExcelHeaderFooter.FirstFooter
+  fullName: OfficeOpenXml.ExcelHeaderFooter.FirstFooter
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstFooter
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 419
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nProvides access to the footer on the first page of the document.\n"
+  example: []
+  syntax:
+    content: public ExcelHeaderFooterText FirstFooter { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelHeaderFooterText
+    content.vb: Public ReadOnly Property FirstFooter As ExcelHeaderFooterText
+  overload: OfficeOpenXml.ExcelHeaderFooter.FirstFooter*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelHeaderFooter.Pictures
+  commentId: P:OfficeOpenXml.ExcelHeaderFooter.Pictures
+  id: Pictures
+  parent: OfficeOpenXml.ExcelHeaderFooter
+  langs:
+  - csharp
+  - vb
+  name: Pictures
+  nameWithType: ExcelHeaderFooter.Pictures
+  fullName: OfficeOpenXml.ExcelHeaderFooter.Pictures
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelHeaderFooter.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Pictures
+    path: ../src/EPPlus/ExcelHeaderFooter.cs
+    startLine: 435
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nVml drawings. Underlaying object for Header footer images\n"
+  example: []
+  syntax:
+    content: public ExcelVmlDrawingPictureCollection Pictures { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPictureCollection
+    content.vb: Public ReadOnly Property Pictures As ExcelVmlDrawingPictureCollection
+  overload: OfficeOpenXml.ExcelHeaderFooter.Pictures*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExcelHeaderFooter.AlignWithMargins*
+  commentId: Overload:OfficeOpenXml.ExcelHeaderFooter.AlignWithMargins
+  name: AlignWithMargins
+  nameWithType: ExcelHeaderFooter.AlignWithMargins
+  fullName: OfficeOpenXml.ExcelHeaderFooter.AlignWithMargins
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExcelHeaderFooter.differentOddEven*
+  commentId: Overload:OfficeOpenXml.ExcelHeaderFooter.differentOddEven
+  name: differentOddEven
+  nameWithType: ExcelHeaderFooter.differentOddEven
+  fullName: OfficeOpenXml.ExcelHeaderFooter.differentOddEven
+- uid: OfficeOpenXml.ExcelHeaderFooter.differentFirst*
+  commentId: Overload:OfficeOpenXml.ExcelHeaderFooter.differentFirst
+  name: differentFirst
+  nameWithType: ExcelHeaderFooter.differentFirst
+  fullName: OfficeOpenXml.ExcelHeaderFooter.differentFirst
+- uid: OfficeOpenXml.ExcelHeaderFooter.ScaleWithDocument*
+  commentId: Overload:OfficeOpenXml.ExcelHeaderFooter.ScaleWithDocument
+  name: ScaleWithDocument
+  nameWithType: ExcelHeaderFooter.ScaleWithDocument
+  fullName: OfficeOpenXml.ExcelHeaderFooter.ScaleWithDocument
+- uid: OfficeOpenXml.ExcelHeaderFooter.OddHeader*
+  commentId: Overload:OfficeOpenXml.ExcelHeaderFooter.OddHeader
+  name: OddHeader
+  nameWithType: ExcelHeaderFooter.OddHeader
+  fullName: OfficeOpenXml.ExcelHeaderFooter.OddHeader
+- uid: OfficeOpenXml.ExcelHeaderFooterText
+  commentId: T:OfficeOpenXml.ExcelHeaderFooterText
+  parent: OfficeOpenXml
+  name: ExcelHeaderFooterText
+  nameWithType: ExcelHeaderFooterText
+  fullName: OfficeOpenXml.ExcelHeaderFooterText
+- uid: OfficeOpenXml.ExcelHeaderFooter.OddFooter*
+  commentId: Overload:OfficeOpenXml.ExcelHeaderFooter.OddFooter
+  name: OddFooter
+  nameWithType: ExcelHeaderFooter.OddFooter
+  fullName: OfficeOpenXml.ExcelHeaderFooter.OddFooter
+- uid: OfficeOpenXml.ExcelHeaderFooter.EvenHeader*
+  commentId: Overload:OfficeOpenXml.ExcelHeaderFooter.EvenHeader
+  name: EvenHeader
+  nameWithType: ExcelHeaderFooter.EvenHeader
+  fullName: OfficeOpenXml.ExcelHeaderFooter.EvenHeader
+- uid: OfficeOpenXml.ExcelHeaderFooter.EvenFooter*
+  commentId: Overload:OfficeOpenXml.ExcelHeaderFooter.EvenFooter
+  name: EvenFooter
+  nameWithType: ExcelHeaderFooter.EvenFooter
+  fullName: OfficeOpenXml.ExcelHeaderFooter.EvenFooter
+- uid: OfficeOpenXml.ExcelHeaderFooter.FirstHeader*
+  commentId: Overload:OfficeOpenXml.ExcelHeaderFooter.FirstHeader
+  name: FirstHeader
+  nameWithType: ExcelHeaderFooter.FirstHeader
+  fullName: OfficeOpenXml.ExcelHeaderFooter.FirstHeader
+- uid: OfficeOpenXml.ExcelHeaderFooter.FirstFooter*
+  commentId: Overload:OfficeOpenXml.ExcelHeaderFooter.FirstFooter
+  name: FirstFooter
+  nameWithType: ExcelHeaderFooter.FirstFooter
+  fullName: OfficeOpenXml.ExcelHeaderFooter.FirstFooter
+- uid: OfficeOpenXml.ExcelHeaderFooter.Pictures*
+  commentId: Overload:OfficeOpenXml.ExcelHeaderFooter.Pictures
+  name: Pictures
+  nameWithType: ExcelHeaderFooter.Pictures
+  fullName: OfficeOpenXml.ExcelHeaderFooter.Pictures
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPictureCollection
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPictureCollection
+  parent: OfficeOpenXml.Drawing.Vml
+  name: ExcelVmlDrawingPictureCollection
+  nameWithType: ExcelVmlDrawingPictureCollection
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPictureCollection
+- uid: OfficeOpenXml.Drawing.Vml
+  commentId: N:OfficeOpenXml.Drawing.Vml
+  name: OfficeOpenXml.Drawing.Vml
+  nameWithType: OfficeOpenXml.Drawing.Vml
+  fullName: OfficeOpenXml.Drawing.Vml

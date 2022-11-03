@@ -1,0 +1,1081 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Filter.ExcelValueFilterCollection
+  commentId: T:OfficeOpenXml.Filter.ExcelValueFilterCollection
+  id: ExcelValueFilterCollection
+  parent: OfficeOpenXml.Filter
+  children:
+  - OfficeOpenXml.Filter.ExcelValueFilterCollection.Add(OfficeOpenXml.Filter.ExcelFilterDateGroupItem)
+  - OfficeOpenXml.Filter.ExcelValueFilterCollection.Add(OfficeOpenXml.Filter.ExcelFilterValueItem)
+  - OfficeOpenXml.Filter.ExcelValueFilterCollection.Add(System.String)
+  - OfficeOpenXml.Filter.ExcelValueFilterCollection.Blank
+  - OfficeOpenXml.Filter.ExcelValueFilterCollection.Clear
+  - OfficeOpenXml.Filter.ExcelValueFilterCollection.Remove(OfficeOpenXml.Filter.ExcelFilterItem)
+  - OfficeOpenXml.Filter.ExcelValueFilterCollection.RemoveAt(System.Int32)
+  langs:
+  - csharp
+  - vb
+  name: ExcelValueFilterCollection
+  nameWithType: ExcelValueFilterCollection
+  fullName: OfficeOpenXml.Filter.ExcelValueFilterCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelValueFilterCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelValueFilterCollection
+    path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nA collection of value filters\n"
+  example: []
+  syntax:
+    content: 'public class ExcelValueFilterCollection : ExcelFilterCollectionBase<ExcelFilterItem>, IEnumerable<ExcelFilterItem>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelValueFilterCollection
+          Inherits ExcelFilterCollectionBase(Of ExcelFilterItem)
+          Implements IEnumerable(Of ExcelFilterItem), IEnumerable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Filter.ExcelFilterItem}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}.GetEnumerator
+  - OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}.System#Collections#IEnumerable#GetEnumerator
+  - OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}.Item(System.Int32)
+  - OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}.Count
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Filter.ExcelValueFilterCollection.Blank
+  commentId: P:OfficeOpenXml.Filter.ExcelValueFilterCollection.Blank
+  id: Blank
+  parent: OfficeOpenXml.Filter.ExcelValueFilterCollection
+  langs:
+  - csharp
+  - vb
+  name: Blank
+  nameWithType: ExcelValueFilterCollection.Blank
+  fullName: OfficeOpenXml.Filter.ExcelValueFilterCollection.Blank
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelValueFilterCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Blank
+    path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nFlag indicating whether to filter by blank\n"
+  example: []
+  syntax:
+    content: public bool Blank { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Blank As Boolean
+  overload: OfficeOpenXml.Filter.ExcelValueFilterCollection.Blank*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Filter.ExcelValueFilterCollection.Add(OfficeOpenXml.Filter.ExcelFilterDateGroupItem)
+  commentId: M:OfficeOpenXml.Filter.ExcelValueFilterCollection.Add(OfficeOpenXml.Filter.ExcelFilterDateGroupItem)
+  id: Add(OfficeOpenXml.Filter.ExcelFilterDateGroupItem)
+  parent: OfficeOpenXml.Filter.ExcelValueFilterCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(ExcelFilterDateGroupItem)
+  nameWithType: ExcelValueFilterCollection.Add(ExcelFilterDateGroupItem)
+  fullName: OfficeOpenXml.Filter.ExcelValueFilterCollection.Add(OfficeOpenXml.Filter.ExcelFilterDateGroupItem)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelValueFilterCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nAdd a Date filter item. \n"
+  example: []
+  syntax:
+    content: public ExcelFilterDateGroupItem Add(ExcelFilterDateGroupItem value)
+    parameters:
+    - id: value
+      type: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+      description: ''
+    return:
+      type: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+      description: ''
+    content.vb: Public Function Add(value As ExcelFilterDateGroupItem) As ExcelFilterDateGroupItem
+  overload: OfficeOpenXml.Filter.ExcelValueFilterCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Filter.ExcelValueFilterCollection.Add(OfficeOpenXml.Filter.ExcelFilterValueItem)
+  commentId: M:OfficeOpenXml.Filter.ExcelValueFilterCollection.Add(OfficeOpenXml.Filter.ExcelFilterValueItem)
+  id: Add(OfficeOpenXml.Filter.ExcelFilterValueItem)
+  parent: OfficeOpenXml.Filter.ExcelValueFilterCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(ExcelFilterValueItem)
+  nameWithType: ExcelValueFilterCollection.Add(ExcelFilterValueItem)
+  fullName: OfficeOpenXml.Filter.ExcelValueFilterCollection.Add(OfficeOpenXml.Filter.ExcelFilterValueItem)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelValueFilterCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nAdd a filter value that will be matched agains the ExcelRange.Text property\n"
+  example: []
+  syntax:
+    content: public ExcelFilterValueItem Add(ExcelFilterValueItem item)
+    parameters:
+    - id: item
+      type: OfficeOpenXml.Filter.ExcelFilterValueItem
+      description: The value
+    return:
+      type: OfficeOpenXml.Filter.ExcelFilterValueItem
+      description: The filter value item
+    content.vb: Public Function Add(item As ExcelFilterValueItem) As ExcelFilterValueItem
+  overload: OfficeOpenXml.Filter.ExcelValueFilterCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Filter.ExcelValueFilterCollection.Add(System.String)
+  commentId: M:OfficeOpenXml.Filter.ExcelValueFilterCollection.Add(System.String)
+  id: Add(System.String)
+  parent: OfficeOpenXml.Filter.ExcelValueFilterCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(String)
+  nameWithType: ExcelValueFilterCollection.Add(String)
+  fullName: OfficeOpenXml.Filter.ExcelValueFilterCollection.Add(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelValueFilterCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nAdd a filter value that will be matched agains the ExcelRange.Text property\n"
+  example: []
+  syntax:
+    content: public ExcelFilterValueItem Add(string value)
+    parameters:
+    - id: value
+      type: System.String
+      description: The value
+    return:
+      type: OfficeOpenXml.Filter.ExcelFilterValueItem
+      description: The filter value item
+    content.vb: Public Function Add(value As String) As ExcelFilterValueItem
+  overload: OfficeOpenXml.Filter.ExcelValueFilterCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Filter.ExcelValueFilterCollection.Clear
+  commentId: M:OfficeOpenXml.Filter.ExcelValueFilterCollection.Clear
+  id: Clear
+  parent: OfficeOpenXml.Filter.ExcelValueFilterCollection
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: ExcelValueFilterCollection.Clear()
+  fullName: OfficeOpenXml.Filter.ExcelValueFilterCollection.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelValueFilterCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clear
+    path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nClears the collection\n"
+  example: []
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear
+  overload: OfficeOpenXml.Filter.ExcelValueFilterCollection.Clear*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Filter.ExcelValueFilterCollection.RemoveAt(System.Int32)
+  commentId: M:OfficeOpenXml.Filter.ExcelValueFilterCollection.RemoveAt(System.Int32)
+  id: RemoveAt(System.Int32)
+  parent: OfficeOpenXml.Filter.ExcelValueFilterCollection
+  langs:
+  - csharp
+  - vb
+  name: RemoveAt(Int32)
+  nameWithType: ExcelValueFilterCollection.RemoveAt(Int32)
+  fullName: OfficeOpenXml.Filter.ExcelValueFilterCollection.RemoveAt(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelValueFilterCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveAt
+    path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
+    startLine: 69
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nRemove the item at the specified index from the list\n"
+  example: []
+  syntax:
+    content: public void RemoveAt(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index in the list
+    content.vb: Public Sub RemoveAt(index As Integer)
+  overload: OfficeOpenXml.Filter.ExcelValueFilterCollection.RemoveAt*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Filter.ExcelValueFilterCollection.Remove(OfficeOpenXml.Filter.ExcelFilterItem)
+  commentId: M:OfficeOpenXml.Filter.ExcelValueFilterCollection.Remove(OfficeOpenXml.Filter.ExcelFilterItem)
+  id: Remove(OfficeOpenXml.Filter.ExcelFilterItem)
+  parent: OfficeOpenXml.Filter.ExcelValueFilterCollection
+  langs:
+  - csharp
+  - vb
+  name: Remove(ExcelFilterItem)
+  nameWithType: ExcelValueFilterCollection.Remove(ExcelFilterItem)
+  fullName: OfficeOpenXml.Filter.ExcelValueFilterCollection.Remove(OfficeOpenXml.Filter.ExcelFilterItem)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelValueFilterCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
+    startLine: 77
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nRemove the item from the list\n"
+  example: []
+  syntax:
+    content: public void Remove(ExcelFilterItem item)
+    parameters:
+    - id: item
+      type: OfficeOpenXml.Filter.ExcelFilterItem
+      description: The item to remove
+    content.vb: Public Sub Remove(item As ExcelFilterItem)
+  overload: OfficeOpenXml.Filter.ExcelValueFilterCollection.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Filter
+  commentId: N:OfficeOpenXml.Filter
+  name: OfficeOpenXml.Filter
+  nameWithType: OfficeOpenXml.Filter
+  fullName: OfficeOpenXml.Filter
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}
+  parent: OfficeOpenXml.Filter
+  definition: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1
+  name: ExcelFilterCollectionBase<ExcelFilterItem>
+  nameWithType: ExcelFilterCollectionBase<ExcelFilterItem>
+  fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase<OfficeOpenXml.Filter.ExcelFilterItem>
+  nameWithType.vb: ExcelFilterCollectionBase(Of ExcelFilterItem)
+  fullName.vb: OfficeOpenXml.Filter.ExcelFilterCollectionBase(Of OfficeOpenXml.Filter.ExcelFilterItem)
+  name.vb: ExcelFilterCollectionBase(Of ExcelFilterItem)
+  spec.csharp:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1
+    name: ExcelFilterCollectionBase
+    nameWithType: ExcelFilterCollectionBase
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Filter.ExcelFilterItem
+    name: ExcelFilterItem
+    nameWithType: ExcelFilterItem
+    fullName: OfficeOpenXml.Filter.ExcelFilterItem
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1
+    name: ExcelFilterCollectionBase
+    nameWithType: ExcelFilterCollectionBase
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Filter.ExcelFilterItem
+    name: ExcelFilterItem
+    nameWithType: ExcelFilterItem
+    fullName: OfficeOpenXml.Filter.ExcelFilterItem
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Filter.ExcelFilterItem}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Filter.ExcelFilterItem}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelFilterItem>
+  nameWithType: IEnumerable<ExcelFilterItem>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Filter.ExcelFilterItem>
+  nameWithType.vb: IEnumerable(Of ExcelFilterItem)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Filter.ExcelFilterItem)
+  name.vb: IEnumerable(Of ExcelFilterItem)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Filter.ExcelFilterItem
+    name: ExcelFilterItem
+    nameWithType: ExcelFilterItem
+    fullName: OfficeOpenXml.Filter.ExcelFilterItem
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Filter.ExcelFilterItem
+    name: ExcelFilterItem
+    nameWithType: ExcelFilterItem
+    fullName: OfficeOpenXml.Filter.ExcelFilterItem
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}.GetEnumerator
+  commentId: M:OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}.GetEnumerator
+  parent: OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}
+  definition: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: ExcelFilterCollectionBase<ExcelFilterItem>.GetEnumerator()
+  fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase<OfficeOpenXml.Filter.ExcelFilterItem>.GetEnumerator()
+  nameWithType.vb: ExcelFilterCollectionBase(Of ExcelFilterItem).GetEnumerator()
+  fullName.vb: OfficeOpenXml.Filter.ExcelFilterCollectionBase(Of OfficeOpenXml.Filter.ExcelFilterItem).GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: ExcelFilterCollectionBase<ExcelFilterItem>.GetEnumerator
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase<OfficeOpenXml.Filter.ExcelFilterItem>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: ExcelFilterCollectionBase(Of ExcelFilterItem).GetEnumerator
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase(Of OfficeOpenXml.Filter.ExcelFilterItem).GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}.System#Collections#IEnumerable#GetEnumerator
+  parent: OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}
+  definition: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelFilterCollectionBase<ExcelFilterItem>.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase<OfficeOpenXml.Filter.ExcelFilterItem>.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType.vb: ExcelFilterCollectionBase(Of ExcelFilterItem).System.Collections.IEnumerable.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Filter.ExcelFilterCollectionBase(Of OfficeOpenXml.Filter.ExcelFilterItem).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+    name: IEnumerable.GetEnumerator
+    nameWithType: ExcelFilterCollectionBase<ExcelFilterItem>.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase<OfficeOpenXml.Filter.ExcelFilterItem>.System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+    name: System.Collections.IEnumerable.GetEnumerator
+    nameWithType: ExcelFilterCollectionBase(Of ExcelFilterItem).System.Collections.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase(Of OfficeOpenXml.Filter.ExcelFilterItem).System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}.Item(System.Int32)
+  parent: OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}
+  definition: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.Item(System.Int32)
+  name: Item[Int32]
+  nameWithType: ExcelFilterCollectionBase<ExcelFilterItem>.Item[Int32]
+  fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase<OfficeOpenXml.Filter.ExcelFilterItem>.Item[System.Int32]
+  nameWithType.vb: ExcelFilterCollectionBase(Of ExcelFilterItem).Item(Int32)
+  fullName.vb: OfficeOpenXml.Filter.ExcelFilterCollectionBase(Of OfficeOpenXml.Filter.ExcelFilterItem).Item(System.Int32)
+  name.vb: Item(Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.Item(System.Int32)
+    name: Item
+    nameWithType: ExcelFilterCollectionBase<ExcelFilterItem>.Item
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase<OfficeOpenXml.Filter.ExcelFilterItem>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.Item(System.Int32)
+    name: Item
+    nameWithType: ExcelFilterCollectionBase(Of ExcelFilterItem).Item
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase(Of OfficeOpenXml.Filter.ExcelFilterItem).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}.Count
+  commentId: P:OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}.Count
+  parent: OfficeOpenXml.Filter.ExcelFilterCollectionBase{OfficeOpenXml.Filter.ExcelFilterItem}
+  definition: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.Count
+  name: Count
+  nameWithType: ExcelFilterCollectionBase<ExcelFilterItem>.Count
+  fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase<OfficeOpenXml.Filter.ExcelFilterItem>.Count
+  nameWithType.vb: ExcelFilterCollectionBase(Of ExcelFilterItem).Count
+  fullName.vb: OfficeOpenXml.Filter.ExcelFilterCollectionBase(Of OfficeOpenXml.Filter.ExcelFilterItem).Count
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterCollectionBase`1
+  name: ExcelFilterCollectionBase<T>
+  nameWithType: ExcelFilterCollectionBase<T>
+  fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase<T>
+  nameWithType.vb: ExcelFilterCollectionBase(Of T)
+  fullName.vb: OfficeOpenXml.Filter.ExcelFilterCollectionBase(Of T)
+  name.vb: ExcelFilterCollectionBase(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1
+    name: ExcelFilterCollectionBase
+    nameWithType: ExcelFilterCollectionBase
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1
+    name: ExcelFilterCollectionBase
+    nameWithType: ExcelFilterCollectionBase
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.GetEnumerator
+  commentId: M:OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: ExcelFilterCollectionBase<T>.GetEnumerator()
+  fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase<T>.GetEnumerator()
+  nameWithType.vb: ExcelFilterCollectionBase(Of T).GetEnumerator()
+  fullName.vb: OfficeOpenXml.Filter.ExcelFilterCollectionBase(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: ExcelFilterCollectionBase<T>.GetEnumerator
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: ExcelFilterCollectionBase(Of T).GetEnumerator
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase(Of T).GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelFilterCollectionBase<T>.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase<T>.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType.vb: ExcelFilterCollectionBase(Of T).System.Collections.IEnumerable.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Filter.ExcelFilterCollectionBase(Of T).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+    name: IEnumerable.GetEnumerator
+    nameWithType: ExcelFilterCollectionBase<T>.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase<T>.System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+    name: System.Collections.IEnumerable.GetEnumerator
+    nameWithType: ExcelFilterCollectionBase(Of T).System.Collections.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase(Of T).System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.Item(System.Int32)
+  isExternal: true
+  name: Item[Int32]
+  nameWithType: ExcelFilterCollectionBase<T>.Item[Int32]
+  fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase<T>.Item[System.Int32]
+  nameWithType.vb: ExcelFilterCollectionBase(Of T).Item(Int32)
+  fullName.vb: OfficeOpenXml.Filter.ExcelFilterCollectionBase(Of T).Item(System.Int32)
+  name.vb: Item(Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.Item(System.Int32)
+    name: Item
+    nameWithType: ExcelFilterCollectionBase<T>.Item
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase<T>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.Item(System.Int32)
+    name: Item
+    nameWithType: ExcelFilterCollectionBase(Of T).Item
+    fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase(Of T).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.Count
+  commentId: P:OfficeOpenXml.Filter.ExcelFilterCollectionBase`1.Count
+  name: Count
+  nameWithType: ExcelFilterCollectionBase<T>.Count
+  fullName: OfficeOpenXml.Filter.ExcelFilterCollectionBase<T>.Count
+  nameWithType.vb: ExcelFilterCollectionBase(Of T).Count
+  fullName.vb: OfficeOpenXml.Filter.ExcelFilterCollectionBase(Of T).Count
+- uid: OfficeOpenXml.Filter.ExcelValueFilterCollection.Blank*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelValueFilterCollection.Blank
+  name: Blank
+  nameWithType: ExcelValueFilterCollection.Blank
+  fullName: OfficeOpenXml.Filter.ExcelValueFilterCollection.Blank
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Filter.ExcelValueFilterCollection.Add*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelValueFilterCollection.Add
+  name: Add
+  nameWithType: ExcelValueFilterCollection.Add
+  fullName: OfficeOpenXml.Filter.ExcelValueFilterCollection.Add
+- uid: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+  parent: OfficeOpenXml.Filter
+  name: ExcelFilterDateGroupItem
+  nameWithType: ExcelFilterDateGroupItem
+  fullName: OfficeOpenXml.Filter.ExcelFilterDateGroupItem
+- uid: OfficeOpenXml.Filter.ExcelFilterValueItem
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterValueItem
+  parent: OfficeOpenXml.Filter
+  name: ExcelFilterValueItem
+  nameWithType: ExcelFilterValueItem
+  fullName: OfficeOpenXml.Filter.ExcelFilterValueItem
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Filter.ExcelValueFilterCollection.Clear*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelValueFilterCollection.Clear
+  name: Clear
+  nameWithType: ExcelValueFilterCollection.Clear
+  fullName: OfficeOpenXml.Filter.ExcelValueFilterCollection.Clear
+- uid: OfficeOpenXml.Filter.ExcelValueFilterCollection.RemoveAt*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelValueFilterCollection.RemoveAt
+  name: RemoveAt
+  nameWithType: ExcelValueFilterCollection.RemoveAt
+  fullName: OfficeOpenXml.Filter.ExcelValueFilterCollection.RemoveAt
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Filter.ExcelValueFilterCollection.Remove*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelValueFilterCollection.Remove
+  name: Remove
+  nameWithType: ExcelValueFilterCollection.Remove
+  fullName: OfficeOpenXml.Filter.ExcelValueFilterCollection.Remove
+- uid: OfficeOpenXml.Filter.ExcelFilterItem
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterItem
+  parent: OfficeOpenXml.Filter
+  name: ExcelFilterItem
+  nameWithType: ExcelFilterItem
+  fullName: OfficeOpenXml.Filter.ExcelFilterItem

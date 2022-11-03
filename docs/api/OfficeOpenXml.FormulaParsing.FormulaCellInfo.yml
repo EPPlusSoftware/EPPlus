@@ -1,0 +1,514 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.FormulaCellInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaCellInfo
+  id: FormulaCellInfo
+  parent: OfficeOpenXml.FormulaParsing
+  children:
+  - OfficeOpenXml.FormulaParsing.FormulaCellInfo.Address
+  - OfficeOpenXml.FormulaParsing.FormulaCellInfo.Formula
+  - OfficeOpenXml.FormulaParsing.FormulaCellInfo.Worksheet
+  langs:
+  - csharp
+  - vb
+  name: FormulaCellInfo
+  nameWithType: FormulaCellInfo
+  fullName: OfficeOpenXml.FormulaParsing.FormulaCellInfo
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/DependencyChain/FormulaCellInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FormulaCellInfo
+    path: ../src/EPPlus/FormulaParsing/DependencyChain/FormulaCellInfo.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nUsed in the formula calculation dependency chain\n"
+  example: []
+  syntax:
+    content: 'public class FormulaCellInfo : IFormulaCellInfo'
+    content.vb: >-
+      Public Class FormulaCellInfo
+          Implements IFormulaCellInfo
+  inheritance:
+  - System.Object
+  implements:
+  - OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.FormulaCellInfo.Worksheet
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaCellInfo.Worksheet
+  id: Worksheet
+  parent: OfficeOpenXml.FormulaParsing.FormulaCellInfo
+  langs:
+  - csharp
+  - vb
+  name: Worksheet
+  nameWithType: FormulaCellInfo.Worksheet
+  fullName: OfficeOpenXml.FormulaParsing.FormulaCellInfo.Worksheet
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/DependencyChain/FormulaCellInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Worksheet
+    path: ../src/EPPlus/FormulaParsing/DependencyChain/FormulaCellInfo.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nThe name of the worksheet.\n"
+  example: []
+  syntax:
+    content: public string Worksheet { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Worksheet As String
+  overload: OfficeOpenXml.FormulaParsing.FormulaCellInfo.Worksheet*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Worksheet
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaCellInfo.Address
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaCellInfo.Address
+  id: Address
+  parent: OfficeOpenXml.FormulaParsing.FormulaCellInfo
+  langs:
+  - csharp
+  - vb
+  name: Address
+  nameWithType: FormulaCellInfo.Address
+  fullName: OfficeOpenXml.FormulaParsing.FormulaCellInfo.Address
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/DependencyChain/FormulaCellInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Address
+    path: ../src/EPPlus/FormulaParsing/DependencyChain/FormulaCellInfo.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nThe address of the formula\n"
+  example: []
+  syntax:
+    content: public string Address { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Address As String
+  overload: OfficeOpenXml.FormulaParsing.FormulaCellInfo.Address*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Address
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaCellInfo.Formula
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaCellInfo.Formula
+  id: Formula
+  parent: OfficeOpenXml.FormulaParsing.FormulaCellInfo
+  langs:
+  - csharp
+  - vb
+  name: Formula
+  nameWithType: FormulaCellInfo.Formula
+  fullName: OfficeOpenXml.FormulaParsing.FormulaCellInfo.Formula
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/DependencyChain/FormulaCellInfo.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Formula
+    path: ../src/EPPlus/FormulaParsing/DependencyChain/FormulaCellInfo.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nThe formula\n"
+  example: []
+  syntax:
+    content: public string Formula { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Formula As String
+  overload: OfficeOpenXml.FormulaParsing.FormulaCellInfo.Formula*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Formula
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+  commentId: T:OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+  parent: OfficeOpenXml.FormulaParsing
+  name: IFormulaCellInfo
+  nameWithType: IFormulaCellInfo
+  fullName: OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.FormulaCellInfo.Worksheet*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaCellInfo.Worksheet
+  name: Worksheet
+  nameWithType: FormulaCellInfo.Worksheet
+  fullName: OfficeOpenXml.FormulaParsing.FormulaCellInfo.Worksheet
+- uid: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Worksheet
+  commentId: P:OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Worksheet
+  parent: OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+  name: Worksheet
+  nameWithType: IFormulaCellInfo.Worksheet
+  fullName: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Worksheet
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.FormulaParsing.FormulaCellInfo.Address*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaCellInfo.Address
+  name: Address
+  nameWithType: FormulaCellInfo.Address
+  fullName: OfficeOpenXml.FormulaParsing.FormulaCellInfo.Address
+- uid: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Address
+  commentId: P:OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Address
+  parent: OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+  name: Address
+  nameWithType: IFormulaCellInfo.Address
+  fullName: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Address
+- uid: OfficeOpenXml.FormulaParsing.FormulaCellInfo.Formula*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaCellInfo.Formula
+  name: Formula
+  nameWithType: FormulaCellInfo.Formula
+  fullName: OfficeOpenXml.FormulaParsing.FormulaCellInfo.Formula
+- uid: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Formula
+  commentId: P:OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Formula
+  parent: OfficeOpenXml.FormulaParsing.IFormulaCellInfo
+  name: Formula
+  nameWithType: IFormulaCellInfo.Formula
+  fullName: OfficeOpenXml.FormulaParsing.IFormulaCellInfo.Formula

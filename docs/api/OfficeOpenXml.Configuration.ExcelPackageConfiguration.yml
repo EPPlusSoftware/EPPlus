@@ -1,0 +1,542 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Configuration.ExcelPackageConfiguration
+  commentId: T:OfficeOpenXml.Configuration.ExcelPackageConfiguration
+  id: ExcelPackageConfiguration
+  parent: OfficeOpenXml.Configuration
+  children:
+  - OfficeOpenXml.Configuration.ExcelPackageConfiguration.JsonConfigBasePath
+  - OfficeOpenXml.Configuration.ExcelPackageConfiguration.JsonConfigFileName
+  - OfficeOpenXml.Configuration.ExcelPackageConfiguration.Reset
+  - OfficeOpenXml.Configuration.ExcelPackageConfiguration.SuppressInitializationExceptions
+  langs:
+  - csharp
+  - vb
+  name: ExcelPackageConfiguration
+  nameWithType: ExcelPackageConfiguration
+  fullName: OfficeOpenXml.Configuration.ExcelPackageConfiguration
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Configuration/ExcelPackageConfiguration.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPackageConfiguration
+    path: ../src/EPPlus/Configuration/ExcelPackageConfiguration.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Configuration
+  summary: "\nParameters for configuring the <xref href=\"OfficeOpenXml.ExcelPackage\" data-throw-if-not-resolved=\"false\"></xref> class before usage\n"
+  example: []
+  syntax:
+    content: public class ExcelPackageConfiguration
+    content.vb: Public Class ExcelPackageConfiguration
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Configuration.ExcelPackageConfiguration.SuppressInitializationExceptions
+  commentId: P:OfficeOpenXml.Configuration.ExcelPackageConfiguration.SuppressInitializationExceptions
+  id: SuppressInitializationExceptions
+  parent: OfficeOpenXml.Configuration.ExcelPackageConfiguration
+  langs:
+  - csharp
+  - vb
+  name: SuppressInitializationExceptions
+  nameWithType: ExcelPackageConfiguration.SuppressInitializationExceptions
+  fullName: OfficeOpenXml.Configuration.ExcelPackageConfiguration.SuppressInitializationExceptions
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Configuration/ExcelPackageConfiguration.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SuppressInitializationExceptions
+    path: ../src/EPPlus/Configuration/ExcelPackageConfiguration.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Configuration
+  summary: "\nIf set to true errors/exceptions that occurs during initialization of the ExcelPackage class will\nbe suppressed and logged in <xref href=\"OfficeOpenXml.ExcelPackage.InitializationErrors\" data-throw-if-not-resolved=\"false\"></xref>.\n\nIf set to false these Exceptions will be rethrown.\n\nDefault value of this property is false.\n"
+  example: []
+  syntax:
+    content: public bool SuppressInitializationExceptions { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property SuppressInitializationExceptions As Boolean
+  overload: OfficeOpenXml.Configuration.ExcelPackageConfiguration.SuppressInitializationExceptions*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Configuration.ExcelPackageConfiguration.JsonConfigBasePath
+  commentId: P:OfficeOpenXml.Configuration.ExcelPackageConfiguration.JsonConfigBasePath
+  id: JsonConfigBasePath
+  parent: OfficeOpenXml.Configuration.ExcelPackageConfiguration
+  langs:
+  - csharp
+  - vb
+  name: JsonConfigBasePath
+  nameWithType: ExcelPackageConfiguration.JsonConfigBasePath
+  fullName: OfficeOpenXml.Configuration.ExcelPackageConfiguration.JsonConfigBasePath
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Configuration/ExcelPackageConfiguration.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: JsonConfigBasePath
+    path: ../src/EPPlus/Configuration/ExcelPackageConfiguration.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Configuration
+  summary: "\nPath of the directory where the json configuration file is located.\nDefault value is the path returned from <xref href=\"System.IO.Directory.GetCurrentDirectory\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public string JsonConfigBasePath { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property JsonConfigBasePath As String
+  overload: OfficeOpenXml.Configuration.ExcelPackageConfiguration.JsonConfigBasePath*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Configuration.ExcelPackageConfiguration.JsonConfigFileName
+  commentId: P:OfficeOpenXml.Configuration.ExcelPackageConfiguration.JsonConfigFileName
+  id: JsonConfigFileName
+  parent: OfficeOpenXml.Configuration.ExcelPackageConfiguration
+  langs:
+  - csharp
+  - vb
+  name: JsonConfigFileName
+  nameWithType: ExcelPackageConfiguration.JsonConfigFileName
+  fullName: OfficeOpenXml.Configuration.ExcelPackageConfiguration.JsonConfigFileName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Configuration/ExcelPackageConfiguration.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: JsonConfigFileName
+    path: ../src/EPPlus/Configuration/ExcelPackageConfiguration.cs
+    startLine: 54
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Configuration
+  summary: "\nFile name of the json configuration file.\nDefault value is appsettings.json\n"
+  example: []
+  syntax:
+    content: public string JsonConfigFileName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property JsonConfigFileName As String
+  overload: OfficeOpenXml.Configuration.ExcelPackageConfiguration.JsonConfigFileName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Configuration.ExcelPackageConfiguration.Reset
+  commentId: M:OfficeOpenXml.Configuration.ExcelPackageConfiguration.Reset
+  id: Reset
+  parent: OfficeOpenXml.Configuration.ExcelPackageConfiguration
+  langs:
+  - csharp
+  - vb
+  name: Reset()
+  nameWithType: ExcelPackageConfiguration.Reset()
+  fullName: OfficeOpenXml.Configuration.ExcelPackageConfiguration.Reset()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Configuration/ExcelPackageConfiguration.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Reset
+    path: ../src/EPPlus/Configuration/ExcelPackageConfiguration.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Configuration
+  summary: "\nResets configuration to its default values\n"
+  example: []
+  syntax:
+    content: public void Reset()
+    content.vb: Public Sub Reset
+  overload: OfficeOpenXml.Configuration.ExcelPackageConfiguration.Reset*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.ExcelPackage
+  commentId: T:OfficeOpenXml.ExcelPackage
+  parent: OfficeOpenXml
+  name: ExcelPackage
+  nameWithType: ExcelPackage
+  fullName: OfficeOpenXml.ExcelPackage
+- uid: OfficeOpenXml.Configuration
+  commentId: N:OfficeOpenXml.Configuration
+  name: OfficeOpenXml.Configuration
+  nameWithType: OfficeOpenXml.Configuration
+  fullName: OfficeOpenXml.Configuration
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelPackage.InitializationErrors
+  commentId: P:OfficeOpenXml.ExcelPackage.InitializationErrors
+  isExternal: true
+- uid: OfficeOpenXml.Configuration.ExcelPackageConfiguration.SuppressInitializationExceptions*
+  commentId: Overload:OfficeOpenXml.Configuration.ExcelPackageConfiguration.SuppressInitializationExceptions
+  name: SuppressInitializationExceptions
+  nameWithType: ExcelPackageConfiguration.SuppressInitializationExceptions
+  fullName: OfficeOpenXml.Configuration.ExcelPackageConfiguration.SuppressInitializationExceptions
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: System.IO.Directory.GetCurrentDirectory
+  commentId: M:System.IO.Directory.GetCurrentDirectory
+  isExternal: true
+- uid: OfficeOpenXml.Configuration.ExcelPackageConfiguration.JsonConfigBasePath*
+  commentId: Overload:OfficeOpenXml.Configuration.ExcelPackageConfiguration.JsonConfigBasePath
+  name: JsonConfigBasePath
+  nameWithType: ExcelPackageConfiguration.JsonConfigBasePath
+  fullName: OfficeOpenXml.Configuration.ExcelPackageConfiguration.JsonConfigBasePath
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Configuration.ExcelPackageConfiguration.JsonConfigFileName*
+  commentId: Overload:OfficeOpenXml.Configuration.ExcelPackageConfiguration.JsonConfigFileName
+  name: JsonConfigFileName
+  nameWithType: ExcelPackageConfiguration.JsonConfigFileName
+  fullName: OfficeOpenXml.Configuration.ExcelPackageConfiguration.JsonConfigFileName
+- uid: OfficeOpenXml.Configuration.ExcelPackageConfiguration.Reset*
+  commentId: Overload:OfficeOpenXml.Configuration.ExcelPackageConfiguration.Reset
+  name: Reset
+  nameWithType: ExcelPackageConfiguration.Reset
+  fullName: OfficeOpenXml.Configuration.ExcelPackageConfiguration.Reset

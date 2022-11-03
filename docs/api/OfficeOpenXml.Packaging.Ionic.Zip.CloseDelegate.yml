@@ -1,0 +1,82 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Packaging.Ionic.Zip.CloseDelegate
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zip.CloseDelegate
+  id: CloseDelegate
+  parent: OfficeOpenXml.Packaging.Ionic.Zip
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: CloseDelegate
+  nameWithType: CloseDelegate
+  fullName: OfficeOpenXml.Packaging.Ionic.Zip.CloseDelegate
+  type: Delegate
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Events.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CloseDelegate
+    path: ../src/EPPlus/Packaging/DotNetZip/Events.cs
+    startLine: 119
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zip
+  summary: "\nDelegate in which the application closes the stream, just-in-time, for the named entry.\n"
+  remarks: "\nWhen you add an entry via <xref href=\"OfficeOpenXml.Packaging.Ionic.Zip.ZipFile.AddEntry(System.String%2cOfficeOpenXml.Packaging.Ionic.Zip.OpenDelegate%2cOfficeOpenXml.Packaging.Ionic.Zip.CloseDelegate)\" data-throw-if-not-resolved=\"false\"></xref>, the application code provides the logic that\nopens and closes the stream for the given ZipEntry.\n"
+  example: []
+  syntax:
+    content: public delegate void CloseDelegate(string entryName, Stream stream);
+    parameters:
+    - id: entryName
+      type: System.String
+      description: "\nThe name of the ZipEntry that the application should close the stream for.\n"
+    - id: stream
+      type: System.IO.Stream
+      description: The stream to be closed.
+    content.vb: Public Delegate Sub CloseDelegate(entryName As String, stream As Stream)
+  seealso:
+  - linkId: OfficeOpenXml.Packaging.Ionic.Zip.ZipFile.AddEntry(System.String,OfficeOpenXml.Packaging.Ionic.Zip.OpenDelegate,OfficeOpenXml.Packaging.Ionic.Zip.CloseDelegate)
+    commentId: M:OfficeOpenXml.Packaging.Ionic.Zip.ZipFile.AddEntry(System.String,OfficeOpenXml.Packaging.Ionic.Zip.OpenDelegate,OfficeOpenXml.Packaging.Ionic.Zip.CloseDelegate)
+  modifiers.csharp:
+  - public
+  - delegate
+  modifiers.vb:
+  - Public
+  - Delegate
+references:
+- uid: OfficeOpenXml.Packaging.Ionic.Zip.ZipFile.AddEntry(System.String,OfficeOpenXml.Packaging.Ionic.Zip.OpenDelegate,OfficeOpenXml.Packaging.Ionic.Zip.CloseDelegate)
+  commentId: M:OfficeOpenXml.Packaging.Ionic.Zip.ZipFile.AddEntry(System.String,OfficeOpenXml.Packaging.Ionic.Zip.OpenDelegate,OfficeOpenXml.Packaging.Ionic.Zip.CloseDelegate)
+  isExternal: true
+- uid: OfficeOpenXml.Packaging.Ionic.Zip
+  commentId: N:OfficeOpenXml.Packaging.Ionic.Zip
+  name: OfficeOpenXml.Packaging.Ionic.Zip
+  nameWithType: OfficeOpenXml.Packaging.Ionic.Zip
+  fullName: OfficeOpenXml.Packaging.Ionic.Zip
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.IO.Stream
+  commentId: T:System.IO.Stream
+  parent: System.IO
+  isExternal: true
+  name: Stream
+  nameWithType: Stream
+  fullName: System.IO.Stream
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO

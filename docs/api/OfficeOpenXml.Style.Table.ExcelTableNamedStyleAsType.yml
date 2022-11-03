@@ -1,0 +1,553 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType
+  commentId: T:OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType
+  id: ExcelTableNamedStyleAsType
+  parent: OfficeOpenXml.Style.Table
+  children:
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.PivotTableStyle
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.TableAndPivotTableStyle
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.TableStyle
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.Type``1
+  langs:
+  - csharp
+  - vb
+  name: ExcelTableNamedStyleAsType
+  nameWithType: ExcelTableNamedStyleAsType
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelTableNamedStyleAsType
+    path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Table
+  summary: "\nProvides a simple way to type cast a table named style objects to its top level class.\n"
+  example: []
+  syntax:
+    content: public class ExcelTableNamedStyleAsType
+    content.vb: Public Class ExcelTableNamedStyleAsType
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.Type``1
+  commentId: M:OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.Type``1
+  id: Type``1
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType
+  langs:
+  - csharp
+  - vb
+  name: Type<T>()
+  nameWithType: ExcelTableNamedStyleAsType.Type<T>()
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.Type<T>()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Type
+    path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Table
+  summary: "\nConverts the table named style object to it&apos;s top level or another nested class.        \n"
+  example: []
+  syntax:
+    content: >-
+      public T Type<T>()
+          where T : ExcelTableNamedStyleBase
+    typeParameters:
+    - id: T
+      description: The type of table named style object. T must be inherited from ExcelTableNamedStyleBase
+    return:
+      type: '{T}'
+      description: The table named style as type T
+    content.vb: Public Function Type(Of T As ExcelTableNamedStyleBase) As T
+  overload: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.Type*
+  nameWithType.vb: ExcelTableNamedStyleAsType.Type(Of T)()
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.Type(Of T)()
+  name.vb: Type(Of T)()
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.TableStyle
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.TableStyle
+  id: TableStyle
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType
+  langs:
+  - csharp
+  - vb
+  name: TableStyle
+  nameWithType: ExcelTableNamedStyleAsType.TableStyle
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.TableStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableStyle
+    path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Table
+  summary: "\nReturns the table named style object as a named style for tables only\n"
+  example: []
+  syntax:
+    content: public ExcelTableNamedStyle TableStyle { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+      description: The table named style object
+    content.vb: Public ReadOnly Property TableStyle As ExcelTableNamedStyle
+  overload: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.TableStyle*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.PivotTableStyle
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.PivotTableStyle
+  id: PivotTableStyle
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType
+  langs:
+  - csharp
+  - vb
+  name: PivotTableStyle
+  nameWithType: ExcelTableNamedStyleAsType.PivotTableStyle
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.PivotTableStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PivotTableStyle
+    path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Table
+  summary: "\nReturns the table named style object as a named style for pivot tables only\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableNamedStyle PivotTableStyle { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Table.ExcelPivotTableNamedStyle
+      description: The pivot table named style object
+    content.vb: Public ReadOnly Property PivotTableStyle As ExcelPivotTableNamedStyle
+  overload: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.PivotTableStyle*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.TableAndPivotTableStyle
+  commentId: P:OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.TableAndPivotTableStyle
+  id: TableAndPivotTableStyle
+  parent: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType
+  langs:
+  - csharp
+  - vb
+  name: TableAndPivotTableStyle
+  nameWithType: ExcelTableNamedStyleAsType.TableAndPivotTableStyle
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.TableAndPivotTableStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableAndPivotTableStyle
+    path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
+    startLine: 69
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style.Table
+  summary: "\nReturns the table named style object as a named style that can be applied to both tables and pivot tables.\n"
+  example: []
+  syntax:
+    content: public ExcelTableAndPivotTableNamedStyle TableAndPivotTableStyle { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Table.ExcelTableAndPivotTableNamedStyle
+      description: The shared table named style object
+    content.vb: Public ReadOnly Property TableAndPivotTableStyle As ExcelTableAndPivotTableNamedStyle
+  overload: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.TableAndPivotTableStyle*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Style.Table
+  commentId: N:OfficeOpenXml.Style.Table
+  name: OfficeOpenXml.Style.Table
+  nameWithType: OfficeOpenXml.Style.Table
+  fullName: OfficeOpenXml.Style.Table
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.Type*
+  commentId: Overload:OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.Type
+  name: Type
+  nameWithType: ExcelTableNamedStyleAsType.Type
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.Type
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.TableStyle*
+  commentId: Overload:OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.TableStyle
+  name: TableStyle
+  nameWithType: ExcelTableNamedStyleAsType.TableStyle
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.TableStyle
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+  commentId: T:OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+  parent: OfficeOpenXml.Style.Table
+  name: ExcelTableNamedStyle
+  nameWithType: ExcelTableNamedStyle
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyle
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.PivotTableStyle*
+  commentId: Overload:OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.PivotTableStyle
+  name: PivotTableStyle
+  nameWithType: ExcelTableNamedStyleAsType.PivotTableStyle
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.PivotTableStyle
+- uid: OfficeOpenXml.Style.Table.ExcelPivotTableNamedStyle
+  commentId: T:OfficeOpenXml.Style.Table.ExcelPivotTableNamedStyle
+  parent: OfficeOpenXml.Style.Table
+  name: ExcelPivotTableNamedStyle
+  nameWithType: ExcelPivotTableNamedStyle
+  fullName: OfficeOpenXml.Style.Table.ExcelPivotTableNamedStyle
+- uid: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.TableAndPivotTableStyle*
+  commentId: Overload:OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.TableAndPivotTableStyle
+  name: TableAndPivotTableStyle
+  nameWithType: ExcelTableNamedStyleAsType.TableAndPivotTableStyle
+  fullName: OfficeOpenXml.Style.Table.ExcelTableNamedStyleAsType.TableAndPivotTableStyle
+- uid: OfficeOpenXml.Style.Table.ExcelTableAndPivotTableNamedStyle
+  commentId: T:OfficeOpenXml.Style.Table.ExcelTableAndPivotTableNamedStyle
+  parent: OfficeOpenXml.Style.Table
+  name: ExcelTableAndPivotTableNamedStyle
+  nameWithType: ExcelTableAndPivotTableNamedStyle
+  fullName: OfficeOpenXml.Style.Table.ExcelTableAndPivotTableNamedStyle

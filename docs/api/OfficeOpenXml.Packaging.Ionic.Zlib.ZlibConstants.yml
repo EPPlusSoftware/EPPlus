@@ -1,0 +1,712 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants
+  commentId: T:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants
+  id: ZlibConstants
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib
+  children:
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.WindowBitsDefault
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.WindowBitsMax
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.WorkingBufferSizeDefault
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.WorkingBufferSizeMin
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_BUF_ERROR
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_DATA_ERROR
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_NEED_DICT
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_OK
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_STREAM_END
+  - OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_STREAM_ERROR
+  langs:
+  - csharp
+  - vb
+  name: ZlibConstants
+  nameWithType: ZlibConstants
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ZlibConstants
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nA bunch of constants used in the Zlib interface.\n"
+  example: []
+  syntax:
+    content: public static class ZlibConstants
+    content.vb: Public Module ZlibConstants
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - static
+  - class
+  modifiers.vb:
+  - Public
+  - Module
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.WindowBitsMax
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.WindowBitsMax
+  id: WindowBitsMax
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants
+  langs:
+  - csharp
+  - vb
+  name: WindowBitsMax
+  nameWithType: ZlibConstants.WindowBitsMax
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.WindowBitsMax
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WindowBitsMax
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+    startLine: 75
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe maximum number of window bits for the Deflate algorithm.\n"
+  example: []
+  syntax:
+    content: public const int WindowBitsMax = 15
+    return:
+      type: System.Int32
+    content.vb: Public Const WindowBitsMax As Integer = 15
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.WindowBitsDefault
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.WindowBitsDefault
+  id: WindowBitsDefault
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants
+  langs:
+  - csharp
+  - vb
+  name: WindowBitsDefault
+  nameWithType: ZlibConstants.WindowBitsDefault
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.WindowBitsDefault
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WindowBitsDefault
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+    startLine: 80
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe default number of window bits for the Deflate algorithm.\n"
+  example: []
+  syntax:
+    content: public const int WindowBitsDefault = 15
+    return:
+      type: System.Int32
+    content.vb: Public Const WindowBitsDefault As Integer = 15
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_OK
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_OK
+  id: Z_OK
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants
+  langs:
+  - csharp
+  - vb
+  name: Z_OK
+  nameWithType: ZlibConstants.Z_OK
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_OK
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Z_OK
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+    startLine: 85
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nindicates everything is A-OK\n"
+  example: []
+  syntax:
+    content: public const int Z_OK = 0
+    return:
+      type: System.Int32
+    content.vb: Public Const Z_OK As Integer = 0
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_STREAM_END
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_STREAM_END
+  id: Z_STREAM_END
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants
+  langs:
+  - csharp
+  - vb
+  name: Z_STREAM_END
+  nameWithType: ZlibConstants.Z_STREAM_END
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_STREAM_END
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Z_STREAM_END
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nIndicates that the last operation reached the end of the stream.\n"
+  example: []
+  syntax:
+    content: public const int Z_STREAM_END = 1
+    return:
+      type: System.Int32
+    content.vb: Public Const Z_STREAM_END As Integer = 1
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_NEED_DICT
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_NEED_DICT
+  id: Z_NEED_DICT
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants
+  langs:
+  - csharp
+  - vb
+  name: Z_NEED_DICT
+  nameWithType: ZlibConstants.Z_NEED_DICT
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_NEED_DICT
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Z_NEED_DICT
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+    startLine: 95
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe operation ended in need of a dictionary. \n"
+  example: []
+  syntax:
+    content: public const int Z_NEED_DICT = 2
+    return:
+      type: System.Int32
+    content.vb: Public Const Z_NEED_DICT As Integer = 2
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_STREAM_ERROR
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_STREAM_ERROR
+  id: Z_STREAM_ERROR
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants
+  langs:
+  - csharp
+  - vb
+  name: Z_STREAM_ERROR
+  nameWithType: ZlibConstants.Z_STREAM_ERROR
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_STREAM_ERROR
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Z_STREAM_ERROR
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+    startLine: 100
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThere was an error with the stream - not enough data, not open and readable, etc.\n"
+  example: []
+  syntax:
+    content: public const int Z_STREAM_ERROR = -2
+    return:
+      type: System.Int32
+    content.vb: Public Const Z_STREAM_ERROR As Integer = -2
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_DATA_ERROR
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_DATA_ERROR
+  id: Z_DATA_ERROR
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants
+  langs:
+  - csharp
+  - vb
+  name: Z_DATA_ERROR
+  nameWithType: ZlibConstants.Z_DATA_ERROR
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_DATA_ERROR
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Z_DATA_ERROR
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+    startLine: 105
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThere was an error with the data - not enough data, bad data, etc.\n"
+  example: []
+  syntax:
+    content: public const int Z_DATA_ERROR = -3
+    return:
+      type: System.Int32
+    content.vb: Public Const Z_DATA_ERROR As Integer = -3
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_BUF_ERROR
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_BUF_ERROR
+  id: Z_BUF_ERROR
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants
+  langs:
+  - csharp
+  - vb
+  name: Z_BUF_ERROR
+  nameWithType: ZlibConstants.Z_BUF_ERROR
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.Z_BUF_ERROR
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Z_BUF_ERROR
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThere was an error with the working buffer.\n"
+  example: []
+  syntax:
+    content: public const int Z_BUF_ERROR = -5
+    return:
+      type: System.Int32
+    content.vb: Public Const Z_BUF_ERROR As Integer = -5
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.WorkingBufferSizeDefault
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.WorkingBufferSizeDefault
+  id: WorkingBufferSizeDefault
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants
+  langs:
+  - csharp
+  - vb
+  name: WorkingBufferSizeDefault
+  nameWithType: ZlibConstants.WorkingBufferSizeDefault
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.WorkingBufferSizeDefault
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WorkingBufferSizeDefault
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+    startLine: 118
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe size of the working buffer used in the ZlibCodec class. Defaults to 8192 bytes.\n"
+  example: []
+  syntax:
+    content: public const int WorkingBufferSizeDefault = 16384
+    return:
+      type: System.Int32
+    content.vb: Public Const WorkingBufferSizeDefault As Integer = 16384
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.WorkingBufferSizeMin
+  commentId: F:OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.WorkingBufferSizeMin
+  id: WorkingBufferSizeMin
+  parent: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants
+  langs:
+  - csharp
+  - vb
+  name: WorkingBufferSizeMin
+  nameWithType: ZlibConstants.WorkingBufferSizeMin
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibConstants.WorkingBufferSizeMin
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WorkingBufferSizeMin
+    path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
+    startLine: 123
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Packaging.Ionic.Zlib
+  summary: "\nThe minimum size of the working buffer used in the ZlibCodec class.  Currently it is 128 bytes.\n"
+  example: []
+  syntax:
+    content: public const int WorkingBufferSizeMin = 1024
+    return:
+      type: System.Int32
+    content.vb: Public Const WorkingBufferSizeMin As Integer = 1024
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Packaging.Ionic.Zlib
+  commentId: N:OfficeOpenXml.Packaging.Ionic.Zlib
+  name: OfficeOpenXml.Packaging.Ionic.Zlib
+  nameWithType: OfficeOpenXml.Packaging.Ionic.Zlib
+  fullName: OfficeOpenXml.Packaging.Ionic.Zlib
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32

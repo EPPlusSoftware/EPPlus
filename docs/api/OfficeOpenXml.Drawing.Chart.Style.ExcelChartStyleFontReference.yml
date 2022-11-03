@@ -1,0 +1,511 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference
+  commentId: T:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference
+  id: ExcelChartStyleFontReference
+  parent: OfficeOpenXml.Drawing.Chart.Style
+  children:
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.Color
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.HasColor
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.Index
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartStyleFontReference
+  nameWithType: ExcelChartStyleFontReference
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleFontReference.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartStyleFontReference
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleFontReference.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nA reference to a theme font collection from the chart style manager\n"
+  example: []
+  syntax:
+    content: 'public class ExcelChartStyleFontReference : XmlHelper'
+    content.vb: >-
+      Public Class ExcelChartStyleFontReference
+          Inherits XmlHelper
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.Index
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.Index
+  id: Index
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference
+  langs:
+  - csharp
+  - vb
+  name: Index
+  nameWithType: ExcelChartStyleFontReference.Index
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.Index
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleFontReference.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Index
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleFontReference.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nThe index to the style matrix.\nThis property referes to the theme\n"
+  example: []
+  syntax:
+    content: public eThemeFontCollectionType Index { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+    content.vb: Public Property Index As eThemeFontCollectionType
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.Index*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.Color
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.Color
+  id: Color
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference
+  langs:
+  - csharp
+  - vb
+  name: Color
+  nameWithType: ExcelChartStyleFontReference.Color
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.Color
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleFontReference.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Color
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleFontReference.cs
+    startLine: 48
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nThe color of the font\nThis will replace any the StyleClr node in the chart style xml.\n"
+  example: []
+  syntax:
+    content: public ExcelChartStyleColorManager Color { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleColorManager
+    content.vb: Public ReadOnly Property Color As ExcelChartStyleColorManager
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.Color*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.HasColor
+  commentId: P:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.HasColor
+  id: HasColor
+  parent: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference
+  langs:
+  - csharp
+  - vb
+  name: HasColor
+  nameWithType: ExcelChartStyleFontReference.HasColor
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.HasColor
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleFontReference.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HasColor
+    path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleFontReference.cs
+    startLine: 63
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nIf the reference has a color\n"
+  example: []
+  syntax:
+    content: public bool HasColor { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property HasColor As Boolean
+  overload: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.HasColor*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Chart.Style
+  commentId: N:OfficeOpenXml.Drawing.Chart.Style
+  name: OfficeOpenXml.Drawing.Chart.Style
+  nameWithType: OfficeOpenXml.Drawing.Chart.Style
+  fullName: OfficeOpenXml.Drawing.Chart.Style
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.Index*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.Index
+  name: Index
+  nameWithType: ExcelChartStyleFontReference.Index
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.Index
+- uid: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+  commentId: T:OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+  parent: OfficeOpenXml.Drawing.Theme
+  name: eThemeFontCollectionType
+  nameWithType: eThemeFontCollectionType
+  fullName: OfficeOpenXml.Drawing.Theme.eThemeFontCollectionType
+- uid: OfficeOpenXml.Drawing.Theme
+  commentId: N:OfficeOpenXml.Drawing.Theme
+  name: OfficeOpenXml.Drawing.Theme
+  nameWithType: OfficeOpenXml.Drawing.Theme
+  fullName: OfficeOpenXml.Drawing.Theme
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.Color*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.Color
+  name: Color
+  nameWithType: ExcelChartStyleFontReference.Color
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.Color
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleColorManager
+  commentId: T:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleColorManager
+  parent: OfficeOpenXml.Drawing.Chart.Style
+  name: ExcelChartStyleColorManager
+  nameWithType: ExcelChartStyleColorManager
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleColorManager
+- uid: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.HasColor*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.HasColor
+  name: HasColor
+  nameWithType: ExcelChartStyleFontReference.HasColor
+  fullName: OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference.HasColor
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

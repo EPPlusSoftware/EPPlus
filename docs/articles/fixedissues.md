@@ -1,4 +1,42 @@
 ﻿# Features / Fixed issues - EPPlus 6
+## Version 6.1.0
+### Features
+* Support for new types of VBA signing. See [This link](https://github.com/EPPlusSoftware/EPPlus/wiki/VBA)
+	* Agile VBA Signing
+	* V3 VBA Signing
+* Change hash algorithm on a VBA signature. Supports MD5, SHA1, SHA256, SHA384 and SHA512.
+* ExcelRange.ToCollection method - to map ranges and tables to an collection of T. See [This link](https://github.com/EPPlusSoftware/EPPlus/wiki/ToCollection)
+* New methods to group, ungroup, collapse, and expand rows and columns - See [This link](https://github.com/EPPlusSoftware/EPPlus/wiki/Grouping-and-Ungrouping-Rows-and-Columns)
+	* Group method method
+	* Ungroup method method
+	* CollapseChildren method
+	* ExpandChildren method
+	* SetVisibleOutlineLevel method
+* New overloads of Drawings.AddPicture that reads the signature of the image from stream to identify the type of image.
+	* AddPicture(string, Stream)
+	* AddPicture(string, Stream, Uri)
+These overloads have been deprecated:
+	* AddPicture(string, Stream, ePictureType)
+	* AddPicture(string, Stream, ePictureType, Uri) 
+* Preserve the 'Table' formula properties (Created via the What-If Analysis-Data Table).
+### Fixed issues
+* Invalid formatted hyperlinks were not loaded and saved correctly.
+* Rows to repeat is not copied when adding a worksheet with another worksheet as template.
+* Rows with the default height got an incorrect height when copied to a new worksheet if the Normal style had a font other than the default.
+* The GenericImageHandler failed to load images in .NET in Unity as System.Drawing was not available.
+* EpplusTableColumnAttribute NumberFormat is ignored when Header contains space.
+* Workbooks with color styles not having any attributes, failed to load.
+### Other changes
+* Target framework .NET 5.0 has been removed as it is out of support by Microsoft.
+
+## Version 6.0.8
+### Fixed issues
+* Fixed issue with the DataValidations.Clear() method, where DataValidations were only removed from the collection classes in EPPlus but not removed from the underlying xml.
+* Fixed issue where inserting/deleting columns in the source of a pivot table sometimes caused the PivotTable to become corrupt.
+* Fixed issue with Png files without the pHYs chunk that failed to Add to the Drawings collection.
+* Adjusted the EPPlus source code to avoid validation errors from the PEVerify tool
+* Added error handling to the initialization of RecyclableMemoryStreamManager which previously caused an uncontrolled Exception on the Unity platform
+* When saving a workbook with external references to another workbook, EPPlus now updates the reference with a relative path instead of an absolute path.
 
 ## Version 6.0.7
 ### Minor features

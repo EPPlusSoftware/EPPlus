@@ -1,0 +1,559 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle
+  id: ExcelChartExTitle
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.Position
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.PositionAlignment
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartExTitle
+  nameWithType: ExcelChartExTitle
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExTitle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartExTitle
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExTitle.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\n\n"
+  example: []
+  syntax:
+    content: 'public class ExcelChartExTitle : ExcelChartTitle'
+    content.vb: >-
+      Public Class ExcelChartExTitle
+          Inherits ExcelChartTitle
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Text
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Border
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Fill
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Font
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextBody
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Effect
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.ThreeD
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.RichText
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Overlay
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.AnchorCtr
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Anchor
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextVertical
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Rotation
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.PositionAlignment
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.PositionAlignment
+  id: PositionAlignment
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle
+  langs:
+  - csharp
+  - vb
+  name: PositionAlignment
+  nameWithType: ExcelChartExTitle.PositionAlignment
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.PositionAlignment
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExTitle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PositionAlignment
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExTitle.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe side position alignment of the title\n"
+  example: []
+  syntax:
+    content: public ePositionAlign PositionAlignment { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+    content.vb: Public Property PositionAlignment As ePositionAlign
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.PositionAlignment*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.Position
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.Position
+  id: Position
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle
+  langs:
+  - csharp
+  - vb
+  name: Position
+  nameWithType: ExcelChartExTitle.Position
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.Position
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExTitle.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Position
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExTitle.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nThe position if the title\n"
+  example: []
+  syntax:
+    content: public eSidePositions Position { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions
+    content.vb: Public Property Position As eSidePositions
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.Position*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  commentId: T:OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  parent: OfficeOpenXml.Drawing.Chart
+  name: ExcelChartTitle
+  nameWithType: ExcelChartTitle
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Text
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Text
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: Text
+  nameWithType: ExcelChartTitle.Text
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Text
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Border
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Border
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: Border
+  nameWithType: ExcelChartTitle.Border
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Border
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Fill
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Fill
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: Fill
+  nameWithType: ExcelChartTitle.Fill
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Fill
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Font
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Font
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: Font
+  nameWithType: ExcelChartTitle.Font
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Font
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextBody
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextBody
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: TextBody
+  nameWithType: ExcelChartTitle.TextBody
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextBody
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Effect
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Effect
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: Effect
+  nameWithType: ExcelChartTitle.Effect
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Effect
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.ThreeD
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.ThreeD
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: ThreeD
+  nameWithType: ExcelChartTitle.ThreeD
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.ThreeD
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.RichText
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.RichText
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: RichText
+  nameWithType: ExcelChartTitle.RichText
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.RichText
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Overlay
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Overlay
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: Overlay
+  nameWithType: ExcelChartTitle.Overlay
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Overlay
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.AnchorCtr
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.AnchorCtr
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: AnchorCtr
+  nameWithType: ExcelChartTitle.AnchorCtr
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.AnchorCtr
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Anchor
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Anchor
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: Anchor
+  nameWithType: ExcelChartTitle.Anchor
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Anchor
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextVertical
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextVertical
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: TextVertical
+  nameWithType: ExcelChartTitle.TextVertical
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.TextVertical
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Rotation
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Rotation
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  name: Rotation
+  nameWithType: ExcelChartTitle.Rotation
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTitle.Rotation
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.PositionAlignment*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.PositionAlignment
+  name: PositionAlignment
+  nameWithType: ExcelChartExTitle.PositionAlignment
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.PositionAlignment
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: ePositionAlign
+  nameWithType: ePositionAlign
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ePositionAlign
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.Position*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.Position
+  name: Position
+  nameWithType: ExcelChartExTitle.Position
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExTitle.Position
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  name: eSidePositions
+  nameWithType: eSidePositions
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.eSidePositions

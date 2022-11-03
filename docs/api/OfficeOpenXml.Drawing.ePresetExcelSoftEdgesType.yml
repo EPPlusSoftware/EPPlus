@@ -1,0 +1,293 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  commentId: T:OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  id: ePresetExcelSoftEdgesType
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.None
+  - OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge10Pt
+  - OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge1Pt
+  - OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge2_5Pt
+  - OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge25Pt
+  - OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge50Pt
+  - OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge5Pt
+  langs:
+  - csharp
+  - vb
+  name: ePresetExcelSoftEdgesType
+  nameWithType: ePresetExcelSoftEdgesType
+  fullName: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ePresetExcelSoftEdgesType
+    path: ../src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nPreset soft edges types in Excel\n"
+  example: []
+  syntax:
+    content: public enum ePresetExcelSoftEdgesType
+    content.vb: Public Enum ePresetExcelSoftEdgesType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.None
+  commentId: F:OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.None
+  id: None
+  parent: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: ePresetExcelSoftEdgesType.None
+  fullName: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nNo soft edges\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge1Pt
+  commentId: F:OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge1Pt
+  id: SoftEdge1Pt
+  parent: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  langs:
+  - csharp
+  - vb
+  name: SoftEdge1Pt
+  nameWithType: ePresetExcelSoftEdgesType.SoftEdge1Pt
+  fullName: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge1Pt
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SoftEdge1Pt
+    path: ../src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSoft edges 1pt\n"
+  example: []
+  syntax:
+    content: SoftEdge1Pt = 1
+    return:
+      type: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge2_5Pt
+  commentId: F:OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge2_5Pt
+  id: SoftEdge2_5Pt
+  parent: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  langs:
+  - csharp
+  - vb
+  name: SoftEdge2_5Pt
+  nameWithType: ePresetExcelSoftEdgesType.SoftEdge2_5Pt
+  fullName: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge2_5Pt
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SoftEdge2_5Pt
+    path: ../src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSoft edges 2.5pt\n"
+  example: []
+  syntax:
+    content: SoftEdge2_5Pt = 2
+    return:
+      type: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge5Pt
+  commentId: F:OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge5Pt
+  id: SoftEdge5Pt
+  parent: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  langs:
+  - csharp
+  - vb
+  name: SoftEdge5Pt
+  nameWithType: ePresetExcelSoftEdgesType.SoftEdge5Pt
+  fullName: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge5Pt
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SoftEdge5Pt
+    path: ../src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSoft edges 5pt\n"
+  example: []
+  syntax:
+    content: SoftEdge5Pt = 3
+    return:
+      type: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge10Pt
+  commentId: F:OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge10Pt
+  id: SoftEdge10Pt
+  parent: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  langs:
+  - csharp
+  - vb
+  name: SoftEdge10Pt
+  nameWithType: ePresetExcelSoftEdgesType.SoftEdge10Pt
+  fullName: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge10Pt
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SoftEdge10Pt
+    path: ../src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSoft edges 10pt\n"
+  example: []
+  syntax:
+    content: SoftEdge10Pt = 4
+    return:
+      type: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge25Pt
+  commentId: F:OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge25Pt
+  id: SoftEdge25Pt
+  parent: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  langs:
+  - csharp
+  - vb
+  name: SoftEdge25Pt
+  nameWithType: ePresetExcelSoftEdgesType.SoftEdge25Pt
+  fullName: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge25Pt
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SoftEdge25Pt
+    path: ../src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSoft edges 25pt\n"
+  example: []
+  syntax:
+    content: SoftEdge25Pt = 5
+    return:
+      type: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge50Pt
+  commentId: F:OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge50Pt
+  id: SoftEdge50Pt
+  parent: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  langs:
+  - csharp
+  - vb
+  name: SoftEdge50Pt
+  nameWithType: ePresetExcelSoftEdgesType.SoftEdge50Pt
+  fullName: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType.SoftEdge50Pt
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SoftEdge50Pt
+    path: ../src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nSoft edges 50pt\n"
+  example: []
+  syntax:
+    content: SoftEdge50Pt = 6
+    return:
+      type: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  commentId: T:OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType
+  parent: OfficeOpenXml.Drawing
+  name: ePresetExcelSoftEdgesType
+  nameWithType: ePresetExcelSoftEdgesType
+  fullName: OfficeOpenXml.Drawing.ePresetExcelSoftEdgesType

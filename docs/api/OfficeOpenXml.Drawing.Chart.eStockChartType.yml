@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eStockChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eStockChartType
+  id: eStockChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eStockChartType.StockHLC
+  - OfficeOpenXml.Drawing.Chart.eStockChartType.StockOHLC
+  - OfficeOpenXml.Drawing.Chart.eStockChartType.StockVHLC
+  - OfficeOpenXml.Drawing.Chart.eStockChartType.StockVOHLC
+  langs:
+  - csharp
+  - vb
+  name: eStockChartType
+  nameWithType: eStockChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eStockChartType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eStockChartType
+    path: ../src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe type of stock chart.\n"
+  example: []
+  syntax:
+    content: public enum eStockChartType
+    content.vb: Public Enum eStockChartType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eStockChartType.StockHLC
+  commentId: F:OfficeOpenXml.Drawing.Chart.eStockChartType.StockHLC
+  id: StockHLC
+  parent: OfficeOpenXml.Drawing.Chart.eStockChartType
+  langs:
+  - csharp
+  - vb
+  name: StockHLC
+  nameWithType: eStockChartType.StockHLC
+  fullName: OfficeOpenXml.Drawing.Chart.eStockChartType.StockHLC
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StockHLC
+    path: ../src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStock chart with a High, Low and Close serie\n"
+  example: []
+  syntax:
+    content: StockHLC = 88
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eStockChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eStockChartType.StockOHLC
+  commentId: F:OfficeOpenXml.Drawing.Chart.eStockChartType.StockOHLC
+  id: StockOHLC
+  parent: OfficeOpenXml.Drawing.Chart.eStockChartType
+  langs:
+  - csharp
+  - vb
+  name: StockOHLC
+  nameWithType: eStockChartType.StockOHLC
+  fullName: OfficeOpenXml.Drawing.Chart.eStockChartType.StockOHLC
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StockOHLC
+    path: ../src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStock chart with an Open, High, Low and Close serie\n"
+  example: []
+  syntax:
+    content: StockOHLC = 89
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eStockChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eStockChartType.StockVHLC
+  commentId: F:OfficeOpenXml.Drawing.Chart.eStockChartType.StockVHLC
+  id: StockVHLC
+  parent: OfficeOpenXml.Drawing.Chart.eStockChartType
+  langs:
+  - csharp
+  - vb
+  name: StockVHLC
+  nameWithType: eStockChartType.StockVHLC
+  fullName: OfficeOpenXml.Drawing.Chart.eStockChartType.StockVHLC
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StockVHLC
+    path: ../src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStock chart with an Volume, High, Low and Close serie\n"
+  example: []
+  syntax:
+    content: StockVHLC = 90
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eStockChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eStockChartType.StockVOHLC
+  commentId: F:OfficeOpenXml.Drawing.Chart.eStockChartType.StockVOHLC
+  id: StockVOHLC
+  parent: OfficeOpenXml.Drawing.Chart.eStockChartType
+  langs:
+  - csharp
+  - vb
+  name: StockVOHLC
+  nameWithType: eStockChartType.StockVOHLC
+  fullName: OfficeOpenXml.Drawing.Chart.eStockChartType.StockVOHLC
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StockVOHLC
+    path: ../src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nStock chart with an Volume, Open, High, Low and Close serie\n"
+  example: []
+  syntax:
+    content: StockVOHLC = 91
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eStockChartType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eStockChartType
+  commentId: T:OfficeOpenXml.Drawing.Chart.eStockChartType
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eStockChartType
+  nameWithType: eStockChartType
+  fullName: OfficeOpenXml.Drawing.Chart.eStockChartType

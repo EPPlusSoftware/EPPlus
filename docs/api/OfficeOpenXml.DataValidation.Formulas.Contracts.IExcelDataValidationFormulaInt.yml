@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaInt
+  commentId: T:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaInt
+  id: IExcelDataValidationFormulaInt
+  parent: OfficeOpenXml.DataValidation.Formulas.Contracts
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: IExcelDataValidationFormulaInt
+  nameWithType: IExcelDataValidationFormulaInt
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaInt
+  type: Interface
+  source:
+    remote:
+      path: src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaInt.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IExcelDataValidationFormulaInt
+    path: ../src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaInt.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DataValidation.Formulas.Contracts
+  summary: "\nInterface for a data validation formula of <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> value\n"
+  example: []
+  syntax:
+    content: 'public interface IExcelDataValidationFormulaInt : IExcelDataValidationFormulaWithValue<int?>, IExcelDataValidationFormula'
+    content.vb: >-
+      Public Interface IExcelDataValidationFormulaInt
+          Inherits IExcelDataValidationFormulaWithValue(Of Integer?)
+  inheritedMembers:
+  - OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue{System.Nullable{System.Int32}}.Value
+  - OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+  modifiers.csharp:
+  - public
+  - interface
+  modifiers.vb:
+  - Public
+  - Interface
+references:
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts
+  commentId: N:OfficeOpenXml.DataValidation.Formulas.Contracts
+  name: OfficeOpenXml.DataValidation.Formulas.Contracts
+  nameWithType: OfficeOpenXml.DataValidation.Formulas.Contracts
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue{System.Nullable{System.Int32}}.Value
+  commentId: P:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue{System.Nullable{System.Int32}}.Value
+  parent: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue{System.Nullable{System.Int32}}
+  definition: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1.Value
+  name: Value
+  nameWithType: IExcelDataValidationFormulaWithValue<Nullable<Int32>>.Value
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue<System.Nullable<System.Int32>>.Value
+  nameWithType.vb: IExcelDataValidationFormulaWithValue(Of Nullable(Of Int32)).Value
+  fullName.vb: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue(Of System.Nullable(Of System.Int32)).Value
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+  commentId: P:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+  parent: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula
+  name: ExcelFormula
+  nameWithType: IExcelDataValidationFormula.ExcelFormula
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula.ExcelFormula
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1.Value
+  commentId: P:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1.Value
+  name: Value
+  nameWithType: IExcelDataValidationFormulaWithValue<T>.Value
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue<T>.Value
+  nameWithType.vb: IExcelDataValidationFormulaWithValue(Of T).Value
+  fullName.vb: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue(Of T).Value
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue{System.Nullable{System.Int32}}
+  commentId: T:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue{System.Nullable{System.Int32}}
+  parent: OfficeOpenXml.DataValidation.Formulas.Contracts
+  definition: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1
+  name: IExcelDataValidationFormulaWithValue<Nullable<Int32>>
+  nameWithType: IExcelDataValidationFormulaWithValue<Nullable<Int32>>
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue<System.Nullable<System.Int32>>
+  nameWithType.vb: IExcelDataValidationFormulaWithValue(Of Nullable(Of Int32))
+  fullName.vb: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue(Of System.Nullable(Of System.Int32))
+  name.vb: IExcelDataValidationFormulaWithValue(Of Nullable(Of Int32))
+  spec.csharp:
+  - uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1
+    name: IExcelDataValidationFormulaWithValue
+    nameWithType: IExcelDataValidationFormulaWithValue
+    fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1
+    name: IExcelDataValidationFormulaWithValue
+    nameWithType: IExcelDataValidationFormulaWithValue
+    fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula
+  commentId: T:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula
+  parent: OfficeOpenXml.DataValidation.Formulas.Contracts
+  name: IExcelDataValidationFormula
+  nameWithType: IExcelDataValidationFormula
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormula
+- uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1
+  commentId: T:OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1
+  name: IExcelDataValidationFormulaWithValue<T>
+  nameWithType: IExcelDataValidationFormulaWithValue<T>
+  fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue<T>
+  nameWithType.vb: IExcelDataValidationFormulaWithValue(Of T)
+  fullName.vb: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue(Of T)
+  name.vb: IExcelDataValidationFormulaWithValue(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1
+    name: IExcelDataValidationFormulaWithValue
+    nameWithType: IExcelDataValidationFormulaWithValue
+    fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1
+    name: IExcelDataValidationFormulaWithValue
+    nameWithType: IExcelDataValidationFormulaWithValue
+    fullName: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )

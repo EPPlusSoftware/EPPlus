@@ -1,0 +1,293 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.eDrawingType
+  commentId: T:OfficeOpenXml.Drawing.eDrawingType
+  id: eDrawingType
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.eDrawingType.Chart
+  - OfficeOpenXml.Drawing.eDrawingType.Control
+  - OfficeOpenXml.Drawing.eDrawingType.Drawing
+  - OfficeOpenXml.Drawing.eDrawingType.GroupShape
+  - OfficeOpenXml.Drawing.eDrawingType.Picture
+  - OfficeOpenXml.Drawing.eDrawingType.Shape
+  - OfficeOpenXml.Drawing.eDrawingType.Slicer
+  langs:
+  - csharp
+  - vb
+  name: eDrawingType
+  nameWithType: eDrawingType
+  fullName: OfficeOpenXml.Drawing.eDrawingType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eDrawingType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eDrawingType
+    path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
+    startLine: 9
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nThe type of drawing\n"
+  example: []
+  syntax:
+    content: public enum eDrawingType
+    content.vb: Public Enum eDrawingType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.eDrawingType.Drawing
+  commentId: F:OfficeOpenXml.Drawing.eDrawingType.Drawing
+  id: Drawing
+  parent: OfficeOpenXml.Drawing.eDrawingType
+  langs:
+  - csharp
+  - vb
+  name: Drawing
+  nameWithType: eDrawingType.Drawing
+  fullName: OfficeOpenXml.Drawing.eDrawingType.Drawing
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eDrawingType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Drawing
+    path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
+    startLine: 14
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA unspecified drawing\n"
+  example: []
+  syntax:
+    content: Drawing = 0
+    return:
+      type: OfficeOpenXml.Drawing.eDrawingType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eDrawingType.Shape
+  commentId: F:OfficeOpenXml.Drawing.eDrawingType.Shape
+  id: Shape
+  parent: OfficeOpenXml.Drawing.eDrawingType
+  langs:
+  - csharp
+  - vb
+  name: Shape
+  nameWithType: eDrawingType.Shape
+  fullName: OfficeOpenXml.Drawing.eDrawingType.Shape
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eDrawingType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Shape
+    path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA Shape drawing\n"
+  example: []
+  syntax:
+    content: Shape = 1
+    return:
+      type: OfficeOpenXml.Drawing.eDrawingType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eDrawingType.Picture
+  commentId: F:OfficeOpenXml.Drawing.eDrawingType.Picture
+  id: Picture
+  parent: OfficeOpenXml.Drawing.eDrawingType
+  langs:
+  - csharp
+  - vb
+  name: Picture
+  nameWithType: eDrawingType.Picture
+  fullName: OfficeOpenXml.Drawing.eDrawingType.Picture
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eDrawingType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Picture
+    path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA Picture drawing\n"
+  example: []
+  syntax:
+    content: Picture = 2
+    return:
+      type: OfficeOpenXml.Drawing.eDrawingType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eDrawingType.Chart
+  commentId: F:OfficeOpenXml.Drawing.eDrawingType.Chart
+  id: Chart
+  parent: OfficeOpenXml.Drawing.eDrawingType
+  langs:
+  - csharp
+  - vb
+  name: Chart
+  nameWithType: eDrawingType.Chart
+  fullName: OfficeOpenXml.Drawing.eDrawingType.Chart
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eDrawingType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Chart
+    path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA Chart drawing\n"
+  example: []
+  syntax:
+    content: Chart = 3
+    return:
+      type: OfficeOpenXml.Drawing.eDrawingType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eDrawingType.Slicer
+  commentId: F:OfficeOpenXml.Drawing.eDrawingType.Slicer
+  id: Slicer
+  parent: OfficeOpenXml.Drawing.eDrawingType
+  langs:
+  - csharp
+  - vb
+  name: Slicer
+  nameWithType: eDrawingType.Slicer
+  fullName: OfficeOpenXml.Drawing.eDrawingType.Slicer
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eDrawingType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Slicer
+    path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA slicer drawing\n"
+  example: []
+  syntax:
+    content: Slicer = 4
+    return:
+      type: OfficeOpenXml.Drawing.eDrawingType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eDrawingType.Control
+  commentId: F:OfficeOpenXml.Drawing.eDrawingType.Control
+  id: Control
+  parent: OfficeOpenXml.Drawing.eDrawingType
+  langs:
+  - csharp
+  - vb
+  name: Control
+  nameWithType: eDrawingType.Control
+  fullName: OfficeOpenXml.Drawing.eDrawingType.Control
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eDrawingType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Control
+    path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA form control drawing\n"
+  example: []
+  syntax:
+    content: Control = 5
+    return:
+      type: OfficeOpenXml.Drawing.eDrawingType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eDrawingType.GroupShape
+  commentId: F:OfficeOpenXml.Drawing.eDrawingType.GroupShape
+  id: GroupShape
+  parent: OfficeOpenXml.Drawing.eDrawingType
+  langs:
+  - csharp
+  - vb
+  name: GroupShape
+  nameWithType: eDrawingType.GroupShape
+  fullName: OfficeOpenXml.Drawing.eDrawingType.GroupShape
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eDrawingType.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GroupShape
+    path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nA drawing grouping other drawings together.\n"
+  example: []
+  syntax:
+    content: GroupShape = 6
+    return:
+      type: OfficeOpenXml.Drawing.eDrawingType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.eDrawingType
+  commentId: T:OfficeOpenXml.Drawing.eDrawingType
+  parent: OfficeOpenXml.Drawing
+  name: eDrawingType
+  nameWithType: eDrawingType
+  fullName: OfficeOpenXml.Drawing.eDrawingType

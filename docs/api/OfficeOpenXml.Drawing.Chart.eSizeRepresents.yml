@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eSizeRepresents
+  commentId: T:OfficeOpenXml.Drawing.Chart.eSizeRepresents
+  id: eSizeRepresents
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eSizeRepresents.Area
+  - OfficeOpenXml.Drawing.Chart.eSizeRepresents.Width
+  langs:
+  - csharp
+  - vb
+  name: eSizeRepresents
+  nameWithType: eSizeRepresents
+  fullName: OfficeOpenXml.Drawing.Chart.eSizeRepresents
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eSizeRepresents.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eSizeRepresents
+    path: ../src/EPPlus/Drawing/Chart/enums/eSizeRepresents.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nHow to represent data as bubble chart sizes\n"
+  example: []
+  syntax:
+    content: public enum eSizeRepresents
+    content.vb: Public Enum eSizeRepresents
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eSizeRepresents.Area
+  commentId: F:OfficeOpenXml.Drawing.Chart.eSizeRepresents.Area
+  id: Area
+  parent: OfficeOpenXml.Drawing.Chart.eSizeRepresents
+  langs:
+  - csharp
+  - vb
+  name: Area
+  nameWithType: eSizeRepresents.Area
+  fullName: OfficeOpenXml.Drawing.Chart.eSizeRepresents.Area
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eSizeRepresents.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Area
+    path: ../src/EPPlus/Drawing/Chart/enums/eSizeRepresents.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe area of the bubbles will be proportional to the bubble size.\n"
+  example: []
+  syntax:
+    content: Area = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eSizeRepresents
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eSizeRepresents.Width
+  commentId: F:OfficeOpenXml.Drawing.Chart.eSizeRepresents.Width
+  id: Width
+  parent: OfficeOpenXml.Drawing.Chart.eSizeRepresents
+  langs:
+  - csharp
+  - vb
+  name: Width
+  nameWithType: eSizeRepresents.Width
+  fullName: OfficeOpenXml.Drawing.Chart.eSizeRepresents.Width
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eSizeRepresents.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Width
+    path: ../src/EPPlus/Drawing/Chart/enums/eSizeRepresents.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nThe radius of the bubbles will be proportional to the bubble size.\n"
+  example: []
+  syntax:
+    content: Width = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eSizeRepresents
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eSizeRepresents
+  commentId: T:OfficeOpenXml.Drawing.Chart.eSizeRepresents
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eSizeRepresents
+  nameWithType: eSizeRepresents
+  fullName: OfficeOpenXml.Drawing.Chart.eSizeRepresents

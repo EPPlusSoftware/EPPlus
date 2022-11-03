@@ -1,0 +1,491 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  id: XmlHelper
+  parent: OfficeOpenXml
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/XmlHelper.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: XmlHelper
+    path: ../src/EPPlus/XmlHelper.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nAbstract helper class containing functionality to work with XML inside the package. \n"
+  example: []
+  syntax:
+    content: public abstract class XmlHelper
+    content.vb: Public MustInherit Class XmlHelper
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
+  - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingRule
+  - OfficeOpenXml.DataValidation.ExcelDataValidation
+  - OfficeOpenXml.DataValidation.ExcelDataValidationCollection
+  - OfficeOpenXml.DataValidation.ExcelExLstDataValidationCollection
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExData
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataCollection
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPoint
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExDataPointCollection
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExSerieBinning
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExValueColor
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExValueColors
+  - OfficeOpenXml.Drawing.Chart.ExcelChartAxis
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabel
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataLabelCollection
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataPoint
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataPointCollection
+  - OfficeOpenXml.Drawing.Chart.ExcelChartDataTable
+  - OfficeOpenXml.Drawing.Chart.ExcelChartErrorBars
+  - OfficeOpenXml.Drawing.Chart.ExcelChartLegend
+  - OfficeOpenXml.Drawing.Chart.ExcelChartLegendEntry
+  - OfficeOpenXml.Drawing.Chart.ExcelChartMarker
+  - OfficeOpenXml.Drawing.Chart.ExcelChartNumericSource
+  - OfficeOpenXml.Drawing.Chart.ExcelChartPlotArea
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStyleItem
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSurface
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTitle
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTrendline
+  - OfficeOpenXml.Drawing.Chart.ExcelChartTrendlineLabel
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartColorsManager
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyle
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleColor
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleEntry
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleFontReference
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleManager
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleMarkerLayout
+  - OfficeOpenXml.Drawing.Chart.Style.ExcelChartStyleReference
+  - OfficeOpenXml.Drawing.ExcelDrawing
+  - OfficeOpenXml.Drawing.ExcelDrawingBorder
+  - OfficeOpenXml.Drawing.ExcelDrawingConnectionPoint
+  - OfficeOpenXml.Drawing.ExcelDrawingCoordinate
+  - OfficeOpenXml.Drawing.ExcelDrawingFillBasic
+  - OfficeOpenXml.Drawing.ExcelDrawingLineEnd
+  - OfficeOpenXml.Drawing.ExcelDrawingPoint3D
+  - OfficeOpenXml.Drawing.ExcelDrawingSize
+  - OfficeOpenXml.Drawing.ExcelDrawingSphereCoordinate
+  - OfficeOpenXml.Drawing.ExcelPosition
+  - OfficeOpenXml.Drawing.ExcelTextBody
+  - OfficeOpenXml.Drawing.ExcelTextRun
+  - OfficeOpenXml.Drawing.ExcelView3D
+  - OfficeOpenXml.Drawing.Slicer.ExcelPivotTableSlicerCacheTabularData
+  - OfficeOpenXml.Drawing.Slicer.ExcelSlicerCache
+  - OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  - OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerStyleElement
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelColorTransformItem
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingHslColor
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingPresetColor
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingRgbColor
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingRgbPercentageColor
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingSchemeColor
+  - OfficeOpenXml.Drawing.Style.Coloring.ExcelDrawingSystemColor
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingColorChangeEffect
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingColorReplaceEffect
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingDuotoneEffect
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectBase
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  - OfficeOpenXml.Drawing.Style.Fill.ExcelDrawingBlipEffects
+  - OfficeOpenXml.Drawing.Style.Font.ExcelDrawingFontBase
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3D
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawing3DBevel
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3D
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DBackDrop
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DCamera
+  - OfficeOpenXml.Drawing.Style.ThreeD.ExcelDrawingScene3DLightRig
+  - OfficeOpenXml.Drawing.Theme.ExcelColorScheme
+  - OfficeOpenXml.Drawing.Theme.ExcelFontScheme
+  - OfficeOpenXml.Drawing.Theme.ExcelFormatScheme
+  - OfficeOpenXml.Drawing.Theme.ExcelThemeBase
+  - OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyle
+  - OfficeOpenXml.Drawing.Theme.ExcelThemeEffectStyles
+  - OfficeOpenXml.Drawing.Theme.ExcelThemeFillStyles
+  - OfficeOpenXml.Drawing.Theme.ExcelThemeFontCollection
+  - OfficeOpenXml.Drawing.Theme.ExcelThemeLine
+  - OfficeOpenXml.Drawing.Theme.ExcelThemeLineStyles
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingColor
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingFill
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingGradientFill
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPictureFill
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+  - OfficeOpenXml.ExcelBackgroundImage
+  - OfficeOpenXml.ExcelHeaderFooter
+  - OfficeOpenXml.ExcelIgnoredError
+  - OfficeOpenXml.ExcelPrinterSettings
+  - OfficeOpenXml.ExcelProtectedRange
+  - OfficeOpenXml.ExcelProtectedRangeCollection
+  - OfficeOpenXml.ExcelProtection
+  - OfficeOpenXml.ExcelSheetProtection
+  - OfficeOpenXml.ExcelStyles
+  - OfficeOpenXml.ExcelWorkbook
+  - OfficeOpenXml.ExcelWorkbookView
+  - OfficeOpenXml.ExcelWorksheet
+  - OfficeOpenXml.ExcelWorksheets
+  - OfficeOpenXml.ExcelWorksheetView
+  - OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
+  - OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetViewPaneSettings
+  - OfficeOpenXml.ExcelWriteProtection
+  - OfficeOpenXml.Filter.ExcelAutoFilter
+  - OfficeOpenXml.Filter.ExcelFilterColumn
+  - OfficeOpenXml.Filter.ExcelFilterColumnCollection
+  - OfficeOpenXml.OfficeProperties
+  - OfficeOpenXml.Sorting.SortCondition
+  - OfficeOpenXml.Sorting.SortConditionCollection
+  - OfficeOpenXml.Sorting.SortState
+  - OfficeOpenXml.Sparkline.ExcelSparkline
+  - OfficeOpenXml.Sparkline.ExcelSparklineColor
+  - OfficeOpenXml.Sparkline.ExcelSparklineGroup
+  - OfficeOpenXml.Style.ExcelParagraphCollection
+  - OfficeOpenXml.Style.ExcelRichText
+  - OfficeOpenXml.Style.ExcelRichTextCollection
+  - OfficeOpenXml.Style.ExcelSlicerTableStyleElement
+  - OfficeOpenXml.Style.ExcelTableStyleElement
+  - OfficeOpenXml.Style.ExcelTextFont
+  - OfficeOpenXml.Style.Table.ExcelTableNamedStyleBase
+  - OfficeOpenXml.Style.XmlAccess.StyleXmlHelper
+  - OfficeOpenXml.Table.ExcelTableDxfBase
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTablePageFieldSettings
+  - OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedComment
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentCollection
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMention
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentMentionCollection
+  - OfficeOpenXml.ThreadedComments.ExcelThreadedCommentPerson
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - abstract
+  - class
+  modifiers.vb:
+  - Public
+  - MustInherit
+  - Class
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System

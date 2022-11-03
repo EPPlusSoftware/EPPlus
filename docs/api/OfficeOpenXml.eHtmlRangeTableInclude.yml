@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.eHtmlRangeTableInclude
+  commentId: T:OfficeOpenXml.eHtmlRangeTableInclude
+  id: eHtmlRangeTableInclude
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.eHtmlRangeTableInclude.ClassNamesOnly
+  - OfficeOpenXml.eHtmlRangeTableInclude.Exclude
+  - OfficeOpenXml.eHtmlRangeTableInclude.Include
+  langs:
+  - csharp
+  - vb
+  name: eHtmlRangeTableInclude
+  nameWithType: eHtmlRangeTableInclude
+  fullName: OfficeOpenXml.eHtmlRangeTableInclude
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eHtmlRangeTableInclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eHtmlRangeTableInclude
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eHtmlRangeTableInclude.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nHow to handle a range when it is a table.\n"
+  example: []
+  syntax:
+    content: public enum eHtmlRangeTableInclude
+    content.vb: Public Enum eHtmlRangeTableInclude
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.eHtmlRangeTableInclude.Exclude
+  commentId: F:OfficeOpenXml.eHtmlRangeTableInclude.Exclude
+  id: Exclude
+  parent: OfficeOpenXml.eHtmlRangeTableInclude
+  langs:
+  - csharp
+  - vb
+  name: Exclude
+  nameWithType: eHtmlRangeTableInclude.Exclude
+  fullName: OfficeOpenXml.eHtmlRangeTableInclude.Exclude
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eHtmlRangeTableInclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Exclude
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eHtmlRangeTableInclude.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDo not set the table style css classes on the html table or create the table style css.\n"
+  example: []
+  syntax:
+    content: Exclude = 0
+    return:
+      type: OfficeOpenXml.eHtmlRangeTableInclude
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eHtmlRangeTableInclude.ClassNamesOnly
+  commentId: F:OfficeOpenXml.eHtmlRangeTableInclude.ClassNamesOnly
+  id: ClassNamesOnly
+  parent: OfficeOpenXml.eHtmlRangeTableInclude
+  langs:
+  - csharp
+  - vb
+  name: ClassNamesOnly
+  nameWithType: eHtmlRangeTableInclude.ClassNamesOnly
+  fullName: OfficeOpenXml.eHtmlRangeTableInclude.ClassNamesOnly
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eHtmlRangeTableInclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ClassNamesOnly
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eHtmlRangeTableInclude.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet the css table style classes on the table, but do not include the table classes in the css.\n"
+  example: []
+  syntax:
+    content: ClassNamesOnly = 1
+    return:
+      type: OfficeOpenXml.eHtmlRangeTableInclude
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eHtmlRangeTableInclude.Include
+  commentId: F:OfficeOpenXml.eHtmlRangeTableInclude.Include
+  id: Include
+  parent: OfficeOpenXml.eHtmlRangeTableInclude
+  langs:
+  - csharp
+  - vb
+  name: Include
+  nameWithType: eHtmlRangeTableInclude.Include
+  fullName: OfficeOpenXml.eHtmlRangeTableInclude.Include
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Enums/eHtmlRangeTableInclude.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Include
+    path: ../src/EPPlus/Export/HtmlExport/Enums/eHtmlRangeTableInclude.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nInclude the css table style for the table and set the corresponding classes on the html table.\n"
+  example: []
+  syntax:
+    content: Include = 2
+    return:
+      type: OfficeOpenXml.eHtmlRangeTableInclude
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.eHtmlRangeTableInclude
+  commentId: T:OfficeOpenXml.eHtmlRangeTableInclude
+  parent: OfficeOpenXml
+  name: eHtmlRangeTableInclude
+  nameWithType: eHtmlRangeTableInclude
+  fullName: OfficeOpenXml.eHtmlRangeTableInclude

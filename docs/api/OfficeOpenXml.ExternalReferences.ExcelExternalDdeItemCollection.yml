@@ -1,0 +1,839 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItemCollection
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalDdeItemCollection
+  id: ExcelExternalDdeItemCollection
+  parent: OfficeOpenXml.ExternalReferences
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: ExcelExternalDdeItemCollection
+  nameWithType: ExcelExternalDdeItemCollection
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItemCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExternalReferences/ExcelExternalDdeItemCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelExternalDdeItemCollection
+    path: ../src/EPPlus/ExternalReferences/ExcelExternalDdeItemCollection.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ExternalReferences
+  summary: "\nA collection of <xref href=\"OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: 'public class ExcelExternalDdeItemCollection : EPPlusReadOnlyList<ExcelExternalDdeItem>, IEnumerable<ExcelExternalDdeItem>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelExternalDdeItemCollection
+          Inherits EPPlusReadOnlyList(Of ExcelExternalDdeItem)
+          Implements IEnumerable(Of ExcelExternalDdeItem), IEnumerable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}.System#Collections#IEnumerable#GetEnumerator
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}.Item(System.Int32)
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}.GetIndexByValue(OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem)
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}.Count
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+references:
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+  name: ExcelExternalDdeItem
+  nameWithType: ExcelExternalDdeItem
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+- uid: OfficeOpenXml.ExternalReferences
+  commentId: N:OfficeOpenXml.ExternalReferences
+  name: OfficeOpenXml.ExternalReferences
+  nameWithType: OfficeOpenXml.ExternalReferences
+  fullName: OfficeOpenXml.ExternalReferences
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}
+  commentId: T:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}
+  parent: OfficeOpenXml.Core
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  name: EPPlusReadOnlyList<ExcelExternalDdeItem>
+  nameWithType: EPPlusReadOnlyList<ExcelExternalDdeItem>
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem>
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelExternalDdeItem)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem)
+  name.vb: EPPlusReadOnlyList(Of ExcelExternalDdeItem)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+    name: ExcelExternalDdeItem
+    nameWithType: ExcelExternalDdeItem
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+    name: ExcelExternalDdeItem
+    nameWithType: ExcelExternalDdeItem
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelExternalDdeItem>
+  nameWithType: IEnumerable<ExcelExternalDdeItem>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem>
+  nameWithType.vb: IEnumerable(Of ExcelExternalDdeItem)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem)
+  name.vb: IEnumerable(Of ExcelExternalDdeItem)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+    name: ExcelExternalDdeItem
+    nameWithType: ExcelExternalDdeItem
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+    name: ExcelExternalDdeItem
+    nameWithType: ExcelExternalDdeItem
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  name: IEnumerable<ExcelExternalDdeItem>.GetEnumerator()
+  nameWithType: EPPlusReadOnlyList<ExcelExternalDdeItem>.IEnumerable<ExcelExternalDdeItem>.GetEnumerator()
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem>.System.Collections.Generic.IEnumerable<OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem>.GetEnumerator()
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelExternalDdeItem).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: IEnumerable<ExcelExternalDdeItem>.GetEnumerator
+    nameWithType: EPPlusReadOnlyList<ExcelExternalDdeItem>.IEnumerable<ExcelExternalDdeItem>.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem>.System.Collections.Generic.IEnumerable<OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    nameWithType: EPPlusReadOnlyList(Of ExcelExternalDdeItem).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}.System#Collections#IEnumerable#GetEnumerator
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  nameWithType: EPPlusReadOnlyList<ExcelExternalDdeItem>.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem>.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelExternalDdeItem).System.Collections.IEnumerable.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+    name: IEnumerable.GetEnumerator
+    nameWithType: EPPlusReadOnlyList<ExcelExternalDdeItem>.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem>.System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+    name: System.Collections.IEnumerable.GetEnumerator
+    nameWithType: EPPlusReadOnlyList(Of ExcelExternalDdeItem).System.Collections.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem).System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}.Item(System.Int32)
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+  name: Item[Int32]
+  nameWithType: EPPlusReadOnlyList<ExcelExternalDdeItem>.Item[Int32]
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem>.Item[System.Int32]
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelExternalDdeItem).Item(Int32)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem).Item(System.Int32)
+  name.vb: Item(Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+    name: Item
+    nameWithType: EPPlusReadOnlyList<ExcelExternalDdeItem>.Item
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+    name: Item
+    nameWithType: EPPlusReadOnlyList(Of ExcelExternalDdeItem).Item
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}.GetIndexByValue(OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem)
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}.GetIndexByValue(OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem)
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+  name: GetIndexByValue(ExcelExternalDdeItem)
+  nameWithType: EPPlusReadOnlyList<ExcelExternalDdeItem>.GetIndexByValue(ExcelExternalDdeItem)
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem>.GetIndexByValue(OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem)
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelExternalDdeItem).GetIndexByValue(ExcelExternalDdeItem)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem).GetIndexByValue(OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+    name: GetIndexByValue
+    nameWithType: EPPlusReadOnlyList<ExcelExternalDdeItem>.GetIndexByValue
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem>.GetIndexByValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+    name: ExcelExternalDdeItem
+    nameWithType: ExcelExternalDdeItem
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+    name: GetIndexByValue
+    nameWithType: EPPlusReadOnlyList(Of ExcelExternalDdeItem).GetIndexByValue
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem).GetIndexByValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+    name: ExcelExternalDdeItem
+    nameWithType: ExcelExternalDdeItem
+    fullName: OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}.Count
+  commentId: P:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}.Count
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Count
+  name: Count
+  nameWithType: EPPlusReadOnlyList<ExcelExternalDdeItem>.Count
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem>.Count
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelExternalDdeItem).Count
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.ExternalReferences.ExcelExternalDdeItem).Count
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  commentId: T:OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  name: EPPlusReadOnlyList<T>
+  nameWithType: EPPlusReadOnlyList<T>
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>
+  nameWithType.vb: EPPlusReadOnlyList(Of T)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T)
+  name.vb: EPPlusReadOnlyList(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core
+  commentId: N:OfficeOpenXml.Core
+  name: OfficeOpenXml.Core
+  nameWithType: OfficeOpenXml.Core
+  fullName: OfficeOpenXml.Core
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  name: IEnumerable<T>.GetEnumerator()
+  nameWithType: EPPlusReadOnlyList<T>.IEnumerable<T>.GetEnumerator()
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: EPPlusReadOnlyList(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: IEnumerable<T>.GetEnumerator
+    nameWithType: EPPlusReadOnlyList<T>.IEnumerable<T>.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    nameWithType: EPPlusReadOnlyList(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  nameWithType: EPPlusReadOnlyList<T>.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType.vb: EPPlusReadOnlyList(Of T).System.Collections.IEnumerable.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+    name: IEnumerable.GetEnumerator
+    nameWithType: EPPlusReadOnlyList<T>.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+    name: System.Collections.IEnumerable.GetEnumerator
+    nameWithType: EPPlusReadOnlyList(Of T).System.Collections.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+  isExternal: true
+  name: Item[Int32]
+  nameWithType: EPPlusReadOnlyList<T>.Item[Int32]
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.Item[System.Int32]
+  nameWithType.vb: EPPlusReadOnlyList(Of T).Item(Int32)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).Item(System.Int32)
+  name.vb: Item(Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+    name: Item
+    nameWithType: EPPlusReadOnlyList<T>.Item
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+    name: Item
+    nameWithType: EPPlusReadOnlyList(Of T).Item
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+  name: GetIndexByValue(T)
+  nameWithType: EPPlusReadOnlyList<T>.GetIndexByValue(T)
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.GetIndexByValue(T)
+  nameWithType.vb: EPPlusReadOnlyList(Of T).GetIndexByValue(T)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).GetIndexByValue(T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+    name: GetIndexByValue
+    nameWithType: EPPlusReadOnlyList<T>.GetIndexByValue
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.GetIndexByValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+    name: GetIndexByValue
+    nameWithType: EPPlusReadOnlyList(Of T).GetIndexByValue
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).GetIndexByValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Count
+  commentId: P:OfficeOpenXml.Core.EPPlusReadOnlyList`1.Count
+  name: Count
+  nameWithType: EPPlusReadOnlyList<T>.Count
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.Count
+  nameWithType.vb: EPPlusReadOnlyList(Of T).Count
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).Count

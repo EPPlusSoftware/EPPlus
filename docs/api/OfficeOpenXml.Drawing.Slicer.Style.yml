@@ -1,0 +1,42 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Slicer.Style
+  commentId: N:OfficeOpenXml.Drawing.Slicer.Style
+  id: OfficeOpenXml.Drawing.Slicer.Style
+  children:
+  - OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  - OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  - OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerStyleElement
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Drawing.Slicer.Style
+  nameWithType: OfficeOpenXml.Drawing.Slicer.Style
+  fullName: OfficeOpenXml.Drawing.Slicer.Style
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  commentId: T:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+  parent: OfficeOpenXml.Drawing.Slicer.Style
+  name: ExcelSlicerNamedStyle
+  nameWithType: ExcelSlicerNamedStyle
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerNamedStyle
+- uid: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerStyleElement
+  commentId: T:OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerStyleElement
+  parent: OfficeOpenXml.Drawing.Slicer.Style
+  name: ExcelSlicerStyleElement
+  nameWithType: ExcelSlicerStyleElement
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.ExcelSlicerStyleElement
+- uid: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  commentId: T:OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+  parent: OfficeOpenXml.Drawing.Slicer.Style
+  name: eSlicerStyleElement
+  nameWithType: eSlicerStyleElement
+  fullName: OfficeOpenXml.Drawing.Slicer.Style.eSlicerStyleElement
+- uid: OfficeOpenXml.Drawing.Slicer.Style
+  commentId: N:OfficeOpenXml.Drawing.Slicer.Style
+  name: OfficeOpenXml.Drawing.Slicer.Style
+  nameWithType: OfficeOpenXml.Drawing.Slicer.Style
+  fullName: OfficeOpenXml.Drawing.Slicer.Style

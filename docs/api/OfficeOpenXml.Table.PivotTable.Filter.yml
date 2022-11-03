@@ -1,0 +1,49 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.Filter
+  commentId: N:OfficeOpenXml.Table.PivotTable.Filter
+  id: OfficeOpenXml.Table.PivotTable.Filter
+  children:
+  - OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFieldFilterCollection
+  - OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter
+  - OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilterBaseCollection
+  - OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilterCollection
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Table.PivotTable.Filter
+  nameWithType: OfficeOpenXml.Table.PivotTable.Filter
+  fullName: OfficeOpenXml.Table.PivotTable.Filter
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFieldFilterCollection
+  commentId: T:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFieldFilterCollection
+  parent: OfficeOpenXml.Table.PivotTable.Filter
+  name: ExcelPivotTableFieldFilterCollection
+  nameWithType: ExcelPivotTableFieldFilterCollection
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFieldFilterCollection
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter
+  commentId: T:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter
+  parent: OfficeOpenXml.Table.PivotTable.Filter
+  name: ExcelPivotTableFilter
+  nameWithType: ExcelPivotTableFilter
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilter
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilterBaseCollection
+  commentId: T:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilterBaseCollection
+  parent: OfficeOpenXml.Table.PivotTable.Filter
+  name: ExcelPivotTableFilterBaseCollection
+  nameWithType: ExcelPivotTableFilterBaseCollection
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilterBaseCollection
+- uid: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilterCollection
+  commentId: T:OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilterCollection
+  parent: OfficeOpenXml.Table.PivotTable.Filter
+  name: ExcelPivotTableFilterCollection
+  nameWithType: ExcelPivotTableFilterCollection
+  fullName: OfficeOpenXml.Table.PivotTable.Filter.ExcelPivotTableFilterCollection
+- uid: OfficeOpenXml.Table.PivotTable.Filter
+  commentId: N:OfficeOpenXml.Table.PivotTable.Filter
+  name: OfficeOpenXml.Table.PivotTable.Filter
+  nameWithType: OfficeOpenXml.Table.PivotTable.Filter
+  fullName: OfficeOpenXml.Table.PivotTable.Filter

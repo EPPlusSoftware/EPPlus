@@ -1,0 +1,1111 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.VBA.ExcelVbaProject
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaProject
+  id: ExcelVbaProject
+  parent: OfficeOpenXml.VBA
+  children:
+  - OfficeOpenXml.VBA.ExcelVbaProject.CodePage
+  - OfficeOpenXml.VBA.ExcelVbaProject.CompatVersion
+  - OfficeOpenXml.VBA.ExcelVbaProject.Constants
+  - OfficeOpenXml.VBA.ExcelVbaProject.Description
+  - OfficeOpenXml.VBA.ExcelVbaProject.HelpContextID
+  - OfficeOpenXml.VBA.ExcelVbaProject.HelpFile1
+  - OfficeOpenXml.VBA.ExcelVbaProject.HelpFile2
+  - OfficeOpenXml.VBA.ExcelVbaProject.Modules
+  - OfficeOpenXml.VBA.ExcelVbaProject.Name
+  - OfficeOpenXml.VBA.ExcelVbaProject.Protection
+  - OfficeOpenXml.VBA.ExcelVbaProject.References
+  - OfficeOpenXml.VBA.ExcelVbaProject.Remove
+  - OfficeOpenXml.VBA.ExcelVbaProject.Signature
+  - OfficeOpenXml.VBA.ExcelVbaProject.SystemKind
+  - OfficeOpenXml.VBA.ExcelVbaProject.ToString
+  langs:
+  - csharp
+  - vb
+  name: ExcelVbaProject
+  nameWithType: ExcelVbaProject
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBAProject.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelVbaProject
+    path: ../src/EPPlus/Vba/ExcelVBAProject.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nRepresents the VBA project part of the package\n"
+  example: []
+  syntax:
+    content: public class ExcelVbaProject
+    content.vb: Public Class ExcelVbaProject
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.SystemKind
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaProject.SystemKind
+  id: SystemKind
+  parent: OfficeOpenXml.VBA.ExcelVbaProject
+  langs:
+  - csharp
+  - vb
+  name: SystemKind
+  nameWithType: ExcelVbaProject.SystemKind
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.SystemKind
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBAProject.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SystemKind
+    path: ../src/EPPlus/Vba/ExcelVBAProject.cs
+    startLine: 57
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nSystem kind. Default Win32.\n"
+  example: []
+  syntax:
+    content: public eSyskind SystemKind { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.VBA.eSyskind
+    content.vb: Public Property SystemKind As eSyskind
+  overload: OfficeOpenXml.VBA.ExcelVbaProject.SystemKind*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.CompatVersion
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaProject.CompatVersion
+  id: CompatVersion
+  parent: OfficeOpenXml.VBA.ExcelVbaProject
+  langs:
+  - csharp
+  - vb
+  name: CompatVersion
+  nameWithType: ExcelVbaProject.CompatVersion
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.CompatVersion
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBAProject.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CompatVersion
+    path: ../src/EPPlus/Vba/ExcelVBAProject.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nThe compatible version for the VBA project. If null, this record is not written.\n"
+  example: []
+  syntax:
+    content: public uint? CompatVersion { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt32}
+    content.vb: Public Property CompatVersion As UInteger?
+  overload: OfficeOpenXml.VBA.ExcelVbaProject.CompatVersion*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.Name
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaProject.Name
+  id: Name
+  parent: OfficeOpenXml.VBA.ExcelVbaProject
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ExcelVbaProject.Name
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBAProject.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/Vba/ExcelVBAProject.cs
+    startLine: 66
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nName of the project\n"
+  example: []
+  syntax:
+    content: public string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: OfficeOpenXml.VBA.ExcelVbaProject.Name*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.Description
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaProject.Description
+  id: Description
+  parent: OfficeOpenXml.VBA.ExcelVbaProject
+  langs:
+  - csharp
+  - vb
+  name: Description
+  nameWithType: ExcelVbaProject.Description
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.Description
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBAProject.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Description
+    path: ../src/EPPlus/Vba/ExcelVBAProject.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nA description of the project\n"
+  example: []
+  syntax:
+    content: public string Description { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Description As String
+  overload: OfficeOpenXml.VBA.ExcelVbaProject.Description*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.HelpFile1
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaProject.HelpFile1
+  id: HelpFile1
+  parent: OfficeOpenXml.VBA.ExcelVbaProject
+  langs:
+  - csharp
+  - vb
+  name: HelpFile1
+  nameWithType: ExcelVbaProject.HelpFile1
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.HelpFile1
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBAProject.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HelpFile1
+    path: ../src/EPPlus/Vba/ExcelVBAProject.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nA helpfile\n"
+  example: []
+  syntax:
+    content: public string HelpFile1 { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property HelpFile1 As String
+  overload: OfficeOpenXml.VBA.ExcelVbaProject.HelpFile1*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.HelpFile2
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaProject.HelpFile2
+  id: HelpFile2
+  parent: OfficeOpenXml.VBA.ExcelVbaProject
+  langs:
+  - csharp
+  - vb
+  name: HelpFile2
+  nameWithType: ExcelVbaProject.HelpFile2
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.HelpFile2
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBAProject.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HelpFile2
+    path: ../src/EPPlus/Vba/ExcelVBAProject.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nSecondary helpfile\n"
+  example: []
+  syntax:
+    content: public string HelpFile2 { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property HelpFile2 As String
+  overload: OfficeOpenXml.VBA.ExcelVbaProject.HelpFile2*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.HelpContextID
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaProject.HelpContextID
+  id: HelpContextID
+  parent: OfficeOpenXml.VBA.ExcelVbaProject
+  langs:
+  - csharp
+  - vb
+  name: HelpContextID
+  nameWithType: ExcelVbaProject.HelpContextID
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.HelpContextID
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBAProject.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HelpContextID
+    path: ../src/EPPlus/Vba/ExcelVBAProject.cs
+    startLine: 82
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nContext if refering the helpfile\n"
+  example: []
+  syntax:
+    content: public int HelpContextID { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property HelpContextID As Integer
+  overload: OfficeOpenXml.VBA.ExcelVbaProject.HelpContextID*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.Constants
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaProject.Constants
+  id: Constants
+  parent: OfficeOpenXml.VBA.ExcelVbaProject
+  langs:
+  - csharp
+  - vb
+  name: Constants
+  nameWithType: ExcelVbaProject.Constants
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.Constants
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBAProject.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Constants
+    path: ../src/EPPlus/Vba/ExcelVBAProject.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nConditional compilation constants\n"
+  example: []
+  syntax:
+    content: public string Constants { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Constants As String
+  overload: OfficeOpenXml.VBA.ExcelVbaProject.Constants*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.CodePage
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaProject.CodePage
+  id: CodePage
+  parent: OfficeOpenXml.VBA.ExcelVbaProject
+  langs:
+  - csharp
+  - vb
+  name: CodePage
+  nameWithType: ExcelVbaProject.CodePage
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.CodePage
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBAProject.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CodePage
+    path: ../src/EPPlus/Vba/ExcelVBAProject.cs
+    startLine: 90
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nCodepage for encoding. Default is current regional setting.\n"
+  example: []
+  syntax:
+    content: public int CodePage { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property CodePage As Integer
+  overload: OfficeOpenXml.VBA.ExcelVbaProject.CodePage*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.References
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaProject.References
+  id: References
+  parent: OfficeOpenXml.VBA.ExcelVbaProject
+  langs:
+  - csharp
+  - vb
+  name: References
+  nameWithType: ExcelVbaProject.References
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.References
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBAProject.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: References
+    path: ../src/EPPlus/Vba/ExcelVBAProject.cs
+    startLine: 101
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nProject references\n"
+  example: []
+  syntax:
+    content: public ExcelVbaReferenceCollection References { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.VBA.ExcelVbaReferenceCollection
+    content.vb: Public Property References As ExcelVbaReferenceCollection
+  overload: OfficeOpenXml.VBA.ExcelVbaProject.References*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.Modules
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaProject.Modules
+  id: Modules
+  parent: OfficeOpenXml.VBA.ExcelVbaProject
+  langs:
+  - csharp
+  - vb
+  name: Modules
+  nameWithType: ExcelVbaProject.Modules
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.Modules
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBAProject.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Modules
+    path: ../src/EPPlus/Vba/ExcelVBAProject.cs
+    startLine: 105
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nCode Modules (Modules, classes, designer code)\n"
+  example: []
+  syntax:
+    content: public ExcelVbaModuleCollection Modules { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.VBA.ExcelVbaModuleCollection
+    content.vb: Public Property Modules As ExcelVbaModuleCollection
+  overload: OfficeOpenXml.VBA.ExcelVbaProject.Modules*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.Signature
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaProject.Signature
+  id: Signature
+  parent: OfficeOpenXml.VBA.ExcelVbaProject
+  langs:
+  - csharp
+  - vb
+  name: Signature
+  nameWithType: ExcelVbaProject.Signature
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.Signature
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBAProject.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Signature
+    path: ../src/EPPlus/Vba/ExcelVBAProject.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nThe digital signature\n"
+  example: []
+  syntax:
+    content: public ExcelVbaSignature Signature { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.VBA.ExcelVbaSignature
+    content.vb: Public ReadOnly Property Signature As ExcelVbaSignature
+  overload: OfficeOpenXml.VBA.ExcelVbaProject.Signature*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.Protection
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaProject.Protection
+  id: Protection
+  parent: OfficeOpenXml.VBA.ExcelVbaProject
+  langs:
+  - csharp
+  - vb
+  name: Protection
+  nameWithType: ExcelVbaProject.Protection
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.Protection
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBAProject.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Protection
+    path: ../src/EPPlus/Vba/ExcelVBAProject.cs
+    startLine: 125
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nVBA protection \n"
+  example: []
+  syntax:
+    content: public ExcelVbaProtection Protection { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.VBA.ExcelVbaProtection
+    content.vb: Public ReadOnly Property Protection As ExcelVbaProtection
+  overload: OfficeOpenXml.VBA.ExcelVbaProject.Protection*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.Remove
+  commentId: M:OfficeOpenXml.VBA.ExcelVbaProject.Remove
+  id: Remove
+  parent: OfficeOpenXml.VBA.ExcelVbaProject
+  langs:
+  - csharp
+  - vb
+  name: Remove()
+  nameWithType: ExcelVbaProject.Remove()
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.Remove()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBAProject.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Vba/ExcelVBAProject.cs
+    startLine: 1155
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nRemove the project from the package\n"
+  example: []
+  syntax:
+    content: public void Remove()
+    content.vb: Public Sub Remove
+  overload: OfficeOpenXml.VBA.ExcelVbaProject.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.ToString
+  commentId: M:OfficeOpenXml.VBA.ExcelVbaProject.ToString
+  id: ToString
+  parent: OfficeOpenXml.VBA.ExcelVbaProject
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: ExcelVbaProject.ToString()
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBAProject.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToString
+    path: ../src/EPPlus/Vba/ExcelVBAProject.cs
+    startLine: 1187
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nThe name of the project\n"
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: Returns the name of the project
+    content.vb: Public Overrides Function ToString As String
+  overridden: System.Object.ToString
+  overload: OfficeOpenXml.VBA.ExcelVbaProject.ToString*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+references:
+- uid: OfficeOpenXml.VBA
+  commentId: N:OfficeOpenXml.VBA
+  name: OfficeOpenXml.VBA
+  nameWithType: OfficeOpenXml.VBA
+  fullName: OfficeOpenXml.VBA
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.SystemKind*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProject.SystemKind
+  name: SystemKind
+  nameWithType: ExcelVbaProject.SystemKind
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.SystemKind
+- uid: OfficeOpenXml.VBA.eSyskind
+  commentId: T:OfficeOpenXml.VBA.eSyskind
+  parent: OfficeOpenXml.VBA
+  name: eSyskind
+  nameWithType: eSyskind
+  fullName: OfficeOpenXml.VBA.eSyskind
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.CompatVersion*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProject.CompatVersion
+  name: CompatVersion
+  nameWithType: ExcelVbaProject.CompatVersion
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.CompatVersion
+- uid: System.Nullable{System.UInt32}
+  commentId: T:System.Nullable{System.UInt32}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<UInt32>
+  nameWithType: Nullable<UInt32>
+  fullName: System.Nullable<System.UInt32>
+  nameWithType.vb: Nullable(Of UInt32)
+  fullName.vb: System.Nullable(Of System.UInt32)
+  name.vb: Nullable(Of UInt32)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.UInt32
+    name: UInt32
+    nameWithType: UInt32
+    fullName: System.UInt32
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.UInt32
+    name: UInt32
+    nameWithType: UInt32
+    fullName: System.UInt32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.Name*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProject.Name
+  name: Name
+  nameWithType: ExcelVbaProject.Name
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.Description*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProject.Description
+  name: Description
+  nameWithType: ExcelVbaProject.Description
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.Description
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.HelpFile1*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProject.HelpFile1
+  name: HelpFile1
+  nameWithType: ExcelVbaProject.HelpFile1
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.HelpFile1
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.HelpFile2*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProject.HelpFile2
+  name: HelpFile2
+  nameWithType: ExcelVbaProject.HelpFile2
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.HelpFile2
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.HelpContextID*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProject.HelpContextID
+  name: HelpContextID
+  nameWithType: ExcelVbaProject.HelpContextID
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.HelpContextID
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.Constants*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProject.Constants
+  name: Constants
+  nameWithType: ExcelVbaProject.Constants
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.Constants
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.CodePage*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProject.CodePage
+  name: CodePage
+  nameWithType: ExcelVbaProject.CodePage
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.CodePage
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.References*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProject.References
+  name: References
+  nameWithType: ExcelVbaProject.References
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.References
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceCollection
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaReferenceCollection
+  parent: OfficeOpenXml.VBA
+  name: ExcelVbaReferenceCollection
+  nameWithType: ExcelVbaReferenceCollection
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceCollection
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.Modules*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProject.Modules
+  name: Modules
+  nameWithType: ExcelVbaProject.Modules
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.Modules
+- uid: OfficeOpenXml.VBA.ExcelVbaModuleCollection
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaModuleCollection
+  parent: OfficeOpenXml.VBA
+  name: ExcelVbaModuleCollection
+  nameWithType: ExcelVbaModuleCollection
+  fullName: OfficeOpenXml.VBA.ExcelVbaModuleCollection
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.Signature*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProject.Signature
+  name: Signature
+  nameWithType: ExcelVbaProject.Signature
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.Signature
+- uid: OfficeOpenXml.VBA.ExcelVbaSignature
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaSignature
+  parent: OfficeOpenXml.VBA
+  name: ExcelVbaSignature
+  nameWithType: ExcelVbaSignature
+  fullName: OfficeOpenXml.VBA.ExcelVbaSignature
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.Protection*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProject.Protection
+  name: Protection
+  nameWithType: ExcelVbaProject.Protection
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.Protection
+- uid: OfficeOpenXml.VBA.ExcelVbaProtection
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaProtection
+  parent: OfficeOpenXml.VBA
+  name: ExcelVbaProtection
+  nameWithType: ExcelVbaProtection
+  fullName: OfficeOpenXml.VBA.ExcelVbaProtection
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.Remove*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProject.Remove
+  name: Remove
+  nameWithType: ExcelVbaProject.Remove
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.Remove
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.VBA.ExcelVbaProject.ToString*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaProject.ToString
+  name: ToString
+  nameWithType: ExcelVbaProject.ToString
+  fullName: OfficeOpenXml.VBA.ExcelVbaProject.ToString

@@ -1,0 +1,28 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Compatibility
+  commentId: N:OfficeOpenXml.Compatibility
+  id: OfficeOpenXml.Compatibility
+  children:
+  - OfficeOpenXml.Compatibility.CompatibilitySettings
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Compatibility
+  nameWithType: OfficeOpenXml.Compatibility
+  fullName: OfficeOpenXml.Compatibility
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Compatibility.CompatibilitySettings
+  commentId: T:OfficeOpenXml.Compatibility.CompatibilitySettings
+  parent: OfficeOpenXml.Compatibility
+  name: CompatibilitySettings
+  nameWithType: CompatibilitySettings
+  fullName: OfficeOpenXml.Compatibility.CompatibilitySettings
+- uid: OfficeOpenXml.Compatibility
+  commentId: N:OfficeOpenXml.Compatibility
+  name: OfficeOpenXml.Compatibility
+  nameWithType: OfficeOpenXml.Compatibility
+  fullName: OfficeOpenXml.Compatibility

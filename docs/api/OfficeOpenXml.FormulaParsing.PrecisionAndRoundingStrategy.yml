@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+  commentId: T:OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+  id: PrecisionAndRoundingStrategy
+  parent: OfficeOpenXml.FormulaParsing
+  children:
+  - OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.DotNet
+  - OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.Excel
+  langs:
+  - csharp
+  - vb
+  name: PrecisionAndRoundingStrategy
+  nameWithType: PrecisionAndRoundingStrategy
+  fullName: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/PrecisionAndRoundingStrategy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PrecisionAndRoundingStrategy
+    path: ../src/EPPlus/FormulaParsing/PrecisionAndRoundingStrategy.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nRepresent strategies for handling precision and rounding of float/double values when calculating formulas.\n"
+  example: []
+  syntax:
+    content: public enum PrecisionAndRoundingStrategy
+    content.vb: Public Enum PrecisionAndRoundingStrategy
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.DotNet
+  commentId: F:OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.DotNet
+  id: DotNet
+  parent: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+  langs:
+  - csharp
+  - vb
+  name: DotNet
+  nameWithType: PrecisionAndRoundingStrategy.DotNet
+  fullName: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.DotNet
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/PrecisionAndRoundingStrategy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DotNet
+    path: ../src/EPPlus/FormulaParsing/PrecisionAndRoundingStrategy.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nUse .NET&apos;s default functionality\n"
+  example: []
+  syntax:
+    content: DotNet = 0
+    return:
+      type: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.Excel
+  commentId: F:OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.Excel
+  id: Excel
+  parent: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+  langs:
+  - csharp
+  - vb
+  name: Excel
+  nameWithType: PrecisionAndRoundingStrategy.Excel
+  fullName: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy.Excel
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/PrecisionAndRoundingStrategy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Excel
+    path: ../src/EPPlus/FormulaParsing/PrecisionAndRoundingStrategy.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nUse Excels strategy with max 15 significant figures.\n"
+  example: []
+  syntax:
+    content: Excel = 1
+    return:
+      type: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+  commentId: T:OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
+  parent: OfficeOpenXml.FormulaParsing
+  name: PrecisionAndRoundingStrategy
+  nameWithType: PrecisionAndRoundingStrategy
+  fullName: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy

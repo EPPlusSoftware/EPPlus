@@ -1,0 +1,570 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect
+  commentId: T:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect
+  id: ExcelDrawingBlurEffect
+  parent: OfficeOpenXml.Drawing.Style.Effect
+  children:
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect.GrowBounds
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect.Radius
+  langs:
+  - csharp
+  - vb
+  name: ExcelDrawingBlurEffect
+  nameWithType: ExcelDrawingBlurEffect
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingBlurEffect.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDrawingBlurEffect
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingBlurEffect.cs
+    startLine: 23
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nA blur effect that is applied to the shape, including its fill\n"
+  example: []
+  syntax:
+    content: 'public class ExcelDrawingBlurEffect : ExcelDrawingEffectBase'
+    content.vb: >-
+      Public Class ExcelDrawingBlurEffect
+          Inherits ExcelDrawingEffectBase
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectBase
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectBase.Delete
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect.Radius
+  commentId: P:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect.Radius
+  id: Radius
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect
+  langs:
+  - csharp
+  - vb
+  name: Radius
+  nameWithType: ExcelDrawingBlurEffect.Radius
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect.Radius
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingBlurEffect.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Radius
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingBlurEffect.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nThe radius of blur in points\n"
+  example: []
+  syntax:
+    content: public double? Radius { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Double}
+    content.vb: Public Property Radius As Double?
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect.Radius*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect.GrowBounds
+  commentId: P:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect.GrowBounds
+  id: GrowBounds
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect
+  langs:
+  - csharp
+  - vb
+  name: GrowBounds
+  nameWithType: ExcelDrawingBlurEffect.GrowBounds
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect.GrowBounds
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingBlurEffect.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GrowBounds
+    path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingBlurEffect.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Style.Effect
+  summary: "\nIf the bounds of the object will be grown as a result of the blurring.\nDefault is true\n"
+  example: []
+  syntax:
+    content: public bool GrowBounds { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property GrowBounds As Boolean
+  overload: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect.GrowBounds*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Drawing.Style.Effect
+  commentId: N:OfficeOpenXml.Drawing.Style.Effect
+  name: OfficeOpenXml.Drawing.Style.Effect
+  nameWithType: OfficeOpenXml.Drawing.Style.Effect
+  fullName: OfficeOpenXml.Drawing.Style.Effect
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectBase
+  commentId: T:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectBase
+  parent: OfficeOpenXml.Drawing.Style.Effect
+  name: ExcelDrawingEffectBase
+  nameWithType: ExcelDrawingEffectBase
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectBase
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectBase.Delete
+  commentId: M:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectBase.Delete
+  parent: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectBase
+  name: Delete()
+  nameWithType: ExcelDrawingEffectBase.Delete()
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectBase.Delete()
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectBase.Delete
+    name: Delete
+    nameWithType: ExcelDrawingEffectBase.Delete
+    fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectBase.Delete
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectBase.Delete
+    name: Delete
+    nameWithType: ExcelDrawingEffectBase.Delete
+    fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectBase.Delete
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect.Radius*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect.Radius
+  name: Radius
+  nameWithType: ExcelDrawingBlurEffect.Radius
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect.Radius
+- uid: System.Nullable{System.Double}
+  commentId: T:System.Nullable{System.Double}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Double>
+  nameWithType: Nullable<Double>
+  fullName: System.Nullable<System.Double>
+  nameWithType.vb: Nullable(Of Double)
+  fullName.vb: System.Nullable(Of System.Double)
+  name.vb: Nullable(Of Double)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect.GrowBounds*
+  commentId: Overload:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect.GrowBounds
+  name: GrowBounds
+  nameWithType: ExcelDrawingBlurEffect.GrowBounds
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingBlurEffect.GrowBounds
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+  commentId: T:OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+  id: EmptyRowsStrategy
+  parent: OfficeOpenXml.Export.ToDataTable
+  children:
+  - OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy.Ignore
+  - OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy.StopAtFirst
+  langs:
+  - csharp
+  - vb
+  name: EmptyRowsStrategy
+  nameWithType: EmptyRowsStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/EmptyRowsStrategy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EmptyRowsStrategy
+    path: ../src/EPPlus/Export/ToDataTable/EmptyRowsStrategy.cs
+    startLine: 9
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nDefines how empty rows (all cells are blank) in the source range should be handled.\n"
+  example: []
+  syntax:
+    content: public enum EmptyRowsStrategy
+    content.vb: Public Enum EmptyRowsStrategy
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy.Ignore
+  commentId: F:OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy.Ignore
+  id: Ignore
+  parent: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+  langs:
+  - csharp
+  - vb
+  name: Ignore
+  nameWithType: EmptyRowsStrategy.Ignore
+  fullName: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy.Ignore
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/EmptyRowsStrategy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Ignore
+    path: ../src/EPPlus/Export/ToDataTable/EmptyRowsStrategy.cs
+    startLine: 14
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nIgnore the empty row and continue with next\n"
+  example: []
+  syntax:
+    content: Ignore = 0
+    return:
+      type: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy.StopAtFirst
+  commentId: F:OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy.StopAtFirst
+  id: StopAtFirst
+  parent: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+  langs:
+  - csharp
+  - vb
+  name: StopAtFirst
+  nameWithType: EmptyRowsStrategy.StopAtFirst
+  fullName: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy.StopAtFirst
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/EmptyRowsStrategy.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StopAtFirst
+    path: ../src/EPPlus/Export/ToDataTable/EmptyRowsStrategy.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nStop reading when the first empty row occurs\n"
+  example: []
+  syntax:
+    content: StopAtFirst = 1
+    return:
+      type: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Export.ToDataTable
+  commentId: N:OfficeOpenXml.Export.ToDataTable
+  name: OfficeOpenXml.Export.ToDataTable
+  nameWithType: OfficeOpenXml.Export.ToDataTable
+  fullName: OfficeOpenXml.Export.ToDataTable
+- uid: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+  commentId: T:OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy
+  parent: OfficeOpenXml.Export.ToDataTable
+  name: EmptyRowsStrategy
+  nameWithType: EmptyRowsStrategy
+  fullName: OfficeOpenXml.Export.ToDataTable.EmptyRowsStrategy

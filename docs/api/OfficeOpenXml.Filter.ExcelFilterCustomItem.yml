@@ -1,0 +1,549 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Filter.ExcelFilterCustomItem
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterCustomItem
+  id: ExcelFilterCustomItem
+  parent: OfficeOpenXml.Filter
+  children:
+  - OfficeOpenXml.Filter.ExcelFilterCustomItem.#ctor(System.String,OfficeOpenXml.Filter.eFilterOperator)
+  - OfficeOpenXml.Filter.ExcelFilterCustomItem.Operator
+  langs:
+  - csharp
+  - vb
+  name: ExcelFilterCustomItem
+  nameWithType: ExcelFilterCustomItem
+  fullName: OfficeOpenXml.Filter.ExcelFilterCustomItem
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelFilterCustomItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelFilterCustomItem
+    path: ../src/EPPlus/Filter/ExcelFilterCustomItem.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nA custom filter item\n"
+  example: []
+  syntax:
+    content: 'public class ExcelFilterCustomItem : ExcelFilterValueItem'
+    content.vb: >-
+      Public Class ExcelFilterCustomItem
+          Inherits ExcelFilterValueItem
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Filter.ExcelFilterItem
+  - OfficeOpenXml.Filter.ExcelFilterValueItem
+  inheritedMembers:
+  - OfficeOpenXml.Filter.ExcelFilterValueItem.Value
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Filter.ExcelFilterCustomItem.#ctor(System.String,OfficeOpenXml.Filter.eFilterOperator)
+  commentId: M:OfficeOpenXml.Filter.ExcelFilterCustomItem.#ctor(System.String,OfficeOpenXml.Filter.eFilterOperator)
+  id: '#ctor(System.String,OfficeOpenXml.Filter.eFilterOperator)'
+  parent: OfficeOpenXml.Filter.ExcelFilterCustomItem
+  langs:
+  - csharp
+  - vb
+  name: ExcelFilterCustomItem(String, eFilterOperator)
+  nameWithType: ExcelFilterCustomItem.ExcelFilterCustomItem(String, eFilterOperator)
+  fullName: OfficeOpenXml.Filter.ExcelFilterCustomItem.ExcelFilterCustomItem(System.String, OfficeOpenXml.Filter.eFilterOperator)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelFilterCustomItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/Filter/ExcelFilterCustomItem.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nCreate a Custom filter.\n"
+  example: []
+  syntax:
+    content: public ExcelFilterCustomItem(string value, eFilterOperator filterOperator = eFilterOperator.Equal)
+    parameters:
+    - id: value
+      type: System.String
+      description: "The value to filter by. \nIf the data is text wildcard can be used. \nAsterisk (*) for any combination of characters. \nQuestion mark (?) for any single charcter\nIf the data is numeric, use dot (.) for decimal."
+    - id: filterOperator
+      type: OfficeOpenXml.Filter.eFilterOperator
+      description: The operator to use
+    content.vb: Public Sub New(value As String, filterOperator As eFilterOperator = eFilterOperator.Equal)
+  overload: OfficeOpenXml.Filter.ExcelFilterCustomItem.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Filter.ExcelFilterCustomItem.Operator
+  commentId: P:OfficeOpenXml.Filter.ExcelFilterCustomItem.Operator
+  id: Operator
+  parent: OfficeOpenXml.Filter.ExcelFilterCustomItem
+  langs:
+  - csharp
+  - vb
+  name: Operator
+  nameWithType: ExcelFilterCustomItem.Operator
+  fullName: OfficeOpenXml.Filter.ExcelFilterCustomItem.Operator
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Filter/ExcelFilterCustomItem.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Operator
+    path: ../src/EPPlus/Filter/ExcelFilterCustomItem.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Filter
+  summary: "\nOperator used by the filter comparison\n"
+  example: []
+  syntax:
+    content: public eFilterOperator? Operator { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.Filter.eFilterOperator}
+    content.vb: Public Property Operator As eFilterOperator?
+  overload: OfficeOpenXml.Filter.ExcelFilterCustomItem.Operator*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Filter
+  commentId: N:OfficeOpenXml.Filter
+  name: OfficeOpenXml.Filter
+  nameWithType: OfficeOpenXml.Filter
+  fullName: OfficeOpenXml.Filter
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Filter.ExcelFilterItem
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterItem
+  parent: OfficeOpenXml.Filter
+  name: ExcelFilterItem
+  nameWithType: ExcelFilterItem
+  fullName: OfficeOpenXml.Filter.ExcelFilterItem
+- uid: OfficeOpenXml.Filter.ExcelFilterValueItem
+  commentId: T:OfficeOpenXml.Filter.ExcelFilterValueItem
+  parent: OfficeOpenXml.Filter
+  name: ExcelFilterValueItem
+  nameWithType: ExcelFilterValueItem
+  fullName: OfficeOpenXml.Filter.ExcelFilterValueItem
+- uid: OfficeOpenXml.Filter.ExcelFilterValueItem.Value
+  commentId: P:OfficeOpenXml.Filter.ExcelFilterValueItem.Value
+  parent: OfficeOpenXml.Filter.ExcelFilterValueItem
+  name: Value
+  nameWithType: ExcelFilterValueItem.Value
+  fullName: OfficeOpenXml.Filter.ExcelFilterValueItem.Value
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Filter.ExcelFilterCustomItem.#ctor*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelFilterCustomItem.#ctor
+  name: ExcelFilterCustomItem
+  nameWithType: ExcelFilterCustomItem.ExcelFilterCustomItem
+  fullName: OfficeOpenXml.Filter.ExcelFilterCustomItem.ExcelFilterCustomItem
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Filter.eFilterOperator
+  commentId: T:OfficeOpenXml.Filter.eFilterOperator
+  parent: OfficeOpenXml.Filter
+  name: eFilterOperator
+  nameWithType: eFilterOperator
+  fullName: OfficeOpenXml.Filter.eFilterOperator
+- uid: OfficeOpenXml.Filter.ExcelFilterCustomItem.Operator*
+  commentId: Overload:OfficeOpenXml.Filter.ExcelFilterCustomItem.Operator
+  name: Operator
+  nameWithType: ExcelFilterCustomItem.Operator
+  fullName: OfficeOpenXml.Filter.ExcelFilterCustomItem.Operator
+- uid: System.Nullable{OfficeOpenXml.Filter.eFilterOperator}
+  commentId: T:System.Nullable{OfficeOpenXml.Filter.eFilterOperator}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<eFilterOperator>
+  nameWithType: Nullable<eFilterOperator>
+  fullName: System.Nullable<OfficeOpenXml.Filter.eFilterOperator>
+  nameWithType.vb: Nullable(Of eFilterOperator)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.Filter.eFilterOperator)
+  name.vb: Nullable(Of eFilterOperator)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Filter.eFilterOperator
+    name: eFilterOperator
+    nameWithType: eFilterOperator
+    fullName: OfficeOpenXml.Filter.eFilterOperator
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Filter.eFilterOperator
+    name: eFilterOperator
+    nameWithType: eFilterOperator
+    fullName: OfficeOpenXml.Filter.eFilterOperator
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )

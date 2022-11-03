@@ -1,0 +1,734 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.FormulaParser
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaParser
+  id: FormulaParser
+  parent: OfficeOpenXml.FormulaParsing
+  children:
+  - OfficeOpenXml.FormulaParsing.FormulaParser.#ctor(OfficeOpenXml.ExcelPackage)
+  - OfficeOpenXml.FormulaParsing.FormulaParser.Dispose
+  - OfficeOpenXml.FormulaParsing.FormulaParser.Logger
+  - OfficeOpenXml.FormulaParsing.FormulaParser.Parse(System.String)
+  - OfficeOpenXml.FormulaParsing.FormulaParser.Parse(System.String,System.String)
+  - OfficeOpenXml.FormulaParsing.FormulaParser.ParseAt(System.String)
+  - OfficeOpenXml.FormulaParsing.FormulaParser.ParseAt(System.String,System.Int32,System.Int32)
+  langs:
+  - csharp
+  - vb
+  name: FormulaParser
+  nameWithType: FormulaParser
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParser
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParser.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FormulaParser
+    path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nEntry class for the formula calulation engine of EPPlus.\n"
+  example: []
+  syntax:
+    content: 'public class FormulaParser : IDisposable'
+    content.vb: >-
+      Public Class FormulaParser
+          Implements IDisposable
+  inheritance:
+  - System.Object
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.FormulaParsing.FormulaParser.#ctor(OfficeOpenXml.ExcelPackage)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParser.#ctor(OfficeOpenXml.ExcelPackage)
+  id: '#ctor(OfficeOpenXml.ExcelPackage)'
+  parent: OfficeOpenXml.FormulaParsing.FormulaParser
+  langs:
+  - csharp
+  - vb
+  name: FormulaParser(ExcelPackage)
+  nameWithType: FormulaParser.FormulaParser(ExcelPackage)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParser.FormulaParser(OfficeOpenXml.ExcelPackage)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParser.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public FormulaParser(ExcelPackage package)
+    parameters:
+    - id: package
+      type: OfficeOpenXml.ExcelPackage
+      description: The package to calculate
+    content.vb: Public Sub New(package As ExcelPackage)
+  overload: OfficeOpenXml.FormulaParsing.FormulaParser.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.FormulaParser.Parse(System.String,System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParser.Parse(System.String,System.String)
+  id: Parse(System.String,System.String)
+  parent: OfficeOpenXml.FormulaParsing.FormulaParser
+  langs:
+  - csharp
+  - vb
+  name: Parse(String, String)
+  nameWithType: FormulaParser.Parse(String, String)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParser.Parse(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParser.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Parse
+    path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
+    startLine: 193
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nParses a formula at a specific address\n"
+  example: []
+  syntax:
+    content: public virtual object Parse(string formula, string address)
+    parameters:
+    - id: formula
+      type: System.String
+      description: A string containing the formula
+    - id: address
+      type: System.String
+      description: Address of the formula
+    return:
+      type: System.Object
+      description: ''
+    content.vb: Public Overridable Function Parse(formula As String, address As String) As Object
+  overload: OfficeOpenXml.FormulaParsing.FormulaParser.Parse*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+- uid: OfficeOpenXml.FormulaParsing.FormulaParser.Parse(System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParser.Parse(System.String)
+  id: Parse(System.String)
+  parent: OfficeOpenXml.FormulaParsing.FormulaParser
+  langs:
+  - csharp
+  - vb
+  name: Parse(String)
+  nameWithType: FormulaParser.Parse(String)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParser.Parse(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParser.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Parse
+    path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
+    startLine: 203
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nParses a formula\n"
+  example: []
+  syntax:
+    content: public virtual object Parse(string formula)
+    parameters:
+    - id: formula
+      type: System.String
+      description: A string containing the formula
+    return:
+      type: System.Object
+      description: The result of the calculation
+    content.vb: Public Overridable Function Parse(formula As String) As Object
+  overload: OfficeOpenXml.FormulaParsing.FormulaParser.Parse*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+- uid: OfficeOpenXml.FormulaParsing.FormulaParser.ParseAt(System.String)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParser.ParseAt(System.String)
+  id: ParseAt(System.String)
+  parent: OfficeOpenXml.FormulaParsing.FormulaParser
+  langs:
+  - csharp
+  - vb
+  name: ParseAt(String)
+  nameWithType: FormulaParser.ParseAt(String)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParser.ParseAt(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParser.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ParseAt
+    path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
+    startLine: 213
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nParses a formula in a specific location\n"
+  example: []
+  syntax:
+    content: public virtual object ParseAt(string address)
+    parameters:
+    - id: address
+      type: System.String
+      description: address of the cell to calculate
+    return:
+      type: System.Object
+      description: The result of the calculation
+    content.vb: Public Overridable Function ParseAt(address As String) As Object
+  overload: OfficeOpenXml.FormulaParsing.FormulaParser.ParseAt*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+- uid: OfficeOpenXml.FormulaParsing.FormulaParser.ParseAt(System.String,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParser.ParseAt(System.String,System.Int32,System.Int32)
+  id: ParseAt(System.String,System.Int32,System.Int32)
+  parent: OfficeOpenXml.FormulaParsing.FormulaParser
+  langs:
+  - csharp
+  - vb
+  name: ParseAt(String, Int32, Int32)
+  nameWithType: FormulaParser.ParseAt(String, Int32, Int32)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParser.ParseAt(System.String, System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParser.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ParseAt
+    path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
+    startLine: 227
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nParses a formula in a specific location\n"
+  example: []
+  syntax:
+    content: public virtual object ParseAt(string worksheetName, int row, int col)
+    parameters:
+    - id: worksheetName
+      type: System.String
+      description: Name of the worksheet
+    - id: row
+      type: System.Int32
+      description: Row in the worksheet
+    - id: col
+      type: System.Int32
+      description: Column in the worksheet
+    return:
+      type: System.Object
+      description: The result of the calculation
+    content.vb: Public Overridable Function ParseAt(worksheetName As String, row As Integer, col As Integer) As Object
+  overload: OfficeOpenXml.FormulaParsing.FormulaParser.ParseAt*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+- uid: OfficeOpenXml.FormulaParsing.FormulaParser.Logger
+  commentId: P:OfficeOpenXml.FormulaParsing.FormulaParser.Logger
+  id: Logger
+  parent: OfficeOpenXml.FormulaParsing.FormulaParser
+  langs:
+  - csharp
+  - vb
+  name: Logger
+  nameWithType: FormulaParser.Logger
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParser.Logger
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParser.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Logger
+    path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
+    startLine: 260
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nAn <xref href=\"OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger\" data-throw-if-not-resolved=\"false\"></xref> for logging during calculation\n"
+  example: []
+  syntax:
+    content: public IFormulaParserLogger Logger { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+    content.vb: Public ReadOnly Property Logger As IFormulaParserLogger
+  overload: OfficeOpenXml.FormulaParsing.FormulaParser.Logger*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.FormulaParser.Dispose
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaParser.Dispose
+  id: Dispose
+  parent: OfficeOpenXml.FormulaParsing.FormulaParser
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: FormulaParser.Dispose()
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParser.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaParser.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Dispose
+    path: ../src/EPPlus/FormulaParsing/FormulaParser.cs
+    startLine: 268
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nImplementation of <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose
+  overload: OfficeOpenXml.FormulaParsing.FormulaParser.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.FormulaParsing
+  commentId: N:OfficeOpenXml.FormulaParsing
+  name: OfficeOpenXml.FormulaParsing
+  nameWithType: OfficeOpenXml.FormulaParsing
+  fullName: OfficeOpenXml.FormulaParsing
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.FormulaParsing.FormulaParser.#ctor*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaParser.#ctor
+  name: FormulaParser
+  nameWithType: FormulaParser.FormulaParser
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParser.FormulaParser
+- uid: OfficeOpenXml.ExcelPackage
+  commentId: T:OfficeOpenXml.ExcelPackage
+  parent: OfficeOpenXml
+  name: ExcelPackage
+  nameWithType: ExcelPackage
+  fullName: OfficeOpenXml.ExcelPackage
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.FormulaParsing.FormulaParser.Parse*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaParser.Parse
+  name: Parse
+  nameWithType: FormulaParser.Parse
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParser.Parse
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.FormulaParsing.FormulaParser.ParseAt*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaParser.ParseAt
+  name: ParseAt
+  nameWithType: FormulaParser.ParseAt
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParser.ParseAt
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+  commentId: T:OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+  parent: OfficeOpenXml.FormulaParsing.Logging
+  name: IFormulaParserLogger
+  nameWithType: IFormulaParserLogger
+  fullName: OfficeOpenXml.FormulaParsing.Logging.IFormulaParserLogger
+- uid: OfficeOpenXml.FormulaParsing.FormulaParser.Logger*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaParser.Logger
+  name: Logger
+  nameWithType: FormulaParser.Logger
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParser.Logger
+- uid: OfficeOpenXml.FormulaParsing.Logging
+  commentId: N:OfficeOpenXml.FormulaParsing.Logging
+  name: OfficeOpenXml.FormulaParsing.Logging
+  nameWithType: OfficeOpenXml.FormulaParsing.Logging
+  fullName: OfficeOpenXml.FormulaParsing.Logging
+- uid: OfficeOpenXml.FormulaParsing.FormulaParser.Dispose*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.FormulaParser.Dispose
+  name: Dispose
+  nameWithType: FormulaParser.Dispose
+  fullName: OfficeOpenXml.FormulaParsing.FormulaParser.Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    nameWithType: IDisposable.Dispose
+    fullName: System.IDisposable.Dispose
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )

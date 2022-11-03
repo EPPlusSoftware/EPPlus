@@ -1,0 +1,328 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  commentId: T:OfficeOpenXml.Style.ExcelHorizontalAlignment
+  id: ExcelHorizontalAlignment
+  parent: OfficeOpenXml.Style
+  children:
+  - OfficeOpenXml.Style.ExcelHorizontalAlignment.Center
+  - OfficeOpenXml.Style.ExcelHorizontalAlignment.CenterContinuous
+  - OfficeOpenXml.Style.ExcelHorizontalAlignment.Distributed
+  - OfficeOpenXml.Style.ExcelHorizontalAlignment.Fill
+  - OfficeOpenXml.Style.ExcelHorizontalAlignment.General
+  - OfficeOpenXml.Style.ExcelHorizontalAlignment.Justify
+  - OfficeOpenXml.Style.ExcelHorizontalAlignment.Left
+  - OfficeOpenXml.Style.ExcelHorizontalAlignment.Right
+  langs:
+  - csharp
+  - vb
+  name: ExcelHorizontalAlignment
+  nameWithType: ExcelHorizontalAlignment
+  fullName: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelHorizontalAlignment
+    path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nHorizontal text alignment\n"
+  example: []
+  syntax:
+    content: public enum ExcelHorizontalAlignment
+    content.vb: Public Enum ExcelHorizontalAlignment
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Style.ExcelHorizontalAlignment.General
+  commentId: F:OfficeOpenXml.Style.ExcelHorizontalAlignment.General
+  id: General
+  parent: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  langs:
+  - csharp
+  - vb
+  name: General
+  nameWithType: ExcelHorizontalAlignment.General
+  fullName: OfficeOpenXml.Style.ExcelHorizontalAlignment.General
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: General
+    path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nGeneral aligned\n"
+  example: []
+  syntax:
+    content: General = 0
+    return:
+      type: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelHorizontalAlignment.Left
+  commentId: F:OfficeOpenXml.Style.ExcelHorizontalAlignment.Left
+  id: Left
+  parent: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: ExcelHorizontalAlignment.Left
+  fullName: OfficeOpenXml.Style.ExcelHorizontalAlignment.Left
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Left
+    path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nLeft aligned\n"
+  example: []
+  syntax:
+    content: Left = 1
+    return:
+      type: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelHorizontalAlignment.Center
+  commentId: F:OfficeOpenXml.Style.ExcelHorizontalAlignment.Center
+  id: Center
+  parent: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  langs:
+  - csharp
+  - vb
+  name: Center
+  nameWithType: ExcelHorizontalAlignment.Center
+  fullName: OfficeOpenXml.Style.ExcelHorizontalAlignment.Center
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Center
+    path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nCenter aligned\n"
+  example: []
+  syntax:
+    content: Center = 2
+    return:
+      type: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelHorizontalAlignment.CenterContinuous
+  commentId: F:OfficeOpenXml.Style.ExcelHorizontalAlignment.CenterContinuous
+  id: CenterContinuous
+  parent: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  langs:
+  - csharp
+  - vb
+  name: CenterContinuous
+  nameWithType: ExcelHorizontalAlignment.CenterContinuous
+  fullName: OfficeOpenXml.Style.ExcelHorizontalAlignment.CenterContinuous
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CenterContinuous
+    path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe horizontal alignment is centered across multiple cells\n"
+  example: []
+  syntax:
+    content: CenterContinuous = 3
+    return:
+      type: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelHorizontalAlignment.Right
+  commentId: F:OfficeOpenXml.Style.ExcelHorizontalAlignment.Right
+  id: Right
+  parent: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  langs:
+  - csharp
+  - vb
+  name: Right
+  nameWithType: ExcelHorizontalAlignment.Right
+  fullName: OfficeOpenXml.Style.ExcelHorizontalAlignment.Right
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Right
+    path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nRight aligned\n"
+  example: []
+  syntax:
+    content: Right = 4
+    return:
+      type: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelHorizontalAlignment.Fill
+  commentId: F:OfficeOpenXml.Style.ExcelHorizontalAlignment.Fill
+  id: Fill
+  parent: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  langs:
+  - csharp
+  - vb
+  name: Fill
+  nameWithType: ExcelHorizontalAlignment.Fill
+  fullName: OfficeOpenXml.Style.ExcelHorizontalAlignment.Fill
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Fill
+    path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe value of the cell should be filled across the entire width of the cell.\n"
+  example: []
+  syntax:
+    content: Fill = 5
+    return:
+      type: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelHorizontalAlignment.Distributed
+  commentId: F:OfficeOpenXml.Style.ExcelHorizontalAlignment.Distributed
+  id: Distributed
+  parent: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  langs:
+  - csharp
+  - vb
+  name: Distributed
+  nameWithType: ExcelHorizontalAlignment.Distributed
+  fullName: OfficeOpenXml.Style.ExcelHorizontalAlignment.Distributed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Distributed
+    path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nEach word in each line of text inside the cell is evenly distributed across the width of the cell\n"
+  example: []
+  syntax:
+    content: Distributed = 6
+    return:
+      type: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Style.ExcelHorizontalAlignment.Justify
+  commentId: F:OfficeOpenXml.Style.ExcelHorizontalAlignment.Justify
+  id: Justify
+  parent: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  langs:
+  - csharp
+  - vb
+  name: Justify
+  nameWithType: ExcelHorizontalAlignment.Justify
+  fullName: OfficeOpenXml.Style.ExcelHorizontalAlignment.Justify
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Justify
+    path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
+    startLine: 50
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Style
+  summary: "\nThe horizontal alignment is justified to the Left and Right for each row.\n"
+  example: []
+  syntax:
+    content: Justify = 7
+    return:
+      type: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Style
+  commentId: N:OfficeOpenXml.Style
+  name: OfficeOpenXml.Style
+  nameWithType: OfficeOpenXml.Style
+  fullName: OfficeOpenXml.Style
+- uid: OfficeOpenXml.Style.ExcelHorizontalAlignment
+  commentId: T:OfficeOpenXml.Style.ExcelHorizontalAlignment
+  parent: OfficeOpenXml.Style
+  name: ExcelHorizontalAlignment
+  nameWithType: ExcelHorizontalAlignment
+  fullName: OfficeOpenXml.Style.ExcelHorizontalAlignment

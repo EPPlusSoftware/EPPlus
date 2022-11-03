@@ -1,0 +1,596 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.VBA.ExcelVbaSignature
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaSignature
+  id: ExcelVbaSignature
+  parent: OfficeOpenXml.VBA
+  children:
+  - OfficeOpenXml.VBA.ExcelVbaSignature.AgileSignature
+  - OfficeOpenXml.VBA.ExcelVbaSignature.Certificate
+  - OfficeOpenXml.VBA.ExcelVbaSignature.LegacySignature
+  - OfficeOpenXml.VBA.ExcelVbaSignature.V3Signature
+  - OfficeOpenXml.VBA.ExcelVbaSignature.Verifier
+  langs:
+  - csharp
+  - vb
+  name: ExcelVbaSignature
+  nameWithType: ExcelVbaSignature
+  fullName: OfficeOpenXml.VBA.ExcelVbaSignature
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBASignature.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelVbaSignature
+    path: ../src/EPPlus/Vba/ExcelVBASignature.cs
+    startLine: 28
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nThe VBA project&apos;s code signature properties\n"
+  example: []
+  syntax:
+    content: public class ExcelVbaSignature
+    content.vb: Public Class ExcelVbaSignature
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.VBA.ExcelVbaSignature.Certificate
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaSignature.Certificate
+  id: Certificate
+  parent: OfficeOpenXml.VBA.ExcelVbaSignature
+  langs:
+  - csharp
+  - vb
+  name: Certificate
+  nameWithType: ExcelVbaSignature.Certificate
+  fullName: OfficeOpenXml.VBA.ExcelVbaSignature.Certificate
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBASignature.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Certificate
+    path: ../src/EPPlus/Vba/ExcelVBASignature.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nThe certificate to sign the VBA project.\n<remarks>\nThis certificate must have a private key.\nThere is no validation that the certificate is valid for codesigning, so make sure it&apos;s valid to sign Excel files (Excel 2010 is more strict that prior versions).\n</remarks>\n"
+  example: []
+  syntax:
+    content: public X509Certificate2 Certificate { get; set; }
+    parameters: []
+    return:
+      type: System.Security.Cryptography.X509Certificates.X509Certificate2
+    content.vb: Public Property Certificate As X509Certificate2
+  overload: OfficeOpenXml.VBA.ExcelVbaSignature.Certificate*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaSignature.Verifier
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaSignature.Verifier
+  id: Verifier
+  parent: OfficeOpenXml.VBA.ExcelVbaSignature
+  langs:
+  - csharp
+  - vb
+  name: Verifier
+  nameWithType: ExcelVbaSignature.Verifier
+  fullName: OfficeOpenXml.VBA.ExcelVbaSignature.Verifier
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBASignature.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Verifier
+    path: ../src/EPPlus/Vba/ExcelVBASignature.cs
+    startLine: 76
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nThe verifier (legacy format)\n"
+  example: []
+  syntax:
+    content: public SignedCms Verifier { get; }
+    parameters: []
+    return:
+      type: System.Security.Cryptography.Pkcs.SignedCms
+    content.vb: Public ReadOnly Property Verifier As SignedCms
+  overload: OfficeOpenXml.VBA.ExcelVbaSignature.Verifier*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.VBA.ExcelVbaSignature.LegacySignature
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaSignature.LegacySignature
+  id: LegacySignature
+  parent: OfficeOpenXml.VBA.ExcelVbaSignature
+  langs:
+  - csharp
+  - vb
+  name: LegacySignature
+  nameWithType: ExcelVbaSignature.LegacySignature
+  fullName: OfficeOpenXml.VBA.ExcelVbaSignature.LegacySignature
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBASignature.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LegacySignature
+    path: ../src/EPPlus/Vba/ExcelVBASignature.cs
+    startLine: 121
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nSettings for the legacy signing.\n"
+  example: []
+  syntax:
+    content: public ExcelSignatureVersion LegacySignature { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Vba.Signatures.ExcelSignatureVersion
+    content.vb: Public Property LegacySignature As ExcelSignatureVersion
+  overload: OfficeOpenXml.VBA.ExcelVbaSignature.LegacySignature*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaSignature.AgileSignature
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaSignature.AgileSignature
+  id: AgileSignature
+  parent: OfficeOpenXml.VBA.ExcelVbaSignature
+  langs:
+  - csharp
+  - vb
+  name: AgileSignature
+  nameWithType: ExcelVbaSignature.AgileSignature
+  fullName: OfficeOpenXml.VBA.ExcelVbaSignature.AgileSignature
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBASignature.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AgileSignature
+    path: ../src/EPPlus/Vba/ExcelVBASignature.cs
+    startLine: 126
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nSettings for the agile vba signing. \nThe agile signature adds a hash that is calculated for user forms data in the vba project (designer streams). \n"
+  example: []
+  syntax:
+    content: public ExcelSignatureVersion AgileSignature { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Vba.Signatures.ExcelSignatureVersion
+    content.vb: Public Property AgileSignature As ExcelSignatureVersion
+  overload: OfficeOpenXml.VBA.ExcelVbaSignature.AgileSignature*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.VBA.ExcelVbaSignature.V3Signature
+  commentId: P:OfficeOpenXml.VBA.ExcelVbaSignature.V3Signature
+  id: V3Signature
+  parent: OfficeOpenXml.VBA.ExcelVbaSignature
+  langs:
+  - csharp
+  - vb
+  name: V3Signature
+  nameWithType: ExcelVbaSignature.V3Signature
+  fullName: OfficeOpenXml.VBA.ExcelVbaSignature.V3Signature
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVBASignature.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: V3Signature
+    path: ../src/EPPlus/Vba/ExcelVBASignature.cs
+    startLine: 131
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nSettings for the V3 vba signing.\nThe V3 signature includes more coverage for data in the dir and project stream in the hash, not covered by the legacy and agile signatures.\n"
+  example: []
+  syntax:
+    content: public ExcelSignatureVersion V3Signature { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Vba.Signatures.ExcelSignatureVersion
+    content.vb: Public Property V3Signature As ExcelSignatureVersion
+  overload: OfficeOpenXml.VBA.ExcelVbaSignature.V3Signature*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.VBA
+  commentId: N:OfficeOpenXml.VBA
+  name: OfficeOpenXml.VBA
+  nameWithType: OfficeOpenXml.VBA
+  fullName: OfficeOpenXml.VBA
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.VBA.ExcelVbaSignature.Certificate*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaSignature.Certificate
+  name: Certificate
+  nameWithType: ExcelVbaSignature.Certificate
+  fullName: OfficeOpenXml.VBA.ExcelVbaSignature.Certificate
+- uid: System.Security.Cryptography.X509Certificates.X509Certificate2
+  commentId: T:System.Security.Cryptography.X509Certificates.X509Certificate2
+  parent: System.Security.Cryptography.X509Certificates
+  isExternal: true
+  name: X509Certificate2
+  nameWithType: X509Certificate2
+  fullName: System.Security.Cryptography.X509Certificates.X509Certificate2
+- uid: System.Security.Cryptography.X509Certificates
+  commentId: N:System.Security.Cryptography.X509Certificates
+  isExternal: true
+  name: System.Security.Cryptography.X509Certificates
+  nameWithType: System.Security.Cryptography.X509Certificates
+  fullName: System.Security.Cryptography.X509Certificates
+- uid: OfficeOpenXml.VBA.ExcelVbaSignature.Verifier*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaSignature.Verifier
+  name: Verifier
+  nameWithType: ExcelVbaSignature.Verifier
+  fullName: OfficeOpenXml.VBA.ExcelVbaSignature.Verifier
+- uid: System.Security.Cryptography.Pkcs.SignedCms
+  commentId: T:System.Security.Cryptography.Pkcs.SignedCms
+  parent: System.Security.Cryptography.Pkcs
+  isExternal: true
+  name: SignedCms
+  nameWithType: SignedCms
+  fullName: System.Security.Cryptography.Pkcs.SignedCms
+- uid: System.Security.Cryptography.Pkcs
+  commentId: N:System.Security.Cryptography.Pkcs
+  isExternal: true
+  name: System.Security.Cryptography.Pkcs
+  nameWithType: System.Security.Cryptography.Pkcs
+  fullName: System.Security.Cryptography.Pkcs
+- uid: OfficeOpenXml.VBA.ExcelVbaSignature.LegacySignature*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaSignature.LegacySignature
+  name: LegacySignature
+  nameWithType: ExcelVbaSignature.LegacySignature
+  fullName: OfficeOpenXml.VBA.ExcelVbaSignature.LegacySignature
+- uid: OfficeOpenXml.Vba.Signatures.ExcelSignatureVersion
+  commentId: T:OfficeOpenXml.Vba.Signatures.ExcelSignatureVersion
+  parent: OfficeOpenXml.Vba.Signatures
+  name: ExcelSignatureVersion
+  nameWithType: ExcelSignatureVersion
+  fullName: OfficeOpenXml.Vba.Signatures.ExcelSignatureVersion
+- uid: OfficeOpenXml.Vba.Signatures
+  commentId: N:OfficeOpenXml.Vba.Signatures
+  name: OfficeOpenXml.Vba.Signatures
+  nameWithType: OfficeOpenXml.Vba.Signatures
+  fullName: OfficeOpenXml.Vba.Signatures
+- uid: OfficeOpenXml.VBA.ExcelVbaSignature.AgileSignature*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaSignature.AgileSignature
+  name: AgileSignature
+  nameWithType: ExcelVbaSignature.AgileSignature
+  fullName: OfficeOpenXml.VBA.ExcelVbaSignature.AgileSignature
+- uid: OfficeOpenXml.VBA.ExcelVbaSignature.V3Signature*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaSignature.V3Signature
+  name: V3Signature
+  nameWithType: ExcelVbaSignature.V3Signature
+  fullName: OfficeOpenXml.VBA.ExcelVbaSignature.V3Signature

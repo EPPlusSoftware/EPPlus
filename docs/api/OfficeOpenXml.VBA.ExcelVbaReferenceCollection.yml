@@ -1,0 +1,1140 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceCollection
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaReferenceCollection
+  id: ExcelVbaReferenceCollection
+  parent: OfficeOpenXml.VBA
+  children:
+  - OfficeOpenXml.VBA.ExcelVbaReferenceCollection.Add(OfficeOpenXml.VBA.ExcelVbaReference)
+  langs:
+  - csharp
+  - vb
+  name: ExcelVbaReferenceCollection
+  nameWithType: ExcelVbaReferenceCollection
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaReferenceCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelVbaReferenceCollection
+    path: ../src/EPPlus/Vba/ExcelVbaReferenceCollection.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nA collection of the vba projects references\n"
+  example: []
+  syntax:
+    content: 'public class ExcelVbaReferenceCollection : ExcelVBACollectionBase<ExcelVbaReference>, IEnumerable<ExcelVbaReference>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelVbaReferenceCollection
+          Inherits ExcelVBACollectionBase(Of ExcelVbaReference)
+          Implements IEnumerable(Of ExcelVbaReference), IEnumerable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.VBA.ExcelVbaReference}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}._list
+  - OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.GetEnumerator
+  - OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.System#Collections#IEnumerable#GetEnumerator
+  - OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.Item(System.String)
+  - OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.Item(System.Int32)
+  - OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.Count
+  - OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.Exists(System.String)
+  - OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.Remove(OfficeOpenXml.VBA.ExcelVbaReference)
+  - OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.RemoveAt(System.Int32)
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceCollection.Add(OfficeOpenXml.VBA.ExcelVbaReference)
+  commentId: M:OfficeOpenXml.VBA.ExcelVbaReferenceCollection.Add(OfficeOpenXml.VBA.ExcelVbaReference)
+  id: Add(OfficeOpenXml.VBA.ExcelVbaReference)
+  parent: OfficeOpenXml.VBA.ExcelVbaReferenceCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(ExcelVbaReference)
+  nameWithType: ExcelVbaReferenceCollection.Add(ExcelVbaReference)
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceCollection.Add(OfficeOpenXml.VBA.ExcelVbaReference)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Vba/ExcelVbaReferenceCollection.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Vba/ExcelVbaReferenceCollection.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.VBA
+  summary: "\nAdds a new reference \n"
+  example: []
+  syntax:
+    content: public void Add(ExcelVbaReference Item)
+    parameters:
+    - id: Item
+      type: OfficeOpenXml.VBA.ExcelVbaReference
+      description: The reference object
+    content.vb: Public Sub Add(Item As ExcelVbaReference)
+  overload: OfficeOpenXml.VBA.ExcelVbaReferenceCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.VBA
+  commentId: N:OfficeOpenXml.VBA
+  name: OfficeOpenXml.VBA
+  nameWithType: OfficeOpenXml.VBA
+  fullName: OfficeOpenXml.VBA
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}
+  commentId: T:OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}
+  parent: OfficeOpenXml.VBA
+  definition: OfficeOpenXml.VBA.ExcelVBACollectionBase`1
+  name: ExcelVBACollectionBase<ExcelVbaReference>
+  nameWithType: ExcelVBACollectionBase<ExcelVbaReference>
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<OfficeOpenXml.VBA.ExcelVbaReference>
+  nameWithType.vb: ExcelVBACollectionBase(Of ExcelVbaReference)
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of OfficeOpenXml.VBA.ExcelVbaReference)
+  name.vb: ExcelVBACollectionBase(Of ExcelVbaReference)
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1
+    name: ExcelVBACollectionBase
+    nameWithType: ExcelVBACollectionBase
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.VBA.ExcelVbaReference
+    name: ExcelVbaReference
+    nameWithType: ExcelVbaReference
+    fullName: OfficeOpenXml.VBA.ExcelVbaReference
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1
+    name: ExcelVBACollectionBase
+    nameWithType: ExcelVBACollectionBase
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.VBA.ExcelVbaReference
+    name: ExcelVbaReference
+    nameWithType: ExcelVbaReference
+    fullName: OfficeOpenXml.VBA.ExcelVbaReference
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.VBA.ExcelVbaReference}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.VBA.ExcelVbaReference}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelVbaReference>
+  nameWithType: IEnumerable<ExcelVbaReference>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.VBA.ExcelVbaReference>
+  nameWithType.vb: IEnumerable(Of ExcelVbaReference)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.VBA.ExcelVbaReference)
+  name.vb: IEnumerable(Of ExcelVbaReference)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.VBA.ExcelVbaReference
+    name: ExcelVbaReference
+    nameWithType: ExcelVbaReference
+    fullName: OfficeOpenXml.VBA.ExcelVbaReference
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.VBA.ExcelVbaReference
+    name: ExcelVbaReference
+    nameWithType: ExcelVbaReference
+    fullName: OfficeOpenXml.VBA.ExcelVbaReference
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}._list
+  commentId: F:OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}._list
+  parent: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}
+  definition: OfficeOpenXml.VBA.ExcelVBACollectionBase`1._list
+  name: _list
+  nameWithType: ExcelVBACollectionBase<ExcelVbaReference>._list
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<OfficeOpenXml.VBA.ExcelVbaReference>._list
+  nameWithType.vb: ExcelVBACollectionBase(Of ExcelVbaReference)._list
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of OfficeOpenXml.VBA.ExcelVbaReference)._list
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.GetEnumerator
+  commentId: M:OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.GetEnumerator
+  parent: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}
+  definition: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: ExcelVBACollectionBase<ExcelVbaReference>.GetEnumerator()
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<OfficeOpenXml.VBA.ExcelVbaReference>.GetEnumerator()
+  nameWithType.vb: ExcelVBACollectionBase(Of ExcelVbaReference).GetEnumerator()
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of OfficeOpenXml.VBA.ExcelVbaReference).GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: ExcelVBACollectionBase<ExcelVbaReference>.GetEnumerator
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<OfficeOpenXml.VBA.ExcelVbaReference>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: ExcelVBACollectionBase(Of ExcelVbaReference).GetEnumerator
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of OfficeOpenXml.VBA.ExcelVbaReference).GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.System#Collections#IEnumerable#GetEnumerator
+  parent: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}
+  definition: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelVBACollectionBase<ExcelVbaReference>.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<OfficeOpenXml.VBA.ExcelVbaReference>.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType.vb: ExcelVBACollectionBase(Of ExcelVbaReference).System.Collections.IEnumerable.GetEnumerator()
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of OfficeOpenXml.VBA.ExcelVbaReference).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+    name: IEnumerable.GetEnumerator
+    nameWithType: ExcelVBACollectionBase<ExcelVbaReference>.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<OfficeOpenXml.VBA.ExcelVbaReference>.System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+    name: System.Collections.IEnumerable.GetEnumerator
+    nameWithType: ExcelVBACollectionBase(Of ExcelVbaReference).System.Collections.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of OfficeOpenXml.VBA.ExcelVbaReference).System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.Item(System.String)
+  commentId: P:OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.Item(System.String)
+  parent: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}
+  definition: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Item(System.String)
+  name: Item[String]
+  nameWithType: ExcelVBACollectionBase<ExcelVbaReference>.Item[String]
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<OfficeOpenXml.VBA.ExcelVbaReference>.Item[System.String]
+  nameWithType.vb: ExcelVBACollectionBase(Of ExcelVbaReference).Item(String)
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of OfficeOpenXml.VBA.ExcelVbaReference).Item(System.String)
+  name.vb: Item(String)
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Item(System.String)
+    name: Item
+    nameWithType: ExcelVBACollectionBase<ExcelVbaReference>.Item
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<OfficeOpenXml.VBA.ExcelVbaReference>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Item(System.String)
+    name: Item
+    nameWithType: ExcelVBACollectionBase(Of ExcelVbaReference).Item
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of OfficeOpenXml.VBA.ExcelVbaReference).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.Item(System.Int32)
+  commentId: P:OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.Item(System.Int32)
+  parent: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}
+  definition: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Item(System.Int32)
+  name: Item[Int32]
+  nameWithType: ExcelVBACollectionBase<ExcelVbaReference>.Item[Int32]
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<OfficeOpenXml.VBA.ExcelVbaReference>.Item[System.Int32]
+  nameWithType.vb: ExcelVBACollectionBase(Of ExcelVbaReference).Item(Int32)
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of OfficeOpenXml.VBA.ExcelVbaReference).Item(System.Int32)
+  name.vb: Item(Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Item(System.Int32)
+    name: Item
+    nameWithType: ExcelVBACollectionBase<ExcelVbaReference>.Item
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<OfficeOpenXml.VBA.ExcelVbaReference>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Item(System.Int32)
+    name: Item
+    nameWithType: ExcelVBACollectionBase(Of ExcelVbaReference).Item
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of OfficeOpenXml.VBA.ExcelVbaReference).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.Count
+  commentId: P:OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.Count
+  parent: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}
+  definition: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Count
+  name: Count
+  nameWithType: ExcelVBACollectionBase<ExcelVbaReference>.Count
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<OfficeOpenXml.VBA.ExcelVbaReference>.Count
+  nameWithType.vb: ExcelVBACollectionBase(Of ExcelVbaReference).Count
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of OfficeOpenXml.VBA.ExcelVbaReference).Count
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.Exists(System.String)
+  commentId: M:OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.Exists(System.String)
+  parent: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}
+  definition: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Exists(System.String)
+  name: Exists(String)
+  nameWithType: ExcelVBACollectionBase<ExcelVbaReference>.Exists(String)
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<OfficeOpenXml.VBA.ExcelVbaReference>.Exists(System.String)
+  nameWithType.vb: ExcelVBACollectionBase(Of ExcelVbaReference).Exists(String)
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of OfficeOpenXml.VBA.ExcelVbaReference).Exists(System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Exists(System.String)
+    name: Exists
+    nameWithType: ExcelVBACollectionBase<ExcelVbaReference>.Exists
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<OfficeOpenXml.VBA.ExcelVbaReference>.Exists
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Exists(System.String)
+    name: Exists
+    nameWithType: ExcelVBACollectionBase(Of ExcelVbaReference).Exists
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of OfficeOpenXml.VBA.ExcelVbaReference).Exists
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.Remove(OfficeOpenXml.VBA.ExcelVbaReference)
+  commentId: M:OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.Remove(OfficeOpenXml.VBA.ExcelVbaReference)
+  parent: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}
+  definition: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Remove(`0)
+  name: Remove(ExcelVbaReference)
+  nameWithType: ExcelVBACollectionBase<ExcelVbaReference>.Remove(ExcelVbaReference)
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<OfficeOpenXml.VBA.ExcelVbaReference>.Remove(OfficeOpenXml.VBA.ExcelVbaReference)
+  nameWithType.vb: ExcelVBACollectionBase(Of ExcelVbaReference).Remove(ExcelVbaReference)
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of OfficeOpenXml.VBA.ExcelVbaReference).Remove(OfficeOpenXml.VBA.ExcelVbaReference)
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Remove(`0)
+    name: Remove
+    nameWithType: ExcelVBACollectionBase<ExcelVbaReference>.Remove
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<OfficeOpenXml.VBA.ExcelVbaReference>.Remove
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.VBA.ExcelVbaReference
+    name: ExcelVbaReference
+    nameWithType: ExcelVbaReference
+    fullName: OfficeOpenXml.VBA.ExcelVbaReference
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Remove(`0)
+    name: Remove
+    nameWithType: ExcelVBACollectionBase(Of ExcelVbaReference).Remove
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of OfficeOpenXml.VBA.ExcelVbaReference).Remove
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.VBA.ExcelVbaReference
+    name: ExcelVbaReference
+    nameWithType: ExcelVbaReference
+    fullName: OfficeOpenXml.VBA.ExcelVbaReference
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.RemoveAt(System.Int32)
+  commentId: M:OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}.RemoveAt(System.Int32)
+  parent: OfficeOpenXml.VBA.ExcelVBACollectionBase{OfficeOpenXml.VBA.ExcelVbaReference}
+  definition: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.RemoveAt(System.Int32)
+  name: RemoveAt(Int32)
+  nameWithType: ExcelVBACollectionBase<ExcelVbaReference>.RemoveAt(Int32)
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<OfficeOpenXml.VBA.ExcelVbaReference>.RemoveAt(System.Int32)
+  nameWithType.vb: ExcelVBACollectionBase(Of ExcelVbaReference).RemoveAt(Int32)
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of OfficeOpenXml.VBA.ExcelVbaReference).RemoveAt(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.RemoveAt(System.Int32)
+    name: RemoveAt
+    nameWithType: ExcelVBACollectionBase<ExcelVbaReference>.RemoveAt
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<OfficeOpenXml.VBA.ExcelVbaReference>.RemoveAt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.RemoveAt(System.Int32)
+    name: RemoveAt
+    nameWithType: ExcelVBACollectionBase(Of ExcelVbaReference).RemoveAt
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of OfficeOpenXml.VBA.ExcelVbaReference).RemoveAt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1
+  commentId: T:OfficeOpenXml.VBA.ExcelVBACollectionBase`1
+  name: ExcelVBACollectionBase<T>
+  nameWithType: ExcelVBACollectionBase<T>
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>
+  nameWithType.vb: ExcelVBACollectionBase(Of T)
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T)
+  name.vb: ExcelVBACollectionBase(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1
+    name: ExcelVBACollectionBase
+    nameWithType: ExcelVBACollectionBase
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1
+    name: ExcelVBACollectionBase
+    nameWithType: ExcelVBACollectionBase
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1._list
+  commentId: F:OfficeOpenXml.VBA.ExcelVBACollectionBase`1._list
+  name: _list
+  nameWithType: ExcelVBACollectionBase<T>._list
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>._list
+  nameWithType.vb: ExcelVBACollectionBase(Of T)._list
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T)._list
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.GetEnumerator
+  commentId: M:OfficeOpenXml.VBA.ExcelVBACollectionBase`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: ExcelVBACollectionBase<T>.GetEnumerator()
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>.GetEnumerator()
+  nameWithType.vb: ExcelVBACollectionBase(Of T).GetEnumerator()
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: ExcelVBACollectionBase<T>.GetEnumerator
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: ExcelVBACollectionBase(Of T).GetEnumerator
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T).GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.VBA.ExcelVBACollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelVBACollectionBase<T>.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType.vb: ExcelVBACollectionBase(Of T).System.Collections.IEnumerable.GetEnumerator()
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+    name: IEnumerable.GetEnumerator
+    nameWithType: ExcelVBACollectionBase<T>.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>.System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.System#Collections#IEnumerable#GetEnumerator
+    name: System.Collections.IEnumerable.GetEnumerator
+    nameWithType: ExcelVBACollectionBase(Of T).System.Collections.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T).System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Item(System.String)
+  commentId: P:OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Item(System.String)
+  isExternal: true
+  name: Item[String]
+  nameWithType: ExcelVBACollectionBase<T>.Item[String]
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>.Item[System.String]
+  nameWithType.vb: ExcelVBACollectionBase(Of T).Item(String)
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T).Item(System.String)
+  name.vb: Item(String)
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Item(System.String)
+    name: Item
+    nameWithType: ExcelVBACollectionBase<T>.Item
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Item(System.String)
+    name: Item
+    nameWithType: ExcelVBACollectionBase(Of T).Item
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Item(System.Int32)
+  commentId: P:OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Item(System.Int32)
+  isExternal: true
+  name: Item[Int32]
+  nameWithType: ExcelVBACollectionBase<T>.Item[Int32]
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>.Item[System.Int32]
+  nameWithType.vb: ExcelVBACollectionBase(Of T).Item(Int32)
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T).Item(System.Int32)
+  name.vb: Item(Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Item(System.Int32)
+    name: Item
+    nameWithType: ExcelVBACollectionBase<T>.Item
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Item(System.Int32)
+    name: Item
+    nameWithType: ExcelVBACollectionBase(Of T).Item
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Count
+  commentId: P:OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Count
+  name: Count
+  nameWithType: ExcelVBACollectionBase<T>.Count
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>.Count
+  nameWithType.vb: ExcelVBACollectionBase(Of T).Count
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T).Count
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Exists(System.String)
+  commentId: M:OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Exists(System.String)
+  isExternal: true
+  name: Exists(String)
+  nameWithType: ExcelVBACollectionBase<T>.Exists(String)
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>.Exists(System.String)
+  nameWithType.vb: ExcelVBACollectionBase(Of T).Exists(String)
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T).Exists(System.String)
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Exists(System.String)
+    name: Exists
+    nameWithType: ExcelVBACollectionBase<T>.Exists
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>.Exists
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Exists(System.String)
+    name: Exists
+    nameWithType: ExcelVBACollectionBase(Of T).Exists
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T).Exists
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Remove(`0)
+  commentId: M:OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Remove(`0)
+  name: Remove(T)
+  nameWithType: ExcelVBACollectionBase<T>.Remove(T)
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>.Remove(T)
+  nameWithType.vb: ExcelVBACollectionBase(Of T).Remove(T)
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T).Remove(T)
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Remove(`0)
+    name: Remove
+    nameWithType: ExcelVBACollectionBase<T>.Remove
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>.Remove
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.Remove(`0)
+    name: Remove
+    nameWithType: ExcelVBACollectionBase(Of T).Remove
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T).Remove
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.RemoveAt(System.Int32)
+  commentId: M:OfficeOpenXml.VBA.ExcelVBACollectionBase`1.RemoveAt(System.Int32)
+  isExternal: true
+  name: RemoveAt(Int32)
+  nameWithType: ExcelVBACollectionBase<T>.RemoveAt(Int32)
+  fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>.RemoveAt(System.Int32)
+  nameWithType.vb: ExcelVBACollectionBase(Of T).RemoveAt(Int32)
+  fullName.vb: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T).RemoveAt(System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.RemoveAt(System.Int32)
+    name: RemoveAt
+    nameWithType: ExcelVBACollectionBase<T>.RemoveAt
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase<T>.RemoveAt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.VBA.ExcelVBACollectionBase`1.RemoveAt(System.Int32)
+    name: RemoveAt
+    nameWithType: ExcelVBACollectionBase(Of T).RemoveAt
+    fullName: OfficeOpenXml.VBA.ExcelVBACollectionBase(Of T).RemoveAt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.VBA.ExcelVbaReferenceCollection.Add*
+  commentId: Overload:OfficeOpenXml.VBA.ExcelVbaReferenceCollection.Add
+  name: Add
+  nameWithType: ExcelVbaReferenceCollection.Add
+  fullName: OfficeOpenXml.VBA.ExcelVbaReferenceCollection.Add
+- uid: OfficeOpenXml.VBA.ExcelVbaReference
+  commentId: T:OfficeOpenXml.VBA.ExcelVbaReference
+  parent: OfficeOpenXml.VBA
+  name: ExcelVbaReference
+  nameWithType: ExcelVbaReference
+  fullName: OfficeOpenXml.VBA.ExcelVbaReference

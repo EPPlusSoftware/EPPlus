@@ -1,0 +1,494 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExParetoLine
+  commentId: T:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExParetoLine
+  id: ExcelChartExParetoLine
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx
+  children:
+  - OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExParetoLine.Effect
+  langs:
+  - csharp
+  - vb
+  name: ExcelChartExParetoLine
+  nameWithType: ExcelChartExParetoLine
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExParetoLine
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExParetoLine.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelChartExParetoLine
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExParetoLine.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nA pareto line for a histogram chart\n"
+  example: []
+  syntax:
+    content: 'public class ExcelChartExParetoLine : ExcelDrawingBorder'
+    content.vb: >-
+      Public Class ExcelChartExParetoLine
+          Inherits ExcelDrawingBorder
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Drawing.ExcelDrawingBorder
+  inheritedMembers:
+  - OfficeOpenXml.Drawing.ExcelDrawingBorder.Fill
+  - OfficeOpenXml.Drawing.ExcelDrawingBorder.LineStyle
+  - OfficeOpenXml.Drawing.ExcelDrawingBorder.CompoundLineStyle
+  - OfficeOpenXml.Drawing.ExcelDrawingBorder.Alignment
+  - OfficeOpenXml.Drawing.ExcelDrawingBorder.LineCap
+  - OfficeOpenXml.Drawing.ExcelDrawingBorder.Width
+  - OfficeOpenXml.Drawing.ExcelDrawingBorder.Join
+  - OfficeOpenXml.Drawing.ExcelDrawingBorder.MiterJoinLimit
+  - OfficeOpenXml.Drawing.ExcelDrawingBorder.HeadEnd
+  - OfficeOpenXml.Drawing.ExcelDrawingBorder.TailEnd
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExParetoLine.Effect
+  commentId: P:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExParetoLine.Effect
+  id: Effect
+  parent: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExParetoLine
+  langs:
+  - csharp
+  - vb
+  name: Effect
+  nameWithType: ExcelChartExParetoLine.Effect
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExParetoLine.Effect
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExParetoLine.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Effect
+    path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExParetoLine.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart.ChartEx
+  summary: "\nEffects\n"
+  example: []
+  syntax:
+    content: public ExcelDrawingEffectStyle Effect { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+    content.vb: Public ReadOnly Property Effect As ExcelDrawingEffectStyle
+  overload: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExParetoLine.Effect*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+references:
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx
+  commentId: N:OfficeOpenXml.Drawing.Chart.ChartEx
+  name: OfficeOpenXml.Drawing.Chart.ChartEx
+  nameWithType: OfficeOpenXml.Drawing.Chart.ChartEx
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Drawing.ExcelDrawingBorder
+  commentId: T:OfficeOpenXml.Drawing.ExcelDrawingBorder
+  parent: OfficeOpenXml.Drawing
+  name: ExcelDrawingBorder
+  nameWithType: ExcelDrawingBorder
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingBorder
+- uid: OfficeOpenXml.Drawing.ExcelDrawingBorder.Fill
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingBorder.Fill
+  parent: OfficeOpenXml.Drawing.ExcelDrawingBorder
+  name: Fill
+  nameWithType: ExcelDrawingBorder.Fill
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingBorder.Fill
+- uid: OfficeOpenXml.Drawing.ExcelDrawingBorder.LineStyle
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingBorder.LineStyle
+  parent: OfficeOpenXml.Drawing.ExcelDrawingBorder
+  name: LineStyle
+  nameWithType: ExcelDrawingBorder.LineStyle
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingBorder.LineStyle
+- uid: OfficeOpenXml.Drawing.ExcelDrawingBorder.CompoundLineStyle
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingBorder.CompoundLineStyle
+  parent: OfficeOpenXml.Drawing.ExcelDrawingBorder
+  name: CompoundLineStyle
+  nameWithType: ExcelDrawingBorder.CompoundLineStyle
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingBorder.CompoundLineStyle
+- uid: OfficeOpenXml.Drawing.ExcelDrawingBorder.Alignment
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingBorder.Alignment
+  parent: OfficeOpenXml.Drawing.ExcelDrawingBorder
+  name: Alignment
+  nameWithType: ExcelDrawingBorder.Alignment
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingBorder.Alignment
+- uid: OfficeOpenXml.Drawing.ExcelDrawingBorder.LineCap
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingBorder.LineCap
+  parent: OfficeOpenXml.Drawing.ExcelDrawingBorder
+  name: LineCap
+  nameWithType: ExcelDrawingBorder.LineCap
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingBorder.LineCap
+- uid: OfficeOpenXml.Drawing.ExcelDrawingBorder.Width
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingBorder.Width
+  parent: OfficeOpenXml.Drawing.ExcelDrawingBorder
+  name: Width
+  nameWithType: ExcelDrawingBorder.Width
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingBorder.Width
+- uid: OfficeOpenXml.Drawing.ExcelDrawingBorder.Join
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingBorder.Join
+  parent: OfficeOpenXml.Drawing.ExcelDrawingBorder
+  name: Join
+  nameWithType: ExcelDrawingBorder.Join
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingBorder.Join
+- uid: OfficeOpenXml.Drawing.ExcelDrawingBorder.MiterJoinLimit
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingBorder.MiterJoinLimit
+  parent: OfficeOpenXml.Drawing.ExcelDrawingBorder
+  name: MiterJoinLimit
+  nameWithType: ExcelDrawingBorder.MiterJoinLimit
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingBorder.MiterJoinLimit
+- uid: OfficeOpenXml.Drawing.ExcelDrawingBorder.HeadEnd
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingBorder.HeadEnd
+  parent: OfficeOpenXml.Drawing.ExcelDrawingBorder
+  name: HeadEnd
+  nameWithType: ExcelDrawingBorder.HeadEnd
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingBorder.HeadEnd
+- uid: OfficeOpenXml.Drawing.ExcelDrawingBorder.TailEnd
+  commentId: P:OfficeOpenXml.Drawing.ExcelDrawingBorder.TailEnd
+  parent: OfficeOpenXml.Drawing.ExcelDrawingBorder
+  name: TailEnd
+  nameWithType: ExcelDrawingBorder.TailEnd
+  fullName: OfficeOpenXml.Drawing.ExcelDrawingBorder.TailEnd
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExParetoLine.Effect*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExParetoLine.Effect
+  name: Effect
+  nameWithType: ExcelChartExParetoLine.Effect
+  fullName: OfficeOpenXml.Drawing.Chart.ChartEx.ExcelChartExParetoLine.Effect
+- uid: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  commentId: T:OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+  parent: OfficeOpenXml.Drawing.Style.Effect
+  name: ExcelDrawingEffectStyle
+  nameWithType: ExcelDrawingEffectStyle
+  fullName: OfficeOpenXml.Drawing.Style.Effect.ExcelDrawingEffectStyle
+- uid: OfficeOpenXml.Drawing.Style.Effect
+  commentId: N:OfficeOpenXml.Drawing.Style.Effect
+  name: OfficeOpenXml.Drawing.Style.Effect
+  nameWithType: OfficeOpenXml.Drawing.Style.Effect
+  fullName: OfficeOpenXml.Drawing.Style.Effect

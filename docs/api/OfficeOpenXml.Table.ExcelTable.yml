@@ -1,0 +1,4116 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.ExcelTable
+  commentId: T:OfficeOpenXml.Table.ExcelTable
+  id: ExcelTable
+  parent: OfficeOpenXml.Table
+  children:
+  - OfficeOpenXml.Table.ExcelTable.Address
+  - OfficeOpenXml.Table.ExcelTable.AddRow(System.Int32)
+  - OfficeOpenXml.Table.ExcelTable.AutoFilter
+  - OfficeOpenXml.Table.ExcelTable.Columns
+  - OfficeOpenXml.Table.ExcelTable.CreateHtmlExporter
+  - OfficeOpenXml.Table.ExcelTable.DataCellStyleName
+  - OfficeOpenXml.Table.ExcelTable.DeleteRow(System.Int32,System.Int32)
+  - OfficeOpenXml.Table.ExcelTable.Equals(OfficeOpenXml.Table.ExcelTable,OfficeOpenXml.Table.ExcelTable)
+  - OfficeOpenXml.Table.ExcelTable.GetHashCode(OfficeOpenXml.Table.ExcelTable)
+  - OfficeOpenXml.Table.ExcelTable.HeaderRowBorderStyle
+  - OfficeOpenXml.Table.ExcelTable.HeaderRowCellStyle
+  - OfficeOpenXml.Table.ExcelTable.InsertRow(System.Int32,System.Int32,System.Boolean)
+  - OfficeOpenXml.Table.ExcelTable.Name
+  - OfficeOpenXml.Table.ExcelTable.Range
+  - OfficeOpenXml.Table.ExcelTable.SaveToJson(System.IO.Stream)
+  - OfficeOpenXml.Table.ExcelTable.SaveToJson(System.IO.Stream,System.Action{OfficeOpenXml.JsonTableExportSettings})
+  - OfficeOpenXml.Table.ExcelTable.SaveToJsonAsync(System.IO.Stream)
+  - OfficeOpenXml.Table.ExcelTable.SaveToJsonAsync(System.IO.Stream,System.Action{OfficeOpenXml.JsonTableExportSettings})
+  - OfficeOpenXml.Table.ExcelTable.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+  - OfficeOpenXml.Table.ExcelTable.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+  - OfficeOpenXml.Table.ExcelTable.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+  - OfficeOpenXml.Table.ExcelTable.SaveToTextAsync(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+  - OfficeOpenXml.Table.ExcelTable.ShowColumnStripes
+  - OfficeOpenXml.Table.ExcelTable.ShowFilter
+  - OfficeOpenXml.Table.ExcelTable.ShowFirstColumn
+  - OfficeOpenXml.Table.ExcelTable.ShowHeader
+  - OfficeOpenXml.Table.ExcelTable.ShowLastColumn
+  - OfficeOpenXml.Table.ExcelTable.ShowRowStripes
+  - OfficeOpenXml.Table.ExcelTable.ShowTotal
+  - OfficeOpenXml.Table.ExcelTable.Sort(OfficeOpenXml.Sorting.TableSortOptions)
+  - OfficeOpenXml.Table.ExcelTable.Sort(System.Action{OfficeOpenXml.Sorting.TableSortOptions})
+  - OfficeOpenXml.Table.ExcelTable.SortState
+  - OfficeOpenXml.Table.ExcelTable.StyleName
+  - OfficeOpenXml.Table.ExcelTable.TableBorderStyle
+  - OfficeOpenXml.Table.ExcelTable.TableStyle
+  - OfficeOpenXml.Table.ExcelTable.TableUri
+  - OfficeOpenXml.Table.ExcelTable.TableXml
+  - OfficeOpenXml.Table.ExcelTable.ToCollection``1
+  - OfficeOpenXml.Table.ExcelTable.ToCollection``1(OfficeOpenXml.ToCollectionTableOptions)
+  - OfficeOpenXml.Table.ExcelTable.ToCollection``1(System.Action{OfficeOpenXml.ToCollectionTableOptions})
+  - OfficeOpenXml.Table.ExcelTable.ToCollection``1(System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,``0})
+  - OfficeOpenXml.Table.ExcelTable.ToCollectionWithMappings``1(System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,``0},OfficeOpenXml.ToCollectionTableOptions)
+  - OfficeOpenXml.Table.ExcelTable.ToCollectionWithMappings``1(System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,``0},System.Action{OfficeOpenXml.ToCollectionTableOptions})
+  - OfficeOpenXml.Table.ExcelTable.ToDataTable
+  - OfficeOpenXml.Table.ExcelTable.ToDataTable(OfficeOpenXml.Export.ToDataTable.ToDataTableOptions)
+  - OfficeOpenXml.Table.ExcelTable.ToDataTable(System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions})
+  - OfficeOpenXml.Table.ExcelTable.ToJson
+  - OfficeOpenXml.Table.ExcelTable.ToJson(System.Action{OfficeOpenXml.JsonTableExportSettings})
+  - OfficeOpenXml.Table.ExcelTable.TotalsRowCellStyle
+  - OfficeOpenXml.Table.ExcelTable.ToText
+  - OfficeOpenXml.Table.ExcelTable.ToText(OfficeOpenXml.ExcelOutputTextFormat)
+  - OfficeOpenXml.Table.ExcelTable.ToTextAsync
+  - OfficeOpenXml.Table.ExcelTable.ToTextAsync(OfficeOpenXml.ExcelOutputTextFormat)
+  - OfficeOpenXml.Table.ExcelTable.WorkSheet
+  langs:
+  - csharp
+  - vb
+  name: ExcelTable
+  nameWithType: ExcelTable
+  fullName: OfficeOpenXml.Table.ExcelTable
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelTable
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nAn Excel Table\n"
+  example: []
+  syntax:
+    content: 'public class ExcelTable : ExcelTableDxfBase, IEqualityComparer<ExcelTable>'
+    content.vb: >-
+      Public Class ExcelTable
+          Inherits ExcelTableDxfBase
+          Implements IEqualityComparer(Of ExcelTable)
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Table.ExcelTableDxfBase
+  implements:
+  - System.Collections.Generic.IEqualityComparer{OfficeOpenXml.Table.ExcelTable}
+  inheritedMembers:
+  - OfficeOpenXml.Table.ExcelTableDxfBase.HeaderRowStyle
+  - OfficeOpenXml.Table.ExcelTableDxfBase.DataStyle
+  - OfficeOpenXml.Table.ExcelTableDxfBase.TotalsRowStyle
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.ExcelTable.TableXml
+  commentId: P:OfficeOpenXml.Table.ExcelTable.TableXml
+  id: TableXml
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: TableXml
+  nameWithType: ExcelTable.TableXml
+  fullName: OfficeOpenXml.Table.ExcelTable.TableXml
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableXml
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 137
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nProvides access to the XML data representing the table in the package.\n"
+  example: []
+  syntax:
+    content: public XmlDocument TableXml { get; set; }
+    parameters: []
+    return:
+      type: System.Xml.XmlDocument
+    content.vb: Public Property TableXml As XmlDocument
+  overload: OfficeOpenXml.Table.ExcelTable.TableXml*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.TableUri
+  commentId: P:OfficeOpenXml.Table.ExcelTable.TableUri
+  id: TableUri
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: TableUri
+  nameWithType: ExcelTable.TableUri
+  fullName: OfficeOpenXml.Table.ExcelTable.TableUri
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableUri
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 145
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nThe package internal URI to the Table Xml Document.\n"
+  example: []
+  syntax:
+    content: public Uri TableUri { get; }
+    parameters: []
+    return:
+      type: System.Uri
+    content.vb: Public ReadOnly Property TableUri As Uri
+  overload: OfficeOpenXml.Table.ExcelTable.TableUri*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.ExcelTable.Name
+  commentId: P:OfficeOpenXml.Table.ExcelTable.Name
+  id: Name
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ExcelTable.Name
+  fullName: OfficeOpenXml.Table.ExcelTable.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 172
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nThe name of the table object in Excel\n"
+  example: []
+  syntax:
+    content: public string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: OfficeOpenXml.Table.ExcelTable.Name*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.WorkSheet
+  commentId: P:OfficeOpenXml.Table.ExcelTable.WorkSheet
+  id: WorkSheet
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: WorkSheet
+  nameWithType: ExcelTable.WorkSheet
+  fullName: OfficeOpenXml.Table.ExcelTable.WorkSheet
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WorkSheet
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 213
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nThe worksheet of the table\n"
+  example: []
+  syntax:
+    content: public ExcelWorksheet WorkSheet { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelWorksheet
+    content.vb: Public Property WorkSheet As ExcelWorksheet
+  overload: OfficeOpenXml.Table.ExcelTable.WorkSheet*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.Address
+  commentId: P:OfficeOpenXml.Table.ExcelTable.Address
+  id: Address
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: Address
+  nameWithType: ExcelTable.Address
+  fullName: OfficeOpenXml.Table.ExcelTable.Address
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Address
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 223
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nThe address of the table\n"
+  example: []
+  syntax:
+    content: public ExcelAddressBase Address { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelAddressBase
+    content.vb: Public ReadOnly Property Address As ExcelAddressBase
+  overload: OfficeOpenXml.Table.ExcelTable.Address*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.ExcelTable.Range
+  commentId: P:OfficeOpenXml.Table.ExcelTable.Range
+  id: Range
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: Range
+  nameWithType: ExcelTable.Range
+  fullName: OfficeOpenXml.Table.ExcelTable.Range
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Range
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 242
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nThe table range\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase Range { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+    content.vb: Public ReadOnly Property Range As ExcelRangeBase
+  overload: OfficeOpenXml.Table.ExcelTable.Range*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.ExcelTable.ToText
+  commentId: M:OfficeOpenXml.Table.ExcelTable.ToText
+  id: ToText
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ToText()
+  nameWithType: ExcelTable.ToText()
+  fullName: OfficeOpenXml.Table.ExcelTable.ToText()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToText
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 267
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nConverts the table range to CSV format\n"
+  example: []
+  syntax:
+    content: public string ToText()
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Function ToText As String
+  overload: OfficeOpenXml.Table.ExcelTable.ToText*
+  seealso:
+  - linkId: OfficeOpenXml.ExcelRangeBase.ToText
+    commentId: M:OfficeOpenXml.ExcelRangeBase.ToText
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.CreateHtmlExporter
+  commentId: M:OfficeOpenXml.Table.ExcelTable.CreateHtmlExporter
+  id: CreateHtmlExporter
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: CreateHtmlExporter()
+  nameWithType: ExcelTable.CreateHtmlExporter()
+  fullName: OfficeOpenXml.Table.ExcelTable.CreateHtmlExporter()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateHtmlExporter
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 275
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nCreates an <xref href=\"OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter\" data-throw-if-not-resolved=\"false\"></xref> object to export the table to HTML\n"
+  example: []
+  syntax:
+    content: public IExcelHtmlTableExporter CreateHtmlExporter()
+    return:
+      type: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+      description: The exporter object
+    content.vb: Public Function CreateHtmlExporter As IExcelHtmlTableExporter
+  overload: OfficeOpenXml.Table.ExcelTable.CreateHtmlExporter*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.ToText(OfficeOpenXml.ExcelOutputTextFormat)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.ToText(OfficeOpenXml.ExcelOutputTextFormat)
+  id: ToText(OfficeOpenXml.ExcelOutputTextFormat)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ToText(ExcelOutputTextFormat)
+  nameWithType: ExcelTable.ToText(ExcelOutputTextFormat)
+  fullName: OfficeOpenXml.Table.ExcelTable.ToText(OfficeOpenXml.ExcelOutputTextFormat)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToText
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 286
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nConverts the table range to CSV format\n"
+  example: []
+  syntax:
+    content: public string ToText(ExcelOutputTextFormat format)
+    parameters:
+    - id: format
+      type: OfficeOpenXml.ExcelOutputTextFormat
+      description: Parameters/options for conversion to text
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Function ToText(format As ExcelOutputTextFormat) As String
+  overload: OfficeOpenXml.Table.ExcelTable.ToText*
+  seealso:
+  - linkId: OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormat)
+    commentId: M:OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormat)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.ToTextAsync
+  commentId: M:OfficeOpenXml.Table.ExcelTable.ToTextAsync
+  id: ToTextAsync
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ToTextAsync()
+  nameWithType: ExcelTable.ToTextAsync()
+  fullName: OfficeOpenXml.Table.ExcelTable.ToTextAsync()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToTextAsync
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 297
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nConverts the table range to CSV format\n"
+  example: []
+  syntax:
+    content: public Task<string> ToTextAsync()
+    return:
+      type: System.Threading.Tasks.Task{System.String}
+      description: ''
+    content.vb: Public Function ToTextAsync As Task(Of String)
+  overload: OfficeOpenXml.Table.ExcelTable.ToTextAsync*
+  seealso:
+  - linkId: OfficeOpenXml.ExcelRangeBase.ToTextAsync
+    commentId: M:OfficeOpenXml.ExcelRangeBase.ToTextAsync
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.ToTextAsync(OfficeOpenXml.ExcelOutputTextFormat)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.ToTextAsync(OfficeOpenXml.ExcelOutputTextFormat)
+  id: ToTextAsync(OfficeOpenXml.ExcelOutputTextFormat)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ToTextAsync(ExcelOutputTextFormat)
+  nameWithType: ExcelTable.ToTextAsync(ExcelOutputTextFormat)
+  fullName: OfficeOpenXml.Table.ExcelTable.ToTextAsync(OfficeOpenXml.ExcelOutputTextFormat)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToTextAsync
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 307
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nConverts the table range to CSV format\n"
+  example: []
+  syntax:
+    content: public Task<string> ToTextAsync(ExcelOutputTextFormat format)
+    parameters:
+    - id: format
+      type: OfficeOpenXml.ExcelOutputTextFormat
+    return:
+      type: System.Threading.Tasks.Task{System.String}
+      description: ''
+    content.vb: Public Function ToTextAsync(format As ExcelOutputTextFormat) As Task(Of String)
+  overload: OfficeOpenXml.Table.ExcelTable.ToTextAsync*
+  seealso:
+  - linkId: OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormat)
+    commentId: M:OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormat)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+  id: SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: SaveToText(FileInfo, ExcelOutputTextFormat)
+  nameWithType: ExcelTable.SaveToText(FileInfo, ExcelOutputTextFormat)
+  fullName: OfficeOpenXml.Table.ExcelTable.SaveToText(System.IO.FileInfo, OfficeOpenXml.ExcelOutputTextFormat)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveToText
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 319
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nExports the table to a file\n"
+  example: []
+  syntax:
+    content: public void SaveToText(FileInfo file, ExcelOutputTextFormat format)
+    parameters:
+    - id: file
+      type: System.IO.FileInfo
+      description: The export file
+    - id: format
+      type: OfficeOpenXml.ExcelOutputTextFormat
+      description: Export options
+    content.vb: Public Sub SaveToText(file As FileInfo, format As ExcelOutputTextFormat)
+  overload: OfficeOpenXml.Table.ExcelTable.SaveToText*
+  seealso:
+  - linkId: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+    commentId: M:OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+  id: SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: SaveToText(Stream, ExcelOutputTextFormat)
+  nameWithType: ExcelTable.SaveToText(Stream, ExcelOutputTextFormat)
+  fullName: OfficeOpenXml.Table.ExcelTable.SaveToText(System.IO.Stream, OfficeOpenXml.ExcelOutputTextFormat)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveToText
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 330
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nExports the table to a <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public void SaveToText(Stream stream, ExcelOutputTextFormat format)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: Data will be exported to this stream
+    - id: format
+      type: OfficeOpenXml.ExcelOutputTextFormat
+      description: Export options
+    content.vb: Public Sub SaveToText(stream As Stream, format As ExcelOutputTextFormat)
+  overload: OfficeOpenXml.Table.ExcelTable.SaveToText*
+  seealso:
+  - linkId: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+    commentId: M:OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.SaveToTextAsync(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.SaveToTextAsync(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+  id: SaveToTextAsync(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: SaveToTextAsync(Stream, ExcelOutputTextFormat)
+  nameWithType: ExcelTable.SaveToTextAsync(Stream, ExcelOutputTextFormat)
+  fullName: OfficeOpenXml.Table.ExcelTable.SaveToTextAsync(System.IO.Stream, OfficeOpenXml.ExcelOutputTextFormat)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveToTextAsync
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 341
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nExports the table to a <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public async Task SaveToTextAsync(Stream stream, ExcelOutputTextFormat format)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: Data will be exported to this stream
+    - id: format
+      type: OfficeOpenXml.ExcelOutputTextFormat
+      description: Export options
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function SaveToTextAsync(stream As Stream, format As ExcelOutputTextFormat) As Task
+  overload: OfficeOpenXml.Table.ExcelTable.SaveToTextAsync*
+  seealso:
+  - linkId: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+    commentId: M:OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+  id: SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: SaveToTextAsync(FileInfo, ExcelOutputTextFormat)
+  nameWithType: ExcelTable.SaveToTextAsync(FileInfo, ExcelOutputTextFormat)
+  fullName: OfficeOpenXml.Table.ExcelTable.SaveToTextAsync(System.IO.FileInfo, OfficeOpenXml.ExcelOutputTextFormat)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveToTextAsync
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 352
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nExports the table to a file\n"
+  example: []
+  syntax:
+    content: public async Task SaveToTextAsync(FileInfo file, ExcelOutputTextFormat format)
+    parameters:
+    - id: file
+      type: System.IO.FileInfo
+      description: Data will be exported to this stream
+    - id: format
+      type: OfficeOpenXml.ExcelOutputTextFormat
+      description: Export options
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function SaveToTextAsync(file As FileInfo, format As ExcelOutputTextFormat) As Task
+  overload: OfficeOpenXml.Table.ExcelTable.SaveToTextAsync*
+  seealso:
+  - linkId: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+    commentId: M:OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.SaveToJsonAsync(System.IO.Stream)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.SaveToJsonAsync(System.IO.Stream)
+  id: SaveToJsonAsync(System.IO.Stream)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: SaveToJsonAsync(Stream)
+  nameWithType: ExcelTable.SaveToJsonAsync(Stream)
+  fullName: OfficeOpenXml.Table.ExcelTable.SaveToJsonAsync(System.IO.Stream)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveToJsonAsync
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 362
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nSave the table to json\n"
+  example: []
+  syntax:
+    content: public async Task SaveToJsonAsync(Stream stream)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream to save to.
+    return:
+      type: System.Threading.Tasks.Task
+      description: ''
+    content.vb: Public Function SaveToJsonAsync(stream As Stream) As Task
+  overload: OfficeOpenXml.Table.ExcelTable.SaveToJsonAsync*
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.SaveToJsonAsync(System.IO.Stream,System.Action{OfficeOpenXml.JsonTableExportSettings})
+  commentId: M:OfficeOpenXml.Table.ExcelTable.SaveToJsonAsync(System.IO.Stream,System.Action{OfficeOpenXml.JsonTableExportSettings})
+  id: SaveToJsonAsync(System.IO.Stream,System.Action{OfficeOpenXml.JsonTableExportSettings})
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: SaveToJsonAsync(Stream, Action<JsonTableExportSettings>)
+  nameWithType: ExcelTable.SaveToJsonAsync(Stream, Action<JsonTableExportSettings>)
+  fullName: OfficeOpenXml.Table.ExcelTable.SaveToJsonAsync(System.IO.Stream, System.Action<OfficeOpenXml.JsonTableExportSettings>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveToJsonAsync
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 373
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nSave the table to json\n"
+  example: []
+  syntax:
+    content: public async Task SaveToJsonAsync(Stream stream, Action<JsonTableExportSettings> settings)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream to save to.
+    - id: settings
+      type: System.Action{OfficeOpenXml.JsonTableExportSettings}
+      description: Settings for the json output.
+    return:
+      type: System.Threading.Tasks.Task
+      description: ''
+    content.vb: Public Function SaveToJsonAsync(stream As Stream, settings As Action(Of JsonTableExportSettings)) As Task
+  overload: OfficeOpenXml.Table.ExcelTable.SaveToJsonAsync*
+  nameWithType.vb: ExcelTable.SaveToJsonAsync(Stream, Action(Of JsonTableExportSettings))
+  modifiers.csharp:
+  - public
+  - async
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.ExcelTable.SaveToJsonAsync(System.IO.Stream, System.Action(Of OfficeOpenXml.JsonTableExportSettings))
+  name.vb: SaveToJsonAsync(Stream, Action(Of JsonTableExportSettings))
+- uid: OfficeOpenXml.Table.ExcelTable.ToDataTable
+  commentId: M:OfficeOpenXml.Table.ExcelTable.ToDataTable
+  id: ToDataTable
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ToDataTable()
+  nameWithType: ExcelTable.ToDataTable()
+  fullName: OfficeOpenXml.Table.ExcelTable.ToDataTable()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToDataTable
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 392
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nExports the table to a <xref href=\"System.Data.DataTable\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public DataTable ToDataTable()
+    return:
+      type: System.Data.DataTable
+      description: A <xref href="System.Data.DataTable" data-throw-if-not-resolved="false"></xref> containing the data in the table range
+    content.vb: Public Function ToDataTable As DataTable
+  overload: OfficeOpenXml.Table.ExcelTable.ToDataTable*
+  seealso:
+  - linkId: OfficeOpenXml.ExcelRangeBase.ToDataTable
+    commentId: M:OfficeOpenXml.ExcelRangeBase.ToDataTable
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.ToJson
+  commentId: M:OfficeOpenXml.Table.ExcelTable.ToJson
+  id: ToJson
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ToJson()
+  nameWithType: ExcelTable.ToJson()
+  fullName: OfficeOpenXml.Table.ExcelTable.ToJson()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToJson
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 400
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns the table as a JSON string\n"
+  example: []
+  syntax:
+    content: public string ToJson()
+    return:
+      type: System.String
+      description: A string containing the JSON document.
+    content.vb: Public Function ToJson As String
+  overload: OfficeOpenXml.Table.ExcelTable.ToJson*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.ToJson(System.Action{OfficeOpenXml.JsonTableExportSettings})
+  commentId: M:OfficeOpenXml.Table.ExcelTable.ToJson(System.Action{OfficeOpenXml.JsonTableExportSettings})
+  id: ToJson(System.Action{OfficeOpenXml.JsonTableExportSettings})
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ToJson(Action<JsonTableExportSettings>)
+  nameWithType: ExcelTable.ToJson(Action<JsonTableExportSettings>)
+  fullName: OfficeOpenXml.Table.ExcelTable.ToJson(System.Action<OfficeOpenXml.JsonTableExportSettings>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToJson
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 410
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns the table as a JSON string\n"
+  example: []
+  syntax:
+    content: public string ToJson(Action<JsonTableExportSettings> settings)
+    parameters:
+    - id: settings
+      type: System.Action{OfficeOpenXml.JsonTableExportSettings}
+      description: Settings to configure the JSON output
+    return:
+      type: System.String
+      description: A string containing the JSON document.
+    content.vb: Public Function ToJson(settings As Action(Of JsonTableExportSettings)) As String
+  overload: OfficeOpenXml.Table.ExcelTable.ToJson*
+  nameWithType.vb: ExcelTable.ToJson(Action(Of JsonTableExportSettings))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.ExcelTable.ToJson(System.Action(Of OfficeOpenXml.JsonTableExportSettings))
+  name.vb: ToJson(Action(Of JsonTableExportSettings))
+- uid: OfficeOpenXml.Table.ExcelTable.SaveToJson(System.IO.Stream)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.SaveToJson(System.IO.Stream)
+  id: SaveToJson(System.IO.Stream)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: SaveToJson(Stream)
+  nameWithType: ExcelTable.SaveToJson(Stream)
+  fullName: OfficeOpenXml.Table.ExcelTable.SaveToJson(System.IO.Stream)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveToJson
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 420
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nSaves the table as a JSON string to a string\n"
+  example: []
+  syntax:
+    content: public void SaveToJson(Stream stream)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream to write the JSON to.
+    content.vb: Public Sub SaveToJson(stream As Stream)
+  overload: OfficeOpenXml.Table.ExcelTable.SaveToJson*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.SaveToJson(System.IO.Stream,System.Action{OfficeOpenXml.JsonTableExportSettings})
+  commentId: M:OfficeOpenXml.Table.ExcelTable.SaveToJson(System.IO.Stream,System.Action{OfficeOpenXml.JsonTableExportSettings})
+  id: SaveToJson(System.IO.Stream,System.Action{OfficeOpenXml.JsonTableExportSettings})
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: SaveToJson(Stream, Action<JsonTableExportSettings>)
+  nameWithType: ExcelTable.SaveToJson(Stream, Action<JsonTableExportSettings>)
+  fullName: OfficeOpenXml.Table.ExcelTable.SaveToJson(System.IO.Stream, System.Action<OfficeOpenXml.JsonTableExportSettings>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SaveToJson
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 430
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nSaves the table as a JSON string to a string\n"
+  example: []
+  syntax:
+    content: public void SaveToJson(Stream stream, Action<JsonTableExportSettings> settings)
+    parameters:
+    - id: stream
+      type: System.IO.Stream
+      description: The stream to write the JSON to.
+    - id: settings
+      type: System.Action{OfficeOpenXml.JsonTableExportSettings}
+      description: Settings to configure the JSON output
+    content.vb: Public Sub SaveToJson(stream As Stream, settings As Action(Of JsonTableExportSettings))
+  overload: OfficeOpenXml.Table.ExcelTable.SaveToJson*
+  nameWithType.vb: ExcelTable.SaveToJson(Stream, Action(Of JsonTableExportSettings))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.ExcelTable.SaveToJson(System.IO.Stream, System.Action(Of OfficeOpenXml.JsonTableExportSettings))
+  name.vb: SaveToJson(Stream, Action(Of JsonTableExportSettings))
+- uid: OfficeOpenXml.Table.ExcelTable.ToDataTable(OfficeOpenXml.Export.ToDataTable.ToDataTableOptions)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.ToDataTable(OfficeOpenXml.Export.ToDataTable.ToDataTableOptions)
+  id: ToDataTable(OfficeOpenXml.Export.ToDataTable.ToDataTableOptions)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ToDataTable(ToDataTableOptions)
+  nameWithType: ExcelTable.ToDataTable(ToDataTableOptions)
+  fullName: OfficeOpenXml.Table.ExcelTable.ToDataTable(OfficeOpenXml.Export.ToDataTable.ToDataTableOptions)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToDataTable
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 457
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nExports the table to a <xref href=\"System.Data.DataTable\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public DataTable ToDataTable(ToDataTableOptions options)
+    parameters:
+    - id: options
+      type: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+    return:
+      type: System.Data.DataTable
+      description: A <xref href="System.Data.DataTable" data-throw-if-not-resolved="false"></xref> containing the data in the table range
+    content.vb: Public Function ToDataTable(options As ToDataTableOptions) As DataTable
+  overload: OfficeOpenXml.Table.ExcelTable.ToDataTable*
+  seealso:
+  - linkId: OfficeOpenXml.ExcelRangeBase.ToDataTable(OfficeOpenXml.Export.ToDataTable.ToDataTableOptions)
+    commentId: M:OfficeOpenXml.ExcelRangeBase.ToDataTable(OfficeOpenXml.Export.ToDataTable.ToDataTableOptions)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.ToDataTable(System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions})
+  commentId: M:OfficeOpenXml.Table.ExcelTable.ToDataTable(System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions})
+  id: ToDataTable(System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions})
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ToDataTable(Action<ToDataTableOptions>)
+  nameWithType: ExcelTable.ToDataTable(Action<ToDataTableOptions>)
+  fullName: OfficeOpenXml.Table.ExcelTable.ToDataTable(System.Action<OfficeOpenXml.Export.ToDataTable.ToDataTableOptions>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToDataTable
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 467
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nExports the table to a <xref href=\"System.Data.DataTable\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public DataTable ToDataTable(Action<ToDataTableOptions> configHandler)
+    parameters:
+    - id: configHandler
+      type: System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions}
+    return:
+      type: System.Data.DataTable
+      description: A <xref href="System.Data.DataTable" data-throw-if-not-resolved="false"></xref> containing the data in the table range
+    content.vb: Public Function ToDataTable(configHandler As Action(Of ToDataTableOptions)) As DataTable
+  overload: OfficeOpenXml.Table.ExcelTable.ToDataTable*
+  seealso:
+  - linkId: OfficeOpenXml.ExcelRangeBase.ToDataTable(System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions})
+    commentId: M:OfficeOpenXml.ExcelRangeBase.ToDataTable(System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions})
+  nameWithType.vb: ExcelTable.ToDataTable(Action(Of ToDataTableOptions))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.ExcelTable.ToDataTable(System.Action(Of OfficeOpenXml.Export.ToDataTable.ToDataTableOptions))
+  name.vb: ToDataTable(Action(Of ToDataTableOptions))
+- uid: OfficeOpenXml.Table.ExcelTable.ToCollection``1
+  commentId: M:OfficeOpenXml.Table.ExcelTable.ToCollection``1
+  id: ToCollection``1
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ToCollection<T>()
+  nameWithType: ExcelTable.ToCollection<T>()
+  fullName: OfficeOpenXml.Table.ExcelTable.ToCollection<T>()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToCollection
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 482
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns a collection of T for the tables data range. The total row is not included.\nThe table must have headers.\nHeaders will be mapped to properties using the name or the objects attributes without white spaces. \nThe attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.\n"
+  example: []
+  syntax:
+    content: public List<T> ToCollection<T>()
+    typeParameters:
+    - id: T
+      description: The type to map to
+    return:
+      type: System.Collections.Generic.List{{T}}
+      description: A list of T
+    content.vb: Public Function ToCollection(Of T) As List(Of T)
+  overload: OfficeOpenXml.Table.ExcelTable.ToCollection*
+  nameWithType.vb: ExcelTable.ToCollection(Of T)()
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.ExcelTable.ToCollection(Of T)()
+  name.vb: ToCollection(Of T)()
+- uid: OfficeOpenXml.Table.ExcelTable.ToCollection``1(System.Action{OfficeOpenXml.ToCollectionTableOptions})
+  commentId: M:OfficeOpenXml.Table.ExcelTable.ToCollection``1(System.Action{OfficeOpenXml.ToCollectionTableOptions})
+  id: ToCollection``1(System.Action{OfficeOpenXml.ToCollectionTableOptions})
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ToCollection<T>(Action<ToCollectionTableOptions>)
+  nameWithType: ExcelTable.ToCollection<T>(Action<ToCollectionTableOptions>)
+  fullName: OfficeOpenXml.Table.ExcelTable.ToCollection<T>(System.Action<OfficeOpenXml.ToCollectionTableOptions>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToCollection
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 499
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns a collection of T for the tables data range. The total row is not included.\nThe table must have headers.\nHeaders will be mapped to properties using the name or the property attributes without white spaces. \nThe attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.\n"
+  example: []
+  syntax:
+    content: public List<T> ToCollection<T>(Action<ToCollectionTableOptions> options)
+    parameters:
+    - id: options
+      type: System.Action{OfficeOpenXml.ToCollectionTableOptions}
+      description: Configures the settings for the function
+    typeParameters:
+    - id: T
+      description: The type to map to
+    return:
+      type: System.Collections.Generic.List{{T}}
+      description: A list of T
+    content.vb: Public Function ToCollection(Of T)(options As Action(Of ToCollectionTableOptions)) As List(Of T)
+  overload: OfficeOpenXml.Table.ExcelTable.ToCollection*
+  nameWithType.vb: ExcelTable.ToCollection(Of T)(Action(Of ToCollectionTableOptions))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.ExcelTable.ToCollection(Of T)(System.Action(Of OfficeOpenXml.ToCollectionTableOptions))
+  name.vb: ToCollection(Of T)(Action(Of ToCollectionTableOptions))
+- uid: OfficeOpenXml.Table.ExcelTable.ToCollection``1(OfficeOpenXml.ToCollectionTableOptions)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.ToCollection``1(OfficeOpenXml.ToCollectionTableOptions)
+  id: ToCollection``1(OfficeOpenXml.ToCollectionTableOptions)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ToCollection<T>(ToCollectionTableOptions)
+  nameWithType: ExcelTable.ToCollection<T>(ToCollectionTableOptions)
+  fullName: OfficeOpenXml.Table.ExcelTable.ToCollection<T>(OfficeOpenXml.ToCollectionTableOptions)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToCollection
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 514
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns a collection of T for the tables data range. The total row is not included.\nThe table must have headers.\nHeaders will be mapped to properties using the name or the property attributes without white spaces. \nThe attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.\n"
+  example: []
+  syntax:
+    content: public List<T> ToCollection<T>(ToCollectionTableOptions options)
+    parameters:
+    - id: options
+      type: OfficeOpenXml.ToCollectionTableOptions
+      description: Settings for the method
+    typeParameters:
+    - id: T
+      description: The type to map to
+    return:
+      type: System.Collections.Generic.List{{T}}
+      description: A list of T
+    content.vb: Public Function ToCollection(Of T)(options As ToCollectionTableOptions) As List(Of T)
+  overload: OfficeOpenXml.Table.ExcelTable.ToCollection*
+  nameWithType.vb: ExcelTable.ToCollection(Of T)(ToCollectionTableOptions)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.ExcelTable.ToCollection(Of T)(OfficeOpenXml.ToCollectionTableOptions)
+  name.vb: ToCollection(Of T)(ToCollectionTableOptions)
+- uid: OfficeOpenXml.Table.ExcelTable.ToCollection``1(System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,``0})
+  commentId: M:OfficeOpenXml.Table.ExcelTable.ToCollection``1(System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,``0})
+  id: ToCollection``1(System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,``0})
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ToCollection<T>(Func<ToCollectionRow, T>)
+  nameWithType: ExcelTable.ToCollection<T>(Func<ToCollectionRow, T>)
+  fullName: OfficeOpenXml.Table.ExcelTable.ToCollection<T>(System.Func<OfficeOpenXml.Export.ToCollection.ToCollectionRow, T>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToCollection
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 544
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns a collection of T for the table. \nIf the range contains multiple addresses the first range is used.\nThe the table must have headers.\nHeaders will be mapped to properties using the name or the attributes without white spaces. \nThe attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.\n"
+  example: []
+  syntax:
+    content: public List<T> ToCollection<T>(Func<ToCollectionRow, T> setRow)
+    parameters:
+    - id: setRow
+      type: System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,{T}}
+      description: The call back function to map each row to the item of type T.
+    typeParameters:
+    - id: T
+      description: The type to map to
+    return:
+      type: System.Collections.Generic.List{{T}}
+      description: A list of T
+    content.vb: Public Function ToCollection(Of T)(setRow As Func(Of ToCollectionRow, T)) As List(Of T)
+  overload: OfficeOpenXml.Table.ExcelTable.ToCollection*
+  nameWithType.vb: ExcelTable.ToCollection(Of T)(Func(Of ToCollectionRow, T))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.ExcelTable.ToCollection(Of T)(System.Func(Of OfficeOpenXml.Export.ToCollection.ToCollectionRow, T))
+  name.vb: ToCollection(Of T)(Func(Of ToCollectionRow, T))
+- uid: OfficeOpenXml.Table.ExcelTable.ToCollectionWithMappings``1(System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,``0},System.Action{OfficeOpenXml.ToCollectionTableOptions})
+  commentId: M:OfficeOpenXml.Table.ExcelTable.ToCollectionWithMappings``1(System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,``0},System.Action{OfficeOpenXml.ToCollectionTableOptions})
+  id: ToCollectionWithMappings``1(System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,``0},System.Action{OfficeOpenXml.ToCollectionTableOptions})
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ToCollectionWithMappings<T>(Func<ToCollectionRow, T>, Action<ToCollectionTableOptions>)
+  nameWithType: ExcelTable.ToCollectionWithMappings<T>(Func<ToCollectionRow, T>, Action<ToCollectionTableOptions>)
+  fullName: OfficeOpenXml.Table.ExcelTable.ToCollectionWithMappings<T>(System.Func<OfficeOpenXml.Export.ToCollection.ToCollectionRow, T>, System.Action<OfficeOpenXml.ToCollectionTableOptions>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToCollectionWithMappings
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 560
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns a collection of T for the table. \nIf the range contains multiple addresses the first range is used.\nThe the table must have headers.\nHeaders will be mapped to properties using the name or the attributes without white spaces. \nThe attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.\n"
+  example: []
+  syntax:
+    content: public List<T> ToCollectionWithMappings<T>(Func<ToCollectionRow, T> setRow, Action<ToCollectionTableOptions> options)
+    parameters:
+    - id: setRow
+      type: System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,{T}}
+      description: The call back function to map each row to the item of type T.
+    - id: options
+      type: System.Action{OfficeOpenXml.ToCollectionTableOptions}
+      description: Configures the settings for the function
+    typeParameters:
+    - id: T
+      description: The type to map to
+    return:
+      type: System.Collections.Generic.List{{T}}
+      description: A list of T
+    content.vb: Public Function ToCollectionWithMappings(Of T)(setRow As Func(Of ToCollectionRow, T), options As Action(Of ToCollectionTableOptions)) As List(Of T)
+  overload: OfficeOpenXml.Table.ExcelTable.ToCollectionWithMappings*
+  nameWithType.vb: ExcelTable.ToCollectionWithMappings(Of T)(Func(Of ToCollectionRow, T), Action(Of ToCollectionTableOptions))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.ExcelTable.ToCollectionWithMappings(Of T)(System.Func(Of OfficeOpenXml.Export.ToCollection.ToCollectionRow, T), System.Action(Of OfficeOpenXml.ToCollectionTableOptions))
+  name.vb: ToCollectionWithMappings(Of T)(Func(Of ToCollectionRow, T), Action(Of ToCollectionTableOptions))
+- uid: OfficeOpenXml.Table.ExcelTable.ToCollectionWithMappings``1(System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,``0},OfficeOpenXml.ToCollectionTableOptions)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.ToCollectionWithMappings``1(System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,``0},OfficeOpenXml.ToCollectionTableOptions)
+  id: ToCollectionWithMappings``1(System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,``0},OfficeOpenXml.ToCollectionTableOptions)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ToCollectionWithMappings<T>(Func<ToCollectionRow, T>, ToCollectionTableOptions)
+  nameWithType: ExcelTable.ToCollectionWithMappings<T>(Func<ToCollectionRow, T>, ToCollectionTableOptions)
+  fullName: OfficeOpenXml.Table.ExcelTable.ToCollectionWithMappings<T>(System.Func<OfficeOpenXml.Export.ToCollection.ToCollectionRow, T>, OfficeOpenXml.ToCollectionTableOptions)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ToCollectionWithMappings
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 578
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns a collection of T for the table. \nIf the range contains multiple addresses the first range is used.\nThe the table must have headers.\nHeaders will be mapped to properties using the name or the attributes without white spaces. \nThe attributes that can be used are: EpplusTableColumnAttributeBase.Header, DescriptionAttribute.Description or DisplayNameAttribute.Name.\n"
+  example: []
+  syntax:
+    content: public List<T> ToCollectionWithMappings<T>(Func<ToCollectionRow, T> setRow, ToCollectionTableOptions options)
+    parameters:
+    - id: setRow
+      type: System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,{T}}
+      description: The call back function to map each row to the item of type T.
+    - id: options
+      type: OfficeOpenXml.ToCollectionTableOptions
+      description: Configures the settings for the function
+    typeParameters:
+    - id: T
+      description: The type to map to
+    return:
+      type: System.Collections.Generic.List{{T}}
+      description: A list of T
+    content.vb: Public Function ToCollectionWithMappings(Of T)(setRow As Func(Of ToCollectionRow, T), options As ToCollectionTableOptions) As List(Of T)
+  overload: OfficeOpenXml.Table.ExcelTable.ToCollectionWithMappings*
+  nameWithType.vb: ExcelTable.ToCollectionWithMappings(Of T)(Func(Of ToCollectionRow, T), ToCollectionTableOptions)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.ExcelTable.ToCollectionWithMappings(Of T)(System.Func(Of OfficeOpenXml.Export.ToCollection.ToCollectionRow, T), OfficeOpenXml.ToCollectionTableOptions)
+  name.vb: ToCollectionWithMappings(Of T)(Func(Of ToCollectionRow, T), ToCollectionTableOptions)
+- uid: OfficeOpenXml.Table.ExcelTable.Columns
+  commentId: P:OfficeOpenXml.Table.ExcelTable.Columns
+  id: Columns
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: Columns
+  nameWithType: ExcelTable.Columns
+  fullName: OfficeOpenXml.Table.ExcelTable.Columns
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Columns
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 601
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nCollection of the columns in the table\n"
+  example: []
+  syntax:
+    content: public ExcelTableColumnCollection Columns { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.ExcelTableColumnCollection
+    content.vb: Public ReadOnly Property Columns As ExcelTableColumnCollection
+  overload: OfficeOpenXml.Table.ExcelTable.Columns*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.ExcelTable.TableStyle
+  commentId: P:OfficeOpenXml.Table.ExcelTable.TableStyle
+  id: TableStyle
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: TableStyle
+  nameWithType: ExcelTable.TableStyle
+  fullName: OfficeOpenXml.Table.ExcelTable.TableStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableStyle
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 616
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nThe table style. If this property is custom, the style from the StyleName propery is used.\n"
+  example: []
+  syntax:
+    content: public TableStyles TableStyle { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.TableStyles
+    content.vb: Public Property TableStyle As TableStyles
+  overload: OfficeOpenXml.Table.ExcelTable.TableStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.ShowHeader
+  commentId: P:OfficeOpenXml.Table.ExcelTable.ShowHeader
+  id: ShowHeader
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ShowHeader
+  nameWithType: ExcelTable.ShowHeader
+  fullName: OfficeOpenXml.Table.ExcelTable.ShowHeader
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowHeader
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 637
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nIf the header row is visible or not\n"
+  example: []
+  syntax:
+    content: public bool ShowHeader { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowHeader As Boolean
+  overload: OfficeOpenXml.Table.ExcelTable.ShowHeader*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.AutoFilter
+  commentId: P:OfficeOpenXml.Table.ExcelTable.AutoFilter
+  id: AutoFilter
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: AutoFilter
+  nameWithType: ExcelTable.AutoFilter
+  fullName: OfficeOpenXml.Table.ExcelTable.AutoFilter
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AutoFilter
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 700
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nAutofilter settings for the table\n"
+  example: []
+  syntax:
+    content: public ExcelAutoFilter AutoFilter { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Filter.ExcelAutoFilter
+    content.vb: Public ReadOnly Property AutoFilter As ExcelAutoFilter
+  overload: OfficeOpenXml.Table.ExcelTable.AutoFilter*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.ExcelTable.ShowFilter
+  commentId: P:OfficeOpenXml.Table.ExcelTable.ShowFilter
+  id: ShowFilter
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ShowFilter
+  nameWithType: ExcelTable.ShowFilter
+  fullName: OfficeOpenXml.Table.ExcelTable.ShowFilter
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowFilter
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 746
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nIf the header row has an autofilter\n"
+  example: []
+  syntax:
+    content: public bool ShowFilter { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowFilter As Boolean
+  overload: OfficeOpenXml.Table.ExcelTable.ShowFilter*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.ShowTotal
+  commentId: P:OfficeOpenXml.Table.ExcelTable.ShowTotal
+  id: ShowTotal
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ShowTotal
+  nameWithType: ExcelTable.ShowTotal
+  fullName: OfficeOpenXml.Table.ExcelTable.ShowTotal
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowTotal
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 777
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nIf the total row is visible or not\n"
+  example: []
+  syntax:
+    content: public bool ShowTotal { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowTotal As Boolean
+  overload: OfficeOpenXml.Table.ExcelTable.ShowTotal*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.StyleName
+  commentId: P:OfficeOpenXml.Table.ExcelTable.StyleName
+  id: StyleName
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: StyleName
+  nameWithType: ExcelTable.StyleName
+  fullName: OfficeOpenXml.Table.ExcelTable.StyleName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StyleName
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 818
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nThe style name for custum styles\n"
+  example: []
+  syntax:
+    content: public string StyleName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property StyleName As String
+  overload: OfficeOpenXml.Table.ExcelTable.StyleName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.ShowFirstColumn
+  commentId: P:OfficeOpenXml.Table.ExcelTable.ShowFirstColumn
+  id: ShowFirstColumn
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ShowFirstColumn
+  nameWithType: ExcelTable.ShowFirstColumn
+  fullName: OfficeOpenXml.Table.ExcelTable.ShowFirstColumn
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowFirstColumn
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 865
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDisplay special formatting for the first row\n"
+  example: []
+  syntax:
+    content: public bool ShowFirstColumn { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowFirstColumn As Boolean
+  overload: OfficeOpenXml.Table.ExcelTable.ShowFirstColumn*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.ShowLastColumn
+  commentId: P:OfficeOpenXml.Table.ExcelTable.ShowLastColumn
+  id: ShowLastColumn
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ShowLastColumn
+  nameWithType: ExcelTable.ShowLastColumn
+  fullName: OfficeOpenXml.Table.ExcelTable.ShowLastColumn
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowLastColumn
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 880
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDisplay special formatting for the last row\n"
+  example: []
+  syntax:
+    content: public bool ShowLastColumn { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowLastColumn As Boolean
+  overload: OfficeOpenXml.Table.ExcelTable.ShowLastColumn*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.ShowRowStripes
+  commentId: P:OfficeOpenXml.Table.ExcelTable.ShowRowStripes
+  id: ShowRowStripes
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ShowRowStripes
+  nameWithType: ExcelTable.ShowRowStripes
+  fullName: OfficeOpenXml.Table.ExcelTable.ShowRowStripes
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowRowStripes
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 895
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDisplay banded rows\n"
+  example: []
+  syntax:
+    content: public bool ShowRowStripes { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowRowStripes As Boolean
+  overload: OfficeOpenXml.Table.ExcelTable.ShowRowStripes*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.ShowColumnStripes
+  commentId: P:OfficeOpenXml.Table.ExcelTable.ShowColumnStripes
+  id: ShowColumnStripes
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: ShowColumnStripes
+  nameWithType: ExcelTable.ShowColumnStripes
+  fullName: OfficeOpenXml.Table.ExcelTable.ShowColumnStripes
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShowColumnStripes
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 910
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDisplay banded columns\n"
+  example: []
+  syntax:
+    content: public bool ShowColumnStripes { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowColumnStripes As Boolean
+  overload: OfficeOpenXml.Table.ExcelTable.ShowColumnStripes*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.TotalsRowCellStyle
+  commentId: P:OfficeOpenXml.Table.ExcelTable.TotalsRowCellStyle
+  id: TotalsRowCellStyle
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: TotalsRowCellStyle
+  nameWithType: ExcelTable.TotalsRowCellStyle
+  fullName: OfficeOpenXml.Table.ExcelTable.TotalsRowCellStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TotalsRowCellStyle
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 926
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nNamed style used for the total row\n"
+  example: []
+  syntax:
+    content: public string TotalsRowCellStyle { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property TotalsRowCellStyle As String
+  overload: OfficeOpenXml.Table.ExcelTable.TotalsRowCellStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.DataCellStyleName
+  commentId: P:OfficeOpenXml.Table.ExcelTable.DataCellStyleName
+  id: DataCellStyleName
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: DataCellStyleName
+  nameWithType: ExcelTable.DataCellStyleName
+  fullName: OfficeOpenXml.Table.ExcelTable.DataCellStyleName
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataCellStyleName
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 950
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nNamed style used for the data cells\n"
+  example: []
+  syntax:
+    content: public string DataCellStyleName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property DataCellStyleName As String
+  overload: OfficeOpenXml.Table.ExcelTable.DataCellStyleName*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.HeaderRowCellStyle
+  commentId: P:OfficeOpenXml.Table.ExcelTable.HeaderRowCellStyle
+  id: HeaderRowCellStyle
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: HeaderRowCellStyle
+  nameWithType: ExcelTable.HeaderRowCellStyle
+  fullName: OfficeOpenXml.Table.ExcelTable.HeaderRowCellStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HeaderRowCellStyle
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 977
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nNamed style used for the header row\n"
+  example: []
+  syntax:
+    content: public string HeaderRowCellStyle { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property HeaderRowCellStyle As String
+  overload: OfficeOpenXml.Table.ExcelTable.HeaderRowCellStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.Equals(OfficeOpenXml.Table.ExcelTable,OfficeOpenXml.Table.ExcelTable)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.Equals(OfficeOpenXml.Table.ExcelTable,OfficeOpenXml.Table.ExcelTable)
+  id: Equals(OfficeOpenXml.Table.ExcelTable,OfficeOpenXml.Table.ExcelTable)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: Equals(ExcelTable, ExcelTable)
+  nameWithType: ExcelTable.Equals(ExcelTable, ExcelTable)
+  fullName: OfficeOpenXml.Table.ExcelTable.Equals(OfficeOpenXml.Table.ExcelTable, OfficeOpenXml.Table.ExcelTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Equals
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 1004
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nCheckes if two tables are the same\n"
+  example: []
+  syntax:
+    content: public bool Equals(ExcelTable x, ExcelTable y)
+    parameters:
+    - id: x
+      type: OfficeOpenXml.Table.ExcelTable
+      description: Table 1
+    - id: y
+      type: OfficeOpenXml.Table.ExcelTable
+      description: Table 2
+    return:
+      type: System.Boolean
+      description: ''
+    content.vb: Public Function Equals(x As ExcelTable, y As ExcelTable) As Boolean
+  overload: OfficeOpenXml.Table.ExcelTable.Equals*
+  implements:
+  - System.Collections.Generic.IEqualityComparer{OfficeOpenXml.Table.ExcelTable}.Equals(OfficeOpenXml.Table.ExcelTable,OfficeOpenXml.Table.ExcelTable)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.GetHashCode(OfficeOpenXml.Table.ExcelTable)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.GetHashCode(OfficeOpenXml.Table.ExcelTable)
+  id: GetHashCode(OfficeOpenXml.Table.ExcelTable)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: GetHashCode(ExcelTable)
+  nameWithType: ExcelTable.GetHashCode(ExcelTable)
+  fullName: OfficeOpenXml.Table.ExcelTable.GetHashCode(OfficeOpenXml.Table.ExcelTable)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetHashCode
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 1013
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns a hashcode generated from the TableXml\n"
+  example: []
+  syntax:
+    content: public int GetHashCode(ExcelTable obj)
+    parameters:
+    - id: obj
+      type: OfficeOpenXml.Table.ExcelTable
+      description: The table
+    return:
+      type: System.Int32
+      description: The hashcode
+    content.vb: Public Function GetHashCode(obj As ExcelTable) As Integer
+  overload: OfficeOpenXml.Table.ExcelTable.GetHashCode*
+  implements:
+  - System.Collections.Generic.IEqualityComparer{OfficeOpenXml.Table.ExcelTable}.GetHashCode(OfficeOpenXml.Table.ExcelTable)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.AddRow(System.Int32)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.AddRow(System.Int32)
+  id: AddRow(System.Int32)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: AddRow(Int32)
+  nameWithType: ExcelTable.AddRow(Int32)
+  fullName: OfficeOpenXml.Table.ExcelTable.AddRow(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddRow
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 1022
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nAdds new rows to the table. \n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase AddRow(int rows = 1)
+    parameters:
+    - id: rows
+      type: System.Int32
+      description: Number of rows to add to the table. Default is 1
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+      description: ''
+    content.vb: Public Function AddRow(rows As Integer = 1) As ExcelRangeBase
+  overload: OfficeOpenXml.Table.ExcelTable.AddRow*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.InsertRow(System.Int32,System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.InsertRow(System.Int32,System.Int32,System.Boolean)
+  id: InsertRow(System.Int32,System.Int32,System.Boolean)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: InsertRow(Int32, Int32, Boolean)
+  nameWithType: ExcelTable.InsertRow(Int32, Int32, Boolean)
+  fullName: OfficeOpenXml.Table.ExcelTable.InsertRow(System.Int32, System.Int32, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertRow
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 1033
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nInserts one or more rows before the specified position in the table.\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase InsertRow(int position, int rows = 1, bool copyStyles = true)
+    parameters:
+    - id: position
+      type: System.Int32
+      description: The position in the table where the row will be inserted. Default is in the end of the table. 0 will insert the row at the top. Any value larger than the number of rows in the table will insert a row at the bottom of the table.
+    - id: rows
+      type: System.Int32
+      description: Number of rows to insert.
+    - id: copyStyles
+      type: System.Boolean
+      description: Copy styles from the row above. If inserting a row at position 0, the first row will be used as a template.
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The inserted range
+    content.vb: Public Function InsertRow(position As Integer, rows As Integer = 1, copyStyles As Boolean = True) As ExcelRangeBase
+  overload: OfficeOpenXml.Table.ExcelTable.InsertRow*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.DeleteRow(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.DeleteRow(System.Int32,System.Int32)
+  id: DeleteRow(System.Int32,System.Int32)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: DeleteRow(Int32, Int32)
+  nameWithType: ExcelTable.DeleteRow(Int32, Int32)
+  fullName: OfficeOpenXml.Table.ExcelTable.DeleteRow(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DeleteRow
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 1130
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDeletes one or more rows at the specified position in the table.\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase DeleteRow(int position, int rows = 1)
+    parameters:
+    - id: position
+      type: System.Int32
+      description: 'The position in the table where the row will be deleted. 0 will delete the first row. '
+    - id: rows
+      type: System.Int32
+      description: Number of rows to delete.
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+      description: ''
+    content.vb: Public Function DeleteRow(position As Integer, rows As Integer = 1) As ExcelRangeBase
+  overload: OfficeOpenXml.Table.ExcelTable.DeleteRow*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.HeaderRowBorderStyle
+  commentId: P:OfficeOpenXml.Table.ExcelTable.HeaderRowBorderStyle
+  id: HeaderRowBorderStyle
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: HeaderRowBorderStyle
+  nameWithType: ExcelTable.HeaderRowBorderStyle
+  fullName: OfficeOpenXml.Table.ExcelTable.HeaderRowBorderStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HeaderRowBorderStyle
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 1248
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nSets differential formatting styles for the table header row border style.\n"
+  example: []
+  syntax:
+    content: public ExcelDxfBorderBase HeaderRowBorderStyle { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfBorderBase
+    content.vb: Public Property HeaderRowBorderStyle As ExcelDxfBorderBase
+  overload: OfficeOpenXml.Table.ExcelTable.HeaderRowBorderStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.TableBorderStyle
+  commentId: P:OfficeOpenXml.Table.ExcelTable.TableBorderStyle
+  id: TableBorderStyle
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: TableBorderStyle
+  nameWithType: ExcelTable.TableBorderStyle
+  fullName: OfficeOpenXml.Table.ExcelTable.TableBorderStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableBorderStyle
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 1263
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nSets differential formatting styles for the tables row border style.\n"
+  example: []
+  syntax:
+    content: public ExcelDxfBorderBase TableBorderStyle { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Style.Dxf.ExcelDxfBorderBase
+    content.vb: Public Property TableBorderStyle As ExcelDxfBorderBase
+  overload: OfficeOpenXml.Table.ExcelTable.TableBorderStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.SortState
+  commentId: P:OfficeOpenXml.Table.ExcelTable.SortState
+  id: SortState
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: SortState
+  nameWithType: ExcelTable.SortState
+  fullName: OfficeOpenXml.Table.ExcelTable.SortState
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SortState
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 1275
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nGets the sort state of the table.\n<xref href=\"OfficeOpenXml.Table.ExcelTable.Sort(System.Action%7bOfficeOpenXml.Sorting.TableSortOptions%7d)\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.Table.ExcelTable.Sort(OfficeOpenXml.Sorting.TableSortOptions)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public SortState SortState { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Sorting.SortState
+    content.vb: Public ReadOnly Property SortState As SortState
+  overload: OfficeOpenXml.Table.ExcelTable.SortState*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.ExcelTable.Sort(OfficeOpenXml.Sorting.TableSortOptions)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.Sort(OfficeOpenXml.Sorting.TableSortOptions)
+  id: Sort(OfficeOpenXml.Sorting.TableSortOptions)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: Sort(TableSortOptions)
+  nameWithType: ExcelTable.Sort(TableSortOptions)
+  fullName: OfficeOpenXml.Table.ExcelTable.Sort(OfficeOpenXml.Sorting.TableSortOptions)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Sort
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 1325
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nSorts the data in the table according to the supplied <xref href=\"OfficeOpenXml.Sorting.RangeSortOptions\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example:
+  - "\n<pre><code>var options = new SortOptions();\noptions.SortBy.Column(0).ThenSortBy.Column(1, eSortDirection.Descending);</code></pre>\n"
+  syntax:
+    content: public void Sort(TableSortOptions options)
+    parameters:
+    - id: options
+      type: OfficeOpenXml.Sorting.TableSortOptions
+      description: ''
+    content.vb: Public Sub Sort(options As TableSortOptions)
+  overload: OfficeOpenXml.Table.ExcelTable.Sort*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.Sort(System.Action{OfficeOpenXml.Sorting.TableSortOptions})
+  commentId: M:OfficeOpenXml.Table.ExcelTable.Sort(System.Action{OfficeOpenXml.Sorting.TableSortOptions})
+  id: Sort(System.Action{OfficeOpenXml.Sorting.TableSortOptions})
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: Sort(Action<TableSortOptions>)
+  nameWithType: ExcelTable.Sort(Action<TableSortOptions>)
+  fullName: OfficeOpenXml.Table.ExcelTable.Sort(System.Action<OfficeOpenXml.Sorting.TableSortOptions>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Sort
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 1339
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nSorts the data in the table according to the supplied action of <xref href=\"OfficeOpenXml.Sorting.RangeSortOptions\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example:
+  - "\n<pre><code>table.Sort(x => x.SortBy.Column(0).ThenSortBy.Column(1, eSortDirection.Descending);</code></pre>\n"
+  syntax:
+    content: public void Sort(Action<TableSortOptions> configuration)
+    parameters:
+    - id: configuration
+      type: System.Action{OfficeOpenXml.Sorting.TableSortOptions}
+      description: An action with parameters for sorting
+    content.vb: Public Sub Sort(configuration As Action(Of TableSortOptions))
+  overload: OfficeOpenXml.Table.ExcelTable.Sort*
+  nameWithType.vb: ExcelTable.Sort(Action(Of TableSortOptions))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.ExcelTable.Sort(System.Action(Of OfficeOpenXml.Sorting.TableSortOptions))
+  name.vb: Sort(Action(Of TableSortOptions))
+references:
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Table.ExcelTableDxfBase
+  commentId: T:OfficeOpenXml.Table.ExcelTableDxfBase
+  parent: OfficeOpenXml.Table
+  name: ExcelTableDxfBase
+  nameWithType: ExcelTableDxfBase
+  fullName: OfficeOpenXml.Table.ExcelTableDxfBase
+- uid: System.Collections.Generic.IEqualityComparer{OfficeOpenXml.Table.ExcelTable}
+  commentId: T:System.Collections.Generic.IEqualityComparer{OfficeOpenXml.Table.ExcelTable}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEqualityComparer`1
+  name: IEqualityComparer<ExcelTable>
+  nameWithType: IEqualityComparer<ExcelTable>
+  fullName: System.Collections.Generic.IEqualityComparer<OfficeOpenXml.Table.ExcelTable>
+  nameWithType.vb: IEqualityComparer(Of ExcelTable)
+  fullName.vb: System.Collections.Generic.IEqualityComparer(Of OfficeOpenXml.Table.ExcelTable)
+  name.vb: IEqualityComparer(Of ExcelTable)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    nameWithType: IEqualityComparer
+    fullName: System.Collections.Generic.IEqualityComparer
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.ExcelTable
+    name: ExcelTable
+    nameWithType: ExcelTable
+    fullName: OfficeOpenXml.Table.ExcelTable
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    nameWithType: IEqualityComparer
+    fullName: System.Collections.Generic.IEqualityComparer
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.ExcelTable
+    name: ExcelTable
+    nameWithType: ExcelTable
+    fullName: OfficeOpenXml.Table.ExcelTable
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.ExcelTableDxfBase.HeaderRowStyle
+  commentId: P:OfficeOpenXml.Table.ExcelTableDxfBase.HeaderRowStyle
+  parent: OfficeOpenXml.Table.ExcelTableDxfBase
+  name: HeaderRowStyle
+  nameWithType: ExcelTableDxfBase.HeaderRowStyle
+  fullName: OfficeOpenXml.Table.ExcelTableDxfBase.HeaderRowStyle
+- uid: OfficeOpenXml.Table.ExcelTableDxfBase.DataStyle
+  commentId: P:OfficeOpenXml.Table.ExcelTableDxfBase.DataStyle
+  parent: OfficeOpenXml.Table.ExcelTableDxfBase
+  name: DataStyle
+  nameWithType: ExcelTableDxfBase.DataStyle
+  fullName: OfficeOpenXml.Table.ExcelTableDxfBase.DataStyle
+- uid: OfficeOpenXml.Table.ExcelTableDxfBase.TotalsRowStyle
+  commentId: P:OfficeOpenXml.Table.ExcelTableDxfBase.TotalsRowStyle
+  parent: OfficeOpenXml.Table.ExcelTableDxfBase
+  name: TotalsRowStyle
+  nameWithType: ExcelTableDxfBase.TotalsRowStyle
+  fullName: OfficeOpenXml.Table.ExcelTableDxfBase.TotalsRowStyle
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Collections.Generic.IEqualityComparer`1
+  commentId: T:System.Collections.Generic.IEqualityComparer`1
+  isExternal: true
+  name: IEqualityComparer<T>
+  nameWithType: IEqualityComparer<T>
+  fullName: System.Collections.Generic.IEqualityComparer<T>
+  nameWithType.vb: IEqualityComparer(Of T)
+  fullName.vb: System.Collections.Generic.IEqualityComparer(Of T)
+  name.vb: IEqualityComparer(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    nameWithType: IEqualityComparer
+    fullName: System.Collections.Generic.IEqualityComparer
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    nameWithType: IEqualityComparer
+    fullName: System.Collections.Generic.IEqualityComparer
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: OfficeOpenXml.Table.ExcelTable.TableXml*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.TableXml
+  name: TableXml
+  nameWithType: ExcelTable.TableXml
+  fullName: OfficeOpenXml.Table.ExcelTable.TableXml
+- uid: System.Xml.XmlDocument
+  commentId: T:System.Xml.XmlDocument
+  parent: System.Xml
+  isExternal: true
+  name: XmlDocument
+  nameWithType: XmlDocument
+  fullName: System.Xml.XmlDocument
+- uid: System.Xml
+  commentId: N:System.Xml
+  isExternal: true
+  name: System.Xml
+  nameWithType: System.Xml
+  fullName: System.Xml
+- uid: OfficeOpenXml.Table.ExcelTable.TableUri*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.TableUri
+  name: TableUri
+  nameWithType: ExcelTable.TableUri
+  fullName: OfficeOpenXml.Table.ExcelTable.TableUri
+- uid: System.Uri
+  commentId: T:System.Uri
+  parent: System
+  isExternal: true
+  name: Uri
+  nameWithType: Uri
+  fullName: System.Uri
+- uid: OfficeOpenXml.Table.ExcelTable.Name*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.Name
+  name: Name
+  nameWithType: ExcelTable.Name
+  fullName: OfficeOpenXml.Table.ExcelTable.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Table.ExcelTable.WorkSheet*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.WorkSheet
+  name: WorkSheet
+  nameWithType: ExcelTable.WorkSheet
+  fullName: OfficeOpenXml.Table.ExcelTable.WorkSheet
+- uid: OfficeOpenXml.ExcelWorksheet
+  commentId: T:OfficeOpenXml.ExcelWorksheet
+  parent: OfficeOpenXml
+  name: ExcelWorksheet
+  nameWithType: ExcelWorksheet
+  fullName: OfficeOpenXml.ExcelWorksheet
+- uid: OfficeOpenXml.Table.ExcelTable.Address*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.Address
+  name: Address
+  nameWithType: ExcelTable.Address
+  fullName: OfficeOpenXml.Table.ExcelTable.Address
+- uid: OfficeOpenXml.ExcelAddressBase
+  commentId: T:OfficeOpenXml.ExcelAddressBase
+  parent: OfficeOpenXml
+  name: ExcelAddressBase
+  nameWithType: ExcelAddressBase
+  fullName: OfficeOpenXml.ExcelAddressBase
+- uid: OfficeOpenXml.Table.ExcelTable.Range*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.Range
+  name: Range
+  nameWithType: ExcelTable.Range
+  fullName: OfficeOpenXml.Table.ExcelTable.Range
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: OfficeOpenXml.ExcelRangeBase.ToText
+  commentId: M:OfficeOpenXml.ExcelRangeBase.ToText
+  parent: OfficeOpenXml.ExcelRangeBase
+  name: ToText()
+  nameWithType: ExcelRangeBase.ToText()
+  fullName: OfficeOpenXml.ExcelRangeBase.ToText()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToText
+    name: ToText
+    nameWithType: ExcelRangeBase.ToText
+    fullName: OfficeOpenXml.ExcelRangeBase.ToText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToText
+    name: ToText
+    nameWithType: ExcelRangeBase.ToText
+    fullName: OfficeOpenXml.ExcelRangeBase.ToText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.ExcelTable.ToText*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.ToText
+  name: ToText
+  nameWithType: ExcelTable.ToText
+  fullName: OfficeOpenXml.Table.ExcelTable.ToText
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  commentId: T:OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+  parent: OfficeOpenXml.Export.HtmlExport.Interfaces
+  name: IExcelHtmlTableExporter
+  nameWithType: IExcelHtmlTableExporter
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces.IExcelHtmlTableExporter
+- uid: OfficeOpenXml.Table.ExcelTable.CreateHtmlExporter*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.CreateHtmlExporter
+  name: CreateHtmlExporter
+  nameWithType: ExcelTable.CreateHtmlExporter
+  fullName: OfficeOpenXml.Table.ExcelTable.CreateHtmlExporter
+- uid: OfficeOpenXml.Export.HtmlExport.Interfaces
+  commentId: N:OfficeOpenXml.Export.HtmlExport.Interfaces
+  name: OfficeOpenXml.Export.HtmlExport.Interfaces
+  nameWithType: OfficeOpenXml.Export.HtmlExport.Interfaces
+  fullName: OfficeOpenXml.Export.HtmlExport.Interfaces
+- uid: OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormat)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormat)
+  parent: OfficeOpenXml.ExcelRangeBase
+  name: ToText(ExcelOutputTextFormat)
+  nameWithType: ExcelRangeBase.ToText(ExcelOutputTextFormat)
+  fullName: OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormat)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormat)
+    name: ToText
+    nameWithType: ExcelRangeBase.ToText
+    fullName: OfficeOpenXml.ExcelRangeBase.ToText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelOutputTextFormat
+    name: ExcelOutputTextFormat
+    nameWithType: ExcelOutputTextFormat
+    fullName: OfficeOpenXml.ExcelOutputTextFormat
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToText(OfficeOpenXml.ExcelOutputTextFormat)
+    name: ToText
+    nameWithType: ExcelRangeBase.ToText
+    fullName: OfficeOpenXml.ExcelRangeBase.ToText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelOutputTextFormat
+    name: ExcelOutputTextFormat
+    nameWithType: ExcelOutputTextFormat
+    fullName: OfficeOpenXml.ExcelOutputTextFormat
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelOutputTextFormat
+  commentId: T:OfficeOpenXml.ExcelOutputTextFormat
+  parent: OfficeOpenXml
+  name: ExcelOutputTextFormat
+  nameWithType: ExcelOutputTextFormat
+  fullName: OfficeOpenXml.ExcelOutputTextFormat
+- uid: OfficeOpenXml.ExcelRangeBase.ToTextAsync
+  commentId: M:OfficeOpenXml.ExcelRangeBase.ToTextAsync
+  parent: OfficeOpenXml.ExcelRangeBase
+  name: ToTextAsync()
+  nameWithType: ExcelRangeBase.ToTextAsync()
+  fullName: OfficeOpenXml.ExcelRangeBase.ToTextAsync()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToTextAsync
+    name: ToTextAsync
+    nameWithType: ExcelRangeBase.ToTextAsync
+    fullName: OfficeOpenXml.ExcelRangeBase.ToTextAsync
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToTextAsync
+    name: ToTextAsync
+    nameWithType: ExcelRangeBase.ToTextAsync
+    fullName: OfficeOpenXml.ExcelRangeBase.ToTextAsync
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.ExcelTable.ToTextAsync*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.ToTextAsync
+  name: ToTextAsync
+  nameWithType: ExcelTable.ToTextAsync
+  fullName: OfficeOpenXml.Table.ExcelTable.ToTextAsync
+- uid: System.Threading.Tasks.Task{System.String}
+  commentId: T:System.Threading.Tasks.Task{System.String}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  name: Task<String>
+  nameWithType: Task<String>
+  fullName: System.Threading.Tasks.Task<System.String>
+  nameWithType.vb: Task(Of String)
+  fullName.vb: System.Threading.Tasks.Task(Of System.String)
+  name.vb: Task(Of String)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    nameWithType: Task
+    fullName: System.Threading.Tasks.Task
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+- uid: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: SaveToText(FileInfo, ExcelOutputTextFormat)
+  nameWithType: ExcelRangeBase.SaveToText(FileInfo, ExcelOutputTextFormat)
+  fullName: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo, OfficeOpenXml.ExcelOutputTextFormat)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+    name: SaveToText
+    nameWithType: ExcelRangeBase.SaveToText
+    fullName: OfficeOpenXml.ExcelRangeBase.SaveToText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.FileInfo
+    name: FileInfo
+    nameWithType: FileInfo
+    fullName: System.IO.FileInfo
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelOutputTextFormat
+    name: ExcelOutputTextFormat
+    nameWithType: ExcelOutputTextFormat
+    fullName: OfficeOpenXml.ExcelOutputTextFormat
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+    name: SaveToText
+    nameWithType: ExcelRangeBase.SaveToText
+    fullName: OfficeOpenXml.ExcelRangeBase.SaveToText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.FileInfo
+    name: FileInfo
+    nameWithType: FileInfo
+    fullName: System.IO.FileInfo
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelOutputTextFormat
+    name: ExcelOutputTextFormat
+    nameWithType: ExcelOutputTextFormat
+    fullName: OfficeOpenXml.ExcelOutputTextFormat
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.ExcelTable.SaveToText*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.SaveToText
+  name: SaveToText
+  nameWithType: ExcelTable.SaveToText
+  fullName: OfficeOpenXml.Table.ExcelTable.SaveToText
+- uid: System.IO.FileInfo
+  commentId: T:System.IO.FileInfo
+  parent: System.IO
+  isExternal: true
+  name: FileInfo
+  nameWithType: FileInfo
+  fullName: System.IO.FileInfo
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+- uid: System.IO.Stream
+  commentId: T:System.IO.Stream
+  parent: System.IO
+  isExternal: true
+  name: Stream
+  nameWithType: Stream
+  fullName: System.IO.Stream
+- uid: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: SaveToText(Stream, ExcelOutputTextFormat)
+  nameWithType: ExcelRangeBase.SaveToText(Stream, ExcelOutputTextFormat)
+  fullName: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream, OfficeOpenXml.ExcelOutputTextFormat)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+    name: SaveToText
+    nameWithType: ExcelRangeBase.SaveToText
+    fullName: OfficeOpenXml.ExcelRangeBase.SaveToText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelOutputTextFormat
+    name: ExcelOutputTextFormat
+    nameWithType: ExcelOutputTextFormat
+    fullName: OfficeOpenXml.ExcelOutputTextFormat
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.SaveToText(System.IO.Stream,OfficeOpenXml.ExcelOutputTextFormat)
+    name: SaveToText
+    nameWithType: ExcelRangeBase.SaveToText
+    fullName: OfficeOpenXml.ExcelRangeBase.SaveToText
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    nameWithType: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelOutputTextFormat
+    name: ExcelOutputTextFormat
+    nameWithType: ExcelOutputTextFormat
+    fullName: OfficeOpenXml.ExcelOutputTextFormat
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.ExcelTable.SaveToTextAsync*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.SaveToTextAsync
+  name: SaveToTextAsync
+  nameWithType: ExcelTable.SaveToTextAsync
+  fullName: OfficeOpenXml.Table.ExcelTable.SaveToTextAsync
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: SaveToTextAsync(FileInfo, ExcelOutputTextFormat)
+  nameWithType: ExcelRangeBase.SaveToTextAsync(FileInfo, ExcelOutputTextFormat)
+  fullName: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo, OfficeOpenXml.ExcelOutputTextFormat)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+    name: SaveToTextAsync
+    nameWithType: ExcelRangeBase.SaveToTextAsync
+    fullName: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.FileInfo
+    name: FileInfo
+    nameWithType: FileInfo
+    fullName: System.IO.FileInfo
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelOutputTextFormat
+    name: ExcelOutputTextFormat
+    nameWithType: ExcelOutputTextFormat
+    fullName: OfficeOpenXml.ExcelOutputTextFormat
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync(System.IO.FileInfo,OfficeOpenXml.ExcelOutputTextFormat)
+    name: SaveToTextAsync
+    nameWithType: ExcelRangeBase.SaveToTextAsync
+    fullName: OfficeOpenXml.ExcelRangeBase.SaveToTextAsync
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.IO.FileInfo
+    name: FileInfo
+    nameWithType: FileInfo
+    fullName: System.IO.FileInfo
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelOutputTextFormat
+    name: ExcelOutputTextFormat
+    nameWithType: ExcelOutputTextFormat
+    fullName: OfficeOpenXml.ExcelOutputTextFormat
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.ExcelTable.SaveToJsonAsync*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.SaveToJsonAsync
+  name: SaveToJsonAsync
+  nameWithType: ExcelTable.SaveToJsonAsync
+  fullName: OfficeOpenXml.Table.ExcelTable.SaveToJsonAsync
+- uid: System.Action{OfficeOpenXml.JsonTableExportSettings}
+  commentId: T:System.Action{OfficeOpenXml.JsonTableExportSettings}
+  parent: System
+  definition: System.Action`1
+  name: Action<JsonTableExportSettings>
+  nameWithType: Action<JsonTableExportSettings>
+  fullName: System.Action<OfficeOpenXml.JsonTableExportSettings>
+  nameWithType.vb: Action(Of JsonTableExportSettings)
+  fullName.vb: System.Action(Of OfficeOpenXml.JsonTableExportSettings)
+  name.vb: Action(Of JsonTableExportSettings)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.JsonTableExportSettings
+    name: JsonTableExportSettings
+    nameWithType: JsonTableExportSettings
+    fullName: OfficeOpenXml.JsonTableExportSettings
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.JsonTableExportSettings
+    name: JsonTableExportSettings
+    nameWithType: JsonTableExportSettings
+    fullName: OfficeOpenXml.JsonTableExportSettings
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Data.DataTable
+  commentId: T:System.Data.DataTable
+  parent: System.Data
+  isExternal: true
+  name: DataTable
+  nameWithType: DataTable
+  fullName: System.Data.DataTable
+- uid: OfficeOpenXml.ExcelRangeBase.ToDataTable
+  commentId: M:OfficeOpenXml.ExcelRangeBase.ToDataTable
+  parent: OfficeOpenXml.ExcelRangeBase
+  name: ToDataTable()
+  nameWithType: ExcelRangeBase.ToDataTable()
+  fullName: OfficeOpenXml.ExcelRangeBase.ToDataTable()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToDataTable
+    name: ToDataTable
+    nameWithType: ExcelRangeBase.ToDataTable
+    fullName: OfficeOpenXml.ExcelRangeBase.ToDataTable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToDataTable
+    name: ToDataTable
+    nameWithType: ExcelRangeBase.ToDataTable
+    fullName: OfficeOpenXml.ExcelRangeBase.ToDataTable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.ExcelTable.ToDataTable*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.ToDataTable
+  name: ToDataTable
+  nameWithType: ExcelTable.ToDataTable
+  fullName: OfficeOpenXml.Table.ExcelTable.ToDataTable
+- uid: System.Data
+  commentId: N:System.Data
+  isExternal: true
+  name: System.Data
+  nameWithType: System.Data
+  fullName: System.Data
+- uid: OfficeOpenXml.Table.ExcelTable.ToJson*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.ToJson
+  name: ToJson
+  nameWithType: ExcelTable.ToJson
+  fullName: OfficeOpenXml.Table.ExcelTable.ToJson
+- uid: OfficeOpenXml.Table.ExcelTable.SaveToJson*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.SaveToJson
+  name: SaveToJson
+  nameWithType: ExcelTable.SaveToJson
+  fullName: OfficeOpenXml.Table.ExcelTable.SaveToJson
+- uid: OfficeOpenXml.ExcelRangeBase.ToDataTable(OfficeOpenXml.Export.ToDataTable.ToDataTableOptions)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.ToDataTable(OfficeOpenXml.Export.ToDataTable.ToDataTableOptions)
+  parent: OfficeOpenXml.ExcelRangeBase
+  name: ToDataTable(ToDataTableOptions)
+  nameWithType: ExcelRangeBase.ToDataTable(ToDataTableOptions)
+  fullName: OfficeOpenXml.ExcelRangeBase.ToDataTable(OfficeOpenXml.Export.ToDataTable.ToDataTableOptions)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToDataTable(OfficeOpenXml.Export.ToDataTable.ToDataTableOptions)
+    name: ToDataTable
+    nameWithType: ExcelRangeBase.ToDataTable
+    fullName: OfficeOpenXml.ExcelRangeBase.ToDataTable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+    name: ToDataTableOptions
+    nameWithType: ToDataTableOptions
+    fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToDataTable(OfficeOpenXml.Export.ToDataTable.ToDataTableOptions)
+    name: ToDataTable
+    nameWithType: ExcelRangeBase.ToDataTable
+    fullName: OfficeOpenXml.ExcelRangeBase.ToDataTable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+    name: ToDataTableOptions
+    nameWithType: ToDataTableOptions
+    fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  commentId: T:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  parent: OfficeOpenXml.Export.ToDataTable
+  name: ToDataTableOptions
+  nameWithType: ToDataTableOptions
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+- uid: OfficeOpenXml.Export.ToDataTable
+  commentId: N:OfficeOpenXml.Export.ToDataTable
+  name: OfficeOpenXml.Export.ToDataTable
+  nameWithType: OfficeOpenXml.Export.ToDataTable
+  fullName: OfficeOpenXml.Export.ToDataTable
+- uid: OfficeOpenXml.ExcelRangeBase.ToDataTable(System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions})
+  commentId: M:OfficeOpenXml.ExcelRangeBase.ToDataTable(System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions})
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: ToDataTable(Action<ToDataTableOptions>)
+  nameWithType: ExcelRangeBase.ToDataTable(Action<ToDataTableOptions>)
+  fullName: OfficeOpenXml.ExcelRangeBase.ToDataTable(System.Action<OfficeOpenXml.Export.ToDataTable.ToDataTableOptions>)
+  nameWithType.vb: ExcelRangeBase.ToDataTable(Action(Of ToDataTableOptions))
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.ToDataTable(System.Action(Of OfficeOpenXml.Export.ToDataTable.ToDataTableOptions))
+  name.vb: ToDataTable(Action(Of ToDataTableOptions))
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToDataTable(System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions})
+    name: ToDataTable
+    nameWithType: ExcelRangeBase.ToDataTable
+    fullName: OfficeOpenXml.ExcelRangeBase.ToDataTable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+    name: ToDataTableOptions
+    nameWithType: ToDataTableOptions
+    fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.ToDataTable(System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions})
+    name: ToDataTable
+    nameWithType: ExcelRangeBase.ToDataTable
+    fullName: OfficeOpenXml.ExcelRangeBase.ToDataTable
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+    name: ToDataTableOptions
+    nameWithType: ToDataTableOptions
+    fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions}
+  commentId: T:System.Action{OfficeOpenXml.Export.ToDataTable.ToDataTableOptions}
+  parent: System
+  definition: System.Action`1
+  name: Action<ToDataTableOptions>
+  nameWithType: Action<ToDataTableOptions>
+  fullName: System.Action<OfficeOpenXml.Export.ToDataTable.ToDataTableOptions>
+  nameWithType.vb: Action(Of ToDataTableOptions)
+  fullName.vb: System.Action(Of OfficeOpenXml.Export.ToDataTable.ToDataTableOptions)
+  name.vb: Action(Of ToDataTableOptions)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+    name: ToDataTableOptions
+    nameWithType: ToDataTableOptions
+    fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+    name: ToDataTableOptions
+    nameWithType: ToDataTableOptions
+    fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.ExcelTable.ToCollection*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.ToCollection
+  name: ToCollection
+  nameWithType: ExcelTable.ToCollection
+  fullName: OfficeOpenXml.Table.ExcelTable.ToCollection
+- uid: System.Collections.Generic.List{{T}}
+  commentId: T:System.Collections.Generic.List{``0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Action{OfficeOpenXml.ToCollectionTableOptions}
+  commentId: T:System.Action{OfficeOpenXml.ToCollectionTableOptions}
+  parent: System
+  definition: System.Action`1
+  name: Action<ToCollectionTableOptions>
+  nameWithType: Action<ToCollectionTableOptions>
+  fullName: System.Action<OfficeOpenXml.ToCollectionTableOptions>
+  nameWithType.vb: Action(Of ToCollectionTableOptions)
+  fullName.vb: System.Action(Of OfficeOpenXml.ToCollectionTableOptions)
+  name.vb: Action(Of ToCollectionTableOptions)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ToCollectionTableOptions
+    name: ToCollectionTableOptions
+    nameWithType: ToCollectionTableOptions
+    fullName: OfficeOpenXml.ToCollectionTableOptions
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ToCollectionTableOptions
+    name: ToCollectionTableOptions
+    nameWithType: ToCollectionTableOptions
+    fullName: OfficeOpenXml.ToCollectionTableOptions
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ToCollectionTableOptions
+  commentId: T:OfficeOpenXml.ToCollectionTableOptions
+  parent: OfficeOpenXml
+  name: ToCollectionTableOptions
+  nameWithType: ToCollectionTableOptions
+  fullName: OfficeOpenXml.ToCollectionTableOptions
+- uid: System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,{T}}
+  commentId: T:System.Func{OfficeOpenXml.Export.ToCollection.ToCollectionRow,``0}
+  parent: System
+  definition: System.Func`2
+  name: Func<ToCollectionRow, T>
+  nameWithType: Func<ToCollectionRow, T>
+  fullName: System.Func<OfficeOpenXml.Export.ToCollection.ToCollectionRow, T>
+  nameWithType.vb: Func(Of ToCollectionRow, T)
+  fullName.vb: System.Func(Of OfficeOpenXml.Export.ToCollection.ToCollectionRow, T)
+  name.vb: Func(Of ToCollectionRow, T)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+    name: ToCollectionRow
+    nameWithType: ToCollectionRow
+    fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+    name: ToCollectionRow
+    nameWithType: ToCollectionRow
+    fullName: OfficeOpenXml.Export.ToCollection.ToCollectionRow
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.ExcelTable.ToCollectionWithMappings*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.ToCollectionWithMappings
+  name: ToCollectionWithMappings
+  nameWithType: ExcelTable.ToCollectionWithMappings
+  fullName: OfficeOpenXml.Table.ExcelTable.ToCollectionWithMappings
+- uid: OfficeOpenXml.Table.ExcelTable.Columns*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.Columns
+  name: Columns
+  nameWithType: ExcelTable.Columns
+  fullName: OfficeOpenXml.Table.ExcelTable.Columns
+- uid: OfficeOpenXml.Table.ExcelTableColumnCollection
+  commentId: T:OfficeOpenXml.Table.ExcelTableColumnCollection
+  parent: OfficeOpenXml.Table
+  name: ExcelTableColumnCollection
+  nameWithType: ExcelTableColumnCollection
+  fullName: OfficeOpenXml.Table.ExcelTableColumnCollection
+- uid: OfficeOpenXml.Table.ExcelTable.TableStyle*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.TableStyle
+  name: TableStyle
+  nameWithType: ExcelTable.TableStyle
+  fullName: OfficeOpenXml.Table.ExcelTable.TableStyle
+- uid: OfficeOpenXml.Table.TableStyles
+  commentId: T:OfficeOpenXml.Table.TableStyles
+  parent: OfficeOpenXml.Table
+  name: TableStyles
+  nameWithType: TableStyles
+  fullName: OfficeOpenXml.Table.TableStyles
+- uid: OfficeOpenXml.Table.ExcelTable.ShowHeader*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.ShowHeader
+  name: ShowHeader
+  nameWithType: ExcelTable.ShowHeader
+  fullName: OfficeOpenXml.Table.ExcelTable.ShowHeader
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Table.ExcelTable.AutoFilter*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.AutoFilter
+  name: AutoFilter
+  nameWithType: ExcelTable.AutoFilter
+  fullName: OfficeOpenXml.Table.ExcelTable.AutoFilter
+- uid: OfficeOpenXml.Filter.ExcelAutoFilter
+  commentId: T:OfficeOpenXml.Filter.ExcelAutoFilter
+  parent: OfficeOpenXml.Filter
+  name: ExcelAutoFilter
+  nameWithType: ExcelAutoFilter
+  fullName: OfficeOpenXml.Filter.ExcelAutoFilter
+- uid: OfficeOpenXml.Filter
+  commentId: N:OfficeOpenXml.Filter
+  name: OfficeOpenXml.Filter
+  nameWithType: OfficeOpenXml.Filter
+  fullName: OfficeOpenXml.Filter
+- uid: OfficeOpenXml.Table.ExcelTable.ShowFilter*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.ShowFilter
+  name: ShowFilter
+  nameWithType: ExcelTable.ShowFilter
+  fullName: OfficeOpenXml.Table.ExcelTable.ShowFilter
+- uid: OfficeOpenXml.Table.ExcelTable.ShowTotal*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.ShowTotal
+  name: ShowTotal
+  nameWithType: ExcelTable.ShowTotal
+  fullName: OfficeOpenXml.Table.ExcelTable.ShowTotal
+- uid: OfficeOpenXml.Table.ExcelTable.StyleName*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.StyleName
+  name: StyleName
+  nameWithType: ExcelTable.StyleName
+  fullName: OfficeOpenXml.Table.ExcelTable.StyleName
+- uid: OfficeOpenXml.Table.ExcelTable.ShowFirstColumn*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.ShowFirstColumn
+  name: ShowFirstColumn
+  nameWithType: ExcelTable.ShowFirstColumn
+  fullName: OfficeOpenXml.Table.ExcelTable.ShowFirstColumn
+- uid: OfficeOpenXml.Table.ExcelTable.ShowLastColumn*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.ShowLastColumn
+  name: ShowLastColumn
+  nameWithType: ExcelTable.ShowLastColumn
+  fullName: OfficeOpenXml.Table.ExcelTable.ShowLastColumn
+- uid: OfficeOpenXml.Table.ExcelTable.ShowRowStripes*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.ShowRowStripes
+  name: ShowRowStripes
+  nameWithType: ExcelTable.ShowRowStripes
+  fullName: OfficeOpenXml.Table.ExcelTable.ShowRowStripes
+- uid: OfficeOpenXml.Table.ExcelTable.ShowColumnStripes*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.ShowColumnStripes
+  name: ShowColumnStripes
+  nameWithType: ExcelTable.ShowColumnStripes
+  fullName: OfficeOpenXml.Table.ExcelTable.ShowColumnStripes
+- uid: OfficeOpenXml.Table.ExcelTable.TotalsRowCellStyle*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.TotalsRowCellStyle
+  name: TotalsRowCellStyle
+  nameWithType: ExcelTable.TotalsRowCellStyle
+  fullName: OfficeOpenXml.Table.ExcelTable.TotalsRowCellStyle
+- uid: OfficeOpenXml.Table.ExcelTable.DataCellStyleName*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.DataCellStyleName
+  name: DataCellStyleName
+  nameWithType: ExcelTable.DataCellStyleName
+  fullName: OfficeOpenXml.Table.ExcelTable.DataCellStyleName
+- uid: OfficeOpenXml.Table.ExcelTable.HeaderRowCellStyle*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.HeaderRowCellStyle
+  name: HeaderRowCellStyle
+  nameWithType: ExcelTable.HeaderRowCellStyle
+  fullName: OfficeOpenXml.Table.ExcelTable.HeaderRowCellStyle
+- uid: OfficeOpenXml.Table.ExcelTable.Equals*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.Equals
+  name: Equals
+  nameWithType: ExcelTable.Equals
+  fullName: OfficeOpenXml.Table.ExcelTable.Equals
+- uid: System.Collections.Generic.IEqualityComparer{OfficeOpenXml.Table.ExcelTable}.Equals(OfficeOpenXml.Table.ExcelTable,OfficeOpenXml.Table.ExcelTable)
+  commentId: M:System.Collections.Generic.IEqualityComparer{OfficeOpenXml.Table.ExcelTable}.Equals(OfficeOpenXml.Table.ExcelTable,OfficeOpenXml.Table.ExcelTable)
+  parent: System.Collections.Generic.IEqualityComparer{OfficeOpenXml.Table.ExcelTable}
+  definition: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+  name: Equals(ExcelTable, ExcelTable)
+  nameWithType: IEqualityComparer<ExcelTable>.Equals(ExcelTable, ExcelTable)
+  fullName: System.Collections.Generic.IEqualityComparer<OfficeOpenXml.Table.ExcelTable>.Equals(OfficeOpenXml.Table.ExcelTable, OfficeOpenXml.Table.ExcelTable)
+  nameWithType.vb: IEqualityComparer(Of ExcelTable).Equals(ExcelTable, ExcelTable)
+  fullName.vb: System.Collections.Generic.IEqualityComparer(Of OfficeOpenXml.Table.ExcelTable).Equals(OfficeOpenXml.Table.ExcelTable, OfficeOpenXml.Table.ExcelTable)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+    name: Equals
+    nameWithType: IEqualityComparer<ExcelTable>.Equals
+    fullName: System.Collections.Generic.IEqualityComparer<OfficeOpenXml.Table.ExcelTable>.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Table.ExcelTable
+    name: ExcelTable
+    nameWithType: ExcelTable
+    fullName: OfficeOpenXml.Table.ExcelTable
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Table.ExcelTable
+    name: ExcelTable
+    nameWithType: ExcelTable
+    fullName: OfficeOpenXml.Table.ExcelTable
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+    name: Equals
+    nameWithType: IEqualityComparer(Of ExcelTable).Equals
+    fullName: System.Collections.Generic.IEqualityComparer(Of OfficeOpenXml.Table.ExcelTable).Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Table.ExcelTable
+    name: ExcelTable
+    nameWithType: ExcelTable
+    fullName: OfficeOpenXml.Table.ExcelTable
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.Table.ExcelTable
+    name: ExcelTable
+    nameWithType: ExcelTable
+    fullName: OfficeOpenXml.Table.ExcelTable
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.ExcelTable
+  commentId: T:OfficeOpenXml.Table.ExcelTable
+  parent: OfficeOpenXml.Table
+  name: ExcelTable
+  nameWithType: ExcelTable
+  fullName: OfficeOpenXml.Table.ExcelTable
+- uid: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+  commentId: M:System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+  isExternal: true
+  name: Equals(T, T)
+  nameWithType: IEqualityComparer<T>.Equals(T, T)
+  fullName: System.Collections.Generic.IEqualityComparer<T>.Equals(T, T)
+  nameWithType.vb: IEqualityComparer(Of T).Equals(T, T)
+  fullName.vb: System.Collections.Generic.IEqualityComparer(Of T).Equals(T, T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+    name: Equals
+    nameWithType: IEqualityComparer<T>.Equals
+    fullName: System.Collections.Generic.IEqualityComparer<T>.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+    name: Equals
+    nameWithType: IEqualityComparer(Of T).Equals
+    fullName: System.Collections.Generic.IEqualityComparer(Of T).Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.ExcelTable.GetHashCode*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.GetHashCode
+  name: GetHashCode
+  nameWithType: ExcelTable.GetHashCode
+  fullName: OfficeOpenXml.Table.ExcelTable.GetHashCode
+- uid: System.Collections.Generic.IEqualityComparer{OfficeOpenXml.Table.ExcelTable}.GetHashCode(OfficeOpenXml.Table.ExcelTable)
+  commentId: M:System.Collections.Generic.IEqualityComparer{OfficeOpenXml.Table.ExcelTable}.GetHashCode(OfficeOpenXml.Table.ExcelTable)
+  parent: System.Collections.Generic.IEqualityComparer{OfficeOpenXml.Table.ExcelTable}
+  definition: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+  name: GetHashCode(ExcelTable)
+  nameWithType: IEqualityComparer<ExcelTable>.GetHashCode(ExcelTable)
+  fullName: System.Collections.Generic.IEqualityComparer<OfficeOpenXml.Table.ExcelTable>.GetHashCode(OfficeOpenXml.Table.ExcelTable)
+  nameWithType.vb: IEqualityComparer(Of ExcelTable).GetHashCode(ExcelTable)
+  fullName.vb: System.Collections.Generic.IEqualityComparer(Of OfficeOpenXml.Table.ExcelTable).GetHashCode(OfficeOpenXml.Table.ExcelTable)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+    name: GetHashCode
+    nameWithType: IEqualityComparer<ExcelTable>.GetHashCode
+    fullName: System.Collections.Generic.IEqualityComparer<OfficeOpenXml.Table.ExcelTable>.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Table.ExcelTable
+    name: ExcelTable
+    nameWithType: ExcelTable
+    fullName: OfficeOpenXml.Table.ExcelTable
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+    name: GetHashCode
+    nameWithType: IEqualityComparer(Of ExcelTable).GetHashCode
+    fullName: System.Collections.Generic.IEqualityComparer(Of OfficeOpenXml.Table.ExcelTable).GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Table.ExcelTable
+    name: ExcelTable
+    nameWithType: ExcelTable
+    fullName: OfficeOpenXml.Table.ExcelTable
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+  commentId: M:System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+  isExternal: true
+  name: GetHashCode(T)
+  nameWithType: IEqualityComparer<T>.GetHashCode(T)
+  fullName: System.Collections.Generic.IEqualityComparer<T>.GetHashCode(T)
+  nameWithType.vb: IEqualityComparer(Of T).GetHashCode(T)
+  fullName.vb: System.Collections.Generic.IEqualityComparer(Of T).GetHashCode(T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+    name: GetHashCode
+    nameWithType: IEqualityComparer<T>.GetHashCode
+    fullName: System.Collections.Generic.IEqualityComparer<T>.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+    name: GetHashCode
+    nameWithType: IEqualityComparer(Of T).GetHashCode
+    fullName: System.Collections.Generic.IEqualityComparer(Of T).GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.ExcelTable.AddRow*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.AddRow
+  name: AddRow
+  nameWithType: ExcelTable.AddRow
+  fullName: OfficeOpenXml.Table.ExcelTable.AddRow
+- uid: OfficeOpenXml.Table.ExcelTable.InsertRow*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.InsertRow
+  name: InsertRow
+  nameWithType: ExcelTable.InsertRow
+  fullName: OfficeOpenXml.Table.ExcelTable.InsertRow
+- uid: OfficeOpenXml.Table.ExcelTable.DeleteRow*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.DeleteRow
+  name: DeleteRow
+  nameWithType: ExcelTable.DeleteRow
+  fullName: OfficeOpenXml.Table.ExcelTable.DeleteRow
+- uid: OfficeOpenXml.Table.ExcelTable.HeaderRowBorderStyle*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.HeaderRowBorderStyle
+  name: HeaderRowBorderStyle
+  nameWithType: ExcelTable.HeaderRowBorderStyle
+  fullName: OfficeOpenXml.Table.ExcelTable.HeaderRowBorderStyle
+- uid: OfficeOpenXml.Style.Dxf.ExcelDxfBorderBase
+  commentId: T:OfficeOpenXml.Style.Dxf.ExcelDxfBorderBase
+  parent: OfficeOpenXml.Style.Dxf
+  name: ExcelDxfBorderBase
+  nameWithType: ExcelDxfBorderBase
+  fullName: OfficeOpenXml.Style.Dxf.ExcelDxfBorderBase
+- uid: OfficeOpenXml.Style.Dxf
+  commentId: N:OfficeOpenXml.Style.Dxf
+  name: OfficeOpenXml.Style.Dxf
+  nameWithType: OfficeOpenXml.Style.Dxf
+  fullName: OfficeOpenXml.Style.Dxf
+- uid: OfficeOpenXml.Table.ExcelTable.TableBorderStyle*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.TableBorderStyle
+  name: TableBorderStyle
+  nameWithType: ExcelTable.TableBorderStyle
+  fullName: OfficeOpenXml.Table.ExcelTable.TableBorderStyle
+- uid: OfficeOpenXml.Table.ExcelTable.Sort(System.Action{OfficeOpenXml.Sorting.TableSortOptions})
+  commentId: M:OfficeOpenXml.Table.ExcelTable.Sort(System.Action{OfficeOpenXml.Sorting.TableSortOptions})
+  isExternal: true
+- uid: OfficeOpenXml.Table.ExcelTable.Sort(OfficeOpenXml.Sorting.TableSortOptions)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.Sort(OfficeOpenXml.Sorting.TableSortOptions)
+  isExternal: true
+- uid: OfficeOpenXml.Table.ExcelTable.SortState*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.SortState
+  name: SortState
+  nameWithType: ExcelTable.SortState
+  fullName: OfficeOpenXml.Table.ExcelTable.SortState
+- uid: OfficeOpenXml.Sorting.SortState
+  commentId: T:OfficeOpenXml.Sorting.SortState
+  parent: OfficeOpenXml.Sorting
+  name: SortState
+  nameWithType: SortState
+  fullName: OfficeOpenXml.Sorting.SortState
+- uid: OfficeOpenXml.Sorting
+  commentId: N:OfficeOpenXml.Sorting
+  name: OfficeOpenXml.Sorting
+  nameWithType: OfficeOpenXml.Sorting
+  fullName: OfficeOpenXml.Sorting
+- uid: OfficeOpenXml.Sorting.RangeSortOptions
+  commentId: T:OfficeOpenXml.Sorting.RangeSortOptions
+  parent: OfficeOpenXml.Sorting
+  name: RangeSortOptions
+  nameWithType: RangeSortOptions
+  fullName: OfficeOpenXml.Sorting.RangeSortOptions
+- uid: OfficeOpenXml.Table.ExcelTable.Sort*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.Sort
+  name: Sort
+  nameWithType: ExcelTable.Sort
+  fullName: OfficeOpenXml.Table.ExcelTable.Sort
+- uid: OfficeOpenXml.Sorting.TableSortOptions
+  commentId: T:OfficeOpenXml.Sorting.TableSortOptions
+  parent: OfficeOpenXml.Sorting
+  name: TableSortOptions
+  nameWithType: TableSortOptions
+  fullName: OfficeOpenXml.Sorting.TableSortOptions
+- uid: System.Action{OfficeOpenXml.Sorting.TableSortOptions}
+  commentId: T:System.Action{OfficeOpenXml.Sorting.TableSortOptions}
+  parent: System
+  definition: System.Action`1
+  name: Action<TableSortOptions>
+  nameWithType: Action<TableSortOptions>
+  fullName: System.Action<OfficeOpenXml.Sorting.TableSortOptions>
+  nameWithType.vb: Action(Of TableSortOptions)
+  fullName.vb: System.Action(Of OfficeOpenXml.Sorting.TableSortOptions)
+  name.vb: Action(Of TableSortOptions)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Sorting.TableSortOptions
+    name: TableSortOptions
+    nameWithType: TableSortOptions
+    fullName: OfficeOpenXml.Sorting.TableSortOptions
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Sorting.TableSortOptions
+    name: TableSortOptions
+    nameWithType: TableSortOptions
+    fullName: OfficeOpenXml.Sorting.TableSortOptions
+  - name: )
+    nameWithType: )
+    fullName: )

@@ -1,0 +1,118 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.Chart.eAxisOrientation
+  commentId: T:OfficeOpenXml.Drawing.Chart.eAxisOrientation
+  id: eAxisOrientation
+  parent: OfficeOpenXml.Drawing.Chart
+  children:
+  - OfficeOpenXml.Drawing.Chart.eAxisOrientation.MaxMin
+  - OfficeOpenXml.Drawing.Chart.eAxisOrientation.MinMax
+  langs:
+  - csharp
+  - vb
+  name: eAxisOrientation
+  nameWithType: eAxisOrientation
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisOrientation
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAxisOrientation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eAxisOrientation
+    path: ../src/EPPlus/Drawing/Chart/enums/eAxisOrientation.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nAxis orientaion\n"
+  example: []
+  syntax:
+    content: public enum eAxisOrientation
+    content.vb: Public Enum eAxisOrientation
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.Chart.eAxisOrientation.MaxMin
+  commentId: F:OfficeOpenXml.Drawing.Chart.eAxisOrientation.MaxMin
+  id: MaxMin
+  parent: OfficeOpenXml.Drawing.Chart.eAxisOrientation
+  langs:
+  - csharp
+  - vb
+  name: MaxMin
+  nameWithType: eAxisOrientation.MaxMin
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisOrientation.MaxMin
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAxisOrientation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MaxMin
+    path: ../src/EPPlus/Drawing/Chart/enums/eAxisOrientation.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nMax to min\n"
+  example: []
+  syntax:
+    content: MaxMin = 0
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAxisOrientation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.Chart.eAxisOrientation.MinMax
+  commentId: F:OfficeOpenXml.Drawing.Chart.eAxisOrientation.MinMax
+  id: MinMax
+  parent: OfficeOpenXml.Drawing.Chart.eAxisOrientation
+  langs:
+  - csharp
+  - vb
+  name: MinMax
+  nameWithType: eAxisOrientation.MinMax
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisOrientation.MinMax
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/enums/eAxisOrientation.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: MinMax
+    path: ../src/EPPlus/Drawing/Chart/enums/eAxisOrientation.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nMin to max\n"
+  example: []
+  syntax:
+    content: MinMax = 1
+    return:
+      type: OfficeOpenXml.Drawing.Chart.eAxisOrientation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing.Chart
+  commentId: N:OfficeOpenXml.Drawing.Chart
+  name: OfficeOpenXml.Drawing.Chart
+  nameWithType: OfficeOpenXml.Drawing.Chart
+  fullName: OfficeOpenXml.Drawing.Chart
+- uid: OfficeOpenXml.Drawing.Chart.eAxisOrientation
+  commentId: T:OfficeOpenXml.Drawing.Chart.eAxisOrientation
+  parent: OfficeOpenXml.Drawing.Chart
+  name: eAxisOrientation
+  nameWithType: eAxisOrientation
+  fullName: OfficeOpenXml.Drawing.Chart.eAxisOrientation

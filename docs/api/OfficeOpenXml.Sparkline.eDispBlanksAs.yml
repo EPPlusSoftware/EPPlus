@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Sparkline.eDispBlanksAs
+  commentId: T:OfficeOpenXml.Sparkline.eDispBlanksAs
+  id: eDispBlanksAs
+  parent: OfficeOpenXml.Sparkline
+  children:
+  - OfficeOpenXml.Sparkline.eDispBlanksAs.Gap
+  - OfficeOpenXml.Sparkline.eDispBlanksAs.Span
+  - OfficeOpenXml.Sparkline.eDispBlanksAs.Zero
+  langs:
+  - csharp
+  - vb
+  name: eDispBlanksAs
+  nameWithType: eDispBlanksAs
+  fullName: OfficeOpenXml.Sparkline.eDispBlanksAs
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eDispBlanksAs
+    path: ../src/EPPlus/Sparkline/Enums.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nShow empty cells as\n"
+  example: []
+  syntax:
+    content: public enum eDispBlanksAs
+    content.vb: Public Enum eDispBlanksAs
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Sparkline.eDispBlanksAs.Span
+  commentId: F:OfficeOpenXml.Sparkline.eDispBlanksAs.Span
+  id: Span
+  parent: OfficeOpenXml.Sparkline.eDispBlanksAs
+  langs:
+  - csharp
+  - vb
+  name: Span
+  nameWithType: eDispBlanksAs.Span
+  fullName: OfficeOpenXml.Sparkline.eDispBlanksAs.Span
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Span
+    path: ../src/EPPlus/Sparkline/Enums.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nConnect datapoints with line\n"
+  example: []
+  syntax:
+    content: Span = 0
+    return:
+      type: OfficeOpenXml.Sparkline.eDispBlanksAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Sparkline.eDispBlanksAs.Gap
+  commentId: F:OfficeOpenXml.Sparkline.eDispBlanksAs.Gap
+  id: Gap
+  parent: OfficeOpenXml.Sparkline.eDispBlanksAs
+  langs:
+  - csharp
+  - vb
+  name: Gap
+  nameWithType: eDispBlanksAs.Gap
+  fullName: OfficeOpenXml.Sparkline.eDispBlanksAs.Gap
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Gap
+    path: ../src/EPPlus/Sparkline/Enums.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nA gap\n"
+  example: []
+  syntax:
+    content: Gap = 1
+    return:
+      type: OfficeOpenXml.Sparkline.eDispBlanksAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Sparkline.eDispBlanksAs.Zero
+  commentId: F:OfficeOpenXml.Sparkline.eDispBlanksAs.Zero
+  id: Zero
+  parent: OfficeOpenXml.Sparkline.eDispBlanksAs
+  langs:
+  - csharp
+  - vb
+  name: Zero
+  nameWithType: eDispBlanksAs.Zero
+  fullName: OfficeOpenXml.Sparkline.eDispBlanksAs.Zero
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Sparkline/Enums.cs
+      branch: develop
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Zero
+    path: ../src/EPPlus/Sparkline/Enums.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Sparkline
+  summary: "\nAs Zero\n"
+  example: []
+  syntax:
+    content: Zero = 2
+    return:
+      type: OfficeOpenXml.Sparkline.eDispBlanksAs
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Sparkline
+  commentId: N:OfficeOpenXml.Sparkline
+  name: OfficeOpenXml.Sparkline
+  nameWithType: OfficeOpenXml.Sparkline
+  fullName: OfficeOpenXml.Sparkline
+- uid: OfficeOpenXml.Sparkline.eDispBlanksAs
+  commentId: T:OfficeOpenXml.Sparkline.eDispBlanksAs
+  parent: OfficeOpenXml.Sparkline
+  name: eDispBlanksAs
+  nameWithType: eDispBlanksAs
+  fullName: OfficeOpenXml.Sparkline.eDispBlanksAs
